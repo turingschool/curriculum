@@ -927,57 +927,48 @@ require 'minitest/autorun'
 require 'minitest/pride'
 ```
 
-Let's move that common setup code to a file called `test/test_helper.rb`.
-
-Next replace the setup code with the following in both of the test suites:
+Cut those lines and move them into a file `test/test_helper.rb`. Then in the
+test files require the new `test_helper`:
 
 ```ruby
 require './test/test_helper'
 ```
 
-### Creating a `rake` task for Minitest
+### Creating a `rake` Task
 
-If you want to run all of the tests, you have to say:
+Right now we don't have an easy way to run all the test files. You'd have to...
 
 {% terminal %}
 ruby test/ideabox/idea_test.rb
 ruby test/ideabox/idea_store_test.rb
 {% endterminal %}
 
-That gets old really quickly. We need a simpler way to run the tests.
+We need a simpler way to run the tests. We're going to use a library named
+`rake` which is used to automate things in Ruby.
 
-We're going to use a library called `rake` which a lot of people and projects use to automate things in Ruby.
+Rake is frequently used for runnig tests, and there are some handy helper classes and methods to let us define our "task" quickly.
 
-It lets you write scripts in Ruby, and then run them on the command-line:
-
-{% terminal %}
-$ rake whatever
-$ rake do:stuff
-{% endterminal %}
-
-One of the things that we use `rake` for a lot, is to automatically run our tests. Since this is a very common use case, there are some handy helper classes and methods to let us define our test task quickly.
+#### Creating the `Rakefile`
 
 Try running `rake` from the terminal. You should see an error message that looks something like this:
-
 
 ```ruby
 rake aborted!
 No Rakefile found (looking for: rakefile, Rakefile, rakefile.rb, Rakefile.rb)
 ```
 
-By default `rake` looks for a file in the root of the project directory, so we'll create one of these.
+By default `rake` looks for a file named `Rakefile` in the root of the project
+directory. Create it now.
 
-{% terminal %}
-touch Rakefile
-{% endterminal %}
+#### Defining the Task
 
-First we want to include the default helper library to create test tasks:
+First we want to include the built-in helper library to create test tasks:
 
 ```ruby
 require 'rake/testtask'
 ```
 
-Then we'll create a test task:
+Then define this test task:
 
 ```ruby
 Rake::TestTask.new do |t|
@@ -985,36 +976,42 @@ Rake::TestTask.new do |t|
 end
 ```
 
-The `pattern` tells the test where to find your test files. In this case, we're going to pick up all files living under the `test/` directory that end in `_test.rb`.
+The `pattern` tells the test where to find your test files. In this case, we're going to pick up all files in the `test/` directory that end in `_test.rb`. The `**` part says to look not only directly in the `test/` directory, but also in all the subdirectories.
 
-The `**` part says to look not only directly in the `test/` directory, but also recursively in all the subdirectories.
+This weird little snippet is something you'll setup once per project, so it's
+really not necessary to memorize it. Just be able to find it when you need it.
 
-Run `rake -T` in your terminal to see what rake tasks are available to you:
+#### Running the Task
+
+Run `rake -T` in your terminal to see what rake tasks are now available to you:
 
 {% terminal %}
 $ rake -T
 rake test  # Run tests
 {% endterminal %}
 
-The `TestTask` automatically defined a task named `test` for us.
+The `TestTask` automatically defined a task named `test` for us. Run your tests
+with `rake test`.
 
-Run your tests with `rake test`.
+#### Defining a Default Taks
 
-We can make it even easier. If you call `rake` without telling it which task to run, it will look for a task named `default`. For the moment, there is no default task, but we can define one.
+We can make it even easier. If you call `rake` without telling it which task to run, it will look for a task named `default`. Right now there is no default task, but we can define one.
 
-Add this to the bottom of the Rakefile:
+Add this to the bottom of the `Rakefile`:
 
 ```ruby
 task default: :test
 ```
 
-Run your tests simply by calling `rake` by itself:
+#### Using the Default Task
+
+Now run your tests by running `rake` by itself:
 
 {% terminal %}
 $ rake
 {% endterminal %}
 
-Much better! Commit your changes.
+Much better! Commit your changes to your git repository.
 
 ## I6: Editing Ideas
 

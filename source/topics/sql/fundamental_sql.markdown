@@ -237,7 +237,7 @@ id          name        quantity    country_of_origin
 Be default data will be output in the order it was inserted, but you can't count on that. If order matters to you, you need to add an `ORDER BY` clause:
 
 {% terminal %}
-sqlite> SELECT * from fruits ORDER BY name;
+sqlite> SELECT * FROM fruits ORDER BY name;
 id          name        quantity    country_of_origin
 ----------  ----------  ----------  -----------------
 1           apples      6           Mexico           

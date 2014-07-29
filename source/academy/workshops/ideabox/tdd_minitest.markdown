@@ -6,6 +6,26 @@ sidebar: true
 
 Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas - IdeaBox.
 
+## Learning Goals
+
+### Before You Begin
+
+The tutorial assumes that you:
+
+* are comfortable with basic Ruby syntax
+* have likely run tests before
+* are new to writing tests
+* are new to the TDD workflow
+
+### After The Tutorial
+
+Once you've completed the tutorial you will be able to:
+
+* design and implement tests using Minitest
+* read error and failure messages to guide your implementation
+* follow the TDD workflow
+* perform refactoring while keeping tests green
+
 ## I0: Getting Started
 
 ### Environment Setup
@@ -403,13 +423,12 @@ We need to be able to organize ideas. We're going to create a class that stores 
 
 ### Starting With a Test
 
-Once again we'll define what we want to happen by writing a test.
-
-We want to:
+Once again we'll define what we want to happen by writing a test. We want our test to:
 
 * create an idea
 * save it
-* get it back out of the datastore (it should be the same idea)
+* get it back out of the datastore
+* verify that the one we got out is the one we put in
 
 Create an empty file `idea_store_test.rb` in the `test/ideabox` directory.
 

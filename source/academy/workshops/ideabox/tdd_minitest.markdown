@@ -647,7 +647,7 @@ def test_save_and_retrieve_multiple_ideas
   assert_equal 1, IdeaStore.count
 
   idea2 = Idea.new("dream", "of unicorns and rainbows")
-  id2 = IdeaStore.save(idea1)
+  id2 = IdeaStore.save(idea2)
 
   assert_equal 2, IdeaStore.count
 

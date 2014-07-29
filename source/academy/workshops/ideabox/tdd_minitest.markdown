@@ -780,25 +780,28 @@ We're back to a failure when fetching the idea:
 NoMethodError: undefined method `title' for nil:NilClass
 {% endterminal %}
 
-Our `find` is still returing `@idea`. Since that instance variable is not being
+Our `find` is still returning `@idea`. Since that instance variable is not being
 set anywhere, it has the value `nil`. When the test call `.title` on the result
 of `find` it generates the `NoMethodError`.
 
-#### WIP Marker
+We need to find a way to get the correct idea back out of the collection, but
+we need a unique `id` for each idea.
 
-We need to find a way to get the correct idea back out.
+### Assigning IDs
 
-The information we have to go on is the `id`, but we haven't implemented an `id` for the ideas yet.
+To make `find` work properly...
 
-Several things need to happen:
-
-* `Idea` instances need to be able to set and get an `id` value.
-* `IdeaStore.save` needs to give the idea an `id` and return the id to the
+* `Idea` instances need to be able to set and get their `id` value.
+* `IdeaStore.save` needs to give the idea an `id` and return the `id` to the
   caller.
 * `IdeaStore.find` needs to use the provided `id` and look through the stored
   ideas to find the correct one.
 
-Let's start by changing the `save` method to be the way we wish it were:
+#### Save with `next_id`
+
+We need to generate a unique `id` number when saving an idea. Rather than
+figure out what the next ID should be, let's write our `save` to rely on a
+method named `next_id` which determines the next ID to use:
 
 ```ruby
 def self.save(idea)
@@ -809,7 +812,7 @@ def self.save(idea)
 end
 ```
 
-The failing test tells us where we need to go next:
+Run the test and it'll give an error because there is no `next_id` method:
 
 {% terminal %}
   1) Error:
@@ -817,14 +820,18 @@ NameError: undefined local variable or method `next_id' for IdeaStore:Class
     /Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'
 {% endterminal %}
 
-We need a `next_id` method.
+#### Stubbing `next_id`
 
-For now, let's just create an empty one.
+For now, let's just create an empty method:
 
 ```ruby
 def self.next_id
 end
 ```
+
+And run the test.
+
+#### You Can't Store `id`
 
 The next error is:
 
@@ -833,9 +840,15 @@ NoMethodError: undefined method `id=' for #&lt;Idea:0x007fea5a390480&gt;
     /Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'
 {% endterminal %}
 
-This one is _not_ a complaint about the `IdeaStore` class, but a missing method on the Idea instance. Ideas do not a way to add an id!
+Note that the error is because we're trying to call `id=` to store the `id`
+attribute inside an instance of `Idea`.
 
-We can't change the `Idea` class without changing the test first, so open up the `idea_test.rb` file and add a new test:
+It'd be best to add a test to `idea_test.rb` to test and implement this functionality
+before continuing with `IdeaStore`.
+
+#### Setting `id` on `Idea`
+
+Open up the `idea_test.rb` file and add a new test:
 
 ```ruby
 def test_ideas_have_an_id
@@ -862,23 +875,35 @@ class Idea
 end
 ```
 
-Why use a attr_accessor instead of an attr_reader?
+Why use `attr_accessor` instead of `attr_reader`?
 
-If you noticed in the last failing test, the NoMethodError complained about `no method 'id='`, and not just `id`. Because we are using another class, Idea Store, to make changes to an Idea's id, we need to tell the computer that `id` can be changed outside of the Idea class. We need to let Idea Store `access` the an id, not just `read` it.
+If you noticed in the last failing test, the NoMethodError complained about `no method 'id='`, and not just `id`. The `attr_reader` method generates just a method for reading an attribute. But we want to be able to modify the value stored in `id`. `attr_accessor` generates both an `id` method to read the value and a `id=` method to change the value.
 
 This change gets the unit tests for `Idea` passing, and we can go back to our unit
 test for the `IdeaStore`.
 
-Run the Idea Store test suite with `ruby test/ideabox/idea_store_test.rb`.
+Run `ruby test/ideabox/idea_store_test.rb`.
 
-This is failing because it always retrieves the first idea.
+#### Building `next_id`
+
+Our test is still failing. The next component we need to build is a decent
+`next_idea` method. There are a lot of approaches we could take to generate
+ID numbers, but the easiest is to add one to the number of ideas which have
+already been stored:
 
 ```ruby
-Expected: "dream"
-  Actual: "celebrate"
+def self.next_id
+  count + 1
+end
 ```
 
-We can use the `Enumerable#find` method to get the correct idea:
+We use the `count` method on `IdeaStore` to find the current number of items,
+then add one because our new idea will be added to the collection.
+
+#### A Proper Find
+
+Now that we generate and store an `id`, we can find the element in the `@all`
+collection using the method `find` provided by Enumerable:
 
 ```ruby
 def self.find(id)
@@ -888,28 +913,7 @@ def self.find(id)
 end
 ```
 
-The test is still failing with the same error message. What the heck?
-
-Remember back when we implemented the `next_id` method? Take another look at it:
-
-```ruby
-def self.next_id
-end
-```
-
-That's not going to work.
-
-Let's use the `count` to determine the next id:
-
-```ruby
-def self.next_id
-  count + 1
-end
-```
-
-This, finally, gets the test passing.
-
-Commit your changes.
+Finally the test passes, yay! Commit your changes to Git before moving on.
 
 ## I5: Refactor & Simplify
 

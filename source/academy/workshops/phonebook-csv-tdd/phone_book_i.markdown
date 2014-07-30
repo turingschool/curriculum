@@ -560,3 +560,351 @@ class Entry
   end
 end
 ```
+
+### Red, Green, Refactor
+
+We have a passing test, so this is a great time to refactor a few things. If you
+look closely, you'll see that the `first_name`, `last_name`, and `phone_number`
+methods are just returning the instance variable that holds that value.
+
+We can refactor these into `attr_reader` methods:
+
+```ruby
+class Entry
+  attr_reader :first_name, :last_name, :phone_number
+  def initialize(data)
+    @first_name = data[:first_name]
+    @last_name = data[:last_name]
+    @phone_number = data[:phone_number]
+  end
+
+  def name
+    "#{@first_name} #{@last_name}"
+  end
+end
+```
+
+Run the test again to make sure everything is still passing. It should be.
+
+## Creating a Repository for Entries
+
+We have our Entry class working. Now where should we store our entries? We'll create
+an Entry Repository class.
+
+In Terminal, create a test file for our repository by typing `touch test/entry_repository_test.rb`.
+Load it with the boilerplate:
+```ruby
+gem 'minitest', '~> 5.2'
+require 'minitest/autorun'
+require 'minitest/pride'
+```
+We know that we'll need to require an `entry_repository.rb` file, so let's put
+that in now as well:
+
+```ruby
+require_relative '../lib/entry_repository'
+```
+Create your class to test the Entry Repository:
+
+```ruby
+class EntryRepositoryTest < Minitest::Test
+end
+```
+
+What should we test? Well, let's think about what the EntryRepository should do.
+* an entry repository should be initialized with entries (we'll assume these entries
+are coming in as an array)
+* an entry repository should have a method `find_by_last_name` which can find all
+of the entries with that last name
+
+Let's write a test for this.
+
+```ruby
+class EntryRepositoryTest < Minitest::Test
+  def test_retrieve_by_last_name
+    entries = [
+      { first_name: 'Alice', last_name: 'Smith', phone_number: '111.111.1111' },
+      { first_name: 'Bob', last_name: 'Smith', phone_number: '222.222.2222' },
+      { first_name: 'Cindy', last_name: 'Johnson', phone_number: '333.333.3333' }
+    ]
+
+    repository = EntryRepository.new(entries)
+    entries = repository.find_by_last_name("Smith").sort_by { |e| e.first_name }
+    assert_equal 2, entries.length
+
+    alice, bob = entries
+
+    assert_equal "Alice Smith", alice.name
+    assert_equal "111.111.1111", alice.phone_number
+    assert_equal "Bob Smith", bob.name
+    assert_equal "222.222.2222", bob.phone_number
+  end
+end
+```
+Why did we create a variable `entries` that is an array of hashes? We could use
+the real data, but that would require us to create entry objects for **all** of
+the people in `people.csv`, and that seems unnecessary just to run a test. Additionally,
+our integration test will use the real data anyway, so that's going to be tested
+at the end point.
+
+So we'll use the fake data in the `entries` variable for this test.
+
+Let's run the test. We get a load error:
+
+{% terminal %}
+test/entry_repository_test.rb:4:in `require_relative': cannot load such file -- /Users/student/Desktop/csv-exercises/level-i/phone_book/lib/entry_repository (LoadError)
+	from test/entry_repository_test.rb:4:in `<main>'
+{% endterminal %}
+
+We'll fix this with `touch lib/entry_repository.rb`. Run the test again.
+
+{% terminal %}
+  1) Error:
+EntryRepositoryTest#test_retrieve_by_last_name:
+NameError: uninitialized constant EntryRepositoryTest::EntryRepository
+    test/entry_repository_test.rb:14:in `test_retrieve_by_last_name'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+We have an uninitialized constant because we haven't defined the class in our
+`entry_repository.rb` file.
+
+```ruby
+class EntryRepository
+end
+```
+Run the test.
+
+{% terminal %}
+  1) Error:
+EntryRepositoryTest#test_retrieve_by_last_name:
+ArgumentError: wrong number of arguments(1 for 0)
+    test/entry_repository_test.rb:14:in `initialize'
+    test/entry_repository_test.rb:14:in `new'
+    test/entry_repository_test.rb:14:in `test_retrieve_by_last_name'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+Our test passes in an argument (`entries`) to initialize a new EntryRepository.
+Let's implement that:
+
+```ruby
+class EntryRepository
+  def initialize(entries)
+  end
+end
+```
+
+Run the test again. Now we have an undefined method:
+
+{% terminal %}
+  1) Error:
+EntryRepositoryTest#test_retrieve_by_last_name:
+NoMethodError: undefined method `find_by_last_name' for #<EntryRepository:0x007f8be1a60198>
+    test/entry_repository_test.rb:15:in `test_retrieve_by_last_name'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+Let's create that method. We know it accepts an argument of `name`, so we'll account
+for that:
+
+```ruby
+def find_by_last_name(name)
+end
+```
+
+Running the test again yields a new error:
+
+{% terminal %}
+  1) Error:
+EntryRepositoryTest#test_retrieve_by_last_name:
+NoMethodError: undefined method `sort_by' for nil:NilClass
+    test/entry_repository_test.rb:15:in `test_retrieve_by_last_name'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+What does this mean? Whatever `sort_by` is being called on is returning nil. We
+can see that is happening in our test on this line:
+
+```ruby
+entries = repository.find_by_last_name("Smith").sort_by { |e| e.first_name }
+```
+
+So from this, we know that the `find_by_last_name` method is returning nil.
+Looking at the implementation code, it's obvious why: our method is empty!
+Put an empty array in there so that `sort_by` can be called on something instead
+of nil -- even if it is just an empty array.
+
+```ruby
+def find_by_last_name(name)
+  []
+end
+```
+Now running the tests gives us a failure. Finally.
+
+{% terminal %}
+  1) Failure:
+EntryRepositoryTest#test_retrieve_by_last_name [test/entry_repository_test.rb:16]:
+Expected: 2
+  Actual: 0
+
+1 runs, 1 assertions, 1 failures, 0 errors, 0 skips
+{% endterminal %}
+
+We're getting 0 entries because we hard-coded an empty array. Let's implement some
+actual functionality in `entry_repository.rb`.
+
+### Bringing in Entry Objects to the Entry Repository
+
+Our initialize method needs to take an array of hashes and convert them to Entry
+objects. We can do that by `map`ping over the entries and passing each hash to
+`Entry.new`, like you see below. The array returned from `map` will be stored as
+`@entries`, and we'll also create an `attr_reader` method for `:entries`.
+
+```ruby
+class EntryRepository
+  attr_reader :entries
+
+  def initialize(entries)
+    @entries ||= entries.map { |entry| Entry.new(entry) }
+  end
+end
+```
+
+Run the test. Uh oh. We're back to an error.
+
+{% terminal %}
+  1) Error:
+EntryRepositoryTest#test_retrieve_by_last_name:
+NameError: uninitialized constant EntryRepository::Entry
+    /Users/rwarbelow/Desktop/csv-exercises/level-i/phone_book/lib/entry_repository.rb:5:in `block in initialize'
+    /Users/rwarbelow/Desktop/csv-exercises/level-i/phone_book/lib/entry_repository.rb:5:in `map'
+    /Users/rwarbelow/Desktop/csv-exercises/level-i/phone_book/lib/entry_repository.rb:5:in `initialize'
+    test/entry_repository_test.rb:14:in `new'
+    test/entry_repository_test.rb:14:in `test_retrieve_by_last_name'
+
+1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
+{% endterminal %}
+
+The test doesn't know what an `Entry` is. Require the file
+in `entry_repository_test.rb`:
+
+```ruby
+require_relative 'entry'
+```
+
+Now our test is failing for the same reason it was before, so let's work on
+the `find_by_last_name` method.
+
+Here's the pseudocode for what we'll need to do:
+* take in a last name as a parameter
+* search through all of the `@entries`
+* `select` all entries where an entry's `last_name` is the same as the parameter
+that was passed in.
+
+And here's what it looks like in Ruby. Find the `find_by_last_name` method in
+`entry_repository.rb` and replace the empty array with our `select` statement.
+
+```ruby
+  def find_by_last_name(name)
+    entries.select { |entry| entry.last_name == name }
+  end
+```
+
+Run the tests. We're passing!
+
+{% terminal %}
+Running:
+
+.
+
+Fabulous run in 0.001577s, 634.1154 runs/s, 3170.5770 assertions/s.
+
+1 runs, 5 assertions, 0 failures, 0 errors, 0 skips
+{% endterminal %}
+
+Our code for `entry_repository.rb` so far should look like this:
+```ruby
+require_relative 'entry'
+
+class EntryRepository
+  attr_reader :entries
+
+  def initialize(entries)
+    @entries ||= entries.map { |e| Entry.new(e) }
+  end
+
+  def find_by_last_name(name)
+    entries.select { |entry| entry.last_name == name }
+  end
+end
+```
+
+## Creating the Phone Book
+
+You might be wondering how the phone book is different from the entry repository.
+Well, the entry repository is responsible for looking things up, but the phone book
+should be responsible for figuring out whether we're getting just a last name, or if
+the user is passing in a last name **AND** a first name. So we're delegating
+responsibilities to different classes here.
+
+Create a test file for our phone book: `touch test/phone_book_test.rb`.
+
+Then load the boilerplate. You'll notice that there is a new line requiring
+`minitest/mock`.
+```ruby
+gem 'minitest', '~> 5.2'
+require 'minitest/autorun'
+require 'minitest/pride'
+require 'minitest/mock'
+```
+You can read more about MiniTest::Mock [here](http://ruby-doc.org/stdlib-1.9.3/libdoc/minitest/mock/rdoc/MiniTest/Mock.html).
+Basically, `Minitest::Mock` allows us to test whether a method is being called,
+without actually having to call the method.
+
+Create your test class with the code that creates a mock for `repository`:
+
+```ruby
+class PhoneBookTest < Minitest::Test
+  def test_lookup_by_last_name
+    repository = Minitest::Mock.new
+    phone_book = PhoneBook.new(repository)
+    repository.expect(:find_by_last_name, [], ["Smith"])
+    phone_book.lookup('Smith')
+    repository.verify
+  end
+end
+```
+
+### Umm... So What's a Mock?
+
+You'll notice that `repository` is not actually an instance of `EntryRepository`.
+Instead, it's a mock -- it's fake! This will allow us to check that certain things
+are happening to the repository when a method is called on the phone book.
+
+What's that weird line `repository.expect(:find_by_last_name, [], ["Smith"])`?
+In English, the first part of this line says "We expect that the method `find_by_last_name`
+will be called on repository."
+
+The empty array in the middle represents what we want to be returned. In
+this case, we don't really care what's being returned -- right now, we just want to
+verify that the method was **called**. We're not interested in messing with the
+return value.
+
+And finally, `["Smith"]` represents an array of what argument we
+expect our method to be called with. We have to pass this in since `find_by_last_name`
+requires one argument.
+
+The next line, `phone_book.lookup('Smith')`, is what we're **actually** calling in
+the test. And finally, `repository.verify` means "Got back and check to see that
+the method we expected to be called on repository actually got called with the
+argument(s) we specified."
+
+Phew. That's a lot.
+
+To sum up: We expect that `find_by_last_name` with the argument of `"Smith"`
+will be called on the repository when `phone_book.lookup('Smith')` is called.

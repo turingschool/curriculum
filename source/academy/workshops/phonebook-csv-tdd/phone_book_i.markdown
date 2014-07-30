@@ -424,7 +424,7 @@ end
 
 Run the test. We finally have a failure instead of an error!
 
-{% terminal}
+{% terminal %}
   1) Failure:
 EntryTest#test_entry_attributes [test/entry_test.rb:15]:
 Expected: "Alice"

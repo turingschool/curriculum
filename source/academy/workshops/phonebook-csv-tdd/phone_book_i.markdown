@@ -437,6 +437,8 @@ What does this mean? Well, when we called `entry.first_name` in our test, we
 expected it to return Alice. Instead, it's returning nil. Why? Our `first_name`
 method does not do anything right now.
 
+### Extracting Data to Instance Variables
+
 We could hardcode in "Alice" for the first name, but ultimately that won't solve
 anything because we will just end up deleting it later. Instead, let's extract the
 first name, last name, and phone number from the hash of data that we pass in.
@@ -648,6 +650,7 @@ at the end point.
 So we'll use the fake data in the `entries` variable for this test.
 
 Let's run the test. We get a load error:
+
 {% terminal %}
 test/entry_repository_test.rb:4:in `require_relative': cannot load such file -- /Users/student/Desktop/csv-exercises/level-i/phone_book/lib/entry_repository (LoadError)
 	from test/entry_repository_test.rb:4:in `<main>'
@@ -754,7 +757,7 @@ Expected: 2
 We're getting 0 entries because we hard-coded an empty array. Let's implement some
 actual functionality in `entry_repository.rb`.
 
-### Bringing in the Entry Objects
+### Bringing in Entry Objects to the Entry Repository
 
 Our initialize method needs to take an array of hashes and convert them to Entry
 objects. We can do that by `map`ping over the entries and passing each hash to
@@ -1011,6 +1014,8 @@ new phone book **without** any arguments in this line:
 Hmm... that means that we should probably have a default in case no arguments are
 passed in.
 
+### Giving the Phone Book a Default Repository
+
 The argument in `initialize` for a `PhoneBook` asks for a repository. We'll
 modify that a bit so that we have a default value.
 
@@ -1018,7 +1023,7 @@ modify that a bit so that we have a default value.
 class PhoneBook
   attr_reader :repository
 
-  def initialize(repository=EntryRepository.load_entries('./data'))
+  def initialize(repository = EntryRepository.load_entries('./data'))
     @repository = repository
   end
 
@@ -1032,6 +1037,7 @@ So our default will be whatever gets returned from calling `EntryRepository.load
 We'll create that `load_entries` method in a minute. First, let's run the test.
 
 We get an error:
+
 {% terminal %}
   1) Error:
 IntegrationTest#test_lookup_by_last_name:
@@ -1116,7 +1122,8 @@ require 'csv'
 ```
 
 Run the integration test again. It passes!
- {% terminal %}
+
+{% terminal %}
   Running:
 
 .
@@ -1125,6 +1132,8 @@ Fabulous run in 0.039609s, 25.2468 runs/s, 176.7275 assertions/s.
 
 1 runs, 7 assertions, 0 failures, 0 errors, 0 skips
 {% endterminal %}
+
+## Checking for Damage
 
 If we run our other tests, we'll find that we only broke one of them in the process:
 `entry_repository_test.rb`.
@@ -1141,16 +1150,241 @@ NoMethodError: undefined method `last_name' for #<Hash:0x007f95da99ed10>
 1 runs, 0 assertions, 0 failures, 1 errors, 0 skips
 {% endterminal %}
 
-Undefined method last_name for a Hash. As it turns out, since we changed our
+We're getting an undefined method `last_name` for a Hash. As it turns out, since we changed our
 initialize method in EntryRepository, we'll need to update our test `entry_repository_test.rb`:
 
 ```ruby
     entries = [
-                { first_name: 'Alice', last_name: 'Smith', phone_number: '111.111.1111' },
-                { first_name: 'Bob', last_name: 'Smith', phone_number: '222.222.2222' },
-                { first_name: 'Cindy', last_name: 'Johnson', phone_number: '333.333.3333' }
-              ].map { |row| Entry.new(row) }
+      { first_name: 'Alice', last_name: 'Smith', phone_number: '111.111.1111' },
+      { first_name: 'Bob', last_name: 'Smith', phone_number: '222.222.2222' },
+      { first_name: 'Cindy', last_name: 'Johnson', phone_number: '333.333.3333' }
+    ].map { |row| Entry.new(row) }
 ```
 What we're doing now is `map`ping our array of hashes to create new Entry objects
 in the test instead of relying on the initialize method to do that for us. We changed
 that method when we created the `load_entries` method.
+
+Double check that all of your other test files are still passing, then
+commit your changes.
+
+## Adding The Next Features
+
+We want to be able to look up by "Lastname, Firstname".
+
+Add a test to the `integration_test.rb`:
+
+```ruby
+def test_lookup_by_last_and_first_name
+  phone_book = PhoneBook.new
+  entries = phone_book.lookup('Parker, Craig').sort_by {|e| e.first_name}
+  assert_equal 1, entries.length
+  entry = entries.first
+  assert_equal "Craig Parker", entry.name
+  assert_equal "716-133-3210", entry.phone_number
+end
+```
+
+It fails. We need to improve the `PhoneBook#lookup` method. Go to the
+`phone_book_test.rb`, add a test for looking up by first and last name:
+
+```ruby
+def test_lookup_by_last_name_first_name
+  phone_book = PhoneBook.new(repository)
+  repository.expect(:find_by_first_and_last_name, [], ["Alice","Smith"])
+  phone_book.lookup('Smith, Alice')
+  repository.verify
+end
+```
+
+Update `PhoneBook#lookup`
+
+```ruby
+def lookup(name)
+  lastname, firstname = name.split(', ')
+  if firstname
+    repository.find_by_first_and_last_name(firstname, lastname)
+  else
+    repository.find_by_last_name(name)
+  end
+end
+```
+
+Run the integration test again:
+
+```plain
+1) Error:
+IntegrationTest#test_lookup_by_last_and_first_name:
+NoMethodError: undefined method `find_by_first_and_last_name' for #<EntryRepository:0x007f842389f108>
+/Users/kytrinyx/turing/csv-exercises/level-i/phone_book/lib/phone_book.rb:15:in `lookup'
+  test/integration_test.rb:28:in `test_lookup_by_last_name'
+```
+
+We need a new method on entry repository.
+In the test:
+
+```ruby
+def test_find_by_first_and_last_name
+  entries = repository.find_by_first_and_last_name("Bob", "Smith")
+  assert_equal 1, entries.length
+  bob = entries.first
+  assert_equal "Bob Smith", bob.name
+  assert_equal "222.222.2222", bob.phone_number
+end
+```
+
+In the EntryRepository:
+
+```ruby
+def find_by_first_and_last_name(first, last)
+  entries.select { |entry| entry.first_name == first}.select { |entry| entry.last_name == last }
+end
+```
+
+Run the integration test again. It passes.
+
+Commit your changes.
+
+We're ready to add the final feature, reverse lookup.
+
+Create an integration test.
+
+```ruby
+def test_reverse_lookup
+  phone_book = PhoneBook.new
+  entries = phone_book.reverse_lookup("716-133-3210")
+
+  assert_equal 1, entries.length
+  entry = entries.first
+  assert_equal "Craig Parker", entry.name
+  assert_equal "716-133-3210", entry.phone_number
+end
+```
+
+Then drop down to phone book test:
+
+```ruby
+def test_lookup_by_number
+  phone_book = PhoneBook.new(repository)
+  repository.expect(:find_by_number, [], ["(123) 123-1234"])
+  phone_book.reverse_lookup('(123) 123-1234')
+  repository.verify
+end
+```
+
+Fix the NoMethodError by adding `reverse_lookup` to `PhoneBook`:
+
+```ruby
+def reverse_lookup(number)
+end
+```
+
+This needs to delegate to the repository.
+
+```ruby
+def reverse_lookup(number)
+  repository.find_by_number(number)
+end
+```
+
+That gets the phone book test passing. Go back to the integration test.
+
+Now it's complaining about a missing method on entry repository. Drop down to entry repository test and write a test for the missing method.
+
+```ruby
+def test_find_by_number
+  entries = repository.find_by_number("222.222.2222")
+  assert_equal 1, entries.length
+  bob = entries.first
+  assert_equal "Bob Smith", bob.name
+  assert_equal "222.222.2222", bob.phone_number
+end
+```
+
+Make it pass.
+
+```ruby
+def find_by_number(number)
+  entries.select {|entry| entry.phone_number == number}
+end
+```
+
+Go back to the integration test. It passes.
+
+Commit your changes.
+
+
+## Practice More
+
+### `ReportCard`
+
+The grade is defined by a percentage.
+
+The `ReportCard` class loads the CSV data, creates the students, and also
+provides a mechanism to find:
+
+* all the grades for a given student
+* all the grades for a particular subject
+
+In addition, it can tell you:
+
+* the average score for a given student
+* the average score for a given subject
+
+### The Shopping List
+
+Create an `Item` class that is initialized with the CSV data (`name`,
+`quantity`, `unit_price`). Calculate `price` and `tax`.
+
+Implement search methods: `cheaper_than` and `more_expensive_than`.
+
+A couple things that will help you along the way:
+
+* [`String#to_i`](http://ruby-doc.org/core-2.0.0/String.html#method-i-to_i)
+* [`String#to_f`](http://ruby-doc.org/core-2.0.0/String.html#method-i-to_f)
+
+### `DoctorsOffice`
+
+The CSV file provides the patient name, and the date and time of their
+appointment as actual `Date` and `Time` objects.
+
+There are conversion methods from `Date` to `Time`, and from `Time` to `Date`.
+
+Also, you may want to look at `Time#strptime`, and the handy website [For a
+Good Strftime](http://foragoodstrftime.com).
+
+Provide a search method that allows you to find all the appointments for a
+single day, or all the appointments for a given patient.
+
+### `Calendar`
+
+Create a test suite for `Birthday`, which has two attributes: `name` and
+`date_of_birth`.
+
+Then implement the following functionality:
+
+* Get birthday as a Date object
+* Calculate age
+* Calculate gigasecond (assume that the person was born at midnight, and just
+  get the date where the gigasecond falls).
+
+To create a ruby Date object from a String, try this:
+
+```ruby
+require 'date'
+Date.strptime('1987', "%Y-%m-%d")
+```
+
+A gigasecond is 1 billion seconds. Don't worry about getting the exact moment,
+just assume that the person is born at midnight, and calculate the day on
+which they turn 1 gigasecond old.
+
+Implement the calendar class to manage the collection of birthdays.
+People have a birthday, each day might have multiple birthdays on it.
+
+Once you have the basic functionality that loads the CSV data and creates the
+birthday objects, add the following functionality:
+
+* Find everyone who is a certain age
+* Find everyone who has a birthday on a certain date (regardless of year)
+* Given two names, figure out who is older
+* Given two names, figure out who has a birthday earlier in the year than the other

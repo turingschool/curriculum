@@ -689,6 +689,7 @@ ArgumentError: wrong number of arguments(1 for 0)
 
 Our test passes in an argument (`entries`) to initialize a new EntryRepository.
 Let's implement that:
+
 ```ruby
 class EntryRepository
   def initialize(entries)
@@ -711,8 +712,8 @@ Let's create that method. We know it accepts an argument of `name`, so we'll acc
 for that:
 
 ```ruby
-  def find_by_last_name(name)
-  end
+def find_by_last_name(name)
+end
 ```
 
 Running the test again yields a new error:
@@ -730,7 +731,7 @@ What does this mean? Whatever `sort_by` is being called on is returning nil. We
 can see that is happening in our test on this line:
 
 ```ruby
-  entries = repository.find_by_last_name("Smith").sort_by { |e| e.first_name }
+entries = repository.find_by_last_name("Smith").sort_by { |e| e.first_name }
 ```
 
 So from this, we know that the `find_by_last_name` method is returning nil.
@@ -739,9 +740,9 @@ Put an empty array in there so that `sort_by` can be called on something instead
 of nil -- even if it is just an empty array.
 
 ```ruby
-  def find_by_last_name(name)
-    []
-  end
+def find_by_last_name(name)
+  []
+end
 ```
 Now running the tests gives us a failure. Finally.
 
@@ -866,6 +867,7 @@ Basically, `Minitest::Mock` allows us to test whether a method is being called,
 without actually having to call the method.
 
 Create your test class with the code that creates a mock for `repository`:
+
 ```ruby
 class PhoneBookTest < Minitest::Test
   def test_lookup_by_last_name

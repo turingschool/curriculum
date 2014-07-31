@@ -174,12 +174,3 @@ or complexity leaking into the view
 * 2: Application has messy views that mix logic and presentation
 * 1: Application shows a lack of understanding around view templates and how
 they should be used/constructed.
-
-### 7. Code Sanitation
-
-The output from `rake sanitation:all` shows...
-
-* 4: Zero complaints
-* 3: Five or fewer complaints
-* 2: Six to ten complaints
-* 1: More than ten complaints

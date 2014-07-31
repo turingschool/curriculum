@@ -66,8 +66,6 @@ Each group will choose a client and no two groups will have the same client. You
 * [Backcountry Deli](http://backcountry-deli.com/) - Sandwich Shop
 * [FastFrame of LoDo](http://www.fastframeoflodo.com/blog/) - Framing Shop
 * [Jimmy's Urban Bar & Grill](http://www.lodojimmys.com/) - Restaurant
-* [Cafe Colore](http://cafecoloredenver.com/) - Italian Restaurant
-* [Illegal Pete's](http://illegalpetes.com/) - Burritos
 * [Players](http://playersclothing.com/) - Mens Clothing
 * [Uncubed](http://www.uncubedspace.com/) - Coworking Space
 * [Hapa Sushi](http://hapasushi.com/) - Sushi Restaurant

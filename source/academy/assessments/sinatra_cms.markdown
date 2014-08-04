@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Scrabble
+title: SinatraCMS
 ---
 
 ## Key Skills

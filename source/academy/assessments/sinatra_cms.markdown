@@ -42,8 +42,8 @@ Use TDD to continue building features on to the existing CMS.
 
 When you clone the app a user is able to:
 
-* create a new page
-* display a single page
+* create a new page through the console (`rake console` then `Page.create(:slug => 'the_slug', :content => 'the content')`)
+* display a single page by visiting `/pages/the_slug`
 
 You'll find feature and unit tests for this functionality. As you add new features,
 your functionality should follow the same testing patterns.

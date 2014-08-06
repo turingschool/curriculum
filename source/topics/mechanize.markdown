@@ -58,7 +58,7 @@ end
 
 #### What Just Happened
 
-The script called the `open` method which is defined by the `open-url` library. This method returns an I/O (input/output) object which reads the data from the specified URL. For instance, you can try this in IRB:
+The script called the `open` method which is defined by the `open-uri` library. This method returns an I/O (input/output) object which reads the data from the specified URL. For instance, you can try this in IRB:
 
 ```ruby
 001 > require 'open-uri'

@@ -12,6 +12,7 @@ source/_stash
 source/stylesheets/*.css
 source/stylesheets/**/*.css
 vendor
+build
 pdf
 public
 .c9revisions/

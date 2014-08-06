@@ -4,7 +4,27 @@ title: Driving the Domain Model Using TDD and Minitest
 sidebar: true
 ---
 
-Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas.
+Every developer has more ideas than time. As David Allen likes to say "the human brain is for creating ideas, not remembering them." Let’s build a system to record your good, bad, and awful ideas - IdeaBox.
+
+## Learning Goals
+
+### Before You Begin
+
+The tutorial assumes that you:
+
+* are comfortable with basic Ruby syntax
+* have likely run tests before
+* are new to writing tests
+* are new to the TDD workflow
+
+### After The Tutorial
+
+Once you've completed the tutorial you will be able to:
+
+* design and implement tests using Minitest
+* read error and failure messages to guide your implementation
+* follow the TDD workflow
+* perform refactoring while keeping tests green
 
 ## I0: Getting Started
 
@@ -12,7 +32,7 @@ Every developer has more ideas than time. As David Allen likes to say "the human
 
 For this project you need to have setup:
 
-* Ruby 2.0.0
+* Ruby 2.1
 * Ruby's Bundler gem
 
 ### File/Folder Structure
@@ -24,11 +44,11 @@ Let's start our project with the minimum and build up from there. We need:
 * a `lib/ideabox` directory
 * a `test/ideabox` directory
 
-### `Gemfile`
+### The `Gemfile`
 
-This tutorial will show how the design can be driven using `minitest`.
-
-We're going to depend on one external gem in our `Gemfile`:
+This tutorial will show how the design can be driven using `Minitest`. There's a
+version of Minitest included in Ruby, but it's outdated. Let's instead use the
+Minitest gem by specifying it in the `Gemfile` like this:
 
 ```ruby
 source 'https://rubygems.org'
@@ -40,34 +60,27 @@ end
 
 Save that and, from your project directory, run `bundle` to install the dependencies.
 
+### Minitest vs. RSpec
+
+Minitest is a "small and incredibly fast unit testing framework". Minitest is written using Ruby and reads like Ruby.
+
+You might be familiar with another testing framework, RSpec, and wondering why we are using Minitest here instead. In a way, RSpec is its own language. While it is very popular and powerful, it also does a lot of 'magic' behind the scenes and has a lot more 'content' to it. You can think of Minitest vs. RSpec a little bit like Sinatra vs. Rails.
+
+In testing, and in development, it's all about picking the right tool for the job. Since our IdeaBox application is going to start small, Minitest feels like a natural fit.
+
 ## I1: Defining Ideas
-
-This project will use a fairly classic style of TDD. First we will implement the core business logic using unit tests to drive the implementation and design.
-
-Once we have the business logic implemented, we can decide how we want people to access the program.
-
-This would make a very good command line application, so perhaps we'll add a command line interface (CLI). Or, maybe we want to use this via a web interface using a simple framework like Sinatra. We don't need to make that decision just yet.
-
-#### Why Would We Use MiniTest?
-
-MiniTest is a "small and incredibly fast unit testing framework". MiniTest is written using Ruby and reads like Ruby. 
-
-You might be familiar with another testing framework, RSpec, and wondering why we are using MiniTest here instead. In a way, RSpec is its own language. While it is very popular and powerful, it also does a lot of 'magic' behind the scenes and has a lot more 'content' to it. You can think of MiniTest vs. RSpec a little bit like Sinatra vs. Rails.
-
-In testing, and in development, it's all about picking the right tool for the job.
-
-Since our IdeaBox application is going to start small, MiniTest feels like a natural fit. We won't be using all of the features that RSpec brings to the table.
 
 ### Writing the First Test
 
-If you have not already, create a directory named `test`:
+We are going to use tests to drive us to create a simple ruby object that takes a title and a description.
+
+#### Creating `test/ideabox`
+
+If you haven't already, create a directory named `test`:
 
 {% terminal %}
 $ mkdir test
 {% endterminal %}
-
-
-We are going to use tests to drive us to create a simple ruby object that takes a title and a description.
 
 Within the `test` directory, create another directory named `ideabox`, which is where we will put the model tests:
 
@@ -75,7 +88,9 @@ Within the `test` directory, create another directory named `ideabox`, which is 
 $ mkdir test/ideabox
 {% endterminal %}
 
-Create a file `test/ideabox/idea_test.rb`
+#### Starting `idea_test.rb`
+
+Then in that folder create a file `test/ideabox/idea_test.rb`
 
 ```ruby
 gem 'minitest'
@@ -104,9 +119,7 @@ cannot load such file -- ./lib/ideabox/idea (LoadError)
 
 _Note: You might see an error like `No such file or directory` - if so, make sure that you are running your test from the main directory of your app. You will want to always work from that main directory_
 
-That makes sense, since we haven't created the file.
-
-Do that now:
+That makes sense, since we haven't created the `idea` file that we're trying to test. Do that now:
 
 {% terminal %}
 mkdir -p lib/ideabox
@@ -114,6 +127,8 @@ touch lib/ideabox/idea.rb
 {% endterminal %}
 
 Run the test again.
+
+#### Starting `Idea`
 
 You should get the following message:
 
@@ -133,7 +148,11 @@ class Idea
 end
 ```
 
-The next error says that we're calling the `initialize` method wrong:
+Then run the test again.
+
+#### Defining `initialize`
+
+The next error says that we're calling the `initialize` method incorrectly:
 
 {% terminal %}
   1) Error:
@@ -144,17 +163,17 @@ ArgumentError: wrong number of arguments(2 for 0)
     test/ideabox/idea_test.rb:8:in `test_basic_idea'
 {% endterminal %}
 
-Notice that minitest makes a distinction between failures and errors.
+Notice that Minitest makes a distinction between failures and errors.
 
-In minitest an error means that the Ruby code is wrong somehow. There might be a syntax error, or we're calling a method that doesn't exist, or calling a method that *does* exist, but we're doing it wrong. A failure, on the other hand means that the code is running, but not doing what we expected.
+In Minitest an error means that the Ruby code is wrong somehow. There might be a syntax error, or we're calling a method that doesn't exist, or calling a method that *does* exist, but we're doing it incorrectly. A failure, on the other hand means that the code is running, but not doing what we expected.
 
-Minitest is complaining about an `ArgumentError`. An Idea takes two arguments:
+Minitest is complaining about an `ArgumentError`. According to the test we wrote, an `Idea` should take two arguments:
 
 ```ruby
 Idea.new("a title", "a detailed and riveting description")
 ```
 
-However, the Idea class as it is currently defined has only the default initialize method, which takes no arguments. We need to overwrite it with the following code:
+However, the Idea class as it is currently defined has only the default initialize method, which takes no arguments. We need to override it with the following code:
 
 ```ruby
 class Idea
@@ -164,6 +183,8 @@ end
 ```
 
 Run the tests again.
+
+#### Accessing `title`
 
 We're still getting an error:
 
@@ -180,7 +201,7 @@ The important bit is the same in both:
 NoMethodError: undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;
 ```
 
-We can define a method `:title` using an `attr_reader`:
+We can define a method `title` using `attr_reader`:
 
 ```ruby
 class Idea
@@ -190,7 +211,11 @@ class Idea
 end
 ```
 
-Finally, minitest is complaining about a failure rather than an error:
+Then run the test again.
+
+#### Storing the `title`
+
+Finally, Minitest is complaining about a failure rather than an error:
 
 {% terminal %}
   1) Failure:
@@ -210,132 +235,116 @@ class Idea
 end
 ```
 
-That makes the first assertion pass, which allows the test to blow up on the next assertion:
+Run the test and you'll find it passes the first assertion, but blows up on
+the second.
+
+#### Defining & Storing `description`
+
+You'll see
 
 {% terminal %}
 NoMethodError: undefined method `description' for #&lt;Idea:0x007f89532b1900 @title="title"&gt;
 {% endterminal %}
 
-Add an attribute reader for `:description`, and run the test again. We get a proper failure, and can fix it by assigning the incoming `description` to an instance variable.
+Add an `attr_reader` for `description` and store the value coming into the `initialize`.
 
-The Idea class now looks like this:
+Run the test and it should finally pass!
 
-```ruby
-class Idea
-  attr_reader :title, :description
-  def initialize(title, description)
-    @title = title
-    @description = description
-  end
-end
-```
+## I2: Implementing Likes
 
-The test is passing.
+Some ideas are better than others. Let's build in functionality to handle
+ranking the ideas against each other based on the number of *likes*.
 
-### Implementing Rank
+### Testing `like!`
 
-We also want to be able to rank ideas. The API for this will be to say `like!` on the idea.
+Let's decide that instances of our `Idea` class will have a `like!` method.
+When that method is called, the number of likes is incremented.
 
-You can add a new test inside of the IdeaTest class in your test file.
+#### Writing the Test
+
+Add a new test inside of the `IdeaTest` class in your test file which checks
+that a new test has zero likes, but once we call `like!` then it has one like.
 
 ```ruby
 def test_ideas_can_be_liked
   idea = Idea.new("diet", "carrots and cucumbers")
-  assert_equal 0, idea.rank
+  assert_equal 0, idea.likes
   idea.like!
-  assert_equal 1, idea.rank
+  assert_equal 1, idea.likes
 end
 ```
+
+Run the test and you'll get an error.
+
+#### Defining `likes`
 
 The test gives us an error:
 
 {% terminal %}
-NoMethodError: undefined method `rank' for #&lt;Idea:0x007fd15b3fa460&gt;
+NoMethodError: undefined method `likes' for #&lt;Idea:0x007fd15b3fa460&gt;
 {% endterminal %}
 
-The `rank` method doesn't have any behavior per se, it's just reporting a
-value. Let's create it using an `attr_reader`.
+Add an `attr_reader` for `likes` to get past this error, then re-run the test.
 
-Running the tests again gives us a proper failure:
+#### Starting at Zero
+
+You'll see:
 
 {% terminal %}
 Expected: 0
   Actual: nil
 {% endterminal %}
 
-The first assertion in the test is placed before anything happens. We are saying: If no one has 'liked' a post yet, the likes should be set to 0.
+The first assertion said `assert_equal 0, idea.likes`, meaning that an idea
+should start with zero likes. But the test is getting `nil` as the value from
+`likes`.
 
-If we had only tested the rank of a post after calling like!, then we could have gotten the test to pass by assigning an instance variable in the `initialize` method that hard-coded the rank to `1`. We want to make sure that there's a reasonable default **and** that calling `like!` changes the rank by the expected amount.
+To give `likes` a reasonable default, assign an instance variable in the
+`initialize` method with a value of 0. Then run the test.
 
-To give `rank` a reasonable default, assign an instance variable in the `initialize` method with a value of 0.
+#### What's `like!`?
 
-This gets the first assertion passing, and we now get an error:
+This gets the first assertion passing but there's a new error:
 
 {% terminal %}
 NoMethodError: undefined method `like!' for #&lt;Idea:0x007fa14bb4c7d0&gt;
 {% endterminal %}
 
-Undefined method `like!`. This needs to have behavior that changes the idea, so a simple `attr_reader` will not do. Define a method explicitly:
+Add a `like!` method that sets the value stored in the instance variable
+used by the `likes` method to `1`.
+
+Run the test and it passes.
+
+#### More `likes!`
+
+Our implementation isn't that great. No matter how many times we call `like!`
+the rank will still be `1`. We could just fix the implementation, but that
+wouldn't be test-driven development.
+
+Let's add a more complex test:
 
 ```ruby
-def like!
-end
-```
-
-Again, we get a failure:
-
-{% terminal %}
-Expected: 1
-  Actual: 0
-{% endterminal %}
-
-Make it pass by setting `@rank = 1` within the new `like!` method.
-
-This gets the test passing.
-
-Our implementation isn't bulletproof. No matter how many times we call `like!` the rank will be `1`. We could just fix the implementation, but that would mean that our test isn't as robust as it could be.
-
-Let's improve the test:
-
-```ruby
-def test_ideas_can_be_liked
+def test_ideas_can_be_liked_more_than_once
   idea = Idea.new("diet", "carrots and cucumbers")
-  assert_equal 0, idea.rank
+  assert_equal 0, idea.likes
   idea.like!
-  assert_equal 1, idea.rank
+  assert_equal 1, idea.likes
   idea.like!
-  assert_equal 2, idea.rank
+  assert_equal 2, idea.likes
 end
 ```
 
-We get a good failure, and can now update the implementation to be correct:
+Run the test and observe the error message. Then improve the implementation
+of `like!` to increment the number of likes rather than just setting it to `1`.
 
-```ruby
-@rank += 1
-```
+## I3: Sorting Ideas
 
-The full `Idea` class now looks like this:
+Let's figure out how we can order the ideas by the number of likes.
 
-```ruby
-class Idea
-  attr_reader :title, :description, :rank
-  def initialize(title, description)
-    @title = title
-    @description = description
-    @rank = 0
-  end
+#### Starting with a Test
 
-  def like!
-    @rank += 1
-  end
-end
-```
-
-### Sorting Ideas by Rank
-
-Since we're ranking ideas, we also want to sort them by their rank.
-
-We'll create a test that has multiple ideas, and gives them different ranks by liking them a different number of times:
+We'll create a test that has multiple ideas, and gives them different ranks by
+liking them a different number of times:
 
 ```ruby
 def test_ideas_can_be_sorted_by_rank
@@ -353,6 +362,14 @@ def test_ideas_can_be_sorted_by_rank
 end
 ```
 
+`exercise` should have two likes, `drink` just one, and `diet` zero. The normal
+Ruby `sort` puts the smallest values first, so we expect the order after sorting
+to be `[diet, drink, exercise]`.
+
+Run the test.
+
+#### Comparing `Idea` with `Idea`
+
 The error message we get for this test is a bit more cryptic than the previous ones:
 
 {% terminal %}
@@ -361,9 +378,11 @@ ArgumentError: comparison of Idea with Idea failed
 
 What does `comparison of Idea with Idea failed` even mean?
 
-The `sort` method depends on a method known as _the spaceship operator_, which is used to compare one object to another.
+The `sort` method depends on a method known as _the spaceship operator_, which
+is used to compare one object to another.
 
-The spaceship operator looks like this: `<=>`, and can be defined like any other method:
+The spaceship operator looks like this: `<=>` and a definition normally looks
+like this:
 
 ```ruby
 def <=>(other)
@@ -371,98 +390,51 @@ def <=>(other)
 end
 ```
 
-This method should return either `-1` (meaning the first object should be ordered _before_ the other), or `0` (meaning that the objects have equivalent
-rank), or `1`, which means that the first object should be ordered _after_ the second one.
+The expectation is that `<=>` returns `-1`, `0`, or `1` depending on the order
+priority of the objects.
 
-In code, this becomes:
-
-```ruby
-def <=>(other)
-  if rank > other.rank
-    1
-  elsif rank == other.rank
-    0
-  else
-    -1
-  end
-end
-```
-
-The argument is named `other`, which is an idiomatic choice in Ruby, as well as in many other languages.
-
-Since we're comparing the idea's `rank`s, and `rank` is a `Fixnum`, and `Fixnum` has defined the spaceship operator, we can refactor the above to:
+But usually we don't need to think about the numeric return value. Instead we
+can rely on the spaceship defined on some attribute of the objects, like this:
 
 ```ruby
 def <=>(other)
-  rank <=> other.rank
+  likes <=> other.likes
 end
 ```
 
-### Performing Conventional Comparisons
+Effectively this means that *"you can sort instances of `Idea` by comparing their
+number of `likes`"*.
 
-If we want to do more types of comparisons than just sorting, we could include the `Comparable` mixin in the `Idea` class. That would give us all the conventional comparison operators (`<`, `<=`, `==`, `>=`, and `>`) as well as a method called `between?`. You can read more about the [Comparable mixin here](http://www.ruby-doc.org/core-2.0.0/Comparable.html).
+Run the tests and they should pass.
 
-We don't really need all those methods. Besides, it would be kind of odd to have the following:
+#### Saving with Git
 
-{% terminal %}
-idea1 = Idea.new('dessert', 'chocolate cake')
-idea2 = Idea.new('entertainment', 'dogfight')
-idea1 == idea2
-# => true
-{% endterminal %}
-
-So we won't include `Comparable`.
-
-#### Checking In
-
-The business logic for our `Idea` is complete, and the tests are all green.
-
-This is the final implementation of `Idea`:
-
-```ruby
-class Idea
-  attr_reader :title, :description, :rank
-  def initialize(title, description)
-    @title = title
-    @description = description
-    @rank = 0
-  end
-
-  def like!
-    @rank += 1
-  end
-
-  def <=>(other)
-    rank <=> other.rank
-  end
-end
-```
-
-Create a `README.md` with a short description of the project in the main project directory, then initialize a git repository, and check your changes in:
+Initialize a git repository, and check your changes in:
 
 {% terminal %}
 git init
 git add .
-git commit -m "Implement `Idea`"
+git commit -m "Implement `Idea` with sorting"
 {% endterminal %}
 
-## I2: Saving Ideas
+## I4: Saving Ideas
 
 We need to be able to organize ideas. We're going to create a class that stores ideas.
 
-### Starting With a Test
+### A First `IdeaStore` Test
 
-Once again we'll define what we want to happen by writing a test.
-
-We want to:
+Once again we'll define what we want to happen by writing a test. We want our test to:
 
 * create an idea
 * save it
-* get it back out of the datastore (it should be the same idea)
+* get it back out of the datastore
+* verify that the one we got out is the one we put in
 
-Create an empty file `idea_store_test.rb` in the `test/ideabox` directory.
+#### Adding Dependencies
 
-When using minitest, we need to include the testing dependencies themselves at the top of that file:
+Create `idea_store_test.rb` in the `test/ideabox` directory.
+
+Start with the dependencies themselves at the top of that file:
 
 ```ruby
 gem 'minitest'
@@ -470,40 +442,46 @@ require 'minitest/autorun'
 require 'minitest/pride'
 ```
 
-Next, we want to create actual ideas, so we also need to require the `Idea` class.
+We also will want to use the `Idea` class:
 
 ```ruby
 require './lib/ideabox/idea'
 ```
 
-Then we're going to need the class that actually does the work of storing the ideas:
+And finally the `IdeaStore` itself:
 
 ```ruby
 require './lib/ideabox/idea_store'
 ```
 
-Finally, we need a test that proves that the idea gets saved:
+#### The First Test
+
+Start with this frame:
 
 ```ruby
 class IdeaStoreTest < Minitest::Test
   def test_save_and_retrieve_an_idea
-    idea = Idea.new("celebrate", "with champagne")
-    id = IdeaStore.save(idea)
-
-    assert_equal 1, IdeaStore.count
-
-    idea = IdeaStore.find(id)
-    assert_equal "celebrate", idea.title
-    assert_equal "with champagne", idea.description
+    # Add the test code here
   end
 end
 ```
 
+Then build up the test piece by piece:
+
+* Create the idea: `idea = Idea.new("celebrate", "with champagne")`
+* Store it in `IdeaStore`: `id = IdeaStore.save(idea)`
+* Check that there's now an idea: `assert_equal 1, IdeaStore.count`
+* Find the idea by `id`: `idea = IdeaStore.find(id)`
+* Verify the `title`: `assert_equal "celebrate", idea.title`
+* Verify the `description`: `assert_equal "with champagne", idea.description`
+
 Run the test:
 
 {% terminal %}
-ruby test/ideabox/idea_store_test.rb
+$ ruby test/ideabox/idea_store_test.rb
 {% endterminal %}
+
+#### Creating `idea_store.rb`
 
 The first failure complains that there is no `idea_store` file:
 
@@ -511,40 +489,25 @@ The first failure complains that there is no `idea_store` file:
 cannot load such file -- ./lib/ideabox/idea_store (LoadError)
 {% endterminal %}
 
-Create a new file called `idea_store.rb` in `lib/ideabox/`. We can do this all from the command line. Make sure you run this command from the main project directory: 
+Create a new file `lib/ideabox/idea_store.rb` then run the test again.
 
-{% terminal %}
-touch lib/ideabox/idea_store.rb
-{% endterminal %}
+#### Defining `IdeaStore`
 
-Run the test again, and you should get a complaint that there's no constant
-`IdeaStore`:
+There's no constant `IdeaStore`:
 
 {% terminal %}
 NameError: uninitialized constant IdeaStoreTest::IdeaStore
 {% endterminal %}
 
-Define an empty class in the `lib/ideabox/idea_store.rb` file:
+Define an empty class named `IdeaStore` and run the test again.
 
-```ruby
-class IdeaStore
-end
-```
+#### Adding the Class Method `save`
 
-The next error complains about a missing method, `save`:
+The next error complains about the `save` method:
 
 {% terminal %}
 NoMethodError: undefined method `save' for IdeaStore:Class
 {% endterminal %}
-
-Change the error message by defining an empty `save` method on the IdeaStore class:
-
-```ruby
-class IdeaStore
-  def self.save
-  end
-end
-```
 
 Notice that when we call the save method in the test, it looks like this:
 
@@ -552,47 +515,12 @@ Notice that when we call the save method in the test, it looks like this:
 IdeaStore.save(idea)
 ```
 
-Previously, we've only sent the `new` message to a class, which gives us back a new instance:
+Previously called `new` on a class itself. All our other method definitions and
+calls were on instances of the class.
 
-```ruby
-idea = Idea.new("activity", "coloring with crayons")
-```
+But here we're calling `save` on `IdeaStore` _class_, not an instance of that class.
 
-And then we'd call methods on that instance:
-
-```ruby
-idea.rank
-# => 0
-```
-
-Here we're sending the `save` method to the `IdeaStore` _class_, not an instance of that class.
-
-Notice the difference between these two method definitions:
-
-```ruby
-class World
-  def self.hello
-    "Greetings from the class #{self}."
-  end
-
-  def hello
-    "Greetings from the instance #{self}."
-  end
-end
-```
-
-You can test this in IRB by copying and pasting the code into an IRB session, and then saying:
-
-{% irb %}
-World.hello
-World.new.hello
-{% endirb %}
-
-If that seems confusing, just roll with it for now, accepting that `def self.something` will let you send `something` directly to the class, whereas `def something` lets you send `something` to the instance of the class.
-
-So, back to our `IdeaStore`.
-
-We created a `save` method directly on the `IdeaStore` class:
+So we define the method like this:
 
 ```ruby
 class IdeaStore
@@ -601,7 +529,7 @@ class IdeaStore
 end
 ```
 
-The test is giving us a new error:
+And run the tests. The test is giving us a new error:
 
 {% terminal %}
 ArgumentError: wrong number of arguments (1 for 0)
@@ -614,23 +542,19 @@ def self.save(idea)
 end
 ```
 
+Run the tests.
+
+#### Adding a Class Method `count`
+
 The error message has changed again:
 
 {% terminal %}
 NoMethodError: undefined method `count' for IdeaStore:Class
 {% endterminal %}
 
-Let's fix that in the same way:
+Fix it by adding a blank class method named `count` and run the tests again.
 
-```ruby
-class IdeaStore
-  def self.save(idea)
-  end
-
-  def self.count
-  end
-end
-```
+#### Actual Counting
 
 The test is now failing rather than giving us an error:
 
@@ -645,9 +569,8 @@ The failing line of code is this:
 assert_equal 1, IdeaStore.count
 ```
 
-This makes sense, of course, since we're not doing any work in the `IdeaStore` class yet.
-
-Let's just fake it for now:
+This makes sense, of course, since we're not doing any work in the `IdeaStore`
+yet. Let's just fake it for now:
 
 ```ruby
 def self.count
@@ -655,99 +578,110 @@ def self.count
 end
 ```
 
+And run the tests.
+
+#### Adding the Class Method `find`
+
 We get a new error message:
 
 {% terminal %}
 NoMethodError: undefined method `find' for IdeaStore:Class
 {% endterminal %}
 
-Add an empty find method:
+Add an empty `find` method. Run the tests and you'll get an `ArgumentError`,
+then fix it and run the tests.
 
-```ruby
-def self.find
-end
-```
+#### Saving One Idea
 
-The test complains that the method signature is incorrect:
-
-{% terminal %}
-ArgumentError: wrong number of arguments (1 for 0)
-    /Users/you/ideabox/lib/ideabox/idea_store.rb:9:in `find'
-{% endterminal %}
-
-Correct that by providing an argument to `find`. We'll be finding by the ID of the idea, so use `id` as the argument name:
-
-```ruby
-def self.find(id)
-end
-```
-
-The next error message is going to be harder to fake:
+The next error message is going to be harder to overcome:
 
 {% terminal %}
 NoMethodError: undefined method `title' for nil:NilClass
 {% endterminal %}
 
-Let's do some real work.
+Our `find` method is returning `nil`. So then when we attempt to verify the
+`title` we're calling that method on `nil` which raises an error. We need
+`find` to return an instance of `Idea` and the idea it returns has to have
+a matching title/description to what we put in.
 
-There are two important pieces. First the `save` method has to store the idea we give it, and second, the `find` method has to get it back out.
+There are two important pieces. First the `save` method has to store the idea we
+give it, and second, the `find` method has to get it back out.
 
-We can ignore all the details for now, and just make that work:
+The simplest possible implementation is to store the incoming idea into an
+instance variable `@idea`. Then when `find` is called it can just return the
+value stored in `@idea` without actually doing any kind of search or match on
+the passed in `id`.
+
+`save` stores the idea into `@idea`:
 
 ```ruby
-class IdeaStore
-  def self.save(idea)
-    @idea = idea
-  end
-
-  def self.find(id)
-    @idea
-  end
-
-  def self.count
-    1
-  end
+def self.save(idea)
+  @idea = idea
 end
 ```
 
-That gets the test passing, but it's not a very satisfactory implementation.
-
-Let's make it so we can store and retrieve two different ideas. Update the test:
+Then `find` then returns whatever was stored in `@idea`:
 
 ```ruby
-class IdeaStoreTest < Minitest::Test
-  def test_save_and_retrieve_ideas
-    idea = Idea.new("celebrate", "with champagne")
-    id1 = IdeaStore.save(idea)
-
-    assert_equal 1, IdeaStore.count
-
-    idea = Idea.new("dream", "of unicorns and rainbows")
-    id2 = IdeaStore.save(idea)
-
-    assert_equal 2, IdeaStore.count
-
-    idea = IdeaStore.find(id1)
-    assert_equal "celebrate", idea.title
-    assert_equal "with champagne", idea.description
-
-    idea = IdeaStore.find(id2)
-    assert_equal "dream", idea.title
-    assert_equal "of unicorns and rainbows", idea.description
-  end
+def self.find(id)
+  @idea
 end
 ```
 
-The test is failing again, because we hard-coded the `count` method to return 1:
+Run the test and it'll pass. But we know the implementation is junk.
+
+### Testing Multiple Ideas
+
+Our first `IdeaStore` test wasn't very robust because it was "finding" one idea
+out a collection of one.
+
+#### Write a New Test
+
+Let's write an additional test that uses two ideas:
+
+```ruby
+def test_save_and_retrieve_multiple_ideas
+  idea1 = Idea.new("celebrate", "with champagne")
+  id1 = IdeaStore.save(idea1)
+
+  assert_equal 1, IdeaStore.count
+
+  idea2 = Idea.new("dream", "of unicorns and rainbows")
+  id2 = IdeaStore.save(idea2)
+
+  assert_equal 2, IdeaStore.count
+
+  found_idea1 = IdeaStore.find(id1)
+  assert_equal "celebrate", found_idea1.title
+  assert_equal "with champagne", found_idea1.description
+
+  found_idea2 = IdeaStore.find(id2)
+  assert_equal "dream", found_idea2.title
+  assert_equal "of unicorns and rainbows", found_idea2.description
+end
+```
+
+This will of course break our existing implementation because when the second
+idea is stored it'll blow away the previously stored idea. Then when we try to
+call `find` with `id1` we'll get back the most recently saved idea, `idea2`.
+
+Run the test and confirm that it fails. But why?
+
+#### Problems with `count`
+
+The test is failing because we hard-coded the `count` method to return 1:
 
 {% terminal %}
 Expected: 2
   Actual: 1
 {% endterminal %}
 
-We can't just hard-code a return value of 2, because we now have two different assertions for the `count` method.
+There's no quick hack to work both when there's been one and two ideas saved.
+The easiest thing is to start a collection of saved ideas.
 
-We need to actually store the incoming ideas. Let's store them in an array called `@all`:
+#### Using `@all`
+
+Let's store the incoming ideas in an array called `@all`:
 
 ```ruby
 def self.save(idea)
@@ -755,14 +689,20 @@ def self.save(idea)
 end
 ```
 
-The tests blow up:
+Then modify `count` to return the `count` of `@all`.
+
+Run the tests and they'll generate an error:
 
 {% terminal %}
 NoMethodError: undefined method `<<' for nil:NilClass
     /Users/you/ideabox/lib/ideabox/idea_store.rb:7:in `save'
 {% endterminal %}
 
-`@all` is nil. We need it to be an array before we can shovel anything into it:
+We can't shovel into `@all` because it's `nil`.
+
+Can we just set it to `[]` in the `initialize`? That won't work because we're
+using class methods -- there is no `initialize`! We'll have to start `@all` with
+the value `[]` inside of `save`:
 
 ```ruby
 def self.save(idea)
@@ -771,7 +711,7 @@ def self.save(idea)
 end
 ```
 
-Now we get a somewhat cryptic failure:
+Run the tests and you'll get another failure:
 
 {% terminal %}
 Expected: 2
@@ -780,13 +720,14 @@ Expected: 2
 
 We expected to have 2 ideas, but we only have 1. Why is that?
 
-Well, every single time we call `save`, we reset the `@all` instance variable to be an empty array. No matter how many times we call `save` we will always end up with exactly one idea in `@all`.
+Because of the way we wrote `@all = []`, every time we call `save` we're
+resetting `@all` to an empty array. No matter how many times we call `save` we
+will always end up with exactly one idea in `@all`. What we need is a way to
+only set `@all` to be an empty array if it is `nil`.
 
-What we need is a way to only set `@all` to be an empty array if it is nil.
+#### Using `||=`
 
-For this, we're going to co-opt the ruby `||` operator.
-
-The **logical or** operator, `||`, is used when we want to do something when **either** one side **or** the other, **or both** are true.
+The **logical or** operator, `||`, is used when we want to do something when **either** one side **or** the other, **or both** are `true`.
 
 So the expression `a || b` will evaluate to true if either `a` or `b` are true, or if they both are:
 
@@ -797,67 +738,40 @@ a || b
 # => true
 ```
 
-Actually, in Ruby we aren't very picky about `true` and `false`. We are quite content to accept _truthy_ and _falsey_. Only two objects are _falsey_ in Ruby: `false` and `nil`. Everything else is _truthy_.
+In Ruby we aren't very picky about `true` and `false`. We are quite content to accept _truthy_ and _falsey_. Only two objects are _falsey_ in Ruby: `false` and `nil`. **Everything else** is _truthy_.
 
 ```ruby
 a = nil
-b = true
+b = "hello"
 a || b
-# true
+# "hello" which is truthy
 ```
 
-Since the entire expression will evaluate to _truthy_ if `a` is _truthy_, the `||` operator is lazy. It won't even bother to check `b` if `a` is true or a truthy value. It will go ahead and just return whatever `a` is, making the entire statement _truthy_.
-
-Now, let's rename `a` to `@all` and let's make `b` an empty array:
+Returning to the first line of our `save` method:
 
 ```ruby
-@all || []
+@all = []
 ```
 
-Is this statement _truthy_ or _falsey_?
-
-Well, the result of the entire statement will **always** be _truthy_, because an empty array is _truthy_. But will it always be an empty array? No.
-
-If `@all` is nil, then the `||` operator needs to go check the second part, and it will return an empty array.
-
-Now imagine that `@all` contains an array of ideas: `@all = [idea1, idea2]`.
-
-This is _truthy_, so the `||` operator returns the value of `@all`.
-
-Our problem in save is that we were always setting `@all` to be an empty array:
+We really only want to set `@all` to `[]` if it's `nil`. This is such a common
+pattern in Ruby that there's a shorthand operator for it:
 
 ```ruby
-def self.save(idea)
-  @all = []
-  @all << idea
-end
+@all ||= []
 ```
 
-What we really want is to use the value of `@all` if there's something there, and then fall back to an empty array if `@all` is `nil`. We can do that using the `||` operator:
+This means "if `@all` is truthy, leave it alone. If it's not, set it equal to `[]`".
 
-```ruby
-def self.save(idea)
-  @all = @all || []
-  @all << idea
-end
-```
+With that in place, run the tests and they still fail.
 
-This is something that comes up so often in Ruby that we have a shorthand for it, known as the **or-equal** operator:
+#### A Better `count`
 
-```ruby
-def self.save(idea)
-  @all ||= []
-  @all << idea
-end
-```
+Now that we have the collection `@all`, the `count` method should just call `count`
+on the collection.
 
-This doesn't quite get our tests passing. We also need to tell the `count` method to use the length of the array with the saved ideas:
+Run the tests.
 
-```ruby
-def self.count
-  @all.length
-end
-```
+#### There Is No `@idea`
 
 We're back to a failure when fetching the idea:
 
@@ -866,31 +780,28 @@ We're back to a failure when fetching the idea:
 NoMethodError: undefined method `title' for nil:NilClass
 {% endterminal %}
 
-We're returning the `@idea` value, which is no longer being set.
+Our `find` is still returning `@idea`. Since that instance variable is not being
+set anywhere, it has the value `nil`. When the test call `.title` on the result
+of `find` it generates the `NoMethodError`.
 
-Let's return the first idea in the `@all` array:
+We need to find a way to get the correct idea back out of the collection, but
+we need a unique `id` for each idea.
 
-```ruby
-def self.find(id)
-  @all.first
-end
-```
+### Assigning IDs
 
-That works for the first idea, but not for the second one.
+To make `find` work properly...
 
-We need to find a way to get the correct idea back out.
-
-The information we have to go on is the `id`, but we haven't implemented an `id` for the ideas yet.
-
-Several things need to happen:
-
-* `Idea` instances need to be able to set and get an `id` value.
-* `IdeaStore.save` needs to give the idea an `id` and return the id to the
+* `Idea` instances need to be able to set and get their `id` value.
+* `IdeaStore.save` needs to give the idea an `id` and return the `id` to the
   caller.
 * `IdeaStore.find` needs to use the provided `id` and look through the stored
   ideas to find the correct one.
 
-Let's start by changing the `save` method to be the way we wish it were:
+#### Save with `next_id`
+
+We need to generate a unique `id` number when saving an idea. Rather than
+figure out what the next ID should be, let's write our `save` to rely on a
+method named `next_id` which determines the next ID to use:
 
 ```ruby
 def self.save(idea)
@@ -901,7 +812,7 @@ def self.save(idea)
 end
 ```
 
-The failing test tells us where we need to go next:
+Run the test and it'll give an error because there is no `next_id` method:
 
 {% terminal %}
   1) Error:
@@ -909,14 +820,18 @@ NameError: undefined local variable or method `next_id' for IdeaStore:Class
     /Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'
 {% endterminal %}
 
-We need a `next_id` method.
+#### Stubbing `next_id`
 
-For now, let's just create an empty one.
+For now, let's just create an empty method:
 
 ```ruby
 def self.next_id
 end
 ```
+
+And run the test.
+
+#### You Can't Store `id`
 
 The next error is:
 
@@ -925,9 +840,15 @@ NoMethodError: undefined method `id=' for #&lt;Idea:0x007fea5a390480&gt;
     /Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'
 {% endterminal %}
 
-This one is _not_ a complaint about the `IdeaStore` class, but a missing method on the Idea instance. Ideas do not a way to add an id!
+Note that the error is because we're trying to call `id=` to store the `id`
+attribute inside an instance of `Idea`.
 
-We can't change the `Idea` class without changing the test first, so open up the `idea_test.rb` file and add a new test:
+It'd be best to add a test to `idea_test.rb` to test and implement this functionality
+before continuing with `IdeaStore`.
+
+#### Setting `id` on `Idea`
+
+Open up the `idea_test.rb` file and add a new test:
 
 ```ruby
 def test_ideas_have_an_id
@@ -954,23 +875,35 @@ class Idea
 end
 ```
 
-Why use a attr_accessor instead of an attr_reader?
+Why use `attr_accessor` instead of `attr_reader`?
 
-If you noticed in the last failing test, the NoMethodError complained about `no method 'id='`, and not just `id`. Because we are using another class, Idea Store, to make changes to an Idea's id, we need to tell the computer that `id` can be changed outside of the Idea class. We need to let Idea Store `access` the an id, not just `read` it.
+If you noticed in the last failing test, the NoMethodError complained about `no method 'id='`, and not just `id`. The `attr_reader` method generates just a method for reading an attribute. But we want to be able to modify the value stored in `id`. `attr_accessor` generates both an `id` method to read the value and a `id=` method to change the value.
 
 This change gets the unit tests for `Idea` passing, and we can go back to our unit
 test for the `IdeaStore`.
 
-Run the Idea Store test suite with `ruby test/ideabox/idea_store_test.rb`.
+Run `ruby test/ideabox/idea_store_test.rb`.
 
-This is failing because it always retrieves the first idea.
+#### Building `next_id`
+
+Our test is still failing. The next component we need to build is a decent
+`next_idea` method. There are a lot of approaches we could take to generate
+ID numbers, but the easiest is to add one to the number of ideas which have
+already been stored:
 
 ```ruby
-Expected: "dream"
-  Actual: "celebrate"
+def self.next_id
+  count + 1
+end
 ```
 
-We can use the `Enumerable#find` method to get the correct idea:
+We use the `count` method on `IdeaStore` to find the current number of items,
+then add one because our new idea will be added to the collection.
+
+#### A Proper Find
+
+Now that we generate and store an `id`, we can find the element in the `@all`
+collection using the method `find` provided by Enumerable:
 
 ```ruby
 def self.find(id)
@@ -980,34 +913,13 @@ def self.find(id)
 end
 ```
 
-The test is still failing with the same error message. What the heck?
+Finally the test passes, yay! Commit your changes to Git before moving on.
 
-Remember back when we implemented the `next_id` method? Take another look at it:
-
-```ruby
-def self.next_id
-end
-```
-
-That's not going to work.
-
-Let's use the `count` to determine the next id:
-
-```ruby
-def self.next_id
-  count + 1
-end
-```
-
-This, finally, gets the test passing.
-
-Commit your changes.
-
-## I3: Refactor & Simplify
+## I5: Refactor & Simplify
 
 ### Removing Duplication in Minitest
 
-Both of the minitest test suites start with this code:
+Both of the Minitest test suites start with this code:
 
 ```ruby
 gem 'minitest'
@@ -1015,57 +927,48 @@ require 'minitest/autorun'
 require 'minitest/pride'
 ```
 
-Let's move that common setup code to a file called `test/test_helper.rb`.
-
-Next replace the setup code with the following in both of the test suites:
+Cut those lines and move them into a file `test/test_helper.rb`. Then in the
+test files require the new `test_helper`:
 
 ```ruby
 require './test/test_helper'
 ```
 
-### Creating a `rake` task for Minitest
+### Creating a `rake` Task
 
-If you want to run all of the tests, you have to say:
+Right now we don't have an easy way to run all the test files. You'd have to...
 
 {% terminal %}
 ruby test/ideabox/idea_test.rb
 ruby test/ideabox/idea_store_test.rb
 {% endterminal %}
 
-That gets old really quickly. We need a simpler way to run the tests.
+We need a simpler way to run the tests. We're going to use a library named
+`rake` which is used to automate things in Ruby.
 
-We're going to use a library called `rake` which a lot of people and projects use to automate things in Ruby.
+Rake is frequently used for runnig tests, and there are some handy helper classes and methods to let us define our "task" quickly.
 
-It lets you write scripts in Ruby, and then run them on the command-line:
-
-{% terminal %}
-$ rake whatever
-$ rake do:stuff
-{% endterminal %}
-
-One of the things that we use `rake` for a lot, is to automatically run our tests. Since this is a very common use case, there are some handy helper classes and methods to let us define our test task quickly.
+#### Creating the `Rakefile`
 
 Try running `rake` from the terminal. You should see an error message that looks something like this:
-
 
 ```ruby
 rake aborted!
 No Rakefile found (looking for: rakefile, Rakefile, rakefile.rb, Rakefile.rb)
 ```
 
-By default `rake` looks for a file in the root of the project directory, so we'll create one of these.
+By default `rake` looks for a file named `Rakefile` in the root of the project
+directory. Create it now.
 
-{% terminal %}
-touch Rakefile
-{% endterminal %}
+#### Defining the Task
 
-First we want to include the default helper library to create test tasks:
+First we want to include the built-in helper library to create test tasks:
 
 ```ruby
 require 'rake/testtask'
 ```
 
-Then we'll create a test task:
+Then define this test task:
 
 ```ruby
 Rake::TestTask.new do |t|
@@ -1073,42 +976,48 @@ Rake::TestTask.new do |t|
 end
 ```
 
-The `pattern` tells the test where to find your test files. In this case, we're going to pick up all files living under the `test/` directory that end in `_test.rb`.
+The `pattern` tells the test where to find your test files. In this case, we're going to pick up all files in the `test/` directory that end in `_test.rb`. The `**` part says to look not only directly in the `test/` directory, but also in all the subdirectories.
 
-The `**` part says to look not only directly in the `test/` directory, but also recursively in all the subdirectories.
+This weird little snippet is something you'll setup once per project, so it's
+really not necessary to memorize it. Just be able to find it when you need it.
 
-Run `rake -T` in your terminal to see what rake tasks are available to you:
+#### Running the Task
+
+Run `rake -T` in your terminal to see what rake tasks are now available to you:
 
 {% terminal %}
 $ rake -T
 rake test  # Run tests
 {% endterminal %}
 
-The `TestTask` automatically defined a task named `test` for us.
+The `TestTask` automatically defined a task named `test` for us. Run your tests
+with `rake test`.
 
-Run your tests with `rake test`.
+#### Defining a Default Taks
 
-We can make it even easier. If you call `rake` without telling it which task to run, it will look for a task named `default`. For the moment, there is no default task, but we can define one.
+We can make it even easier. If you call `rake` without telling it which task to run, it will look for a task named `default`. Right now there is no default task, but we can define one.
 
-Add this to the bottom of the Rakefile:
+Add this to the bottom of the `Rakefile`:
 
 ```ruby
 task default: :test
 ```
 
-Run your tests simply by calling `rake` by itself:
+#### Using the Default Task
+
+Now run your tests by running `rake` by itself:
 
 {% terminal %}
 $ rake
 {% endterminal %}
 
-Much better! Commit your changes.
+Much better! Commit your changes to your git repository.
 
-## I4: Editing Ideas
+## I6: Editing Ideas
 
 Sometimes an idea is OK but not great. We need to be able to improve on our ideas.
 
-### Starting With a Test
+### Plan of Attack
 
 In order to prove that we're able to update ideas, we need to
 
@@ -1121,7 +1030,9 @@ In order to prove that we're able to update ideas, we need to
 
 Another observation that is important here is that if we've saved a single idea and updated it, the `count` of ideas in our datastore should be exactly one.
 
-Here's a test that proves all these things:
+### Writing a Test
+
+Here's a test that exercises this functionality:
 
 ```ruby
 def test_update_idea
@@ -1142,17 +1053,18 @@ def test_update_idea
 end
 ```
 
-We get a familiar error message:
+Run it and you'll get a familiar error message:
 
 ```ruby
-NoMethodError: undefined method `title=' for #<Idea:0x007fe25a2e4c28>
+NoMethodError: undefined method 'title=' for #<Idea:0x007fe25a2e4c28>
 ```
 
 We're trying to change a read-only value on Idea.
 
-Pop over to the idea test/spec file and make sure that we can set a new title and description on an idea.
+### Making Title & Description Changeable
 
-Something like this:
+Open the `idea_test` and add a test that ensures the `title` and `description`
+attributes can be set like this:
 
 ```ruby
 def test_update_values
@@ -1165,29 +1077,23 @@ end
 ```
 
 Make it pass by using `attr_accessor` instead of `attr_reader` for `title` and
-`description`:
+`description`.
 
-```ruby
-class Idea
-  attr_reader :rank
-  attr_accessor :id, :title, :description
+### Back to `idea_store_test`
 
-  # ...
-end
-```
-
-The idea test suite is passing, but the idea store one for updating an idea is not.
+The `idea_test` suite is passing, but the `idea_store_test` about updating an
+idea is failing:
 
 {% terminal %}
 Expected: 1
   Actual: 4
 {% endterminal %}
 
-It seems odd that we should have 4 ideas. The test only saves twice, so at the most it should have 2 ideas.
+It seems odd that we have 4 ideas. The test only saves twice, so at the most it should have 2 ideas. What's happening is that the first test is creating two ideas in the `IdeaStore` class, then the second test is creating two more.
 
-What's happening is that the first test is creating two ideas in the `IdeaStore` class, and then the second test is creating two more.
+### Clearing Ideas Between Tests
 
-Tests that interfere with each other are not good. We need to clear out all the ideas between each test.
+Tests that interfere with each other are not good. We need to clear out all the ideas after each test so the next test can start with a blank slate.
 
 Minitest provides us with two methods that can help us here. The `setup` method runs before each individual test, and the `teardown` method runs after each individual test.
 
@@ -1206,13 +1112,11 @@ end
 That blows up, because we don't have a `delete_all` method on the `IdeaStore`
 class.
 
-Within `IdeaStore`, define this method:
+Within `IdeaStore`, define a `delete_all` the clears out `@all`.
 
-```ruby
-def self.delete_all
-  @all = []
-end
-```
+Then run the tests.
+
+### Saving Existing Ideas
 
 With this change, our test is failing with a much more appropriate error
 message:
@@ -1222,19 +1126,9 @@ Expected: 1
   Actual: 2
 ```
 
-Now we need to change the `save` method so that it doesn't create a new `id`
-if the idea already has one.
-
-The old code looks like this:
-
-```ruby
-def self.save(idea)
-  @all ||= []
-  idea.id = next_id
-  @all << idea
-  idea.id
-end
-```
+When we call `save` with the modified data our code is storing a new idea
+rather than modifying the existing one. We need to change the `save` method so
+it doesn't create a new `id` if the idea already has one.
 
 We only want to set the `id` and stick the idea in the `@all` array if it's a
 new idea.
@@ -1252,7 +1146,9 @@ end
 
 That is going to fail because we don't have a `new?` method on `Idea`.
 
-Open the test file for `Idea` and create a test for it:
+### Adding `new?` to `Idea`
+
+Open the test file for `Idea` and create a test that uses the `new?` method:
 
 ```ruby
 def test_a_new_idea
@@ -1261,14 +1157,7 @@ def test_a_new_idea
 end
 ```
 
-That fails for obvious reasons. Create an empty `new?` method for Idea:
-
-```ruby
-def new?
-end
-```
-
-Now the test fails because the `new?` method returns a falsy value.
+Define a `new?` method stub in `Idea`. Run it and you'll see:
 
 {% terminal %}
   1) Failure:
@@ -1276,7 +1165,7 @@ IdeaTest#test_a_new_idea [test/ideabox/idea_test.rb:15]:
 Failed assertion, no message given.
 {% endterminal %}
 
-Return `true` from the `new?` method:
+Try having `new?` always return `true`:
 
 ```ruby
 def new?
@@ -1284,7 +1173,11 @@ def new?
 end
 ```
 
-That gets the test passing, but we're not quite there yet. Create another test to force a real implementation:
+That gets the test passing, but we know the implementation isn't good enough.
+
+#### Old Ideas are Not New
+
+Create another test to explore `new?` for an existing `Idea`:
 
 ```ruby
 def test_an_old_idea
@@ -1294,7 +1187,20 @@ def test_an_old_idea
 end
 ```
 
-To get the test to pass we'll say that an idea is `new?` if it doesn't have an `id`:
+Let's modify our `new?` to return `true` if there is an `id`:
+
+```ruby
+def new?
+  if id
+    false
+  else
+    true
+  end
+end
+```
+
+We can achieve the exact same outcome with simplifyied logic skipping the `if`
+statement:
 
 ```ruby
 def new?
@@ -1302,15 +1208,26 @@ def new?
 end
 ```
 
-That gets that test passing. Let's pop back over to the idea store test. It turns out, all of the IdeaStore tests are passing as well.
+#### Wrap Up Editing
 
-We've finished the edit feature. Commit your changes.
+Run that code and everything should be passing.
 
-## I5: Deleting Ideas
+We've finished the edit feature. Commit your changes to git.
 
-We can create ideas, look them up, and edit them. If we have a particularly bad idea, we're going to want to delete it as well.
+## I7: Deleting Ideas
 
-To prove that we can delete ideas let's create 3 ideas, and then delete one of them. Then we can verify two things: first, that the idea is no longer there, and second, that the other ideas are still around.
+We can create ideas, look them up, and edit them. But if we have a particularly bad idea, we're going to want to delete it.
+
+### Setup a Test
+
+To prove that we can delete ideas properly let's...
+
+* create 3 ideas
+* delete one of them
+* verify that the target idea is no longer there
+* verify that the other two ideas are still around
+
+Here's a test that does all four steps:
 
 ```ruby
 def test_delete_an_idea
@@ -1324,13 +1241,19 @@ def test_delete_an_idea
 end
 ```
 
+Run the test.
+
+### Adding `all`
+
 The first complaint is that we don't have an `all` method:
 
 {% terminal %}
 NoMethodError: undefined method `all' for IdeaStore:Class
 {% endterminal %}
 
-We have an `@all` instance variable in `IdeaStore`, we simply need to expose it:
+We have an `@all` instance variable in `IdeaStore`, but we need to expose it.
+Note that we can't use `attr_reader` because that's for instance methods, we
+need a class method:
 
 ```ruby
 class IdeaStore
@@ -1342,31 +1265,32 @@ class IdeaStore
 end
 ```
 
-This changes the error message, giving us a different `NoMethodError`:
+Run the test again.
+
+### Defining `.delete`
+
+Now we have a different `NoMethodError`:
 
 {% terminal %}
 NoMethodError: undefined method `delete' for IdeaStore:Class
 {% endterminal %}
 
-We can change the error message again by defining an empty `delete` method:
+We can change the error message by defining an empty `delete` method:
 
 ```ruby
 def self.delete
 end
 ```
 
-We get another familiar error message:
+Run the test and we get another error:
 
 {% terminal %}
 ArgumentError: wrong number of arguments (1 for 0)
 {% endterminal %}
 
-Fix it by adding an argument to the definition of `delete`:
+Fix it by adding an `id` argument to the definition of `delete` and run the test.
 
-```ruby
-def self.delete(id)
-end
-```
+#### Actually Deleting Ideas
 
 This gives us a real failure:
 
@@ -1375,120 +1299,43 @@ Expected: ["dinner", "song"]
   Actual: ["dinner", "gift", "song"]
 {% endterminal %}
 
-We need to do actual work.
-
-Our data is stored in an array, and there are several ways of deleting things from arrays.
+We need to do the actual work. Our data is stored in an array, and there are
+several ways of deleting things from arrays.
 
 * `Array#delete_if`
 * `Array#delete_at`
 * `Array#delete`
 
-`delete_if` is an alias for `reject`, and it will delete all the items that match a given condition:
-
-```ruby
-all.delete_if do |idea|
-  idea.id == id
-end
-```
-
-That works, but it doesn't really communicate the fact that we only expect one particular idea to get deleted.
-
-`delete_at` communicates this idea better: Delete just the idea that is at index `i` in the array. The only problem here is that we don't know where the idea is located in the array, so we'd have to:
-
-1. find the idea
-2. figure out what the index of that idea is
-3. delete at the index
-
-```ruby
-idea = all.find(id)
-index = all.index(idea)
-all.delete_at(index)
-```
-
-That seems like a lot of work.
-
-Our last option is `Array#delete`, and this one will delete an object from an array. We only have the id, so we need to find the idea first, and then we can delete it directly, without going via the index:
-
-```ruby
-idea = all.find(id)
-all.delete(idea)
-```
-
-This seems like our best option, leaving the `Ideabox.delete` method looking like this:
-
-```ruby
-def self.delete(id)
-  all.delete find(id)
-end
-```
+`delete_if` accepts a block and will delete any items for which the block
+evaluates to a truthy value. Use `delete_if` to remove the idea which has an
+`id` matching your parameter `id`.
 
 The test is passing. Commit your changes.
 
-## I6: Refactor
+## I8: Refactor & Extend
 
-In the previous iteration we added a method `Ideabox.all`, so let's update `Ideabox.count` and `Ideabox.find` to use the `all` method rather than the `@all` instance variable.
+### Using `IdeaStore.all`
 
-The final code looks this this:
+In the previous iteration we added a method an `IdeaStore.all`, but our
+`count` and `find` methods are accessing the variable `@all` directly. If you
+have a method to access a variable you should use it.
 
-```ruby
-class Idea
-  attr_reader :rank
-  attr_accessor :id, :title, :description
-  def initialize(title, description)
-    @title = title
-    @description = description
-    @rank = 0
-  end
+Change your `Ideabox.count` and `Ideabox.find` to rely on the `all` method.
 
-  def like!
-    @rank += 1
-  end
+Make sure that the tests are all passing, and commit your changes to git.
 
-  def <=>(other)
-    rank <=> other.rank
-  end
+### Refactor on Your Own
 
-  def new?
-    !id
-  end
-end
+You have a working IdeaBox. Consider improving your code by refactoring to
+reduce complexity or improve the expressiveness.
 
-class IdeaStore
-  def self.all
-    @all
-  end
+### Handling Edge Cases
 
-  def self.save(idea)
-    @all ||= []
-    if idea.new?
-      idea.id = next_id
-      @all << idea
-    end
-    idea.id
-  end
+And write tests for possibly tricky "edge cases" like:
 
-  def self.find(id)
-    all.find do |idea|
-      idea.id == id
-    end
-  end
-
-  def self.delete(id)
-    all.delete find(id)
-  end
-
-  def self.count
-    all.length
-  end
-
-  def self.next_id
-    count + 1
-  end
-
-  def self.delete_all
-    @all = []
-  end
-end
-```
-
-Make sure that the tests are all passing, and commit your changes.
+* deleting the last idea
+* attempting to edit an idea that doesn't exist
+* deleting an idea that doesn't exist
+* deleting an idea, then adding a new one (causing an `id` conflict!)
+* what happens when there are a lot (like 10,000) ideas? What parts of your
+system bog down? Can you improve them?

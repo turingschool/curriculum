@@ -66,8 +66,6 @@ Each group will choose a client and no two groups will have the same client. You
 * [Backcountry Deli](http://backcountry-deli.com/) - Sandwich Shop
 * [FastFrame of LoDo](http://www.fastframeoflodo.com/blog/) - Framing Shop
 * [Jimmy's Urban Bar & Grill](http://www.lodojimmys.com/) - Restaurant
-* [Cafe Colore](http://cafecoloredenver.com/) - Italian Restaurant
-* [Illegal Pete's](http://illegalpetes.com/) - Burritos
 * [Players](http://playersclothing.com/) - Mens Clothing
 * [Uncubed](http://www.uncubedspace.com/) - Coworking Space
 * [Hapa Sushi](http://hapasushi.com/) - Sushi Restaurant
@@ -84,7 +82,7 @@ Your Content Management System needs to:
 
 ### What Not To Do
 
-* Don't use `ActiveRecord` or `DataMapper` -- just `Sequel` and SQL
+* Don't use `ActiveRecord`, `DataMapper`, or `Sequel::Model` -- just `Sequel` and SQL
 * Don't start into 12 features and plan for them all to come together at the last minute. Start small and iterate.
 * Don't try and build a more complex database schema than you need -- KISS
 * Don't let the details of your database structure leak all over the application. Hide them with a wrapper class.
@@ -174,12 +172,3 @@ or complexity leaking into the view
 * 2: Application has messy views that mix logic and presentation
 * 1: Application shows a lack of understanding around view templates and how
 they should be used/constructed.
-
-### 7. Code Sanitation
-
-The output from `rake sanitation:all` shows...
-
-* 4: Zero complaints
-* 3: Five or fewer complaints
-* 2: Six to ten complaints
-* 1: More than ten complaints

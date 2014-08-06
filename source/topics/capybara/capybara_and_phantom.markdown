@@ -139,7 +139,7 @@ rspec-core (3.0.3)
 ### Installation
 
 ```
-$ brew install phantom.js
+$ brew install phantomjs
 $ gem install rails capybara poltergeist launchy
 ```
 
@@ -210,7 +210,7 @@ require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 ```
 
-Make this test in `spec/features/play_app`.
+Make this test in `spec/features/play_app_spec.rb`.
 Saying `js: true` tells it that we need JavaScript to work
 which will cause Capybara to use its javascript_driver. The `feature: true` we
 technically get by default simply because we're in the features directory, but
@@ -219,8 +219,8 @@ I hate that implicit stuff. This just tells it to make Capybara available.
 ```ruby
 require 'rails_helper'
 
-describe 'Ideas', js:true, type: :feature do
-  specify 'retrieving an idea' do
+describe 'Playing around', js:true, type: :feature do
+  it 'loads capybara into the test' do
     require "pry"
     binding.pry
   end

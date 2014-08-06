@@ -722,7 +722,7 @@ Useful commands:
 * `exit`        - Quit out of current pry session. [`C-D`](readline-notation) also works.
 
 Both the `edit` and `show-source` commands can be done like this: `some_object.some_method` in which case,
-pry will operate on the method named `some_method` of the object named `some_object. Or, if you don't
+pry will operate on the method named `some_method` of the object named `some_object`. Or, if you don't
 have access to an instance, you can do `SomeClass#some_method`, in which case it will operate on
 the instance method `some_method` of the class `SomeClass`.
 

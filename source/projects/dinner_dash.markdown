@@ -5,10 +5,6 @@ title: Dinner Dash
 
 In this project you'll use Ruby on Rails to build an online commerce platform for a restaurant to facilitate online ordering.
 
-<div class="note">
-<p>This project is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/dinner_dash.markdown">submit them to the project on GitHub</a>.</p>
-</div>
-
 ## Introduction
 
 ### Learning Goals
@@ -21,7 +17,7 @@ In this project you'll use Ruby on Rails to build an online commerce platform fo
 
 ### Understandings
 
-Please consider the requirements below non-exhaustive guidelines for building a great customer experience. If you know something should be done but it isn't listed below, do it.
+Please consider the requirements below *non-exhaustive* guidelines for building a great customer experience. If you know something should be done but it isn't listed below, do it.
 
 ### Restrictions
 
@@ -34,11 +30,13 @@ Project implementation may **not** use:
 
 1. One team member creates a repository named "dinner_dash"
 2. Add the other team members as collaborators
-3. It's recommended that the team create and use a Pivotal Tracker project at http://pivotaltracker.com
+3. Create and use a Pivotal Tracker project at http://pivotaltracker.com
 
 ## Base Expectations
 
-You are to build an online ordering system for a restaurant which offers both administrator and consumer interfaces.
+You are to build an online ordering system for a restaurant which offers the complete
+functionality for restaurant customers to order food and restaurant administrators
+to process and complete those orders.
 
 ### Unauthenticated Users
 
@@ -50,7 +48,7 @@ As an unauthenticated user, I can:
 * View my cart
 * Remove an item from my cart
 * Increase the quantity of a item in my cart
-* Log in, which should _not_ clear the cart
+* Log in, which does _not_ clear the cart
 
 Unauthenticated users are *NOT* allowed to:
 
@@ -87,7 +85,7 @@ Allowed To:
 
 As an authenticated Administrator, I can:
 
-* Create item listings including a name, description, price, and a photo
+* Create item listings including a name, description, price, and upload a photo
 * Modify existing items' name, description, price, and photo
 * Create named categories for items (eg: "Small Plates")
 * Assign items to categories or remove them from categories. Products can belong to more than one category.
@@ -107,7 +105,7 @@ As an Administrator, I can also view an order "dashboard" where I can:
   * Order date and time
   * Purchaser full name and email address
   * For each item on the order:
-      * Name with link to item page
+      * Name linked to the item page
       * Quantity
       * Price
       * Line item subtotal
@@ -123,9 +121,7 @@ As an Administrator, I can also view an order "dashboard" where I can:
 
 ## Data Validity
 
-There are several types of entities in the system, each with requirements about what makes for a valid record. These restrictions are summarized below.
-
-Any attempt to create/modify a record with invalid attributes should return the user to the input form with a validation error indicating the problem along with suggestions how to fix it.
+There are several types of entities in the system, each with certain required data. Any attempt to create or modify a record with invalid attributes should return the user to the input form with a validation error indicating the problem along with suggestions how to fix it.
 
 ### Item
 
@@ -133,11 +129,11 @@ Any attempt to create/modify a record with invalid attributes should return the 
 * The title and description cannot be empty strings.
 * The title must be unique for all items in the system
 * The price must be a valid decimal numeric value and greater than zero
-* The photo is optional. If present it must be a valid URL format.
+* The photo is optional. If not present, a stand-in photo is used.
 
 ### User
 
-* A user must have a valid email address that is unique across all users
+* A user must have a plausibly valid email address that is unique across all users
 * A user must have a full name that is not blank
 * A user may optionally provide a display name that must be no less than 2 characters long and no more than 32
 
@@ -145,6 +141,8 @@ Any attempt to create/modify a record with invalid attributes should return the 
 
 * An order must belong to a user
 * An order must be for one or more of one or more items currently being sold
+* An order is marked for pickup or delivery
+* If marked for delivery, an order has an associated address with street number, street, city, state, and zip
 
 ## Example Data
 
@@ -164,11 +162,9 @@ To support the evaluation process, please make the following available via the `
 
 ## Submission Guidelines
 
-Your project must be "live" on the web for your peers to evaluate it. We recommend you deploy it on Heroku.
-
-Your `README` file on GitHub should contain a link to your live site.
-
-On the production site, setup the URL path `/code` to redirect the user to the GitHub repository.
+* Your project must be "live" on the web for your evaluation. We recommend you deploy it on Heroku
+* Your `README` file on GitHub should contain a link to your live site
+* On the production site, the URL path `/code` should redirect the user to the GitHub repository
 
 ## Extensions
 
@@ -176,15 +172,15 @@ On the production site, setup the URL path `/code` to redirect the user to the G
 
 #### Magic 8-ball
 
-You can't order food and just pick it up immediately. Predict the pickup time when an order is submitted:
+You can't place a pickup order and expect it ready immediately. Predict the pickup time when an order is submitted:
 
 * Each item in the store has a preparation time, defaulting to 12 minutes. Items can be edited to take longer.
 * If an order has more than six items, add 10 minutes for every additional six items.
-* Each already "paid" order in the system which is not "complete" delays the production start of this new order by 4 minutes.
+* Each already "paid" order in the system, for takeout or delivery, which is not "complete" delays the production start of this new order by 4 minutes.
 
 #### Future Scheduling
 
-When a customer is placing an order, they can select a date/time for pickup as long as it is...
+When a customer is placing an order, they can select a date/time for pickup or delivery as long as it is...
 
 * In the future
 * No sooner than the "predicted" pickup time
@@ -233,12 +229,12 @@ On items I've purchased, as an Authenticated User I can:
 Implement simple recommendations including:
 
 * The ability to easily see your last order and add the same items to the current order
-* On the order page, before checkout, recommend the three most popular items *not* in the current order
+* After an item is added to and order, recommend three items other customers have ordered with this item. If there aren't three other things that've been ordered, fill in with the most popular overall items
 * Combinations of several items (ex: an appetizer, main dish, and dessert) with a small discount over ordering them individually
 
 ### Where Is It?
 
-Implement search for both the consumer and administrator:
+Implement full-text search for both the consumer and administrator:
 
 #### Consumer
 

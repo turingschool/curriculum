@@ -115,14 +115,69 @@ it interprets the other way, and then misinterpret how this code behaves.
 
 ### Structure Programs so They are Easier to Reason About
 
-Objects talk to objects they create. They manage the objects below them.
+Objects talk to objects they create. They manage the objects **below** them.
 Generally avoid letting them go talk to any random thing out there in the system.
 So avoid global variables, avoid singleton objects (objects for which there
 is only one instance), strongly avoid mutating objects that were passed in
 as arguments. Calculate a value instead, and let the caller do the mutation.
+Avoid passing instances of self, don't let objects you talk to talk back to you.
+
+Each object is a silo, knowing only about itself and the things beneath it.
+Avoid giving it things that let it mess with the world above it.
 
 Then you can take each piece in isolation, and make sure that it works
 without having to worry about the rest of the system.
+
+Example: A CommandLineInterface might instantiate a MasterMind into a game variable, the game should not
+know that it is being run in a command-line interface, it should not
+be able to kick off "play again", or that users entering "b"
+(simply because its convenient for a CLI) correspond to the beginner
+difficulty setting. That's all above it, it just knows about game things.
+And the CLI translates the users inputs into what the game needs,
+and chooses when to start new games based on the context that **it**
+decides.
+
+Here is a hypothetical separation of CLI and MasterMind.
+Notice that the game provides all the methods the CLI needs to make the decisions,
+it implements the game logic, but it leaves it up to the CLI to actually make those decisions:
+
+```
+MasterMind
+  initialize
+    secret  = ...
+    guesses = []
+  add_guess(guess)
+  over?
+  player_won?
+  player_lost?
+  valid_guess?(guess)
+  num_guesses_so_far
+  correct_colors(guess)
+  correct_positions(guess)
+
+class CLI
+  def play_game
+    game = MasterMind.new
+    until game.over?
+      guess = get_guess(game) # get_guess uses game.valid_guess? and returns something like "RRYB"
+      game.add_guess guess
+      if game.won?
+        puts ":)"
+      elsif game.lost?
+        puts ":("
+      else
+        puts "You got #{game.correct_colors guess} colors correct ..."
+      end
+    end
+    puts game_over_message(game)
+  end
+end
+```
+
+Given this structure, how do we play a second game?
+Well, whoever called `play_game` will prompt to see if they want to play another,
+and if they do, will call `play_game` a second time.
+
 
 ### Avoid Mutable Objects
 
@@ -134,27 +189,27 @@ If some other piece of code doesn't consider that we're using this objet,
 it might call one of these methods to prepare the object for the new use case.
 
 ```ruby
-class SequenceGenerator
+class Sequence
   def compare(guess)
     @sequence == guess
   end
 
-  def beginner
-    @sequence = ['a', 'b', 'c']
+  def use_beginner
+    @sequence = ['a', 'b', 'c'] # hypothetical random sequence
   end
 
-  def expert
-    @sequence = ['x', 'a', 'i', 'l', 'q']
+  def use_expert
+    @sequence = ['a', 'b', 'c', 'd']
   end
 end
 
-beginner_seq_gen = SequenceGenerator.new
-beginner_seq_gen.beginner
+beginner_sequence = Sequence.new
+beginner_sequence.use_beginner
 
-expert_seq_gen = beginner_seq_gen
-expert_seq_gen.expert
+expert_sequence = beginner_sequence # <-- expert_sequence is using the same object as the beginner
+expert_sequence.use_expert
 
-beginner_seq_gen.compare ['a', 'b', 'c'] # => false
+beginner_sequence.compare ['a', 'b', 'c'] # => false
 ```
 
 Instead, that code should create its own instance with its own state.
@@ -162,11 +217,11 @@ It shouldn't change the state of our variables. And we should avoid having
 code that can be misused in this way.
 
 ```ruby
-class SequenceGenerator
+class Sequence
   def initialize(skill_level)
     case skill_level
-    when :beginner then beginner
-    when :expert   then expert
+    when :beginner then use_beginner
+    when :expert   then use_expert
     else raise "No #{skill_level.inspect} skill level!"
     end
   end
@@ -177,19 +232,19 @@ class SequenceGenerator
 
   private
 
-  def beginner
+  def use_beginner
     @sequence = ['a', 'b', 'c']
   end
 
-  def expert
+  def use_expert
     @sequence = ['x', 'a', 'i', 'l', 'q']
   end
 end
 
-beginner_seq_gen = SequenceGenerator.new :beginner
-expert_seq_gen   = SequenceGenerator.new :expert
+beginner_sequence = Sequence.new :beginner
+expert_sequence   = Sequence.new :expert
 
-beginner_seq_gen.compare ['a', 'b', 'c']
+beginner_sequence.compare ['a', 'b', 'c']
 # => true
 ```
 
@@ -297,7 +352,8 @@ add5 '5'
 ```
 
 When debugging why `add5` failed, don't fix the value of `n` in `add5`,
-because then the bug still exists for `add6`. Go fix it at the source.
+because then the bug still exists for `add6`. Go fix it at the source,
+and stop propagating incorrectness.
 
 If you keep tripping and skinning your knee, the solution isn't to put on knee
 pads, it's to get shoes that fit.
@@ -359,7 +415,17 @@ Check that it looks good after half the iterations, and then half again, etc.
 
 ### Follow the Code Down
 
-TODO: FILL ME IN!!!
+You don't know where the bug is, what happened up to this point,
+what was passed in, etc. So start at the top, what's the first thing that happens
+go there, figure out what that is doing. What happens beneath it?
+Figure out which of those is wrong (binary search),
+then go down there. Repeat this process until you find the thing where things went wrong,
+and why they went wrong.
+
+[Here](https://github.com/pry/pry/issues/1277#issuecomment-50979838)
+is a more extreme example, where I documented everywhere I went.
+I actually started above this, at the binary to figure out that this is
+the top of where pry reads in data and does things with it.
 
 ### Extract And Validate Small Ideas
 
@@ -519,7 +585,7 @@ Now you can go investigate that context
 
 Show the commit message and files changed.
 
-#### log path-to-file
+#### log path/to/file
 
 Show commits that changed this file
 
@@ -656,9 +722,15 @@ Useful commands:
 * `exit`        - Quit out of current pry session. [`C-D`](readline-notation) also works.
 
 Both the `edit` and `show-source` commands can be done like this: `some_object.some_method` in which case,
-pry will operate on the method named `some_method` of the object named `some_object. Or, if you don't
+pry will operate on the method named `some_method` of the object named `some_object`. Or, if you don't
 have access to an instance, you can do `SomeClass#some_method`, in which case it will operate on
 the instance method `some_method` of the class `SomeClass`.
+
+### Seeing Is Believing
+
+Seeing Is Believing is greate for extracting and verifying small steps.
+It's in your editor, so its easier to work with, you can change a line
+anywhere and then re-run it.
 
 [sib]:               https://github.com/JoshCheek/seeing_is_believing
 [readline-notation]: https://www.gnu.org/software/bash/manual/html_node/Introduction-and-Notation.html#Introduction-and-Notation

@@ -10,7 +10,7 @@ Let's take a look at the essential tools and understandings you need to begin wo
 
 ### Install the Gem
 
-To use the library, first add it to the `:test` and `:development` groups in your `Gemfile`. While you're in there, add the `launchy` gem which is useful for understanding Capybara tests:
+To use the library, first add it to the `:test` and `:development` groups in your `Gemfile`. While you're in there, add the `launchy` gem which lets you save and open screenshots of what the browser sees:
 
 ```ruby
 group :development, :test do

@@ -8,7 +8,7 @@ sidebar: true
 
 When you're done with this session you should:
 
-* Be able to explain the concepts authentication, password/secret, hash
+* Be able to explain the following concepts: authentication, password/secret, hash
 function, digest, rainbow table, and salt
 * Understand why we use hashing and store digests rather than passwords
 * Have experimented with the BCrypt library to generate salts and digests
@@ -21,19 +21,19 @@ per-user salts
 
 * Authentication - are you who you say you are?
 * Authorization - are you allowed to do what you're attempting to do?
-* Authentication typically involve an identifier (login, email, etc) and
+* Authentication typically involves an identifier (login, email, etc) and
 a secret
 * The secret could be a password, retina scan, hardware token, thumb print, etc
 
-### Secrets & Hashing
+### Passwords & Hashing
 
-Let's talk about secrets and hashing.
+Let's talk about passwords and hashing.
 
 * You should never store a password itself
 * Instead you store an digest of the password
 * A hash function is a one-way mathematic function that creates a nearly unique
 digest
-* A given input always gives the same digest, but given an digest you cannot
+* A given input always gives the same digest, but given a digest you cannot
 calculate the input
 * Compare two digests to determine if the inputs were identical
 * Rainbow tables list huge sets of hashed passwords
@@ -83,7 +83,7 @@ authentication system into a Rails app:
 
 * Generate a new Rails 4 application
 * Uncomment bcrypt in the `Gemfile` and bundle
-* Create a users table with `:login`, `:digest`, and `:salt`
+* Generate a user model with attributes `:username`, `:digest`, and `:salt`
 * Write a model test like this:
 
 ```ruby
@@ -112,7 +112,8 @@ end
 
 Build the implementation with the following considerations:
 
-* Your `User` model doesn't have a `password` column in the database
+* Your `User` model doesn't have a `password` column in the database because
+we don't store passwords in the database
 * You need to generate a salt for each user (using BCrypt) and store it in the
 database
 * The `authenticate` method will have to fetch the salt from the database,

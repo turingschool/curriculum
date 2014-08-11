@@ -23,7 +23,7 @@ Please consider the requirements below *non-exhaustive* guidelines for building 
 
 Project implementation may **not** use:
 
-* Devise for Authentication
+* Any external library for authentication except `bcrypt`
 * A pre-existing, externally created CSS/HTML design/template
 
 ### Getting Started
@@ -255,3 +255,14 @@ Search orders using a builder-style interface (like Google's "Advanced Search") 
 Implement a "checkout" procedure using Stripe, Paypal or another service to handle credit card transactions in a "sandboxed" developer environment.
 
 When the card is processed, update the order to "paid" and send a confirmation email to the user. Emails should _only_ be sent when the app is in `production` mode. Don't spam people while you're getting it working.
+
+### Phone Confirmation
+
+As a restaurant I have a registered contact phone number. When an order is placed online the system calls me with an interaction like this:
+
+* "Hi, this is DinnerDash calling with an online order. Press 1 to accept, 3 to reject". They press "1"
+* "The customer name is John Schmoe."
+* "The customer will pickup the order at 5:45PM"
+* "The order includes: shrimp wontons, chicken pad thai large, and green tea ice cream small. There are a total of 3 items."
+* "Press 1 to confirm the order, 2 to repeat, or 3 to cancel."
+* The result of the call updates the order in the database and sends an email to the customer.

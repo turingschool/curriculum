@@ -4,6 +4,17 @@ title: Fundamental Authentication
 sidebar: true
 ---
 
+## Goals
+
+When you're done with this session you should:
+
+* Be able to explain the concepts authentication, password/secret, hash
+function, digest, rainbow table, and salt
+* Understand why we use hashing and store digests rather than passwords
+* Have experimented with the BCrypt library to generate salts and digests
+* Have implemented a basic database-backed authentication system using
+per-user salts
+
 ## Discussion
 
 ### Big Picture

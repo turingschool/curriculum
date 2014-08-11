@@ -156,9 +156,10 @@ To support the evaluation process, please make the following available via the `
 * Orders
   * At least 10 sample orders, with at least two at each stage of fulfillment (`ordered`, `completed`, `cancelled`)
 * Users
-  * Normal user with full name "Franklin Webber", email address "demo+franklin@jumpstartlab.com", password of "password" and no display name
+  * Normal user with full name "Rachel Warbelow", email address "demo+rachel@jumpstartlab.com", password of "password" and no display name
   * Normal user with full name "Jeff", email address "demo+jeff@jumpstartlab.com", password of "password" and display name "j3"
-  * User with admin priviliges with full name "Katrina Owen", email address "demo+katrina@jumpstartlab.com", password of "password", and display name "kytrinyx"
+  * Normal user with full name "Jorge Tellez", email address "demo+jorge@jumpstartlab.com", password of "password" and display name "novohispano"
+  * User with admin priviliges with full name "Josh Cheek", email address "demo+josh@jumpstartlab.com", password of "password", and display name "josh"
 
 ## Submission Guidelines
 

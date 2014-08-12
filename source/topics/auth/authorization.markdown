@@ -26,16 +26,18 @@ update was in March 2013, so the project is stalled and probably isn't the right
 
 Later, [CanCan](https://github.com/ryanb/cancan), was inspired by DeclarativeAuthorization and created by Ryan Bates of Railscasts. It provides an intuitive interface to define your authorization rules and integrates into Rails seamlessly.
 The tutorial below will use CanCan as it is the most popular choice, but it too has stalled out in the last year.
+The community has forked the project to continue merging pull requests and improving the library, now
+known as [CanCanCan](https://github.com/cancancommunity/cancancan)
 
 The newcomer is [Pundit](https://github.com/elabs/pundit) from our friends at elabs,
 the same bunch that put together Capybara. It's worth checking out.
 
 ### Setup
 
-Let's try out CanCan. To get started, add `cancan` to the `Gemfile`.
+Let's try out CanCanCan. To get started, add `cancancan` to the `Gemfile`.
 
 ```ruby
-gem "cancan"
+gem 'cancancan', '~> 1.9'
 ```
 
 Then run `bundle` from the command line.

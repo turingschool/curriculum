@@ -19,17 +19,20 @@ The important question to ask is, *is the user allowed to do what they're trying
 
 ### Library Choices
 
-When considering implementing an authorization system in Rails, there are two popular libraries.
+When implementing an authorization system in Rails, there a few choices to consider.
 
-The first, [Declarative Authorization](https://github.com/stffn/declarative_authorization) has been around since 2008. It introduced the idea of a centralized permissions file and a clean DSL for referring to those permissions.
+The first, [Declarative Authorization](https://github.com/stffn/declarative_authorization) has been around since 2008. It introduced the idea of a centralized permissions file and a clean DSL for referring to those permissions. Its last
+update was in March 2013, so the project is stalled and probably isn't the right choice.
 
 Later, [CanCan](https://github.com/ryanb/cancan), was inspired by DeclarativeAuthorization and created by Ryan Bates of Railscasts. It provides an intuitive interface to define your authorization rules and integrates into Rails seamlessly.
+The tutorial below will use CanCan as it is the most popular choice, but it too has stalled out in the last year.
 
-They're both great choices, but let's look at implementing CanCan.
+The newcomer is [Pundit](https://github.com/elabs/pundit) from our friends at elabs,
+the same bunch that put together Capybara. It's worth checking out.
 
 ### Setup
 
-To get started, add `cancan` to the `Gemfile`.
+Let's try out CanCan. To get started, add `cancan` to the `Gemfile`.
 
 ```ruby
 gem "cancan"

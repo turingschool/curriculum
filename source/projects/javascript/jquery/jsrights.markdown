@@ -217,7 +217,7 @@ Replace the `.css` line with that one, refresh your browser, and your Back to To
 
 #### On Your Own: The #top Anchor
 
-These links are great but if you click them nothing happens.  You need to insert more content.  At the very top of our HTML page is the H1 with the text "Bill of Rights".  Insert a named anchor like `<a name='top'>` within that `h1` and check that your links work.
+These links are great, and when you click on the link from the last article, it will most certainly send you to the top. The problem however, is that it is only the '#' notation that is making this work in the browser currently. `<a href='#'>` by itself will get you the same behavior in this example as `<a href='#top'>`. But `<a href='#'>` is not very explicit, and the default on click with `<a href='#'>` is to take you to the top of the current page. So what happens when you a) want to be explicit, as all good developers should, and b) want to target a different article/link? You need an anchor. Insert a named anchor like `<a id='top'>` within that `h1` at the top of the page and check that your links still work. Now experiment with moving your anchor around in other tags and checking the results.
 
 ### 4. Table of Contents
 

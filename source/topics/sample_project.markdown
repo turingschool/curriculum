@@ -11,7 +11,7 @@ From your terminal, change to a directory where you want to store your project. 
 
 ```
 git clone http://github.com/JumpstartLab/blogger_advanced.git
-cd blogger
+cd blogger_advanced
 ```
 
 <div class="note">

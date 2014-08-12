@@ -4,17 +4,26 @@ title: Authorization with CanCan
 section: Authentication & Authorization
 ---
 
-Authorization is an important aspect to most any application. As a system, it is put in place to determine whether the current user has the permission to perform the requested action. Based on this, it typically happens after a user is authenticated, but before a request is processed. 
+## Learning Goals
 
-The important question to ask is, *is the user allowed to do what they're trying to do*?
+After this tutorial you should be able to:
+
+* Explain how authorization differs from authentication
+* Use CanCan to implement authorization helpers in a Rails application
 
 ## Getting Started
 
-When considering implementing an authorization system in Rails, there are two popular libraries. 
+Authorization is an important aspect to most any application. As a system, it is put in place to determine whether the current user has the permission to perform the requested action. Based on this, it typically happens after a user is authenticated, but before a request is processed.
+
+The important question to ask is, *is the user allowed to do what they're trying to do*?
+
+### Library Choices
+
+When considering implementing an authorization system in Rails, there are two popular libraries.
 
 The first, [Declarative Authorization](https://github.com/stffn/declarative_authorization) has been around since 2008. It introduced the idea of a centralized permissions file and a clean DSL for referring to those permissions.
 
-Later, [CanCan](https://github.com/ryanb/cancan), was inspired by DeclarativeAuthorization and created by Ryan Bates of Railscasts. It provides an intuitive interface to define your authorization rules and integrates into Rails seamlessly. 
+Later, [CanCan](https://github.com/ryanb/cancan), was inspired by DeclarativeAuthorization and created by Ryan Bates of Railscasts. It provides an intuitive interface to define your authorization rules and integrates into Rails seamlessly.
 
 They're both great choices, but let's look at implementing CanCan.
 
@@ -30,17 +39,17 @@ Then run `bundle` from the command line.
 
 ### The Current User
 
-It is conventional to implement a helper method named `current_user` in your controllers. It should return an instance of the `User` model that is currently active in the session. 
+It is conventional to implement a helper method named `current_user` in your controllers. It should return an instance of the `User` model that is currently active in the session.
 
 `CanCan` is expecting `current_user` to be available for its controller includes to work, which are setup automatically in descendants of `ActionController::Base` once the `CanCan` gem is required.
 
 ## Creating Abilities
 
-To define an application's authorization rules, we'll think in terms of abilities. For example, is the `current_user` able to update their own information? 
+To define an application's authorization rules, we'll think in terms of abilities. For example, is the `current_user` able to update their own information?
 
 ### Generate the Ability File
 
-As of version 1.5, `CanCan` includes a generator to create our `Ability` file for Rails 3 applications. It is placed in the `app/models` directory and is where all of your ability definitions will live. To execute the generator, run the following from the command line: 
+As of version 1.5, `CanCan` includes a generator to create our `Ability` file for Rails 3 applications. It is placed in the `app/models` directory and is where all of your ability definitions will live. To execute the generator, run the following from the command line:
 
 {% terminal %}
 $ rails generate cancan:ability
@@ -130,7 +139,7 @@ See the `CanCan` wiki for more information on [Defining Abilities](https://githu
 
 ## Checking Abilities
 
-Once your application's abilities are defined, they can be checked throughout the app. 
+Once your application's abilities are defined, they can be checked throughout the app.
 
 ### Can?
 
@@ -223,4 +232,3 @@ examples.
 * [CanCan Wiki](https://github.com/ryanb/cancan/wiki)
 * [Declarative Authorization](https://github.com/stffn/declarative_authorization)
 * [Security Countermeasures Rails Guide](http://edgeguides.rubyonrails.org/security.html#countermeasures)
-

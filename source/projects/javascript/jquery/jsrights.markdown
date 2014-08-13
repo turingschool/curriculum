@@ -353,10 +353,10 @@ Creating the link itself is the easy part.  You already have the selector for al
 ```javascript
 var toggleLink = $("<a href='#'>(hide)</a>");
 
-$(this).after(toggle_link);
+$(this).after(toggleLink);
 ```
 
-You'll notice that `toggle_link` is a jQuery object, not just a normal Javascript string, because I put it inside `$()`.  We'll need that jQuery functionality soon.  The second line inserts the link object after the `h2`.  Refresh your browser and you'll see the links appear, but when you click them nothing meaningful happens.
+You'll notice that `toggleLink` is a jQuery object, not just a normal Javascript string, because I put it inside `$()`.  We'll need that jQuery functionality soon.  The second line inserts the link object after the `h2`.  Refresh your browser and you'll see the links appear, but when you click them nothing meaningful happens.
 
 #### Working with the Click Event
 
@@ -370,7 +370,7 @@ toggleLink.on('click', function (event){
 
 What is that?  The `on` method binds the given event to the given function.  In this case, the event we're listening for is `click`, which is fired when there is a mouse click on that element.  `on` takes a `function` parameter which holds the code that will be executed when the click happens.  Here our function takes a parameter `event` which effectively creates a local variable named `event` that contains a bunch of information about when and where the click happened.  So far we're not using that variable for anything.  Then inside the function we get the link with `this`, turn it into a jQuery object with `$()`, and call the `siblings` method.  This method returns the set of all "sibling" objects in the DOM, the objects that share the same parent/wrapper object as this one.  In our case that will be all DOM objects inside the article DIV.  Once those siblings are found it calls `hide` on them to hide them from view.
 
-Now that the `click` listener is attached to `toggle_link` we need to insert the link into the DOM.  Use this line outside of the `click` block:
+Now that the `click` listener is attached to `toggleLink` we need to insert the link into the DOM, which is exactly what that line of code you wrote previously is doing:
 
 ```javascript
 $(this).after(toggle_link);

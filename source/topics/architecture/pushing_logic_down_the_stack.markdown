@@ -6,8 +6,8 @@ title: Pushing Logic Down the Stack
 ## High Level
 
 In an MVC application the Controller has a lot of jobs, which means that over
-time it tends to attract code. To build high-quality applications we need to
-always push logic down the stack towards the models.
+time it tends to attract code. To build high-quality applications to try and
+push logic down the stack towards the models.
 
 ### Learning Goals
 
@@ -25,17 +25,21 @@ It's best to show these kinds of problems with an actual student codebase. For t
 exercise we've selected Oregon Sale project, an implementation of the Store Engine
 project.
 
-Clone, bundle, and prep the database:
+Note that this project is built on Ruby 1.9.3 which you might need to install
+(`rvm install 1.9.3`) before you can run it. You'll also need PhantomJS to run
+the feature specs (`brew update && brew install phantomjs`).
+
+Clone, bundle, prep the database, and run the tests:
 
 {% terminal %}
 $ git clone git@github.com:turingschool/oregon_sale.git
-$ cd XYZ
+$ cd oregon_sale
 $ bundle
 $ rake db:create db:migrate db:seed
+$ bundle exec rake spec
 {% endterminal %}
 
-Note that this project is built on Ruby 1.9.3 which you might need to install
-(`rvm install 1.9.3`) before you can run it.
+The tests should pass with one pending spec.
 
 ## The Rules
 
@@ -44,10 +48,14 @@ in mind:
 
 * Anything related to HTTP and parameters stays in the controller
 * Any complexity involving data, like filtering or ordering, belongs in the model
+* Let the model keep the data to itself. The controller shouldn't have to know
+about the intricacies of the data types and database oddities
 * Ask "could this possibly be reused in our [mobile|desktop] app?" If yes, then
 it probably belongs in the model.
 * *Use* a method in the controller before you write it in the model. Think through
 what data the model will need and pick a name that flows well.
+* You can create Plain-Old Ruby Objects ("POROs") when you want a model that
+isn't backed by a database.
 
 ## In Practice
 

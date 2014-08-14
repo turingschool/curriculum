@@ -31,7 +31,7 @@ Open that in your browser and you should just see a simple H1 with the text you 
 Let's first load the jQuery library.  We'll pull it straight from Google's superfast servers for now by adding this line inside your `head` tags:
 
 ```html
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 ```
 
 Refresh your page and...well...it'll look the same.  Did the library load?  

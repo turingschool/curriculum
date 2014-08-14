@@ -135,3 +135,11 @@ $(function (){
   </body>
 </html>
 ```
+
+### I5: Order and Placement of `<script>` Tags
+
+We showed you two options for placing script tags. Inline, right in the html, which works for very small sites and testing, but won't scale well. And then we also showed you how to pull your javascript into external files and call those files in the html, which is the better practice. 
+
+Within the html itself, you also have choice in whether you place the script tags at the top (in the head) or at the bottom of the page, just above the closing `</body>`tag. As the page loads, it is being read by the browser from top to bottom. When a `<script>` tag is reached, the reading stops until all of that javascript is loaded. This means that no other elements below that tag will appear until the scripts are loaded. For instances where the load time is fast, this is no problem, but in other instances, your users might find themselves staring at a blank page on the web as they wait for the javascript to load before the browser renders page elements/content.
+
+Because of this, many developers will choose to place their script tags at the bottom of the page, effectively telling the browser to load all the visual stuff first, and then load the action stuff - the javascript. The downside of this approach is that you could have instances where a user is trying to interact with an element that has appeared on the page, but because the javascript hasn't loaded, it's expected action on click for example, doesn't work. 

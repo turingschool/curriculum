@@ -138,7 +138,7 @@ Go over to your `application.js`.  Let's prove that `inventory` exists by puttin
 
 ```javascript
 var inventory = $(raw_inventory);
-alert("There are " + inventory.length() + " products in the inventory.");
+alert("There are " + inventory.length + " products in the inventory.");
 ```
 
 We're taking the `raw_inventory` data and turning it into a jQuery object so it's easier to work with, then storing that into `inventory`.  Then we alert the size of that object which should display 5.  If that works then we know the data is loaded and accessible!

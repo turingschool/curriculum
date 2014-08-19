@@ -4,8 +4,6 @@ title: JavaScript Outside of the Browser
 section: JavaScript & AJAX
 ---
 
-# JavaScript Outside of the Browser
-
 ## What is Node?
 
 Node.js is a server-side platform built on Chrome's V8 JavaScript runtime. It uses non-blocking I/O and asynchronous events. It's lightweight, efficient, and commonly used for real-time web applications.

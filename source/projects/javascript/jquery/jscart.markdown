@@ -18,7 +18,8 @@ That'll leave us with a very barebones HTML file:
     <meta charset="UTF-8" />
     <title>JSCart</title>
     <link rel='stylesheet' type="text/css" href='styles.css'/>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
     <script src="data.js"></script>
     <script src="application.js"></script>
   </head>

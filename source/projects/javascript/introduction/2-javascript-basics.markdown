@@ -5,7 +5,7 @@ title: Javascript Basics
 
 ### Functions
 
-As we saw in the previous lesson, code can be encapsulated into a function and then run from a different point. Let's add another function and have one call the other:
+Code can be encapsulated into a function and then run from a different point. Let's add another function and have one call the other:
 
 ```js
 function message() {
@@ -109,13 +109,27 @@ while(i < names.length) {
 
 The above syntax for a `for` loop is more complicated than the previous syntax, but it is also more powerful, as you could change the way Javascript performs the looping. `while` loops are usually used in scenarios where you want to perform the same action over and over until something in the system changes.
 
+In modern browsers (Internet Explorer 9 and later as well as Firefox, Chrome, and Safari), we can iterate over the contents of an array. This is the preferred approach as long as you don't need don't need to support older browsers. (There even are [shims][] to add this functionality to older browsers.)
+
+[shims]: https://github.com/es-shims/es5-shim "ES5 Shims"
+
+```js
+var names = ['Joe', 'Bob'];
+
+names.forEach(function (name) {
+  alert(name);
+});
+```
+
+`forEach` takes an anonymous function and applies it to each item in the array. In this case, we're alerting each name in the array.
+
 {% exercise %}
 
 ### Experiment
 
-Experiment with your code for a bit. 
+Experiment with your code for a bit.
 
-1. Try modifying the names array, or loop over different content in a different way. 
+1. Try modifying the names array, or loop over different content in a different way.
 1. Try using more than one variable to combine them into a more complicated message based on conditionals.
 
 {% endexercise %}

@@ -31,6 +31,16 @@ function sayHello() {
 
 Now the `message` function takes a parameter, `name`. It can use the name when building its string. Where does it get the name? From the place it was called in `sayHello`. When we call the function, we can put parameters inside the parenthesis.
 
+We gave the functions above have names. Names are obviously helpful if we want to refer to a function later on. However, there are some cases where we just want to declare a function on the spot and we don't need to give it name. These are called _anonymous functions_. We can store anonymous functions into variables or pass them in as arguments to other functions.
+
+```js
+var message = function (name) {
+  return 'hey there, ' + name + '!';
+};
+```
+
+We'll talk a more about anonymous functions a little later.
+
 ### Variables
 
 Let's change the name a different way: with a variable. A variable in Javascript is different from a variable in math. In Javascript, a variable is more like a bucket that can hold a value. Then you can check the bucket later on to see what the value is, or you can set a different value inside the bucket. Here's how to use a variable:
@@ -121,7 +131,7 @@ names.forEach(function (name) {
 });
 ```
 
-`forEach` takes an anonymous function and applies it to each item in the array. In this case, we're alerting each name in the array.
+`forEach` takes an anonymous function as an argument and applies it to each item in the array. In this case, we're alerting each name in the array.
 
 {% exercise %}
 

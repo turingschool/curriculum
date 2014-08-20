@@ -3,7 +3,7 @@ layout: page
 title: Javascript in the Page
 ---
 
-### HTML scaffold
+### HTML Scaffold
 
 First, we'll start off with a basic HTML page. Open your editor, and paste in this code:
 
@@ -22,7 +22,7 @@ First, we'll start off with a basic HTML page. Open your editor, and paste in th
 
 Save this file in a convenient location, like your Desktop, and give it a name ending in `.html` like `learning-javascript.html`
 
-Open the page with Chrome. You can do this by dragging the page into Chrome, or by hitting Command+O (mac) or Control+O (windows) and locating the file from there.
+Open the page with Chrome. You can do this by dragging the page into Chrome, or by hitting Command+O (Mac OS X) or Control+O (Windows) and locating the file from there.
 
 You should now see your html page in your browser.
 
@@ -45,22 +45,23 @@ Now, refresh your page, and you should see an alert box pop up and say "hello, w
 
 Notice that the page content is not displayed when the alert box pops up. This is because the alert box code is run before the content of the page is run. This is going to be a problem later on when we write some javascript to interact with elements in the page.
 
-First, we'll wrap our alert code in a `function`:
-
-```javascript
-function sayHello() {
-  alert('hello, world!');
-}
-```
-
-Next, edit the `<body>` tag so that it calls our function on page load:
+There are a few solutions to this problem. One solution is to wait until the page announces that it's fully loaded. This varies from browser to browser. Another common solution is to move our JavaScript to the bottom of the page's body. The browser loads the HTML page from top to bottom. Placing your JavaScript at the bottom of the page ensures that all of the HTML has been loaded before your scripts run. Your page should now look like this:
 
 ```html
-<body onload='sayHello()'>
+<!doctype html>
+<html>
+  <head>
+    <title>Learning Javascript</title>
+  </head>
+  <body>
+    <h1>Learning Javascript</h1>
+    <p>I'm going to learn javascript!</p>
+    <script type='text/javascript'>
+      alert('hello, world!');
+    </script>
+  </body>
+</html>
 ```
-
-Refresh your page, and it should say hello, and the content should be visible.
-
 
 {% exercise %}
 

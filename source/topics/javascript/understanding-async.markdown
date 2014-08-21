@@ -62,7 +62,6 @@ This program will print `undefined` to the console because Node will have moved 
 You'll have to deal with the webpage in the callback itself:
 
 ```js
-```js
 var request = require('request');
 
 var webpage;

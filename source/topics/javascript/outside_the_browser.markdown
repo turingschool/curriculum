@@ -133,7 +133,11 @@ The built-in `http.Server` module inherits from `EventEmitter`.
 ```js
 var http = require("http");
 
-var server = http.createServer().listen(3000, 'localhost');
+var server = http.createServer()
+
+server.listen(3000, function () {
+  console.log('The HTTP server is listening at Port 3000.');
+});
 
 server.on('request', function(request, response) {
   response.writeHead(200, {"Content-Type": "text/plain"});
@@ -143,6 +147,40 @@ server.on('request', function(request, response) {
 ```
 
 When the server receives a request, a "request" event is emitted and the server responds with a simple HTTP response.
+
+In traditional web servers, a new thread is created every time a request is received. The program exits after the request is sent. In Node, your server runs on a single thread that waits for requests. This means that we can store data in variables and this state will persist between requests. Let's modify our server to take advantage of this:
+
+```js
+var http = require("http");
+
+var server = http.createServer()
+
+server.listen(3000, 'localhost');
+
+var counter = 0;
+
+server.on('request', function(request, response) {
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.write("Hello World\n");
+  response.write("This is Request #" + ++counter + ".");
+  response.end();
+});
+```
+
+We can use `curl` to test the server.
+
+```sh
+curl http://localhost:3000/
+```
+
+Our server should respond with the following:
+
+```sh
+Hello World
+This is Request #1.
+```
+
+The request number will increment upon further requests. If you use a web browser, you'll notice that the request number might increment by 2 each time you make a request on the server. This is because some browsers make a request for a favicon each time as well.
 
 ### Creating Modules
 

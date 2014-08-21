@@ -41,8 +41,6 @@ This program will run slightly differently:
 2. It prints `'This is the second message.'`
 3. When it receives the data from the webpage, it fires it's callback, which prints `'The webpage has been loaded.'`
 
-This can get a bit trickier when we consider that JavaScript has functional scoping and variables declared inside of a given function are not available outside of the function.
-
 Let's take a look at another example:
 
 ```js

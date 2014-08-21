@@ -300,3 +300,11 @@ This will install the module and add it to your `package.json` as a `devDependen
   }
 }
 ```
+
+In addition to creating web servers in Node, you can also create command line utilities. If we wanted to install Jasmine as a command line utility, we would need to install it globally.
+
+```bash
+sudo npm install -g jasmine-node
+```
+
+The `-g` flag signifies that you'd like to install the binary globally. By default, you'll need to use `sudo` to install global binaries.

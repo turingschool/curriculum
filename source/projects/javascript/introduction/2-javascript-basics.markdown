@@ -111,7 +111,7 @@ for (var i = 0; i < names.length; i++) {
 }
 
 var i = 0;
-while(i < names.length) {
+while(var i < names.length) {
   alert(names[i]);
   i++;
 }

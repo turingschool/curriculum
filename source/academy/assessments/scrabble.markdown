@@ -114,44 +114,38 @@ Subjective evaluation will be made on your work/process according to the followi
 * 3: Developer is able to write Ruby with some debugging of fundamental concepts
 * 2: Developer is generally able to write Ruby, but gets stuck on or needs help with fundamental concepts
 * 1: Developer spends significant time debugging elementary syntax or concepts
-* 0: Developer struggles with basic Ruby syntax
 
-#### 2. Ruby Style
+### 2. Ruby Style
 
 * 4: Developer solves problems with a balance between conciseness and clarity
-* 3: Developer refactors for clarity but has some areas for improvement
-* 2: Developer does not refactor for clarity
-* 1: Developer writes code with unnecessary variables, operations, or steps which do not increase clarity
-* 0: Developer writes code that is difficult to understand
+* 3: Developer writes code that is easy to follow
+* 2: Developer writes code that unnecessary variables, operations, or steps which do not increase clarity
+* 1: Developer writes code that is difficult to understand
 
-#### 3. Blocks & Enumerations
+### 3. Blocks & Enumerations
 
 * 4: Developer is able to immediately select and implement the best-choice enumerator methods with blocks
-* 3: Developer demonstrates skillful usage of blocks and can effectively work-through enumerable method implementation and refactoring
-* 2: Developer uses some enumerator methods, but struggles to choose the right one for the job or demonstrates weak understanding of block usage
-* 1: Developer uses enumerator methods, but struggles to take full advantage of the block style (ie: building unnecessary data structures, variables, etc)
-* 0: Developer demonstrates a lack of understanding of enumerations or blocks
+* 3: Developer demonstrates skillful usage of blocks and can effectively use enumerable methods
+* 2: Developer can use enumerator methods, but struggles to choose the right one for the job or demonstrates weak understanding of block usage
+* 1: Developer is not able to use enumerator methods or blocks to solve the problem at hand
 
-#### 4. Testing
+### 4. Testing
 
 * 4: Developer excels at taking small steps and using the tests for *both* design and verification
 * 3: Developer writes tests that are effective validation of functionality, but don't drive the design
 * 2: Developer uses and writes tests to guide development, but implements more functionality than the tests cover
 * 1: Developer is able to use existing tests, but not write new ones
-* 0: Developer does not use tests to guide development
 
-#### 5. Workflow
+### 5. Workflow
 
 * 4: Developer is a master of their tools, efficiently moving between phases of development
 * 3: Developer demonstrates comfort with their tools and makes some use of keyboard shortcuts
-* 2: Developer smoothly moves between tools, but is dependent on mouse-driven interaction
+* 2: Developer smoothly moves between tools, but is dependent entirely on mouse-driven interaction
 * 1: Developer gets work done, but wastes significant time or screen real estate
-* 0: Developer struggles to effectively use the Terminal, the file system, or their editor without direct support
 
-#### 6. Collaboration
+### 6. Collaboration
 
 * 4: Developer *actively seeks* collaboration both before implementing, while in motion, and when stuck
 * 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process
 * 2: Developer asks detailed questions when progress slows or stops
 * 1: Developer is able to integrate unsolicited feedback but does not really collaborate
-* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process

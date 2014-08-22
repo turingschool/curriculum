@@ -1,50 +1,78 @@
 ---
 layout: page
-title: Object Oriented Javascript
+title: Object-Oriented Javascript
 ---
 
-So far, our charting library has been very functionally organised.  We have top level functions on the main area of the page, and they all reference each other in a disorganized way.  In this chapter, we're going to revisit our core functions and organize them into object-oriented classes.
+So far, our charting library has been very functionally organized. We have top level functions on the main area of the page, and they all reference each other in a disorganized way.  In this chapter, we're going to revisit our core functions and organize them into object-oriented classes.
 
-### Prototypical Classes
+### Prototypal Classes
 
-Javascript's class system is "Prototypical" because when classes are created, they have a "Prototype" object that is copied for each instance.  Let's look at an example:
+Javascript's class system is "Prototypal" because when classes are created, they have a "Prototype." Let's look at an example:
 
 ```js
-var Person = function(name) {
+function Person(name) {
   this.name = name;
 }
-Person.prototype = {
-  sayHello: function() {
-    alert("Hello, I am "+this.name);
-  }
-}
+
+Person.prototype.sayHello = function () {
+  alert("Hello, I am " + this.name + ".");
+};
 
 var joe = new Person('Joe');
 joe.sayHello();
 ```
 
-First, we are setting up the `Person` variable to store a function.  This function is known as the `constructor` or `initializer` because it is called when a new person is created.  It takes a `name` argument which it simply sets on itself to use later.
+First, we are setting up the `Person` variable to store a function. This function is known as the `constructor` or `initializer` because it is called when a new person is created. It takes a `name` argument which it simply sets on itself to use later.
 
-Next, we define the `prototype` attribute on the function.  By defining a `prototype`, when `new` is called, the new object will have a copy of the prototype attached to it.  Meaning that any objects on the prototype are available on the object itself.
+Next, we define the `prototype` attribute on the function. By defining a `prototype`, when `new` is called, the new object will have a copy of the prototype attached to it. Meaning that any objects on the prototype are available on the object itself.
+
+Typically, methods are stored in the prototype. All instances of a class share the same prototype. This means that our methods can exist one place instead of being copied for each and every object we instantiate.
 
 We can then call `joe.sayHello()`, which will run the `sayHello` function on the prototype in the context of `joe`, so that `this.name` exists from the constructor step.
 
-
 Add a few more methods and some more constructor arguments to the person class. What happens if you make one of the prototype attributes something other than a function?
 
+### The Prototypal Inheritance Chain
 
-### A Note on Inheritance
+By default, each class comes with an empty object as its prototype. In the previous examples, we referenced this prototype in `Person.prototype`. Any instantiated object can serve as the prototype for a class.
 
-Javascript does not natively support inheritance, since classes can only have one prototype. However, many libraries like [underscore.js](http://underscorejs.org) provide a way to extend an existing prototype with new methods.  Some libraries even support a system of prototype method chaining to support `super`.
+Let's create a `Programmer` class that inherits from our `Person` class:
+
+```js
+function Programmer(name, language) {
+  this.name = name;
+  this.language = language;
+}
+
+Programmer.prototype = new Person();
+
+var jane = new Programmer('Jane', 'JavaScript');
+jane.sayHello();
+```
+
+We didn't have to declare a `sayHello` method on our `Programmer` class. When we called `sayHello` on `jane`, JavaScript checked `jane` to see if the object had a `sayHello` method. It didn't, so JavaScript, checked its prototype, which is an instance of the `Person` class. This object didn't have `sayHello` method either, we JavaScript checked its prototype, which is where `sayHello` is ultimately defined.
+
+Inheriting from an instance of an object might seem a bit strange at first, but it allows us to extend the prototype without modifying the class it inherits from.
+
+```js
+Programmer.prototype.sayLanguage = function () {
+  alert('I like to program in ' + this.language + '.');
+};
+
+jane.sayLanguage();
+```
+
+In the example above, we didn't actually modify the `Person` class, because `Programmer` inherits from an instance of the `Person` class. This means, we can modify it and extend the prototype, without changing the `Person` class itself.
 
 ### The Chart Class
 
 The first class we'll make is a `Chart` class that will support some of our common functions used across all our charts:
 
 ```js
-var Chart = function(context) {
+function Chart(context) {
   this.context = context;
-};
+}
+
 Chart.prototype = {
   rectangle: function(color, x, y, width, height) {
     this.context.fillStyle = color;
@@ -53,7 +81,7 @@ Chart.prototype = {
 }
 ```
 
-Now that we have the chart class, we can use it in our `ready` function like this:
+Now that we have the chart class, we can use it:
 
 ```js
 var context = document.getElementById('drawing').getContext('2d');
@@ -61,15 +89,14 @@ var chart = new Chart(context);
 chart.rectangle('red', 0, 0, 300, 200);
 ```
 
-On your own, add the `text` method to the `Chart` class, and then call it from the `ready` function.
-
+On your own, add the `text` method to the `Chart` class:
 
 ### The Bar Chart Class
 
-Next, we can create a `BarChart` class to encapsulate the Bar Chart drawing logic.  First, we'll setup our constructor:
+Next, we can create a `BarChart` class to encapsulate the Bar Chart drawing logic. First, we'll setup our constructor:
 
 ```js
-var BarChart = function(context, data) {
+function BarChart(context, data) {
   this.context = context;
   this.data = data;
 }
@@ -81,19 +108,19 @@ A Bar Chart will need an additional option when constructed: the data it needs t
 BarChart.prototype = {
   rectangle: Chart.prototype.rectangle,
   bar: function(x, y) {
-    this.rectangle("rgb(64, 64, 128)", 0, x*12, y*10, 10);
+    this.rectangle("rgb(64, 64, 128)", 0, x * 12, y * 10, 10);
   },
   draw: function() {
-    for (i in this.data) {
-      this.bar(i, this.data[i]);
-    }
+    this.data.forEach(function (datum, index) {
+      this.bar(index, datum);
+    }.bind(this));
   }
 }
 ```
 
 First off, we're copying (actually, just referencing) the `Chart` class's rectangle function. This way we can bring in functionality from the `Chart` class to use in our `BarChart` class. Next, we've got a `bar` function that calls our `rectangle` function just like it did in the previous lesson, except we're calling it on `this`, since our function is now encapsulated in the class.
 
-Lastly, we have a `draw` function that does the data loop for us. The only difference is calling `this.bar` and `this.data`. That means our `ready` function can simply be:
+Lastly, we have a `draw` function that does the data loop for us. The only difference is calling `this.bar` and `this.data`. That means our script can simply be:
 
 ```js
 var context = document.getElementById('drawing').getContext('2d');

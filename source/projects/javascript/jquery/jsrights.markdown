@@ -141,9 +141,9 @@ p{
   margin: 5px 0px 5px 0px;
 }
 
-ul#toc{
-  margin-left: 20px;
-  font-size: 80%;
+ul#toc_list{
+  margin-left: -30px;
+  list-style: none;
 }
 ```
 
@@ -154,7 +154,7 @@ What you should notice about this document is that each Article starts with an `
 With that baseline setup we can start integrating our Javascript.  First, include the jQuery library from Google:
 
 ```html
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 ```
 
 Then we want to include our own Javascript file which we'll create in a second:
@@ -226,14 +226,26 @@ Jumping back to the top is great and all, but what most users are going to want 
 1. Create a ToC heading and unordered list near the top of the page
 1. Find all the `h2`s, they are the names of the articles
 1. Insert the article names as list items into the UL
-1. Insert named anchors into each of the `h2`s
+1. Insert `id` anchors into each of the `h2`s
 1. Link the Table of Contents item to the `h2`
 
 #### Create a ToC Heading and Unordered List
 
-We've already practiced creating a variable to hold HTML then inserting that HTML.  Store `"<h2 id='toc'><a name='toc'>Table of Contents</a></h2>"` into a variable and insert it into the markup just below the existing H1.  Instead of using `append` like we did before, here you need `after` so it goes outside the closing H1 tag.
+We've already practiced creating a variable to hold HTML then inserting that HTML.  Store `"<h2 id='toc_header'>Table of Contents</h2>"` into a variable and insert it into the markup just below the existing H1.  Instead of using `append` like we did before, here you need `after` so it goes outside the closing H1 tag.
 
-Then, just under that heading, insert an unordered list (UL) with the id attribute set to `'toc'`.  The tricky thing here is that you probably want to use a selector to find the ToC `h2`, but how can we do that without getting all the `h2`s? Use the CSS-style virtual attribute `:first` like `h2:first`.
+Then, just under that heading, insert an unordered list (UL) with the id attribute set to `'toc_list'`.  The tricky thing here is that you probably want to use a selector to find the ToC `h2`, but how can we do that without getting all the `h2`s? Use the CSS-style virtual attribute `:first` like `h2:first`.
+
+##### About `id`s
+The id attribute provides a unique identifier for an element within the document. 
+The most important aspect of the id attribute is that it must be absolutely unique. Unlike the class attribute, which may apply the same value to many elements in a page, an id that’s applied to an element must not match an id used anywhere else on the same page.
+Note that the id attribute cannot be applied to the following elements:
+`base`
+`head`
+`html`
+`meta`
+`script`
+`style`
+`title`
 
 Refresh the page in your browser, use the Inspect Element tool, and make sure your new HTML is getting injected properly.
 
@@ -277,14 +289,14 @@ Now refresh your page and you should see a bunch of popups with the individual a
 var listItem = "<li>" + title + "</li>";
 ```
 
-Then, on your own, write a selector to find the ToC UL and `append` the `list_item`.  Refresh your browser and you should see a plain text Table of Contents.
+Then, on your own, write a selector to find the ToC UL and `append` the `listItem`.  Refresh your browser and you should see a plain text Table of Contents.
 
 #### Linking
 
 Our ToC is nice for reading and printing, but it should be linked.  We want to click on an article title in the ToC and jump to the article further down the page.  To accomplish this interaction we need to:
 
 1. Take the title and convert it to a "slug" usable in a URL
-1. Insert anchors in the individual article `h2`s which have the name set to that slug
+1. Insert anchors in the individual article `h2`s which have the `id` set to that slug
 1. Link the list items in the ToC to that slug
 
 ##### Creating a Slug
@@ -317,27 +329,17 @@ Refresh your browser to check that the slugs look good and we can move on.
 
 ##### Insert the Target Anchors
 
-Now that we have the slug we can setup the target anchors.  Within the `each` block that we've been working in, remember that `this` is referring to the `h2`.  We want to inject the anchor inside that `h2`.  Let's create the anchor in one step, then insert it in a second like this:
+Now that we have the slug we can setup the target anchors.  Within the `each` block that we've been working in, remember that `this` is referring to the `h2`.  We want to inject the anchor inside that `h2`.  Let's create the anchor and insert it in one step. We'll use a handy jQuery method called `attr`. We'll call `attr` on the jQuery version of `this`, which remember represents each of our `h2`s. And then we'll pass two arguments to `attr`, the first of which declares the attribute we want to add: `id`, the second argument is the value of that attribute, which in our case is the previously defined variable slug.
 
 ```javascript
-var targetAnchor = "<a name='" + slug + "'/>";
+$(this).attr('id', slug);
 ```
-
-Then, on your own, use the `append` method to stick this inside the `h2`.  Remember that `self` is a pure Javascript object and it doesn't have an `append` method.
 
 ##### Link to the Targets
 
-We need to add links into the `list_item`.  On your own, work with the `var list_item=` line to include a link tag where the `href` points to `#article_x` where `article_x` is the current slug.
+We need to add links into the `listItem`.  On your own, work with the `var list_item=` line to include a link tag where the `href` points to `#article_x` where `article_x` is the current slug.
 
 Remove any `alert` lines you have and refresh your browser.  Your ToC should be fully functional!
-
-#### A Little Usability Issue
-
-How browsers handle anchor tags within pages varies.  In Chrome it jumps to the section of the page just below the anchor.  So in this case the links are working, but the anchor and `h2` showing the article title end up just out of view off the top of the screen.
-
-Here's a quick fix: if we know the browser is going to jump right below the anchor, let's put the anchor before the `h2` title.  Switch your `append` to `before` to make this happen.  Now when you refresh the browser and click a link the `h2` should be at the top of the window.
-
-This iteration is done!
 
 ### 5. Hiding Content
 
@@ -353,10 +355,10 @@ Creating the link itself is the easy part.  You already have the selector for al
 ```javascript
 var toggleLink = $("<a href='#'>(hide)</a>");
 
-$(this).after(toggle_link);
+$(this).after(toggleLink);
 ```
 
-You'll notice that `toggle_link` is a jQuery object, not just a normal Javascript string, because I put it inside `$()`.  We'll need that jQuery functionality soon.  The second line inserts the link object after the `h2`.  Refresh your browser and you'll see the links appear, but when you click them nothing meaningful happens.
+You'll notice that `toggleLink` is a jQuery object, not just a normal Javascript string, because I put it inside `$()`.  We'll need that jQuery functionality soon.  The second line inserts the link object after the `h2`.  Refresh your browser and you'll see the links appear, but when you click them nothing meaningful happens.
 
 #### Working with the Click Event
 
@@ -370,10 +372,10 @@ toggleLink.on('click', function (event){
 
 What is that?  The `on` method binds the given event to the given function.  In this case, the event we're listening for is `click`, which is fired when there is a mouse click on that element.  `on` takes a `function` parameter which holds the code that will be executed when the click happens.  Here our function takes a parameter `event` which effectively creates a local variable named `event` that contains a bunch of information about when and where the click happened.  So far we're not using that variable for anything.  Then inside the function we get the link with `this`, turn it into a jQuery object with `$()`, and call the `siblings` method.  This method returns the set of all "sibling" objects in the DOM, the objects that share the same parent/wrapper object as this one.  In our case that will be all DOM objects inside the article DIV.  Once those siblings are found it calls `hide` on them to hide them from view.
 
-Now that the `click` listener is attached to `toggle_link` we need to insert the link into the DOM.  Use this line outside of the `click` block:
+Now that the `click` listener is attached to `toggleLink` we need to insert the link into the DOM.  Use this line outside of the `click` block:
 
 ```javascript
-$(this).after(toggle_link);
+$(this).after(toggleLink);
 ```
 
 Try it in your browser.  It kinda works, right?  What's the main issue?

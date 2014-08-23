@@ -5,16 +5,15 @@ title: ScrabbleWeb
 
 In this assessment you will:
 
-* Build a web-based scrabble scoring calculator
+* Build a web-based scrabble word tracker
 * Use test-driven development
 * Demonstrate mastery of all parts of the Rails stack
 * Demonstrate mastery of Ruby throughout the process
-* Effectively use Git and GitHub along the way
 
 ## Expectations
 
-* Work on the exercise described below for 40 minutes with your facilitator
-* The facilitator may change the spec or ask additional questions to assess your understandings/skills
+* Work on the exercise described below for 50 minutes with your facilitator
+* The facilitator may change the tests or ask additional questions to assess your understandings/skills
 * As you work, you *should*:
   * Think out loud so your facilitator can understand your process
   * Ask questions of your facilitator
@@ -30,11 +29,10 @@ In this assessment you will:
 Before the session starts:
 
 * Have the [display driver installed](http://www.displaylink.com/support/mac_downloads.php)
-* Fork the starter repo on GitHub: [https://github.com/gSchool/scrabble-web](https://github.com/gSchool/scrabble-web)
-* Clone your fork to your computer
+* Clone the repo from GitHub: [scrabble-web](https://github.com/turingschool-examples/scrabble-web)
 * Run `bundle` to install dependencies
-* Run the test suite (`rake`) and see that it has several pending tests
-* Setup any external tooling you want (your IDE, etc)
+* Run the test suite (`bundle exec rake test`) and see that it has several pending tests
+* Setup any external tooling you want (your editor, etc)
 
 ## Feature Description
 

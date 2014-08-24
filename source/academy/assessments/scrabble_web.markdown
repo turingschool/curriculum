@@ -42,14 +42,12 @@ For this exercise, the features will be driven by the test suite embedded in the
 
 Subjective evaluation will be made on your work/process according to the following criteria:
 
-### 1. Satisfactory Progress
+### 1. Analytic/Algorithmic Thinking
 
-* 4: Developer is able to skillfully move through their work at the pace of an
-experienced developer.
-* 3: Developer is able to smoothly move through work and make progress at the
-rate of a junior developer
-* 2: Developer hits slowdowns, but moves with the speed of an apprentice developer.
-* 1: Developer struggles to make progress.
+* 4: Developer independently breaks complex processes into logical sequences of small steps and validates progress along the way
+* 3: Developer breaks complex problems into small, digestible steps and executes them
+* 2: Developer can execute an algorithm or plan given to them
+* 1: Developer struggles to implement an algorithm or plan
 
 ### 2. Ruby Syntax & Standard Library
 

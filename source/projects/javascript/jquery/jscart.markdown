@@ -121,7 +121,7 @@ Load the page in your browser and you won't see much!  It'll just be a header an
 We're going to store the inventory information in `data.js` and keep it really simple.  We'll just store them in a Javascript array where each element of the array is one product.  The products themselves are stored using the "Object Literal Notation" which we saw in JSTasker.  Feel free to makeup your own products and values, but match the names of the attributes:
 
 ```javascript
-var raw_inventory = [
+var rawInventory = [
   { "price":4.99, "name":"Monkey", "stock":5, "product_id":1 },
   { "price":4.99, "name":"Dog",    "stock":4, "product_id":2 },
   { "price":6.99, "name":"Cat",    "stock":3, "product_id":3 },

@@ -313,7 +313,7 @@ var JSCart = {
 };
 ```
 
-Again we're using the "Object Literal Notation" here to namespace three methods.  We'll call `update_cart` from our click instruction, and it'll call `updateCartItemCount` and `updateCartTotal` for us.
+Again we're using the "Object Literal Notation" here to namespace three methods.  We'll call `updateCart` from our click instruction, and it'll call `updateCartItemCount` and `updateCartTotal` for us.
 
 #### Calling the Updaters
 
@@ -321,7 +321,7 @@ Let's start by inserting an `alert` line within `updateCart` that says "Updating
 
 Refresh your browser and nothing should happen.  Why do I bother with putting in these `alerts` and checking things?  I believe in "Fail Early, Fail Often".  I'm not very smart, I make mistakes (especially in Javascript), and throwing in a few alerts lets me know that things are or aren't on the right track.  If, for instance, you forgot to declare the anonymous function for `updateCart` and instead just put instructions, your script would either fail to load OR it'd execute the `alert` as soon as it was read (when the page was loaded).  This would be quick clue that something was wrong.
 
-But our methods aren't getting called yet which is correct.  Go down you `application.js` and find the `item.on('click'...)` listener.  As the last instruction there, add a call to `JSCart.update_cart()`.
+But our methods aren't getting called yet which is correct.  Go down you `application.js` and find the `item.on('click'...)` listener.  As the last instruction there, add a call to `JSCart.updateCart()`.
 
 Refresh your browser, click an add to cart link, and the three alerts should pop up.  If you're satisfied that things are wired together properly, remove the three alert lines.
 
@@ -361,7 +361,7 @@ Refresh your browser and confirm that things are working.  Make sure your count 
 
 #### Writing the `updateCartTotal` Function
 
-Having completed the `updateCartItemCount`, it becomes apparent that we're currently setup to do things twice.  The `update_cart_total` function needs to do almost the same thing.  The only difference is that instead of adding the quantity into total we want to multiply quantity times price and add that.
+Having completed the `updateCartItemCount`, it becomes apparent that we're currently setup to do things twice.  The `updateCartTotal` function needs to do almost the same thing.  The only difference is that instead of adding the quantity into total we want to multiply quantity times price and add that.
 
 Refactoring necessary? Probably.  But let's do it the simple way first.  Copy & Paste!  Grab the body of `updateCartItemCount` and paste it into `updateCartTotal` count.  Then we need to make a few changes:
 

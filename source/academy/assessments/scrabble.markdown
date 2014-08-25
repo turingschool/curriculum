@@ -110,8 +110,8 @@ Subjective evaluation will be made on your work/process according to the followi
 
 ### 1. Ruby Syntax & API
 
-* 4: Developer is able to write Ruby with a minimum of reference or debugging
-* 3: Developer is able to write Ruby with some debugging of fundamental concepts
+* 4: Developer is able to comfortably implement solutions using the best-choice tools Ruby has to offer
+* 3: Developer is able to comfortably implement solutions in Ruby
 * 2: Developer is generally able to write Ruby, but gets stuck on or needs help with fundamental concepts
 * 1: Developer spends significant time debugging elementary syntax or concepts
 
@@ -119,22 +119,22 @@ Subjective evaluation will be made on your work/process according to the followi
 
 * 4: Developer solves problems with a balance between conciseness and clarity
 * 3: Developer writes code that is easy to follow
-* 2: Developer writes code that unnecessary variables, operations, or steps which do not increase clarity
+* 2: Developer writes code that has unnecessary variables, operations, or steps which do not increase clarity
 * 1: Developer writes code that is difficult to understand
 
 ### 3. Blocks & Enumerations
 
-* 4: Developer is able to immediately select and implement the best-choice enumerator methods with blocks
-* 3: Developer demonstrates skillful usage of blocks and can effectively use enumerable methods
-* 2: Developer can use enumerator methods, but struggles to choose the right one for the job or demonstrates weak understanding of block usage
+* 4: Developer is able to consistently select and implement the best-choice enumerator methods with blocks
+* 3: Developer demonstrates understanding of blocks and can effectively use enumerable methods
+* 2: Developer can use enumerator methods, but struggles to choose the right one for the job or demonstrates weak understanding of blocks
 * 1: Developer is not able to use enumerator methods or blocks to solve the problem at hand
 
 ### 4. Testing
 
-* 4: Developer excels at taking small steps and using the tests for *both* design and verification
-* 3: Developer writes tests that are effective validation of functionality, but don't drive the design
-* 2: Developer uses and writes tests to guide development, but implements more functionality than the tests cover
-* 1: Developer is able to use existing tests, but not write new ones
+* 4: Developer consistently takes small steps, using the tests for *both* design and verification
+* 3: Developer uses tests to guide development in small chunks
+* 2: Developer uses tests to guide development, but does not break features down into small problems
+* 1: Developer does not integrate testing throughout their development process
 
 ### 5. Workflow
 

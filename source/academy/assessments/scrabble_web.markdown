@@ -51,15 +51,15 @@ Subjective evaluation will be made on your work/process according to the followi
 
 ### 2. Ruby Syntax & Standard Library
 
-* 4: Developer is able to comfortably use multiple Ruby techniques to solve a problem
-* 3: Developer is able to write Ruby with a minimum of reference or debugging
+* 4: Developer is able to comfortably implement solutions using the best-choice tools Ruby has to offer
+* 3: Developer is able to comfortably implement solutions in Ruby
 * 2: Developer is able to write Ruby with some debugging of fundamental concepts
 * 1: Developer is generally able to write Ruby, but gets stuck on or needs help
 with fundamental concepts
 
 #### 3. Rails Syntax & API
 
-* 4: Developer is able to utilize Rails methods and structures with a minimum of API reference, debugging, or support
+* 4: Developer is able to smoothly utilize Rails methods and structures with a minimum of debugging or support
 * 3: Developer is able to utilize Rails methods and structures, but needs some direct guidance
 * 2: Developer is generally able to utilize Rails, but shows confusion or shallow knowledge about what Rails provides
 * 1: Developer needs *significant* support to utilize Rails' elementary methods/concepts

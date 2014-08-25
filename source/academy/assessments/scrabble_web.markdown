@@ -57,28 +57,28 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer is generally able to write Ruby, but gets stuck on or needs help
 with fundamental concepts
 
-#### 3. Rails Syntax & API
+### 3. Rails Syntax & API
 
 * 4: Developer is able to smoothly utilize Rails methods and structures with a minimum of debugging or support
 * 3: Developer is able to utilize Rails methods and structures, but needs some direct guidance
 * 2: Developer is generally able to utilize Rails, but shows confusion or shallow knowledge about what Rails provides
 * 1: Developer needs *significant* support to utilize Rails' elementary methods/concepts
 
-#### 4. Rails Style
+### 4. Rails Style
 
 * 4: Developer is able to craft Rails features that make smart use of Ruby, follow the principles of MVC, and push business logic down where it belongs
 * 3: Developer generally writes clean Rails features that make smart use of Ruby, with some struggles in pushing logic down the stack
 * 2: Developer struggles with some essential concepts of MVC
 * 1: Developer shows little or no understanding of how to craft Rails applications
 
-#### 5. Testing
+### 5. Testing
 
 * 4: Developer writes tests at multiple layers of abstraction to drive development
 * 3: Developer uses tests at multiple layers of abstraction to drive development
 * 2: Developer struggles to use tests to drive development
 * 1: Developer develops without guidance from tests
 
-#### 6. Collaboration
+### 6. Collaboration
 
 * 4: Developer *actively seeks* collaboration both before implementing, while in motion, and when stuck
 * 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process

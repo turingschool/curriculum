@@ -280,23 +280,37 @@ following criteria:
 * 2: There are one or two features missing
 * 1: There are bugs/crashes in the features present
 
-### 2. Controllers
+### 2. Views
+
+* 4: Views show logical refactoring into layout(s), partials and helpers, with no logic present
+* 3: Views make use of layout(s), partials and helpers, but some logic leaks through
+* 2: Views don't make use of partials or show weak understanding of `render`
+* 1: Views are poorly organized
+
+### 3. Controllers
 
 * 4: Controllers show significant effort to push logic down the stack
 * 3: Controllers are generally well organized with three or fewer particularly ugly parts
 * 2: There are four to seven ugly controller methods that should have been refactored
 * 1: There are more than seven unsatisfactory controller methods
 
-### 3. Models
+### 4. Models
 
 * 4: Models show excellent organization, refactoring, and appropriate use of Rails features
 * 3: Models show an effort to push logic down the stack, but need more internal refactoring
 * 2: Models are somewhat messy and/or make poor use of Rails' features
 * 1: Models show weak use of Ruby and weak structure
 
-### 4. TDD
+### 5. TDD
 
 * 4: Project has a running test suite that exercises the application at multiple levels
 * 3: Project has a running test suite that tests and multiple levels, but fails to cover some features
 * 2: Project has sporadic use of tests and multiple levels
 * 1: Project did not really attempt to use TDD
+
+### 6. Usability
+
+* 4: Project is highly usable and ready to deploy to customers
+* 3: Project is highly usable, but needs more polish before it'd be customer-ready
+* 2: Project needs significantly more attention to the User Experience, but works
+* 1: Project is difficult or unpleasant to use

@@ -27,8 +27,8 @@ That'll leave us with a very barebones HTML file:
     <h1>Balloon-Animals-R-Us</h1>
     <div id="cart">
       <div class='totals'>
-        <p><span id='cart_quantity'>0</span> items in cart</p>
-        <p>$<span id='cart_price'>0</span> total</p>
+        <p><span id='cart-quantity'>0</span> items in cart</p>
+        <p>$<span id='cart-price'>0</span> total</p>
       </div>
     </div>
     <div id="inventory">
@@ -121,7 +121,7 @@ Load the page in your browser and you won't see much!  It'll just be a header an
 We're going to store the inventory information in `data.js` and keep it really simple.  We'll just store them in a Javascript array where each element of the array is one product.  The products themselves are stored using the "Object Literal Notation" which we saw in JSTasker.  Feel free to makeup your own products and values, but match the names of the attributes:
 
 ```javascript
-var raw_inventory = [
+var rawInventory = [
   { "price":4.99, "name":"Monkey", "stock":5, "product_id":1 },
   { "price":4.99, "name":"Dog",    "stock":4, "product_id":2 },
   { "price":6.99, "name":"Cat",    "stock":3, "product_id":3 },
@@ -137,11 +137,11 @@ Javascript knows it's an array because of the `[` and `]`.  Each object in the a
 Go over to your `application.js`.  Let's prove that `inventory` exists by putting this inside your document ready block:
 
 ```javascript
-var inventory = $(raw_inventory);
+var inventory = $(rawInventory);
 alert("There are " + inventory.length + " products in the inventory.");
 ```
 
-We're taking the `raw_inventory` data and turning it into a jQuery object so it's easier to work with, then storing that into `inventory`.  Then we alert the size of that object which should display 5.  If that works then we know the data is loaded and accessible!
+We're taking the `rawInventory` data and turning it into a jQuery object so it's easier to work with, then storing that into `inventory`.  Then we alert the size of that object which should display 5.  If that works then we know the data is loaded and accessible!
 
 #### Building a Prototype
 
@@ -150,7 +150,7 @@ Now it's going to get interesting.  We're creating content on the fly, but it's 
 Let's try putting a template into our HTML.  It'll have the "shape" of an inventory item, it just won't have any data.  Then from Javascript we can find that prototype, make copies of it, fill in the data, and inject those copies into the actual HTML.  Go over to your `index.html` and add this prototype inside the inventory DIV:
 
 ```html
-<div class='item' id="prototype_item" >
+<div class='item' id="prototype-item" >
   <h3></h3>
   <ul>
     <li>Price: <span class="price"></span></li>
@@ -163,15 +163,15 @@ Let's try putting a template into our HTML.  It'll have the "shape" of an invent
 Refresh your browser and you'll see a blank item show up.  Next let's find this prototype from the Javascript.  Inside your document ready block of `application.js`, try this:
 
 ```javascript
-var prototype_item = $('#prototype_item');
-prototype_item.detach();
+var prototypeItem = $('#prototype-item');
+prototypeItem.detach();
 ```
 
-Refresh your browser and the blank inventory item is gone.  We've got it loaded into `prototype_item`, so now we can create our actual product listings.
+Refresh your browser and the blank inventory item is gone.  We've got it loaded into `prototypeItem`, so now we can create our actual product listings.
 
 #### Building Products from the Prototype
 
-We've got the `prototype_item`, we've got the `inventory`, now we need to iterate through the inventory and inject a copy of the prototype into our listing for each one.  That's complex, so let's do it one step at a time.
+We've got the `prototypeItem`, we've got the `inventory`, now we need to iterate through the inventory and inject a copy of the prototype into our listing for each one.  That's complex, so let's do it one step at a time.
 
 Add this `each` method call inside your document ready:
 
@@ -183,13 +183,13 @@ inventory.each(function(){
 
 Inside the `each` block, `this` refers to the OLN object inside of `inventory`.  We can access the attributes using a dot notation like `this.name`.  Try this in your browser and ensure each of your items is alerted.
 
-The first step is to create a copy or a `clone` of the `prototype_item`.  Add this inside your `each` block:
+The first step is to create a copy or a `clone` of the `prototypeItem`.  Add this inside your `each` block:
 
 ```javascript
-var item = prototype_item.clone();
+var item = prototypeItem.clone();
 ```
 
-That creates a "deep clone" of `prototype_item`.  Let's set the first attribute:
+That creates a "deep clone" of `prototypeItem`.  Let's set the first attribute:
 
 ```javascript
 item.find('h3').text(this.name);
@@ -236,14 +236,14 @@ It looks like we can get enough information when the "Add to Cart" link is click
 We can use the same prototype style we did for the inventory listings.  Add this plain HTML into your cart DIV:
 
 ```html
-<div class='cart_item' id='prototype_cart'>
+<div class='cart-item' id='prototype-cart'>
   <h3></h3>
   <span class='qty'>0</span>
   $<span class='price'></span>
 </div>
 ```
 
-Go back to your `application.js` and look at how we worked with `prototype_item`.  Add a similar set of instructions to build up `cart_item` and `append` it to the cart DIV.  Refresh your browser and make sure a line shows up for each of your products.
+Go back to your `application.js` and look at how we worked with `prototypeItem`.  Add a similar set of instructions to build up `cartItem` and `append` it to the cart DIV.  Refresh your browser and make sure a line shows up for each of your products.
 
 #### Connecting the Click to the Cart
 
@@ -253,10 +253,10 @@ Now we need to connect the click action to the cart.  When a user clicks on an a
 1. Find the DIV in the cart with the same ID
 1. Increment the quantity in the cart item
 
-Currently our `alert` line finds the proper `id` value.  Let's store that into a variable named `target_id`.  Then find the actual target DIV in the cart like this:
+Currently our `alert` line finds the proper `id` value.  Let's store that into a variable named `targetId`.  Then find the actual target DIV in the cart like this:
 
 ```javascript
-var target = $('div#cart div#' + target_id);
+var target = $('div#cart div#' + targetId);
 ```
 
 Then the only thing left is to properly update the quantity.  That math is a little tricky, so let's take a smaller step:
@@ -304,30 +304,30 @@ Let's apply the same pattern we used in JSTasker to group methods into a name sp
 
 ```javascript
 var JSCart = {
-  update_cart_item_count : function () {},
-  update_cart_total : function () {},
-  update_cart : function () {
-    this.update_cart_item_count();
-    this.update_cart_total();
+  updateCartItemCount : function () {},
+  updateCartTotal : function () {},
+  updateCart : function () {
+    this.updateCartItemCount();
+    this.updateCartTotal();
   }
 };
 ```
 
-Again we're using the "Object Literal Notation" here to namespace three methods.  We'll call `update_cart` from our click instruction, and it'll call `update_cart_item_count` and `update_cart_total` for us.
+Again we're using the "Object Literal Notation" here to namespace three methods.  We'll call `updateCart` from our click instruction, and it'll call `updateCartItemCount` and `updateCartTotal` for us.
 
 #### Calling the Updaters
 
-Let's start by inserting an `alert` line within `update_cart` that says "Updating the cart", one in `update_cart_item_count` that says "Updating the item count", and one in the `update_cart_total` that says "Updating the total".
+Let's start by inserting an `alert` line within `updateCart` that says "Updating the cart", one in `updateCartItemCount` that says "Updating the item count", and one in the `updateCartTotal` that says "Updating the total".
 
-Refresh your browser and nothing should happen.  Why do I bother with putting in these `alerts` and checking things?  I believe in "Fail Early, Fail Often".  I'm not very smart, I make mistakes (especially in Javascript), and throwing in a few alerts lets me know that things are or aren't on the right track.  If, for instance, you forgot to declare the anonymous function for `update_cart` and instead just put instructions, your script would either fail to load OR it'd execute the `alert` as soon as it was read (when the page was loaded).  This would be quick clue that something was wrong.
+Refresh your browser and nothing should happen.  Why do I bother with putting in these `alerts` and checking things?  I believe in "Fail Early, Fail Often".  I'm not very smart, I make mistakes (especially in Javascript), and throwing in a few alerts lets me know that things are or aren't on the right track.  If, for instance, you forgot to declare the anonymous function for `updateCart` and instead just put instructions, your script would either fail to load OR it'd execute the `alert` as soon as it was read (when the page was loaded).  This would be quick clue that something was wrong.
 
-But our methods aren't getting called yet which is correct.  Go down you `application.js` and find the `item.on('click'...)` listener.  As the last instruction there, add a call to `JSCart.update_cart()`.
+But our methods aren't getting called yet which is correct.  Go down you `application.js` and find the `item.on('click'...)` listener.  As the last instruction there, add a call to `JSCart.updateCart()`.
 
 Refresh your browser, click an add to cart link, and the three alerts should pop up.  If you're satisfied that things are wired together properly, remove the three alert lines.
 
-#### Writing the `update_cart_item_count` Function
+#### Writing the `updateCartItemCount` Function
 
-Our `update_cart_item_count` function should now be blank.  Here's what we need it to do:
+Our `updateCartItemCount` function should now be blank.  Here's what we need it to do:
 
 1. Find all the items in the cart
 1. Gather the quantities specified for each one
@@ -345,7 +345,7 @@ Try popping an alert that tells you how many items there are.  It should be the 
 We'll need to iterate through the list of items, detect their `"qty"` SPAN, get it's contents, convert it to an integer, then add that to the total.  Here's the basic structure:
 
 ```javascript
-var items = $('#cart div.cart_item');
+var items = $('#cart div.cart-item');
 var total = 0;
 items.each(function (){
   // here do some magic to create a variable named value with the qty number
@@ -355,21 +355,21 @@ items.each(function (){
 
 ##### Storing the Value
 
-Then you just need to find the SPAN with ID `'cart_quantity'` and store `total` into it's `text`.
+Then you just need to find the SPAN with ID `'cartQuantity'` and store `total` into it's `text`.
 
 Refresh your browser and confirm that things are working.  Make sure your count is accurate!
 
-#### Writing the `update_cart_total` Function
+#### Writing the `updateCartTotal` Function
 
-Having completed the `update_cart_item_count`, it becomes apparent that we're currently setup to do things twice.  The `update_cart_total` function needs to do almost the same thing.  The only difference is that instead of adding the quantity into total we want to multiply quantity times price and add that.
+Having completed the `updateCartItemCount`, it becomes apparent that we're currently setup to do things twice.  The `updateCartTotal` function needs to do almost the same thing.  The only difference is that instead of adding the quantity into total we want to multiply quantity times price and add that.
 
-Refactoring necessary? Probably.  But let's do it the simple way first.  Copy & Paste!  Grab the body of `update_cart_item_count` and paste it into `update_cart_total` count.  Then we need to make a few changes:
+Refactoring necessary? Probably.  But let's do it the simple way first.  Copy & Paste!  Grab the body of `updateCartItemCount` and paste it into `updateCartTotal` count.  Then we need to make a few changes:
 
 1. Now `value` feels like the wrong name, rename it to `quantity`
 1. After `quantity` is found, find `price`
 1. Multiply `quantity` times `price` to make `subtotal`
 1. Add `subtotal` to `total`
-1. Change the text inserter to put `total` into the SPAN with ID `'cart_price'`
+1. Change the text inserter to put `total` into the SPAN with ID `'cartPrice'`
 
 I think you can do this on your own, go to it!  One little note: when you pull out the price string and want to convert it to a number, use `parseFloat` so the cents don't get truncated.
 
@@ -377,7 +377,7 @@ I think you can do this on your own, go to it!  One little note: when you pull o
 
 Dealing with floating point numbers is always a pain.  At least in my experimenting, every once in awhile my total would jump to having really small fractions after the decimal.  Ugh!  In general, when working with prices, I recommend you store prices in cents so you can use integers.  But let's just leave these as floats and fix this presentation issue.
 
-Find the line where you're inserting `total` into the `cart_quantity` SPAN.  Instead of just inserting `total`, use the Javascript native method `toFixed` like this: `total.toFixed(2)`.
+Find the line where you're inserting `total` into the `cartQuantity` SPAN.  Instead of just inserting `total`, use the Javascript native method `toFixed` like this: `total.toFixed(2)`.
 
 ### Extensions
 

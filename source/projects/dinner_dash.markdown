@@ -267,3 +267,36 @@ As a restaurant I have a registered contact phone number. When an order is place
 * "The order includes: shrimp wontons, chicken pad thai large, and green tea ice cream small. There are a total of 3 items."
 * "Press 1 to confirm the order, 2 to repeat, or 3 to cancel."
 * The result of the call updates the order in the database and sends an email to the customer.
+
+## Evaluations Process
+
+For the evaluation we'll work through the expectations above and look at the
+following criteria:
+
+### 1. Feature Completeness
+
+* 4: All features defined in the assignment are correctly implemented
+* 3: There are one or two features missing
+* 2: There are bugs/crashes in the features present
+* 1: There are three or more features missing or crashing
+
+### 2. Controllers
+
+* 4: Controllers show significant effort to push logic down the stack
+* 3: Controllers are generally well organized with three or fewer particularly ugly parts
+* 2: There are four to seven ugly controller methods that should have been refactored
+* 1: There are more than seven unsatisfactory controller methods
+
+### 3. Models
+
+* 4: Models show excellent organization, refactoring, and appropriate use of Rails features
+* 3: Models show an effort to push logic down the stack, but need more internal refactoring
+* 2: Models are somewhat messy and/or make poor use of Rails' features
+* 1: Models show weak use of Ruby and weak structure
+
+### 4. TDD
+
+* 4: Project has a running test suite that exercises the application at multiple levels
+* 3: Project has a running test suite that tests and multiple levels, but fails to cover some features
+* 2: Project has sporadic use of tests and multiple levels
+* 1: Project did not really attempt to use TDD

@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Dinner Dash
+sidebar: true
 ---
 
 In this project you'll use Ruby on Rails to build an online commerce platform for a restaurant to facilitate online ordering.
@@ -268,7 +269,7 @@ As a restaurant I have a registered contact phone number. When an order is place
 * "Press 1 to confirm the order, 2 to repeat, or 3 to cancel."
 * The result of the call updates the order in the database and sends an email to the customer.
 
-## Evaluations Process
+## Evaluation Process
 
 For the evaluation we'll work through the expectations above and look at the
 following criteria:
@@ -277,7 +278,7 @@ following criteria:
 
 * 4: All features are correctly implemented along with two extensions
 * 3: All features defined in the assignment are correctly implemented
-* 2: There are one or two features missing
+* 2: There are one or two features missing or incorrectly implemented
 * 1: There are bugs/crashes in the features present
 
 ### 2. Views
@@ -298,7 +299,7 @@ following criteria:
 
 * 4: Models show excellent organization, refactoring, and appropriate use of Rails features
 * 3: Models show an effort to push logic down the stack, but need more internal refactoring
-* 2: Models are somewhat messy and/or make poor use of Rails' features
+* 2: Models are somewhat messy and/or make poor use of Rails features
 * 1: Models show weak use of Ruby and weak structure
 
 ### 5. TDD

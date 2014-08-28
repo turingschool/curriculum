@@ -275,10 +275,10 @@ following criteria:
 
 ### 1. Feature Completeness
 
-* 4: All features defined in the assignment are correctly implemented
-* 3: There are one or two features missing
-* 2: There are bugs/crashes in the features present
-* 1: There are three or more features missing or crashing
+* 4: All features are correctly implemented along with two extensions
+* 3: All features defined in the assignment are correctly implemented
+* 2: There are one or two features missing
+* 1: There are bugs/crashes in the features present
 
 ### 2. Controllers
 

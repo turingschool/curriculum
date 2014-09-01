@@ -36,7 +36,7 @@ Try the following:
 * `console.log('Hello');`
 * `var x = 42;`
 * `x`
-* `var hello = function () { return 'hello' };`
+* `var hello = function () { return 'hello'; };`
 * `console.log(hello());`
 
 Press `^C` twice to exit the REPL.

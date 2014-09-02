@@ -53,7 +53,7 @@ var hello = function(){
 console.log(hello());
 ```
 
-Them run it from the terminal:
+Then run it from the terminal:
 
 ``` bash
 node sample.js

@@ -112,46 +112,6 @@ Generally speaking, work for your project should go through this process:
 * A teammate reviews the code for quality and functionality
 * The teammate merges the pull request and closes the story/issue
 
-### Project Check-In Meetings
-
-Rapid and frequent feedback about the work we produce is a central tenet of
-agile software development. As such, we'll have frequent meetings to discuss the
-state of your project and correct course as necessary.
-
-[TODO: Revise Meeting Schedule and Contents]
-
-#### Meeting 1 - Iteration Planning
-
-As the project gets rolling, we'll meet with your team to evaluate and give recommendations on:
-
-* Your planned iterations and features
-* Strengths/Weaknesses in your chosen codebase
-* Strategies for how your team will work together
-
-#### Meeting 2 - Show-And-Tell
-
-This meeting will verify that the work done so far is in line with the item manager's expectations and to sanity check your team's progress toward delivery.
-
-A 'Show and Tell' milestone exists in the starter stories. This milestone is positioned to indicate the features required for completion. Meeting this milestone will affect your project evaluation.
-
-When you reach this milestone please create a tag or branch (named `show_and_tell`) for reference.
-
-The show-and-tell session will take place on day eight after work begins.
-
-#### Meeting 3 - Technical Review
-
-Just beyond the midway point, this check-in focuses on the code. Is your team on track to hit the technical goals?
-
-#### Meeting 4 - Fit & Finish
-
-During this check-in teams are expected to have a nearly completed project and all base stories ready for acceptance. The purpose of this meeting is to find any last rough-edges that can be smoothed out before project submission.
-
-#### Meeting Expectations
-
-Both the show-and-tell and fit & finish meetings are intended to model interactions with a *real customer*. As the stories clearly define the customer's expectations, your application needs to **exactly** follow the stories or the stories will be rejected.
-
-A 95% implementation is wrong. If you want to deviate from the story as it was originally written, you need to discuss that with your customer and get approval to change the story *first*.
-
 ## Pivots
 
 Your group will be assigned one of the following problem domains to pivot Dinner Dash:
@@ -367,32 +327,91 @@ In order to give greater precedence and more SEO-juice to each individual busine
 
 So instead of `http://www.example.com/billys-bbq/items` pointing to the items belonging to the business _Billy's BBQ_, allow `http://billys-bbq.example.com/items` to be used instead.
 
-## Evaluation Criteria
+## Feedback/Evaluation Schedule
 
-[TODO: Rework evaluation criteria to include expectations for check-ins]
+Rapid and frequent feedback about the work we produce is a central tenet of
+agile software development. As such, we'll have frequent meetings to discuss the
+state of your project and correct course as necessary.
 
-The evaluation of the project is broken into three areas:
+These meetings are intended to model interactions with a *real customer*, they
+are not support sessions. As the stories clearly define the customer's expectations, your application needs to **exactly** follow the stories as they've been developed with
+your customer. A 95% implementation is wrong. If you want to deviate from the story as it's written, you need to discuss that with your customer and get approval to change the story *first*.
 
-1. Evaluation of the user stories for each feature of the application
-2. Code critique and review by instructors
-3. Non-functional requirements and metrics
+Your project feedback/evaluation process will take place in five parts:
 
-### Evaluation of User Stories for Base and Extensions
+### Kickoff
 
-Each user story for the base expectations will be worth the point value they have been assigned in Pivotal Tracker. Points for a story will be awarded if that story can be exercised without crash or error.
+On the day you begin the project you'll meet with an instructor who will act as
+your client for the project. In this brief session you will:
 
-Extension stories will also be worth their story point value in Tracker, but no story's points will count toward the total score unless all other stories of higher priority have been delivered. Therefore you must have delivered the complete base expecations to receive credit for any extensions.
+* Lay out a general iteration plan for the entire project
+* Draft expectations for the features to be delivered by Checkpoint 1
+* Sketch expectations for the features to be delivered by Checkpoint 2
 
-### Code Critique by Instructors
+After your meeting your team will work to translate these expectations into
+organized, detailed stories in your project tracker and notify your customer
+when they're ready. The customer will provide feedback/approval by the end of
+the following day.
 
-Reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution.
+### Checkpoint 1
 
-The high-level outline for the evaluation is:
+The Checkpoint 1 meeting will take place on the first Thursday of the project
+cycle. The first half of the meeting will be used to assess your progress, the
+second half will set the expectations for Checkpoint 2.
 
-1. Good object-oriented and general application design practices, such as SOLID and DRY.
-2. Use of Ruby and Rails idioms and features.
-3. Good testing practices and coverage.
-4. Improvement and evolution of the code, use of refactoring.
-5. Adherence to the intent of project-specific non-functional requirements, such as background workers and caching.
-6. Application correctness and robustness.
-7. Security protections against common attacks.
+### Checkpoint 2
+
+The Checkpoint 2 meeting will take place on the second Thursday of the project
+cycle. The first half of the meeting will be used to assess your progress, the
+second half will set the expectations for Checkpoint 3.
+
+### Checkpoint 3
+
+The last Checkpoint meeting will take place on Tuesday before the project is
+delivered. It'll again be split 50/50 between evaluation and next
+steps. But the project is expected to be in a *ready-to-deliver* state by this
+meeting. The next steps set in the meeting should be minor polish, UX improvements,
+and extension features.
+
+### Final Evaluations
+
+The final evaluations will use the rubric below on the day the project is due.
+
+## Evaluation Rubrics
+
+### Checkpoint Evaluations
+
+#### Feature Delivery
+
+You'll be graded on each of the criteria below with a score of (1) well below
+expectations, (2) below expectations, (3) as expected, (4) better than expected.
+
+* Completion: did you deliver what you committed to in the Kickoff?
+* Organization: did you use your project management tool to keep the project organized?
+* Progress: are you on track to finish the project on time?
+
+### Technical Quality
+
+* Test-Driven Development: (1) disregard for testing, (2) gaps in test
+usage/coverage/design, (3) adequate testing, (4) exceptional use of testing
+* Code Quality: (1) poor factoring and understanding of MVC, (2) some gaps in
+code quality / application of MVC, (3) solid code quality and pushing logic down
+the stack, (4) exceptionally well factored code
+* User Experience: (1) inattention to the user experience, (2) some gaps in the
+UX, (3) a production-ready user experience, (4) a polished UX
+
+### Final Evaluation
+
+The evaluation of the project is broken into two areas as described below. This
+rubric will be more detailed before the class completes Checkpoint 3.
+
+#### Feature Delivery
+
+* Completion: does the end product deliver on the concept?
+* Organization: did the team demonstrate proficiency with professional software practices?
+
+#### Technical Quality
+
+* Test-Driven Development
+* Code Quality
+* User Experience

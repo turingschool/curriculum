@@ -89,15 +89,13 @@ There are many popular project management tools out there. For this project
 we'll use a lightweight tool that wraps GitHub issues: [Waffle.io](https://waffle.io/)
 
 Setup a Waffle project for your new repo. Your team members and instructors should
-be added to the project.
+be added to the project so they can create, edit, and comment on issues.
 
 ## Managing Requirements
 
-### Authoritative Requirements
-
 The stories as written and prioritized in your project management tool will be
 the authoritative project requirements. They may go against and likely go beyond
-the general requirements in this project.
+the general requirements in this project description.
 
 ### Workflow
 
@@ -111,6 +109,8 @@ Generally speaking, work for your project should go through this process:
 * They submit a pull request asking to merge the branch into *master*
 * A teammate reviews the code for quality and functionality
 * The teammate merges the pull request and closes the story/issue
+* Later, the customer will review the delivered features by browsing closed
+pull requests
 
 ## Pivots
 
@@ -149,7 +149,7 @@ wage/salary range, number of positions open, and a closing date
 * A job seeker can browse the site and view all open job listings
 * They can add one or more job listings to their cart
 * They can upload a PDF resume that's attached to their user account
-* During the "checkout" process, they can add a brief hello note to each job they're
+* During the "checkout" process, they can add a brief introduction note to each job they're
 applying for
 * The job posters are notified that a new application has come in
 
@@ -194,7 +194,7 @@ daily rate, photos, location, shared/private bathroom indicator, and available d
 * The hosts can either confirm or deny the requests
 * The traveler is notified when request status changes
 
-Of course a traveler will need a good way to roll up all their bookings into
+A traveler will need a good way to roll up all their bookings into
 an itinerary that helps them get from place to place with a map and pushes data
 to their Google Calendar.
 
@@ -293,6 +293,12 @@ Use background workers for any job that doesn't **have to** be completed before 
 
 Use Resque or a similar library to support this functionality.
 
+### Security
+
+Your app needs to be secure enough that a malicious user with complete knowledge
+of the source code cannot exploit the system (ie: change other users' data, view
+other users' data, elevate their own privledge level, etc).
+
 ## Base Data
 
 Before final delivery, and ideally before customer check-ins, you should have the following data pre-loaded in your marketplace:
@@ -380,6 +386,8 @@ The final evaluations will use the rubric below on the day the project is due.
 ## Evaluation Rubrics
 
 ### Checkpoint Evaluations
+
+The following criteria will be used for each Checkpoint evaluation:
 
 #### Feature Delivery
 

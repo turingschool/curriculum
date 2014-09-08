@@ -56,9 +56,14 @@ A little bit of increased efficiency in your use of the Unix environment and you
 * `alias` for shorthand commands, like I define `e` to launch my editor
 * `source` to run scripts of bash commands
 
-#### Some Examples
+#### Dotfiles
 
-Snippets from my `.bash_profile` are below. The top three lines setup a yellow lightning bolt as my prompt because, well, it's awesome.
+Snippets from my `.bash_profile` are below.
+The top three lines setup a yellow lightning bolt as my prompt because, well, it's awesome.
+
+We have set up some dotfiles you can use,
+go to [bootstrap new students](https://github.com/turingschool/bootstrap_new_students)
+and follow the instructions there.
 
 ```
 export PS1="\W \[\033[0;33m\]⚡\[\033[0;39m\] "

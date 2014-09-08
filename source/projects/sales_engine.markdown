@@ -181,7 +181,7 @@ For each repository class you need to offer:
 * `#revenue` returns the total revenue for that merchant across all transactions
 * `#revenue(date)` returns the total revenue for that merchant for a specific invoice date
 * `#favorite_customer` returns the `Customer` who has conducted the most successful transactions
-* `#customers_with_pending_invoices` returns a collection of `Customer` instances which have pending (unpaid) invoices
+* `#customers_with_pending_invoices` returns a collection of `Customer` instances which have pending (unpaid) invoices.  An invoice is considered pending if none of it's transactions are successful.
 
 _NOTE_: Failed charges should never be counted in revenue totals or statistics.
 

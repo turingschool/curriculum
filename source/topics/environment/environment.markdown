@@ -17,7 +17,21 @@ The setup instructions are broken down by platform: Mac, Linux, and Windows.
 
 ## Mac OS
 
-Mac OS is the most popular platform for Ruby and Rails developers. These instructions assume you're on the latest version of MacOS, 10.9. If you're using an older version, refer to [these additional notes]({% page_url environment_older_macos %}).
+Mac OS is the most popular platform for Ruby and Rails developers.
+These instructions assume you're on the latest version of MacOS, 10.9.
+If you're using an older version, refer to [these additional notes]({% page_url environment_older_macos %}).
+
+### Terminal
+
+The terminal is a textual interface to your computer.
+You can move around folders (called directories) and run programs within it.
+For example, when you run `pry` or `ruby`, you are running that program from the terminal.
+
+If this is all new for you, see [Terminal and Editor](http://tutorials.jumpstartlab.com/academy/workshops/terminal_and_editor.html)
+
+You can use the existing terminal, or my favourite: [iTerm2](http://iterm2.com/).
+To launch the terminal, go to Spotlight and type "Terminal" or "iTerm" and then run it.
+The following commands expect a terminal.
 
 ### XCode & Command Line Tools
 

@@ -69,7 +69,7 @@ RVM allows you to install and maintain multiple versions of Ruby. More informati
 Similar to Homebrew, RVM provides a script to get everything installed. Run this in your Terminal:
 
 {% terminal %}
-$ \curl -L https://get.rvm.io | bash -s stable
+$ curl -L https://get.rvm.io | bash -s stable
 {% endterminal %}
 
 #### Loading / Post-Install
@@ -130,7 +130,7 @@ $ rvm use 2.1 --default
 
 ### Text Editor
 
-If you don't already have a favorite text editor, we recommend using [Sublime Text 2](http://www.sublimetext.com/2).
+If you don't already have a favorite text editor, we recommend using [Sublime Text 2](https://atom.io/)
 
 ### PostgreSQL
 

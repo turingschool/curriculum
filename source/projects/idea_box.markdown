@@ -1269,8 +1269,8 @@ We can fix this by adding a `delete` method in `idea.rb`:
 ```ruby
 class Idea
   def self.delete(position)
-    database.transaction do
-      database['ideas'].delete_at(position)
+    database.transaction do **|db|**
+      db['ideas'].delete_at(position)
     end
   end
 end

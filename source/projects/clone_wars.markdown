@@ -71,6 +71,9 @@ Each group will choose a client and no two groups will have the same client. You
 * [Hapa Sushi](http://hapasushi.com/) - Sushi Restaurant
 * [Luxe Salon](http://www.luxesalon.com/) - Salon
 * [Indox Services](http://www.indoxservices.com/) - Print Shop
+* [Two-Fisted Mario's](http://www.twofistedmarios.com/) - Pizza Shop
+* [SliceWorks](http://sliceworkspizza.com/) - More Pizza
+* [NovoCoffee](http://novocoffee.com/) - Coffee Roaster
 
 ### General Requirements
 
@@ -82,7 +85,7 @@ Your Content Management System needs to:
 
 ### What Not To Do
 
-* Don't use `ActiveRecord`, `DataMapper`, or `Sequel::Model` -- just `Sequel` and SQL
+* Don't use `ActiveRecord`, `DataMapper`, or `Sequel::Model` -- just normal `Sequel` and SQL
 * Don't start into 12 features and plan for them all to come together at the last minute. Start small and iterate.
 * Don't try and build a more complex database schema than you need -- KISS
 * Don't let the details of your database structure leak all over the application. Hide them with a wrapper class.

@@ -439,7 +439,7 @@ What we need to do is pull out just the `screen_name`. We create an array of the
 followers' screen names with this line of code:
 
 ```ruby
-screen_names = @client.followers.collect { |follower| follower.screen_name }
+screen_names = @client.followers.collect { |follower| @client.user(follower).screen_name }
 ```
 
 To read this line out loud it would be like "Call the `followers` method of
@@ -466,10 +466,10 @@ To create the `followers_list` method...
 
 * Define the method named `followers_list` with no parameters
 * Create a blank array named `screen_names`
-* On the `@client` call the `followers` method then the `users` method and iterate through `each` of them performing the instruction below:
+* On the `@client` call the `followers` method iterate through `each` of them performing the instruction below:
 
 ```ruby
-  screen_names << follower["screen_name"]
+  screen_names << @client.user(follower).screen_name
 ```
 
 * Return the array `screen_names`

@@ -128,6 +128,8 @@ Run the file using `node events.js`.
 
 ### A Simple HTTP Server
 
+Create a file `server.js`.
+
 The built-in `http.Server` module inherits from `EventEmitter`.
 
 ```js
@@ -147,6 +149,8 @@ server.on('request', function(request, response) {
 ```
 
 When the server receives a request, a "request" event is emitted and the server responds with a simple HTTP response.
+
+Try it in your terminal `node server.js`
 
 In traditional web servers, a new thread is created every time a request is received. The program exits after the request is sent. In Node, your server runs on a single thread that waits for requests. This means that we can store data in variables and this state will persist between requests. Let's modify our server to take advantage of this:
 

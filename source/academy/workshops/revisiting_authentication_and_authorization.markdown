@@ -24,7 +24,7 @@ https://github.com/plataformatec/devise#getting-started
 
 ## Part 2: Adding Simple Authorization
 
-We're not to get get very complex with authorization. Work through each of these requirements:
+We're not going to get very complex with authorization. Work through each of these requirements:
 
 * A guest or logged-in user can view all items on `/items`
 * A guest attempting to access `/orders` is redirected to login

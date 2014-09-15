@@ -609,8 +609,8 @@ which we can then remove the standard Unix way (remove with rm).
 
 {% terminal %}
 $ git checkout -- .
+$ git clean -fd
 $ git status
-$ rm <file-listed-as-new>
 {% endterminal %}
 
 Do this until you can write the production code to pass the tests without

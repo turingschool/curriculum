@@ -87,8 +87,8 @@ Add an empty method named `type` to the Candy class.
 Run the tests, and you'll finally get a failure rather than an error:
 
 {% terminal %}
-Expected: nil
-  Actual: "Skittles"
+Expected: "Skittles"
+  Actual: nil
 {% endterminal %}
 
 Make the test pass, and then remove the `skip` from the next test, and make
@@ -103,7 +103,7 @@ ruby test/bag_test.rb
 {% endterminal %}
 
 Follow the error messages to get the first test passing. Just do the simplest
-thing that could possibly work. The next tests should force the code to do
+thing that could possibly work. The next tests will force the code to do
 whatever it needs to do.
 
 Unskip the next test. It gives you a `NoMethodError` that looks like this:
@@ -302,7 +302,7 @@ Expected: 1
 This test is failing because of a hard-coded value, too. I hard-coded the count as `0`.
 
 `candies` is an Array, and Ruby Arrays have a lot of methods defined on them by
-default. You can see the full list [here](http://ruby-doc.org/core-2.0.0/Array.html). We need a method that will tell us how many elements are in the array.
+default. You can see the full list [here](http://ruby-doc.org/core-2.1.2/Array.html). We need a method that will tell us how many elements are in the array.
 
 The documentation says this:
 
@@ -324,6 +324,7 @@ The first one is a method defined on an instance of Bag:
 
 ```ruby
 class Bag
+  # ...
   def count
   end
 end
@@ -601,11 +602,15 @@ end
 Blow away all your changes and start over, this time without looking at the
 tutorial so closely.
 
-The easiest way to throw away changes is to run the following commands:
+The easiest way to throw away changes is to run the following commands.
+The first removes any changes we made to files git knows about.
+The second will list new files in the working directory,
+which we can then remove the standard Unix way (remove with rm).
 
 {% terminal %}
-$ git reset .
-$ git checkout .
+$ git checkout -- .
+$ git status
+$ rm <file-listed-as-new>
 {% endterminal %}
 
 Do this until you can write the production code to pass the tests without

@@ -86,6 +86,7 @@ Your Content Management System needs to:
 ### What Not To Do
 
 * Don't use `ActiveRecord`, `DataMapper`, or `Sequel::Model` -- just normal `Sequel` and SQL
+* Don't use any CMS gems for your project like `Nesta`
 * Don't start into 12 features and plan for them all to come together at the last minute. Start small and iterate.
 * Don't try and build a more complex database schema than you need -- KISS
 * Don't let the details of your database structure leak all over the application. Hide them with a wrapper class.

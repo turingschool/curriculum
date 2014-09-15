@@ -17,7 +17,7 @@ $ bundle
 $ rake db:create db:migrate db:seed
 {% endterminal %}
 
-## Part 1: Building Authentication (Code-along)
+## Part 1: Building Authentication and Authorization (Code-along)
 
 We've used `has_secure_password` and OmniAuth in the past. Now, let's try Devise. We've set up the basics for you, but if you're curious on how to get started with Devise, you can read the [Getting Started guide](https://github.com/plataformatec/devise#getting-started).
 

@@ -27,7 +27,7 @@ $ bundle
 $ bundle exec rake db:setup
 {% endterminal %}
 
-## Routing in a multi-tenat world
+## Routing in a multi-tenant world
 
 We want each of our blogs to be top-level sub-domains.
 

@@ -13,9 +13,14 @@ Now let's start to talk about services. In this section, our goals are to:
 
 ## Fractal Design
 
+<<<<<<< HEAD
 * What is good software?
 * [SOLID](http://bit.ly/nHYoAY) and [SRP](http://en.wikipedia.org/wiki/Single_responsibility_principle)
 * Apply it at several layers of abstraction
+=======
+* SOLID and SRP
+* Apply it to several layers of abstraction
+>>>>>>> 375f9d7415ca7f79870d584762d10b55fce3abee
   * Line of code
   * Method
   * Class
@@ -49,10 +54,10 @@ Now let's start to talk about services. In this section, our goals are to:
 
 ## Identifying a Service
 
-A good candidate for extraction to a service...
+Good candidates for extraction to a service...
 
-* Has limited and known interactions with other parts of the domain logic
-* Are a conceptual piece of value rather than a just a piece of functionality
+* Have limited and known interactions with other parts of the domain logic
+* Are conceptual pieces of value rather than just pieces of functionality
 * Could potentially be reused in a different application
 
 Poor candidates for service extraction...

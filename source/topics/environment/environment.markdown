@@ -144,7 +144,7 @@ $ rvm use 2.1 --default
 
 ### Text Editor
 
-If you don't already have a favorite text editor, we recommend using [Sublime Text 2](https://atom.io/)
+If you don't already have a favorite text editor, we recommend using [Atom](https://atom.io/)
 
 ### PostgreSQL
 

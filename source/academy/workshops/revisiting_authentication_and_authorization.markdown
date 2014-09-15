@@ -12,7 +12,7 @@ Let's start with the basic Storedom project. You might have it locally already. 
 {% terminal %}
 $ git clone git@github.com:turingschool-examples/storedom.git
 $ cd storedom
-$ get checkout authorization-revisited
+$ git checkout authorization-revisited
 $ bundle
 $ rake db:create db:migrate db:seed
 {% endterminal %}

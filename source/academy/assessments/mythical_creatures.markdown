@@ -22,7 +22,7 @@ title: Mythical Creatures Diagnostic
 Create a *new* clone of the `ruby-exercises` repo:
 
 * switch to the directory where you'll keep your projects
-* clone the repo: `git clone git@github.com:JumpstartLab/ruby-exercises.git`
+* clone the repo: `git clone https://github.com/turingschool/ruby-exercises.git`
 * change to the mythical creatures directory: `cd ruby-exercises/mythical-creatures`
 * open the folder in your editor: `atom .`
 

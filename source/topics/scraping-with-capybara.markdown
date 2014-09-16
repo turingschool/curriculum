@@ -370,6 +370,26 @@ we will continue to be logged in.
 You can configure Nokogiri, or other web crawling tools to log into your accounts,
 and perform tasks for you, collect data for you, whatever it happens to be.
 
+### Lets try it out!
+
+Lets try submitting that form. I took a look at
+[Capybara's readme](https://github.com/jnicklas/capybara#clicking-links-and-buttons),
+under the sections about clicking links and buttons, and the section about interacting
+with forms, and then used my web inspector to dtermine which things I wanted to
+fill in and click on.
+
+```ruby
+pry(main)> browser.fill_in 'yahooSearchField', with: 'ruby'
+=> true
+
+pry(main)> internet.click_on 'Go'
+=> {"status"=>"success", "position"=>{"x"=>983.5, "y"=>165}}
+
+pry(main)> browser.current_url
+=> "http://www.denverpost.com/circare/html/gsa_template.jsp?sortBy=mngi&similarTo=&similarType=find&type=any&aff=3&view=entiresitesppublished&query=ruby&searchbutton=Go"
+
+pry (main)> browser.save_and_open_page
+```
 
 ### Give It A Try
 

@@ -64,7 +64,7 @@ Subjective evaluation will be made on your work/process according to the followi
 
 ### 4. Workflow
 
-* 4: Developer is a master of their tools, effeciently moving between phases of development
+* 4: Developer is a master of their tools, efficiently moving between phases of development
 * 3: Developer demonstrates comfort with their tools and makes some use of keyboard shortcuts
 * 2: Developer smoothly moves between tools, but is dependent on mouse-driven interaction
 * 1: Developer gets work done, but wastes significant time or screen real estate

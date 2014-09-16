@@ -389,7 +389,7 @@ fill in and click on.
 pry(main)> browser.fill_in 'yahooSearchField', with: 'ruby'
 => true
 
-pry(main)> internet.click_on 'Go'
+pry(main)> browser.click_on 'Go'
 => {"status"=>"success", "position"=>{"x"=>983.5, "y"=>165}}
 
 pry(main)> browser.current_url

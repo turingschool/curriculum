@@ -484,7 +484,7 @@ Then create a `when` line in your `run` method for the command `spam`. It will l
 
 Test it out and see how many followers you can annoy at once!
 
-## Iteration 3: Last Tweet from All Friends
+## Iteration 4: Last Tweet from All Friends
 
 So now you can post tweets and DMs. There are hundreds of clients that can do that. If you're a normal twitter user you follow some people who post several times per day and some people who post once per week. It can be difficult to see everyone. Lets create a list of the last tweet for each person you follow.
 
@@ -582,7 +582,7 @@ amyhoy said this on Wednesday, Jul 29...
 along with our candlelit dinner in the garden, charming brass music drifted over the hills from nearby. as if it were just for us.
 {% endterminal %}
 
-## Iteration 4: Shorten URLs with Bit.ly
+## Iteration 5: Shorten URLs with Bit.ly
 
 There's a great library which can be used to automatically create shortened URLs. Let's add this functionality into our project.
 
@@ -638,7 +638,7 @@ You know that `parts[0]` is the command, `parts[1..-2]` are the message, and `pa
 
 Get that working and you're done with the twitter client!
 
-## Iteration 5: The Klout API
+## Iteration 6: The Klout API
 
 Let's continue experimenting with various APIs.
 

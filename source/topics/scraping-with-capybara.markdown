@@ -403,7 +403,7 @@ pry (main)> browser.save_and_open_page
 Our form won't require a session, but the process is the same.
 We're going to give you a list of ISBNs that identify books about Ruby
 (for a liberal definition of "Ruby"). Your task is to go to
-[isbnsearch.org](http://www.isbnsearch.org), fill the isbn into the form, submit it,
+[amazon.com](http://www.amazon.com), fill the isbn into the form, submit it,
 and then extract the data from the resulting page into a format of your choice.
 
 You have completed the task when you can show me a text file with all of the data.

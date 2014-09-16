@@ -62,6 +62,12 @@ require "pry"
 binding.pry
 ```
 
+If you don't have pry, install it with
+
+```plain
+$ gem install pry
+```
+
 #### What Just Happened
 
 The program made a URI object to parse our uri (you can think a uri as being the same thing as a url).
@@ -140,7 +146,7 @@ or "submit" a form. It's great for this purpose... except that many webpages
 require JavaScript to run correctly, and Nokogiri doesn't have a JavaScript
 engine in it, it's just reflecting on the static structure of the page.
 
-### Phanntom.js, Capybara and Poltergeist
+### Phantom.js, Capybara and Poltergeist
 
 To really interact with the page, we'd need to be in a browser.
 This is what Phantom.js is, a browser like Opera or Firefox,
@@ -163,9 +169,9 @@ and we can interact with JavaScript
 
 ### Installation
 
-```
+```plain
 $ brew install phantomjs
-$ gem install rails capybara poltergeist launchy
+$ gem install capybara poltergeist launchy
 ```
 
 ### First run
@@ -443,6 +449,5 @@ available.
 
 ### Finished and bored?
 
-* Given that we've seen both form and link have search methods that suffix `_with` to them, we might hypothesize that there are other such methods. Can you use pry to confirm or deny this hypothesis?
 * Got all the data? Nice. How about reading it in and generating a html page that lists all the books.
 * Pull down other useful information, as well. How about the image and the relevant links.

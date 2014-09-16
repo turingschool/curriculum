@@ -345,7 +345,8 @@ Sports
 ```
 
 Great, we did it!
-The real power of mechanize becomes apparent when you need to fill in forms, follow redirects, be authenticated, upload files and all that jazz.
+The real power of Capybara becomes apparent when you need to fill in forms,
+follow redirects, be authenticated, upload files and all that jazz.
 
 ### What About Filling In Forms and Logging In?
 

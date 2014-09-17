@@ -31,7 +31,6 @@ from a CSV file.
 
 ## Getting Started
 
-
 We will use this [repository](https://github.com/JumpstartLab/csv-exercises)
 to practice using test-driven development and working with objects. Start by
 cloning it in Terminal, then changing into the `level-i/phone_book` directory.
@@ -50,19 +49,14 @@ $ git checkout -b level-i
 
 ## Inspecting the Data
 
-If you open up the `./data` directory you'll see one file:
-
-{% terminal %}
-./data/
-├── people.csv
-{% endterminal %}
+If you open up the `data` directory, you'll see one file: `people.csv`. 
 
 Look at the data in this file. We have many people, and each person has a phone
 number. This is a CSV (comma-separated value) file.
 
 ## Designing the Interface
 
-We want our program to be able to look up entries in three ways:
+Ultimately, we want our program to be able to look up entries in three ways:
 
 ```ruby
 # By last name
@@ -84,6 +78,7 @@ the lookup methods: `phone_book.lookup('Smith')`.
 
 This will use the real data, and all the real code, as though it were being
 used in production. This kind of "Final Product" test has many different names:
+
 * end-to-end tests
 * acceptance tests
 * feature tests
@@ -282,6 +277,7 @@ IntegrationTest#test_lookup_by_last_name [test/integration_test.rb:14]:
 Expected: 3
   Actual: 0
 ```
+
 ## Driving a Feature with Lower-Level Tests
 
 We're getting a failure because we expect to get 3 results back from the
@@ -290,15 +286,13 @@ lookup method, but we're hard-coding an empty array.
 Now that we have a failure, let's think about how we want to structure the rest
 of our application so that eventually we can get our integration test to pass.
 
-* At the highest level, we will have a PhoneBook, which will take care of accepting
-a name and returning entries.
-* At the lowest level, we will need an Entry that will represent a person
-and their phone number.
-* In between the PhoneBook and the Entry, we'll need a place to store all of these
-entries -- let's call this an EntryRepository.
+* At the highest level, we will have a PhoneBook, which will take care of accepting a name and returning entries.
+* At the lowest level, we will need an Entry that will represent a person and their phone number.
+* In between the PhoneBook and the Entry, we'll need a place to store all of these entries -- let's call this an EntryRepository.
 
 Let's start with the lowest level first: Entry. Create a file `test/entry_test.rb`.
 Prepare the file with our boilerplate:
+
 ```ruby
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
@@ -306,9 +300,9 @@ require 'minitest/pride'
 ```
 
 What are some things we could test about an entry?
+
 * an entry should have a `first_name`, `last_name`, and `phone_number`
-* an entry should also have a method `name` which returns the full name
-of the person
+* an entry should also have a method `name` which returns the full name of the person
 
 Our test for entry will not test importing data from a CSV. Instead, we will pass
 in a hash of data and check that the entry can find the first_name, last_name, and
@@ -772,6 +766,10 @@ class EntryRepository
   def initialize(entries)
     @entries ||= entries.map { |entry| Entry.new(entry) }
   end
+
+  def find_by_last_name(name)
+    []
+  end
 end
 ```
 
@@ -791,7 +789,7 @@ NameError: uninitialized constant EntryRepository::Entry
 {% endterminal %}
 
 The test doesn't know what an `Entry` is. Require the file
-in `entry_repository_test.rb`:
+in `entry_repository.rb`:
 
 ```ruby
 require_relative 'entry'
@@ -801,10 +799,10 @@ Now our test is failing for the same reason it was before, so let's work on
 the `find_by_last_name` method.
 
 Here's the pseudocode for what we'll need to do:
+
 * take in a last name as a parameter
 * search through all of the `@entries`
-* `select` all entries where an entry's `last_name` is the same as the parameter
-that was passed in.
+* `select` all entries where an entry's `last_name` is the same as the parameter that was passed in.
 
 And here's what it looks like in Ruby. Find the `find_by_last_name` method in
 `entry_repository.rb` and replace the empty array with our `select` statement.
@@ -828,6 +826,7 @@ Fabulous run in 0.001577s, 634.1154 runs/s, 3170.5770 assertions/s.
 {% endterminal %}
 
 Our code for `entry_repository.rb` so far should look like this:
+
 ```ruby
 require_relative 'entry'
 
@@ -856,12 +855,14 @@ Create a test file for our phone book: `touch test/phone_book_test.rb`.
 
 Then load the boilerplate. You'll notice that there is a new line requiring
 `minitest/mock`.
+
 ```ruby
 gem 'minitest', '~> 5.2'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'minitest/mock'
 ```
+
 You can read more about MiniTest::Mock [here](http://ruby-doc.org/stdlib-1.9.3/libdoc/minitest/mock/rdoc/MiniTest/Mock.html).
 Basically, `Minitest::Mock` allows us to test whether a method is being called,
 without actually having to call the method.
@@ -1097,12 +1098,14 @@ class EntryRepository
   end
 end
 ```
+
 We're taking in a directory, joining that to the `people.csv` file, and then
 opening a CSV using that file path. Then, we're taking the data from the CSV and
 mapping over it to create a new `Entry` for each row. Finally, we're calling `new(rows)`
 which is the same as writing `EntryRepository.new(rows)`.
 
 Run the test.
+
 
 {% terminal %}
   1) Error:
@@ -1153,7 +1156,8 @@ NoMethodError: undefined method `last_name' for #<Hash:0x007f95da99ed10>
 {% endterminal %}
 
 We're getting an undefined method `last_name` for a Hash. As it turns out, since we changed our
-initialize method in EntryRepository, we'll need to update our test `entry_repository_test.rb`:
+initialize method in EntryRepository, we'll need to update our test `entry_repository_test.rb`. This will
+account for the fact that we're now handing an array of Entry objects to the Entry Repository instead of an array of hashes:
 
 ```ruby
     entries = [
@@ -1162,6 +1166,7 @@ initialize method in EntryRepository, we'll need to update our test `entry_repos
       { first_name: 'Cindy', last_name: 'Johnson', phone_number: '333.333.3333' }
     ].map { |row| Entry.new(row) }
 ```
+
 What we're doing now is `map`ping our array of hashes to create new Entry objects
 in the test instead of relying on the initialize method to do that for us. We changed
 that method when we created the `load_entries` method.
@@ -1186,11 +1191,12 @@ def test_lookup_by_last_and_first_name
 end
 ```
 
-It fails. We need to improve the `PhoneBook#lookup` method. Go to the
-`phone_book_test.rb`, add a test for looking up by first and last name:
+It fails. Why did this happen? Well, our phone book currently doesn't handle lookups by both first and last name.
+We need to improve the `PhoneBook#lookup` method. Let's add a test for looking up by first and last name in `phone_book_test.rb`.
 
 ```ruby
 def test_lookup_by_last_name_first_name
+  repository = Minitest::Mock.new
   phone_book = PhoneBook.new(repository)
   repository.expect(:find_by_first_and_last_name, [], ["Alice","Smith"])
   phone_book.lookup('Smith, Alice')
@@ -1198,7 +1204,17 @@ def test_lookup_by_last_name_first_name
 end
 ```
 
-Update `PhoneBook#lookup`
+Running the test now gives us this error:
+
+{% terminal %}
+  1) Error:
+PhoneBookTest#test_lookup_by_last_name_first_name:
+NoMethodError: unmocked method :find_by_last_name, expected one of [:find_by_first_and_last_name]
+    /Users/rwarbelow/Desktop/Coding/csv-exercises/level-i/phone_book/lib/phone_book.rb:11:in `lookup'
+    test/phone_book_test.rb:20:in `test_lookup_by_last_name_first_name'
+{% endterminal %}
+
+What does this mean? We specified that a method `find_by_first_and_last_name` should get called on the repository, but that didn't happen. We need to update `PhoneBook#lookup` so that this method gets triggered: 
 
 ```ruby
 def lookup(name)
@@ -1211,7 +1227,7 @@ def lookup(name)
 end
 ```
 
-Run the integration test again:
+Our phone book test should pass. Now let's run the integration test again:
 
 ```plain
 1) Error:
@@ -1221,11 +1237,18 @@ NoMethodError: undefined method `find_by_first_and_last_name' for #<EntryReposit
   test/integration_test.rb:28:in `test_lookup_by_last_name'
 ```
 
-We need a new method on entry repository.
+Since we mocked this method in the phonebook, it didn't care if the method actually existed somewhere. But now it does. We need a new method on entry repository.
 In the test:
 
 ```ruby
 def test_find_by_first_and_last_name
+      entries = [
+        { first_name: 'Alice', last_name: 'Smith', phone_number: '111.111.1111' },
+        { first_name: 'Bob', last_name: 'Smith', phone_number: '222.222.2222' },
+        { first_name: 'Cindy', last_name: 'Johnson', phone_number: '333.333.3333' }
+        ].map { |row| Entry.new(row) }
+        
+  repository = EntryRepository.new(entries)
   entries = repository.find_by_first_and_last_name("Bob", "Smith")
   assert_equal 1, entries.length
   bob = entries.first
@@ -1266,6 +1289,7 @@ Then drop down to phone book test:
 
 ```ruby
 def test_lookup_by_number
+  repository = Minitest::Mock.new
   phone_book = PhoneBook.new(repository)
   repository.expect(:find_by_number, [], ["(123) 123-1234"])
   phone_book.reverse_lookup('(123) 123-1234')
@@ -1273,7 +1297,7 @@ def test_lookup_by_number
 end
 ```
 
-Fix the NoMethodError by adding `reverse_lookup` to `PhoneBook`:
+We get a NoMethodError when we run the test because it's looking for the method `reverse_lookup`. Fix the NoMethodError by adding `reverse_lookup` to `PhoneBook`:
 
 ```ruby
 def reverse_lookup(number)
@@ -1290,19 +1314,26 @@ end
 
 That gets the phone book test passing. Go back to the integration test.
 
-Now it's complaining about a missing method on entry repository. Drop down to entry repository test and write a test for the missing method.
+Now it's complaining about a missing method `find_by_number` on entry repository. Drop down to entry repository test and write a test for the missing method.
 
 ```ruby
 def test_find_by_number
-  entries = repository.find_by_number("222.222.2222")
-  assert_equal 1, entries.length
-  bob = entries.first
+    entries = [
+      { first_name: 'Alice', last_name: 'Smith', phone_number: '111.111.1111' },
+      { first_name: 'Bob', last_name: 'Smith', phone_number: '222.222.2222' },
+      { first_name: 'Cindy', last_name: 'Johnson', phone_number: '333.333.3333' }
+      ].map { |row| Entry.new(row) }
+
+  repository = EntryRepository.new(entries)
+  results = repository.find_by_number("222.222.2222")
+  assert_equal 1, results.length
+  bob = results.first
   assert_equal "Bob Smith", bob.name
   assert_equal "222.222.2222", bob.phone_number
 end
 ```
 
-Make it pass.
+It doesn't pass because it doesn't know of a method `find_by_number` in `entry_repository.rb`. Let's add it. 
 
 ```ruby
 def find_by_number(number)
@@ -1310,12 +1341,12 @@ def find_by_number(number)
 end
 ```
 
-Go back to the integration test. It passes.
+Go back to the integration test. It passes!
 
 Commit your changes.
 
 
-## Practice More
+## Now, Practice Without the Tutorial!
 
 ### `ReportCard`
 

@@ -622,7 +622,7 @@ Add a `when` line to your `run` method so that the command `s` will take one par
 
 #### Step 2 - Implement the Method
 
-Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your `shorten` method. Make sure that your method ends with a `return` statement so it sends the shortened URL that to the method called it.
+Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your `shorten` method. Make sure that your method ends with a `return` statement so it sends the shortened URL that to the method that called it.
 
 #### Step 3 - Tweet with URL
 

@@ -367,9 +367,9 @@ and in `app/views/comments/_comment.html.erb`:
 </div>
 ```
 
-If you're seeing the comments repeating over and over again after refreshing the show page, make sure you've deleted the each block that previously surrounded the portion you cut out.
+If you're seeing the comments repeating over and over again after refreshing the show page, make sure you've deleted the each block that previously surrounded the portion you cut out. 
 
-### Reevaluating Dependencies
+#### Reevaluating Dependencies
 
 Let's examine those dependencies again:
 

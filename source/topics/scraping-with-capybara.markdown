@@ -174,18 +174,41 @@ $ brew install phantomjs
 $ gem install capybara poltergeist launchy
 ```
 
-### First run
+### Setup
 
-Lets open Capybara's documentation with it.
+To set these things up, we need to:
+* require the gems in order to have the code available
+* configure Poltergeist to not blow up on JavaScript errors (aka every website w/ js)
+* then tell Capybara to use Poltergeist as its driver
+* then get an object from Capybara that we can use to navigate the web (we'll name ours "browser")
+
+Lets save the below code in `setup-capybara.rb`
 
 ```ruby
-$ pry
-pry(main)> require 'capybara/poltergeist'         # require the gems
-pry(main)> Capybara.default_driver = :poltergeist # configure Capybara to use poltergeist as the driver
-pry(main)> browser = Capybara.current_session     # the object we'll interact with
+# Require the gems
+require 'capybara/poltergeist'
+
+# Configure Poltergeist to not blow up on websites with js errors aka every website with js
+# See more options at https://github.com/teampoltergeist/poltergeist#customization
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, js_errors: false)
+end
+
+# Configure Capybara to use Poltergeist as the driver
+Capybara.default_driver = :poltergeist
+```
+
+And then we'll load it up in pry and open Capybara's documentation with it.
+
+```ruby
+$ pry -r './setup-capybara.rb'
+pry(main)> # The object we'll interact with
+pry(main)> browser = Capybara.current_session
+pry(main)> # Go to a web page (first request will take a bit)
 pry(main)> url = "https://github.com/jnicklas/capybara"
-pry(main)> browser.visit url                      # go to a web page (first request will take a bit)
-pry(main)> browser.save_and_open_page             # save the page locally, open it (this is what Launchy does)
+pry(main)> browser.visit url
+pry(main)> # Save the page locally, and open it (this is what Launchy does)
+pry(main)> browser.save_and_open_page
 ```
 
 And now lets head over to the Denver Post and try getting the information we previously had.

@@ -46,7 +46,7 @@ $ brew install memcached
 {% endterminal %}
 
 After installation, you'll want to start Memcache:
- 
+
 {% terminal %}
 $ ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents
 $ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.memcached.plist

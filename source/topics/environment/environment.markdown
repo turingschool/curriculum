@@ -191,10 +191,6 @@ If you don't want Postgres to run all the time, you can start and stop it as you
 
 {% terminal %}
 $ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
-{% endterminal %}
-
-
-$ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
 server starting
 
 $ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log status

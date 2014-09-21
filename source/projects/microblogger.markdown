@@ -165,8 +165,9 @@ connection to Twitter. With that setup, we can move forward.
 
 Now that we have the `@client` object, we need to know what methods are
 available from the Twitter library. In other words, what Ruby code can we write
-that will The best information is available on the
-[project readme file here](http://rdoc.info/gems/twitter/file/README.md).
+that will interact with Twitter's API.
+
+The best information is available on the [project readme file here](http://rdoc.info/gems/twitter/file/README.md).
 
 In the readme you'll find a section "Usage Examples" which clues you into some
 of the functions exposed by the library. One of the methods we have access to is
@@ -622,7 +623,7 @@ Add a `when` line to your `run` method so that the command `s` will take one par
 
 #### Step 2 - Implement the Method
 
-Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your `shorten` method. Make sure that your method ends with a `return` statement so it sends the shortened URL that to the method called it.
+Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your `shorten` method. Make sure that your method ends with a `return` statement so it sends the shortened URL that to the method that called it.
 
 #### Step 3 - Tweet with URL
 

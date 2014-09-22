@@ -63,7 +63,7 @@ If you were connecting to an existing database you would enter the database conf
 Let's start up the server. From your project directory:
 
 {% terminal %}
-$ bin/rails server
+$ rails server
 => Booting WEBrick
 => Rails 4.0.0 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach
@@ -90,10 +90,8 @@ If you see an error here, it's most likely related to the database. You are prob
 Our blog will be centered around "articles," so we'll need a table in the database to store all the articles and a model to allow our Rails app to work with that data. We'll use one of Rails' generators to create the required files. Switch to your terminal and enter the following:
 
 {% terminal %}
-$ bin/rails generate model Article
+$ rails generate model Article
 {% endterminal %}
-
-Note that we use `bin/rails` here but we used `rails` previously. The `rails` command is used for generating new projects, and the `bin/rails` command is used for controlling Rails.
 
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 
@@ -149,7 +147,7 @@ What is that `t.timestamps` doing there? It will create two columns inside our t
 Save that migration file, switch over to your terminal, and run this command:
 
 {% terminal %}
-$ bin/rake db:migrate
+$ rake db:migrate
 {% endterminal %}
 
 This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc).
@@ -159,7 +157,7 @@ We tell `rake` to `db:migrate` which means "look in your set of functions for th
 In this case we had just one migration to run and it should print some output like this to your terminal:
 
 {% terminal %}
-$ bin/rake db:migrate
+$ rake db:migrate
 ==  CreateArticles: migrating =================================================
 -- create_table(:articles)
    -> 0.0012s
@@ -175,7 +173,7 @@ We've now created the `articles` table in the database and can start working on 
 Another awesome feature of working with Rails is the `console`. The `console` is a command-line interface to your application. It allows you to access and work with just about any part of your application directly instead of going through the web interface. This will accelerate your development process. Once an app is in production the console makes it very easy to do bulk modifications, searches, and other data operations. So let's open the console now by going to your terminal and entering this:
 
 {% terminal %}
-$ bin/rails console
+$ rails console
 {% endterminal %}
 
 You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application. Let's try some experiments. Enter each of these commands one at a time and observe the results:
@@ -214,7 +212,7 @@ We've created a few articles through the console, but we really don't have a web
 
 When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `config/routes.rb`.
 
-Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Blogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
+Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Rails::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
 
 ```ruby
 Blogger::Application.routes.draw do
@@ -229,7 +227,7 @@ This line tells Rails that we have a resource named `articles` and the router sh
 Dealing with routes is commonly very challenging for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
 
 {% terminal %}
-$ bin/rake routes
+$ rake routes
       Prefix Verb   URI Pattern                  Controller#Action
     articles GET    /articles(.:format)          articles#index
              POST   /articles(.:format)          articles#create
@@ -265,7 +263,7 @@ Now that the router knows how to handle requests about articles, it needs a plac
 We're going to use another Rails generator but your terminal has the console currently running. Let's open one more terminal or command prompt and move to your project directory which we'll use for command-line scripts. In that new terminal, enter this command:
 
 {% terminal %}
-$ bin/rails generate controller articles
+$ rails generate controller articles
 {% endterminal %}
 
 The output shows that the generator created several files/folders for you:
@@ -358,7 +356,7 @@ Right now our article list is very plain, let's add some links.
 
 #### Looking at the Routing Table
 
-Remember when we looked at the Routing Table using `bin/rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
+Remember when we looked at the Routing Table using `rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
 
 When we create a link, we'll typically use a "route helper" to specify where the link should point. We want our link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use looks like this:
 
@@ -1062,7 +1060,7 @@ First, we need to brainstorm what a comment _is_...what kinds of data does it ha
 With that understanding, let's create a `Comment` model. Switch over to your terminal and enter this line:
 
 {% terminal %}
-$ bin/rails generate model Comment author_name:string body:text article:references
+$ rails generate model Comment author_name:string body:text article:references
 {% endterminal %}
 
 We've already gone through what files this generator creates, we'll be most interested in the migration file and the `comment.rb`.
@@ -1082,7 +1080,7 @@ t.references :article
 Once that's complete, go to your terminal and run the migration:
 
 {% terminal %}
-$ bin/rake db:migrate
+$ rake db:migrate
 {% endterminal %}
 
 ### Relationships
@@ -1282,7 +1280,7 @@ Just like we needed an `articles_controller.rb` to manipulate our `Article` obje
 Switch over to your terminal to generate it:
 
 {% terminal %}
-$ bin/rails generate controller comments
+$ rails generate controller comments
 {% endterminal %}
 
 #### Writing `CommentsController.create`
@@ -1403,9 +1401,9 @@ With those relationships in mind, let's design the new models:
 Note that there are no changes necessary to Article because the foreign key is stored in the Tagging model. So now lets generate these models in your terminal:
 
 {% terminal %}
-$ bin/rails generate model Tag name:string
-$ bin/rails generate model Tagging tag:references article:references
-$ bin/rake db:migrate
+$ rails generate model Tag name:string
+$ rails generate model Tagging tag:references article:references
+$ rake db:migrate
 {% endterminal %}
 
 ### Expressing Relationships
@@ -1450,7 +1448,7 @@ has_many :articles, through: :taggings
 
 Now if we have an object like `article` we can just ask for `article.tags` or, conversely, if we have an object named `tag` we can ask for `tag.articles`.
 
-To see this in action, start the `bin/rails console` and try the following:
+To see this in action, start the `rails console` and try the following:
 
 {% irb %}
 $ a = Article.first
@@ -1692,7 +1690,7 @@ undefined method `tag_path' for #<ActionView::Base:0x104aaa460>
 The `link_to` helper is trying to use `tag_path` from the router, but the router doesn't know anything about our Tag object. We created a model, but we never created a controller or route. There's nothing to link to -- so let's generate that controller from your terminal:
 
 {% terminal %}
-$ bin/rails generate controller tags
+$ rails generate controller tags
 {% endterminal %}
 
 Then we need to add tags as a resource to our `config/routes.rb`, it should look like this:
@@ -1815,7 +1813,7 @@ We want to add images to our articles. To keep it simple, we'll say that a singl
 First we need to add some fields to the Article model that will hold the information about the uploaded image. Any time we want to make a change to the database we'll need a migration. Go to your terminal and execute this:
 
 {% terminal %}
-$ bin/rails generate migration add_paperclip_fields_to_article
+$ rails generate migration add_paperclip_fields_to_article
 {% endterminal %}
 
 That will create a file in your `db/migrate/` folder that ends in `_add_paperclip_fields_to_article.rb`. Open that file now.
@@ -2115,7 +2113,7 @@ This plugin makes it easy to get up and running by providing a generator that cr
 One small bit of customization we will do is to rename the default model created by Sorcery from "User" to "Author", which gives us a more domain-relevant name to work with. Run this from your terminal:
 
 {% terminal %}
-$ bin/rails generate sorcery:install --model=Author
+$ rails generate sorcery:install --model=Author
 {% endterminal %}
 
 
@@ -2157,7 +2155,7 @@ end
 So go to your terminal and enter:
 
 {% terminal %}
-$ bin/rake db:migrate
+$ rake db:migrate
 {% endterminal %}
 
 Let's see what Sorcery created inside of the file `app/models/author.rb`:
@@ -2181,7 +2179,7 @@ Author model. We could define them again manually as we did with Article.
 Instead we are going to rely on the Rails code controller scaffold generator.
 
 {% terminal %}
-$ bin/rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
+$ rails generate scaffold_controller Author username:string email:string password:password password_confirmation:password
 {% endterminal %}
 
 Rails has two scaffold generators: **scaffold** and **scaffold_controller**.
@@ -2234,7 +2232,7 @@ moment we will find a routing error. The generator did not add a resource for
 our Authors. We need to update our `routes.rb` file:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails::Application.routes.draw do
   # ... other resources we have defined ...
   resources :authors
 end
@@ -2283,7 +2281,7 @@ How do we log in to our Blogger app? We can't yet! We need to build the actual e
 First, let's generate the AuthorSessions model:
 
 {% terminal %}
-$ bin/rails generate controller AuthorSessions
+$ rails generate controller AuthorSessions
 {% endterminal %}
 
 Now we'll add `new`, `create`, and `destroy` methods to `app/controllers/author_sessions_controller.rb`:
@@ -2347,7 +2345,7 @@ get 'logout' => 'author_sessions#destroy'
 ```
 
 {% terminal %}
-$ bin/rake routes
+$ rake routes
    # ... other routes for Articles and Comments ...
    author_sessions POST   /author_sessions(.:format)     author_sessions#create
 new_author_session GET    /author_sessions/new(.:format) author_sessions#new

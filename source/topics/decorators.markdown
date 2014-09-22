@@ -86,7 +86,7 @@ Let's override the `created_at` method in our decorator:
 
 ```ruby
   def formatted_created_at
-    object.created_at.strftime("%m/%d/%Y - %H:%M")
+    article.created_at.strftime("%m/%d/%Y - %H:%M")
   end
 ```
 

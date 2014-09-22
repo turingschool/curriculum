@@ -82,7 +82,7 @@ Now let's add some actual functionality to our decorator.
 
 Currently the show page just displays the raw `created_at` attribute. Often we want to standardize date formatting across our application, and the decorator makes this easy.
 
-Let's override the `created_at` method in our decorator:
+Let's define a new `formatted_created_at` method in our decorator:
 
 ```ruby
   def formatted_created_at

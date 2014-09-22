@@ -1481,7 +1481,7 @@ Showing app/views/articles/_form.html.erb where line #14 raised:
 undefined method `tag_list' for #<Article:0x10499bab0>
 ```
 
-An Article doesn't have an attribute or method named `tag_list`. We made it up in order for the form to display, we need to add a method to the `article.rb` file like this:
+An Article doesn't have an attribute or method named `tag_list`. We made it up in order for the form to display related tags, but we need to add a method to the `article.rb` file like this:
 
 ```ruby
 def tag_list

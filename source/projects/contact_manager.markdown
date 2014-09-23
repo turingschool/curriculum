@@ -34,7 +34,7 @@ Rails is not currently installed on this system.
 $ gem install rails
 ...
 $ rails -v
-Rails 3.2.12
+Rails 4.1.6
 {% endterminal %}
 
 <div class="note">

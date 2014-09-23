@@ -2249,7 +2249,7 @@ Now it's displaying the password and password_confirmation text here, lets delet
 
 If you click _Back_, you'll see that the `app/views/authors/index.html.erb` page also shows the hash and salt. Edit the file to remove these as well.
 
-We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
+We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `nil` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 
 Let's open `app/views/layouts/application.html.erb` and add a little footer so the whole `%body` chunk looks like this:
 

@@ -150,6 +150,11 @@ Play around with them in pry: try the following.
 ```ruby
 pry
 require 'capybara/poltergeist'          # require the gems
+
+# Configure Poltergeist to not blow up on websites with js errors aka every website with js
+# See more options at https://github.com/teampoltergeist/poltergeist#customization
+Capybara.register_driver(:poltergeist) { |app| Capybara::Poltergeist::Driver.new(app, js_errors: false) }
+
 Capybara.default_driver = :poltergeist  # configure Capybara to use poltergeist as the driver
 internet = Capybara.current_session     # the object we'll interact with
 url = "https://github.com/jnicklas/capybara"
@@ -172,7 +177,7 @@ We need to add all these gems to the Gemfile:
 ```ruby
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
-  gem 'pry',         '~> 0.10.0'
+  gem 'pry-rails',   '~> 0.3.2'
 end
 
 group :test do
@@ -198,14 +203,14 @@ And edit the .rspec file, remove `--warnings` and add `--format documentation` s
 ```
 
 Now lets tell RSpec we want to use Capybara with Poltergeist,
-edit spec/rails_helper.rb, add this after the other requires.
+edit `spec/rails_helper.rb`, add this after the other requires.
 
 ```ruby
 # load up Capybara
 require 'capybara/rspec'
 require 'capybara/rails'
 
-# load up Poltergeist
+# load up Poltergeist (not turning off js errors, b/c this is our app, we want to know about errors!)
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
 ```

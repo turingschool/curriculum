@@ -568,6 +568,68 @@ average = sum / num_grades
 
 ## Tools
 
+### Ag
+
+Get it with
+
+```
+$ brew install ag
+```
+
+Ag is a tool to search your code.
+It's better than other tools, like grep, because it's faster,
+it searches smarter, and it takes regular expressions,
+allowing you to make more relevant searches.
+
+Search all your files like this
+
+```
+$ ag 'thing to search for'
+```
+
+Search all your files
+
+
+### Find + ag
+
+The unix find command locates things like files and directories.
+
+```
+$ find <dirname> # lists all files/dirs in the dirname
+$ find .         # all files in current working dir
+$ find lib       # all files in lib
+```
+
+That's a lot of output, we'd like to scope that to just the files
+that might be relevant, so we can filter the results with ag:
+
+```
+$ find lib | ag keyword
+```
+
+### `which` and `gem which` to find code
+
+Where is a binary?
+
+```
+$ which ruby
+$ which gem
+$ which rake
+```
+
+Lets open it
+
+```
+$ atom "$(which gem)"
+```
+
+Where is that ruby file I'm requiring?
+
+```
+$ gem which stringio
+$ gem which minitest/pride
+$ gem which seeing_is_believing
+```
 
 ### Git
 

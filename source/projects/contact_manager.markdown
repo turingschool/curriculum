@@ -16,7 +16,24 @@ In this advanced Rails project, you'll create a contact manager. The tools that 
 * Server and client-side validations
 * Deployment and monitoring
 
-This project assumes you have already completed the [general Ruby setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) and I'm using *Ruby 1.9.3*. We'll rely on the Bundler system to install other gems for us along the way.
+This project assumes you have already completed the
+[general Ruby setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html)
+and I'm using *Ruby 2.1.2*.
+We'll rely on the Bundler system to install other gems for us along the way.
+
+**Versions**
+
+* Postgresql 9.3.4
+* Ruby: 2.1.2p95
+* Rails: [4.1.5](http://rubygems.org/gems/rails)
+* Rspec-rails: [3.1.0](http://rubygems.org/gems/rspec-rails)
+* Omniauth: [1.2.2](http://rubygems.org/gems/omniauth)
+* Omniauth-twitter: [1.0.1](http://rubygems.org/gems/omniauth-twitter)
+* Capybara: [2.4.3](http://rubygems.org/gems/capybara)
+* Unicorn: [4.8.3](http://rubygems.org/gems/unicorn)
+* Sqlite3: [1.3.9](http://rubygems.org/gems/sqlite3)
+* Pg: [0.17.1](http://rubygems.org/gems/pg)
+
 
 In addition, I recommend you use the Sublime Text 2 IDE available [here](http://www.sublimetext.com/2).
 
@@ -24,7 +41,8 @@ We'll use an iterative approach to develop one feature at a time. Here goes!
 
 ## I0: Up and Running
 
-Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored.
+Let's lay the groundwork for our project.
+In your terminal, switch to the directory where you'd like your project to be stored.
 
 Lets install Rails or ensure that we have it installed.
 
@@ -34,11 +52,11 @@ Rails is not currently installed on this system.
 $ gem install rails
 ...
 $ rails -v
-Rails 3.2.12
+Rails 4.1.5
 {% endterminal %}
 
 <div class="note">
-<p>It is not necessary to have the same exact version of Rails specified here in the tutorial. The tutorial will definitely work with the specified version but will also likely work with a similar version.</p>
+<p>It is not necessary to have the same exact version of Rails specified here in the tutorial, but you should at least have the same major version (the first number ie rails 4.x.x). The tutorial will definitely work with the specified version but will also likely work with a similar version.</p>
 </div>
 
 Let's create a new Rails project:
@@ -64,7 +82,7 @@ Open the `Gemfile` and add:
 
 ```ruby
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.1.0'
 end
 ```
 
@@ -81,6 +99,7 @@ $ bundle exec rails generate rspec:install
 create  .rspec
 create  spec
 create  spec/spec_helper.rb
+create  spec/rails_helper.rb
 {% endterminal %}
 
 Now your project is set to use RSpec and the generators will use RSpec by default.
@@ -104,7 +123,7 @@ Here's how to setup unicorn.
 First, add this the dependency to your `Gemfile`:
 
 ```ruby
-gem 'unicorn'
+gem 'unicorn', '~> 4.8.3'
 ```
 
 Second, we need to install this new dependency:
@@ -166,8 +185,8 @@ Find the line in your gem file that says `gem 'sqlite3'` and move this into the 
 
 ```ruby
 group :development, :test do
-  gem 'rspec-rails'
-  gem 'sqlite3'
+  gem 'rspec-rails', '~> 3.1.0'
+  gem 'sqlite3',     '~> 1.3.9'
 end
 ```
 
@@ -175,7 +194,7 @@ Create a new group called :production, and add the PostgreSQL gem to it.
 
 ```ruby
 group :production do
-  gem 'pg'
+  gem 'pg', '~> 0.17.1'
 end
 ```
 
@@ -187,6 +206,14 @@ Commit your code again.
 $ git commit -m "Update database dependencies"
 {% endterminal %}
 
+In order to make our CSS and JavaScript available on Heroku,
+we need to change a configuration option. In `config/environments/production.rb`,
+find the line for `serve_static_assets`, and set it to be true:
+
+```ruby
+config.serve_static_assets = true
+```
+
 Next let's integrate [Heroku](http://www.heroku.com/).
 
 {% terminal %}
@@ -195,7 +222,9 @@ $ heroku create
 
 The toolbelt will ask for your username and password the first time you run the create, but after that you'll be using an SSH key for authentication.
 
-After running the create command, you'll get back the URL where the app is accessible. Try loading the URL in your browser and you'll see the generic Heroku splash screen. It's not running your code yet so push your project to Heroku.
+After running the create command, you'll get back the URL where the app is accessible.
+Try loading the URL in your browser and you'll see the generic Heroku splash screen.
+It's not running your code yet so push your project to Heroku.
 
 {% terminal %}
 $ git push heroku master
@@ -204,7 +233,7 @@ $ git push heroku master
          http://ADJECTIVE-WORD-NUMBER.heroku.com deployed to Heroku
 {% endterminal %}
 
-Refresh your browser and you should see the Rails splash screen. Click "About your application's environment" again, and...wait, what happened?  When your app is running on Heroku it's in *production* mode, so you'll see a default error message. Don't worry, everything should be running fine.
+Refresh your browser and you should see the Rails 404 page: "The page you were looking for doesn't exist".
 
 Now we're ready to actually build our app!
 
@@ -234,7 +263,7 @@ Let's use the default rails generators to generate a scaffolded model named `Per
 
 {% terminal %}
 $ bundle exec rails generate scaffold Person first_name:string last_name:string
-$ bundle exec rake db:migrate db:test:prepare
+$ bundle exec rake db:setup
 {% endterminal %}
 
 The generators created test-related files for us. They saw that we're using RSpec and created corresponding controller and model test files. Let's run those tests now:
@@ -262,18 +291,19 @@ When you ran your tests with `bundle exec rspec` you probably got a couple of pe
 
 {% terminal %}
 $ bundle exec rspec
-.......................*.....*
+**.***************............
 
 Pending:
-  PeopleHelper add some examples to (or delete) /Users/you/projects/contact_manager/spec/helpers/people_helper_spec.rb
-    # No reason given
-    # ./spec/helpers/people_helper_spec.rb:14
-  Person add some examples to (or delete) /Users/you/projects/contact_manager/spec/models/person_spec.rb
-    # No reason given
+  PeopleController GET index assigns all people as @people
+    # Add a hash of attributes valid for your model
+    # ./spec/controllers/people_controller_spec.rb:40
+  ...etc...
+  Person add some examples to (or delete) /Users/josh/deleteme/contact_manager/spec/models/person_spec.rb
+    # Not yet implemented
     # ./spec/models/person_spec.rb:4
 
-Finished in 0.29508 seconds
-30 examples, 0 failures, 2 pending
+Finished in 0.17144 seconds (files took 1.1 seconds to load)
+30 examples, 0 failures, 17 pending
 {% endterminal %}
 
 We're not going to be using the `PeopleHelper` so let's just get rid of the test file:
@@ -291,9 +321,9 @@ $ git commit -m "Delete extraneous spec file"
 Open `spec/models/person_spec.rb` and you'll see this:
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 
-describe Person do
+RSpec.describe Person, :type => :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
 ```
@@ -303,9 +333,9 @@ The `describe` block will wrap all of our tests (also called examples) in RSpec 
 Let's create an example using the `it` method:
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 
-describe Person do
+RSpec.describe Person, :type => :model do
   it 'is valid' do
     expect(Person.new).to be_valid
   end
@@ -362,30 +392,28 @@ end
 Run your tests again:
 
 {% terminal %}
-$ bundle exec rspec
-....................F.........
+$ bundle exec rspec spec/models/person_spec.rb
+.F
 
 Failures:
 
   1) Person is invalid without a first name
-     Failure/Error: expect(person).to_not be_valid
-       expected valid? to return false, got true
-     # ./spec/models/person_spec.rb:10:in `block (2 levels) in <top (required)>'
+     Failure/Error: expect(person).not_to be_valid
+       expected #<Person id: nil, first_name: nil, last_name: nil, created_at: nil, updated_at: nil> not to be valid
+     # ./spec/models/person_spec.rb:9:in `block (2 levels) in <top (required)>'
 
-Finished in 0.26058 seconds
-30 examples, 1 failure
+Finished in 0.00558 seconds (files took 1.48 seconds to load)
+2 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/models/person_spec.rb:7 # Person is invalid without a first name
 {% endterminal %}
 
 The test failed because it expected a person with no first name to be invalid, but instead it *was* valid. We can fix that by adding a validation for first name inside the model:
 
-<div class="note">
-<p>If you are using Rails 4 you will need to leave out the line beginning with `attr_accessible`.</p>
-</div>
-
 ```ruby
 class Person < ActiveRecord::Base
-  attr_accessible :first_name, :last_name
-
   validates :first_name, presence: true
 end
 ```
@@ -393,18 +421,22 @@ end
 If you run the test again you'll see that we still have a failing test. Look closely at the failed test, though.
 
 {% terminal %}
-$ bundle exec rspec
-................F.............
+$ bundle exec rspec spec/models/person_spec.rb
+F.
 
 Failures:
 
   1) Person is valid
      Failure/Error: expect(Person.new).to be_valid
-       expected valid? to return true, got false
+       expected #<Person id: nil, first_name: nil, last_name: nil, created_at: nil, updated_at: nil> to be valid, but got errors: First name can't be blank
      # ./spec/models/person_spec.rb:5:in `block (2 levels) in <top (required)>'
 
-Finished in 0.26231 seconds
-30 examples, 1 failure
+Finished in 0.01594 seconds (files took 1.51 seconds to load)
+2 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/models/person_spec.rb:4 # Person is valid
 {% endterminal %}
 
 It's the other test! Now the first test fails because the blank `Person` isn't valid. Rewrite the test like this:
@@ -433,36 +465,42 @@ Fix the test by adding a validation to the model:
 
 ```ruby
 class Person < ActiveRecord::Base
-  attr_accessible :first_name, :last_name
-
   validates :first_name, :last_name, presence: true
 end
 ```
 
-Run your tests again.
+Run your tests again. Everything passes.
 
-Woah! What happened?
-
-A bunch of tests in the `PeopleController` spec are blowing up.
-Let's open up the `spec/controllers/people_controller_spec.rb` file.
+Lets go implement those pending tests for the `PeopleController`.
+Open up the `spec/controllers/people_controller_spec.rb` file.
 
 <div class="note">
 <p>In Rails, a Controller is given a name that is the pluralization of the model. The English pluralization of Person is People (not Persons).</p>
 </div>
 
-The `valid_attributes` method is only given a `first_name`, but now our Person
-model needs a last name as well. Update the `valid_attributes` method:
+The `valid_attributes` is in a `let` block.
+This generates a method named `valid_attributes` that will execute the block the first time you call it,
+and then remember the value and return that every time after that.
 
 ```ruby
-def valid_attributes
-  { first_name: "John", last_name: "Doe" }
-end
+let(:valid_attributes) {
+  skip("Add a hash of attributes valid for your model")
+}
 ```
-<div class="note">
-<p>If you are using Rails 4 you may see `let(:valid_attributes) { {"first_name" => "John"} }` instead of the `valid_attributes` method. You will still need to add the last_name as a valid attribute.</p>
-</div>
 
-Run your tests. If everything is passing, commit your changes:
+All our tests are pending because it doesn't know what attributes to use, lets fill that in, and the invalid attributes, too:
+
+```ruby
+let(:valid_attributes) {
+  { first_name: "John", last_name: "Doe" }
+}
+
+let(:invalid_attributes) {
+  { first_name: nil, last_name: "Doe" }
+}
+```
+
+Run your tests. If nothing is failing, commit your changes:
 
 {% terminal %}
 $ git add .
@@ -474,7 +512,10 @@ $ git commit -m "Implement validations on person"
 Go into the `person.rb` model and temporarily remove `:first_name` from the `validates`
 line. Run your tests. What happened?
 
-This is what's called a false positive. The `is invalid without a first_name` test is passing, but not for the right reason. Even though we're not validating `first_name`, the test is passing because the model it's building doesn't have a valid `last_name` either. That causes the validation to fail and our test to pass. We need to improve the Person object created in the tests so that only the attribute being tested is invalid. Let's refactor.
+This is what's called a false positive. The `is invalid without a first_name` test is passing, but not for the right reason.
+Even though we're not validating `first_name`, the test is passing because the model it's building doesn't have a valid `last_name` either.
+That causes the validation to fail and our test to pass.
+We need to improve the Person object created in the tests so that only the attribute being tested is invalid. Let's refactor.
 
 First, just below the `describe` line of our `person_spec`, let's add this code which will be available to all of our examples:
 
@@ -498,7 +539,9 @@ it 'is invalid without a last name' do
 end
 ```
 
-Run your tests and now the `is not valid without a first name` test should fail. Read the output that RSpec gives you to help find the problem. In this case, it's easy -- just add `:first_name` back where you removed it from the validation in `person.rb`.
+Run your tests and now the `is not valid without a first name` test should fail.
+Read the output that RSpec gives you to help find the problem.
+In this case, it's easy -- just add `:first_name` back where you removed it from the validation in `person.rb`.
 
 Now that everything is passing, commit your changes.
 
@@ -509,7 +552,8 @@ $ git commit -m "Fix false positive in person specs"
 
 ### Checking the Checkers
 
-The `let` clause we wrote will make writing test examples a lot easier, but we had better have a test to ensure that what we're calling `person` is actually valid! You can do this by modifying your first test from:
+The `let` clause we wrote will make writing test examples a lot easier,
+but we had better have a test to ensure that what we're calling `person` is actually valid! You can do this by modifying your first test from:
 
 ```ruby
 it 'is valid' do
@@ -575,7 +619,7 @@ The way this is traditionally implemented in a relational database is that the "
 #### A Person Has Phone Numbers
 
 With that understanding, let's write a test. We just want to check that a person
-is capable of having phone numbers. In your `person_spec.rb` let's add this test:
+is capable of having phone numbers. In your `spec/models/person_spec.rb` let's add this test:
 
 ```ruby
 it 'has an array of phone numbers' do
@@ -583,11 +627,15 @@ it 'has an array of phone numbers' do
 end
 ```
 
-Run the tests and make sure the test fails with `undefined method 'phone_numbers'`. Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
+Run the tests and make sure the test fails with `undefined method 'phone_numbers'`.
+Now we're ready to create a `PhoneNumber` model and corresponding association in the `Person` model.
 
 #### Scaffolding the Phone Number Model
 
-We'll use the scaffold generator again to save us a little time. For now we'll keep the phone number simple that contains the phone number, represented as a String, and a reference to the Person that owns the number. Generate it with this command at the terminal:
+We'll use the scaffold generator again to save us a little time.
+For now we'll keep the phone number simple that contains the phone number,
+represented as a String, and a reference to the Person that owns the number.
+Generate it with this command at the terminal:
 
 {% terminal %}
 $ bundle exec rails generate scaffold PhoneNumber number:string person_id:integer
@@ -596,7 +644,7 @@ $ bundle exec rails generate scaffold PhoneNumber number:string person_id:intege
 Run the migrations:
 
 {% terminal %}
-$ bundle exec rake db:migrate db:test:prepare
+$ bundle exec rake db:migrate
 {% endterminal %}
 
 Run the tests again. They're still not passing.
@@ -623,7 +671,7 @@ $ git commit -m "Generate phone number and associate with person"
 You can try out the new association by going into the console via `bundle exec rails console` and adding a phone number manually:
 
 {% irb %}
-$ p = Person.first
+$ p = Person.create first_name: 'Alan', last_name: 'Turing'
 $ p.phone_numbers.create(number: '2024605555')
 {% endirb %}
 
@@ -631,15 +679,13 @@ $ p.phone_numbers.create(number: '2024605555')
 
 Right now the phone number is just stored as a string, so maybe the user enters a good-looking one like "2024600772" or maybe they enter "please-don't-call-me". Let's add some validations to make sure the phone number can't be blank.
 
-Go into `phone_number_spec.rb` and mimic some of the same things we did in `person_spec.rb`. We can start off by writing a `let` block to setup our `PhoneNumber` object. Enter this just below the `describe` line:
+Go into `phone_number_spec.rb` and mimic some of the same things we did in `person_spec.rb`.
+We can start off by writing a `let` block to setup our `PhoneNumber` object.
+Delete the `pending` line and enter this just below the `describe` line:
 
 ```ruby
 let(:phone_number) { PhoneNumber.new }
-```
 
-Delete the `pending` test, and add a test for a valid number:
-
-```ruby
 it 'is valid' do
   expect(phone_number).to be_valid
 end
@@ -677,38 +723,30 @@ it 'must have a reference to a person' do
 end
 ```
 
-Run the tests again and your new test should fail. Add a validation that checks the presence of `person_id` in your phone number, then run your tests again.
+Run the tests again and your new test should fail.
+Add a validation that checks the presence of `person_id` in your phone number, then run your tests again.
+Now it passes, but the other tests fail because the phone number they get from the `let` block doesn't
+have a `person_id`, so go add that attribute.
 
-Everything blows up. Well, not everything, but you certainly have a bunch of failing specs in the `PhoneNumberController` specs.
-
+We have a lot of pending tests in the`PhoneNumberController` specs, lets go implement them.
 Open up the file `spec/controllers/phone_numbers_controller_spec.rb` and find
 the method definition for `valid_attributes`. Only `number` is supplied, but we
 just changed the requirements. Give it a `person_id`:
 
 ```ruby
-def valid_attributes
-  { number: "MyString", person_id: 1 }
-end
+let(:valid_attributes) {
+  {number: '5554443333', person_id: 1}
+}
+
+let(:invalid_attributes) {
+  {number: '5554443333', person_id: nil}
+}
 ```
 
-Re-run your tests. You only have one more failure, and this is the spec for the valid phone number:
+Re-run your tests, that should have caused most of them to run.
 
-```bash
-Failures:
-
-  1) PhoneNumber is valid
-     Failure/Error: expect(phone_number).to be_valid
-       expected valid? to return true, got false
-     # ./spec/models/phone_number_spec.rb:7:in `block (2 levels) in <top (required)>'
-```
-
-Update your `let` block in the `spec/models/phone_number_spec.rb` again, giving it a `person_id`.
-
-```ruby
-let(:phone_number) { PhoneNumber.new(number: "1112223333", person_id: 1) }
-```
-
-That's a lot of work for two validations, but these are an important part of our testing base. If somehow one of the validations got deleted accidentally, we'd know it right away.
+That's a lot of work for two validations, but these are an important part of our testing base.
+If somehow one of the validations got deleted accidentally, we'd know it right away.
 
 If your tests are all passing, go ahead and commit the changes so you don't lose all that hard work!
 
@@ -718,7 +756,9 @@ Write a test ensuring that a `PhoneNumber` has a method to give you back the ass
 
 ```ruby
 it 'is associated with a person' do
-  expect(phone_number).to respond_to(:person)
+  person = Person.new
+  phone_number.person = person
+  expect(phone_number.person).to eq person
 end
 ```
 

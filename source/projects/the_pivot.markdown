@@ -383,20 +383,19 @@ and extension features.
 
 The final evaluations will use the rubric below on the day the project is due.
 
-## Evaluation Rubrics
+## Evaluation Rubric
 
-### Checkpoint Evaluations
+The following criteria will be used for each evaluation:
 
-The following criteria will be used for each Checkpoint evaluation:
-
-#### Feature Delivery
+### Feature Delivery
 
 You'll be graded on each of the criteria below with a score of (1) well below
 expectations, (2) below expectations, (3) as expected, (4) better than expected.
 
-* Completion: did you deliver what you committed to in the Kickoff?
+* Completion: did you deliver what you committed to build?
 * Organization: did you use your project management tool to keep the project organized?
-* Progress: are you on track to finish the project on time?
+* Progress: are you on track to finish the project on time? Will/does the end
+product realize the vision of the concept?
 
 ### Technical Quality
 
@@ -407,19 +406,3 @@ code quality / application of MVC, (3) solid code quality and pushing logic down
 the stack, (4) exceptionally well factored code
 * User Experience: (1) inattention to the user experience, (2) some gaps in the
 UX, (3) a production-ready user experience, (4) a polished UX
-
-### Final Evaluation
-
-The evaluation of the project is broken into two areas as described below. This
-rubric will be more detailed before the class completes Checkpoint 3.
-
-#### Feature Delivery
-
-* Completion: does the end product deliver on the concept?
-* Organization: did the team demonstrate proficiency with professional software practices?
-
-#### Technical Quality
-
-* Test-Driven Development
-* Code Quality
-* User Experience

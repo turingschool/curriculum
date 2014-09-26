@@ -64,7 +64,7 @@ $ touch lib/event_manager.rb
 Creating and placing your `event_manager.rb` file in 'lib' directory is entirely
 optional, however, it adheres to a common convention within most ruby applications.
 The filepaths we use in this tutorial will assume that we have put our `event_manager.rb`
-file within the 'lib' director.
+file within the 'lib' directory.
 
 Ruby source file names are often times written all in lower-case characters and
 instead of camel-casing multiple words together they are instead separated by an
@@ -149,7 +149,7 @@ of characters in this case as the initial greeting or the name of the file.
 
 We are assuming the file is present here. File has the ability to check if a
 file exists at the specified filepath on the filesystem through `File.exist?
-"event_attendees.csv"`.
+"../event_attendees.csv"`.
 
 
 ### Read the File Line By Line

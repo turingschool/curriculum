@@ -2593,7 +2593,7 @@ end
 
 This fails. Make it pass by updating the account section in the layout.
 
-```ruby
+```erb
 <div id="account">
   <% if current_user %>
     <%= link_to "Logout", logout_path, id: "logout", method: 'delete' %>
@@ -2602,6 +2602,7 @@ This fails. Make it pass by updating the account section in the layout.
   <% end %>
 </div>
 ```
+
 There, it works. Run all your tests, and if they're passing check it all in.
 
 ### Implementing Logout

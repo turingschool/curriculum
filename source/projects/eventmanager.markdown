@@ -656,7 +656,7 @@ like these help make your code cleaner and your intent clearer.
 ### Refactoring Clean Zip Codes
 
 With our clean zip code logic tucked away in our `clean_zipcode` method we can
-examine it further to see if we can make it even more succint.
+examine it further to see if we can make it even more succinct.
 
 * Coercion over Questions
 
@@ -692,7 +692,7 @@ $ "12345"[0..4]
 => "12345"
 {% endirb %}
 
-Combining all of these steps together we can write a more succint
+Combining all of these steps together we can write a more succinct
 `clean_zipcode` method:
 
 ```ruby

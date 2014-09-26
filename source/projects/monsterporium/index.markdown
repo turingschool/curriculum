@@ -28,11 +28,19 @@ In addition, you'll practice fundamental techniques like:
 
 ### Schedule
 
+<<<<<<< HEAD
 1. Introducing Services
 2. Practicing Services
 3. Asynchronous Messaging
 4. Extracting Notifications
 5. Extracting Ratings
+=======
+0. Extracting Responsibilities
+1. Fundamentals of Services
+2. Extracting Email to a Service
+3. Identifying Real-World Services
+4. Extracting Ratings to a Service
+5. Wrap-up and Q&A
 6. Next Steps
 
 ## Refactoring to Services
@@ -53,7 +61,12 @@ Extracting services can seem like a big, unweildy, and confusing ordeal. To
 give you a gentle start, we're going to give you an itty-bitty specification
 for a service to practice on.
 
+
 Jump over to the [Practicing with Services](http://tutorials.jumpstartlab.com/projects/monsterporium/practicing_services.html) tutorial to wrap your head around the idea of services before diving into the larger tutorials.
+
+* Pair for 30 minutes on identifying potential targets
+* In the full group, vote for the top two potential targets
+* Spend 1 hour on each, whiteboarding
 
 ### Asynchronous Messaging
 

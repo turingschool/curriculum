@@ -15,6 +15,10 @@ Setting up your environment can be difficult when you're first starting with Rub
 
 The setup instructions are broken down by platform: Mac, Linux, and Windows.
 
+### Text Editor
+
+If you don't already have a favorite text editor, we recommend using [Atom](https://atom.io/).
+
 ## Mac OS
 
 Mac OS is the most popular platform for Ruby and Rails developers.
@@ -50,10 +54,10 @@ You should be good to go!
 Open the Terminal (You can search for it using Spotlight, or find it in `Applications > Utilities > Terminal`), then run the homebrew installation script:
 
 {% terminal %}
-$ ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+$ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 {% endterminal %}
 
-It will ask you for your password. This is the password to log in to your account on the computer.
+It will ask you for your password. This is the password to log in to your account on the computer, it needs this because it installs its packages in a place that all users of this computer can access.
 
 #### Verifying Homebrew
 
@@ -63,6 +67,25 @@ When it has completed the installation run `brew doctor` and it should tell you 
 $ brew doctor
 Your system is ready to brew.
 {% endterminal %}
+
+If it says something like **"Warning: /usr/bin occurs before /usr/local/bin"**, then you need to edit a variable called your PATH.
+The PATH variable is how your shell finds programs you are trying to run. For example, when we just ran `$ brew doctor`, how did it
+know where to find the brew program? It looked through a list of directories until it found `brew`. The list is stored in the `$PATH`.
+You can see the list with `$ echo "$PATH"`, which should print out a long string of directories, delimited by colons.
+You can make this more human-friendly by translating colons into newlines like this: `$ echo "$PATH" | tr : "\n"`.
+The program you are trying to run may show up at multiple places in these directories. For example, if you said `which -a git`,
+it might tell you that there is a git in "/usr/bin/git" and also in "/usr/local/bin/git". Since the shell will execute the first
+one that it finds, we need to make sure that the one we want (the homebrew one, in /usr/local/bin) is the one it finds,
+which means that "/usr/local/bin" needs to be earlier in the path.
+
+We can place it earlier in the path by editing the configuration file for our shell:
+
+{% terminal %}
+$ atom ~/.bash_profile
+{% endterminal %}
+
+At the top of this file, type `export PATH="/usr/local/bin:$PATH"` which will add "/usr/local/bin", homebrew's install location,
+to the beginning of the path.
 
 ### Git
 
@@ -142,10 +165,6 @@ You can tell rvm which Ruby version you want to use by default:
 $ rvm use 2.1 --default
 {% endterminal %}
 
-### Text Editor
-
-If you don't already have a favorite text editor, we recommend using [Atom](https://atom.io/)
-
 ### PostgreSQL
 
 Postgres is the database of choice for most Rails projects.
@@ -158,23 +177,32 @@ Homebrew has Postgres for you. From your terminal:
 $ brew install postgresql
 {% endterminal %}
 
-#### Automatic Startup
+#### If You Want Postgres to Always Run
 
-Follow the notes that Homebrew prints out to setup Postgres to automatically start when your machine turns on.
-
-#### Creating the Database Instance & Adding a User
-
-Once installed, we need to create the database instance. We'll need to use `sudo` which will cause the first instruction to ask for your MacOS user password. From your terminal:
+This can be nice if you work with Postgres frequently, or just don't want to have to deal with turning it on again:
 
 {% terminal %}
-$ sudo mkdir -p /usr/local/pgsql/data
-$ sudo chown postgres:postgres /usr/local/pgsql/data
-$ sudo su postgres
-$ initdb -D /usr/local/pgsql/data
-$ createuser `whoami`
+ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
 {% endterminal %}
 
-Respond "Y" to `Shall the new role be a superuser?` Now Postgres should be good to go!
+#### If You Want To Manually Start And Stop Postgres
+
+If you don't want Postgres to run all the time, you can start and stop it as you need it, with these commands:
+
+{% terminal %}
+$ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
+server starting
+
+$ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log status
+pg_ctl: server is running (PID: 1933)
+/usr/local/Cellar/postgresql/9.3.4/bin/postgres "-D" "/usr/local/var/postgres"
+
+$ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop
+waiting for server to shut down.... done
+server stopped
+{% endterminal %}
+
+If you prefer to do this, you might consider making a shell script to automate these.
 
 #### Verifying Install and Permissions
 

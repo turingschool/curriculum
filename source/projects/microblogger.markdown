@@ -165,8 +165,9 @@ connection to Twitter. With that setup, we can move forward.
 
 Now that we have the `@client` object, we need to know what methods are
 available from the Twitter library. In other words, what Ruby code can we write
-that will The best information is available on the
-[project readme file here](http://rdoc.info/gems/twitter/file/README.md).
+that will interact with Twitter's API.
+
+The best information is available on the [project readme file here](http://rdoc.info/gems/twitter/file/README.md).
 
 In the readme you'll find a section "Usage Examples" which clues you into some
 of the functions exposed by the library. One of the methods we have access to is
@@ -439,7 +440,7 @@ What we need to do is pull out just the `screen_name`. We create an array of the
 followers' screen names with this line of code:
 
 ```ruby
-screen_names = @client.followers.collect { |follower| follower.screen_name }
+screen_names = @client.followers.collect { |follower| @client.user(follower).screen_name }
 ```
 
 To read this line out loud it would be like "Call the `followers` method of
@@ -466,10 +467,10 @@ To create the `followers_list` method...
 
 * Define the method named `followers_list` with no parameters
 * Create a blank array named `screen_names`
-* On the `@client` call the `followers` method then the `users` method and iterate through `each` of them performing the instruction below:
+* On the `@client` call the `followers` method iterate through `each` of them performing the instruction below:
 
 ```ruby
-  screen_names << follower["screen_name"]
+  screen_names << @client.user(follower).screen_name
 ```
 
 * Return the array `screen_names`
@@ -484,7 +485,7 @@ Then create a `when` line in your `run` method for the command `spam`. It will l
 
 Test it out and see how many followers you can annoy at once!
 
-## Iteration 3: Last Tweet from All Friends
+## Iteration 4: Last Tweet from All Friends
 
 So now you can post tweets and DMs. There are hundreds of clients that can do that. If you're a normal twitter user you follow some people who post several times per day and some people who post once per week. It can be difficult to see everyone. Lets create a list of the last tweet for each person you follow.
 
@@ -582,7 +583,7 @@ amyhoy said this on Wednesday, Jul 29...
 along with our candlelit dinner in the garden, charming brass music drifted over the hills from nearby. as if it were just for us.
 {% endterminal %}
 
-## Iteration 4: Shorten URLs with Bit.ly
+## Iteration 5: Shorten URLs with Bit.ly
 
 There's a great library which can be used to automatically create shortened URLs. Let's add this functionality into our project.
 
@@ -622,7 +623,7 @@ Add a `when` line to your `run` method so that the command `s` will take one par
 
 #### Step 2 - Implement the Method
 
-Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your `shorten` method. Make sure that your method ends with a `return` statement so it sends the shortened URL that to the method called it.
+Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your `shorten` method. Make sure that your method ends with a `return` statement so it sends the shortened URL that to the method that called it.
 
 #### Step 3 - Tweet with URL
 
@@ -638,7 +639,7 @@ You know that `parts[0]` is the command, `parts[1..-2]` are the message, and `pa
 
 Get that working and you're done with the twitter client!
 
-## Iteration 5: The Klout API
+## Iteration 6: The Klout API
 
 Let's continue experimenting with various APIs.
 

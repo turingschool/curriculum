@@ -498,7 +498,7 @@ it 'is invalid without a last name' do
 end
 ```
 
-Run your tests and now the `is not valid without a first name` test should fail. Read the output that RSpec gives you to help find the problem. In this case, it's easy -- just add `:first_name` back where you removed it from the validation in `person.rb`.
+Run your tests and now the `is invalid without a first name` test should fail. Read the output that RSpec gives you to help find the problem. In this case, it's easy -- just add `:first_name` back where you removed it from the validation in `person.rb`.
 
 Now that everything is passing, commit your changes.
 

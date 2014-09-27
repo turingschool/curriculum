@@ -293,7 +293,7 @@ Open `spec/models/person_spec.rb` and you'll see this:
 ```ruby
 require 'spec_helper'
 
-describe Person do
+RSpec.describe Person, :type => :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
 ```
@@ -305,7 +305,7 @@ Let's create an example using the `it` method:
 ```ruby
 require 'spec_helper'
 
-describe Person do
+RSpec.describe Person, :type => :model do
   it 'is valid' do
     expect(Person.new).to be_valid
   end
@@ -323,7 +323,7 @@ Add a second test:
 ```ruby
 require 'spec_helper'
 
-describe Person do
+RSpec.describe Person, :type => :model do
   it 'is valid' do
     expect(Person.new).to be_valid
   end

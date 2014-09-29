@@ -164,7 +164,7 @@ To support the evaluation process, please make the following available via the `
 
 ## Submission Guidelines
 
-* Your project must be "live" on the web for your evaluation. We recommend you deploy it on Heroku
+* Your project must be "live" on the web for your evaluation on Heroku
 * Your `README` file on GitHub should contain a link to your live site
 * On the production site, the URL path `/code` should redirect the user to the GitHub repository
 

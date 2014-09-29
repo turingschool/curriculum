@@ -31,7 +31,7 @@ Project implementation may **not** use:
 
 1. One team member creates a repository named "dinner_dash"
 2. Add the other team members as collaborators
-3. Create and use a Pivotal Tracker project at http://pivotaltracker.com
+3. Add your project to Waffle.io to track your progress and organize your team https://waffle.io
 
 ## Base Expectations
 

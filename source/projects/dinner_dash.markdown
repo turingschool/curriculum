@@ -142,7 +142,7 @@ There are several types of entities in the system, each with certain required da
 ### Order
 
 * An order must belong to a user
-* An order must be for one or more of one or more items currently being sold
+* An order must be for one or more items currently being sold
 * An order is marked for pickup or delivery
 * If marked for delivery, an order has an associated address with street number, street, city, state, and zip
 

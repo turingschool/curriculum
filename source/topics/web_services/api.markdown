@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
   end
 
   def create
-    @article = Article.new(params[:article])
+    @article = Article.new(article_params)
     if @article.save
       redirect_to article_path(@article), notice: "Your article was created."
     else
@@ -90,7 +90,7 @@ But how is this technique used when we write a `create` action that checks objec
 
 ```ruby
 def create
-  @article = Article.new(params[:article])
+  @article = Article.new(article_params)
   if @article.save
     redirect_to article_path(@article), notice: "Your article was created."
   else
@@ -104,7 +104,7 @@ We can achieve the same functionality using `respond_with`:
 
 ```ruby
 def create
-  @article = Article.new(params[:article])
+  @article = Article.new(article_params)
   if @article.save
     flash[:notice] = "Your article was created."
   else
@@ -118,7 +118,7 @@ Then refactoring the branch into a ternary:
 
 ```ruby
 def create
-  @article = Article.new(params[:article])
+  @article = Article.new(article_params)
   flash[:notice] = @article.save ? "Your article was created." : "Article failed to save."
   respond_with @article
 end
@@ -134,7 +134,7 @@ Maybe you would rather redirect to the `index` after successful creation. You ca
 
 ```ruby
 def create
-  @article = Article.new(params[:article])
+  @article = Article.new(article_params)
   flash[:notice] = @article.save ? "Your article was created." : "Article failed to save."
   respond_with @article, location: articles_path
 end
@@ -146,7 +146,7 @@ Does that action feel too simple? Would you like to bring back some of the heavy
 
 ```ruby
 def create
-  @article = Article.new(params[:article])
+  @article = Article.new(article_params)
   flash[:notice] = @article.save ? "Your article was created." : "Article failed to save."
   respond_with @article do |format|
     format.html { @article.valid? ? redirect_to(@article) : render(:new) }

@@ -64,7 +64,7 @@ $ touch lib/event_manager.rb
 Creating and placing your `event_manager.rb` file in 'lib' directory is entirely
 optional, however, it adheres to a common convention within most ruby applications.
 The filepaths we use in this tutorial will assume that we have put our `event_manager.rb`
-file within the 'lib' director.
+file within the 'lib' directory.
 
 Ruby source file names are often times written all in lower-case characters and
 instead of camel-casing multiple words together they are instead separated by an
@@ -75,7 +75,7 @@ Open `lib/event_manager.rb` in your text editor and add the line:
 ```ruby lib/event_manager.rb
 puts "EventManager Initialized!"
 ```
-Validate that ruby is installed correctly and you have created the file correctly:
+Validate that ruby is installed correctly and you have created the file correctly by running it from the root of your `event_manager` directory:
 
 {% terminal %}
 $ ruby lib/event_manager.rb
@@ -139,7 +139,7 @@ most straightforward being `File.read`
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-contents = File.read "../event_attendees.csv"
+contents = File.read "event_attendees.csv"
 puts contents
 ```
 
@@ -164,7 +164,7 @@ Files can also be read in as an array of lines.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "../event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   puts line
 end
@@ -222,7 +222,7 @@ will break the string apart along a space " " character.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "../event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   columns = line.split(",")
   puts columns
@@ -239,8 +239,7 @@ array's zeroth element `columns[0]`.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "../
-event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   columns = line.split(",")
   name = columns[2]
@@ -266,7 +265,7 @@ our current header row.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "../event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   next if line == " ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode\n"
   columns = line.split(",")
@@ -285,7 +284,7 @@ line.
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "../event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 row_index = 0
 lines.each do |line|
   row_index = row_index + 1
@@ -302,7 +301,7 @@ This is a such a common operation that Array defines
 ```ruby lib/event_manager.rb
 puts "EventManager initialized."
 
-lines = File.readlines "../event_attendees.csv"
+lines = File.readlines "event_attendees.csv"
 lines.each_with_index do |line,index|
   next if index == 0
   columns = line.split(",")
@@ -317,7 +316,7 @@ now assume that the header row is first row within the file.
 
 ### Look for a Solution before Building a Solution
 
-Either of these solutions would be a *OK* given our current attendees file.
+Either of these solutions would be *OK* given our current attendees file.
 Problems may arise if we are given a new CSV file that is generated or
 manipulated by another source. This is because the CSV parser that we have
 started to create does not take into account a number of other features
@@ -361,7 +360,7 @@ You can browse the many libraries available through the [documentation](http://r
 require "csv"
 puts "EventManager initialized."
 
-contents = CSV.open "../event_attendees.csv", headers: true
+contents = CSV.open "event_attendees.csv", headers: true
 contents.each do |row|
   name = row[2]
   puts name
@@ -397,7 +396,7 @@ easier to remember. The header 'first_Name' will be converted to `:first_name`.
 require "csv"
 puts "EventManager initialized."
 
-contents = CSV.open "../event_attendees.csv", headers: true, header_converters: :symbol
+contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row|
   name = row[:first_name]
   puts name
@@ -413,7 +412,7 @@ Accessing the zipcode is very easy using the header name. 'Zipcode' becomes
 require "csv"
 puts "EventManager initialized."
 
-contents = CSV.open "../event_attendees.csv", headers: true, header_converters: :symbol
+contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row|
   name = row[:first_name]
   zipcode = row[:zipcode]
@@ -468,7 +467,7 @@ express what we are hoping to accomplish in English words.
 require "csv"
 puts "EventManager initialized."
 
-contents = CSV.open "../event_attendees.csv", headers: true, header_converters: :symbol
+contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row|
   name = row[:first_name]
   zipcode = row[:zipcode]
@@ -516,7 +515,7 @@ require 'csv'
 
 puts "EventManager initialized."
 
-contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -568,7 +567,7 @@ require 'csv'
 
 puts "EventManager initialized."
 
-contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -639,7 +638,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -656,7 +655,7 @@ like these help make your code cleaner and your intent clearer.
 ### Refactoring Clean Zip Codes
 
 With our clean zip code logic tucked away in our `clean_zipcode` method we can
-examine it further to see if we can make it even more succint.
+examine it further to see if we can make it even more succinct.
 
 * Coercion over Questions
 
@@ -692,7 +691,7 @@ $ "12345"[0..4]
 => "12345"
 {% endirb %}
 
-Combining all of these steps together we can write a more succint
+Combining all of these steps together we can write a more succinct
 `clean_zipcode` method:
 
 ```ruby
@@ -788,7 +787,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -942,7 +941,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
 
 contents.each do |row|
   name = row[:first_name]
@@ -1255,7 +1254,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
 
 template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
@@ -1399,7 +1398,7 @@ end
 
 puts "EventManager initialized."
 
-contents = CSV.open '../event_attendees.csv', headers: true, header_converters: :symbol
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
 
 template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter

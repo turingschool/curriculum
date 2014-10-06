@@ -18,7 +18,7 @@ In this advanced Rails project, you'll create a contact manager. The tools that 
 
 This project assumes you have already completed the [general Ruby setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) and I'm using *Ruby 1.9.3*. We'll rely on the Bundler system to install other gems for us along the way.
 
-In addition, I recommend you use the Sublime Text 2 IDE available [here](http://www.sublimetext.com/2).
+In addition, I recommend you use the Atom IDE available [here](https://atom.io/).
 
 We'll use an iterative approach to develop one feature at a time. Here goes!
 
@@ -293,7 +293,7 @@ Open `spec/models/person_spec.rb` and you'll see this:
 ```ruby
 require 'spec_helper'
 
-describe Person do
+RSpec.describe Person, :type => :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
 ```
@@ -305,7 +305,7 @@ Let's create an example using the `it` method:
 ```ruby
 require 'spec_helper'
 
-describe Person do
+RSpec.describe Person, :type => :model do
   it 'is valid' do
     expect(Person.new).to be_valid
   end
@@ -323,7 +323,7 @@ Add a second test:
 ```ruby
 require 'spec_helper'
 
-describe Person do
+RSpec.describe Person, :type => :model do
   it 'is valid' do
     expect(Person.new).to be_valid
   end
@@ -498,7 +498,7 @@ it 'is invalid without a last name' do
 end
 ```
 
-Run your tests and now the `is not valid without a first name` test should fail. Read the output that RSpec gives you to help find the problem. In this case, it's easy -- just add `:first_name` back where you removed it from the validation in `person.rb`.
+Run your tests and now the `is invalid without a first name` test should fail. Read the output that RSpec gives you to help find the problem. In this case, it's easy -- just add `:first_name` back where you removed it from the validation in `person.rb`.
 
 Now that everything is passing, commit your changes.
 
@@ -2593,7 +2593,7 @@ end
 
 This fails. Make it pass by updating the account section in the layout.
 
-```ruby
+```erb
 <div id="account">
   <% if current_user %>
     <%= link_to "Logout", logout_path, id: "logout", method: 'delete' %>
@@ -2602,6 +2602,7 @@ This fails. Make it pass by updating the account section in the layout.
   <% end %>
 </div>
 ```
+
 There, it works. Run all your tests, and if they're passing check it all in.
 
 ### Implementing Logout

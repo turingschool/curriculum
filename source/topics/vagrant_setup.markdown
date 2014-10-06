@@ -145,6 +145,16 @@ $ exit
 
 Now you're back to your Vagrant user session.
 
+#### Add privilege for Vagrant to create database.
+
+vagrant@vagrant-ubuntu-trusty-64:~$ psql  postgres
+psql (9.3.5)
+Type "help" for help.
+
+postgres=> ALTER ROLE vagrant  CREATEDB;
+postgres-> \q
+vagrant@vagrant-ubuntu-trusty-64:~$
+
 #### Verifying Install and Permissions
 
 You should now be back to the normal `vagrant@precise32:~$` prompt. Let's create a database and connect to it:

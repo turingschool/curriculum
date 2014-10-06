@@ -1481,7 +1481,7 @@ Showing app/views/articles/_form.html.erb where line #14 raised:
 undefined method `tag_list' for #<Article:0x10499bab0>
 ```
 
-An Article doesn't have an attribute or method named `tag_list`. We made it up in order for the form to display, we need to add a method to the `article.rb` file like this:
+An Article doesn't have an attribute or method named `tag_list`. We made it up in order for the form to display related tags, but we need to add a method to the `article.rb` file like this:
 
 ```ruby
 def tag_list
@@ -2251,7 +2251,7 @@ If you click _Back_, you'll see that the `app/views/authors/index.html.erb` page
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 
-Let's open `app/views/layouts/application.html.erb` and add a little footer so the whole `%body` chunk looks like this:
+Let's open `app/views/layouts/application.html.erb` and add a little footer so the whole `<body>` chunk looks like this:
 
 ```html+erb
 <body>
@@ -2280,7 +2280,7 @@ The go to `http://localhost:3000/articles/` and you should see "Logged out" on t
 
 How do we log in to our Blogger app? We can't yet! We need to build the actual endpoints for logging in and out, which means we need controller actions for them. We'll create an AuthorSessions controller and add in the necessary actions: new, create, and destroy.
 
-First, let's generate the AuthorSessions model:
+First, let's generate the AuthorSessions controller:
 
 {% terminal %}
 $ bin/rails generate controller AuthorSessions

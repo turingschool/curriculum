@@ -54,7 +54,13 @@ To make use of the decorator, call the `.new` method and pass in the Article fro
   end
 ```
 
-But we can simplify that common pattern. If we call the `decorates_finders` method in `ArticleDecorator` like following: 
+Test it by displaying a single article in your browser and making sure things work
+as expected. The tests should also pass.
+
+#### Using `decorates_finders`
+
+The pattern of finding an object then immediately decorating it is a common one.
+In the decorator you can use `decorates_finders` method like the following:
 
 ```ruby
   class ArticleDecorator < Draper::Decorator
@@ -76,23 +82,37 @@ Then go and view the show page for a single Article by clicking on its name on t
 
 ### Adding Methods
 
-Now let's add some actual functionality to our decorator.
+Now let's add some useful functionality to our decorator.
 
 #### Article Published On
 
-Currently the show page just displays the raw `created_at` attribute. Often we want to standardize date formatting across our application, and the decorator makes this easy.
+Currently the show page just displays the raw `created_at` data in the "Published" line.
+Often we want to standardize date formatting across our application, and the decorator makes this easy.
 
-Let's override the `created_at` method in our decorator:
+Let's create a formatter method for `created_at` method in our decorator:
 
 ```ruby
-  def formatted_created_at
-    object.created_at.strftime("%m/%d/%Y - %H:%M")
-  end
+def formatted_created_at
+  object.created_at.strftime("%m/%d/%Y - %H:%M")
+end
 ```
 
-Since the decorator knows that it is decorating an instance of `Article`, it dynamically generates a method named `article` which returns the wrapped object. Here, calling `article.created_at` gets us the value from the original database model.
+The `object` method here refers to the instance of `Article` that the decorator wraps.
 
-Now in the show.html.erb for the show view of Article you need to change the following line:
+#### Using `article`
+
+For better semantics, the `ArticleDecorator` creates an alias for `object` named `article`.
+So we can replace `object` with `article`:
+
+```ruby
+def formatted_created_at
+  article.created_at.strftime("%m/%d/%Y - %H:%M")
+end
+```
+
+#### Modifying the View Template
+
+Now in the `show.html.erb` for Article you need to change the following line:
 
 ```ruby
 <h4>Published <%= @article.created_at %></h4>
@@ -104,7 +124,26 @@ to:
 <h4>Published <%= @article.formatted_created_at %></h4>
 ```
 
-Refresh the `show` in your browser and the date will be reformatted.
+Refresh your browser and the "Published" line will use the new formatting.
+
+#### Overriding Existing Methods
+
+You aren't limited to defining new methods in the decorator. If the decorator
+defines a method then that method will be found first, even if the wrapped
+model has an identical method. This means you can effectively override methods
+of the wrapped object like so:
+
+```ruby
+def created_at
+  article.created_at.strftime("%m/%d/%Y - %H:%M")
+end
+```
+
+Then return the view template to just:
+
+```ruby
+<h4>Published <%= @article.created_at %></h4>
+```
 
 #### Comment Counter
 
@@ -114,7 +153,8 @@ Currently the show page uses the `pluralize` helper:
   <h3><%= pluralize @article.comments.count, "Comment" %></h3>
 ```
 
-That's a Law of Demeter violation right away, and it isn't setup for future internationalization. We can pull the functionality into the decorator by adding a method:
+That's a bit of logic we can rip out of the view template. Let's add a method
+to the `ArticleDecorator`:
 
 ```ruby
 def comments_count
@@ -125,14 +165,22 @@ end
 Then in the view template:
 
 ```erb
-  <h3><%= @article.comments_count %><h3>
+<h3><%= @article.comments_count %></h3>
 ```
+
+Notice how the `comments_count` method used `h`? That's the method Draper offers
+to access all the built in Rails view helpers. Without it you'd be calling
+`pluralize` on the decorator which isn't defined. With it, you get the same effect
+as calling `pluralize` in your view template.
 
 #### Dealing with a Collection
 
-If you look in the `index.html.erb`, you'll see a similar `pluralize` line. Can you just reuse the decorator method? Try calling the `.comments_count` method.
+If you look in the `index.html.erb`, you'll see a similar `pluralize` line.
+Can you just reuse the decorator method? Try calling the `.comments_count` method
+and you won't get anywhere.
 
-We need the article objects to be decorated in the controller. In your `index` action you have:
+We need the article objects to be decorated in the `index` action of the controller.
+Currently the `index` has:
 
 ```ruby
   def index
@@ -149,19 +197,19 @@ Let's tweak it a bit to decorate the collection:
   end
 ```
 
-Now all elements of the collection are decorated and our index should work properly.
-
-The original Demeter violation is *still there*, but now it can be cleaned in just one spot -- by adding a counter cache column to the `articles` table and accessing the cache in the decorator.
+Now all elements of the collection are decorated and our index should display properly.
 
 ### Links
 
-I hate writing delete links. In the `show.html.erb`, I'm using a helper to generate the link with icon:
+Delete links are a pain to write. Want your delete link to actually be an image? Double pain.
+
+The `show.html.erb` is currently using a custom helper to generate the link with icon:
 
 ```erb
 <%= delete_icon(@article, "Delete") %>
 ```
 
-Which calls this helper in `IconsHelper`: 
+Which calls this helper in `IconsHelper`:
 
 ```ruby
   def delete_icon(object, link_text = nil)
@@ -173,11 +221,12 @@ Which calls this helper in `IconsHelper`:
   end
 ```
 
-It works fine and wraps up some of the ugliness, but using the helper is a procedural approach. The decorator allows us to be object-oriented.
+It works fine and wraps up some of the ugliness, but using the helper is a
+procedural approach. The decorator allows us to be object-oriented.
 
-#### Writing the Decorator Method
+#### Writing `ArticleDecorator#delete_icon`
 
-To rework this helper, let's start by just dropping the helper method into our decorator class
+To rework this helper, let's start by just copying & pasting the helper method into our decorator class:
 
 ```ruby
 class ArticleDecorator
@@ -185,15 +234,21 @@ class ArticleDecorator
 
   def delete_icon(object, link_text = nil)
     delete_icon_filename = 'cancel.png'
-    h.link_to h.image_tag(delete_icon_filename) + link_text,
-              h.polymorphic_path(object),
-              method: :delete,
-              confirm: "Delete '#{object}'?"
+    link_to image_tag(delete_icon_filename) + " " + link_text,
+            polymorphic_path(object),
+            method: :delete,
+            confirm: "Delete '#{object}'?"
   end
 end
 ```
 
-We don't need to pass in the `object` parameter because the decorator will already know it's `article`. We can write this:
+It won't work as-is. We need to make some changes.
+
+First, looking at the arguments, we don't need to pass in `object` anymore because
+the decorator will already have the `article`.
+
+Then all the Rails helpers (like `link_to` and `image_tag`) need to rely on the
+`h` helper. The result looks like this:
 
 ```ruby
 class ArticleDecorator
@@ -209,11 +264,11 @@ class ArticleDecorator
 end
 ```
 
-Note how `object` became `article`.
+Note how `object` became `article` in the call to `polymorphic_path`.
 
 #### In the Show Template
 
-Originally, we used a procedural-style helper method:
+Originally, we used a normal helper method:
 
 ```erb
 <%= delete_icon(@article, "Delete") %>
@@ -233,10 +288,10 @@ In the conversion from Helper to Decorator in the last section, something was lo
 
 #### `ApplicationDecorator.rb`
 
-Approach one is to make an `app/decorators/application_decorator.rb` and move the method in there:
+A first approach is to make an `app/decorators/application_decorator.rb` and move the method in there:
 
 ```ruby
-class ApplicationDecorator
+class ApplicationDecorator < Draper::Decorator
   def delete_icon(link_text = nil)
     delete_icon_filename = 'cancel.png'
     h.link_to h.image_tag(delete_icon_filename) + link_text,
@@ -247,11 +302,12 @@ class ApplicationDecorator
 end
 ```
 
-You'll also need to make your ArticleDecorator inherit from ApplicationDecorator.
+Then have the 'ArticleDecorator' inherit from 'ApplicationDecorator' (like `class ArticleDecorator < ApplicationDecorator`)
+instead of `Draper::Decorator`.
 
-It'll work for what we have so far, but if we try and use this from a `CommentDecorator`, it's going to blow up because of the call to `article`.
+It'll work for what we have so far, but if we try and use this from a `CommentDecorator`, it's going to blow up because of the call to `polymorphic_path(article)`.
 
-Draper provides a generic way to access the wrapped object -- the `object` or `model` method. Just change `article` to `object` or `model` and we're good to go:
+Draper provides generic ways to access the wrapped object -- the `object` or `model` methods. Change `article` to `object` or `model` (they're aliases for one another) and we're good to go:
 
 ```ruby
 class ApplicationDecorator
@@ -265,13 +321,12 @@ class ApplicationDecorator
 end
 ```
 
-The main downside to this approach is that every decorator in the system is going to have this method. What if some decorators need a different style of delete icon?
+The downside to this inheritance approach is that every decorator in the system is going to have this method.
+What if some decorators need a different style of delete icon?
 
 #### The Module Approach
 
-One of the limitations of helpers is that they all live in the same name space. You can't have two different implementations of a `delete_icon` helper.
-
-But since decorators are objects, that's not an issue. We can use modules and mix them into the decorator classes.
+One of the limitations of normal custom helpers is that they all live in the same global name space. You can't have two different implementations of a `delete_icon` helper in `articles_helper` and `comments_helper`. But since decorators are objects, that's not an issue. We can use modules and mix them into the decorator classes.
 
 For instance, we can create `app/decorators/icon_link_decorations.rb` and define this module:
 
@@ -298,39 +353,29 @@ end
 
 Any other decorators that want to use that method can similarly include the module.
 
-### Now, Play!
+## Experiments
 
-Those are the fundamental ideas, now you should try things on your own. Here are a few ideas:
+Now that you've got the basics down, try the following experiments on your own:
 
-#### More Links
+* Can you relocate `IconsHelper#edit_icon` like you did the `delete_icon`?
+* In the `articles/show.html.erb` there's `<%= link_to article.title, article_path(article) %>`. Could you rework this into `<%= article.link %>`?
+* Check out the `TagsHelper`. Can you rewrite any/all of these by creating a `TagDecorator`?
 
-Steve Klabnik wrote an example of implementing HATEOAS in his article here: http://blog.steveklabnik.com/posts/2012-01-06-implementing-hateoas-with-presenters
+## Generating XML and JSON with Decorators
 
-The resulting HTML looks like this:
+We usually need `to_json` and `to_xml` operations to present an API. They're often implemented in the model, but they really belong in the view layer because they're presentation concerns. The decorator pattern can help us clean up responsibilities.
 
-```html
-<h2>Links</h2>
-<ul>
-    <li><a href="http://localhost:3000/posts/1" rel="self">This post</a></li>
-    <li><a href="http://localhost:3000/posts" rel="index">All posts</a></li>
-</ul>
-```
+### Proxying `to_json`
 
-Going a step further than Steve's approach:
+As a first step, implement a `to_json` method in the `ArticleDecorator` that just calls the `ActiveRecord` method. Add support in the controller to render this JSON out to the browser.
 
-* Implement an `.index_link` presenter method that outputs the HTML link with the `REL` attribute set to `"index"`
-* Implement a `.link` presenter method that outputs a link to the article, but sets the `REL` to `"self"` if the app is currently on that article's show page. If it's called from the index page, make the `REL` `"article_1"` with the correct ID
-* Can you abstract this into a `module` such that it could be included in a `CommentPresenter` and work for both? Try it.
+### Per-User Scoping
 
-#### Controlling Marshalling
+It would be great to scope the JSON based on the current user. We'd want admin users to see all the article attributes in the JSON, but public users would just get a subset.
 
-We usually need `to_json` and `to_xml` operations to present an API. They're often implemented in the model, but they really belong in the view layer. The decorator pattern can make it clean.
+This Blogger doesn't have authentication/authorization setup, so we'll fake it using a request parameter.
 
-* Implement a `to_json` method in the decorator that just calls the `ActiveRecord` method
-
-Beyond that, it would be great to scope the JSON based on the current user. Since we don't have an authentication/authorization setup, we'll fake it using a request parameter.
-
-* Define two constants:
+* Define two constants in the decorator:
   * `PUBLIC_ATTRIBUTES` as an array containing symbols for the `title`, `body`, and `created_at`
   * `ADMIN_ATTRIBUTES` as an array containing everything from `PUBLIC_ATTRIBUTES`, plus `updated_at`
 * Manually add a parameter to your request URL with `admin=true`
@@ -340,7 +385,3 @@ Beyond that, it would be great to scope the JSON based on the current user. Sinc
   * When the user is not an admin, show them only the values specified by `PUBLIC_ATTRIBUTES`
 
 If you want to play more with marshalling, what would it be like to create descendents of your `ArticleDecorator` like `ArticleDecoratorXML` and `ArticleDecoratorJSON`? What functionality could you add which would allow the user to stay in the "duck typing" mindset, calling the same method on an instance of any of the three decorators but getting back HTML, XML, or JSON?
-
-### Moving Forward with Decorators
-
-The concept of Draper is still young. Please try it out on your projects and give us feedback at https://github.com/jcasimir/draper. Thanks!

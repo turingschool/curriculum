@@ -31,7 +31,7 @@ Project implementation may **not** use:
 
 1. One team member creates a repository named "dinner_dash"
 2. Add the other team members as collaborators
-3. Create and use a Pivotal Tracker project at http://pivotaltracker.com
+3. Add your project to Waffle.io to track your progress and organize your team https://waffle.io
 
 ## Base Expectations
 
@@ -127,9 +127,10 @@ There are several types of entities in the system, each with certain required da
 ### Item
 
 * An item must have a title, description, and price.
+* An item must belong to at least one category.
 * The title and description cannot be empty strings.
-* The title must be unique for all items in the system
-* The price must be a valid decimal numeric value and greater than zero
+* The title must be unique for all items in the system.
+* The price must be a valid decimal numeric value and greater than zero.
 * The photo is optional. If not present, a stand-in photo is used.
 
 ### User
@@ -141,7 +142,7 @@ There are several types of entities in the system, each with certain required da
 ### Order
 
 * An order must belong to a user
-* An order must be for one or more of one or more items currently being sold
+* An order must be for one or more items currently being sold
 * An order is marked for pickup or delivery
 * If marked for delivery, an order has an associated address with street number, street, city, state, and zip
 
@@ -164,7 +165,7 @@ To support the evaluation process, please make the following available via the `
 
 ## Submission Guidelines
 
-* Your project must be "live" on the web for your evaluation. We recommend you deploy it on Heroku
+* Your project must be "live" on Heroku for your evaluation 
 * Your `README` file on GitHub should contain a link to your live site
 * On the production site, the URL path `/code` should redirect the user to the GitHub repository
 

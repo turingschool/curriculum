@@ -469,7 +469,7 @@ Observe that...
 * the array was created by putting pieces of data between square brackets (`[]`) and separated by commas
 * we add an element to the end of an array by using the "shovel operator" (`<<`)
 * we fetch the element at a specific position by using square brackets (`[]`)
-* there are convinience methods like `.last`
+* there are convenience methods like `.last`
 
 ### Common Array Methods
 

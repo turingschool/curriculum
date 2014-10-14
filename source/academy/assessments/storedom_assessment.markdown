@@ -154,7 +154,7 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer struggles with MVC and pushing logic down the stack
 * 0: Developer shows little or no understanding of how to craft Rails applications
 
-#### 4. Testing
+#### 5. Testing
 
 * 4: Developer excels at taking small steps and using the tests for *both* design and verification
 * 3: Developer writes tests that are effective validation of functionality, but don't drive the design
@@ -162,7 +162,7 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer is able to write tests, but they're written after or in the middle of implementation
 * 0: Developer does not use tests to guide development
 
-#### 5. Problem Solving
+#### 6. Problem Solving
 
 * 4: Developer is able to create and implement strategies, and actively reassess/revise them
 * 3: Developer is able to both create and implement problem solving strategies
@@ -170,10 +170,10 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer understands the big-picture, but struggles to put together a strategy
 * 0: Developer struggles to come up with a cohesive problem-solving approach
 
-#### 6. Collaboration
+#### 7. Collaboration
 
 * 4: Developer *actively seeks* collaboration both before implementing, while in motion, and when stuck
 * 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process
 * 2: Developer asks detailed questions when progress slows or stops
 * 1: Developer is able to integrate unsolicited feedback but does not really collaborate
-* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process 
+* 0: Developer needs more than two reminders to "think out loud" or struggles to articulate their process

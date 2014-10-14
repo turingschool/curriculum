@@ -37,7 +37,9 @@ Before the session starts:
 
 ## Feature Description
 
-During your assessment, your facilitator will ask you to implement one or more of the features described below.
+### Facilitator Selected
+
+Your facilitator may select any of the following features:
 
 ### 1. Deactivating Items
 
@@ -73,16 +75,11 @@ Users shouldn't be able to see all the orders on the system. Let's start creatin
 
 * Implement a legitimate login solution of any complexity
 
-### 4. Refactoring Seeding
+### Student Selected
 
-Currently the `seeds.rb` is one large file with multiple responsibilities.
+You can instead elect one of the more challenging features below:
 
-* Split each of the generate methods out into it's own class
-* Make those classes use a signature like `Seed::Item.generate(500)` to create records
-* Add testing along the way
-* Eliminate the `Seed` class
-
-### 5. Creating an API
+### 4. Creating an API
 
 Storedom does not have an API.
 
@@ -109,7 +106,7 @@ Write a wrapper gem for Storedom's API that allows you to easily:
 
 * Once the features are complete, add VCR so the tests pass without Storedom actually running.
 
-### 6. Adding Stats
+### 5. Adding Stats
 
 Which are the most popular items?
 

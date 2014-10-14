@@ -35,9 +35,7 @@ Before the session starts:
 * Run `rake db:seed` to generate the started data
 * Setup any external tooling you want (your IDE, `guard`, etc)
 
-## Feature Description
-
-### Facilitator Selected
+## Facilitator Selected Features
 
 Your facilitator may select any of the following features:
 
@@ -75,7 +73,7 @@ Users shouldn't be able to see all the orders on the system. Let's start creatin
 
 * Implement a legitimate login solution of any complexity
 
-### Student Selected
+## Student Selected Features
 
 You can instead elect one of the more challenging features below:
 
@@ -95,16 +93,12 @@ Create an API that:
 
 #### Extensions:
 
-Write a wrapper gem for Storedom's API that allows you to easily:
-
-* Fetch all items
-* Fetch all orders
-* Fetch a single order
-* Create an order
-
-#### Extensions
-
-* Once the features are complete, add VCR so the tests pass without Storedom actually running.
+* Write a wrapper gem for Storedom's API that allows you to easily:
+  * Fetch all items
+  * Fetch all orders
+  * Fetch a single order
+  * Create an order
+* Once the features are complete, add VCR so the wrapper gem tests pass without Storedom actually running.
 
 ### 5. Adding Stats
 

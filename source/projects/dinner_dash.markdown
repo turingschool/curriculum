@@ -270,6 +270,14 @@ As a restaurant I have a registered contact phone number. When an order is place
 * "Press 1 to confirm the order, 2 to repeat, or 3 to cancel."
 * The result of the call updates the order in the database and sends an email to the customer.
 
+### PDF menu
+
+I can view and download a pdf version of the menu--available to both admins who may wish to print menus for the storefront and unauthenticated users who may want a copy of the menu.
+
+* PDF is dynamically generated to reflect current menu items, categories, and prices
+* PDF shows the restaurant logo 
+* When I view the menu as a pdf, I am offered a download link on the pdf itself. This link does not render on the downloaded pdf.
+
 ## Evaluation Process
 
 For the evaluation we'll work through the expectations above and look at the

@@ -59,6 +59,7 @@ Project implementation may *not* use:
 * Databases (sqlite3, PostgreSQL, MySQL, MongoDB, Redis, etc)
 * Rails' `ActiveRecord` library or a similar object-relational mappers (including `Sequel`, `DataMapper`, etc)
 * Your implementation may not use `Struct` or `OpenStruct`
+* Metaprogramming (`method_missing`, `define_method`, etc)
 
 #### Test Independence
 

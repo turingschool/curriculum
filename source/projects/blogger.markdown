@@ -1670,7 +1670,7 @@ And you'll see that this Tag is associated with just one Article.
 
 According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages.
 
-Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
+Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add these lines:
 
 ```erb
 <p>

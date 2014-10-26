@@ -10,15 +10,15 @@ Today it seems like we're gamifying everything. Whether it's your consecutive da
 
 Hot Streak allows you to aggregate those datapoints in one place.
 
-#### GitHub Integration
+### GitHub Integration
 
 Connect your GitHub account and Hot Streak will monitor your commits. Of course it'll display your current streak, just like GitHub does itself.
 
 But, with Hot Streak, you can also set reminders and thresholds. Say it's not enough for you just to have "activity", you want to hit at least three commits per day. Hot Streak lets you set that threshold.
 
-Or, say it's 9pm and you haven't had any activity that day. Hot Streak will send you a text reminder every 20 minutes until you fulfill the goal or dismiss the reminder.
+Or, say it's 9pm and you haven't had any activity that day. Hot Streak will send you an SMS reminder every 20 minutes until you fulfill the goal or dismiss the reminder.
 
-#### FitBit/RunKeeper Integration
+### FitBit/RunKeeper Integration
 
 Set a daily exercise goal, and Hot Streak will chart your achievement. And, just like with GitHub, it'll send you reminders at specified times if your streak is in danger.
 
@@ -57,17 +57,18 @@ Then, while on the trip, any events from those three sources are automatically a
 Keeping track of agile software projects is hard. Let's create an activity feed that can bring it all together. After creating an account on the site I can:
 
 * Create a project
-* Register one Pivotal Tracker project
+* Register one Sprintly or Pivotal Tracker project
 * Register one GitHub project
 * Integrate with TravisCI
 * Generate a unique email address for this feed
 
 Then, while working on the project:
 
-* Changes from tracker (stories added, completed, comments, etc) are reflected in the feed
+* Changes from the project management tool (stories added, completed, comments, etc) are reflected in the feed
 * Activity from GitHub (pushes, issues, etc) is reflected in the feed
 * Any emails sent to the project-specific address show up in the feed
 * Build status updates from TravisCI show up in the feed
+* The board displays some highlights from the team's achievement this week
 
 Given that our team is super-agile and constantly pushing code, these events have smart aggregation. If the same person pushes code three times within a few hours, Agility Board only displays one event in the stream that links to all three commits. Or delivering two features in Tracker shows up as just one entry with two links.
 
@@ -111,16 +112,41 @@ When you view a Fanboard feed, you'll get the latest matching stories and boxsco
 * NFL.com
 * MLB.com
 
+## SnowMeet
+
+No one wants to miss the first chair because they're trying to coordinate a group
+of friends. SnowMeet helps groups get on the mountain faster.
+
+* A user creates an account
+* The user creates one or more groups and invites friends to join that group (think "Friends with Epic Local pass")
+* Register their Twitter and Instagram usernames
+
+Then any member of a group can:
+
+* Propose a trip (including a location, departure day/time and return day/time)
+* RSVP yes or no to a trip
+* View the expected weather for the trip
+
+During/after a trip, the app gathers any data created by the attendees including:
+
+* Tweets from Twitter
+* Photos from Instagram
+* Run info from EpixMix
+
+And, last but not least, while a trip is going on the members have access to a
+an SMS chat that goes (only) to the other members of the group.
+
 ## Runline - Running with Friends
 
 Achieving a healthy lifestyle and fitness goals can be difficult without community support.  This app will help keep you motivated by joining your fitness data with your friends.
 
-The app pulls data from:
+The app pulls data from sources like:
 
 * MapMyFitness
 * RunKeeper
 * TheDailyMile
 * FitBit
+* Strava
 
 With that data, as a registered user I:
 
@@ -129,20 +155,4 @@ With that data, as a registered user I:
 * Can compare my activity to those friends
 * See trends/statistics comparing my activity to my past activity and my friends' activity
 
-In addition to aggregating data, I can propose runs and distribute invitations to my "friends" -- the people who both I follow and they follow me. These invitations have the details about the run name, distance, start and end point, time, date, and group size. When someone accepts the invitation it is tracked until the group fills up. 
-
-## Mile High - Find the Marijuana Retail Stores in Your Area
-
-Now that weed is legal in Colorado, a lot of people are going to be looking for the nearest weed store! Let's create a service that:
-
-*	Helps people find the nearest retail marijuana stores in their neighborhood. 
-*	Users can see information about the strains available at their local shops
-*	Users can see reviews of stores via Yelp.
-*	Users can see what people are saying about the shops and strains on Twitter.
-
-Integrate the following APIs to get information about store locations, strain details, reviews, and tweets:
-
-* [Leafly](www.leafly.com/api/documentation)
-* [Seedfinder](www.programmableweb.com/api/seedfinder)
-* [Yelp](www.yelp.com/developers/documentation)
-* [Twitter](dev.twitter.com)
+In addition to aggregating data, I can propose runs and distribute invitations to my "friends" -- the people who both I follow and they follow me. These invitations have the details about the run name, distance, start and end point, time, date, and group size. When someone accepts the invitation it is tracked until the group fills up.

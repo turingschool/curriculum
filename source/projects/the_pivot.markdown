@@ -79,7 +79,7 @@ $ git push --tags
 
 ### Restrictions &amp; Outside Code
 
-Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redudant, broken, or obsolete code. However, you should **not** throw out the previous work wholesale.
+Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redundant, broken, or obsolete code. However, you should **not** throw out the previous work wholesale.
 
 Furthermore, there should be *no reduction in functionality* except when explicitly called for by new requirements.
 
@@ -198,10 +198,44 @@ A traveler will need a good way to roll up all their bookings into
 an itinerary that helps them get from place to place with a map and pushes data
 to their Google Calendar.
 
-### Future Ideas
+### FreshThreads
 
-* A bespoke clothing shopping site
-* A medical services comparison and shopping site
+Off-the-rack clothes are so blah. Let's build a marketplace for buying custom clothing.
+
+* Users register on the site as either sellers or buyers
+* Sellers have a "store" page where they can post one or more items
+* An item has a title, photos, a detailed description, and a time-to-produce
+* Each item can also have one or more "options" defined by the seller such as: waist size,
+color, fabric, sleeve length, etc. These must be chosen by the seller when creating/editing
+the item and allow them to set specific values (like "S", "M", "L", etc or "Short", "Regular", "Long")
+* Customers can browse all itemson the platform or browse a specific seller's store
+* When a customer adds an item to their cart they need to specify each of the options
+* When the order is submitted the customer is emailed a receipt and the seller
+is notified to begin production.
+
+It's a pain to enter my options for EVERY purchase. Allow a user to store
+their options in their account, so when they purchase an item the right values
+are pre-selected (but can still be changed).
+
+### HubStub
+
+Who wants to stand in line for tickets the day they come out? Nobody. Instead you
+can just pay 50-500% more to buy them from someone else. HubStub helps you do
+just that!
+
+* Users register on the site and can both sell tickets (*the business*) or buy tickets
+(*the customer*)
+* Sellers automatically have a tickets-for-sale page (*the store*)
+* Within that seller page, they post one or more available items (*the products*)
+* An item has an event title, date, time, section, seat number(s), categories, photos, and a delivery method (download or mail)
+* A buyer can browse the site and view all available tickets or browse them
+grouped by event or seller
+* They can add multiple tickets from multiple sellers to their cart
+* They can then checkout and the tickets are either downloaded or the seller is
+notified that they need to mail them
+
+Shows and events are more fun together. Can you create a way to invite my friends
+and have them RSVP?
 
 ## Base Expectations
 

@@ -427,7 +427,7 @@ We have 1 pending test and a message that says `Not yet implemented`. Let's writ
 Open `spec/models/person_spec.rb` and you'll see this:
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Person, :type => :model do
   pending "add some examples to (or delete) #{__FILE__}"
@@ -441,7 +441,7 @@ The `describe` block will wrap all of our tests (also called examples) in RSpec 
 Let's create an example using the `it` method to test that a `Person` without a `first_name` is invalid:
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Person, :type => :model do
   it 'is invalid without a first name' do
@@ -696,10 +696,10 @@ $ bundle exec rails generate scaffold PhoneNumber number:string person_id:intege
 Run the migrations:
 
 {% terminal %}
-$ bundle exec rake db:migrate db:test:prepare
+$ bundle exec rake db:migrate
 {% endterminal %}
 
-Run the tests again. They're still not passing.
+Run the tests again. The failing test is still failing and there are now 17 pending tests. Let's stay focused on the failure.
 
 #### Setting Relationships
 
@@ -711,7 +711,7 @@ has_many :phone_numbers
 
 Run the tests and you should have no failing tests.
 
-We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`.
+We have pending tests in the `phone_number_spec.rb`, `phone_numbers_controller_spec.rb` and `phone_numbers_helper_spec.rb`.
 
 If your tests are all passing or pending, commit all your changes:
 
@@ -779,26 +779,14 @@ end
 
 Run the tests again and your new test should fail. Add a validation that checks the presence of `person_id` in your phone number, then run your tests again.
 
-Everything blows up. Well, not everything, but you certainly have a bunch of failing specs in the `PhoneNumberController` specs.
-
-Open up the file `spec/controllers/phone_numbers_controller_spec.rb` and find
-the method definition for `valid_attributes`. Only `number` is supplied, but we
-just changed the requirements. Give it a `person_id`:
-
-```ruby
-def valid_attributes
-  { number: "MyString", person_id: 1 }
-end
-```
-
-Re-run your tests. You only have one more failure, and this is the spec for the valid phone number:
+That got the new test to pass but broke another test. This is the spec for the valid phone number:
 
 ```bash
 Failures:
 
   1) PhoneNumber is valid
      Failure/Error: expect(phone_number).to be_valid
-       expected valid? to return true, got false
+       expected #<PhoneNumber id: nil, number: "1112223333", person_id: nil, created_at: nil, updated_at: nil> to be valid, but got errors: Person can't be blank
      # ./spec/models/phone_number_spec.rb:7:in `block (2 levels) in <top (required)>'
 ```
 
@@ -808,13 +796,65 @@ Update your `let` block in the `spec/models/phone_number_spec.rb` again, giving 
 let(:phone_number) { PhoneNumber.new(number: "1112223333", person_id: 1) }
 ```
 
+Now let's get the pending controller tests to pass.
+
+Open up the file `spec/controllers/phone_numbers_controller_spec.rb` and find the method definition for `valid_attributes`. In order to pass our validations we need to add `number` and `person_id` attributes.
+
+```ruby
+def valid_attributes
+  { number: "MyString", person_id: 1 }
+end
+```
+
+Re-run your tests and you should be down to 6 pending tests.
+
+Now add invalid attributes.
+
+```ruby
+  let(:invalid_attributes) {
+    { number: nil, person_id: nil }
+  }
+```
+
+Re-run your tests and there should be 2 pending tests. Let's write a passing test for the last pending controller spec. Within `spec/controllers/phone_numbers_controller_spec.rb` find the line containing `skip("Add a hash of attributes valid for your model")`. Update the `:new_attributes` let block and the test just below it:
+
+```ruby
+let(:new_attributes) {
+  {number: 'MyNewString', person_id: 2}
+}
+
+it "updates the requested phone_number" do
+  phone_number = PhoneNumber.create! valid_attributes
+  put :update, {:id => phone_number.to_param, :phone_number => new_attributes}, valid_session
+  phone_number.reload
+  expect(phone_number.number).to eq('MyNewString')
+  expect(phone_number.person_id).to eq(2)
+end
+```
+
+Run your tests and there should be 1 pending and 0 failing.
+
 That's a lot of work for two validations, but these are an important part of our testing base. If somehow one of the validations got deleted accidentally, we'd know it right away.
 
 If your tests are all passing, go ahead and commit the changes so you don't lose all that hard work!
 
+We're not going to be using the `PhoneNumberHelper` so let's get rid of the test file:
+
+{% terminal %}
+$ git rm spec/helpers/phone_numbers_helper_spec.rb
+{% endterminal %}
+
+Commit your changes:
+
+{% terminal %}
+$ git commit -m "Delete extraneous spec file"
+{% endterminal %}
+
+All tests should be passing.
+
 Finally, let's connect the phone number to a person.
 
-Write a test ensuring that a `PhoneNumber` has a method to give you back the associated `Person` object.
+Within `phone_number_spec.rb`, write a test ensuring that a `PhoneNumber` has a method to give you back the associated `Person` object.
 
 ```ruby
 it 'is associated with a person' do
@@ -887,9 +927,7 @@ Create a new folder named `spec/features`. In that folder let's make a file
 named `person_view_spec.rb`. Then here's how I'd write the examples:
 
 ```ruby
-require 'spec_helper'
-require 'capybara/rails'
-require 'capybara/rspec'
+require 'rails_helper'
 
 describe 'the person view', type: :feature do
 
@@ -955,17 +993,16 @@ end
 ```
 
 This fails because we've been redirected to the wrong location. We need to step
-down one level. Let's make this test pending for now:
+down one level. Let's mark this test pending for now by adding an `x` in front of `it`:
 
 ```ruby
-  it 'adds a new phone number' do
-    pending
+  xit 'adds a new phone number' do
     # ...
   end
 ```
 
 Open up the `spec/controllers/phone_numbers_controller_spec.rb` and find the
-test called `it 'redirects to the created phone_number'`.
+test called `it "redirects to the created phone_number"`.
 
 This is not the behavior we are looking for. Let's change the expectation:
 
@@ -1011,7 +1048,7 @@ let(:valid_attributes) { {number: '555-1234', person_id: alice.id} }
 
 Run the controller tests again, and this time, they should pass.
 
-Delete the `pending` declaration in your integration test and run all the tests.It is still failing. Let's take a look at what's going on here.
+Delete the `pending` declaration in your integration test and run all the tests. It is still failing. Let's take a look at what's going on here.
 
 Open up your application and go to [/people/1](http://localhost:8080/people/1). Click to add a phone number, and now click the `Create Phone number` button.
 
@@ -1045,15 +1082,11 @@ Go into the phone numbers controller, into the `new` action, and instead of `@ph
 
 Run the tests again, and finally they pass!
 
-If you go to the [/people/1](http://localhost:8080/people/1) page and click to create a new phone number, you'll see that we are exposing the field for the person id to the user. That's unnecessary.
+If you go to the [/people/1](http://localhost:3000/people/1) page and click to create a new phone number, you'll see that we are exposing the field for the person id to the user. That's unnecessary.
 
 Open up the `app/views/phone_numbers/_form.html.erb` file and change the `number_field` to be a `hidden_field`. Go ahead and delete the label for the person id as well.
 
 All your tests are passing, so this is a good time to commit your changes.
-
-{% terminal %}
-$ git commit -m "Fix create phone number workflow"
-{% endterminal %}
 
 #### Workflow for Editing Phone Numbers
 
@@ -1113,14 +1146,15 @@ Find the `def update` action in the corresponding controller, and change it to r
 
 Re-run the tests, and now the test we just wrote should pass, but a couple of other tests are failing with the familiar `Cannot redirect to nil!` error.
 
-Promote `bob` and his `valid_attributes` to a `let` in the describe block for `with valid params` with in the `PUT update` describe block.
+Promote `bob` and his `valid_attributes` to a `let` in the describe block for `with valid params` within the `PUT update` describe block. We'll also update `:new_attributes` to use `bob.id` so it has a valid person to redirect to.
 
 ```ruby
 describe "PUT update" do
   describe "with valid params" do
 
-    let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
-    let(:valid_attributes) { {number: '555-5678', person_id: bob.id} }
+  let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
+  let(:valid_attributes) { {number: '555-5678', person_id: bob.id} }
+  let(:new_attributes) { {number: 'MyNewString', person_id: bob.id} }
 ```
 
 Run the tests, and they should now be passing.
@@ -1153,7 +1187,7 @@ Write an integration test that destroys one of the phone numbers then ensure's t
 
 * `page.click_link` to activate the destroy link
 * `expect(current_path).to ==` to ensure you arrive at the show page
-* then check that the object is gone (one idea: verify that there is *no* delete link).
+* then check that the object is gone (one idea: verify that there is *no* delete link
 
 ### Phone Numbers are Done...For Now!
 

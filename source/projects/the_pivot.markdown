@@ -217,6 +217,30 @@ It's a pain to enter my options for EVERY purchase. Allow a user to store
 their options in their account, so when they purchase an item the right values
 are pre-selected (but can still be changed).
 
+### Gallery
+
+People hated our restaurant, but they loved our product photos. Let's pivot
+the platform to sell photography, providing our customers a "whitelabel" experience:
+
+* A photographer registers on the platform to create a new store
+* A photographer posts photos for sale
+* A photo has an image, dimensions, title, description,
+shooting date, and photographed by attributes.
+* A customer visits a store at a URL like example.com/stores/store_name
+* The customer sees only the photos for this store
+* The customer can browse photos and add them to the cart
+* There is no aggregated shopping experience across stores, so a customer who
+visits Store A and adds something to their cart, then visits Store B, will not
+see the Store A item in the Store B cart
+* The customer can checkout and receives an email receipt
+* A photograph which is purchased is marked as purchased, can still be browsed,
+but cannot be ordered by other users
+* The photographer is notified via email about the purchase.
+
+And, one more thing: it takes awhile to save up for these amazing photographs.
+It'd be awesome if a user could "favorite" photos to come back and easily
+find/purchase them later.
+
 ### HubStub
 
 Who wants to stand in line for tickets the day they come out? Nobody. Instead you

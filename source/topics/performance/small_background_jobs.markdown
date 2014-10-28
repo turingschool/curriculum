@@ -159,7 +159,13 @@ Create a file `db/seeds_benchmark.rb` with these contents:
 ```ruby
 require 'benchmark'
 
-Benchmark.measure do
+User.destroy_all
+Item.destroy_all
+Order.destroy_all
+
+Rails.application.load_seed
+
+puts Benchmark.measure {
   user_target = 100
   item_target = 500
   order_target = 100
@@ -171,16 +177,16 @@ Benchmark.measure do
     order_count = Order.count
 
     if user_target == user_count &&
-       item_target == item_count &&
-       order_target == order_count
+      item_target == item_count &&
+      order_target == order_count
 
-       complete = true
+      complete = true
     else
       sleep 0.25
       puts "Counts: #{user_count} users, #{item_count} items, #{order_count} orders"
     end
   end
-end
+}
 ```
 
 Then run it from the command line:

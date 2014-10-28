@@ -17,9 +17,9 @@ We're going to use our seeds file as it's an easy way to write some plain Ruby
 inside a Rails application. We want to create a massive stack of data in our
 database. Let's see how long it takes as-is:
 
-```
+{% terminal %}
 $ time rake db:reset
-```
+{% endterminal %}
 
 That uses the UNIX `time` utility to measure how long it takes to run a `db:reset`.
 It should take about 90 seconds. You can move on while it's running.
@@ -76,17 +76,17 @@ UserGenerator.perform_async(100)
 
 Open a new terminal tab and start a sidekiq worker:
 
-```
+{% terminal %}
 $ bundle exec sidekiq
-```
+{% endterminal %}
 
 ### Run It!
 
 Go back to your first tab and run the seeds:
 
-```ruby
+{% terminal %}
 $ rake db:reset
-```
+{% endterminal %}
 
 Flip to your worker tab and you should see it cranking out users. The primary
 seed run still builds your items and orders.

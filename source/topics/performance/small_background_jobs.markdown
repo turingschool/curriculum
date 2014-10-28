@@ -149,3 +149,42 @@ start per tab, creating all the users in just a few seconds.
 ## I3: Revising Items & Orders
 
 Now go through the same process to queue jobs for items and orders.
+
+### I4: An Approximate Benchmark
+
+Want to figure out the resulting impact on the timing?
+
+Create a file `db/seeds_benchmark.rb` with these contents:
+
+```ruby
+require 'benchmark'
+
+Benchmark.measure do
+  user_target = 100
+  item_target = 500
+  order_target = 100
+  complete = false
+
+  until complete
+    user_count = User.count
+    item_count = Item.count
+    order_count = Order.count
+
+    if user_target == user_count &&
+       item_target == item_count &&
+       order_target == order_count
+
+       complete = true
+    else
+      sleep 0.25
+      puts "Counts: #{user_count} users, #{item_count} items, #{order_count} orders"
+    end
+  end
+end
+```
+
+Then run it from the command line:
+
+{% terminal %}
+$ rails runner ./db/seeds_benchmark.rb
+{% endterminal %}

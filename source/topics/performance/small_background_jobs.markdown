@@ -10,6 +10,7 @@ section: Performance
 * Switch to the "mega" branch (`git checkout mega`)
 * Run `bundle`
 * Make sure you have redis installed/running (`brew install redis`)
+* Check to make sure redis is running with (`redis-cli ping`) and you should get `PONG`
 
 ## I0: Starting Point
 

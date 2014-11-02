@@ -159,6 +159,10 @@ Puma: `rackup -s puma -p 9000`
 
 Unicorn: `unicorn -p 9000`
 
+Compare the results of these servers to a single-threaded server (e.g. running puma with only 1 thread):
+
+Puma with max threads set to 1: `puma -p 9000 -t 1:1`
+
 ### Slower Requests
 
 Choose one web server and run some extra tests against a slower endpoint:

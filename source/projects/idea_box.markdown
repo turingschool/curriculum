@@ -1928,6 +1928,90 @@ end
 
 Now our use of `IdeaStore` is more consitent and no one outside of `IdeaStore` needs to know about the database.
 
+### Refactoring IdeaStore
+
+So far, we've made this class that likes to call lots of methods on self.
+Also, we're calling `database.transaction do` over and over,
+which tells us we can probably move all those out into different methods
+
+We can easily do some of these by creating an object for this class instead of using self
+
+Since we now want to use an instance of the class instead of self methods,
+go ahead and delete every `self.` in this class.
+This will keep the same method calls so we can still use this class in our app.rb with minimal changes
+
+Next, change your database to be set upon initialize
+
+```ruby
+attr_reader :database
+def initialize
+  @database = YAML::Store.new "db/ideabox"
+end
+```
+
+We also want to start moving the `database.transaction` out,
+which we can do by creative a few methods, such as `save` and `read`
+
+```ruby
+def save
+  database.transaction do
+    database['ideas'] = ideas.map { |idea| idea.to_h }
+  end
+end
+
+def read
+  database.transaction do
+    @ideas = (database['ideas'] || []).map { |data| Idea.new(data) }
+  end
+end
+```
+
+Now we just need to call these methods inside of other methods.
+For example, `read` needs to be called inside initailize
+
+```ruby
+def initialize(path = "db/ideabox")
+  @database = YAML::Store.new path
+  read
+end
+```
+
+We should also add `:ideas` to our addr_reader so we can call it instead of reading from the database every time
+
+This setup will make the rest of your methods very simple and easy to follow,
+for example:
+
+```ruby
+def all
+  ideas
+end
+```
+
+And even
+
+```ruby
+def create(data)
+  ideas << Idea.new(data)
+  save
+end
+```
+
+See if you can change every method so that they don't have to use the database,
+or only have to call the `save` method
+
+## Fixing app.rb
+
+Once you have all those completed,
+you must change how you use these inside your app.rb
+
+Put this line of code near the top of your class
+
+```ruby
+idea_store = IdeaStore.new
+```
+
+Then all that's left is to change every call to `IdeaStore` to your `idea_store`
+
 ## I8: Improving the Project Structure
 
 Until now we've pretty much been sticking everything into the root of the

@@ -151,7 +151,13 @@ $ open filename.csv
 
 ### Testing Other Servers
 
-At this point, swap in the other server options (Thin, Puma, and Unicorn) and run your tests. Which respond fastest? Which are the most fault-tolerant?
+At this point, swap in the other server options (Thin, Puma, and Unicorn) and run your tests. Which respond fastest? Which are the most fault-tolerant? How many concurrent requests are needed to take out each one?
+
+Thin: `rackup -s thin -p 9000`
+
+Puma: `rackup -s puma -p 9000`
+
+Unicorn: `unicorn -p 9000`
 
 ### Slower Requests
 

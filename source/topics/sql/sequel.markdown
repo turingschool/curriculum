@@ -282,7 +282,7 @@ Most often you'll want to match a specific attribute:
 Or maybe you want to get all matches within a set:
 
 {% irb %}
-> dataset.where(:id, [2,3])
+> dataset.where(:id => [2,3])
  => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE (`id` IN (2, 3))
 {% endirb %}
 

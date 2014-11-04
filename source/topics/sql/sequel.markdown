@@ -282,7 +282,7 @@ Most often you'll want to match a specific attribute:
 Or maybe you want to get all matches within a set:
 
 {% irb %}
-> dataset.where(:id, [2,3])
+> dataset.where(:id => [2,3])
  => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE (`id` IN (2, 3))
 {% endirb %}
 
@@ -291,7 +291,7 @@ Or maybe you want to get all matches within a set:
 It is very common to chain multiple scopes together, like you could do this:
 
 {% irb %}
-> dataset.where(:name => 'George').where([[:id, [1,2]]])
+> dataset.where(:name => 'George').where([[:id => [1,2]]])
  => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` = 'George') AND (`id` IN (1, 2)))"> 
 {% endirb %}
 
@@ -300,7 +300,7 @@ Keep calling `.where` and it'll add on more `WHERE` clauses. A row has to match 
 You can use `#or` to allow rows which only match one or more of the `WHERE` clauses:
 
 {% irb %}
-> dataset.where(:name => 'George').or([[:id, [2,3]]])
+> dataset.where(:name => 'George').or([[:id => [2,3]]])
  => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` = 'George') OR (`id` IN (2, 3)))"> 
 {% endirb %}
 
@@ -311,7 +311,7 @@ You'll use `#where` when you know exactly what you want, but the `#grep` method 
 {% irb %}
 > dataset.grep(:name, 'G%')
  => #<Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` LIKE 'G%'))"> 
-1.9.3-p385 :053 > dataset.grep(:name, 'G%').to_a
+> dataset.grep(:name, 'G%').to_a
  => [{:id=>1, :name=>"George"}]
 {% endirb %}
 
@@ -343,7 +343,7 @@ For instance, when you're searching based on an `id` column, you're probably onl
 {% irb %}
 > dataset.select(:id, :name).where(:id => 1).limit(1)
  => #<Sequel::SQLite::Dataset: "SELECT `id`, 'name' FROM `people` WHERE (`id` = 1) LIMIT 1">
-1.9.3-p385 :059 > dataset.select(:id, :name).where(:id => 1).limit(1).to_a
+> dataset.select(:id, :name).where(:id => 1).limit(1).to_a
  => [{:id=>1, :name=>"George"}]
 {% endirb %}
 
@@ -433,7 +433,7 @@ To change the zipcode of an address:
 {% irb %}
 > addresses.where(:id => 1).update(:zipcode => "20500")
  => 1 
-1.9.3-p385 :092 > addresses.where(:id => 1).to_a
+> addresses.where(:id => 1).to_a
  => [{:id=>1, :line_1=>"1600 Penn Ave", :city=>"Washington", :state=>"DC", :zipcode=>"20500", :person_id=>1}] 
 {% endirb %}
 

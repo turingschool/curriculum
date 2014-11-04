@@ -1670,7 +1670,7 @@ And you'll see that this Tag is associated with just one Article.
 
 According to our work in the console, articles can now have tags, but we haven't done anything to display them in the article pages.
 
-Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add this line:
+Let's start with `app/views/articles/show.html.erb`. Right below the line that displays the `article.title`, add these lines:
 
 ```erb
 <p>
@@ -2295,7 +2295,7 @@ class AuthorSessionsController < ApplicationController
 
   def create
     if login(params[:email], params[:password])
-      redirect_back_or_to(articles_path, message: 'Logged in successfully.')
+      redirect_back_or_to(articles_path, notice: 'Logged in successfully.')
     else
       flash.now.alert = "Login failed."
       render action: :new
@@ -2304,7 +2304,7 @@ class AuthorSessionsController < ApplicationController
 
   def destroy
     logout
-    redirect_to(:authors, message: 'Logged out!')
+    redirect_to(:authors, notice: 'Logged out!')
   end
 end
 ```

@@ -151,7 +151,17 @@ $ open filename.csv
 
 ### Testing Other Servers
 
-At this point, swap in the other server options (Thin, Puma, and Unicorn) and run your tests. Which respond fastest? Which are the most fault-tolerant?
+At this point, swap in the other server options (Thin, Puma, and Unicorn) and run your tests. Which respond fastest? Which are the most fault-tolerant? How many concurrent requests are needed to take out each one?
+
+Thin: `rackup -s thin -p 9000`
+
+Puma: `rackup -s puma -p 9000`
+
+Unicorn: `unicorn -p 9000`
+
+Compare the results of these servers to a single-threaded server (e.g. running puma with only 1 thread):
+
+Puma with max threads set to 1: `puma -p 9000 -t 1:1`
 
 ### Slower Requests
 
@@ -236,6 +246,26 @@ Percentage of the requests served within a certain time (ms)
 Experiment with the various `json` files, and also vary the number of total requests and concurrent requests.
 
 How does the server hold up?
+
+### Making Authenticated Requests
+
+Often there will be pages in your application only accessible to
+authenticated users. Load testing these can be a bit more difficult,
+since we need to configure Apache Bench to send requests with the proper
+credentials. You can pass optional cookie data to AB with the `-C`
+command line flag. The format for providing cookies looks like:
+
+`<cookie_name>=<cookie_value>;<cookie2_name>=<cookie2_value>`
+
+So, for example:
+
+`ab -n 1 -c 1 -C "my_cookie=pizza;another_cookie=log_me_in"
+http://localhost:3000/`
+
+In the case of standard rails apps, the Session cookie is usually the
+main one needed to authenticate. However more sophisticated auth systems
+may take a bit of trial and error to figure out just what credentials
+need to be supplied.
 
 ## Optional: Plotting Data
 

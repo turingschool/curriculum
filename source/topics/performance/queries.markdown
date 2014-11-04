@@ -2,9 +2,10 @@
 layout: page
 title: Query Strategies
 section: Performance
+sidebar: true
 ---
 
-### Setup
+## Setup
 
 {% include custom/sample_project_advanced.html %}
 
@@ -19,15 +20,15 @@ Two ways to improve the speed of the query time during a request are to:
 
 The first step is, of course, to just observe what's happening with your database. How many queries are you kicking off? Are they slow or fast?
 
-#### Log File & Console
+### Log File & Console
 
 In Rails 3.2, the SQL that is executed against the database is displayed both in the log file and directly in the console output. The latter, particularly is great for keeping you aware of how small snippets of code affect the DB.
 
-#### RPM
+### RPM
 
 Within New Relic's RPM, you can look into the "Details" of a request and drill down into the SQL. If you want to know where a query came from, look for the "Rails" link and scan through the stack trace.
 
-#### `to_sql`
+### `to_sql`
 
 Any `ActiveRelation`-style query (using the `where` method instead of `find_by_x`) responds to the method `.to_sql` which will display the SQL it generates.
 
@@ -47,7 +48,7 @@ If a model uses the `find_by_x` method then the `x` column in the database shoul
 
 One might ask why an index isn't added to every column since the performance for searching the table will be improved.  Unfortunately, indices don't come for free. Each insert to the table will incur extra processing to maintain the index.  For this reason, indices should only be added to columns that are _actually queried_ in the application.
 
-#### But Read Performance Is
+#### But Read Performance Is Free
 
 When you add indices to your tables, the application will gain performance without having to alter any model code.  
 
@@ -168,13 +169,13 @@ The purpose of the show action is to display an article, but the way our page is
 
 ### Scopes with `includes`
 
-The `includes` query method is used to _eager load_ the identified child records when the parent object is loaded.  Official documentation for what eager loading is can be found [here](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations) 
+The `includes` query method is used to _eager load_ the identified child records when the parent object is loaded.  Official documentation for what eager loading is can be found [here](http://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations)
 Let's watch the development log as we interact with an article and its comments in the Rails console:
 
 {% irb %}
 $ a = Article.first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
- => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13"> 
+ => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13">
 $ a.comments.all
   Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = 8
  => [#<Comment id: 6, author_name: "Jeff", body: "This article is great!", article_id: 8, created_at: "2012-01-26 01:52:46", updated_at: "2012-01-26 01:52:46">, #<Comment id: 7, author_name: "Matt", body: "This article is boring!", article_id: 8, created_at: "2012-01-26 01:52:58", updated_at: "2012-01-26 01:52:58">, #<Comment id: 8, author_name: "Steve", body: "This article is objectionable!", article_id: 8, created_at: "2012-01-26 01:53:11", updated_at: "2012-01-26 01:53:11">]
@@ -212,7 +213,7 @@ end
 class Comment < ActiveRecord::Base
   has_one :approval
   #...other relationships, methods, etc
-  
+
   def approved?
     approval
   end
@@ -230,13 +231,13 @@ Now let's fetch our sample `Article` and count the approved comments:
 {% irb %}
 $ a = Article.first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
- => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13"> 
+ => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13">
 $ a.comments.select{|c| c.approved?}.count
   Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" = 8
   Approval Load (0.1ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" = 6 LIMIT 1
   Approval Load (0.1ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" = 7 LIMIT 1
   Approval Load (0.1ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" = 8 LIMIT 1
- => 3 
+ => 3
 {% endirb %}
 
 
@@ -249,9 +250,9 @@ $ a = Article.includes(comments: :approval).first
   Article Load (0.1ms)  SELECT "articles".* FROM "articles" LIMIT 1
   Comment Load (0.1ms)  SELECT "comments".* FROM "comments" WHERE "comments"."article_id" IN (8)
   Approval Load (0.2ms)  SELECT "approvals".* FROM "approvals" WHERE "approvals"."comment_id" IN (6, 7, 8)
- => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13"> 
+ => #<Article id: 8, title: "More Samples", body: "Real data.", created_at: "2012-01-24 18:58:06", updated_at: "2012-01-24 18:58:13">
 002 > a.comments.select{|c| c.approved?}.count
- => 3 
+ => 3
 {% endirb %}
 
 The first instruction kicks off three queries _regardless of how many comments there are_, then the `select` line doesn't need to run any additional queries.
@@ -260,7 +261,7 @@ The first instruction kicks off three queries _regardless of how many comments t
 
 ### Using `default_scope`
 
-If an object is _always_ going to load its child records then a `default_scope` can be setup on the model. Then every query will eager load the children. 
+If an object is _always_ going to load its child records then a `default_scope` can be setup on the model. Then every query will eager load the children.
 
 Continuing with our previous example, suppose we always want the comments for an article to be loaded.  Instead of having to remember to add `include: :comments` to all finder calls add the following to the `Article` model:
 
@@ -294,7 +295,7 @@ The `Article` model now has a `with_comments` scope that can be used where assoc
 
 ```ruby
 Article.with_comments.first
-``` 
+```
 
 This approach gains the convenience of loading the associated comments only when desired.
 
@@ -403,8 +404,8 @@ You can add `select` to an ARel query to specify which columns you want:
 
 {% irb %}
 $ Article.select(:title)
-  Article Load (0.2ms)  SELECT title FROM "articles" 
- => [#<Article title: "Hello">, #<Article title: "Second Sample Article">] 
+  Article Load (0.2ms)  SELECT title FROM "articles"
+ => [#<Article title: "Hello">, #<Article title: "Second Sample Article">]
 {% endirb %}
 
 You get back a collection of `Article` instances, but they only have the `title` attribute set. As long as you only utilize the `.title` method or methods defined in the model which use the `.title`, you're golden. You've significantly reduced how much data comes out from the DB.
@@ -419,7 +420,7 @@ The `pluck` method does just that:
 
 {% irb %}
 $ Article.pluck(:title)
-   (0.2ms)  SELECT title FROM "articles" 
+   (0.2ms)  SELECT title FROM "articles"
  => ["Hello", "Second Sample Article"]
 {% endirb %}
 
@@ -437,7 +438,7 @@ Imagine in your model/controller you've built up an ARel query that's stored int
 <% end %>
 ```
 
-By default, this will fetch the article records in batches of 1000 rather than one massive query. While it will run more queries, there can be a significant savings on total memory usage. 
+By default, this will fetch the article records in batches of 1000 rather than one massive query. While it will run more queries, there can be a significant savings on total memory usage.
 
 You can override this quantity by passing `batch_size: 123` to the `find_each` method.
 

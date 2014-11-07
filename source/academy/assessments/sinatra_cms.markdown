@@ -14,7 +14,7 @@ In this assessment we're looking to see how you:
 
 ## Expectations
 
-* Work on the exercise defined below for 37 minutes with your facilitator
+* Work on the exercise defined below for 30 minutes with your facilitator
 * The facilitator may change the spec or ask additional questions to assess your understandings/skills
 * As you work, you may:
   * Ask questions of your facilitator

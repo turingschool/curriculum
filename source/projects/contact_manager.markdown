@@ -1248,7 +1248,7 @@ isn't passing with `bundle exec rspec`.
 
 Open the `Person` model and declare a `has_many` relationship for `email_addresses`. Open the `EmailAddress` model and declare a `belongs_to` relationship with `Person`.
 
-Now run your tests. They should all pass. Since you're green it would be a good time to *commit your changes*.
+Now run your tests. If you have 0 failures, and several pending specs *commit your changes*.
 
 ### Adding Model Tests and Validations for Email Addresses
 
@@ -1264,26 +1264,26 @@ Let's add some quality controls to our `EmailAddress` model.
 * Run your tests and see that your `it 'is valid'` test fails.
 * Update the `let` block giving your `EmailAddress` and `address`.
 * Run the tests and see that they pass.
+* Update the controller spec and get the pending tests to pass.
 * Commit.
 
 * Write a test to check that an `EmailAddress` isn't valid unless it has a `person_id`
 * See it fail.
 * Update the model to validate the presence of that field.
-* Run the tests, and see a bunch of controller specs fail.
-* Update the `valid_attributes` method in the controller spec.
-* Run the tests, and see the `it 'is valid'` test fail.
+* Run the tests, and see the `it 'is valid'` test fail as well as several controller specs.
+* Update the `valid_attributes` method in the controller specs.
 * Update the `let` block in the email address spec.
 * Run your tests and make sure it *passes*
 
 If you're green, go ahead and check in those changes.
 
-### Completing Email Addresses
+### Completing Email Addresses  
 
 Now let's shift over to the integration tests.
 
 #### Displaying Email Addresses
 
-Before you play with displaying addresses, create a few of them manually in the console.
+Before you play with displaying email addresses, create a few of them manually in the console.
 
 * Open the `person_view_spec.rb`
 * Wrap all the existing tests, including the `before` block in a `describe` block for phone numbers.
@@ -1292,11 +1292,11 @@ Before you play with displaying addresses, create a few of them manually in the 
 * Write a test that looks for LIs for each address. Try using this:
 
 ```ruby
-expect(page).to have_selector('li', text: email_address.address)
+expect(page).to have_selector('li', text: 'SOME_EMAIL_ADDRESS')
 ```
 
 * Make sure the test *fails*.
-* Add a paragraph to the person's `show` template that renders a list of `email_addresses`.
+* Add a <ul> to the person's `show` template that renders a list of `email_addresses`.
 
 Tests should be green here, so check in your changes. Then continue...
 

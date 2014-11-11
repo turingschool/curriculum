@@ -1091,7 +1091,7 @@ Create a new file `lib/listener.rb`:
 
 ```ruby
 require 'redis'
-redis = Redis.new(port: 6383)
+redis = Redis.new
 
 redis.subscribe("email_notifications") do |event|
   event.message do |channel, body|
@@ -1119,7 +1119,7 @@ $:.unshift File.expand_path("./../../lib", __FILE__)
 require 'notifications'
 require 'json'
 require 'redis'
-redis = Redis.new(port: 6383)
+redis = Redis.new
 
 redis.subscribe("email_notifications") do |event|
   event.message do |channel, body|

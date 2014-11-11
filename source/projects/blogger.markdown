@@ -1537,7 +1537,7 @@ Your form should now show up and there's a text box at the bottom named "Tag lis
 Enter content for another sample article and in the tag list enter 'ruby, technology'.
 Click save. It.... worked?
 
-But it didn't. Click 'edit' again, and you'll see that we're back to the `#<Tag...` business, like before. What gives?
+But it didn't. Click 'edit' again, and you'll see that the tag field is empty. What gives?
 
 ```
 Started PATCH "/articles/1" for 127.0.0.1 at 2013-07-17 09:25:20 -0400

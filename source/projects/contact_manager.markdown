@@ -328,7 +328,7 @@ You'll notice that each of these pending examples repeats the message `Add a has
 
 The `skip` makes it so the tests that call `valid_attributes` are marked as pending. The parameter that is passed is the message that should be displayed.
 
-Let's update the code to take accept valid attributes. These are going to be the minimum fields required to create a new Person record. In our case, we want a person to have a valid `first_name` and `last_name`. Let's update the code to look like this:
+Let's update the code to provide valid attributes. These are going to be the minimum fields required to create a new Person record. In our case, we want a person to have a valid `first_name` and `last_name`. Let's update the code to look like this:
 
 ```ruby
   let(:valid_attributes) {
@@ -483,7 +483,7 @@ end
 If you run the test again you'll see that we now have a passing test.
 
 {% terminal %}
-$ bundle exec rspec spec/models/person_spec.rb                                                                                         1 ↵
+$ bundle exec rspec spec/models/person_spec.rb
 .
 
 Finished in 0.01684 seconds (files took 2.45 seconds to load)
@@ -507,8 +507,6 @@ Fix the test by adding a validation to the model:
 
 ```ruby
 class Person < ActiveRecord::Base
-  attr_accessible :first_name, :last_name
-
   validates :first_name, :last_name, presence: true
 end
 ```
@@ -875,7 +873,7 @@ Commit your changes.
 
 ### Creating some seed data
 
-Go into your console and create a person and a couple of phone numbers:
+Go into your console (`bundle exec rails console`) and create a person and a couple of phone numbers:
 
 {% irb %}
 $ person = Person.create(first_name: 'Alice', last_name: 'Smith')

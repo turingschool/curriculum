@@ -66,28 +66,6 @@ When we we finish the extraction the system will work like this:
 We'll use a semi-automated test harness to check that emails are actually
 sent, and that they have the right contents.
 
-### Running Existing Tests
-
-Run the tests to make sure everything starts out green:
-
-{% terminal %}
-$ rake
-{% endterminal %}
-
-### Breaking the Mailer Tests
-
-Open `app/mailers/mailer.rb` and:
-
-* On line 5, change `@user = user` to `@user = User.new(:full_name => "John Doe")`
-* On line 11, change `@order = order` to `@order = Order.new`
-
-Now re-run the tests. Which examples fail?
-
-Unfortunately the failures don't tell us what's actually *wrong* with the emails, and
-don't even tell us if the emails were sent.
-
-We need better tests!
-
 ### Introducing Mailcatcher
 
 Mailcatcher is a great little app that acts as an SMTP host, the protocol used to send email. It offers a web app that makes it easy to see what emails were "sent" (and really caught) by our tests.

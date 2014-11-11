@@ -346,20 +346,7 @@ Include the `redis` gem in the `Gemfile`, and bundle install.
 We need to get Rails to start redis. Create an initializer file in `config/initializers/redis.rb`:
 
 ```ruby
-file = File.join("config", "redis", "#{Rails.env}.conf")
-path = Rails.root.join(file)
-config = File.read(path)
-
-`redis-server #{path}`
-
-running = `ps aux | grep [r]edis-server.*#{file}`
-
-if running.empty?
-  raise "Could not start redis"
-end
-
-port = config[/port.(\d+)/, 1]
-$redis = Redis.new(:port => port)
+$redis = Redis.new
 ```
 
 ### Checking It Out
@@ -370,7 +357,7 @@ Then, open IRB in a second terminal window and subscribe to a test channel:
 
 {% terminal %}
 $ require 'redis'
-$ redis = Redis.new(port: 6382)
+$ redis = Redis.new
 $ redis.subscribe("test_channel") do |event|
     event.message do |channel, body|
       puts "I heard [#{body}] on channel [#{channel}]"
@@ -399,7 +386,7 @@ Open up IRB and subscribe to the channel on the port we configured for the test 
 
 {% terminal %}
 $ require 'redis'
-$ redis = Redis.new(port: 6383)
+$ redis = Redis.new
 $ redis.subscribe("email_notifications") do |event|
     event.message do |channel, body|
       puts "[#{channel}] #{body}"
@@ -431,7 +418,7 @@ Now let's build a `lib/notifications.rb` with that same listener code:
 
 ```ruby
 require 'redis'
-redis = Redis.new(port: 6383)
+redis = Redis.new
 redis.subscribe("email_notifications") do |event|
   event.message do |channel, body|
     puts "[#{channel}] #{body}"

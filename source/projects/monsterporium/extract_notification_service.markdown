@@ -116,8 +116,6 @@ Now everything is in place.
 
 * Run the tests from the terminal
 * Open the [mailcatcher web interface at http://localhost:1080](http://localhost:1080)
-* Eyeball the caught emails and you should see the problems we intentionally introduced earlier
-* Revert the changes in `mailer.rb` so the emails will now work properly
 * Clear the messages in mailcatcher (button in the top right of the web interface)
 * Run the specs again
 

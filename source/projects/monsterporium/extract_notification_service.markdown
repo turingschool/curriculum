@@ -303,29 +303,8 @@ data = {
 * Rework `Mailer#order_confirmation` and the view template
 * Run the mailer spec and see it pass
 * Run the full suite and it should fail:
-
-```plain
-Failures:
-
-  1) OrdersController create fails to create an order without a stripeToken
-     Failure/Error: post :create
-     ActionView::Template::Error:
-       undefined method `each' for nil:NilClass
-     # ./app/views/mailer/order_confirmation.html.erb:6:in `_app_views_mailer_order_confirmation_html_erb___162722226973004525_70262093155400'
-     # ./app/mailers/mailer.rb:11:in `order_confirmation'
-     # ./app/controllers/orders_controller.rb:23:in `create'
-     # ./spec/controllers/orders_controller_spec.rb:10:in `block (3 levels) in <top (required)>'
-
-  2) OrdersController buy_now fails to create an order without a stripeToken
-     Failure/Error: post :buy_now, order: product.id
-     ActionView::Template::Error:
-       undefined method `each' for nil:NilClass
-     # ./app/views/mailer/order_confirmation.html.erb:6:in `_app_views_mailer_order_confirmation_html_erb___162722226973004525_70262093155400'
-     # ./app/mailers/mailer.rb:11:in `order_confirmation'
-     # ./app/controllers/orders_controller.rb:37:in `buy_now'
-     # ./spec/controllers/orders_controller_spec.rb:20:in `block (3 levels) in <top (required)>'
-```
-
+  * `OrdersController create fails to create an order without a stripeToken`
+  * `OrdersController buy_now fails to create an order without a stripeToken`
 * Run that `orders_controller_spec.rb` and it'll still fail
 * Build the data hash in `PurchaseConfirmation.create` and pass it in to the mailer
 * Run the controller spec and it should pass

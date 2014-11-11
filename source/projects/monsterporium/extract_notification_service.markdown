@@ -192,6 +192,10 @@ end
 
 Change `OrdersController` to use `PurchaseConfirmation.create` instead of talking to `Mailer` directly.
 
+#### Verify
+
+Run the specs to confirm that you implemented this change correctly.
+
 #### Creating `SignupConfirmation`
 
 Create a new class in `app/models/signup_confirmation.rb`:

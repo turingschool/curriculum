@@ -23,7 +23,7 @@ If you don't already have the Monsterporium and Redis installed, hop over to [th
 
 ## Getting Started with The Monsterporium
 
-The Monsterporium is a student project written by students in our gSchool course for their [StoreEngine project assignment](http://tutorials.jumpstartlab.com/projects/store_engine.html). It's an online store that supports listing products and placing orders. Along the way it sends a few emails.
+The Monsterporium is a student project written for their StoreEngine project assignment, which you probably know as [Dinner Dash](http://tutorials.jumpstartlab.com/projects/dinner_dash.html). It's an online store that supports listing products and placing orders. Along the way it sends a few emails.
 
 ### Where Emails Come From
 

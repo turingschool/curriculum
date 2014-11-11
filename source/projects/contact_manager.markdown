@@ -214,6 +214,7 @@ Uploading SSH public key ...
 {% endterminal %}
 
 You should now be able to deploy.
+
 {% terminal %}
 $ git push heroku master
 

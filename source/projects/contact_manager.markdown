@@ -423,7 +423,7 @@ Pending:
 
 Finished in 0.00067 seconds (files took 2.78 seconds to load)
 1 example, 0 failures, 1 pending
-{% endterminal }
+{% endterminal %}
 
 We have 1 pending test and a message that says `Not yet implemented`. Let's write a useful test.
 

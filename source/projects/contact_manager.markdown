@@ -1050,9 +1050,9 @@ Delete the `pending` declaration in your integration test and run all the tests.
 
 Open up your application and go to [/people/1](http://localhost:8080/people/1). Click to add a phone number, and now click the `Create Phone number` button.
 
-You get an error message. The form doesn't have the person id in it, so it can't save.
+You get an error message. The form includes a field for providing the `person_id`, but our test is not filling it in. Without a `person_id`, the number can't be saved (remember, we made `person_id` a required attribute for phone numbers).
 
-We need to send the id of the person along when we add the phone number.
+We could require our users to manually fill in the ID for the person they are creating a phone number for, but this seems tedious. Since the user has just come from the person page, we should be able to fill in the `person_id` for them automatically. One way to do this is by encoding it into the URL as a query parameter.
 
 Make the test pending again, and go back to the one above it. Change it so that the phone number path takes a person's id.
 
@@ -1074,7 +1074,7 @@ Go back to the feature and remove the `pending` declaration again.
 
 Re-run the tests.
 
-Still failing! We pass the person ID, but the form doesn't take it into account when creating the number.
+Still failing! We are passing the `person_id` to the `new_phone_number` route, but the form doesn't take it into account when creating the number.
 
 Go into the phone numbers controller, into the `new` action, and instead of `@phone_number = PhoneNumber.new` let's say `@phone_number = PhoneNumber.new(person_id: params[:person_id])`
 
@@ -1084,7 +1084,7 @@ If you go to the [/people/1](http://localhost:3000/people/1) page and click to c
 
 Open up the `app/views/phone_numbers/_form.html.erb` file and change the `number_field` to be a `hidden_field`. Go ahead and delete the label for the person id as well.
 
-All your tests are passing, so this is a good time to commit your changes.
+Now all your tests should be passing, and you have a svelte phone number form to boot, so this is a good time to commit your changes.
 
 #### Workflow for Editing Phone Numbers
 

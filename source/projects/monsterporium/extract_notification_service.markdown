@@ -119,17 +119,6 @@ Now everything is in place.
 * Clear the messages in mailcatcher (button in the top right of the web interface)
 * Run the specs again
 
-### Emails in OrdersController Specs
-
-Let's also capture the emails that get sent during integration tests.
-
-Open `spec/controllers/orders_controller_spec.rb`. There are two specs that send out email:
-
-* `create fails to create an order...`
-* `buy_now fails to create an order...`
-
-Use the same technique we did the the mailer spec to send these emails to mailcatcher. There are no expectations here about email, so don't delete the expectations that are there.
-
 ### Testing the Welcome Email
 
 There are currently no controller tests that create a user and trigger the welcome email. In general, running feature specs is very slow. So instead of changing

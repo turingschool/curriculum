@@ -326,7 +326,6 @@ Failures:
      # ./spec/controllers/orders_controller_spec.rb:20:in `block (3 levels) in <top (required)>'
 ```
 
-* The `OrdersController` is still accessing `Mailer` directly. Change it to use `PurchaseConfirmation` in two places.
 * Run that `orders_controller_spec.rb` and it'll still fail
 * Build the data hash in `PurchaseConfirmation.create` and pass it in to the mailer
 * Run the controller spec and it should pass

@@ -189,6 +189,14 @@ git add .
 $ git commit -m "Update database dependencies"
 {% endterminal %}
 
+Now, let's update `production.rb` to serve static assets.
+
+```ruby
+config.serve_static_assets = true
+```
+
+Without the line above, you may have difficulty deleting once deployed to Heroku.
+
 Next let's integrate [Heroku](http://www.heroku.com/).
 
 {% terminal %}

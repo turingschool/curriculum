@@ -207,6 +207,7 @@ $ git push heroku master
 {% endterminal %}
 
 If you see a `Permission denied (publickey).` error, your SSH key needs to be uploaded to Heroku.
+
 {% terminal %}
 heroku keys:add ~/.ssh/id_rsa.pub
 Uploading SSH public key ...

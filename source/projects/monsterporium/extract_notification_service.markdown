@@ -131,9 +131,9 @@ In `spec/controllers/users_controller_spec.rb` add this spec:
 describe "#create" do
   it "sends an email" do
     data = {
-      full_name: 'Alice Smith',
-      email: 'alice@example.com',
-      display_name: 'alice',
+      full_name: 'Billie Holiday',
+      email: 'billie@example.com',
+      display_name: 'billie',
       password: 'poet',
       password_confirmation: 'poet'
     }

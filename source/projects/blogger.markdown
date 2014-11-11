@@ -412,6 +412,16 @@ Or, if you wanted to also have a CSS ID attribute:
 Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
 
 ```erb
+<h1>All Articles</h1>
+
+<ul id="articles">
+  <% @articles.each do |article| %>
+    <li>
+      <%= link_to article.title, article_path(article) %>
+    </li>
+  <% end %>
+</ul>
+
 <%= link_to "Create a New Article", new_article_path, class: "new_article" %>
 ```
 

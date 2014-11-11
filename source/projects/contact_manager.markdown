@@ -394,6 +394,7 @@ Here is where we need to specify what invalid attributes should look like. In ou
 ```
 
 Now when we run `bundle exec rspec` the end of your output should look like this:
+
 {% terminal %}
 Finished in 0.34863 seconds (files took 2.2 seconds to load)
 29 examples, 3 failures, 2 pending

@@ -162,6 +162,7 @@ Open `mailer.rb` and look at the `order_confirmation` method. Right now it takes
 * Remove the user parameter
 * Remove `current_user` from the mailer calls on `OrdersController` lines 23 and 37
 * Remove `user` from `mailer_spec` line 17
+* Change `user` to `@user` on line 12 in `mailer.rb` we no longer have a `user` local variable
 
 Run the specs and confirm that things are still passing and the emails show up in mailcatcher.
 

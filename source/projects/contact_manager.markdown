@@ -802,9 +802,9 @@ Now let's get the pending controller tests to pass.
 Open up the file `spec/controllers/phone_numbers_controller_spec.rb` and find the method definition for `valid_attributes`. In order to pass our validations we need to add `number` and `person_id` attributes.
 
 ```ruby
-def valid_attributes
+let(:valid_attributes) {
   { number: "MyString", person_id: 1 }
-end
+}
 ```
 
 Re-run your tests and you should be down to 6 pending tests.

@@ -441,6 +441,8 @@ In that listener, instead of a meaningless `puts` statement, it's time to actual
 
 #### Double-Sending Email
 
+Our Rails application is still sending the emails, but our listener should also be sending the emails. As a result, we should be getting duplicate emails.
+
 Run `rspec spec/controllers/orders_controller_spec.rb`
 
 Did you get **four emails** in mailcatcher? If so, that's working.

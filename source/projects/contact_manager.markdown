@@ -2070,7 +2070,7 @@ Now our example should pass since we already implemented the `to_s` in `person.r
 * Un-comment the `to_s`
 * See it *pass*!
 
-Now in that same integration spec, you have a context named `"when looking at the edit email address form"`. Implement a similar example there checking for the contact's name in the `h1`, then change the view template to make it work.
+Now in the "edit" view spec (`spec/views/email_addresses/edit.html.erb_spec.rb`), implement a similar example for the `edit` form, then change the view template to make it work.
 
 #### More Form Tests & Tweaks
 
@@ -2078,8 +2078,6 @@ Implement the same technique on...
 
 * the `new` template for phone numbers
 * the `edit` template for phone numbers
-
-You probably want to create a `phone_numbers_views_spec.rb` and write the integration tests there before changing the view templates.
 
 #### Making Use of the `to_s` Method
 

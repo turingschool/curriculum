@@ -189,6 +189,14 @@ git add .
 $ git commit -m "Update database dependencies"
 {% endterminal %}
 
+Now, let's update `production.rb` to serve static assets.
+
+```ruby
+config.serve_static_assets = true
+```
+
+Without the line above, you may have difficulty deleting once deployed to Heroku.
+
 Next let's integrate [Heroku](http://www.heroku.com/).
 
 {% terminal %}
@@ -207,12 +215,14 @@ $ git push heroku master
 {% endterminal %}
 
 If you see a `Permission denied (publickey).` error, your SSH key needs to be uploaded to Heroku.
+
 {% terminal %}
 heroku keys:add ~/.ssh/id_rsa.pub
 Uploading SSH public key ...
 {% endterminal %}
 
 You should now be able to deploy.
+
 {% terminal %}
 $ git push heroku master
 
@@ -328,7 +338,7 @@ You'll notice that each of these pending examples repeats the message `Add a has
 
 The `skip` makes it so the tests that call `valid_attributes` are marked as pending. The parameter that is passed is the message that should be displayed.
 
-Let's update the code to take accept valid attributes. These are going to be the minimum fields required to create a new Person record. In our case, we want a person to have a valid `first_name` and `last_name`. Let's update the code to look like this:
+Let's update the code to provide valid attributes. These are going to be the minimum fields required to create a new Person record. In our case, we want a person to have a valid `first_name` and `last_name`. Let's update the code to look like this:
 
 ```ruby
   let(:valid_attributes) {
@@ -392,6 +402,7 @@ Here is where we need to specify what invalid attributes should look like. In ou
 ```
 
 Now when we run `bundle exec rspec` the end of your output should look like this:
+
 {% terminal %}
 Finished in 0.34863 seconds (files took 2.2 seconds to load)
 29 examples, 3 failures, 2 pending
@@ -420,7 +431,7 @@ Pending:
 
 Finished in 0.00067 seconds (files took 2.78 seconds to load)
 1 example, 0 failures, 1 pending
-{% endterminal }
+{% endterminal %}
 
 We have 1 pending test and a message that says `Not yet implemented`. Let's write a useful test.
 
@@ -483,7 +494,7 @@ end
 If you run the test again you'll see that we now have a passing test.
 
 {% terminal %}
-$ bundle exec rspec spec/models/person_spec.rb                                                                                         1 ↵
+$ bundle exec rspec spec/models/person_spec.rb
 .
 
 Finished in 0.01684 seconds (files took 2.45 seconds to load)
@@ -507,8 +518,6 @@ Fix the test by adding a validation to the model:
 
 ```ruby
 class Person < ActiveRecord::Base
-  attr_accessible :first_name, :last_name
-
   validates :first_name, :last_name, presence: true
 end
 ```
@@ -875,7 +884,7 @@ Commit your changes.
 
 ### Creating some seed data
 
-Go into your console and create a person and a couple of phone numbers:
+Go into your console (`bundle exec rails console`) and create a person and a couple of phone numbers:
 
 {% irb %}
 $ person = Person.create(first_name: 'Alice', last_name: 'Smith')
@@ -1052,9 +1061,9 @@ Delete the `pending` declaration in your integration test and run all the tests.
 
 Open up your application and go to [/people/1](http://localhost:8080/people/1). Click to add a phone number, and now click the `Create Phone number` button.
 
-You get an error message. The form doesn't have the person id in it, so it can't save.
+You get an error message. The form includes a field for providing the `person_id`, but our test is not filling it in. Without a `person_id`, the number can't be saved (remember, we made `person_id` a required attribute for phone numbers).
 
-We need to send the id of the person along when we add the phone number.
+We could require our users to manually fill in the ID for the person they are creating a phone number for, but this seems tedious. Since the user has just come from the person page, we should be able to fill in the `person_id` for them automatically. One way to do this is by encoding it into the URL as a query parameter.
 
 Make the test pending again, and go back to the one above it. Change it so that the phone number path takes a person's id.
 
@@ -1076,7 +1085,7 @@ Go back to the feature and remove the `pending` declaration again.
 
 Re-run the tests.
 
-Still failing! We pass the person ID, but the form doesn't take it into account when creating the number.
+Still failing! We are passing the `person_id` to the `new_phone_number` route, but the form doesn't take it into account when creating the number.
 
 Go into the phone numbers controller, into the `new` action, and instead of `@phone_number = PhoneNumber.new` let's say `@phone_number = PhoneNumber.new(person_id: params[:person_id])`
 
@@ -1086,7 +1095,7 @@ If you go to the [/people/1](http://localhost:3000/people/1) page and click to c
 
 Open up the `app/views/phone_numbers/_form.html.erb` file and change the `number_field` to be a `hidden_field`. Go ahead and delete the label for the person id as well.
 
-All your tests are passing, so this is a good time to commit your changes.
+Now all your tests should be passing, and you have a svelte phone number form to boot, so this is a good time to commit your changes.
 
 #### Workflow for Editing Phone Numbers
 
@@ -1174,7 +1183,13 @@ Lastly the customer wants a delete link for each phone number. Follow a similar 
 * Fix the controller to redirect to the phone number's person after destroy
 * Fix the resulting spec failure in the controller spec
 
-The tests are passing, so let's commit!
+One note: the "destroy" action of a rails controller is triggered by sending an HTTP DELETE request to the appropriate path. You will need to use the `method` option on the `link_to` helper to include this in the delete links. It will look something like:
+
+```
+<%= link_to('delete', phone_number_path(phone_number), :method => "delete") %>
+```
+
+Once your tests are passing, let's commit!
 
 {% terminal %}
 $ git add .

@@ -1292,7 +1292,7 @@ Let's add some quality controls to our `EmailAddress` model.
 
 If you're green, go ahead and check in those changes.
 
-### Completing Email Addresses  
+### Completing Email Addresses
 
 Now let's shift over to the integration tests.
 
@@ -1573,7 +1573,25 @@ has_many :phone_numbers, as: :contact
 
 Now when we run our tests we should see different failures (confirm you don't see `undefined method `phone_numbers'`). The new error is `ActionView::Template::Error: undefined method `person_id'`. As the error indicates, the failure is occuring in our view. In the person `show` template in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
 
-Rerun the `person_view_spec` file. This should eliminate one of the template failures, although it still isn't enough to get the test to pass. You should see something like this in your output.
+This helps, but we're still seeing the same error -- what gives!? If you look closely you'll see that the "undefined method person_id" error has now moved to a different place: `app/views/phone_numbers/_form.html.erb`. Recall that our feature test goes through the steps of creating and editing new phone numbers, which uses the phone numbers form. So to fix these errors we also need to update the phone number form to remove the outdated `person_id` field.
+
+Open up the form template and change the `person_id` to be a `contact_id`. We also need to tell the phone number what `contact_type` to use, so let's add a new form field for contact_type:
+
+```
+  <div class="field">
+    <%= f.hidden_field :contact_type %>
+  </div>
+```
+
+Finally we need to update `app/controllers/phone_numbers_controller.rb` to use this attribute:
+
+```ruby
+def new
+  @phone_number = PhoneNumber.new(contact_id: params[:contact_id], contact_type: params[:contact_type])
+end
+```
+
+We should be down to one failure in our feature spec now. If you're still seeing other issues, check through your `PhoneNumbersController` and phone number form to make sure you've swapped all the relevant instances of `person_id` to `contact_type`. Now let's address the remaining failure:
 
 ```bash
 Failure/Error: expect(page).to have_link('Add phone number', href: new_phone_number_path(person_id: person.id))
@@ -1581,33 +1599,11 @@ Failure/Error: expect(page).to have_link('Add phone number', href: new_phone_num
     expected to find link "Add phone number" but there were no matches. Also found "Add phone number", which matched the selector but not all filters.
 ```
 
-We forgot to update the test to expect to receive a `contact_type`. Let's do that now:
+This is because we've updated our links to include the new contact information (`contact_type`) in our "Add phone number" link, but have not updated the spec to match. Let's do that now:
 
 ```ruby
 it 'has a link to add another' do
   expect(page).to have_link('Add phone number', href: new_phone_number_path(contact_id: person.id, contact_type: 'Person'))
-end
-```
-
-That should eliminate that failure, but we still have two more. There's another template error, this time in `app/views/phone_numbers/_form.html.erb`:
-
-```bash
-undefined method `person_id'
-```
-
-Open up the form template and change the `person_id` to be a `contact_id`
-
-One of the remaining failures is an outdated test:
-
-We're down to one error: `Cannot redirect to nil!`
-
-The problem is that when we create a new `phone number` it doesn't know that the `contact_type` should be `Person`.
-
-Open up the `app/views/phone_numbers/_form.html.erb` and create another hidden field for the `contact_type` attribute. Now we need to update the controller to use this attribute.
-
-```ruby
-def new
-  @phone_number = PhoneNumber.new(contact_id: params[:contact_id], contact_type: params[:contact_type])
 end
 ```
 
@@ -1631,7 +1627,9 @@ Open up the `app/models/company.rb` file and the following relationship between 
 has_many :phone_numbers, as: :contact
 ```
 
-Re-run all the tests. See *green* and breathe a sigh of relief. Get the pending controller tests to pass and *check-in* your code.
+Re-run all the tests. See *green* and breathe a sigh of relief. Check in your code and rejoice!
+
+Now go after the pending controller tests for the companies controller spec and *check-in* your code.
 
 We're almost done here. We have some weak tests that need to be improved.
 

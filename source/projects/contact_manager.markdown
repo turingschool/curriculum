@@ -1311,7 +1311,7 @@ expect(page).to have_selector('li', text: 'SOME_EMAIL_ADDRESS')
 ```
 
 * Make sure the test *fails*.
-* Add a <ul> to the person's `show` template that renders a list of `email_addresses`.
+* Add a UL to the person's `show` template that renders a list of `email_addresses`.
 
 Tests should be green here, so check in your changes. Then continue...
 

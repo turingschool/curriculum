@@ -1792,69 +1792,23 @@ If your tests are green, commit your changes.
 
 Now do the same thing for the `EmailAddressesController`
 
-#### Implementing a Before Filter
+#### About Before Actions
 
-The remaining `edit`, `update`, and `destroy` methods all start with the same line. That's not very *DRY*. We can take advantage of Rails' `before_filter` system to execute a piece of code before each action is triggered.
-
-There are a couple opinions on how to implement `before_filters`, here's the way I think you should do it. Up at the top of the controller, just after the `class` line, add this:
+Take a look at the email addresses controller. You should have this line near the top of the class:
 
 ```ruby
-before_filter :lookup_phone_number
-```
-Then go down to the bottom of the controller file. We want to add a `private` method to the controller like this:
-
-```ruby
-private
-def lookup_phone_number
-  @phone_number = PhoneNumber.find(params[:id])
-end
+before_action :set_email_address, only: [:edit, :update, :destroy]
 ```
 
-Note that `private` doesn't have an `end` line. Any method defined after the `private` keyword in a Ruby class will be private to instances of that object. Then within the `lookup_phone_number` method we just have the same line that was common to the three actions. *Delete* the line from the three actions and run your tests.
+This will run the `set_email_address` method _before_ the `edit`, `update` or `destroy` actions are run. This allows us to share code without duplication. Take a look at the `set_email_address` method to see what it is doing. Now look at the actions that are dependant on this method.
 
-Some of them should *fail*.
+Experiment a little. What happens if you comment out the before action? How would you get the edit page to load without it? (To be clear, we want the before action so make sure it's there after experimenting).
 
-Look at the error messages and backtrace to see the issue.
-
-#### Scoping a Before Filter
-
-This `lookup_phone_number` method is being run before every action in the controller, but we only removed the line from `update`, `edit`, and `destroy`. When the `new` action is executed this line is raising and exception because there is no `params[:id]` data.
-
-We want this before filter to only run for certain actions. Go back to the top of the controller and change...
-
-```ruby
-before_filter :lookup_phone_number
-```
-
-...to run only for the listed actions...
-
-```ruby
-before_filter :lookup_phone_number, only: [:edit, :update, :destroy]
-```
-
-Or, you can even use the reverse logic:
-
-```ruby
-before_filter :lookup_phone_number, except: [:new, :create]
-```
-
-Run your tests and they should be *passing*.
-
-#### Continuing the Before Filters
-
-You can use the exact same pattern to implement `before_filter` actions in...
-
-* `email_addresses_controller`
-* `companies_controller`
-* `people_controller`
-
-If the controller uses the `show` method, then it's probably much shorter to use the `except` syntax on the `before_filter`.
-
-Go do those now and make sure your tests are still green, and the commit your changes.
+Also, note the `private` doesn't have an `end` line. Any method defined after the `private` keyword in a Ruby class will be private to instances of that object. It's common practice to make methods that get used in before actions private.
 
 #### Removing Blank Controller Actions?
 
-As you remove the lookup line from actions like `edit`, it's likely that your action is now totally blank. You can, then, remove the method from the controller. The `before_filter` will still be activated and the view template renders so things will work great.
+Take a look at the `edit` action. It's totally blank. You can, then, remove the method from the controller. The `before_filter` will still be activated and the view template renders so things will work great.
 
 But I don't think it's worth the developer cost. Not having the method in the file then having it work in the app is *confusing*. I'd recommend you just leave the stub.
 
@@ -1879,7 +1833,7 @@ def find_resource
 end
 ```
 
-Then I call that method from `before_filter` lines in each controller. The `before_filter` call could be pulled up here, but I think that makes the individual controllers too opaque.
+Then I call that method from `before_filter` lines in each controller. The `before_filter` call could be pulled into the application controller, but I think that makes the individual controllers too opaque.
 
 ### Removing Model Duplication
 
@@ -1915,7 +1869,7 @@ Run your tests and everything will be broken. When we write a module we need to 
 * methods that should be defined on the including class (like Person.first)
 * methods that should be defined for instances of the including class (like Person.first.name)
 
-The normal Ruby syntax to accomplish these jobs is a little ugly. In Rails 3 there's a new feature library that cleans up the implementation of modules. We use it like this:
+The normal Ruby syntax to accomplish these jobs is a little ugly. Starting in Rails 3, there's a feature library that cleans up the implementation of modules. We use it like this:
 
 ```ruby
 module Contact
@@ -1970,8 +1924,8 @@ Run the person view tests again, and all of them are failing with the following 
 
 ```bash
 Failure/Error: visit person_path(person)
-  ActionView::Template::Error:
-    undefined method `phone_numbers' for nil:NilClass
+ActionView::Template::Error:
+ undefined method `phone_numbers' for nil:NilClass
 ```
 
 Open up the `phone_numbers/_phone_numbers.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
@@ -2023,9 +1977,9 @@ This last thing will break a test, so make sure you fix that before checking in.
 
 Let's make a similar set of changes to `app/views/companies/show.html.erb`...
 
-* Change the `title` line so it uses the name of the company
+* Create a heading line to use the name of the company
 * Remove the paragraph with the company name
-* String the phone numbers paragraph down so it just renders the partial
+* Make sure the phone numbers just renders the partial (not wrapped in a paragraph etc.)
 * Do the same for the email addresses
 * Change the actions so they're inside `li` tags inside a `ul` with the class name `"actions"`
 * Wrap the whole view in a div with class name `"company"`
@@ -2038,30 +1992,30 @@ When you're green, check it in.
 
 Just a few small changes to the `edit` template:
 
-* Change the `title` so it uses the name of the company/person
+* Change the heading so it uses the name of the company/person
 * Change the links and the bottom to be wrapped in `li` tags inside a `ul` with classname `"actions"`
 
 ### PhoneNumber & Email Address New/Edit
 
-Open the `email_addresses/new.html.erb` and change the `title` line from
+Open the `email_addresses/new.html.erb` and change the heading from
 
 ```ruby
-<% title "New Email Address" %>
+<h1>Editing email_address</h1>
 ```
 
 To this:
 
 ```ruby
-<% title "New Email Address for #{@email_address.contact}" %>
+<h1><%= "New Email Address for #{@email_address.contact}" %></h1>
 ```
 
-View it in your browser and...what is that?  You probably see something like this:
+View it in your browser and…what is that? You probably see something like this:
 
 ```text
-New Email Address for #<Person:0x00000103226e70>
+New Email Address for #<Person:0x007f902f76f248>
 ```
 
-That person-like thing is what you get when you call the `to_s` method on an object that doesn't have a `to_s`. This is the version all objects inherit from the `Object` class.
+That person-like thing is what you get when you call the `to_s` method on an object that doesn’t have a `to_s`. This is the version all objects inherit from the `Object` class.
 
 #### Testing a `to_s` Method
 
@@ -2069,7 +2023,7 @@ We want to write some code in our models, but we don't have permission to do tha
 
 ```ruby
 it "convert to a string with last name, first name" do
-  expect(person.to_s).to eq "Doe, John"
+  expect(person.to_s).to eq "Smith, Alice"
 end
 ```
 

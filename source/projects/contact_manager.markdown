@@ -2049,7 +2049,7 @@ Let's write a quick view test. In the view spec `email_addresses_new.html.erb_sp
 ```ruby
 it "shows the contact's name in the title" do
   render
-  assert_select("h1", text: "#{email_address.contact.first_name} #{email_address.contact.last_name}")
+  assert_select("h1", text: "New Email Address for #{email_address.contact.first_name} #{email_address.contact.last_name}")
 end
 ```
 
@@ -2057,7 +2057,7 @@ You will probably get some errors about `email_address` being undefined. Lets fi
 
 ```ruby
   let(:person) { Person.create(:first_name => "Bob", :last_name => "Smith") }
-  let(:email_address) { EmailAddress.create(:contact_id => person.id, :contact_type => "Person", :address => "MyString") }
+  let(:email_address) { EmailAddress.new(:contact_id => person.id, :contact_type => "Person", :address => "MyString") }
   before(:each) do
     assign(:email_address, email_address)
   end

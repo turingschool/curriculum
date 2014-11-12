@@ -1832,7 +1832,7 @@ def find_resource
 end
 ```
 
-Then I call that method from `before_filter` lines in each controller. The `before_filter` call could be pulled into the application controller, but I think that makes the individual controllers too opaque.
+Then I call that method from `before_action` lines in each controller. The `before_action` call could be pulled into the application controller, but I think that makes the individual controllers too opaque.
 
 ### Removing Model Duplication
 
@@ -1885,13 +1885,15 @@ end
 
 Any code defined inside the `included` block will be run on the class when the module is included. Any methods defined in the `ClassMethods` submodule will be defined on the including class. And methods defined directly in the module will be attached to instances of the class.
 
-Where should your two `has_many` lines go?  Figure it out on your own and use your tests to prove that it works. When you're *green*, check it in.
+Where should your two `has_many` lines go?  Figure it out on your own and use your tests to prove that it works. When you're *green*, check it in. (hint: check out the docs if you get stuck: http://api.rubyonrails.org/classes/ActiveSupport/Concern.html)
 
 ### Cutting Down View Redundancy
 
 Do you remember copying and pasting some view code?  I told you to do it, so don't feel guilty.
 
 #### Extracting view partials.
+
+Partials are view templates which represent reuseable chunks of markup and display logic. They're especially useful for representing similar data in multiple places in your application, as we are doing now with phone numbers and email addresses. Let's extract some of this duplicated markup into partials.
 
 Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
 
@@ -1929,11 +1931,9 @@ ActionView::Template::Error:
 
 Open up the `phone_numbers/_phone_numbers.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
 
-We can't just swap them out, we need a better idea.
+When we write ruby code, we always aim to keep our classes as independent and decoupled as possible. The same principle applies to writing good, reusable view templates. Here we need to decouple the phone numbers partial from the surrounding context, and one easy way to do this is by having the list of phone numbers passed in explicitly as a template local variable.
 
-Instead of having the partial look up the phone numbers on the person or company, let's just pass it the phone numbers:
-
-This necessitates a change in three places:
+Luckily rails facilitates this by allowing us to pass an arbitrary hash of local variables to the render method.
 
 First, in `phone_numbers/_phone_numbers.html.erb` delete `@company`.
 
@@ -2044,15 +2044,26 @@ That should make your test pass. Go through the same process writing a test for 
 
 Flip over to your browser and you'll see that the `title` on the new email address page should look much better. It isn't making a test go green, though, and that makes me feel guilty. We've knowingly spent time implementing untested code.
 
-Let's write a quick integration test. In the `email_addresses_views_spec.rb` we have a context `"when looking at the new email address form"`. Within that, add this example:
+Let's write a quick view test. In the view spec `email_addresses_new.html.erb_spec.rb`, add this example:
 
 ```ruby
 it "shows the contact's name in the title" do
-  expect(page).to have_selector("h1", text: "#{@person.last_name}, #{@person.first_name}")
+  render
+  assert_select("h1", text: "#{email_address.contact.first_name} #{email_address.contact.last_name}")
 end
 ```
 
-It'll pass because you've already implemented the `to_s` in `person.rb`. Try a little _"Comment Driven Development"_:
+You will probably get some errors about `email_address` being undefined. Lets fill in this as well as a person with some `let`s at the top of the file:
+
+```ruby
+  let(:person) { Person.create(:first_name => "Bob", :last_name => "Smith") }
+  let(:email_address) { EmailAddress.create(:contact_id => person.id, :contact_type => "Person", :address => "MyString") }
+  before(:each) do
+    assign(:email_address, email_address)
+  end
+```
+
+Now our example should pass since we already implemented the `to_s` in `person.rb`. Try a little _"Comment Driven Development"_:
 
 * Comment out the `to_s` method in `person.rb`
 * Run the test and see it *fail*

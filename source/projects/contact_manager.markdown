@@ -2109,7 +2109,7 @@ As we learn more about constructing web applications there is a greater emphasis
 
 ### Why OmniAuth?
 
-The best application of this concept is the [OmniAuth](https://github.com/intridea/omniauth). It's popular because it allows you to use multiple third-party services to authenticate, but it is really a pattern for component-based authentication. You could let your users login with their Twitter account, but you could also build our own OmniAuth provider that authenticates all your companies apps. Maybe you can use the existing LDAP provider to hook into ActiveDirectory or OpenLDAP, or make use of the Google Apps interface?
+The best application of this concept is the [OmniAuth](https://github.com/intridea/omniauth). It's popular because it allows you to use multiple third-party services to authenticate, but it is really a pattern for component-based authentication. You could let your users login with their Twitter account, but we can also build our own OmniAuth provider that authenticates all your companies' apps. Maybe you can use the existing LDAP provider to hook into ActiveDirectory or OpenLDAP, or make use of the Google Apps interface?
 
 Better yet, OmniAuth can handle multiple concurrent strategies, so you can offer users multiple ways to authenticate. Your app is just built against the OmniAuth interface, those external components can come and go.
 
@@ -2192,7 +2192,7 @@ Let's start with just those three in our model. From your terminal:
 $ rails generate model User provider:string uid:string name:string
 {% endterminal %}
 
-Then update the databases with `rake db:migrate db:test:prepare` .
+Then update the databases with `rake db:migrate`.
 
 ### Creating Actual Users
 
@@ -2230,16 +2230,6 @@ We do have a route that goes there, but we can't call it from this controller te
 
 ```ruby
 resource :sessions, :only => [:create]
-```
-
-But we only need this route for the test. Exposing it for the entire application seems dirty. Let's just add a route temporarily for the controller test:
-
-```
-before(:each) do
-  Rails.application.routes.draw do
-    resource :sessions, :only => [:create]
-  end
-end
 ```
 
 Now the test should fail because we don't actually do anything useful in the controller action yet.
@@ -2283,7 +2273,7 @@ To get this to pass I changed my create method to this:
 ```ruby
 def create
   data = request.env['omniauth.auth']
-  User.find_or_create_by_provider_and_uid_and_name(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
+  user = User.where(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name']).first_or_create
   render :nothing => true
 end
 ```
@@ -2332,18 +2322,18 @@ Open up `app/controllers/application_controller.rb` and add the following to it:
 helper_method :current_user
 
 def current_user
-  @current_user ||= User.find_by_id(session[:user_id])
+  @current_user ||= User.find(session[:user_id])
 end
 ```
 
-The test fails because when we say `User.find(session[:user_id])` this comes back as nil, and then we're calling `id` on it anyway.
+The test fails because when we say `User.find(session[:user_id])` this comes back as nil.
 
 Let's put the user id in the session. Go back to the sessions controller and update the `create` method:
 
 ```ruby
 def create
   data = request.env['omniauth.auth']
-  user = User.find_or_create_by_provider_and_uid_and_name(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
+  user = User.where(provider: data['provider'], uid: data['uid'], name: data['info']['name']).first_or_create
   session[:user_id] = user.id
   render :nothing => true
 end
@@ -2355,7 +2345,7 @@ Open up `app/models/user.rb` and add the following to it:
 
 ```ruby
 def self.find_or_create_by_auth(auth_data)
-  user = self.find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"])
+  user = User.where(provider: auth_data['provider'], uid: auth_data['uid']).first_or_create
   if user.name != auth_data["info"]["name"]
     user.name = auth_data["info"]["name"]
     user.save
@@ -2385,7 +2375,7 @@ Add a test for this behavior:
 
 ```ruby
 it 'redirects to the companies page' do
-  @request.env["omniauth.auth"] = {
+  request.env["omniauth.auth"] = {
     'provider' => 'twitter',
     'info' => {'name' => 'Charlie Allen'},
     'uid' => 'prq987'
@@ -2398,22 +2388,7 @@ end
 
 This is horrible! All that setup, just because we want to test the redirect? Right now there's no way around it. Maybe we can figure out a better way later.
 
-Ok, the test fails, because it doesn't know about the `root_path`. That's because we replaced all of the application's routes with just a single route in the before filter, and now we're trying to refer to one of the existing routes.
-
-Let's create a hack for this:
-
-```ruby
-before(:each) do
-  Rails.application.routes.draw do
-    resource :sessions, :only => [:create]
-    root to: 'site#index'
-  end
-end
-
-after(:each) do
-  Rails.application.reload_routes!
-end
-```
+Ok, the test fails, because it doesn't know about the `root_path`. If haven't already, add a root path to `routes.rb` - `root to: 'companies#index'` .
 
 Finally, we're failing for the right reason: we're expecting a redirect, but we're getting a render.
 
@@ -2425,6 +2400,14 @@ def create
   session[:user_id] = user.id
   redirect_to root_path, notice: "Logged in as #{user.name}"
 end
+```
+
+To get the notice to display, add the following code just above the `yield` tag in `application.html.erb`
+
+```ruby
+<% flash.each do |name, msg| %>
+  <%= content_tag :div, msg, class: "alert alert-info" %>
+<% end %>
 ```
 
 This gets the test to pass. We'll leave it at this for now.

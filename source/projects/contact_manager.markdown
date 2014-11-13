@@ -1186,7 +1186,7 @@ Lastly the customer wants a delete link for each phone number. Follow a similar 
 One note: the "destroy" action of a rails controller is triggered by sending an HTTP DELETE request to the appropriate path. You will need to use the `method` option on the `link_to` helper to include this in the delete links. It will look something like:
 
 ```
-<%= link_to('delete', phone_number_path(phone_number), :method => "delete") %>
+<%= link_to('delete', phone_number_path(phone), :method => "delete") %>
 ```
 
 Once your tests are passing, let's commit!

@@ -14,7 +14,7 @@ In this assessment we're looking to see how you:
 
 ## Expectations
 
-* Work on the exercise defined below for 37 minutes with your facilitator
+* Work on the exercise defined below for 30 minutes with your facilitator
 * The facilitator may change the spec or ask additional questions to assess your understandings/skills
 * As you work, you may:
   * Ask questions of your facilitator
@@ -100,14 +100,14 @@ rate of a junior developer
 * 1: Developer is generally able to write Ruby, but gets stuck on or needs help
 with fundamental concepts
 
-#### 3. Problem Solving Process
+### 3. Problem Solving Process
 
 * 4: Developer iterates to solutions that balance conciseness with clarity
 * 3: Developer solves problems, but doesn't refine their solutions
 * 2: Developer struggles to solve problems without direct guidance
 * 1: Developer is unable to solve problems without direct guidance
 
-#### 4. Testing
+### 4. Testing
 
 * 4: Developer is able to test at multiple layers of abstraction to drive
 development
@@ -115,7 +115,7 @@ development
 * 2: Developer can write both feature and unit tests with some guidance
 * 1: Developer struggles to write meaningful tests at any level
 
-#### 5. Workflow
+### 5. Workflow
 
 * 4: Developer is a master of their tools, efficiently moving between phases of development
 * 3: Developer demonstrates comfort with their tools, makes some use of keyboard
@@ -124,7 +124,7 @@ shortcuts, and excellent use of their screen.
 interaction or fails to utilize their whole screen.
 * 1: Developer gets work done, but wastes significant time due to workflow issues
 
-#### 6. Collaboration
+### 6. Collaboration
 
 * 4: Developer *actively seeks* collaboration both before implementing, while in motion, and when stuck
 * 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process

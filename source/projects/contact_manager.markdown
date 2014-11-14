@@ -16,7 +16,7 @@ In this advanced Rails project, you'll create a contact manager. The tools that 
 * Server and client-side validations
 * Deployment and monitoring
 
-This project assumes you have already completed the [general Ruby setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) and I'm using *Ruby 1.9.3*. We'll rely on the Bundler system to install other gems for us along the way.
+This project assumes you have already completed the [general Ruby setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) and I'm using *Ruby 2.1.3*. We'll rely on the Bundler system to install other gems for us along the way.
 
 In addition, I recommend you use the Atom IDE available [here](https://atom.io/).
 
@@ -34,7 +34,7 @@ Rails is not currently installed on this system.
 $ gem install rails
 ...
 $ rails -v
-Rails 3.2.12
+Rails 4.1.6
 {% endterminal %}
 
 <div class="note">
@@ -81,6 +81,7 @@ $ bundle exec rails generate rspec:install
 create  .rspec
 create  spec
 create  spec/spec_helper.rb
+create  spec/rails_helper.rb
 {% endterminal %}
 
 Now your project is set to use RSpec and the generators will use RSpec by default.
@@ -119,7 +120,7 @@ Now, start the server:
 $ bundle exec unicorn
 {% endterminal %}
 
-Load [http://0.0.0.0:8080](http://0.0.0.0:8080) in your browser and you should see the Rails splash screen. Click the "About Your Application" link and you should see all your library versions. If your database were not installed properly or inaccessible, you'd see an error here.
+Load [http://0.0.0.0:8080](http://0.0.0.0:8080) in your browser and you should see the Rails splash screen. Click the "About your application’s environment" link and you should see all your library versions. If your database were not installed properly or inaccessible, you'd see an error here.
 
 ### Git Setup
 
@@ -148,7 +149,7 @@ At this point if you're using [GitHub](https://github.com/), you could [create a
 
 We want to host our Rails application on the internet using the popular [Heroku](http://www.heroku.com/) service.
 
-If you don't already have one, you'll need to create a Heroku account. After creating your account download and install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
+If you don't already have one, you'll need to create [a Heroku account](https://id.heroku.com/signup/www-header). After creating your account download and install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
 Heroku requires applications to use a PostgresSQL database and not a Sqlite database. So we need to update our application to use the PostgresSQL gem (named **pg**). Along with installing the **pg** gem we will also need to install and configure a PostgreSQL database. This could be trivial amount of work or may consume an entire afternoon.
 
@@ -160,7 +161,7 @@ When we run our tests the application runs in **test** mode.
 
 When we deploy to Heroku, our application is run in **production** mode.
 
-We want to continue to use Sqlite while in development and test and use PostgresSQL in production.
+We want to continue to use Sqlite while in **development** and **test**. We will use PostgresSQL in **production**.
 
 Find the line in your gem file that says `gem 'sqlite3'` and move this into the `:development, :test` group:
 
@@ -184,8 +185,17 @@ Run the `bundle install` command again to update your database dependencies.
 Commit your code again.
 
 {% terminal %}
+git add .
 $ git commit -m "Update database dependencies"
 {% endterminal %}
+
+Now, let's update `production.rb` to serve static assets.
+
+```ruby
+config.serve_static_assets = true
+```
+
+Without the line above, you may have difficulty deleting once deployed to Heroku.
 
 Next let's integrate [Heroku](http://www.heroku.com/).
 
@@ -204,7 +214,23 @@ $ git push heroku master
          http://ADJECTIVE-WORD-NUMBER.heroku.com deployed to Heroku
 {% endterminal %}
 
-Refresh your browser and you should see the Rails splash screen. Click "About your application's environment" again, and...wait, what happened?  When your app is running on Heroku it's in *production* mode, so you'll see a default error message. Don't worry, everything should be running fine.
+If you see a `Permission denied (publickey).` error, your SSH key needs to be uploaded to Heroku.
+
+{% terminal %}
+heroku keys:add ~/.ssh/id_rsa.pub
+Uploading SSH public key ...
+{% endterminal %}
+
+You should now be able to deploy.
+
+{% terminal %}
+$ git push heroku master
+
+  -----> Launching... done
+         http://ADJECTIVE-WORD-NUMBER.heroku.com deployed to Heroku
+{% endterminal %}
+
+Refresh your browser and you should see an error that says `The page you were looking for doesn't exist.`. Don't worry, everything should be running fine.
 
 Now we're ready to actually build our app!
 
@@ -234,7 +260,7 @@ Let's use the default rails generators to generate a scaffolded model named `Per
 
 {% terminal %}
 $ bundle exec rails generate scaffold Person first_name:string last_name:string
-$ bundle exec rake db:migrate db:test:prepare
+$ bundle exec rake db:migrate
 {% endterminal %}
 
 The generators created test-related files for us. They saw that we're using RSpec and created corresponding controller and model test files. Let's run those tests now:
@@ -243,7 +269,8 @@ The generators created test-related files for us. They saw that we're using RSpe
 $ bundle exec rspec
 {% endterminal %}
 
-All your tests should pass.
+
+There should be 0 failing tests and 17 pending.
 
 This is a great time to add and commit your changes.
 
@@ -256,24 +283,17 @@ Open your browser to [http://localhost:8080/people](http://localhost:8080/people
 
 ### Starting with Testing
 
-Models are the place to start your testing. The model is the application's representation of the data layer, the foundation of any functionality. In the same way we'll build low-level tests on the models which will be the foundation of our test suite.
-
-When you ran your tests with `bundle exec rspec` you probably got a couple of pending tests:
+When you ran your tests with `bundle exec rspec` you probably got a several pending tests:
 
 {% terminal %}
 $ bundle exec rspec
-.......................*.....*
+**.***************............
 
 Pending:
-  PeopleHelper add some examples to (or delete) /Users/you/projects/contact_manager/spec/helpers/people_helper_spec.rb
-    # No reason given
-    # ./spec/helpers/people_helper_spec.rb:14
-  Person add some examples to (or delete) /Users/you/projects/contact_manager/spec/models/person_spec.rb
-    # No reason given
-    # ./spec/models/person_spec.rb:4
+  _Results Omitted_
 
-Finished in 0.29508 seconds
-30 examples, 0 failures, 2 pending
+Finished in 0.25264 seconds (files took 2.51 seconds to load)
+30 examples, 0 failures, 17 pending
 {% endterminal %}
 
 We're not going to be using the `PeopleHelper` so let's just get rid of the test file:
@@ -288,10 +308,137 @@ Commit your changes:
 $ git commit -m "Delete extraneous spec file"
 {% endterminal %}
 
+Let's move on to the controller and get those tests to pass. The first part of my output currently looks like this:
+
+{% terminal %}
+$ bundle exec rspec
+**.**************............
+
+Pending:
+  PeopleController GET index assigns all people as @people
+    # Add a hash of attributes valid for your model
+    # ./spec/controllers/people_controller_spec.rb:40
+  PeopleController GET show assigns the requested person as @person
+    # Add a hash of attributes valid for your model
+    # ./spec/controllers/people_controller_spec.rb:48
+  PeopleController GET edit assigns the requested person as @person
+    # Add a hash of attributes valid for your model
+    # ./spec/controllers/people_controller_spec.rb:63
+
+  _REMAINING OUTPUT OMITTED_
+{% endterminal %}
+
+You'll notice that each of these pending examples repeats the message `Add a hash of attributes valid for your model`. Let's open `spec/controllers/people_controller_spec.rb` and search for that line of text. You should see code that looks like this:
+
+```ruby
+  let(:valid_attributes) {
+    skip("Add a hash of attributes valid for your model")
+  }
+```
+
+The `skip` makes it so the tests that call `valid_attributes` are marked as pending. The parameter that is passed is the message that should be displayed.
+
+Let's update the code to provide valid attributes. These are going to be the minimum fields required to create a new Person record. In our case, we want a person to have a valid `first_name` and `last_name`. Let's update the code to look like this:
+
+```ruby
+  let(:valid_attributes) {
+    { first_name: 'Jane', last_name: 'Doe' }
+  }
+```
+
+Go back to your terminal and run your tests.
+
+{% terminal %}
+$ bundle exec rspec
+.......***..**..*............
+
+Pending:
+  PeopleController POST create with invalid params assigns a newly created but unsaved person as @person
+    # Add a hash of attributes invalid for your model
+    # ./spec/controllers/people_controller_spec.rb:91
+  PeopleController POST create with invalid params re-renders the 'new' template
+    # Add a hash of attributes invalid for your model
+    # ./spec/controllers/people_controller_spec.rb:96
+  PeopleController PUT update with valid params updates the requested person
+    # Add a hash of attributes valid for your model
+    # ./spec/controllers/people_controller_spec.rb:109
+  PeopleController PUT update with invalid params assigns the person as @person
+    # Add a hash of attributes invalid for your model
+    # ./spec/controllers/people_controller_spec.rb:130
+  PeopleController PUT update with invalid params re-renders the 'edit' template
+    # Add a hash of attributes invalid for your model
+    # ./spec/controllers/people_controller_spec.rb:136
+  Person add some examples to (or delete) /Users/jmejia/code/turing/contact_manager/spec/models/person_spec.rb
+    # Not yet implemented
+    # ./spec/models/person_spec.rb:4
+
+Finished in 0.34279 seconds (files took 2.65 seconds to load)
+29 examples, 0 failures, 6 pending
+{% endterminal %}
+
+Prior to that change we had 16 pending tests. Now we have 6. That simple change confirms that we are able to create new `People` with both a `first_name` and a `last_name`.
+
+Let's commit this change.
+
+{% terminal %}
+$ git add .
+$ git commit -m "Added valid attributes to people controller spec"
+{% endterminal %}
+
+Looking back at your test output (run `bundle exec rspec` if you need to), you can see the repeated message `Add a hash of attributes invalid for your model`. Open `spec/controllers/people_controller_spec.rb` and search for that line. You should see the following code:
+
+```ruby
+  let(:invalid_attributes) {
+    skip("Add a hash of attributes invalid for your model")
+  }
+```
+
+Here is where we need to specify what invalid attributes should look like. In our case, we don't want to be able to create a user that is missing a `first_name` or `last_name`. Let's update this code to look like this:
+
+```ruby
+  let(:invalid_attributes) {
+    { first_name: nil, last_name: nil }
+  }
+```
+
+Now when we run `bundle exec rspec` the end of your output should look like this:
+
+{% terminal %}
+Finished in 0.34863 seconds (files took 2.2 seconds to load)
+29 examples, 3 failures, 2 pending
+
+Failed examples:
+
+rspec ./spec/controllers/people_controller_spec.rb:91 # PeopleController POST create with invalid params assigns a newly created but unsaved person as @person
+rspec ./spec/controllers/people_controller_spec.rb:96 # PeopleController POST create with invalid params re-renders the 'new' template
+rspec ./spec/controllers/people_controller_spec.rb:136 # PeopleController PUT update with invalid params re-renders the 'edit' template
+{% endterminal %}
+
+We have 3 failures because we said `nil` values for first and last names should not be valid. As it stands, we haven't written any code to make empty strings invalid.
+
+This is a good point to discuss models. The model is the application's representation of the data layer, the foundation of any functionality. In the same way we'll build low-level tests on the models which will be the foundation of our test suite. By focusing on the model level we will actually get the failing controller specs to pass.
+
+To start, let's run _only_ `person_spec.rb` which tests the `Person` model. Up until now we have been running the entire test suite.
+
+{% terminal %}
+$ bundle exec rspec spec/models/person_spec.rb
+*
+
+Pending:
+  Person add some examples to (or delete) /Users/jmejia/code/turing/contact_manager/spec/models/person_spec.rb
+    # Not yet implemented
+    # ./spec/models/person_spec.rb:4
+
+Finished in 0.00067 seconds (files took 2.78 seconds to load)
+1 example, 0 failures, 1 pending
+{% endterminal %}
+
+We have 1 pending test and a message that says `Not yet implemented`. Let's write a useful test.
+
 Open `spec/models/person_spec.rb` and you'll see this:
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Person, :type => :model do
   pending "add some examples to (or delete) #{__FILE__}"
@@ -300,123 +447,61 @@ end
 
 The `describe` block will wrap all of our tests (also called examples) in RSpec parlance.
 
-Let's create an example using the `it` method:
+### Testing for Data Presence
+
+Let's create an example using the `it` method to test that a `Person` without a `first_name` is invalid:
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe Person, :type => :model do
-  it 'is valid' do
-    expect(Person.new).to be_valid
+  it 'is invalid without a first name' do
+    person = Person.new(first_name: nil)
+    expect(person).not_to be_valid
   end
 end
 ```
 
-Run your tests to see that everything passes:
-
-{% terminal %}
-$ bundle exec rspec
-{% endterminal %}
-
-Add a second test:
-
-```ruby
-require 'spec_helper'
-
-RSpec.describe Person, :type => :model do
-  it 'is valid' do
-    expect(Person.new).to be_valid
-  end
-  it 'is invalid without a first name'
-end
-```
-
-This time run the tests for a single file:
+Run your test again:
 
 {% terminal %}
 $ bundle exec rspec spec/models/person_spec.rb
-.*
-
-Pending:
-  Person is invalid without a first name
-    # Not yet implemented
-    # ./spec/models/person_spec.rb:8
-
-Finished in 0.01548 seconds
-2 examples, 0 failures, 1 pending
-{% endterminal %}
-
-Awesome! We can see that it found the spec we wrote, `"is invalid without a first_name"`, tried to execute it, and found that the test wasn't yet implemented. In the `person_spec.rb`, we have two examples, zero failures, and one implementation pending. We're ready to start testing!
-
-### Testing for Data Presence
-
-First we'll implement the existing example to actually check that `first_name` can't be blank. Make your test look like this:
-
-```ruby
-it 'is invalid without a first name' do
-  person = Person.new(first_name: nil)
-  expect(person).not_to be_valid
-end
-```
-
-Run your tests again:
-
-{% terminal %}
-$ bundle exec rspec
-....................F.........
+F
 
 Failures:
 
   1) Person is invalid without a first name
-     Failure/Error: expect(person).to_not be_valid
-       expected valid? to return false, got true
-     # ./spec/models/person_spec.rb:10:in `block (2 levels) in <top (required)>'
+     Failure/Error: expect(person).not_to be_valid
+       expected #<Person id: nil, first_name: nil, last_name: nil, created_at: nil, updated_at: nil> not to be valid
+     # ./spec/models/person_spec.rb:6:in `block (2 levels) in <top (required)>'
 
-Finished in 0.26058 seconds
-30 examples, 1 failure
+Finished in 0.01008 seconds (files took 2.24 seconds to load)
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/models/person_spec.rb:4 # Person is invalid without a first name
 {% endterminal %}
 
 The test failed because it expected a person with no first name to be invalid, but instead it *was* valid. We can fix that by adding a validation for first name inside the model:
 
-<div class="note">
-<p>If you are using Rails 4 you will need to leave out the line beginning with `attr_accessible`.</p>
-</div>
-
 ```ruby
 class Person < ActiveRecord::Base
-  attr_accessible :first_name, :last_name
-
   validates :first_name, presence: true
 end
 ```
 
-If you run the test again you'll see that we still have a failing test. Look closely at the failed test, though.
+If you run the test again you'll see that we now have a passing test.
 
 {% terminal %}
-$ bundle exec rspec
-................F.............
+$ bundle exec rspec spec/models/person_spec.rb
+.
 
-Failures:
-
-  1) Person is valid
-     Failure/Error: expect(Person.new).to be_valid
-       expected valid? to return true, got false
-     # ./spec/models/person_spec.rb:5:in `block (2 levels) in <top (required)>'
-
-Finished in 0.26231 seconds
-30 examples, 1 failure
+Finished in 0.01684 seconds (files took 2.45 seconds to load)
+1 example, 0 failures
 {% endterminal %}
 
-It's the other test! Now the first test fails because the blank `Person` isn't valid. Rewrite the test like this:
-
-```ruby
-it 'is valid' do
-  person = Person.new(first_name: 'Alice', last_name: 'Smith')
-  expect(person).to be_valid
-end
-```
-
-Let's also require people to have last names.
+Looking good! Let's also require people to have last names.
 
 Create a test that asserts that a `Person` without a last name is invalid:
 
@@ -427,42 +512,75 @@ it 'is invalid without a last name' do
 end
 ```
 
-Run your tests. The test you just wrote should be failing.
+Run `bundle exec rspec spec/models/person_spec.rb`. The test you just wrote should be failing.
 
 Fix the test by adding a validation to the model:
 
 ```ruby
 class Person < ActiveRecord::Base
-  attr_accessible :first_name, :last_name
-
   validates :first_name, :last_name, presence: true
 end
 ```
 
-Run your tests again.
+Run `bundle exec rspec spec/models/person_spec.rb` and you should see 2 passing tests.
 
-Woah! What happened?
+And now if you run the entire suite, the controller tests that were failing should be passing.
 
-A bunch of tests in the `PeopleController` spec are blowing up.
-Let's open up the `spec/controllers/people_controller_spec.rb` file.
+{% terminal %}
+$ bundle exec rspec
+.........*....................
 
-<div class="note">
-<p>In Rails, a Controller is given a name that is the pluralization of the model. The English pluralization of Person is People (not Persons).</p>
-</div>
+Pending:
+  PeopleController PUT update with valid params updates the requested person
+    # Add a hash of attributes valid for your model
+    # ./spec/controllers/people_controller_spec.rb:109
 
-The `valid_attributes` method is only given a `first_name`, but now our Person
-model needs a last name as well. Update the `valid_attributes` method:
+Finished in 0.35373 seconds (files took 2.5 seconds to load)
+30 examples, 0 failures, 1 pending
+{% endterminal %}
+
+Very nice! We have one last pending test. Open `spec/controllers/people_controller_spec.rb` and find the line containing `Add a hash of attributes valid for your model`. The code should look like this:
 
 ```ruby
-def valid_attributes
-  { first_name: "John", last_name: "Doe" }
+describe "PUT update" do
+  describe "with valid params" do
+    let(:new_attributes) {
+      skip("Add a hash of attributes valid for your model")
+    }
+
+    it "updates the requested person" do
+      person = Person.create! valid_attributes
+      put :update, {:id => person.to_param, :person => new_attributes}, valid_session
+      person.reload
+      skip("Add assertions for updated state")
+    end
+
+    # remaining code omitted
+  end
 end
 ```
-<div class="note">
-<p>If you are using Rails 4 you may see `let(:valid_attributes) { {"first_name" => "John"} }` instead of the `valid_attributes` method. You will still need to add the last_name as a valid attribute.</p>
-</div>
 
-Run your tests. If everything is passing, commit your changes:
+This test is checking to make sure we can update the attributes of a person through the controller. To get this to pass we first need to provide valid attributes to update the person. Update the `new_attributes` to look like this:
+
+```ruby
+let(:new_attributes) {
+  {first_name: 'NewFirstName', last_name: 'NewLastName'}
+}
+```
+
+Next, we need to update the test to check that the new values have persisted.
+
+```ruby
+it "updates the requested person" do
+  person = Person.create! valid_attributes
+  put :update, {:id => person.to_param, :person => new_attributes}, valid_session
+  person.reload
+  expect(person.first_name).to eq('NewFirstName')
+  expect(person.last_name).to eq('NewLastName')
+end
+```
+
+Run your test suite and if everything is passing, commit your changes:
 
 {% terminal %}
 $ git add .
@@ -509,16 +627,7 @@ $ git commit -m "Fix false positive in person specs"
 
 ### Checking the Checkers
 
-The `let` clause we wrote will make writing test examples a lot easier, but we had better have a test to ensure that what we're calling `person` is actually valid! You can do this by modifying your first test from:
-
-```ruby
-it 'is valid' do
-  person = Person.new(first_name: "Alice", last_name: "Smith")
-  expect(person).to be_valid
-end
-```
-
-to
+The `let` clause we wrote will make writing test examples a lot easier, but we had better have a test to ensure that what we're calling `person` is actually valid! You can do this by adding a test:
 
 ```ruby
 it 'is valid' do
@@ -530,7 +639,7 @@ Run the tests. If they're passing (and they should be) commit your changes.
 
 {% terminal %}
 $ git add .
-$ git commit -m "Make person spec more succinct"
+$ git commit -m "Confirm person is valid in person spec"
 {% endterminal %}
 
 ### Ship It
@@ -549,7 +658,7 @@ $ git push heroku master
 $ heroku run rake db:migrate
 {% endterminal %}
 
-Open up your production app in your browser and you should be able to create sample people like you did on your development server.
+Open up your production app in your browser and visit `/people`. You should be able to create sample people like you did on your development server.
 
 ## I2: Phone Numbers
 
@@ -596,10 +705,10 @@ $ bundle exec rails generate scaffold PhoneNumber number:string person_id:intege
 Run the migrations:
 
 {% terminal %}
-$ bundle exec rake db:migrate db:test:prepare
+$ bundle exec rake db:migrate
 {% endterminal %}
 
-Run the tests again. They're still not passing.
+Run the tests again. The failing test is still failing and there are now 17 pending tests. Let's stay focused on the failure.
 
 #### Setting Relationships
 
@@ -611,7 +720,7 @@ has_many :phone_numbers
 
 Run the tests and you should have no failing tests.
 
-We have pending tests in the `phone_number_spec.rb` as well as the `phone_numbers_helper_spec.rb`.
+We have pending tests in the `phone_number_spec.rb`, `phone_numbers_controller_spec.rb` and `phone_numbers_helper_spec.rb`.
 
 If your tests are all passing or pending, commit all your changes:
 
@@ -679,26 +788,14 @@ end
 
 Run the tests again and your new test should fail. Add a validation that checks the presence of `person_id` in your phone number, then run your tests again.
 
-Everything blows up. Well, not everything, but you certainly have a bunch of failing specs in the `PhoneNumberController` specs.
-
-Open up the file `spec/controllers/phone_numbers_controller_spec.rb` and find
-the method definition for `valid_attributes`. Only `number` is supplied, but we
-just changed the requirements. Give it a `person_id`:
-
-```ruby
-def valid_attributes
-  { number: "MyString", person_id: 1 }
-end
-```
-
-Re-run your tests. You only have one more failure, and this is the spec for the valid phone number:
+That got the new test to pass but broke another test. This is the spec for the valid phone number:
 
 ```bash
 Failures:
 
   1) PhoneNumber is valid
      Failure/Error: expect(phone_number).to be_valid
-       expected valid? to return true, got false
+       expected #<PhoneNumber id: nil, number: "1112223333", person_id: nil, created_at: nil, updated_at: nil> to be valid, but got errors: Person can't be blank
      # ./spec/models/phone_number_spec.rb:7:in `block (2 levels) in <top (required)>'
 ```
 
@@ -708,13 +805,65 @@ Update your `let` block in the `spec/models/phone_number_spec.rb` again, giving 
 let(:phone_number) { PhoneNumber.new(number: "1112223333", person_id: 1) }
 ```
 
+Now let's get the pending controller tests to pass.
+
+Open up the file `spec/controllers/phone_numbers_controller_spec.rb` and find the method definition for `valid_attributes`. In order to pass our validations we need to add `number` and `person_id` attributes.
+
+```ruby
+let(:valid_attributes) {
+  { number: "MyString", person_id: 1 }
+}
+```
+
+Re-run your tests and you should be down to 6 pending tests.
+
+Now add invalid attributes.
+
+```ruby
+  let(:invalid_attributes) {
+    { number: nil, person_id: nil }
+  }
+```
+
+Re-run your tests and there should be 2 pending tests. Let's write a passing test for the last pending controller spec. Within `spec/controllers/phone_numbers_controller_spec.rb` find the line containing `skip("Add a hash of attributes valid for your model")`. Update the `:new_attributes` let block and the test just below it:
+
+```ruby
+let(:new_attributes) {
+  {number: 'MyNewString', person_id: 2}
+}
+
+it "updates the requested phone_number" do
+  phone_number = PhoneNumber.create! valid_attributes
+  put :update, {:id => phone_number.to_param, :phone_number => new_attributes}, valid_session
+  phone_number.reload
+  expect(phone_number.number).to eq('MyNewString')
+  expect(phone_number.person_id).to eq(2)
+end
+```
+
+Run your tests and there should be 1 pending and 0 failing.
+
 That's a lot of work for two validations, but these are an important part of our testing base. If somehow one of the validations got deleted accidentally, we'd know it right away.
 
 If your tests are all passing, go ahead and commit the changes so you don't lose all that hard work!
 
+We're not going to be using the `PhoneNumberHelper` so let's get rid of the test file:
+
+{% terminal %}
+$ git rm spec/helpers/phone_numbers_helper_spec.rb
+{% endterminal %}
+
+Commit your changes:
+
+{% terminal %}
+$ git commit -m "Delete extraneous spec file"
+{% endterminal %}
+
+All tests should be passing.
+
 Finally, let's connect the phone number to a person.
 
-Write a test ensuring that a `PhoneNumber` has a method to give you back the associated `Person` object.
+Within `phone_number_spec.rb`, write a test ensuring that a `PhoneNumber` has a method to give you back the associated `Person` object.
 
 ```ruby
 it 'is associated with a person' do
@@ -735,7 +884,7 @@ Commit your changes.
 
 ### Creating some seed data
 
-Go into your console and create a person and a couple of phone numbers:
+Go into your console (`bundle exec rails console`) and create a person and a couple of phone numbers:
 
 {% irb %}
 $ person = Person.create(first_name: 'Alice', last_name: 'Smith')
@@ -787,9 +936,7 @@ Create a new folder named `spec/features`. In that folder let's make a file
 named `person_view_spec.rb`. Then here's how I'd write the examples:
 
 ```ruby
-require 'spec_helper'
-require 'capybara/rails'
-require 'capybara/rspec'
+require 'rails_helper'
 
 describe 'the person view', type: :feature do
 
@@ -855,17 +1002,16 @@ end
 ```
 
 This fails because we've been redirected to the wrong location. We need to step
-down one level. Let's make this test pending for now:
+down one level. Let's mark this test pending for now by adding an `x` in front of `it`:
 
 ```ruby
-  it 'adds a new phone number' do
-    pending
+  xit 'adds a new phone number' do
     # ...
   end
 ```
 
 Open up the `spec/controllers/phone_numbers_controller_spec.rb` and find the
-test called `it 'redirects to the created phone_number'`.
+test called `it "redirects to the created phone_number"`.
 
 This is not the behavior we are looking for. Let's change the expectation:
 
@@ -911,13 +1057,13 @@ let(:valid_attributes) { {number: '555-1234', person_id: alice.id} }
 
 Run the controller tests again, and this time, they should pass.
 
-Delete the `pending` declaration in your integration test and run all the tests.It is still failing. Let's take a look at what's going on here.
+Delete the `pending` declaration in your integration test and run all the tests. It is still failing. Let's take a look at what's going on here.
 
 Open up your application and go to [/people/1](http://localhost:8080/people/1). Click to add a phone number, and now click the `Create Phone number` button.
 
-You get an error message. The form doesn't have the person id in it, so it can't save.
+You get an error message. The form includes a field for providing the `person_id`, but our test is not filling it in. Without a `person_id`, the number can't be saved (remember, we made `person_id` a required attribute for phone numbers).
 
-We need to send the id of the person along when we add the phone number.
+We could require our users to manually fill in the ID for the person they are creating a phone number for, but this seems tedious. Since the user has just come from the person page, we should be able to fill in the `person_id` for them automatically. One way to do this is by encoding it into the URL as a query parameter.
 
 Make the test pending again, and go back to the one above it. Change it so that the phone number path takes a person's id.
 
@@ -939,21 +1085,17 @@ Go back to the feature and remove the `pending` declaration again.
 
 Re-run the tests.
 
-Still failing! We pass the person ID, but the form doesn't take it into account when creating the number.
+Still failing! We are passing the `person_id` to the `new_phone_number` route, but the form doesn't take it into account when creating the number.
 
 Go into the phone numbers controller, into the `new` action, and instead of `@phone_number = PhoneNumber.new` let's say `@phone_number = PhoneNumber.new(person_id: params[:person_id])`
 
 Run the tests again, and finally they pass!
 
-If you go to the [/people/1](http://localhost:8080/people/1) page and click to create a new phone number, you'll see that we are exposing the field for the person id to the user. That's unnecessary.
+If you go to the [/people/1](http://localhost:3000/people/1) page and click to create a new phone number, you'll see that we are exposing the field for the person id to the user. That's unnecessary.
 
 Open up the `app/views/phone_numbers/_form.html.erb` file and change the `number_field` to be a `hidden_field`. Go ahead and delete the label for the person id as well.
 
-All your tests are passing, so this is a good time to commit your changes.
-
-{% terminal %}
-$ git commit -m "Fix create phone number workflow"
-{% endterminal %}
+Now all your tests should be passing, and you have a svelte phone number form to boot, so this is a good time to commit your changes.
 
 #### Workflow for Editing Phone Numbers
 
@@ -1013,14 +1155,15 @@ Find the `def update` action in the corresponding controller, and change it to r
 
 Re-run the tests, and now the test we just wrote should pass, but a couple of other tests are failing with the familiar `Cannot redirect to nil!` error.
 
-Promote `bob` and his `valid_attributes` to a `let` in the describe block for `with valid params` with in the `PUT update` describe block.
+Promote `bob` and his `valid_attributes` to a `let` in the describe block for `with valid params` within the `PUT update` describe block. We'll also update `:new_attributes` to use `bob.id` so it has a valid person to redirect to.
 
 ```ruby
 describe "PUT update" do
   describe "with valid params" do
 
-    let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
-    let(:valid_attributes) { {number: '555-5678', person_id: bob.id} }
+  let(:bob) { Person.create(first_name: 'Bob', last_name: 'Jones') }
+  let(:valid_attributes) { {number: '555-5678', person_id: bob.id} }
+  let(:new_attributes) { {number: 'MyNewString', person_id: bob.id} }
 ```
 
 Run the tests, and they should now be passing.
@@ -1040,7 +1183,13 @@ Lastly the customer wants a delete link for each phone number. Follow a similar 
 * Fix the controller to redirect to the phone number's person after destroy
 * Fix the resulting spec failure in the controller spec
 
-The tests are passing, so let's commit!
+One note: the "destroy" action of a rails controller is triggered by sending an HTTP DELETE request to the appropriate path. You will need to use the `method` option on the `link_to` helper to include this in the delete links. It will look something like:
+
+```
+<%= link_to('delete', phone_number_path(phone_number), :method => "delete") %>
+```
+
+Once your tests are passing, let's commit!
 
 {% terminal %}
 $ git add .
@@ -1053,7 +1202,7 @@ Write an integration test that destroys one of the phone numbers then ensure's t
 
 * `page.click_link` to activate the destroy link
 * `expect(current_path).to ==` to ensure you arrive at the show page
-* then check that the object is gone (one idea: verify that there is *no* delete link).
+* then check that the object is gone (one idea: verify that there is *no* delete link
 
 ### Phone Numbers are Done...For Now!
 
@@ -1114,7 +1263,7 @@ isn't passing with `bundle exec rspec`.
 
 Open the `Person` model and declare a `has_many` relationship for `email_addresses`. Open the `EmailAddress` model and declare a `belongs_to` relationship with `Person`.
 
-Now run your tests. They should all pass. Since you're green it would be a good time to *commit your changes*.
+Now run your tests. If you have 0 failures, and several pending specs *commit your changes*.
 
 ### Adding Model Tests and Validations for Email Addresses
 
@@ -1130,14 +1279,14 @@ Let's add some quality controls to our `EmailAddress` model.
 * Run your tests and see that your `it 'is valid'` test fails.
 * Update the `let` block giving your `EmailAddress` and `address`.
 * Run the tests and see that they pass.
+* Update the controller spec and get the pending tests to pass.
 * Commit.
 
 * Write a test to check that an `EmailAddress` isn't valid unless it has a `person_id`
 * See it fail.
 * Update the model to validate the presence of that field.
-* Run the tests, and see a bunch of controller specs fail.
-* Update the `valid_attributes` method in the controller spec.
-* Run the tests, and see the `it 'is valid'` test fail.
+* Run the tests, and see the `it 'is valid'` test fail as well as several controller specs.
+* Update the `valid_attributes` method in the controller specs.
 * Update the `let` block in the email address spec.
 * Run your tests and make sure it *passes*
 
@@ -1149,7 +1298,7 @@ Now let's shift over to the integration tests.
 
 #### Displaying Email Addresses
 
-Before you play with displaying addresses, create a few of them manually in the console.
+Before you play with displaying email addresses, create a few of them manually in the console.
 
 * Open the `person_view_spec.rb`
 * Wrap all the existing tests, including the `before` block in a `describe` block for phone numbers.
@@ -1158,11 +1307,11 @@ Before you play with displaying addresses, create a few of them manually in the 
 * Write a test that looks for LIs for each address. Try using this:
 
 ```ruby
-expect(page).to have_selector('li', text: email_address.address)
+expect(page).to have_selector('li', text: 'SOME_EMAIL_ADDRESS')
 ```
 
 * Make sure the test *fails*.
-* Add a paragraph to the person's `show` template that renders a list of `email_addresses`.
+* Add a UL to the person's `show` template that renders a list of `email_addresses`.
 
 Tests should be green here, so check in your changes. Then continue...
 
@@ -1217,7 +1366,7 @@ Our app can track people just fine, but what about companies?  What's the differ
 
 ### Thinking about the Model
 
-As you start to think about the model, it might trigger your instinct for inheritance. The most common inheritance style in Single Table Inheritance (STI) where you would store both people and companies into a table named *contacts*, then have a model for each that stores data in that table.
+As you start to think about the model, it might trigger your instinct for inheritance. The most common inheritance style is Single Table Inheritance (STI) where you would store both people and companies into a table named *contacts*, then have a model for each that stores data in that table.
 
 <div class="note">
   <p>STI has always been controversal, and every time I've used it, I've regretted it. For that reason, I ban STI!</p>
@@ -1237,9 +1386,9 @@ It's always a good practice to develop on a branch:
 
 Use the `scaffold` generator to create a `Company` that just has the attribute `name`.
 
-Run `rake db:migrate db:test:prepare` to update your database.
+Run `rake db:migrate` to update your database.
 
-Run your tests to make sure your tests are green, then check your code into git.
+Run your tests, make sure there are no failures (pending are OK), then check your code into git.
 
 ### Company Phone Numbers
 
@@ -1273,28 +1422,13 @@ Just bring over and adapt the `"has an array of phone numbers"` example. Run it 
 
 * Express the `has_many :phone_numbers` in the `Company` model
 * Add a `belongs_to :company` in the `PhoneNumber` model
-* Run your examples and they'll *pass*
-
-So we're good -- a `Company` has a method named `phone_numbers` and it returns an array.
-
-#### Wait a Minute...
-
-It should feel like something's not right here. Let's write a new spec that better exercises the relationship.
-
-```ruby
-it "responds with its phone numbers after they're created" do
-  phone_number = company.phone_numbers.build(number: "333-4444")
-  expect(phone_number.number).to eq('333-4444')
-end
-```
-
-Run that example and it will *fail*, thankfully. The `phone_numbers` method will not find the phone number because the relationships are lying.
+* Run your examples and you should see `no such column: phone_numbers.company_id`.
 
 When we say that a `PhoneNumber` `belongs_to :company` we imply that the `phone_numbers` table has a column named `company_id`. This is not the case, it has a `person_id` but no `company_id`.
 
 We could add another column for `company_id`, but that would imply that a single number could be attached to one `Person` *and* one `Company`. That doesn't make sense for our contact manager.
 
-What we want to do is to abstract the relationship. We'll say that a `PhoneNumber` `belongs_to` a _contact_, and that _contact_ could be a `Person` or a `Company`.
+What we want to do is to abstract the relationship. We'll say that a `PhoneNumber` `belongs_to` a _contact_, and that _contact_ could be a `Person` or a `Company`. This is called a polymorphic relationship.
 
 #### Setup for Polymorphism
 
@@ -1346,31 +1480,53 @@ $ bundle exec rspec spec/models/phone_number_spec.rb
 
 I have four failing tests, and all of them are failing for the same reason: `unknown attribute: person_id`.
 
-Change both references to `person_id` to `contact_id`, and make the relationship `belongs_to :contact, polymorphic: true`.
+In the failing spec, change both references to `person_id` to `contact_id`. In the `let`, let's add `contact_type: 'Person'`.
 
 Rerun the phone number model specs.
 
-Now they're complaining that you `Can't mass-assign protected attributes: person_id`. OK, no problem. Open up the phone number model spec. In the `let`, let's change `person_id` to be `contact_id` and add `contact_type: 'Person'`.
+Now they're complaining that about an `undefined method `person_id'`. OK, no problem. Open up the phone number model. Update any validations that include `person_id` to `contact_id`.
 
-The tests fail again, this type because we `Can't mass-assign protected attributes: contact_type`. Open up the phone number model and add `:contact_type` to the `attr_accessible` declaration.
-
-
-Run the tests again, and we're down to two failures. The `it 'must have a reference to a person'` test is failing.
-
-Change this to be:
+Run the tests again, and they should be passing, but for the wrong reasons. Let's improve our tests. We still have references to `person` that need to be changed to `contact`. When updated they should look something like this:
 
 ```ruby
-it 'must have a reference to a contact' do
-phone_number.contact_id = nil
-  expect(phone_number).not_to be_valid
+require 'rails_helper'
+
+RSpec.describe PhoneNumber, :type => :model do
+  let(:person) { Person.create(:first_name => "Jimbob", :last_name => "Billy") }
+  let(:phone_number) { PhoneNumber.new(number: "111-222-3333", contact_id: person.id, contact_type: 'Person') }
+
+  it 'is valid' do
+    expect(phone_number).to be_valid
+  end
+
+  it 'is invalid without a number' do
+    phone_number.number = nil
+    expect(phone_number).to_not be_valid
+  end
+
+  it 'must have a reference to a contact' do
+    phone_number.contact_id = nil
+    expect(phone_number).not_to be_valid
+  end
+
+  it 'is associated with a contact' do
+    expect(phone_number).to respond_to(:contact)
+  end
 end
 ```
 
-That fixes one failing test. The other failing test is `it 'is associated with a person'`.
+Now we should have one failure saying `expected #<PhoneNumber id: nil, number: "111-222-3333", created_at: nil, updated_at: nil, contact_id: 1, contact_type: "Person"> to respond to :contact`.
 
-Change the test so it expects to respond to `:contact` rather than `:person`.
+In the model change `belongs_to :person` to `belongs_to :contact, polymorphic: true`. Let's also remove `belongs_to :company`. Your model should look like this:
 
-There. All the tests in the phone number model spec are passing. Let's move on to the phone number controller specs.
+```ruby
+class PhoneNumber < ActiveRecord::Base
+  validates :number, :contact_id, presence: true
+  belongs_to :contact, polymorphic: true
+end
+```
+
+Now when you run them, all the tests in the phone number model spec are passing. Let's move on to the phone number controller specs.
 
 Run just the phone number controller tests with the following command:
 
@@ -1378,59 +1534,65 @@ Run just the phone number controller tests with the following command:
 $ bundle exec rspec spec/controllers/phone_numbers_controller_spec.rb
 {% endterminal %}
 
-We have a bunch of failures complaining that we `Can't mass-assign protected attributes: person_id`.
+We have a bunch of failures complaining about `unknown attribute: person_id`.
 
-Update the `valid_attributes` method:
+Update `let(:valid_attributes)` by replacing this attribute with our new attributes.
 
 ```ruby
-def valid_attributes
-  { "number" => "MyString", "contact_id" => 1, "contact_type" => "Person" }
+  let(:valid_attributes) {
+    { number: "MyString", contact_id: 1, contact_type: "Person" }
+  }
+```
+
+Go ahead and update all of our attribute hashes in a similar way - replace `person_id` with `contact_id` and add `contact_type`. The `contact_id` values should keep the values of the `person_id` it is replacing. With the exception of `invalid_attribues`, the `contact_type` should be `"Person"`. `invalid_attributes` should set `contact_type` value to `nil`. Replace any other reference to `person_id` to `contact_id` and `person` to `contact`.
+
+The tests are still complaining. Open up the phone numbers controller and replace references to `person_id` to `contact_id` and `person` to `contact`.
+
+I'm now seeing a new error for _all_ of my tests when running them - `Cannot redirect to nil!`. If you are seeing different errors, retrace your steps and read through your code thoroughly. These errors should be happening for tests that are trying to create phone numbers.
+
+The reason we are seeing this failure is due to Rails use of strong parameters in the controller. There you should see a method named `phone_number_params`. Notice any attributes missing from `permit? We don't have `:contact_type`. Go ahead and add it. These are the attributes our controller will allow to be changed.
+
+```ruby
+def phone_number_params
+  params.require(:phone_number).permit(:number, :contact_id, :contact_type)
 end
 ```
 
-Go ahead and update the `let(:valid_attributes)` similarly. There are three of them.
+Run the controller tests and they should be passing now. Whew! That was tough.
 
-The tests are still complaining about trying to mass-assign person id. The problematic test is the `assigns a new phone_number` test. Open up the phone numbers controller and change the line in the `def new` action to send in the contact_id, and add the `contact_type: params[:contact_type]` while you're at it.
-
-```ruby
-@phone_number = PhoneNumber.new(contact_id: params[:contact_id])
-```
-
-The tests are still complaining. This time let's look at the `undefined method 'person'` issue.
-
-Go back to the phone numbers controller and change the `redirect_to @phone_number.person` to `redirect_to @phone_number.contact`. There are three of them.
-
-And finally, the controller specs are passing. Let's move on to the `person_view_spec`:
+Let's move on to the `person_view_spec`:
 
 {% terminal %}
 $ bundle exec rspec spec/features/person_view_spec.rb
 {% endterminal %}
 
-There's a SQL error being thrown in the `show` template. Open up the file, and, in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
-
-Rerun the `person_view_spec` file.
-
-We're still getting some SQL errors:
-
-```bash
-no such column: phone_numbers.person_id
-```
-
-Open up the `app/models/person.rb` file and change the `has_many` declaration for phone numbers:
+We are getting `undefined method `phone_numbers'`. We need to update `has_many :phone_numbers` in our person model.
 
 ```ruby
 has_many :phone_numbers, as: :contact
 ```
 
-There's another template error, this time in `app/views/phone_numbers/_form.html.erb`:
+Now when we run our tests we should see different failures (confirm you don't see `undefined method `phone_numbers'`). The new error is `ActionView::Template::Error: undefined method `person_id'`. As the error indicates, the failure is occuring in our view. In the person `show` template in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
 
-```bash
-undefined method `person_id'
+This helps, but we're still seeing the same error -- what gives!? If you look closely you'll see that the "undefined method person_id" error has now moved to a different place: `app/views/phone_numbers/_form.html.erb`. Recall that our feature test goes through the steps of creating and editing new phone numbers, which uses the phone numbers form. So to fix these errors we also need to update the phone number form to remove the outdated `person_id` field.
+
+Open up the form template and change the `person_id` to be a `contact_id`. We also need to tell the phone number what `contact_type` to use, so let's add a new form field for contact_type:
+
+```
+  <div class="field">
+    <%= f.hidden_field :contact_type %>
+  </div>
 ```
 
-Open up the form template and change the `person_id` to be a `contact_id`
+Finally we need to update `app/controllers/phone_numbers_controller.rb` to use this attribute:
 
-One of the remaining failures is an outdated test:
+```ruby
+def new
+  @phone_number = PhoneNumber.new(contact_id: params[:contact_id], contact_type: params[:contact_type])
+end
+```
+
+We should be down to one failure in our feature spec now. If you're still seeing other issues, check through your `PhoneNumbersController` and phone number form to make sure you've swapped all the relevant instances of `person_id` to `contact_type`. Now let's address the remaining failure:
 
 ```bash
 Failure/Error: expect(page).to have_link('Add phone number', href: new_phone_number_path(person_id: person.id))
@@ -1438,19 +1600,13 @@ Failure/Error: expect(page).to have_link('Add phone number', href: new_phone_num
     expected to find link "Add phone number" but there were no matches. Also found "Add phone number", which matched the selector but not all filters.
 ```
 
-We forgot to update the test to expect to receive a `contact_type`. Let's do that now:
+This is because we've updated our links to include the new contact information (`contact_type`) in our "Add phone number" link, but have not updated the spec to match. Let's do that now:
 
 ```ruby
 it 'has a link to add another' do
   expect(page).to have_link('Add phone number', href: new_phone_number_path(contact_id: person.id, contact_type: 'Person'))
 end
 ```
-
-We're down to one error: `Cannot redirect to nil!`
-
-The problem is that when we create a new `phone number` it doesn't know that the `contact_type` should be `Person`.
-
-Open up the `app/views/phone_numbers/_form.html.erb` and create another hidden field for the `contact_type` attribute.
 
 The `person_view_spec` should now be passing.
 
@@ -1462,23 +1618,25 @@ Well, the `spec/views/phone_numbers/new.html.erb_spec.rb` has some failing tests
 
 Change any reference to `person` to be `contact` and run the tests again.
 
-That fixes the `phone_numbers/new` view spec. Next up is `spec/views/phone_numbers/edit.html.erb_spec.rb`. Do the same thing there.
+That fixes the `phone_numbers/new` view spec. Next up is `spec/views/phone_numbers/edit.html.erb_spec.rb`. Do the same thing there. Use the same technique for the failing `index.html.erb_spec.rb` and `show.html.erb_spec.erb`. You will also need to update the views that those specs are testing in a similar way.
 
 And now... finally! The only failing test is the company test that we started out with.
 
-Open up the `app/models/company.rb` file and add the following relationship:
+Open up the `app/models/company.rb` file and the following relationship between `phone_numbers` should look like this:
 
 ```ruby
 has_many :phone_numbers, as: :contact
 ```
 
-Re-run all the tests. See *green*, breathe a sigh of relief, and *check-in* your code.
+Re-run all the tests. See *green* and breathe a sigh of relief. Check in your code and rejoice!
 
-We're almost done here. Remember back right before everything blew up we had a test for the company that was passing suspiciously, and we improved it.
+Now go after the pending controller tests for the companies controller spec and *check-in* your code.
 
-Let's improve the tests for the person model in the same way.
+We're almost done here. We have some weak tests that need to be improved.
 
-There are two tests: 'has an array of phone numbers' and 'has an array of email addresses'.
+Let's start with the person model.
+
+There are two tests: 'has an array of phone numbers' and 'has an array of email addresses'. Right now they are only checking for empty arrays, but they don't really test the relationships that they should.
 
 Update these to:
 
@@ -1496,7 +1654,16 @@ end
 
 Run the tests and they should all pass.
 
-Commit your changes.
+Now, let's update the company model spec in a similar way. Replace `has an array of phone numbers` with:
+
+```ruby
+it "responds with its phone numbers after they're created" do
+  phone_number = company.phone_numbers.build(number: "333-4444")
+  expect(phone_number.number).to eq('333-4444')
+end
+```
+
+If your tests are green, commit your changes.
 
 ### Integration tests for Company
 
@@ -1517,9 +1684,9 @@ $ bundle exec rspec spec/features/company_view_spec.rb
 The first test I have is about displaying phone numbers, and it is failing.
 
 ```bash
-1) the company view phone numbers are displayed
+1) the company view phone numbers shows the phone numbers
      Failure/Error: expect(page).to have_content(phone.number)
-       expected there to be text "555-1234" in "Name: Acme Corp Edit | Back"
+       expected to find text "555-1234" in "Name: ACME Edit | Back"
 ```
 
 That's fair, since we haven't written any code for that behavior yet.
@@ -1548,7 +1715,7 @@ Then implement the polymorphism for `EmailAddress` to make it work.
 
 Don't freak out if a bunch of tests are failing, just pick a single spec file and run the specs for that file, ignoring all the others. Get one test passing at a time.
 
-If it helps, add a `pending` declaration to all the failing specs and then remove one `pending` declaration at a time.
+If it helps, mark the failing specs as pending by using `xit` for the `it` blocks. Remove one `x` at a time and get the test to pass.
 
 Once you're green, add integration tests for email addresses to the `company_view_spec.rb`. Deal with one spec at a time until everything works.
 
@@ -1624,69 +1791,23 @@ If your tests are green, commit your changes.
 
 Now do the same thing for the `EmailAddressesController`
 
-#### Implementing a Before Filter
+#### About Before Actions
 
-The remaining `edit`, `update`, and `destroy` methods all start with the same line. That's not very *DRY*. We can take advantage of Rails' `before_filter` system to execute a piece of code before each action is triggered.
-
-There are a couple opinions on how to implement `before_filters`, here's the way I think you should do it. Up at the top of the controller, just after the `class` line, add this:
+Take a look at the email addresses controller. You should have this line near the top of the class:
 
 ```ruby
-before_filter :lookup_phone_number
-```
-Then go down to the bottom of the controller file. We want to add a `private` method to the controller like this:
-
-```ruby
-private
-def lookup_phone_number
-  @phone_number = PhoneNumber.find(params[:id])
-end
+before_action :set_email_address, only: [:edit, :update, :destroy]
 ```
 
-Note that `private` doesn't have an `end` line. Any method defined after the `private` keyword in a Ruby class will be private to instances of that object. Then within the `lookup_phone_number` method we just have the same line that was common to the three actions. *Delete* the line from the three actions and run your tests.
+This will run the `set_email_address` method _before_ the `edit`, `update` or `destroy` actions are run. This allows us to share code without duplication. Take a look at the `set_email_address` method to see what it is doing. Now look at the actions that are dependant on this method.
 
-Some of them should *fail*.
+Experiment a little. What happens if you comment out the before action? How would you get the edit page to load without it? (To be clear, we want the before action so make sure it's there after experimenting).
 
-Look at the error messages and backtrace to see the issue.
-
-#### Scoping a Before Filter
-
-This `lookup_phone_number` method is being run before every action in the controller, but we only removed the line from `update`, `edit`, and `destroy`. When the `new` action is executed this line is raising and exception because there is no `params[:id]` data.
-
-We want this before filter to only run for certain actions. Go back to the top of the controller and change...
-
-```ruby
-before_filter :lookup_phone_number
-```
-
-...to run only for the listed actions...
-
-```ruby
-before_filter :lookup_phone_number, only: [:edit, :update, :destroy]
-```
-
-Or, you can even use the reverse logic:
-
-```ruby
-before_filter :lookup_phone_number, except: [:new, :create]
-```
-
-Run your tests and they should be *passing*.
-
-#### Continuing the Before Filters
-
-You can use the exact same pattern to implement `before_filter` actions in...
-
-* `email_addresses_controller`
-* `companies_controller`
-* `people_controller`
-
-If the controller uses the `show` method, then it's probably much shorter to use the `except` syntax on the `before_filter`.
-
-Go do those now and make sure your tests are still green, and the commit your changes.
+Also, note the `private` doesn't have an `end` line. Any method defined after the `private` keyword in a Ruby class will be private to instances of that object. It's common practice to make methods that get used in before actions private.
 
 #### Removing Blank Controller Actions?
 
-As you remove the lookup line from actions like `edit`, it's likely that your action is now totally blank. You can, then, remove the method from the controller. The `before_filter` will still be activated and the view template renders so things will work great.
+Take a look at the `edit` action. It's totally blank. You can, then, remove the method from the controller. The `before_filter` will still be activated and the view template renders so things will work great.
 
 But I don't think it's worth the developer cost. Not having the method in the file then having it work in the app is *confusing*. I'd recommend you just leave the stub.
 
@@ -1711,7 +1832,7 @@ def find_resource
 end
 ```
 
-Then I call that method from `before_filter` lines in each controller. The `before_filter` call could be pulled up here, but I think that makes the individual controllers too opaque.
+Then I call that method from `before_action` lines in each controller. The `before_action` call could be pulled into the application controller, but I think that makes the individual controllers too opaque.
 
 ### Removing Model Duplication
 
@@ -1747,7 +1868,7 @@ Run your tests and everything will be broken. When we write a module we need to 
 * methods that should be defined on the including class (like Person.first)
 * methods that should be defined for instances of the including class (like Person.first.name)
 
-The normal Ruby syntax to accomplish these jobs is a little ugly. In Rails 3 there's a new feature library that cleans up the implementation of modules. We use it like this:
+The normal Ruby syntax to accomplish these jobs is a little ugly. Starting in Rails 3, there's a feature library that cleans up the implementation of modules. We use it like this:
 
 ```ruby
 module Contact
@@ -1764,13 +1885,15 @@ end
 
 Any code defined inside the `included` block will be run on the class when the module is included. Any methods defined in the `ClassMethods` submodule will be defined on the including class. And methods defined directly in the module will be attached to instances of the class.
 
-Where should your two `has_many` lines go?  Figure it out on your own and use your tests to prove that it works. When you're *green*, check it in.
+Where should your two `has_many` lines go?  Figure it out on your own and use your tests to prove that it works. When you're *green*, check it in. (hint: check out the docs if you get stuck: http://api.rubyonrails.org/classes/ActiveSupport/Concern.html)
 
 ### Cutting Down View Redundancy
 
 Do you remember copying and pasting some view code?  I told you to do it, so don't feel guilty.
 
 #### Extracting view partials.
+
+Partials are view templates which represent reuseable chunks of markup and display logic. They're especially useful for representing similar data in multiple places in your application, as we are doing now with phone numbers and email addresses. Let's extract some of this duplicated markup into partials.
 
 Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
 
@@ -1802,17 +1925,15 @@ Run the person view tests again, and all of them are failing with the following 
 
 ```bash
 Failure/Error: visit person_path(person)
-  ActionView::Template::Error:
-    undefined method `phone_numbers' for nil:NilClass
+ActionView::Template::Error:
+ undefined method `phone_numbers' for nil:NilClass
 ```
 
 Open up the `phone_numbers/_phone_numbers.html.erb` partial. We have an explicit reference to the `@company` in there, but now we're rendering the partial from the person context, `@company` is not defined, but `@person` is.
 
-We can't just swap them out, we need a better idea.
+When we write ruby code, we always aim to keep our classes as independent and decoupled as possible. The same principle applies to writing good, reusable view templates. Here we need to decouple the phone numbers partial from the surrounding context, and one easy way to do this is by having the list of phone numbers passed in explicitly as a template local variable.
 
-Instead of having the partial look up the phone numbers on the person or company, let's just pass it the phone numbers:
-
-This necessitates a change in three places:
+Luckily rails facilitates this by allowing us to pass an arbitrary hash of local variables to the render method.
 
 First, in `phone_numbers/_phone_numbers.html.erb` delete `@company`.
 
@@ -1855,9 +1976,9 @@ This last thing will break a test, so make sure you fix that before checking in.
 
 Let's make a similar set of changes to `app/views/companies/show.html.erb`...
 
-* Change the `title` line so it uses the name of the company
+* Create a heading line to use the name of the company
 * Remove the paragraph with the company name
-* String the phone numbers paragraph down so it just renders the partial
+* Make sure the phone numbers just renders the partial (not wrapped in a paragraph etc.)
 * Do the same for the email addresses
 * Change the actions so they're inside `li` tags inside a `ul` with the class name `"actions"`
 * Wrap the whole view in a div with class name `"company"`
@@ -1870,30 +1991,30 @@ When you're green, check it in.
 
 Just a few small changes to the `edit` template:
 
-* Change the `title` so it uses the name of the company/person
+* Change the heading so it uses the name of the company/person
 * Change the links and the bottom to be wrapped in `li` tags inside a `ul` with classname `"actions"`
 
 ### PhoneNumber & Email Address New/Edit
 
-Open the `email_addresses/new.html.erb` and change the `title` line from
+Open the `email_addresses/new.html.erb` and change the heading from
 
 ```ruby
-<% title "New Email Address" %>
+<h1>Editing email_address</h1>
 ```
 
 To this:
 
 ```ruby
-<% title "New Email Address for #{@email_address.contact}" %>
+<h1><%= "New Email Address for #{@email_address.contact}" %></h1>
 ```
 
-View it in your browser and...what is that?  You probably see something like this:
+View it in your browser and…what is that? You probably see something like this:
 
 ```text
-New Email Address for #<Person:0x00000103226e70>
+New Email Address for #<Person:0x007f902f76f248>
 ```
 
-That person-like thing is what you get when you call the `to_s` method on an object that doesn't have a `to_s`. This is the version all objects inherit from the `Object` class.
+That person-like thing is what you get when you call the `to_s` method on an object that doesn’t have a `to_s`. This is the version all objects inherit from the `Object` class.
 
 #### Testing a `to_s` Method
 
@@ -1901,7 +2022,7 @@ We want to write some code in our models, but we don't have permission to do tha
 
 ```ruby
 it "convert to a string with last name, first name" do
-  expect(person.to_s).to eq "Doe, John"
+  expect(person.to_s).to eq "Smith, Alice"
 end
 ```
 
@@ -1923,22 +2044,33 @@ That should make your test pass. Go through the same process writing a test for 
 
 Flip over to your browser and you'll see that the `title` on the new email address page should look much better. It isn't making a test go green, though, and that makes me feel guilty. We've knowingly spent time implementing untested code.
 
-Let's write a quick integration test. In the `email_addresses_views_spec.rb` we have a context `"when looking at the new email address form"`. Within that, add this example:
+Let's write a quick view test. In the view spec `email_addresses_new.html.erb_spec.rb`, add this example:
 
 ```ruby
 it "shows the contact's name in the title" do
-  expect(page).to have_selector("h1", text: "#{@person.last_name}, #{@person.first_name}")
+  render
+  assert_select("h1", text: "New Email Address for #{email_address.contact.first_name} #{email_address.contact.last_name}")
 end
 ```
 
-It'll pass because you've already implemented the `to_s` in `person.rb`. Try a little _"Comment Driven Development"_:
+You will probably get some errors about `email_address` being undefined. Lets fill in this as well as a person with some `let`s at the top of the file:
+
+```ruby
+  let(:person) { Person.create(:first_name => "Bob", :last_name => "Smith") }
+  let(:email_address) { EmailAddress.new(:contact_id => person.id, :contact_type => "Person", :address => "MyString") }
+  before(:each) do
+    assign(:email_address, email_address)
+  end
+```
+
+Now our example should pass since we already implemented the `to_s` in `person.rb`. Try a little _"Comment Driven Development"_:
 
 * Comment out the `to_s` method in `person.rb`
 * Run the test and see it *fail*
 * Un-comment the `to_s`
 * See it *pass*!
 
-Now in that same integration spec, you have a context named `"when looking at the edit email address form"`. Implement a similar example there checking for the contact's name in the `h1`, then change the view template to make it work.
+Now in the "edit" view spec (`spec/views/email_addresses/edit.html.erb_spec.rb`), implement a similar example for the `edit` form, then change the view template to make it work.
 
 #### More Form Tests & Tweaks
 
@@ -1947,107 +2079,9 @@ Implement the same technique on...
 * the `new` template for phone numbers
 * the `edit` template for phone numbers
 
-You probably want to create a `phone_numbers_views_spec.rb` and write the integration tests there before changing the view templates.
-
 #### Making Use of the `to_s` Method
 
 Lastly, consider searching your other views and simplifying calls to `@company.name` or `@person.first_name` with `@person.last_name` to just use the implicit `to_s`.
-
-### Write Less Markup
-
-Writing HTML by hand is not so fun and mixing in ERB only makes it more frustrating. To be honest with you, I hate writing ERB. Let's check out an alternative templating language named Haml.
-
-Haml was created as a response to this question: "If we adopt whitespace a significant and assume we're outputting HTML, what can we NOT write?"  Haml uses indentation hierarchy to substitute for open/close tags and generally means writing significantly fewer characters on each template.
-
-#### Get Haml Installed
-
-Open up your `Gemfile`, add `gem "haml", "~> 3.1.8"`, save it and run `bundle` from the command prompt. Restart your web server so it loads the new library.
-
-#### Refactor a View
-
-Let's see the difference by rebuilding an existing view. Open up your `app/views/companies/index.html.erb`. Create a second file in the same directory named `app/views/companies/index.html.haml`.
-
-My ERB template looks like this:
-
-```erb
-<h1>Listing companies</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th></th>
-  </tr>
-
-<% @companies.each do |company| %>
-  <tr>
-    <td><%= company %></td>
-    <td>
-      <ul class="actions">
-        <li><%= link_to 'Show', company %></li>
-        <li><%= link_to 'Edit', edit_company_path(company) %></li>
-        <li><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></li>
-      </ul>
-    </td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Company', new_company_path, id: 'new_company' %>
-```
-
-Copy that code and paste it into your new **.haml** page and we'll strip it down. If your ERB template is properly indented like that, then the hard work is done for you. Here's how we manually convert it to Haml:
-
-* Remove all close ERB tags `%>`
-* Change all outputting ERB tags `<%=` to just `=`
-* Change all non-printing ERB tags `<%` to just `-`
-* Remove any lines that just contain a Ruby `end`
-* Remove all closing HTML tags like `</ul>`, `</div>`, etc
-* Change open HTML tags from using greater than and less than like `<h4>` to just a leading percent like `%h4`
-* If those elements have a CSS class, write it in CSS style like `%div.companies`
-
-Now you've got Haml!  Rewriting my template reduced it from 522 bytes to 388 bytes, from 59 words down to 46 words. That's a good savings since they output the exact same thing. Run your tests and everything should be cool.
-
-Here's my completed `index.html.haml` for reference.
-
-```ruby
-%h1 Listing companies
-
-%table
-  %tr
-    %th Name
-    %th
-
-- @companies.each do |company|
-  %tr
-    %td= company
-    %td
-      %ul.actions
-        %li= link_to 'Show', company
-        %li= link_to 'Edit', edit_company_path(company)
-        %li= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' }
-
-%br
-
-= link_to 'New Company', new_company_path, id: 'new_company'
-```
-
-Go ahead and *delete* the old ERB template.
-
-You don't have to rebuild existing templates unless you want to, but we'll build things in Haml moving forward.
-
-Haml ships with a command-line tool called `html2haml`, which you can use to convert your existing templates:
-
-{% terminal %}
-$ html2haml app/views/companies/new.html.erb app/views/companies/new.html.haml
-{% endterminal %}
-
-At the time of this writing, it depends on a gem called `hpricot` which you may need to install:
-
-{% terminal %}
-$ gem install hpricot
-{% endterminal %}
 
 ### Ship It
 
@@ -2075,7 +2109,7 @@ As we learn more about constructing web applications there is a greater emphasis
 
 ### Why OmniAuth?
 
-The best application of this concept is the [OmniAuth](https://github.com/intridea/omniauth). It's popular because it allows you to use multiple third-party services to authenticate, but it is really a pattern for component-based authentication. You could let your users login with their Twitter account, but you could also build our own OmniAuth provider that authenticates all your companies apps. Maybe you can use the existing LDAP provider to hook into ActiveDirectory or OpenLDAP, or make use of the Google Apps interface?
+The best application of this concept is the [OmniAuth](https://github.com/intridea/omniauth). It's popular because it allows you to use multiple third-party services to authenticate, but it is really a pattern for component-based authentication. You could let your users login with their Twitter account, but we can also build our own OmniAuth provider that authenticates all your companies' apps. Maybe you can use the existing LDAP provider to hook into ActiveDirectory or OpenLDAP, or make use of the Google Apps interface?
 
 Better yet, OmniAuth can handle multiple concurrent strategies, so you can offer users multiple ways to authenticate. Your app is just built against the OmniAuth interface, those external components can come and go.
 
@@ -2158,7 +2192,7 @@ Let's start with just those three in our model. From your terminal:
 $ rails generate model User provider:string uid:string name:string
 {% endterminal %}
 
-Then update the databases with `rake db:migrate db:test:prepare` .
+Then update the databases with `rake db:migrate`.
 
 ### Creating Actual Users
 
@@ -2196,16 +2230,6 @@ We do have a route that goes there, but we can't call it from this controller te
 
 ```ruby
 resource :sessions, :only => [:create]
-```
-
-But we only need this route for the test. Exposing it for the entire application seems dirty. Let's just add a route temporarily for the controller test:
-
-```
-before(:each) do
-  Rails.application.routes.draw do
-    resource :sessions, :only => [:create]
-  end
-end
 ```
 
 Now the test should fail because we don't actually do anything useful in the controller action yet.
@@ -2249,7 +2273,7 @@ To get this to pass I changed my create method to this:
 ```ruby
 def create
   data = request.env['omniauth.auth']
-  User.find_or_create_by_provider_and_uid_and_name(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
+  user = User.where(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name']).first_or_create
   render :nothing => true
 end
 ```
@@ -2298,18 +2322,18 @@ Open up `app/controllers/application_controller.rb` and add the following to it:
 helper_method :current_user
 
 def current_user
-  @current_user ||= User.find_by_id(session[:user_id])
+  @current_user ||= User.find(session[:user_id])
 end
 ```
 
-The test fails because when we say `User.find(session[:user_id])` this comes back as nil, and then we're calling `id` on it anyway.
+The test fails because when we say `User.find(session[:user_id])` this comes back as nil.
 
 Let's put the user id in the session. Go back to the sessions controller and update the `create` method:
 
 ```ruby
 def create
   data = request.env['omniauth.auth']
-  user = User.find_or_create_by_provider_and_uid_and_name(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
+  user = User.where(provider: data['provider'], uid: data['uid'], name: data['info']['name']).first_or_create
   session[:user_id] = user.id
   render :nothing => true
 end
@@ -2321,7 +2345,7 @@ Open up `app/models/user.rb` and add the following to it:
 
 ```ruby
 def self.find_or_create_by_auth(auth_data)
-  user = self.find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"])
+  user = User.where(provider: auth_data['provider'], uid: auth_data['uid']).first_or_create
   if user.name != auth_data["info"]["name"]
     user.name = auth_data["info"]["name"]
     user.save
@@ -2351,7 +2375,7 @@ Add a test for this behavior:
 
 ```ruby
 it 'redirects to the companies page' do
-  @request.env["omniauth.auth"] = {
+  request.env["omniauth.auth"] = {
     'provider' => 'twitter',
     'info' => {'name' => 'Charlie Allen'},
     'uid' => 'prq987'
@@ -2364,22 +2388,7 @@ end
 
 This is horrible! All that setup, just because we want to test the redirect? Right now there's no way around it. Maybe we can figure out a better way later.
 
-Ok, the test fails, because it doesn't know about the `root_path`. That's because we replaced all of the application's routes with just a single route in the before filter, and now we're trying to refer to one of the existing routes.
-
-Let's create a hack for this:
-
-```ruby
-before(:each) do
-  Rails.application.routes.draw do
-    resource :sessions, :only => [:create]
-    root to: 'site#index'
-  end
-end
-
-after(:each) do
-  Rails.application.reload_routes!
-end
-```
+Ok, the test fails, because it doesn't know about the `root_path`. If haven't already, add a root path to `routes.rb` - `root to: 'companies#index'` .
 
 Finally, we're failing for the right reason: we're expecting a redirect, but we're getting a render.
 
@@ -2391,6 +2400,14 @@ def create
   session[:user_id] = user.id
   redirect_to root_path, notice: "Logged in as #{user.name}"
 end
+```
+
+To get the notice to display, add the following code just above the `yield` tag in `application.html.erb`
+
+```ruby
+<% flash.each do |name, msg| %>
+  <%= content_tag :div, msg, class: "alert alert-info" %>
+<% end %>
 ```
 
 This gets the test to pass. We'll leave it at this for now.

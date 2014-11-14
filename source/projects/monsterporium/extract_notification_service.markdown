@@ -23,7 +23,7 @@ If you don't already have the Monsterporium and Redis installed, hop over to [th
 
 ## Getting Started with The Monsterporium
 
-The Monsterporium is a student project written by students in our gSchool course for their [StoreEngine project assignment](http://tutorials.jumpstartlab.com/projects/store_engine.html). It's an online store that supports listing products and placing orders. Along the way it sends a few emails.
+The Monsterporium is a student project written for their StoreEngine project assignment, which you probably know as [Dinner Dash](http://tutorials.jumpstartlab.com/projects/dinner_dash.html). It's an online store that supports listing products and placing orders. Along the way it sends a few emails.
 
 ### Where Emails Come From
 
@@ -65,28 +65,6 @@ When we we finish the extraction the system will work like this:
 
 We'll use a semi-automated test harness to check that emails are actually
 sent, and that they have the right contents.
-
-### Running Existing Tests
-
-Run the tests to make sure everything starts out green:
-
-{% terminal %}
-$ rake
-{% endterminal %}
-
-### Breaking the Mailer Tests
-
-Open `app/mailers/mailer.rb` and:
-
-* On line 5, change `@user = user` to `@user = User.new(:full_name => "John Doe")`
-* On line 11, change `@order = order` to `@order = Order.new`
-
-Now re-run the tests. Which examples fail?
-
-Unfortunately the failures don't tell us what's actually *wrong* with the emails, and
-don't even tell us if the emails were sent.
-
-We need better tests!
 
 ### Introducing Mailcatcher
 
@@ -138,21 +116,8 @@ Now everything is in place.
 
 * Run the tests from the terminal
 * Open the [mailcatcher web interface at http://localhost:1080](http://localhost:1080)
-* Eyeball the caught emails and you should see the problems we intentionally introduced earlier
-* Revert the changes in `mailer.rb` so the emails will now work properly
 * Clear the messages in mailcatcher (button in the top right of the web interface)
 * Run the specs again
-
-### Emails in OrdersController Specs
-
-Let's also capture the emails that get sent during integration tests.
-
-Open `spec/controllers/orders_controller_spec.rb`. There are two specs that send out email:
-
-* `create fails to create an order...`
-* `buy_now fails to create an order...`
-
-Use the same technique we did the the mailer spec to send these emails to mailcatcher. There are no expectations here about email, so don't delete the expectations that are there.
 
 ### Testing the Welcome Email
 
@@ -166,9 +131,9 @@ In `spec/controllers/users_controller_spec.rb` add this spec:
 describe "#create" do
   it "sends an email" do
     data = {
-      full_name: 'Alice Smith',
-      email: 'alice@example.com',
-      display_name: 'alice',
+      full_name: 'Billie Holiday',
+      email: 'billie@example.com',
+      display_name: 'billie',
       password: 'poet',
       password_confirmation: 'poet'
     }
@@ -197,6 +162,7 @@ Open `mailer.rb` and look at the `order_confirmation` method. Right now it takes
 * Remove the user parameter
 * Remove `current_user` from the mailer calls on `OrdersController` lines 23 and 37
 * Remove `user` from `mailer_spec` line 17
+* Change `user` to `@user` on line 12 in `mailer.rb` we no longer have a `user` local variable
 
 Run the specs and confirm that things are still passing and the emails show up in mailcatcher.
 
@@ -225,6 +191,10 @@ end
 #### Using `PurchaseConfirmation` in `OrdersController`
 
 Change `OrdersController` to use `PurchaseConfirmation.create` instead of talking to `Mailer` directly.
+
+#### Verify
+
+Run the specs to confirm that you implemented this change correctly.
 
 #### Creating `SignupConfirmation`
 
@@ -333,30 +303,8 @@ data = {
 * Rework `Mailer#order_confirmation` and the view template
 * Run the mailer spec and see it pass
 * Run the full suite and it should fail:
-
-```plain
-Failures:
-
-  1) OrdersController create fails to create an order without a stripeToken
-     Failure/Error: post :create
-     ActionView::Template::Error:
-       undefined method `each' for nil:NilClass
-     # ./app/views/mailer/order_confirmation.html.erb:6:in `_app_views_mailer_order_confirmation_html_erb___162722226973004525_70262093155400'
-     # ./app/mailers/mailer.rb:11:in `order_confirmation'
-     # ./app/controllers/orders_controller.rb:23:in `create'
-     # ./spec/controllers/orders_controller_spec.rb:10:in `block (3 levels) in <top (required)>'
-
-  2) OrdersController buy_now fails to create an order without a stripeToken
-     Failure/Error: post :buy_now, order: product.id
-     ActionView::Template::Error:
-       undefined method `each' for nil:NilClass
-     # ./app/views/mailer/order_confirmation.html.erb:6:in `_app_views_mailer_order_confirmation_html_erb___162722226973004525_70262093155400'
-     # ./app/mailers/mailer.rb:11:in `order_confirmation'
-     # ./app/controllers/orders_controller.rb:37:in `buy_now'
-     # ./spec/controllers/orders_controller_spec.rb:20:in `block (3 levels) in <top (required)>'
-```
-
-* The `OrdersController` is still accessing `Mailer` directly. Change it to use `PurchaseConfirmation` in two places.
+  * `OrdersController create fails to create an order without a stripeToken`
+  * `OrdersController buy_now fails to create an order without a stripeToken`
 * Run that `orders_controller_spec.rb` and it'll still fail
 * Build the data hash in `PurchaseConfirmation.create` and pass it in to the mailer
 * Run the controller spec and it should pass
@@ -398,20 +346,7 @@ Include the `redis` gem in the `Gemfile`, and bundle install.
 We need to get Rails to start redis. Create an initializer file in `config/initializers/redis.rb`:
 
 ```ruby
-file = File.join("config", "redis", "#{Rails.env}.conf")
-path = Rails.root.join(file)
-config = File.read(path)
-
-`redis-server #{path}`
-
-running = `ps aux | grep [r]edis-server.*#{file}`
-
-if running.empty?
-  raise "Could not start redis"
-end
-
-port = config[/port.(\d+)/, 1]
-$redis = Redis.new(:port => port)
+$redis = Redis.new
 ```
 
 ### Checking It Out
@@ -422,7 +357,7 @@ Then, open IRB in a second terminal window and subscribe to a test channel:
 
 {% terminal %}
 $ require 'redis'
-$ redis = Redis.new(port: 6382)
+$ redis = Redis.new
 $ redis.subscribe("test_channel") do |event|
     event.message do |channel, body|
       puts "I heard [#{body}] on channel [#{channel}]"
@@ -451,7 +386,7 @@ Open up IRB and subscribe to the channel on the port we configured for the test 
 
 {% terminal %}
 $ require 'redis'
-$ redis = Redis.new(port: 6383)
+$ redis = Redis.new
 $ redis.subscribe("email_notifications") do |event|
     event.message do |channel, body|
       puts "[#{channel}] #{body}"
@@ -483,7 +418,7 @@ Now let's build a `lib/notifications.rb` with that same listener code:
 
 ```ruby
 require 'redis'
-redis = Redis.new(port: 6383)
+redis = Redis.new
 redis.subscribe("email_notifications") do |event|
   event.message do |channel, body|
     puts "[#{channel}] #{body}"
@@ -505,6 +440,8 @@ In that listener, instead of a meaningless `puts` statement, it's time to actual
 * Call the appropriate `Mailer` method and send in the data
 
 #### Double-Sending Email
+
+Our Rails application is still sending the emails, but our listener should also be sending the emails. As a result, we should be getting duplicate emails.
 
 Run `rspec spec/controllers/orders_controller_spec.rb`
 
@@ -1154,7 +1091,7 @@ Create a new file `lib/listener.rb`:
 
 ```ruby
 require 'redis'
-redis = Redis.new(port: 6383)
+redis = Redis.new
 
 redis.subscribe("email_notifications") do |event|
   event.message do |channel, body|
@@ -1182,7 +1119,7 @@ $:.unshift File.expand_path("./../../lib", __FILE__)
 require 'notifications'
 require 'json'
 require 'redis'
-redis = Redis.new(port: 6383)
+redis = Redis.new
 
 redis.subscribe("email_notifications") do |event|
   event.message do |channel, body|

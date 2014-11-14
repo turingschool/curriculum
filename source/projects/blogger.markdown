@@ -1424,6 +1424,13 @@ In `app/models/tag.rb`:
 has_many :taggings
 ```
 
+In `app/models/tagging.rb`:
+
+```ruby
+belongs_to :tag
+belongs_to :article
+```
+
 After Rails had been around for awhile, developers were finding this kind of relationship very common. In practical usage, if I had an object named `article` and I wanted to find its Tags, I'd have to run code like this:
 
 ```ruby

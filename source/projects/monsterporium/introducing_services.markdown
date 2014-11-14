@@ -13,14 +13,9 @@ Now let's start to talk about services. In this section, our goals are to:
 
 ## Fractal Design
 
-<<<<<<< HEAD
 * What is good software?
 * [SOLID](http://bit.ly/nHYoAY) and [SRP](http://en.wikipedia.org/wiki/Single_responsibility_principle)
 * Apply it at several layers of abstraction
-=======
-* SOLID and SRP
-* Apply it to several layers of abstraction
->>>>>>> 375f9d7415ca7f79870d584762d10b55fce3abee
   * Line of code
   * Method
   * Class

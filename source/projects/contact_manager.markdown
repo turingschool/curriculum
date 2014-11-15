@@ -1999,7 +1999,7 @@ Just a few small changes to the `edit` template:
 Open the `email_addresses/new.html.erb` and change the heading from
 
 ```ruby
-<h1>Editing email_address</h1>
+<h1>New email_address</h1>
 ```
 
 To this:

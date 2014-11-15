@@ -1980,7 +1980,6 @@ Let's make a similar set of changes to `app/views/companies/show.html.erb`...
 * Remove the paragraph with the company name
 * Make sure the phone numbers just renders the partial (not wrapped in a paragraph etc.)
 * Do the same for the email addresses
-* Change the actions so they're inside `li` tags inside a `ul` with the class name `"actions"`
 * Wrap the whole view in a div with class name `"company"`
 
 Run your tests and they should be green. Then, *repeat the process* for `app/views/people/show.html.erb`

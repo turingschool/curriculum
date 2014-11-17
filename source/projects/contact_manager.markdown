@@ -2374,7 +2374,7 @@ Finally, we're going to want to redirect to send them to the `root_path` after l
 Add a test for this behavior:
 
 ```ruby
-it 'redirects to the companies page' do
+it 'redirects to the home page' do
   request.env["omniauth.auth"] = {
     'provider' => 'twitter',
     'info' => {'name' => 'Charlie Allen'},

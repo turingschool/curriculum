@@ -8,13 +8,14 @@ In this project you'll practice building a system of several interacting Ruby ob
 
 ## Project Overview
 
-### Learning & Practice Goals
+### Goals
 
-* Use tests to drive both the design and implementation of code with high test coverage
-* Build a complex system using multiple interacting classes
-* Reuse implementation code via duck typing and modules
-* Separate parsing / data loading logic from business logic
-* Use memoization and careful variable scoping to improve performance
+* Use tests to drive both the design and implementation of code
+* Use test fixtures instead of actual data when testing
+* Build a complex system of relationships using multiple interacting classes
+* Demonstrate the DRY principle with modules and/or duck typing
+* Separate parsing and data loading logic from business logic
+* Use memoization to improve performance
 
 ### Abstract
 
@@ -22,8 +23,13 @@ Let's write a data reporting tool that manipulates and reports on merchant trans
 
 ### Getting Started
 
-1. One team member forks the repository at https://github.com/turingschool/sales_engine
-2. Add the other team members as collaborators
+1. One team member clones the repository at https://github.com/turingschool/sales_engine.
+2. `cd sales_engine`
+3. `git rm remote origin`
+4. Create a new repository on Github, then add that remote to your `sales_engine` from the command line.
+5. Push your repository to the new remote origin.
+6. Add your teammate(s) as collaborators.
+7. Create a [Waffle.io](http://waffle.io) account for project management.
 
 ### Data Supplied
 
@@ -37,8 +43,9 @@ We have several files of source data including:
 * `merchants.csv` - merchant names and identifying information
 
 Dig into the data files to understand how everything is linked together.
-
 https://github.com/turingschool/sales_engine/tree/master/data
+
+[Sales Engine Diagram](/images/sales_engine.png)
 
 ### Understandings
 

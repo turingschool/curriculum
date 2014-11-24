@@ -25,7 +25,7 @@ Let's write a data reporting tool that manipulates and reports on merchant trans
 
 1. One team member clones the repository at https://github.com/turingschool/sales_engine.
 2. `cd sales_engine`
-3. `git rm remote origin`
+3. `git remote rm origin`
 4. Create a new repository on Github, then add that remote to your `sales_engine` from the command line.
 5. Push your repository to the new remote origin.
 6. Add your teammate(s) as collaborators.

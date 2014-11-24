@@ -114,7 +114,7 @@ bundle
 Next, create a migration to build the database table. From your command prompt:
 
 {% terminal %}
-$ rails generate session_migration
+$ rails generate active_record:session_migration
 $ rake db:migrate
 {% endterminal %}
 

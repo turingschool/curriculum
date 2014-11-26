@@ -4,25 +4,11 @@ title: Monsterporioum - Practicing with Services
 sidebar: true
 ---
 
-During this session, we'll help you think and work through how to apply these ideas to your own work and projects.
-
-## Brainstorming Services
-
-Let's collaborate on ideas. Pair with another developer to complete the following:
-
-* Choose an app to discuss, ideally that you're both familiar with
-* Spend about 10 minutes discussing ideas for services that could be extracted with the following considerations:
-  * the smaller, the better
-  * how much/little data does it need to do its job?
-  * what happens when the job is done? (Sends email, stores data, etc)
-  * how does it improve the parent application?
-  * what technologies would best suit it? (Ruby, Sinatra, Rails, ...?)
-* In the full group, let's spend about five minutes per pair pitching your best service concept and asking each other questions
-* Spend about 30 minutes with your pair working out a whiteboard-level diagram of the components and data flow that would take place to make the service work.
+During this tutorial, we'll help you think and work through how to build a system of three interoperating services.
 
 ## Building a Service
 
-For the next two hours, along with your pair, work independently on a small service project. It could be the project you brainstormed above or the one described below:
+Along with a pair, work independently on the exercise described below:
 
 ### RepFinder
 

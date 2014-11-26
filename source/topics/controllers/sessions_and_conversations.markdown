@@ -114,20 +114,22 @@ bundle
 Next, create a migration to build the database table. From your command prompt:
 
 {% terminal %}
-$ rails generate session_migration
+$ rails generate active\_record:session_migration
+
 $ rake db:migrate
 {% endterminal %}
 
 Then open `config/initializers/session_store.rb` and change the line like this:
 
 ```ruby
-MyApp::Application.config.session_store :cookie_store, key: '_myapp_session'
+Rails.application.config.session_store :cookie_store, key: '_myapp_session'
+
 ```
 
 To this:
 
 ```ruby
-MyApp::Application.config.session_store :active_record_store
+Rails.application.config.session_store :active_record_store
 ```
 
 Restart the server if it is running. No other changes in the app are necessary.

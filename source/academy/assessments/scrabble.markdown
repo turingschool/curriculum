@@ -25,11 +25,13 @@ $ cd scrabble
 $ bundle
 {% endterminal %}
 
-## Fundamental Exercises
+## Sample Exercise
 
-Let's use test-driven development to build pieces of a Scrabble-like game.
+During the assessment, complete an exercise similar to the one below.
 
 ### Word Scoring
+
+Let's use test-driven development to build pieces of a Scrabble-like game.
 
 Create functionality to score words based on the following letter values:
 
@@ -66,42 +68,14 @@ Create your solution:
 * using this interaction model:
 
 {% irb %}
-> Scrabble.score("hello")
+> game = Scrabble.new
+=> ...
+> game.score("hello")
 => 8
-> Scrabble.score("")
+> game.score("")
 => 0
-> Scrabble.score(nil)
+> game.score(nil)
 => 0
-{% endirb %}
-
-### Highest Score
-
-Implement a `highest_score_from` method that works like the examples below.
-
-{% irb %}
-> Scrabble.highest_score_from(['home', 'word', 'hello', 'sound'])
-=> "home"
-{% endirb %}
-
-Note that it's better to use fewer tiles, so if the top score is tied between multiple words, pick the one with the fewest letters:
-
-{% irb %}
-> Scrabble.highest_score_from(['hello', 'word', 'sound'])
-=> "word"
-{% endirb %}
-
-But there is a bonus for using all seven letters. If one of the highest scores uses all seven letters, pick that one:
-
-{% irb %}
-> Scrabble.highest_score_from(['home', 'word', 'silence'])
-=> "silence"
-{% endirb %}
-
-But if the there are multiple words that are the same score and same length, pick the first one in supplied list:
-
-{% irb %}
-> Scrabble.highest_score_from(['hi', 'word', 'ward'])
-=> "word"
 {% endirb %}
 
 ## Evaluation

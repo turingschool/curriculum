@@ -12,8 +12,10 @@ In this assessment you will:
 
 ## Expectations
 
-* Work on the exercise described below for 50 minutes with your facilitator
-* The facilitator may change the tests or ask additional questions to assess your understandings/skills
+* Work on the exercise with your facilitator
+* The facilitator will assign you a challenge similar but not identical to those
+in the test suite. The facilitator may change the expectations or ask additional
+questions to assess your understandings/skills
 * As you work, you *should*:
   * Think out loud so your facilitator can understand your process
   * Ask questions of your facilitator
@@ -36,7 +38,8 @@ Before the session starts:
 
 ## Feature Description
 
-For this exercise, the features will be driven by the test suite embedded in the repository.
+For this exercise, the feature will be assigned by the facilitator. You can find
+example features implemented as tests in the project repository.
 
 ## Evaluation Criteria
 

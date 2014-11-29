@@ -6,7 +6,9 @@ title: Scrabble
 ## Expectations
 
 * Work on the exercise defined below for 30 minutes with your facilitator
-* The facilitator may change the spec or ask additional questions to assess your understandings/skills
+* The facilitator will assign you a challenge similar but not identical to those
+in the test suite. The facilitator may change the expectations or ask additional
+questions to assess your understandings/skills
 * As you work, you may:
   * Ask questions of your facilitator
   * Reference external public resources (ie: Google, Ruby API, etc)
@@ -27,7 +29,7 @@ $ bundle
 
 ## Sample Exercise
 
-During the assessment, complete an exercise similar to the one below.
+During the assessment, you'll be assigned an exercise similar to the one below.
 
 ### Word Scoring
 

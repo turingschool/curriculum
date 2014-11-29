@@ -12,7 +12,9 @@ In this assessment you will:
 ## Expectations
 
 * Work on the exercise described below for 45 minutes with your facilitator
-* The facilitator may change the spec or ask additional questions to assess your understandings/skills
+* The facilitator will assign you a challenge similar but not identical to those
+in the test suite. The facilitator may change the expectations or ask additional
+questions to assess your understandings/skills
 * As you work, you *should*:
   * Think out loud so your facilitator can understand your process
   * Ask questions of your facilitator
@@ -28,16 +30,14 @@ In this assessment you will:
 Before the session starts:
 
 * Have the [display driver installed](http://www.displaylink.com/support/mac_downloads.php)
-* Fork the starter repo on GitHub: [https://github.com/JumpstartLab/storedom](https://github.com/JumpstartLab/storedom)
-* Clone your fork to your computer
-* Add our upstream: `git remote add upstream git@github.com:JumpstartLab/storedom.git`
+* Clone the repo on GitHub: [https://github.com/turingschool-examples/storedom](https://github.com/turingschool-examples/storedom)
 * Run `bundle` to install dependencies
-* Run `rake db:seed` to generate the started data
+* Run `rake db:create db:migrate db:seed`
 * Setup any external tooling you want (your IDE, `guard`, etc)
 
 ## Facilitator Selected Features
 
-Your facilitator may select any of the following features:
+Your facilitator will assign a feature similar to these:
 
 ### 1. Deactivating Items
 
@@ -46,9 +46,6 @@ Our store is growing and some items are no longer available for purchase. Make t
 * Add a column to the database marking the item as active/inactive
 * Use the Rails Console to mark all but 10 items inactive
 * Modify the controller to only display active items on the items listing page
-
-#### Extensions
-
 * If the user adds `?show_inactive=true`, display both inactive and active items.
 * Add a button to "activate" items on that page which utilizes a custom `activate` action for that individual item.
 
@@ -60,54 +57,6 @@ All orders are not the same. Let's add a `status` to help keep things organized:
 * Validate that only those statuses can be used
 * Display the orders on `/orders` grouped by their status
 * Add the ability to update the status of an order
-
-### 3. Administration
-
-Users shouldn't be able to see all the orders on the system. Let's start creating an Admin interface.
-
-* Move the `show` and `index` actions from `OrdersController` and modify the routes so that they're reached by a URL like `/admin/orders` and `/admin/orders/1`
-* Add a security check that, in order to access any action that controller, you must be an Admin
-* Consider any request that has a parameter `?admin=true` to be an admin
-
-#### Extensions
-
-* Implement a legitimate login solution of any complexity
-
-## Student Selected Features
-
-You can instead elect one of the more challenging features below:
-
-### 4. Creating an API
-
-Storedom does not have an API.
-
-Create an API that:
-
-* serves JSON
-* is versioned
-* is tested
-* has a public endpoint to get all the items
-* has a public endpoint to get a specific item
-* has a protected endpoint to create items (using `?admin=true` as a proxy for authentication)
-* has a protected endpoint to get the data for a specific order (`?admin=true`)
-
-#### Extensions:
-
-* Write a wrapper gem for Storedom's API that allows you to easily:
-  * Fetch all items
-  * Fetch all orders
-  * Fetch a single order
-  * Create an order
-* Once the features are complete, add VCR so the wrapper gem tests pass without Storedom actually running.
-
-### 5. Adding Stats
-
-Which are the most popular items?
-
-* Add a column to the items to track how many times they've been ordered
-* Reprocess all existing orders to populate that column
-* When the user requests `/items?sorted_by=popularity`, display them in order of descending number of purchases
-* When an order is created, make sure it automatically updates the item's order count
 
 ## Evaluation Criteria
 

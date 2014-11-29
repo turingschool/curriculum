@@ -35,7 +35,7 @@ Before the session starts:
 * Run `rake db:create db:migrate db:seed`
 * Setup any external tooling you want (your IDE, `guard`, etc)
 
-## Facilitator Selected Features
+## Third Module Assessment Expectations
 
 Your facilitator will assign a feature similar to these:
 
@@ -57,6 +57,19 @@ All orders are not the same. Let's add a `status` to help keep things organized:
 * Validate that only those statuses can be used
 * Display the orders on `/orders` grouped by their status
 * Add the ability to update the status of an order
+
+## Fourth Module Assessment Expectations
+
+Your facilitator will assign you the task of building a tested feature like the
+following:
+
+* Create a versioned JSON API allowing you to read data from and write data
+to the application
+* Implement OAuth login and use the returned data to create a persisted local user
+* Build a "Customers who bought X also purchased..." feature and the ability to
+sort items in the store by various criteria
+* Improve the performance of the application using key-based caching, database
+indicies, and simplifying database queries
 
 ## Evaluation Criteria
 

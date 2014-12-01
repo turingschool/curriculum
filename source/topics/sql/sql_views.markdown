@@ -238,8 +238,13 @@ end
 As you can see this migration is pretty crude. We are just dumping the
 SQL for creating our view in. But it will be good enough for our current
 purposes. If you're interested in a more abstract approach to creating
-views via migrations, check out the rails_sql_views gem: https://github.com/activewarehouse/rails_sql_views. One thing to be aware of is that by default SQL views won't show in your `schema.rb` file. The rails_sql_views gem includes a fix for this as well, so it's worth a look if you're going to use these in production.
+views via migrations, check out the rails_sql_views gem: https://github.com/activewarehouse/rails_sql_views. 
 
+Additionally, by default SQL views won't show in your `schema.rb` file. This can create issues when dropping or reloading DBs from the schema (as we sometimes do in test environments). An easy fix for this is to tell rails to use sql as the format for your schema records, by adding this line to `config/application.rb`:
+
+```
+config.active_record.schema_format = :sql
+```
 
 Run your migrations with `rake db:migrate`. If you're curious, check in
 `psql` console to see that your view has re-appeared. You can also test

@@ -1,6 +1,6 @@
 ---
 layout: page
-title: HTTP Caching: Rack::Cache, Varnish and CDNs
+title: HTTP Caching with RackCache, Varnish and CDNs
 section: Performance
 ---
 

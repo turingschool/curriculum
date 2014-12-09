@@ -16,7 +16,7 @@ Controllers are supposed to be stupid. They're just a connector between the mode
 
 In reality, most controllers do way more than simple request dispatch. They shepherd data, they react to many failure conditions, and they represent business logic. That's bad.
 
-Why is it bad? Because controllers trap logic. They're more difficult to test than models, and the logic is almost impossible to reuse. Placing business logic inside a controller immediately violates the Single Responsibility Principlce.
+Why is it bad? Because controllers trap logic. They're more difficult to test than models, and the logic is almost impossible to reuse. Placing business logic inside a controller immediately violates the Single Responsibility Principle.
 
 So let's look at ways to reduce complexity in the controller. One method is to push domain logic down into the model layer.
 

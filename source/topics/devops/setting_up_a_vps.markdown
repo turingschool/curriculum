@@ -11,7 +11,7 @@ You built an app, got excited and deployed it easily on Heroku. But after severa
 
 A VPS, or virtual private server, is a virtual machine that runs on someone else's infrastructure.
 
-A VPS can run it's own OS and applications indepedently of other virtual machines that live in the in the same infrastructure. This allows companies to sell access, space and time in their servers to various customers without conflicting to each other.
+A VPS can run it's own OS and applications indepedently of other virtual machines that live in the same infrastructure. This allows companies to sell access, space and time in their servers to various customers without conflicting to each other.
 
 There are many VPS prodivers, such as DigitalOcean and Linode out there. Just make sure to read reviews online and ask your peers before making a choice.
 

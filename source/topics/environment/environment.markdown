@@ -177,32 +177,14 @@ Homebrew has Postgres for you. From your terminal:
 $ brew install postgresql
 {% endterminal %}
 
-#### If You Want Postgres to Always Run
+#### Set It to Run on Startup
 
-This can be nice if you work with Postgres frequently, or just don't want to have to deal with turning it on again:
+Run the following commands to make it start when you turn on your computer *and* start right now:
 
 {% terminal %}
 ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 {% endterminal %}
-
-#### If You Want To Manually Start And Stop Postgres
-
-If you don't want Postgres to run all the time, you can start and stop it as you need it, with these commands:
-
-{% terminal %}
-$ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start
-server starting
-
-$ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log status
-pg_ctl: server is running (PID: 1933)
-/usr/local/Cellar/postgresql/9.3.4/bin/postgres "-D" "/usr/local/var/postgres"
-
-$ pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log stop
-waiting for server to shut down.... done
-server stopped
-{% endterminal %}
-
-If you prefer to do this, you might consider making a shell script to automate these.
 
 #### Verifying Install and Permissions
 

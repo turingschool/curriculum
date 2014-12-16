@@ -19,10 +19,10 @@ inside a Rails application. We want to create a massive stack of data in our
 database. Let's see how long it takes as-is:
 
 {% terminal %}
-$ time rake db:reset
+$ time rake db:seed
 {% endterminal %}
 
-That uses the UNIX `time` utility to measure how long it takes to run a `db:reset`.
+That uses the UNIX `time` utility to measure how long it takes to run a `db:seed`.
 It should take about 90 seconds. You can move on while it's running.
 
 ## I1: Big Jobs
@@ -86,7 +86,7 @@ $ bundle exec sidekiq
 Go back to your first tab and run the seeds:
 
 {% terminal %}
-$ rake db:reset
+$ rake db:seed
 {% endterminal %}
 
 Flip to your worker tab and you should see it cranking out users. The primary

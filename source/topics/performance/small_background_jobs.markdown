@@ -7,7 +7,7 @@ section: Performance
 ## Setup
 
 * Clone the storedom repo from https://github.com/turingschool-examples/storedom
-* Switch to the "mega" branch (`git checkout mega`)
+* Switch to the "mega" branch (`git checkout -b mega origin/mega`)
 * Run `bundle`
 * Make sure you have redis installed/running (`brew install redis`)
 * Check to make sure redis is running with (`redis-cli ping`) and you should get `PONG`

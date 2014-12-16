@@ -386,7 +386,11 @@ the page. Now you should see the "View Template Edition" content.
 
 #### Automatic Reloading
 
-The easiest way to get automatic reloading is to use the `sinatra/reloader` functionality of the `sinatra-contrib` gem.
+Below are two ways to setup automatic reloading. Choose one.
+
+#### #1: Sinatra Reloader 
+
+One to get automatic reloading is to use the `sinatra/reloader` functionality of the `sinatra-contrib` gem.
 
 Add `sinatra-contrib` to your `Gemfile`:
 
@@ -424,6 +428,20 @@ heading.
 
 Your files are now reloading each request without you manually stopping and restarting the server.
 
+#### #2: Shotgun
+
+[Shotgun](https://github.com/rtomayko/shotgun) is an automatic reloader for Rack. It works with any Rack-supported server. According to the documentation, "Each time a request is received, it forks, loads the application in the child process, processes the request, and exits the child process. The
+result is clean, application-wide reloading of all source files and templates on
+each request."
+
+To use Shotgun, add it to your Gemfile:
+
+```
+gem 'shotgun'
+```
+
+Then from the command line, run `shotgun`. 
+ 
 ### Creating a Form
 
 #### HTML Form

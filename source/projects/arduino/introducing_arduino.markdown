@@ -58,7 +58,7 @@ Let's build a simple circuit that involves no programming, just wiring.
 
 ### Prepare environment
 
-To be command this light,
+To be in command of this light,
 we'll need to write a program that interacts with the Arduino.
 We'll need some software that can talk to it.
 And we'll write some files to tell it what to do.

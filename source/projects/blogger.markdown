@@ -42,9 +42,9 @@ Use `cd blogger` to change into the directory, then open it in your text editor.
 The generator has created a Rails application for you. Let's figure out what's in there. Looking at the project root, we have these folders:
 
 * `app` - This is where 98% of your effort will go. It contains subfolders which will hold most of the code you write including Models, Controllers, Views, Helpers, JavaScript, etc.
+* `bin` - This is where your app's executables are stored: `bundle`, `rails`, `rake`, and `spring`.
 * `config` - Control the environment settings for your application. It also includes the `initializers` subfolder which holds items to be run on startup.
 * `db` - Will eventually have a `migrations` subfolder where your migrations, used to structure the database, will be stored. When using SQLite3, as is the Rails default, the database file will also be stored in this folder.
-* `doc` - Who writes documentation? If you did, it'd go here. Someday.
 * `lib` - This folder is to store code you control that is reusable outside the project.
 * `log` - Log files, one for each environment (development, test, production)
 * `public` - Static files can be stored and accessed from here, but all the interesting things (JavaScript, Images, CSS) have been moved up to `app` since Rails 3.1

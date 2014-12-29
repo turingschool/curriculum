@@ -29,8 +29,8 @@ Later, I visit your site and can view data about my traffic through a HTML inter
 
 ### Clone the Project
 
-1. One team member forks the repository at https://github.com/gschool/traffic_spy
-2. Add the second team member as a collaborator
+1. One team member forks the repository at [https://github.com/JumpstartLab/traffic_spy](https://github.com/JumpstartLab/traffic_spy)
+2. Add the other team members as collaborators
 
 ### Requirements
 
@@ -40,15 +40,19 @@ The project must use:
 * [PostgreSQL](http://www.postgresql.org/)
 * [Sequel](http://sequel.rubyforge.org/)
 
+See the "Resources" section at the bottom of this page for additional helpful documentation. 
+
+Before starting, make sure you have postgres installed. Then create a traffic_spy database with the following command:
+
+`createdb traffic_spy`
+
 ### Restrictions
 
 The project may not use:
 
 * `ActiveRecord`
-* Rails°
+* `Rails`
 * `Sequel::Model`
-
-°: You may use parts of `ActiveSupport` if you so choose
 
 ## Base Expectations
 
@@ -66,9 +70,14 @@ Parameters:
 
 Example Request:
 
+
 {% terminal %}
 $ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/sources
 {% endterminal %}
+
+cURL is a command-line tool for sending data using URL syntax.
+
+Wondering what `-i` and `-d` mean? Type `man curl` in your Terminal to see the cURL docs!
 
 Possible Responses:
 
@@ -76,6 +85,8 @@ Possible Responses:
 
 If missing any of the required parameters return status `400 Bad Request` with
 a descriptive error message.
+
+Wondering how to send back a status code from a Sinatra app? Check out the [Sinatra docs](http://www.sinatrarb.com/intro.html).
 
 * Identifier Already Exists - 403 Forbidden
 
@@ -120,6 +131,8 @@ payload = {
   "ip":"63.29.38.211"
 }
 ```
+
+Find the Ruby JSON docs [here](http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html).
 
 Your application should extract, analyze, and store all the content in the
 payload based on the view requirements defined below.
@@ -343,11 +356,52 @@ Presuming that a user is likely to keep statistics pages open for a long time, u
 
 When the system creates an account, generate and return a public key. Use public/private key cryptography to sign the data on the way into the server.
 
-## Evaluation Criteria
+## Resources
 
-This project will be peer assessed using automated tests and the criteria below.
+* [Sequel Docs](http://sequel.jeremyevans.net)
 
-1. Correctness
-2. Testing
-3. Style
-4. Effort
+## Evaluation Rubric
+
+The project will be assessed with the following rubric:
+
+#### 1. Functional Expectations
+
+* 4: Application fulfills base expectations and adds two extensions
+* 3: Application fulfills base expectations
+* 2: Application has some small missing base functionality
+* 1: Application is not usable
+
+#### 2. Test-Driven Development
+
+* 4: Application is broken into components which are well tested in both isolation and integration using appropriate data
+* 3: Application is well tested but does not balance isolation and integration/feature tests
+* 2: Application makes some use of tests, but the coverage is insufficient
+* 1: Application does not demonstrate strong use of TDD
+
+#### 3. Encapsulation / Breaking Logic into Components
+
+* 4: Application is expertly divided into logical components each with a clear, single responsibility
+* 3: Application effectively breaks logical components apart but breaks the principle of SRP
+* 2: Application shows some effort to break logic into components, but the divisions are inconsistent or unclear
+* 1: Application logic shows poor decomposition with too much logic mashed together
+
+#### 4. Fundamental Ruby & Style
+
+* 4: Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring
+* 3: Application shows strong effort towards organization, content, and refactoring
+* 2: Application runs but the code has long methods, unnecessary or poorly named variables, and needs significant refactoring
+* 1: Application generates syntax error or crashes during execution
+
+#### 5. Sinatra / Web and Business Logic
+
+* 4: Application takes advantage of all the features Sinatra has to offer and effectively separates the web application from the business logic.
+* 3: Application makes good use of Sinatra but has some mixing of the web and business logic.
+* 2: Application has web and business logic totally mixed together
+* 1: Application demonstrates a weak understanding of Sinatra and how applications should be built.
+
+#### 6. View Layer
+
+* 4: Application expertly breaks components out to view partials and makes use of both built-in and custom-written view helpers.
+* 3: Application breaks components out to view partials but has some logic or complexity leaking into the view
+* 2: Application has messy views that mix logic and presentation
+* 1: Application shows a lack of understanding around view templates and how they should be used/constructed.

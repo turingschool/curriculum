@@ -89,22 +89,20 @@ this one)
 * A User should be able to view Orders#show for an order whose user they
 manage
 
-## Part 3: Changing Content with Authorization (Extension)
+* When viewing Orders#index (`/orders`), a user should see their own
+orders as well as those orders for which the `user_id` matches a user
+of whom they are a manager. __Hint:__ more complicated DB relationships
+like this can be a pain with CanCanCan; you can use a custom `before_action`
+in your controller to pre-load the resource before CanCanCan gets to it. So
+if you have a filter which sets an `@orders` instance variable, CanCanCan will use this
+instead of trying to load its own.
+
+## Part 4: Changing Content with Authorization (Extension)
 
 Now that we can browse content, let's look at changing content. Logged-in users can put together orders, but a manager must approve the order before it gets charged to the company credit card.
 
-* When a logged-in non-admin user visits `/orders`, they already see their orders
-
 * Add a `status` column to `Order` that defaults to `"pending"`
-
-* Display that status when the user views their own orders
 
 * When an admin visits `/orders`, add a button `Complete` which changes the `status` to `"complete"`
 
 * Ensure that a non-admin cannot mark an order as `"complete"`
-
-## ExtraExtension -- Part 4:
-
-* When viewing Orders#index (`/orders`), a user should see their own
-orders as well as those orders for which the `user_id` matches a user
-of whom they are a manager.

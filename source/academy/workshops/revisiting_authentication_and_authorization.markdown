@@ -7,7 +7,7 @@ You've worked through the fundamentals of Authentication and Authorization befor
 
 ## Setup
 
-Let's start with the basic Storedom project. You might have it locally already. If so, make sure you pull down the most recent version using `git pull`, but if not clone it and get it ready to go:
+Let's start with the basic Storedom project. You might have it locally already. If so, make sure you pull down the most recent version using `git pull`, but if not clone it and get it ready to go. We'll be working from the `authorization-revisited` branch which includes some basic setup for Deviese and CanCan.
 
 {% terminal %}
 $ git clone git@github.com:turingschool-examples/storedom.git

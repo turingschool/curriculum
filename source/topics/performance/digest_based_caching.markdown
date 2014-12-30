@@ -25,9 +25,9 @@ Instead let's use memcache.
 We need a lot of sample data. Open up `db/seeds.rb` and increase the number of objects generated:
 
 ```ruby
-Author.generate_samples(20)
-Tag.generate_samples(20)
-Article.generate_samples(100)
+Author.generate_samples(100)
+Tag.generate_samples(100)
+Article.generate_samples(1000)
 ```
 
 Then, re-build the database and start the server:
@@ -130,7 +130,7 @@ The `cache_digests` library uses MD5 hashing to generate cache keys. If any bit 
 
 In Rails 4, there's nothing to do. It's built in.
 
-Our sample application is in Rails 3. Add the `cache_digests` gem to the Gemfile, then `bundle`.
+If you're using Rails 3, add the `cache_digests` gem to the Gemfile, then `bundle`.
 
 ### Add Caching to the View Template
 

@@ -37,16 +37,36 @@ Then `bundle.`
 
 ## Comparing Ruby Web Servers
 
-Let's start by benchmarking the different options for Ruby web servers. We'll run tests against the following:
+You have seen that ruby has several options for open-source web servers.
+For example on your projects you've probably run WEBrick in development
+and something more sophisticated like Puma or Unicorn in production.
+
+One thing that differentiates thse options is how they handle heavier
+load and concurrent requests. We'll explore this idea in this lesson by
+benchmarking our sample app with several different web servers:
 
 * `WEBrick`
 * `unicorn`
 * `thin`
 * `puma`
 
+(Remember that Rack provides a uniform interface for ruby apps to
+interact with a web server -- this allows us to swap them out
+seamlessly.)
+
+Our app is a very simplistic web app. On the root path it simply prints
+"Hello World" -- an action which should be nearly instantaneous,
+allowing us to see the impact of the different web servers on overall
+performance.
+
+In addition, we have a `/slow` endpoint, which also prints "Hello
+World", but also injects a random amount of slowness into the action.
+this will be userful for simulating the impact of server-side slowness
+on our users.
+
 ### Beginning with WEBrick
 
-Let's start simple with `WEBrick`. 
+Let's start simple with `WEBrick`.
 
 #### Start the Server
 
@@ -109,6 +129,16 @@ Percentage of the requests served within a certain time (ms)
  100%     66 (longest request)
 {% endterminal %}
 
+AB here is showing us a "histogram" of the response times for our 100
+requests. Your times will be slightly different, but in our example
+above we can see that the slowest request took 66ms and 50% of requests
+took longer than 26 ms.
+
+Notice that AB gives us increasing detail as we get closer to the
+slowest request. When diagnosing performance issues, it's often most
+useful to focus on the worst-case or "pathological" requests -- i.e.
+those in the 90-100 percentiles.
+
 ### Understanding the Parameters
 
 When we run ApacheBench like this:
@@ -149,7 +179,7 @@ After you run the command, a `filename.csv` file will be created in the director
 $ open filename.csv
 {% endterminal %}
 
-### Testing Other Servers
+### Testing Other Servers (Individual Exercise)
 
 At this point, swap in the other server options (Thin, Puma, and Unicorn) and run your tests. Which respond fastest? Which are the most fault-tolerant? How many concurrent requests are needed to take out each one?
 
@@ -165,7 +195,7 @@ Puma with max threads set to 1: `puma -p 9000 -t 1:1`
 
 ### Slower Requests
 
-Choose one web server and run some extra tests against a slower endpoint:
+Go back to WEBrick and run some tests against the sample "slow" endpoint:
 
 {% terminal %}
 $ ab -n 10 -c 2 http://0.0.0.0:9000/slow
@@ -178,6 +208,12 @@ $ ab -n 100 -c 10 http://0.0.0.0:9000/
 {% endterminal %}
 
 How do the stats compare? What implications can you draw about the overhead involved?
+
+### Testing Other Servers' Slow Endpoint Performance (Individual Exercise)
+
+Repeat the steps for testing the "slow" endpoint for each of the other
+servers. Do the performance profiles change as we add in more server
+time?
 
 ### Sending Data
 

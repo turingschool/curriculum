@@ -352,9 +352,9 @@ The content of the json response should be comparable set of information that a 
 
 Presuming that a user is likely to keep statistics pages open for a long time, use JavaScript to dynamically update the displayed statistics and rankings *without a full-page refresh*.
 
-## Extension: Authenticated Data
+## Extension: HTTP Authentication
 
-When the system creates an account, generate and return a public key. Use public/private key cryptography to sign the data on the way into the server.
+Use HTTP Auth to "secure" the data dashboard. 
 
 ## Resources
 

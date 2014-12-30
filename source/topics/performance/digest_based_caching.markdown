@@ -130,7 +130,7 @@ The `cache_digests` library uses MD5 hashing to generate cache keys. If any bit 
 
 In Rails 4, there's nothing to do. It's built in.
 
-Our sample application is in Rails 3. Add the `cache_digests` gem to the Gemfile, then `bundle`.
+If you're using Rails 3, add the `cache_digests` gem to the Gemfile, then `bundle`.
 
 ### Add Caching to the View Template
 

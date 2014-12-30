@@ -501,6 +501,12 @@ The redirect to the [/account/work](http://localhost:3000/account/work) page isn
 
 Set the project up to use New Relic RPM as described in the [Measuring Performance]({% page_url /topics/performance/measuring %}) section, and restart your rails server.
 
+Hint: If you add this line to your `config/newrelic.yml` file under the `development` key, it will remove asset requests from your transaction log:
+
+```
+  rules.ignore_url_regexes: ["^/assets"]
+```
+
 ### Exercise 1
 
 Now reload the [/account/work](http://localhost:3000/account/work) page twice in a row, and then go to [/newrelic](http://localhost:3000/newrelic).

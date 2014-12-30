@@ -187,7 +187,7 @@ end
 That's equivalent to this SQL:
 
 ```sql
-CREATE TABLE addresses(id INTEGER PRIMARY KEY AUTOINCREMENT, line_1 VARCHAR(255, city VARCHAR(255), state VARCHAR(2), zipcode VARCHAR(5), person_id INT)
+CREATE TABLE addresses(id INTEGER PRIMARY KEY AUTOINCREMENT, line_1 VARCHAR(255), city VARCHAR(255), state VARCHAR(2), zipcode VARCHAR(5), person_id INT)
 ```
 
 Run the Ruby fragment above in your IRB session and you'll get back `nil`. The `create_table` method always returns `nil`. Did it work?

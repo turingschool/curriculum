@@ -25,9 +25,9 @@ Instead let's use memcache.
 We need a lot of sample data. Open up `db/seeds.rb` and increase the number of objects generated:
 
 ```ruby
-Author.generate_samples(20)
-Tag.generate_samples(20)
-Article.generate_samples(100)
+Author.generate_samples(100)
+Tag.generate_samples(100)
+Article.generate_samples(1000)
 ```
 
 Then, re-build the database and start the server:

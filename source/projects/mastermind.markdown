@@ -16,6 +16,10 @@ In this project you'll use Ruby to build an implementation of the classic game M
 
 ## Base Expectations
 
+Use [this repository as a template][mmgh] for your project.
+
+[mmgh]: https://github.com/turingschool-examples/mastermind
+
 You are to build a playable game of Mastermind that runs in a REPL interface.
 
 ### Starting a Game

@@ -2089,7 +2089,9 @@ We're done with this iteration and your tests are green -- it's time to ship it.
 
 Make sure everything's checked in on your feature branch, `checkout` master, `merge` in the branch, then `push` it to Heroku. Check out the results in your browser. Look at the beauty of those minus signs and many deleted files.
 
-## I6: Supporting Users
+## EI6: Supporting Users
+
+**Note: the iterations six and seven need revision to conform with Iterations 1-5. The step-by-step instructions below will need debugging, but the concepts are the same.**
 
 What's the point of a web application if only one person can use it?  Let's make our system support multiple users. There are three pieces to making this happen:
 
@@ -2652,7 +2654,7 @@ delete :destroy
 
 If all your tests are passing, hop over to a terminal and `add` your files, `commit` your changes, `merge` the branch, and `push` it to Heroku.
 
-## I7: Adding Ownership
+## EI7: Adding Ownership
 
 We've got users, but they all share the same contacts. That obviously won't work. We need to rethink our data model to attach contacts to a `User`.
 

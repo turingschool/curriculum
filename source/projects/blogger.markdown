@@ -1036,7 +1036,7 @@ $ git commit -m "form-based workflow feature completed"
 $ git push
 {% endterminal %}
 
-If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use GitHub's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
+If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use Git's reset command to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
 
 {% terminal %}
 $ git log

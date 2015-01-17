@@ -931,11 +931,11 @@ update the attributes we're allowed to.
 
 Now try editing and saving some of your articles.
 
-### Adding a Flash message
+### Adding a flash message
 
-Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash`.
+Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash` object.
 
-The controller provides you with accessors to interact with the `flash` object. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string in the `flash` object.
+The controller provides you with accessors to interact with the `flash` object. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string into it.
 
 #### Flash for Update
 
@@ -963,11 +963,11 @@ def update
 end
 ```
 
-#### Testing the Flash messages
+#### Testing the flash messages
 
 Try editing and saving an article through your browser. Does anything show up?
 
-We need to add the flash to our view templates. The `update` method redirects to the `show`, so we _could_ just add the display to our show template.
+We need to add the flash messages to our view templates. The `update` method redirects to the `show`, so we _could_ just add the display to our show template.
 
 However, we will use the flash object in many actions of the application. Most of the time, it's preferred to add it to our layout.
 

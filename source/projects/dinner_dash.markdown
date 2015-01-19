@@ -33,8 +33,9 @@ Project implementation may **not** use:
 2. Add the other team members as collaborators
 3. Add your project to Waffle.io 
 4. Configure [Hound](https://houndci.com/) for style guide violations
-5. Create issues for user stories
-6. Work on branches and use pull requests to review and merge code
+5. Configure [Skylight](http://docs.skylight.io/getting-started/) to monitor your app's performance
+6. Create issues for user stories
+7. Work on branches and use pull requests to review and merge code
 
 ## Base Expectations
 

@@ -25,7 +25,7 @@ Please consider the requirements below *non-exhaustive* guidelines for building 
 Project implementation may **not** use:
 
 * Any external library for authentication except `bcrypt`
-* A pre-existing, externally created CSS/HTML design/template
+* A pre-existing, externally created CSS/HTML design/template (however, you may use [Bootstrap](http://getbootstrap.com/), [Zurb Foundation](http://foundation.zurb.com/), etc. )
 
 ### Getting Started
 

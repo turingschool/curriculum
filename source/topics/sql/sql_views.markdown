@@ -80,12 +80,12 @@ step using some good ol' raw sql.
 Try this in your Storedom rails console:
 
 ```ruby
-Item.find_by_sql("SELECT 'items'.*,
-                  COUNT('order_items'.'item_id') AS 'orders_count'
-                  FROM 'items' INNER JOIN 'order_items' ON 'order_items'.'item_id' = 'items'.'id'
-                  GROUP BY items.id
-                  ORDER BY orders_count desc
-                  LIMIT 10")
+Item.find_by_sql("SELECT items.*,
+                 COUNT(order_items.item_id) AS orders_count
+                 FROM items INNER JOIN order_items ON order_items.item_id = items.id
+                 GROUP BY items.id
+                 ORDER BY orders_count desc
+                 LIMIT 10")
 ```
 
 Not too bad. Now we're at least getting all our item data back in one

@@ -25,13 +25,17 @@ Please consider the requirements below *non-exhaustive* guidelines for building 
 Project implementation may **not** use:
 
 * Any external library for authentication except `bcrypt`
-* A pre-existing, externally created CSS/HTML design/template
+* A pre-existing, externally created CSS/HTML design/template (however, you may use [Bootstrap](http://getbootstrap.com/), [Zurb Foundation](http://foundation.zurb.com/), etc. )
 
 ### Getting Started
 
 1. One team member creates a repository named "dinner_dash"
 2. Add the other team members as collaborators
-3. Add your project to Waffle.io to track your progress and organize your team https://waffle.io
+3. Add your project to Waffle.io 
+4. Configure [Hound](https://houndci.com/) for style guide violations
+5. Configure [Skylight](http://docs.skylight.io/getting-started/) to monitor your app's performance
+6. Create issues for user stories
+7. Work on branches and use pull requests to review and merge code
 
 ## Base Expectations
 
@@ -58,7 +62,7 @@ Unauthenticated users are *NOT* allowed to:
 * View the administrator screens or use administrator functionality
 * Make themselves an administrator
 
-### Authenticated Non-Administrators
+### Authenticated Users (Non-Administrators)
 
 Allowed To:
 
@@ -112,9 +116,6 @@ As an Administrator, I can also view an order "dashboard" where I can:
       * Line item subtotal
   * Total for the order
   * Status of the order
-* Update an individual order
-  * View and edit orders; may change quantity or remove items from orders with the status of pending or paid
-  * Change the status of an order according to the rules as outlined above
 
 *NOT* allowed to:
 
@@ -143,8 +144,6 @@ There are several types of entities in the system, each with certain required da
 
 * An order must belong to a user
 * An order must be for one or more items currently being sold
-* An order is marked for pickup or delivery
-* If marked for delivery, an order has an associated address with street number, street, city, state, and zip
 
 ## Example Data
 
@@ -159,15 +158,14 @@ To support the evaluation process, please make the following available via the `
   * At least 10 sample orders, with at least two at each stage of fulfillment (`ordered`, `completed`, `cancelled`)
 * Users
   * Normal user with full name "Rachel Warbelow", email address "demo+rachel@jumpstartlab.com", password of "password" and no display name
-  * Normal user with full name "Jeff", email address "demo+jeff@jumpstartlab.com", password of "password" and display name "j3"
+  * Normal user with full name "Jeff Casimir", email address "demo+jeff@jumpstartlab.com", password of "password" and display name "j3"
   * Normal user with full name "Jorge Tellez", email address "demo+jorge@jumpstartlab.com", password of "password" and display name "novohispano"
   * User with admin priviliges with full name "Josh Cheek", email address "demo+josh@jumpstartlab.com", password of "password", and display name "josh"
 
 ## Submission Guidelines
 
-* Your project must be "live" on Heroku for your evaluation 
+* Your project must be live on Heroku for your evaluation 
 * Your `README` file on GitHub should contain a link to your live site
-* On the production site, the URL path `/code` should redirect the user to the GitHub repository
 
 ## Extensions
 
@@ -179,15 +177,7 @@ You can't place a pickup order and expect it ready immediately. Predict the pick
 
 * Each item in the store has a preparation time, defaulting to 12 minutes. Items can be edited to take longer.
 * If an order has more than six items, add 10 minutes for every additional six items.
-* Each already "paid" order in the system, for takeout or delivery, which is not "complete" delays the production start of this new order by 4 minutes.
-
-#### Future Scheduling
-
-When a customer is placing an order, they can select a date/time for pickup or delivery as long as it is...
-
-* In the future
-* No sooner than the "predicted" pickup time
-* On a day/time combo when the restaurant is open (the restaurant should be closed at least 60 hours per week)
+* Each already "paid" order in the system which is not "complete" delays the production start of this new order by 4 minutes.
 
 ### SAVINGS! SAVINGS! SAVINGS!
 
@@ -303,10 +293,10 @@ following criteria:
 * 2: Models are somewhat messy and/or make poor use of Rails features
 * 1: Models show weak use of Ruby and weak structure
 
-### 5. TDD
+### 5. Testing
 
 * 4: Project has a running test suite that exercises the application at multiple levels
-* 3: Project has a running test suite that tests and multiple levels, but fails to cover some features
+* 3: Project has a running test suite that tests and multiple levels but fails to cover some features
 * 2: Project has sporadic use of tests and multiple levels
 * 1: Project did not really attempt to use TDD
 
@@ -316,3 +306,10 @@ following criteria:
 * 3: Project is highly usable, but needs more polish before it'd be customer-ready
 * 2: Project needs significantly more attention to the User Experience, but works
 * 1: Project is difficult or unpleasant to use
+
+### 7. Workflow
+
+* 4: Excellent use of branches, pull requests, and a project management tool.
+* 3: Good use of branches, pull requests, and a project-management tool. 
+* 2: Sporadic use of branches, pull requests, and/or project-management tool. 
+* 1: Little use of branches, pull requests, and/or a project-management tool.

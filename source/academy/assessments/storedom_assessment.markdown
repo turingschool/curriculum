@@ -75,23 +75,24 @@ indicies, and simplifying database queries
 
 Subjective evaluation will be made on your work/process according to the following criteria:
 
-#### 1. Ruby Syntax & API
+### 1. Satisfactory Progress
 
-* 4: Developer is able to write Ruby demonstrating a broad/deep understanding of available language features
-* 3: Developer is able to write Ruby structures with a minimum of API reference, debugging, or support
+* 4: Developer is able to skillfully move through their work at the pace of an
+experienced developer.
+* 3: Developer is able to smoothly move through work and make progress at the
+rate of a junior developer
+* 2: Developer hits slowdowns, but moves with the speed of an apprentice developer.
+* 1: Developer struggles to make progress.
+
+### 2. Ruby Syntax & Style
+
+* 4: Developer is able to write Ruby demonstrating a broad/deep understanding of available language features. Code that is exceptionally clear and well-factored.
+* 3: Developer is able to write Ruby structures with a minimum of API reference, debugging, or support while balancing conciseness & clarity
 * 2: Developer is able to write Ruby structures, but needs some support with method names/concepts or debugging syntax
 * 1: Developer is generally able to write Ruby, but spends significant time debugging syntax or looking up elementary methods/concepts
 * 0: Developer struggles with basic Ruby syntax
 
-#### 2. Ruby Style
-
-* 4: Developer writes code that is exceptionally clear and well-factored
-* 3: Developer solves problems with a balance between conciseness and clarity and often extracts logical components
-* 2: Developer writes effective code, but does not breakout logical components
-* 1: Developer writes code with unnecessary variables, operations, or steps which do not increase clarity
-* 0: Developer writes code that is difficult to understand
-
-#### 3. Rails Syntax & API
+### 3. Rails Syntax & API
 
 * 4: Developer is able to implement and improve the requested features
 * 3: Developer is able to implement the requested features with some support
@@ -99,7 +100,7 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer demonstrates shallow knowlege about what Rails provides or how requests work
 * 0: Developer struggles to utilize/build basic Rails features
 
-#### 4. Rails Style
+### 4. Rails Style
 
 * 4: Developer is able to craft Rails features that make smart use of Ruby, follow the principles of MVC, and push business logic down where it belongs
 * 3: Developer generally writes clean Rails features that make smart use of Ruby, with some struggles in pushing logic down the stack
@@ -107,7 +108,7 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer struggles with MVC and pushing logic down the stack
 * 0: Developer shows little or no understanding of how to craft Rails applications
 
-#### 5. Testing
+### 5. Testing
 
 * 4: Developer excels at taking small steps and using the tests for *both* design and verification
 * 3: Developer writes tests that are effective validation of functionality, but don't drive the design
@@ -115,7 +116,7 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer is able to write tests, but they're written after or in the middle of implementation
 * 0: Developer does not use tests to guide development
 
-#### 6. Problem Solving
+### 6. Problem Solving
 
 * 4: Developer is able to create and implement strategies, and actively reassess/revise them
 * 3: Developer is able to both create and implement problem solving strategies
@@ -123,7 +124,7 @@ Subjective evaluation will be made on your work/process according to the followi
 * 1: Developer understands the big-picture, but struggles to put together a strategy
 * 0: Developer struggles to come up with a cohesive problem-solving approach
 
-#### 7. Collaboration
+### 7. Collaboration
 
 * 4: Developer *actively seeks* collaboration both before implementing, while in motion, and when stuck
 * 3: Developer lays out their thinking *before* attacking a problem and integrates feedback through the process

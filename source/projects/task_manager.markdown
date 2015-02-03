@@ -216,5 +216,38 @@ In that file, we'll add a form:
 
 Here we have a form with an action (url path) of `/tasks` and a method of `post`. This combination of path and verb will be important when we create the route in the controller. We then have an text input field for the title, a textarea for the description, and a submit button. 
 
-Navigate to `http://localhost:3000/tasks/new` to see your beautiful form. 
+Navigate to `http://localhost:3000/tasks/new` to see your beautiful form!
+
+Try clicking the submit button. You should get a "Sinatra doesn't know that ditty" error because we haven't set up a route in our controller to handle this action - method combination from the form submission.
+
+In our controller:
+
+```ruby
+class TaskManagerApp < Sinatra::Base
+  set :root, File.join(File.dirname(__FILE__), '..')
+
+  get '/' do
+    erb :dashboard
+  end
+
+  get '/tasks' do
+    @tasks = ["task1", "task2", "task3"]
+    erb :index
+  end
+
+  get '/tasks/new' do
+    erb :new
+  end
+
+  post '/tasks' do
+    p "Here are all of the params: #{params}"
+    p "Here are the task params: #{params[:task]}"
+  end
+```
+
+Why `post` instead of `get`? First, we specified a method of post in our form (go look at the form if that sentence doesn't make sense to you). Although we could make it work using `get`, HTTP convention specifies that a `get` request should request data from a specified resource while a `post` should submit data to be processed. In our case, we are submitting form data that needs to be processed, so we're using `post`. 
+
+Inside of this route, we'll need to eventually do some work. But for right now, we're just putting out all of the params and then just the task params.
+
+Go back to `http://localhost:9393/tasks/new`. Fill in a fake title and a fake description. Click submit. You'll see an error, but what we care about right now is our server log. Look at the Terminal window where you ran shotgun. Find the lines where those puts statements ran. You should see something like:
 

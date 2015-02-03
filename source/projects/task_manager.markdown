@@ -112,7 +112,7 @@ $ touch app/views/dashboard.erb
 
 Inside of this file, let's add links to some functionality we might want in our app:
 
-```html
+```erb
 <h1>Welcome to the Task Manager</h1>
 
 <ul>
@@ -126,4 +126,95 @@ We have an h1 tag for our welcome message, then an unordered list (ul) with two 
 Inside of each li tag, we have an `a` tag. The href of the tag is the path where the link will go. In the first a tag, the path will be 'http://localhost:9393/tasks'. The second path will be 'http://localhost:9393/tasks/new'. 
 
 Refresh the page. You should see our welcome message and two links. We haven't set up our controller to handle either of these yet, so clicking on these should give us a "Sinatra doesn't know this ditty" error. 
+
+### Adding a Task Index Route
+
+In a Sinatra app, we can add routes by combining an HTTP verb (get, post, put, delete, etc.) with a URL pattern. If you're unfamiliar with HTTP verbs, check out [A Beginner's Guide to HTTP and REST](http://code.tutsplus.com/tutorials/a-beginners-guide-to-http-and-rest--net-16340). 
+
+Our controller currently has one route:
+
+```ruby
+  get '/' do
+    erb :dashboard
+  end
+```
+
+Let's add a route for the first link we want -- our Task Index. In `app/controllers/task_manager_app.rb`:
+
+```ruby
+class TaskManagerApp < Sinatra::Base
+  set :root, File.join(File.dirname(__FILE__), '..')
+
+  get '/' do
+    erb :dashboard
+  end
+
+  get '/tasks' do
+    @tasks = ["task1", "task2", "task3"]
+    erb :index
+  end
+```
+
+What are we doing here? Well, we create an instance variable `@tasks` and assign an array of three strings to it. Then, we render the `index.erb` file. Our instance variable will be available to use in the view. 
+
+Let's try rendering this array in the view. First, we need to create our `index.erb`:
+
+```
+$ touch app/views/index.erb
+```
+
+Inside of the view, we will iterate through the array and display each string:
+
+```erb
+<h1>All Tasks</h1>
+
+<% @tasks.each do |task| %>
+  <h3><%= task %></h3>
+<% end %>
+```
+
+Navigate to 'http://localhost:9393/tasks' and check that each task is displayed. Our `index.erb` is looking ok right now.
+
+### Adding a New Task Route
+
+We need a route that will bring a user to a form where they can enter a new task. This is the second link we had in our dashboard. In our controller:
+
+```ruby
+class TaskManagerApp < Sinatra::Base
+  set :root, File.join(File.dirname(__FILE__), '..')
+
+  get '/' do
+    erb :dashboard
+  end
+
+  get '/tasks' do
+    @tasks = ["task1", "task2", "task3"]
+    erb :index
+  end
+
+  get '/tasks/new' do
+    erb :new
+  end
+```
+
+We don't need any instance variables here; we just need to render the view. Let's make that view:
+
+```
+$ touch app/views/new.erb
+```
+
+In that file, we'll add a form:
+
+```erb
+<form action="/tasks" method="post">
+  <p>Enter a new task:</p>
+  <input type='text' name='task[title]'/><br/>
+  <textarea name='task[description]'></textarea><br/>
+  <input type='submit'/>
+</form>
+```
+
+Here we have a form with an action (url path) of `/tasks` and a method of `post`. This combination of path and verb will be important when we create the route in the controller. We then have an text input field for the title, a textarea for the description, and a submit button. 
+
+Navigate to `http://localhost:3000/tasks/new` to see your beautiful form. 
 

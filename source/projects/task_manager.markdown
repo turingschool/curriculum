@@ -3,8 +3,6 @@ layout: page
 title: Task Manager
 ---
 
-# Task Manager
-
 Let's use Sinatra to build an application where we can manage our tasks. 
 
 ### Getting Configured
@@ -92,3 +90,40 @@ $ shotgun
 ```
 
 Navigate to http://localhost:9393/ and you should see magic!
+
+### Using Views
+
+Let's change our controller to render an ERB view instead of 'hello, world!'. Inside of `task_manager_app.rb`:
+
+```ruby
+class TaskManagerApp < Sinatra::Base
+  set :root, File.join(File.dirname(__FILE__), '..')
+
+  get '/' do
+    erb :dashboard
+  end
+```
+
+This piece of code will look for an .erb file called 'dashboard' in the views folder at the root of the app. Since we've already set the root of the app and created a views folder there, we're ready to make a dashboard file:
+
+```
+$ touch app/views/dashboard.erb
+```
+
+Inside of this file, let's add links to some functionality we might want in our app:
+
+```html
+<h1>Welcome to the Task Manager</h1>
+
+<ul>
+  <li><a href="/tasks">Task Index</a></li>
+  <li><a href="/tasks/new">New Task</a></li>
+</ul>
+```
+
+We have an h1 tag for our welcome message, then an unordered list (ul) with two list items (li) inside. If you are unfamiliar with HTML tags, try one of the [HTML tutorials](https://github.com/turingschool/intermission-assignments/blob/master/prep-for-module-2.markdown) before continuing. 
+
+Inside of each li tag, we have an `a` tag. The href of the tag is the path where the link will go. In the first a tag, the path will be 'http://localhost:9393/tasks'. The second path will be 'http://localhost:9393/tasks/new'. 
+
+Refresh the page. You should see our welcome message and two links. We haven't set up our controller to handle either of these yet, so clicking on these should give us a "Sinatra doesn't know this ditty" error. 
+

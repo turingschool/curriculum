@@ -256,11 +256,80 @@ Inside of this route, we'll need to eventually do some work. But for right now, 
 Go back to `http://localhost:9393/tasks/new`. Fill in a fake title and a fake description. Click submit. On the page, you should see something like:
 
 ```
-Params: {"task"=>{"title"=>"Cookies", "description"=>"Chocolate chip cookies are so delicious. I am hungry. "}}
+Params: {"task"=>{"title"=>"Make cookies", "description"=>"Chocolate chip cookies are so delicious. I am hungry."}}
 
-Task params: {"title"=>"Cookies", "description"=>"Chocolate chip cookies are so delicious. I am hungry. "}
+Task params: {"title"=>"Make cookies", "description"=>"Chocolate chip cookies are so delicious. I am hungry."}
 ```
 
 Notice that `params` is just a hash. The key is `"task"` and the value is another hash containing the `title` and `description`. This structure was created because of the way we named the input fields in our form (go back and look at the form if this is confusing to you). 
 
-When we access `params[:task]`, we get back just the part we want; the title and description. 
+When we access `params[:task]`, we get back just the part we want; the title and description. This is what we'll use to build a task.
+
+### Saving Tasks
+
+Let's change the code inside of our controller. Find the `post '/tasks'` route:
+
+```
+  post '/tasks' do
+    TaskManager.create(params[:task])
+    redirect '/tasks'
+  end
+```
+
+We are going to delegate the creation of a task to a TaskManager class. You can think of this class as one whose job it is to manage all of our tasks. Once the task is created, we'll redirect to `'/tasks'` (our index) so that the user can see the task. 
+
+First, we'll need to require this class in our controller. At the top of the controller file, add this line:
+
+```
+require 'models/task_manager'
+```
+
+We will also need to create this class which will live in our `models` folder. From the command line:
+
+```
+$ touch app/models/task_manager.rb
+```
+
+Inside of that file, we'll add the following code:
+
+```ruby
+require 'yaml/store'
+
+class TaskManager
+  def self.database
+    @database ||= YAML::Store.new("db/task_manager")
+  end
+
+  def self.create(task)
+    database.transaction do
+      database['tasks'] ||= []
+      database['total'] ||= 0
+      database['total'] += 1
+      database['tasks'] << { "id" => database['total'], "title" => task[:title], "description" => task[:description] }
+    end
+  end
+end
+```
+
+First, we require `'yaml/store'` which will allow us to store data in a specific file using [YAML](http://en.wikipedia.org/wiki/YAML) format. 
+
+Next, define a class method `self.database` which will return an instance of our YAML::Store using the "db/task_manager" file. This file will be created if it does not already exist. 
+
+Finally, we define a class method `self.create(task)` which will accept a task hash (remember `params[:task]`?). We call the `transaction` method on our `database`, which will allow us to execute several pieces of code together. 
+
+Inside of this transaction, we try to find ['tasks']. If it doesn't exist, we make it an empty array ([]). We also want to keep track of a total number of tasks, so we either find that (`database['total']`) or assign it to 0. Next, we increase that total by 1 (`database['total'] += 1`) because we are creating a new task. Finally, we take our `database['tasks']` and shovel in a hash that includes an `id` key with a value of the total number of tasks, a `title` key with a value of `task[:title]`, and a `description` key with a value of `task[:description]`.
+
+Go back to the form and submit a new task. Although you won't see anything different in your index page (we haven't taken care of that functionality yet), we should be able to see something new in the `db/task_manager` file. Open it up. It should look like this:
+
+```
+---
+tasks:
+- id: 1
+  title: Make cookies
+  description: Chocolate chip cookies are so delicious. I am hungry.
+total: 1
+```
+
+What happened? Well, we have a section called `tasks` which will keep track of each task and a section called `total` which keeps track of the total number of tasks we have entered. Try entering a few more tasks using the web interface and watch this file change. You should see the total change, and each new tasks will be added under `tasks`. 
+
+

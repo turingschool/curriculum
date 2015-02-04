@@ -103,6 +103,7 @@ class TaskManagerApp < Sinatra::Base
   get '/' do
     erb :dashboard
   end
+end
 ```
 
 This piece of code will look for an .erb file called 'dashboard' in the views folder at the root of the app. Since we've already set the root of the app and created a views folder there, we're ready to make a dashboard file. If you're still running your server, press control+c to stop it. 

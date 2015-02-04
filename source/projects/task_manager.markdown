@@ -154,6 +154,7 @@ class TaskManagerApp < Sinatra::Base
     @tasks = ["task1", "task2", "task3"]
     erb :index
   end
+end
 ```
 
 What are we doing here? Well, we create an instance variable `@tasks` and assign an array of three strings to it. Then, we render the `index.erb` file. Our instance variable will be available to use in the view. 
@@ -196,6 +197,7 @@ class TaskManagerApp < Sinatra::Base
   get '/tasks/new' do
     erb :new
   end
+end
 ```
 
 We don't need any instance variables here; we just need to render the view. Let's make that view:
@@ -244,6 +246,7 @@ class TaskManagerApp < Sinatra::Base
     p "Here are all of the params: #{params}"
     p "Here are the task params: #{params[:task]}"
   end
+end
 ```
 
 Why `post` instead of `get`? First, we specified a method of post in our form (go look at the form if that sentence doesn't make sense to you). Although we could make it work using `get`, HTTP convention specifies that a `get` request should request data from a specified resource while a `post` should submit data to be processed. In our case, we are submitting form data that needs to be processed, so we're using `post`. 

@@ -20,7 +20,7 @@ gem 'shotgun'
 
 We will be using the [modular](http://www.sinatrarb.com/intro.html#Modular%20vs.%20Classic%20Style) style of Sinatra app, which is why we need to require 'sinatra/base'.
 
-Next, let's make a config file from the command line: `touch config.ru`. This file will be used by Rackup. 
+Next, let's make a config file from the command line: `touch config.ru`. This file will be used by Rackup. Add this code inside of the config file: 
 
 ```ruby
 require 'bundler'
@@ -280,7 +280,7 @@ We are going to delegate the creation of a task to a TaskManager class. You can 
 
 First, we'll need to require this class in our controller. At the top of the controller file, add this line:
 
-```
+```ruby
 require 'models/task_manager'
 ```
 
@@ -311,7 +311,7 @@ class TaskManager
 end
 ```
 
-First, we require `'yaml/store'` which will allow us to store data in a specific file using [YAML](http://en.wikipedia.org/wiki/YAML) format. 
+First, we require `'yaml/store'` which will allow us to store data in a specific file using [YAML](http://en.wikipedia.org/wiki/YAML) format. This is part of the [Ruby standard library](http://ruby-doc.org/stdlib-1.9.3/libdoc/yaml/rdoc/YAML.html). 
 
 Next, define a class method `self.database` which will return an instance of our YAML::Store using the "db/task_manager" file. This file will be created if it does not already exist. 
 
@@ -332,4 +332,102 @@ total: 1
 
 What happened? Well, we have a section called `tasks` which will keep track of each task and a section called `total` which keeps track of the total number of tasks we have entered. Try entering a few more tasks using the web interface and watch this file change. You should see the total change, and each new tasks will be added under `tasks`. 
 
+### Displaying Real Tasks on the Index Page
 
+So that's pretty cool. But what about displaying these on the index page? Right now, we have just hard-coded an array of fake tasks in our controller when we hit `get '/tasks'`:
+
+```ruby
+  get '/tasks' do
+    @tasks = ["task1", "task2", "task3"]
+    erb :index
+  end
+```
+
+We actually want to pull these tasks using our TaskManager class. Let's change that code in our controller:
+
+```ruby
+  get '/tasks' do
+    @tasks = TaskManager.all
+    erb :index
+  end
+```
+
+We haven't defined this `TaskManager.all` method yet, but we want it to return an array of Task objects. Let's do that. Inside of your `app/models/task_manager.rb` file:
+
+```ruby
+require 'yaml/store'
+require_relative 'task'
+
+class TaskManager
+  def self.database
+    @database ||= YAML::Store.new("db/task_manager")
+  end
+
+  def self.create(task)
+    database.transaction do
+      database['tasks'] ||= []
+      database['total'] ||= 0
+      database['total'] += 1
+      database['tasks'] << { "id" => database['total'], "title" => task[:title], "description" => task[:description] }
+    end
+  end
+
+  def self.raw_tasks
+    database.transaction do
+      database['tasks'] || []
+    end
+  end
+
+  def self.all
+    raw_tasks.map { |data| Task.new(data) }
+  end
+end
+```
+
+We added two new methods. Let's talk about the first one, `self.raw_tasks`. This will go into our YAML file and retrieve everything under `database['tasks']`. What does this output look like? Well, if we were to call just that method, we would get something that looks like this: 
+
+```
+[{"id"=>1, "title"=>"Make cookies", "description"=>"They are delicious."}, {"id"=>2, "title"=>"Write code.", "description"=>"Always write code."}]
+```
+
+It's an array of hashes; one hash for each task in our YAML file. This is ok, but what we really want is for these hashes to be actual Task objects. 
+
+This is where our `self.all` method comes in. We will map over the `raw_tasks` and pass that data hash into `Task.new`. Let's create a new model for Task:
+
+```
+$ touch app/models/task.rb
+```
+
+Inside of that file, we'll add the following code:
+
+```ruby
+class Task
+  attr_reader :title, 
+              :description, 
+              :id
+
+  def initialize(data)
+    @id          = data["id"]
+    @title       = data["title"]
+    @description = data["description"]
+  end
+end
+```
+
+Here we are defining the class `Task` and then creating attr_readers for title, description, and id. Upon initialization, it will accept a data hash and access each piece of data via the keys (`data["id"]`, `data["title"]`, `data["description"]`). 
+
+Now, when we call `TaskManager.all`, we will get back an array of Task objects. Navigate to `http://localhost:9393/tasks`. You should see a `#` sign for each task in your YAML file, but no actual data. 
+
+### Updating the Index View
+
+We need to change our `index.erb` file so that we display each task's id and title. Let's make it so that the title is a link to a page where you will see that individual task and its description. So, in the `index.erb` file, this is what we should write:
+
+```erb
+<h1>All Tasks</h1>
+
+<% @tasks.each do |task| %>
+  <h3><%= task.id %>: <a href="/tasks/<%= task.id %>"><%= task.title %></a></h3>
+<% end %>
+```
+
+Refresh `http://localhost:9393/tasks`. You should see your tasks each with an id and a title. The title should be clickable even though you'll get a "Sinatra doesn't know this ditty" error. 

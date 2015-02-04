@@ -7,7 +7,7 @@ Let's use Sinatra to build an application where we can manage our tasks.
 
 ### Getting Configured
 
-Let's make a project folder from the command line: `mkdir task_manager`.
+Let's make a project folder from the command line: `mkdir task_manager`. Go into the directory with `cd task_manager`. 
 
 We'll also need a Gemfile: `touch Gemfile`. Inside of your Gemfile, add Sinatra and Shotgun. [Shotgun](https://github.com/rtomayko/shotgun) will allow us to make changes to our code base without having to restart the server each time. 
 
@@ -16,8 +16,8 @@ source 'https://rubygems.org'
 
 gem 'sinatra', require: 'sinatra/base'
 gem 'shotgun'
-
 ```
+
 We will be using the [modular](http://www.sinatrarb.com/intro.html#Modular%20vs.%20Classic%20Style) style of Sinatra app, which is why we need to require 'sinatra/base'.
 
 Next, let's make a config file from the command line: `touch config.ru`. This file will be used by Rackup. 
@@ -75,6 +75,7 @@ class TaskManagerApp < Sinatra::Base
   get '/' do
     'hello, world!'
   end
+end
 ```
 
 Remember when we wrote `run TaskManagerApp` in our `config.ru` file? Well, the class we just defined is what that line in our config.ru refers to.
@@ -104,7 +105,7 @@ class TaskManagerApp < Sinatra::Base
   end
 ```
 
-This piece of code will look for an .erb file called 'dashboard' in the views folder at the root of the app. Since we've already set the root of the app and created a views folder there, we're ready to make a dashboard file:
+This piece of code will look for an .erb file called 'dashboard' in the views folder at the root of the app. Since we've already set the root of the app and created a views folder there, we're ready to make a dashboard file. If you're still running your server, press control+c to stop it. 
 
 ```
 $ touch app/views/dashboard.erb
@@ -123,9 +124,9 @@ Inside of this file, let's add links to some functionality we might want in our 
 
 We have an h1 tag for our welcome message, then an unordered list (ul) with two list items (li) inside. If you are unfamiliar with HTML tags, try one of the [HTML tutorials](https://github.com/turingschool/intermission-assignments/blob/master/prep-for-module-2.markdown) before continuing. 
 
-Inside of each li tag, we have an `a` tag. The href of the tag is the path where the link will go. In the first a tag, the path will be 'http://localhost:9393/tasks'. The second path will be 'http://localhost:9393/tasks/new'. 
+Inside of each li tag, we have an `a` tag. The href of the tag is the path where the link will go. In the first a tag, the path will be `http://localhost:9393/tasks`. The second path will be `http://localhost:9393/tasks/new`. 
 
-Refresh the page. You should see our welcome message and two links. We haven't set up our controller to handle either of these yet, so clicking on these should give us a "Sinatra doesn't know this ditty" error. 
+Restart your server with `shotgun` from the command line, then refresh the page. You should see our welcome message and two links. We haven't set up our controller to handle either of these yet, so clicking on these should give us a "Sinatra doesn't know this ditty" error. 
 
 ### Adding a Task Index Route
 
@@ -153,6 +154,7 @@ class TaskManagerApp < Sinatra::Base
     @tasks = ["task1", "task2", "task3"]
     erb :index
   end
+end
 ```
 
 What are we doing here? Well, we create an instance variable `@tasks` and assign an array of three strings to it. Then, we render the `index.erb` file. Our instance variable will be available to use in the view. 
@@ -173,7 +175,7 @@ Inside of the view, we will iterate through the array and display each string:
 <% end %>
 ```
 
-Navigate to 'http://localhost:9393/tasks' and check that each task is displayed. Our `index.erb` is looking ok right now.
+Navigate to `http://localhost:9393/tasks` and check that each task is displayed. Our `index.erb` is looking ok right now.
 
 ### Adding a New Task Route
 
@@ -195,6 +197,7 @@ class TaskManagerApp < Sinatra::Base
   get '/tasks/new' do
     erb :new
   end
+end
 ```
 
 We don't need any instance variables here; we just need to render the view. Let's make that view:
@@ -240,14 +243,23 @@ class TaskManagerApp < Sinatra::Base
   end
 
   post '/tasks' do
-    p "Here are all of the params: #{params}"
-    p "Here are the task params: #{params[:task]}"
+    "<p>Params: #{params}</p> <p>Task params: #{params[:task]}</p>"
   end
+end
 ```
 
 Why `post` instead of `get`? First, we specified a method of post in our form (go look at the form if that sentence doesn't make sense to you). Although we could make it work using `get`, HTTP convention specifies that a `get` request should request data from a specified resource while a `post` should submit data to be processed. In our case, we are submitting form data that needs to be processed, so we're using `post`. 
 
-Inside of this route, we'll need to eventually do some work. But for right now, we're just putting out all of the params and then just the task params.
+Inside of this route, we'll need to eventually do some work. But for right now, we're just displaying the params.
 
-Go back to `http://localhost:9393/tasks/new`. Fill in a fake title and a fake description. Click submit. You'll see an error, but what we care about right now is our server log. Look at the Terminal window where you ran shotgun. Find the lines where those puts statements ran. You should see something like:
+Go back to `http://localhost:9393/tasks/new`. Fill in a fake title and a fake description. Click submit. On the page, you should see something like:
 
+```
+Params: {"task"=>{"title"=>"Cookies", "description"=>"Chocolate chip cookies are so delicious. I am hungry. "}}
+
+Task params: {"title"=>"Cookies", "description"=>"Chocolate chip cookies are so delicious. I am hungry. "}
+```
+
+Notice that `params` is just a hash. The key is `"task"` and the value is another hash containing the `title` and `description`. This structure was created because of the way we named the input fields in our form (go back and look at the form if this is confusing to you). 
+
+When we access `params[:task]`, we get back just the part we want; the title and description. 

@@ -431,3 +431,105 @@ We need to change our `index.erb` file so that we display each task's id and tit
 ```
 
 Refresh `http://localhost:9393/tasks`. You should see your tasks each with an id and a title. The title should be clickable even though you'll get a "Sinatra doesn't know this ditty" error. 
+
+### Showing Individual Tasks
+
+Notice that the URL when you clicked on a link was something like `http://localhost:9393/tasks/1`. We want that last number, the task id number, to be flexible. If we go to `http://localhost:9393/tasks/1`, we should see task 1 displayed. If we go to `http://localhost:9393/tasks/2`, we should see task 2. 
+
+Let's set up another route in our controller to handle this behavior:
+
+```ruby
+require 'models/task_manager'
+
+class TaskManagerApp < Sinatra::Base
+  set :root, File.join(File.dirname(__FILE__), '..')
+
+  get '/' do
+    erb :dashboard
+  end
+
+  get '/tasks' do
+    @tasks = TaskManager.all
+    erb :index
+  end
+
+  get '/tasks/new' do
+    erb :new
+  end
+
+  post '/tasks' do
+    TaskManager.create(params[:task])
+    redirect '/tasks'
+  end
+
+  get '/tasks/:id' do |id|
+    @task = TaskManager.find(id.to_i)
+    erb :show
+  end
+end
+```
+
+The `/:id` will take whatever is at that point in the URL and allow us to access it as a local variable `id`. Next, we create an instance varaible `@task` which will hold the return value of `TaskManager.find(id.to_i)`. We don't have this method yet. Why `id.to_i`? `id` is coming in as a string (like `"1"` or `"2"`) from the URL but we want it to be an integer. 
+
+Before we build our find method, let's create the view:
+
+```
+$ touch app/views/show.erb
+```
+
+In this file, we'll add HTML and ERB that will display one specific task along with a link back to the task index:
+
+```erb
+<a href="/tasks">Task Index</a>
+
+<h1><%= @task.title %></h1>
+
+<p><%= @task.description %></p>
+
+```
+
+### Building the `.find` Method
+
+Let's head over to `app/models/task_manager.rb` and add the find method:
+
+```ruby
+require 'yaml/store'
+require_relative 'task'
+
+class TaskManager
+  def self.create(task)
+    database.transaction do
+      database['tasks'] ||= []
+      database['total'] ||= 0
+      database['total'] += 1
+      database['tasks'] << { "id" => database['total'], "title" => task[:title], "description" => task[:description] }
+    end
+  end
+
+  def self.database
+    @database ||= YAML::Store.new("db/task_manager")
+  end
+
+  def self.raw_tasks
+    database.transaction do
+      database['tasks'] || []
+    end
+  end
+
+  def self.all
+    raw_tasks.map { |data| Task.new(data) }
+  end
+
+  def self.raw_task(id)
+    raw_tasks.find { |task| task["id"] == id }
+  end
+
+  def self.find(id)
+    Task.new(raw_task(id))
+  end
+end
+```
+
+In the `self.raw_task(id)` method, we're taking the `raw_tasks` and finding the one where the `task["id"]` is the same as the id that is passed in. That will return a hash of the task data. In the `self.find(id)` method, we'll create a Task object from that hash of task data.
+
+Refresh `http://localhost:9393/tasks/1`. Assuming that you have a task in your YAML file with the id of 1, you should see the task title and description displayed. You should also be able to click back to the task index. 

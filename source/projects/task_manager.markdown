@@ -220,7 +220,7 @@ In that file, we'll add a form:
 
 Here we have a form with an action (url path) of `/tasks` and a method of `post`. This combination of path and verb will be important when we create the route in the controller. We then have an text input field for the title, a textarea for the description, and a submit button. 
 
-Navigate to `http://localhost:3000/tasks/new` to see your beautiful form!
+Navigate to `http://localhost:9393/tasks/new` to see your beautiful form!
 
 Try clicking the submit button. You should get a "Sinatra doesn't know that ditty" error because we haven't set up a route in our controller to handle this action - method combination from the form submission.
 

@@ -490,7 +490,7 @@ In this file, we'll add HTML and ERB that will display one specific task along w
 
 ### Building the `.find` Method
 
-Let's head over to `app/models/task_manager.rb` and add the find method:
+Let's head over to `app/models/task_manager.rb` and add two methods that will allow us to find a task:
 
 ```ruby
 require 'yaml/store'

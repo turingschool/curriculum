@@ -84,7 +84,7 @@ Line 2 sets the root of our project. Here, we're taking the current file (`app/c
 
 Next, we tell our app that when a `get` request is sent to the `'/'` path, it should send back 'hello, world!' as the response. Let's try it!
 
-From the command line, run:
+From the command line, change back into the `task_manager` directory where the `config.ru` file is and run:
 
 ```
 $ shotgun

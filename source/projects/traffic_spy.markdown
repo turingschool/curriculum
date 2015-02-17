@@ -5,7 +5,7 @@ title: TrafficSpy
 
 ## Abstract
 
-In this project you'll use Ruby, Sinatra, and Sequel to build a web traffic tracking and analysis tool.
+In this project you'll use Ruby, Sinatra, and ActiveRecord to build a web traffic tracking and analysis tool.
 
 Your application will be live on the Internet. It will recieve data over HTTP from a simulation engine. The simulator will construct and transmit HTTP requests which include tracking data.
 
@@ -20,7 +20,7 @@ Later, I visit your site and can view data about my traffic through a HTML inter
 * Understand how web traffic works
 * Dig into HTTP concepts including headers, referrers, and payload
 * Design a normalized SQL-based database structure
-* Use Sequel to interface with the database from Ruby
+* Use ActiveRecord to interface with the database from Ruby
 * Practice fundamental database storage and retrieval
 * Understand and practice HTTP verbs including GET, PUT, and POST
 * Practice using fundamental HTML and CSS to create a usable web interface
@@ -38,21 +38,17 @@ The project must use:
 
 * [Sinatra](http://www.sinatrarb.com/)
 * [PostgreSQL](http://www.postgresql.org/)
-* [Sequel](http://sequel.rubyforge.org/)
+* [ActiveRecord](http://guides.rubyonrails.org/active_record_basics.html)
 
 See the "Resources" section at the bottom of this page for additional helpful documentation. 
 
-Before starting, make sure you have postgres installed. Then create a traffic_spy database with the following command:
-
-`createdb traffic_spy`
+Before starting, make sure you have postgres installed.
 
 ### Restrictions
 
 The project may not use:
 
-* `ActiveRecord`
 * `Rails`
-* `Sequel::Model`
 
 ## Base Expectations
 
@@ -69,7 +65,6 @@ Parameters:
 * rootUrl
 
 Example Request:
-
 
 {% terminal %}
 $ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/sources
@@ -104,6 +99,8 @@ with the following data for the client:
 
 * identifier - the unique identitier for the application that has been created
   for the client.
+
+You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html). 
 
 ### Processing Requests
 
@@ -358,7 +355,8 @@ Use HTTP Auth to "secure" the data dashboard.
 
 ## Resources
 
-* [Sequel Docs](http://sequel.jeremyevans.net)
+* [ActiveRecord Basics](http://guides.rubyonrails.org/active_record_basics.html)
+* [Sinatra Documentation](http://www.sinatrarb.com/documentation.html)
 
 ## Evaluation Rubric
 

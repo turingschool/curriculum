@@ -29,7 +29,7 @@ Later, I visit your site and can view data about my traffic through a HTML inter
 
 ### Clone the Project
 
-1. One team member forks the repository at [https://github.com/JumpstartLab/traffic_spy](https://github.com/JumpstartLab/traffic_spy)
+1. One team member forks the skeleton repository at [https://github.com/turingschool-examples/traffic-spy-skeleton](https://github.com/turingschool-examples/traffic-spy-skeleton)
 2. Add the other team members as collaborators
 
 ### Requirements

@@ -53,6 +53,7 @@ They can then enter a guess in the form `rrgb`
 
 * Guesses are case insensitive
 * If it's `'q'` or `'quit'` then exit the game
+* If it's `'c'` or `'cheat'` then print out the current secret code
 * If it's fewer than four letters, tell them it's too short
 * If it's longer than four letters, tell them it's too long
 * If they guess the secret sequence, enter the *end game* flow below
@@ -125,11 +126,6 @@ Your game won't be very popular if it's hard to install and run.
 
 Create an executable script that allows the user to just run `mastermind`
 from their terminal without directly executing Ruby.
-
-#### Build a Gem
-
-Wrap your code into a Ruby gem and publish it on Rubygems.org with a name like
-`mastermind-jcasimir` based on your GitHub user name.
 
 ### Other Ideas
 * Add a `history` instruction to the gameplay which can be called before entering a guess and it'll display

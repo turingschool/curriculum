@@ -90,10 +90,10 @@ If you see an error here, it's most likely related to the database. You are prob
 Our blog will be centered around "articles," so we'll need a table in the database to store all the articles and a model to allow our Rails app to work with that data. We'll use one of Rails' generators to create the required files. Switch to your terminal and enter the following:
 
 {% terminal %}
-$ bin/rails generate model Article
+$ rails generate model Article
 {% endterminal %}
 
-Note that we use `bin/rails` here but we used `rails` previously. The `rails` command is used for generating new projects, and the `bin/rails` command is used for controlling Rails.
+Note that we use `rails` here but we used `bin/rails` previously. With `rails`, RubyGems will activate the latest version of the rails executable it can find in PATH. This is fine as long as you use this version of Rails in your project. If you have a project which uses an older version of Rails and you run `rails`, you can run into problems when trying to run code that's changed in the latest Rails version. `bin/rails` fixes this problem by making sure your environment uses the versions specified in your project's Gemfile.
 
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 

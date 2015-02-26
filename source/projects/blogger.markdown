@@ -384,18 +384,6 @@ Instead, let's use a `link_to` helper:
 
 The first part of this helper after the `link_to`, in this case `article.title`, is the text you want the link to say. The next part is our route helper.
 
-When the template is rendered, it will output HTML like this:
-
-```html
-<a href="/articles/1">First Sample Article</a>
-```
-
-#### New Article Link
-
-At the very bottom of the template, let's add a link to the "Create a New Article" page.
-
-We'll use the `link_to` helper, we want it to display the text `"Create a New Article"`, and where should it point? Look in the routing table for the `new` action, that's where the form to create a new article will live. You'll find the name `new_article`, so the helper is `new_article_path`. Assemble those three parts and write the link in your template.
-
 But wait, there's one more thing. Our stylesheet for this project is going to look for a certain class on the link to make it look fancy. To add HTML attributes to a link, we include them in a Ruby hash style on the end like this:
 
 ```erb
@@ -409,7 +397,19 @@ Or, if you wanted to also have a CSS ID attribute:
     class: 'article_title', id: "article_#{article.id}" %>
 ```
 
-Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
+When the template is rendered, it will output HTML like this:
+
+```html
+<a class="article_title" id="article_1" href="/articles/1">First Sample Article</a>
+```
+
+#### New Article Link
+
+At the very bottom of the template, let's add a link to the "Create a New Article" page.
+
+We'll use the `link_to` helper, we want it to display the text `"Create a New Article"`, and where should it point? Look in the routing table for the `new` action, that's where the form to create a new article will live. You'll find the name `new_article`, so the helper is `new_article_path`. Assemble those three parts and write the link in your template.
+
+Use the technique mentioned above to add the CSS class `new_article` to your "Create a New Article" link.
 
 ```erb
 <%= link_to "Create a New Article", new_article_path, class: "new_article" %>

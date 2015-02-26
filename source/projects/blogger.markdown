@@ -1171,7 +1171,7 @@ We want to display any comments underneath their parent article. Open `app/views
 
 ```erb
 <h3>Comments</h3>
-<%= render partial: 'articles/comment', collection: @article.comments %>
+<%= render partial: 'articles/comment', collection: @article.comments.reverse %>
 ```
 
 This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `app/views/articles/_comment.html.erb` and add this code:

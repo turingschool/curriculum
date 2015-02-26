@@ -515,10 +515,6 @@ Create a new file `app/views/articles/new.html.erb` with these contents:
 
 Refresh your browser and you should just see the heading "Create a New Article".
 
-<div class="note">
-<p>Why the name <code>new.html.erb</code>? The first piece, <code>new</code>, matches the name of the controller method. The second, <code>html</code>, specifies the output format sent to the client. The third, <code>erb</code>, specifies the language the template is written in. Under different circumstances, we might use <code>new.json.erb</code> to output JSON or <code>new.html.haml</code> to use the HAML templating language.</p>
-</div>
-
 ### Writing a Form
 
 It's not very impressive so far -- we need to add a form to the `new.html.erb` so the user can enter in the article title and body. Because we're following the RESTful conventions, Rails can take care of many of the details. Inside that `erb` file, enter this code below your header:

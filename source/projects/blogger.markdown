@@ -1096,7 +1096,7 @@ article connects to many comments.
 
 Part of the big deal with Rails is that it makes working with these
 relationships very easy. When we created the migration for comments we started
-with an `references` field named `article`. The Rails convention for a
+with a `references` field named `article`. The Rails convention for a
 one-to-many relationship:
 
 * the objects on the "many" end should have a foreign key referencing the "one" object.
@@ -1111,6 +1111,7 @@ class Comment < ActiveRecord::Base
   belongs_to :article
 end
 ```
+The reason this `belongs_to` field already exists is because when we generated the Comment model, we included this line: `article:references`. What that does is tell Rails that we want this model to _reference_ the Article model, thus creating a one-way relationship from Comment to Article. You can see this in action in our migration on the line `t.references :article`.
 
 A comment relates to a single article, it "belongs to" an article. We then want to declare the other side of the relationship inside `app/models/article.rb` like this:
 
@@ -1119,6 +1120,7 @@ class Article < ActiveRecord::Base
   has_many :comments
 end
 ```
+Unlike how `belongs_to :article` was implemented for us on the creation of the Comment model because of the references, the `has_many :comments` relationship must be entered in manually.
 
 Now an article "has many" comments, and a comment "belongs to" an article. We have explained to Rails that these objects have a one-to-many relationship.
 

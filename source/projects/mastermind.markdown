@@ -156,7 +156,7 @@ The project will be assessed with the following rubric:
 ### 3. Test-Driven Development
 
 * 4: Application is broken into components which are well tested in both isolation and integration
-* 3: Application uses tests to exercise core functionality, but has some gaps in coverage and leaves edge cases untested.
+* 3: Application uses tests to exercise core functionality, but has some gaps in coverage or leaves edge cases untested.
 * 2: Application tests some components but has many gaps in coverage.
 * 1: Application does not demonstrate strong use of TDD
 

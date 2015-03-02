@@ -146,28 +146,21 @@ The project will be assessed with the following rubric:
 * 2:  Application runs but the code has many long methods (>8 lines) and needs significant refactoring
 * 1:  Application generates syntax error or crashes during execution
 
-### 2. Enumerable & Collections
-
-* 4: Application consistently makes use of the best-choice Enumerable methods
-* 3: Application demonstrates comfortable use of several Enumerable techniques
-* 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
-* 1: Application demonstrates deficiencies with Enumerable and struggles with collections
-
-### 3. Test-Driven Development
+### 2. Test-Driven Development
 
 * 4: Application is broken into components which are well tested in both isolation and integration
 * 3: Application uses tests to exercise core functionality, but has some gaps in coverage or leaves edge cases untested.
 * 2: Application tests some components but has many gaps in coverage.
 * 1: Application does not demonstrate strong use of TDD
 
-### 4. REPL Interface and Game Functionality
+### 3. REPL Interface and Game Functionality
 
 * 4: Application's REPL goes above and beyond expectations and application includes one or more extensions
 * 3: Application's REPL is clear and pleasant to use and application fulfills base expectations from the project spec
 * 2: Application's REPL has inconsistencies and/or there are errors in base gameplay
 * 1: Application's REPL has several issues or application fails to run
 
-### 5. Breaking Logic into Components
+### 4. Breaking Logic into Components
 
 * 4: Application effectively breaks logical components apart with clear intent and usage
 * 3: Application has multiple components with defined responsibilities but there is some leaking of responsibilities

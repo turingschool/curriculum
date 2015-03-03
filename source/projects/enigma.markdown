@@ -67,23 +67,23 @@ that to determine when you've correctly guessed the key.
 
 The tool is used from the command line like so:
 
-```
+{% terminal %}
 $ ruby ./lib/encrypt.rb message.txt encrypted.txt
-```
+{% endterminal %}
 
 That will take the plaintext file `message.txt` and create an encrypted file `encrypted.txt`.
 
 Then, if we know the key, we can decrypt:
 
-```
+{% terminal %}
 $ ruby ./lib/decrypt.rb encrypted.txt decrypted.txt
-```
+{% endterminal %}
 
 But if we don't know the key, we can try to crack it:
 
-```
+{% terminal %}
 $ ruby ./lib/crack.rb encrypted.txt cracked.txt
-```
+{% endterminal %}
 
 ## Evaluation Rubric
 
@@ -103,12 +103,12 @@ The project will be assessed with the following rubric:
 * 2: Application tests some components but has many gaps in coverage.
 * 1: Application does not demonstrate strong use of TDD
 
-### 3. REPL Interface and Game Functionality
+### 3. File I/O
 
-* 4: Application's REPL goes above and beyond expectations and application includes one or more extensions
-* 3: Application's REPL is clear and pleasant to use and application fulfills base expectations from the project spec
-* 2: Application's REPL has inconsistencies and/or there are errors in base gameplay
-* 1: Application's REPL has several issues or application fails to run
+* 4: Application warns the user when the output file exists and allows them to cancel the operation or overwrite the file
+* 3: Application reads and writes files as described
+* 2: Application can only specify either the input or output file name
+* 1: Application uses only static filenames
 
 ### 4. Breaking Logic into Components
 

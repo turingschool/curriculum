@@ -78,12 +78,14 @@ Then, if we know the key, we can decrypt:
 
 {% terminal %}
 $ ruby ./lib/decrypt.rb encrypted.txt decrypted.txt 82648 030415
+Created 'decrypted.txt' with the key 82648 and date 030415
 {% endterminal %}
 
 But if we don't know the key, we can try to crack it with just the date:
 
 {% terminal %}
 $ ruby ./lib/crack.rb encrypted.txt cracked.txt 030415
+Created 'cracked.txt' with the cracked key 82648 and date 030415
 {% endterminal %}
 
 ## Evaluation Rubric

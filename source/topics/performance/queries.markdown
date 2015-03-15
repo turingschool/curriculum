@@ -223,7 +223,7 @@ end
 Then, from the console, just for our example let's approve all comments:
 
 ```
-Comment.all.each{|c| c.approvals.create(approved_by: 0)}
+Comment.all.each{|c| c.create_approval(approved_by: 0)}
 ```
 
 Now let's fetch our sample `Article` and count the approved comments:

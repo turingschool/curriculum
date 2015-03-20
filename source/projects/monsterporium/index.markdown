@@ -28,13 +28,6 @@ In addition, you'll practice fundamental techniques like:
 
 ### Schedule
 
-<<<<<<< HEAD
-1. Introducing Services
-2. Practicing Services
-3. Asynchronous Messaging
-4. Extracting Notifications
-5. Extracting Ratings
-=======
 0. Extracting Responsibilities
 1. Fundamentals of Services
 2. Extracting Email to a Service

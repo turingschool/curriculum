@@ -412,6 +412,16 @@ Or, if you wanted to also have a CSS ID attribute:
 Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
 
 ```erb
+<h1>All Articles</h1>
+
+<ul id="articles">
+  <% @articles.each do |article| %>
+    <li>
+      <%= link_to article.title, article_path(article) %>
+    </li>
+  <% end %>
+</ul>
+
 <%= link_to "Create a New Article", new_article_path, class: "new_article" %>
 ```
 
@@ -1789,6 +1799,11 @@ These lines are commented out because they start with the `#` character. By spec
 ```ruby
 gem "paperclip"
 ```
+Paperclip is dependent on ImageMagick so you will also need to add that program.
+
+{% terminal %}
+$ brew install imagemagick
+{% endterminal %}
 
 When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, go back to your terminal and run `rails server` to start the application again. You should get an error like this:
 
@@ -1805,6 +1820,8 @@ $ bundle
 {% endterminal %}
 
 It should then install the paperclip RubyGem with a version like 3.5.2. In some projects I work on, the config file specifies upwards of 18 gems. With that one `bundle` command the app will check that all required gems are installed with the right version, and if not, install them.
+
+Note: You may need to reload your rails server for the paperclip methods to work.
 
 Now we can start using the library in our application!
 

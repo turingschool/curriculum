@@ -6,7 +6,7 @@ sidebar: true
 
 ## Introduction
 
-We'll take an existing project, the Monsterporium store, and extract the notification system to an external, asyncronous service.
+We'll take an existing project, the Monsterporium store, and extract the notification system to an external, asynchronous service.
 
 ### Goals
 

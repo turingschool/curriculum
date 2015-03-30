@@ -9,8 +9,7 @@ alias: [ /environment.html, /setup ]
 Setting up your environment can be difficult when you're first starting with Ruby. We want to get the following installed:
 
 * Git
-* Ruby 2.1
-* PostgreSQL
+* Ruby 2.2
 * A text editor
 
 The setup instructions are broken down by platform: Mac, Linux, and Windows.
@@ -19,10 +18,12 @@ The setup instructions are broken down by platform: Mac, Linux, and Windows.
 
 If you don't already have a favorite text editor, we recommend using [Atom](https://atom.io/).
 
+However, if you're a student at Turing, please download and install [RubyMine](https://www.jetbrains.com/ruby/download/).
+
 ## Mac OS
 
 Mac OS is the most popular platform for Ruby and Rails developers.
-These instructions assume you're on the latest version of MacOS, 10.9.
+These instructions assume you're on the latest version of MacOS, 10.10.
 If you're using an older version, refer to [these additional notes]({% page_url environment_older_macos %}).
 
 ### Terminal
@@ -33,9 +34,7 @@ For example, when you run `pry` or `ruby`, you are running that program from the
 
 If this is all new for you, see [Terminal and Editor](http://tutorials.jumpstartlab.com/academy/workshops/terminal_and_editor.html)
 
-You can use the existing terminal, or my favourite: [iTerm2](http://iterm2.com/).
-To launch the terminal, go to Spotlight and type "Terminal" or "iTerm" and then run it.
-The following commands expect a terminal.
+To launch the terminal, open Spotlight using `Command-Spacebar`, type "terminal", then enter.
 
 ### XCode & Command Line Tools
 
@@ -45,19 +44,19 @@ XCode is a huge suite of development tools published by Apple. You'll want to in
 2. Open the application after installing and agree to the SLA terms
 3. Open `terminal` and run `xcode-select --install`, enter your user password
 
-You should be good to go!
+Now you should have the underlying tools we need to move forward.
 
 ### Homebrew
 
 [Homebrew](http://brew.sh) is a package management system that makes it easy to install hundreds of open source projects and compile them from source for maximum performance on your machine.
 
-Open the Terminal (You can search for it using Spotlight, or find it in `Applications > Utilities > Terminal`), then run the homebrew installation script:
+Open the Terminal then run the homebrew installation script:
 
 {% terminal %}
 $ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 {% endterminal %}
 
-It will ask you for your password. This is the password to log in to your account on the computer, it needs this because it installs its packages in a place that all users of this computer can access.
+It will ask you for your password. This is the password to log in to your account on the computer. It needs this because it installs its packages in a place that all users of this computer can access.
 
 #### Verifying Homebrew
 
@@ -68,24 +67,16 @@ $ brew doctor
 Your system is ready to brew.
 {% endterminal %}
 
-If it says something like **"Warning: /usr/bin occurs before /usr/local/bin"**, then you need to edit a variable called your PATH.
-The PATH variable is how your shell finds programs you are trying to run. For example, when we just ran `$ brew doctor`, how did it
-know where to find the brew program? It looked through a list of directories until it found `brew`. The list is stored in the `$PATH`.
-You can see the list with `$ echo "$PATH"`, which should print out a long string of directories, delimited by colons.
-You can make this more human-friendly by translating colons into newlines like this: `$ echo "$PATH" | tr : "\n"`.
-The program you are trying to run may show up at multiple places in these directories. For example, if you said `which -a git`,
-it might tell you that there is a git in "/usr/bin/git" and also in "/usr/local/bin/git". Since the shell will execute the first
-one that it finds, we need to make sure that the one we want (the homebrew one, in /usr/local/bin) is the one it finds,
-which means that "/usr/local/bin" needs to be earlier in the path.
+#### Modifying your PATH
 
-We can place it earlier in the path by editing the configuration file for our shell:
+If you got a warning from Homebrew about your path, do the following:
 
 {% terminal %}
-$ atom ~/.bash_profile
+$ echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bash_profile
+$ source ~/.bash_profile
 {% endterminal %}
 
-At the top of this file, type `export PATH="/usr/local/bin:$PATH"` which will add "/usr/local/bin", homebrew's install location,
-to the beginning of the path.
+Now run `brew doctor` again and the warning should be gone.
 
 ### Git
 
@@ -129,22 +120,20 @@ It should give you a version number rather than an error message.
 
 ### Ruby
 
-We're going to install Ruby 2.1. If you need another version it'll be same procedure, just replace "2.1" in the instructions with whichever version you want.
+We're going to install Ruby 2.2. If you need another version it'll be same procedure, just replace "2.2" in the instructions with whichever version you want.
 
-#### What's Available?
-
-To list all of the possible Ruby versions that you can install, use the command:
+Install it with:
 
 {% terminal %}
-rvm list known
+$ rvm install 2.2
 {% endterminal %}
 
-#### Ruby 2.1
+#### Setting the Default Version
 
-We recommend getting the latest stable version of Ruby, which is version 2.1. Install it with:
+You can tell rvm which Ruby version you want to use by default:
 
 {% terminal %}
-$ rvm install 2.1
+$ rvm use 2.2 --default
 {% endterminal %}
 
 #### Requirements
@@ -155,15 +144,7 @@ There are *several* additional libraries that gems will often rely on. RVM makes
 $ rvm requirements
 {% endterminal %}
 
-It'll figure out what needs to be installed and install it.
-
-#### Setting the Default Version
-
-You can tell rvm which Ruby version you want to use by default:
-
-{% terminal %}
-$ rvm use 2.1 --default
-{% endterminal %}
+It'll figure out what needs to be installed and install it. If prompted for your password, use your computer login password.
 
 ### PostgreSQL
 
@@ -176,36 +157,6 @@ Homebrew has Postgres for you. From your terminal:
 {% terminal %}
 $ brew install postgresql
 {% endterminal %}
-
-#### Set It to Run on Startup
-
-Run the following commands to make it start when you turn on your computer *and* start right now:
-
-{% terminal %}
-ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
-launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
-{% endterminal %}
-
-#### Verifying Install and Permissions
-
-Let's create a database and connect to it:
-
-{% terminal %}
-$ createdb sample_db
-$ psql sample_db
-{% endterminal %}
-
-You should see the following (note: use `\q` to exit):
-
-{% terminal %}
-$ psql sample_db
-psql (9.3.3)
-Type "help" for help.
-
-sample_db=# \q
-{% endterminal %}
-
-If you got that, then Postgres is good to go.
 
 ## Linux
 

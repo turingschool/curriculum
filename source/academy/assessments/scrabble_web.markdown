@@ -30,7 +30,6 @@ questions to assess your understandings/skills
 
 Before the session starts:
 
-* Have the [display driver installed](http://www.displaylink.com/support/mac_downloads.php)
 * Clone the repo from GitHub: [scrabble-web](https://github.com/turingschool-examples/scrabble-web)
 * Run `bundle` to install dependencies
 * Run the test suite (`bundle exec rake test`) and see that it has several pending tests

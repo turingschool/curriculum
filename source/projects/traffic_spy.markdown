@@ -40,9 +40,19 @@ The project must use:
 * [PostgreSQL](http://www.postgresql.org/)
 * [ActiveRecord](http://guides.rubyonrails.org/active_record_basics.html)
 
+You'll want to set up the [DatabaseCleaner](https://github.com/DatabaseCleaner/database_cleaner) gem in order to have a clean database each time you run tests. Follow the instructions for setting up the gem. Due to a bug in the most recent version of the gem, you'll need to use this line when you set the strategy in your test helper file:
+
+```ruby
+  DatabaseCleaner.strategy = :truncation, {except: %w[public.schema_migrations]}
+```
+
+Want to read more about the bug? Click [here](https://github.com/DatabaseCleaner/database_cleaner/issues/317). 
+
+You will also probably want to set up a [rake task to run your tests](http://ruby-doc.org/stdlib-2.0/libdoc/rake/rdoc/Rake/TestTask.html). 
+
 See the "Resources" section at the bottom of this page for additional helpful documentation. 
 
-Before starting, make sure you have postgres installed.
+Before starting, make sure you have the [Postgres App](http://postgresapp.com/) installed.
 
 ### Restrictions
 

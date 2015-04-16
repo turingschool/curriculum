@@ -1112,7 +1112,7 @@ article connects to many comments.
 
 Part of the big deal with Rails is that it makes working with these
 relationships very easy. When we created the migration for comments we started
-with an `references` field named `article`. The Rails convention for a
+with a `references` field named `article`. The Rails convention for a
 one-to-many relationship:
 
 * the objects on the "many" end should have a foreign key referencing the "one" object.
@@ -1710,7 +1710,7 @@ $ bin/rails generate controller tags
 Then we need to add tags as a resource to our `config/routes.rb`, it should look like this:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails.Application.routes.draw do
 
   root to: 'articles#index'
   resources :articles do
@@ -2253,7 +2253,7 @@ moment we will find a routing error. The generator did not add a resource for
 our Authors. We need to update our `routes.rb` file:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails.Application.routes.draw do
   # ... other resources we have defined ...
   resources :authors
 end

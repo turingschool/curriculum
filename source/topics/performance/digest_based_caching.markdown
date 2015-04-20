@@ -79,7 +79,9 @@ With those change in place, fire up a Rails console and try it out:
 
 {% irb %}
 > Rails.cache.write("counter", 5)
- => true 
+Cache write: counter
+Dalli::Server#connect 127.0.0.1:11211
+ => 72057594037927936
 > Rails.cache.read("counter")
  => 5 
 {% endirb %}

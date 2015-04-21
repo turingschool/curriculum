@@ -9,7 +9,8 @@ section: Performance
 * Clone the storedom repo from https://github.com/turingschool-examples/storedom
 * Switch to the "mega" branch (`git checkout -b mega origin/mega`)
 * Run `bundle`
-* Make sure you have redis installed/running (`brew install redis`)
+* Make sure you have redis installed (`brew install redis`).
+* Start the redis server ('redis-server')
 * Check to make sure redis is running with (`redis-cli ping`) and you should get `PONG`
 
 ## I0: Starting Point
@@ -72,6 +73,8 @@ With this:
 ```ruby
 UserGenerator.perform_async(100)
 ```
+
+The perform_async method is the method that loads up the worker queue. It then calls the instance method perform inside the UserGenerator class.
 
 ### Starting the Worker
 
@@ -144,12 +147,22 @@ And revise `generate` to queue a bunch of jobs, one per user:
 
 ### Run It
 
-Restart your Sidekiq workers and run it again. If you have two tabs running Sidekiq then you should see 20 threads
-start per tab, creating all the users in just a few seconds.
+Restart your Sidekiq workers and run it again. If you have two tabs running Sidekiq then you should see 20 threads start per tab, creating all the users in just a few seconds.
 
 ## I3: Revising Items & Orders
 
-Now go through the same process to queue jobs for items and orders.
+Now go through the same process to queue jobs for items and orders. The orderGenerator has an add_items method which will add an item to the order.items array. You can all this method in the OrderGenerator's generate_one method like this:
+
+```
+def generate_one(marker, max_items)
+    Delay.wait
+    order = Order.create!(
+      amount: Faker::Number.digit
+      )
+    add_items(order, max_items)
+    puts "Order #{marker}: #{order.amount} orders created"
+end
+```
 
 ### I4: An Approximate Benchmark
 
@@ -177,9 +190,9 @@ puts Benchmark.measure {
     item_count = Item.count
     order_count = Order.count
 
-    if user_target == user_count &&
-      item_target == item_count &&
-      order_target == order_count
+    if user_target <= user_count &&
+      item_target <= item_count &&
+      order_target <= order_count
 
       complete = true
     else

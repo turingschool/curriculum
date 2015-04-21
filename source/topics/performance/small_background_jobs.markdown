@@ -144,7 +144,7 @@ And revise `generate` to queue a bunch of jobs, one per user:
 
 ### Run It
 
-Run it again. If you have two tabs running Sidekiq then you should see 20 threads
+Restart your Sidekiq workers and run it again. If you have two tabs running Sidekiq then you should see 20 threads
 start per tab, creating all the users in just a few seconds.
 
 ## I3: Revising Items & Orders

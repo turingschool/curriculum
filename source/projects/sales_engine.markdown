@@ -30,6 +30,7 @@ Let's write a data reporting tool that manipulates and reports on merchant trans
 5. Push your repository to the new remote origin.
 6. Add your teammate(s) as collaborators.
 7. Create a [Waffle.io](http://waffle.io) account for project management.
+8. Use the [Spec Harness](https://github.com/turingschool/sales_engine_spec_harness) to check your progress along the way. The `README.md` file includes instructions for setup and usage. 
 
 ### Data Supplied
 

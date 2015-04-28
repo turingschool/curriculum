@@ -264,10 +264,10 @@ Thus, when converting hex to binary, we can actually just treat each digit in th
 Let's look at an example of converting `AF` to Binary:
 
 ```plain
-F (15) * 16^0 (1)   = 1111
-A      * 16^1 (16)  = 1010
+F (15) * 16^0 (1)  = 15(10)  =  0000 1111(2)
+A (10) * 16^1 (16) = 160(10) =  1010 0000(2)
 
-Total = Concatenate 1010 + 1111 = 10101111
+Total = 0000 1111 + 1010 0000 = Concatenate 1010 + 1111 = 10101111
 ```
 
 #### Exercises

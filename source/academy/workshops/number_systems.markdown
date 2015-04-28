@@ -250,7 +250,36 @@ Bottom to top it's 138F in hex
 2. Add F23 hex to 1A7 hex
 3. Add 1 hex to FFFFFF hex
 
-#### Try it in Ruby
+
+### Conversions: From Hex to Binary
+
+Converting Hex to Decimal and vice-versa is useful for making Hex numbers more human-readable. But in reality one of the main advantages of hex is that it's very easy to convert between hex and binary. Thus hex became popular among computer scientists and programmers as a sort of "shorthand" for representing binary numbers which would otherwise be very long.
+
+To understand why converting between these two is relatively easy, let's think about what binary and hex each represent.
+
+In hex, each "digit" can represent 16 different values (0-15). In terms of binary, we might say that this represents "4 bits" of information -- we could represent the same range of values in binary using various combinations of the first 4 bits.
+
+Thus, when converting hex to binary, we can actually just treat each digit in the Hexadecimal string as an independent set of 4 bits in binary. Convert all the digits into sets of 4 bits, string them together, and you're done!
+
+Let's look at an example of converting `AF` to Binary:
+
+```plain
+F (15) * 16^0 (1)   = 1111
+A      * 16^1 (16)  = 1010
+
+Total = Concatenate 1010 + 1111 = 10101111
+```
+
+#### Exercises
+
+##### Conversion - Hex <-> Binary
+
+1. Convert 1010 binary to hex
+2. Convert AF6C hex to binary
+3. Convert 1101 0101 binary to hex
+4. Convert FACE hex to binary
+
+### Using Other Number Systems from Ruby
 
 Ruby by default represents numbers to us using base-10, even though it stores them in binary under the hood. However it also has the ability to represent numbers as strings of different bases when requested.
 
@@ -274,3 +303,9 @@ Experiment with these methods to see if you can accomplish all the conversions f
 2. Convert AF6C hex to decimal
 3. Convert 10,000 decimal to hex
 4. Convert FACE hex to decimal
+
+### Game Time
+
+If you get through all those exercises, reward yourself with a little game time. Try this arcade game to see how fast you can convert between hex and binary: http://flippybitandtheattackofthehexadecimalsfrombase16.com/
+
+Remember -- convert each digit in the Hex string to a 4-digit binary number, then put them together.

@@ -249,3 +249,28 @@ Bottom to top it's 138F in hex
 1. Add 111 hex to 345 hex
 2. Add F23 hex to 1A7 hex
 3. Add 1 hex to FFFFFF hex
+
+#### Try it in Ruby
+
+Ruby by default represents numbers to us using base-10, even though it stores them in binary under the hood. However it also has the ability to represent numbers as strings of different bases when requested.
+
+To do this, you simply pass an optional, numeric argument to the `to_s` method on `Fixnum`:
+
+```
+6.to_s(2)
+=> "110"
+```
+
+Similarly, you can also pass an optional argument to the `to_i` method on `String` to tell ruby to use a different base when it's parsing a string into a number:
+
+```
+"110".to_i(2)
+=> 6
+```
+
+Experiment with these methods to see if you can accomplish all the conversions from the exercises above using ruby.
+
+1. Convert 100 decimal to hex
+2. Convert AF6C hex to decimal
+3. Convert 10,000 decimal to hex
+4. Convert FACE hex to decimal

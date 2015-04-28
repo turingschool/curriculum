@@ -253,7 +253,7 @@ Bottom to top it's 138F in hex
 
 ### Conversions: From Hex to Binary
 
-Converting Hex to Decimal and vice-versa is useful for making Hex numbers more human-readable. But in reality one of the main advantages of hex is that it's very easy to convert between hex and binary. Thus hex became popular among computer scientists and programmers as a sort of "shorthand" for representing binary numbers which would otherwise be very long.
+Converting Hex to Decimal and vice-versa is useful for making Hex numbers more human-readable. But in reality one of the main advantages of hex is that it's very easy to convert between hex and binary. Hexadecimal largely became popular as a number system among computer scientists and programmers because it serves as a convenient "shorthand" for representing binary numbers which would otherwise be very long.
 
 To understand why converting between these two is relatively easy, let's think about what binary and hex each represent.
 

@@ -25,9 +25,14 @@ It's best to show these kinds of problems with an actual student codebase. For t
 exercise we've selected Oregon Sale project, an implementation of the Store Engine
 project.
 
-Note that this project is built on Ruby 1.9.3 which you might need to install
-(`rvm install 1.9.3`) before you can run it. You'll also need PhantomJS to run
-the feature specs (`brew update && brew install phantomjs`).
+__Dependencies__
+
+Before you continue, make sure you have the necessary dependencies:
+
+1. Ruby 2.1.1 `rvm install 2.1.1` if you don't have it
+2. LibV8 -- `brew install v8`
+3. PhantomJS -- `brew update && brew install phantomjs`
+
 
 Clone, bundle, prep the database, and run the tests:
 

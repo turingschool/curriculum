@@ -30,9 +30,9 @@ __Dependencies__
 Before you continue, make sure you have the necessary dependencies:
 
 1. Ruby 2.1.1 `rvm install 2.1.1` if you don't have it
-2. LibV8 -- `brew install v8`
-3. PhantomJS -- `brew update && brew install phantomjs`
-
+2. Update homebrew `brew update` 
+3. LibV8 -- `brew install v8`
+4. PhantomJS -- `brew install phantomjs`
 
 Clone, bundle, prep the database, and run the tests:
 

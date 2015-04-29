@@ -80,9 +80,9 @@ As a group let's look at the following:
 
 Next break into small groups and complete the following:
 
-* Easy: `OrdersController#change_status`
-* Medium: `LineItemsController#increase`
-* Hard: `OrdersController#new`
+* Easy: `LineItemsController#increase`
+* Medium: `OrdersController#new`
+* Hard: `OrdersController#create`
 
 ### 3. Individually
 
@@ -90,5 +90,4 @@ Finally, on your own:
 
 * Easy: `ProductsController#retire`, `ProductsController#show`
 * Medium: `LineItemsController#decrease`
-* Hard: `ProductsController#update`
-* Challenge: Pretty much all of `SearchController`
+* Hard: `SearchController#user_search` (and all of its various helper methods)

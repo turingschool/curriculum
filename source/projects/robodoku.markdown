@@ -27,7 +27,7 @@ We'll use the traditional board layout/style. A puzzle is made up of:
 * a *unit* is any collection of 9 squares grouped as either a *square*,
   *column*, or *row*.
 * the *peers* of a *spot* are all the other spots with which it shares a
-  *unit* (square, row, or column). Thus each spot has 24 peers.
+  *unit* (square, row, or column). Thus each spot has 20 peers.
 * at puzzle-start, one or more spots are blank
 
 For the puzzle to be solved, each *unit* (square, row, or column) must

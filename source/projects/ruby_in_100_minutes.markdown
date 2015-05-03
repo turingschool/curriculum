@@ -399,7 +399,7 @@ end
 While `.gsub` passes in the string that it found. Try this (with the bracket notation):
 
 ```ruby
-$ "this is a sentence".gsub("e"){|letter| letter.upcase}
+"this is a sentence".gsub("e"){|letter| letter.upcase}
 ```
 
 You'll see that `gsub` is using the result of the block as the replacement for the original match.

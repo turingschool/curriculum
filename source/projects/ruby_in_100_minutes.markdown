@@ -477,7 +477,7 @@ There are lots of cool things to do with an array. Here are a few examples:
 
 #### Explanation of `.sort`
 
-The sort method will return a new array where the elements are sorted. If the elements are strings they'll come back in alphabetacal order. If they're numbers they'll come back in ascending value order. Try these:
+The sort method will return a new array where the elements are sorted. If the elements are strings they'll come back in alphabetical order. If they're numbers they'll come back in ascending value order. Try these:
 
 {% irb %}
 $ one = ["this", "is", "an", "array"]

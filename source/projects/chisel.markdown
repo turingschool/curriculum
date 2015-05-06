@@ -47,10 +47,10 @@ But let's figure out how a parser is built.
 We're going to use Chisel from the command line, reading in Markdown
 files and writing out HTML. It'll go like this:
 
-{% terminal %}
+```bash
 $ ruby ./lib/chisel.rb my_input.markdown my_output.html
 Converted my_input.markdown (6 lines) to my_output.html (8 lines)
-{% endterminal %}
+```
 
 Where `my_input.markdown` is a file like this:
 

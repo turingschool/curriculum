@@ -358,7 +358,7 @@ Any other decorators that want to use that method can similarly include the modu
 Now that you've got the basics down, try the following experiments on your own:
 
 * Can you relocate `IconsHelper#edit_icon` like you did the `delete_icon`?
-* In the `articles/show.html.erb` there's `<%= link_to article.title, article_path(article) %>`. Could you rework this into `<%= article.link %>`?
+* In the `articles/index.html.erb` there's `<%= link_to article.title, article_path(article) %>`. Could you rework this into `<%= article.link %>`?
 * Check out the `TagsHelper`. Can you rewrite any/all of these by creating a `TagDecorator`?
 
 ## Generating XML and JSON with Decorators

@@ -1701,9 +1701,9 @@ the lookup:
 
 ```ruby
 def self.find_or_create_by_auth(auth_data)
-  find_or_create_by_provider_and_uid(auth_data["provider"], auth_data["uid"],
-                                     name: auth_data["info"]["name"])
-end
+  where(:auth_data ["provider"], :auth_data["uid"],
+                                     name: auth_data["info"]["name"]).first_or_create
+  end
 ```
 
 That will work great!

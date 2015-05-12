@@ -151,9 +151,9 @@ Restart your Sidekiq workers and run it again. If you have two tabs running Side
 
 ## I3: Revising Items & Orders
 
-Now go through the same process to queue jobs for items and orders. The orderGenerator has an add_items method which will add an item to the order.items array. You can all this method in the OrderGenerator's generate_one method like this:
+Now go through the same process to queue jobs for items and orders. The `OrderGenerator` has an `#add_items` method which will associate an item with an order. You can call this method in the `OrderGenerator`'s `#generate_one` method like this:
 
-```
+```ruby
 def generate_one(marker, max_items)
     Delay.wait
     order = Order.create!(

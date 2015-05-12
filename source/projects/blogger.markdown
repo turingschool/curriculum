@@ -214,10 +214,10 @@ We've created a few articles through the console, but we really don't have a web
 
 When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `config/routes.rb`.
 
-Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Blogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
+Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Rails::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails::Application.routes.draw do
   resources :articles
 end
 ```
@@ -489,7 +489,7 @@ Next, [create a repository](https://github.com/new) for the project and on the c
 $ git init
 $ git add .
 $ git commit -m "first blogger commit"
-$ git remote add origin git@github.com:your_github_username/your_repository_name.git
+$ git remote add origin https://github.com/your_github_username/your_repository_name.git
 $ git push -u origin master
 {% endterminal %}
 
@@ -1084,9 +1084,11 @@ Open the migration file that the generator created,
 added:
 
 ```ruby
-t.string  :author_name
-t.text    :body
-t.references :article
+t.string :author_name
+t.text :body
+t.references :article, index: true, foreign_key: true
+
+t.timestamps null: false
 ```
 
 Once that's complete, go to your terminal and run the migration:
@@ -1110,7 +1112,7 @@ article connects to many comments.
 
 Part of the big deal with Rails is that it makes working with these
 relationships very easy. When we created the migration for comments we started
-with an `references` field named `article`. The Rails convention for a
+with a `references` field named `article`. The Rails convention for a
 one-to-many relationship:
 
 * the objects on the "many" end should have a foreign key referencing the "one" object.
@@ -1708,7 +1710,7 @@ $ bin/rails generate controller tags
 Then we need to add tags as a resource to our `config/routes.rb`, it should look like this:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails.Application.routes.draw do
 
   root to: 'articles#index'
   resources :articles do
@@ -2251,7 +2253,7 @@ moment we will find a routing error. The generator did not add a resource for
 our Authors. We need to update our `routes.rb` file:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails.Application.routes.draw do
   # ... other resources we have defined ...
   resources :authors
 end

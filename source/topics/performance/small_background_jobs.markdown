@@ -74,7 +74,7 @@ With this:
 UserGenerator.perform_async(100)
 ```
 
-The perform_async method is the method that loads up the worker queue. It then calls the instance method perform inside the UserGenerator class.
+`.perform_async` adds a job to the appropriate sidekiq queue. When a sidekiq worker "pops" the job off the queue in order to do the required work, it will call the `#perform` perform inside the UserGenerator class.
 
 ### Starting the Worker
 

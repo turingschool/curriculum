@@ -941,11 +941,11 @@ update the attributes we're allowed to.
 
 Now try editing and saving some of your articles.
 
-### Adding a Flash
+### Adding a flash message
 
-Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash`.
+Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash` object.
 
-The controller provides you with accessors to interact with the `flash`. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string in the `flash`.
+The controller provides you with accessors to interact with the `flash` object. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string into it.
 
 #### Flash for Update
 
@@ -973,15 +973,15 @@ def update
 end
 ```
 
-#### Testing the Flash
+#### Testing the flash messages
 
 Try editing and saving an article through your browser. Does anything show up?
 
-We need to add the flash to our view templates. The `update` method redirects to the `show`, so we _could_ just add the display to our show template.
+We need to add the flash messages to our view templates. The `update` method redirects to the `show`, so we _could_ just add the display to our show template.
 
-However, we will use the flash in many actions of the application. Most of the time, it's preferred to add it to our layout.
+However, we will use the flash object in many actions of the application. Most of the time, it's preferred to add it to our layout.
 
-#### Flash in the Layout
+#### Flash messages in the Layout
 
 If you look in `app/views/layouts/application.html.erb` you'll find what is called the "application layout". A layout is used to wrap multiple view templates in your application. You can create layouts specific to each controller, but most often we'll just use one layout that wraps every view template in the application.
 
@@ -1005,7 +1005,7 @@ Looking at the default layout, you'll see this:
 
 ```
 
-The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
+The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash message by adding this:
 
 ```erb
 <p class="flash"><%= flash.notice %></p>
@@ -1013,7 +1013,7 @@ The `yield` is where the view template content will be injected. Just *above* th
 
 This outputs the value stored in the `flash` object in the attribute `:notice`.
 
-#### More Flash Testing
+#### More Flash Message Testing
 
 With the layout modified, try changing your article, clicking save, and you should see the flash message appear at the top of the `show` page.
 
@@ -1021,7 +1021,7 @@ With the layout modified, try changing your article, clicking save, and you shou
 
 Typical controllers will set flash messages in the `update`, `create`, and `destroy` actions. Insert messages into the latter two actions now.
 
-Test out each action/flash, then you're done with I1.
+Test out each action/flash messages, then you're done with I1.
 
 ### An Aside on the Site Root
 

@@ -1485,7 +1485,7 @@ Add the following to our existing form in `app/views/articles/_form.html.erb`:
 </p>
 ```
 
-With that added, try to create an new article in your browser and your should see this error:
+With that added, try to create a new article in your browser and you should see this error:
 
 ```plain
 NoMethodError in Articles#new

@@ -468,7 +468,7 @@ But from a time perspective, if each article (hypothetically) takes 1ms to load,
 
 This may be acceptable for running a single offline task or background job, but no user will want to wait 70 seconds for a web request to respond. Beyond a certain table size, it simply isn't feasible to address all the data in a table (e.g. `Article.all`, `Comment.all`, etc) within a single web request.
 
-To get around this, many web applications use a technique you've likely seen before -- pagination. The concept behind pagination is fairly simple. Rather than listing _all_ our articles on a page, we'll simply list the first N articles at a time, where N is the paging limit. Additionally we'll give the user the option to view the _next_ N by clicking a button.
+To get around this, many web applications use a technique you've likely seen before -- pagination. The concept behind pagination is fairly simple. Rather than listing _all_ our articles on a page, we'll only list `N` articles at a time, where `N` is the paging limit. By default, we'll start with the first `N`, but we'll also give the user the ability to select a different page via the UI.
 
 Let's think about how we might implement this in a Rails app. We've seen already some examples of using ARel's `limit` and `offset` methods to restrict and customize which subset of data we're getting back from a query. In the context of pagination, `limit` translates directly to the page limit (`N` in our example). To figure out the offset, we simply need to know which page the user is viewing, and multiply that by the limit.
 

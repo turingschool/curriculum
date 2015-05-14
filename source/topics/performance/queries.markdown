@@ -426,21 +426,37 @@ $ Article.pluck(:title)
 
 You get back an array of *just* the strings. Very little data transferred and very few objects created -- just the data you want.
 
-### Fetching Fewer Records at a Time
+### Fetching Fewer Records at a Time -- Iteration
 
-Imagine you have a hundred thousand articles in your system. Calling `Article.select(:title)` is still going to be expensive. It'll fetch all of them at once, instantiating many Ruby objects and greatly expanding your memory usage.
+Imagine you have a hundred thousand articles in your system. Calling `Article.select(:title)` is still going to be expensive -- even though it's creating _smaller_ ActiveRecord objects than normal, it still has to create 100k of them at once, and this adds up to a big memory and time cost.
 
-Imagine in your model/controller you've built up an ARel query that's stored into the variable `@articles`. From the view template, you can use the `find_each` method like this:
+A useful technique for when you need to iterate a large number of records is to use ActiveRecord's `.find_each` method. This is most useful for console scripts, rake tasks, or reporting jobs, where you often need to loop through all records of a certain type and perform some calculations on them.
 
-```erb
-<% @articles.find_each do |article| %>
-  <li><%= article.title %></li>
-<% end %>
+Instead of using `Article.all`, you can use `Article.find_each` to loop through all the articles in batches. By default the batch size is set to `1000`, but you can customize this depending on your needs (e.g. `find_each(batch_size: 50)`).
+
+Let's look at an example:
+
+```ruby
+@articles.find_each do |article|
+  puts article.title
+end
 ```
 
-By default, this will fetch the article records in batches of 1000 rather than one massive query. While it will run more queries, there can be a significant savings on total memory usage.
+In your console, you should see lines of output containing the title of each article in turn. But interspersed between these lines, you should also see some extra queries that look something like:
 
-You can override this quantity by passing `batch_size: 123` to the `find_each` method.
+```
+  Article Load (2.8ms)  SELECT  "articles".* FROM "articles"  WHERE ("articles"."id" > 60000)  ORDER BY "articles"."id" ASC LIMIT 1000
+```
+
+Here we can see ActiveRecord using the LIMIT and OFFSET capabilities of SQL to iterate through all of our articles _in batches_ rather than as a single lump.
+
+`find_each` is an ARel method, so it can be chained onto an existing query. Suppose we wanted to iterate all articles by a given author in batches:
+
+```ruby
+Article.where(author_id: 15).find_each do |article|
+  puts "author 15 wrote article #{article.id}"
+end
+```
 
 ## Rethinking Data Storage
 

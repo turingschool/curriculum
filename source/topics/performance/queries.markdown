@@ -458,6 +458,37 @@ Article.where(author_id: 15).find_each do |article|
 end
 ```
 
+### Fetching Fewer Records at a Time -- Pagination
+
+`.find_each` is useful in scripts or offline tasks for keeping memory usage and databse load down, but it isn't really that useful for improving __time__ usage during web requests. To see why, let's consider an example.
+
+If we have 70k articles in our DB, and loading a single article takes `1kb` of memory, then loading all the articles obviously takes `70000k` or `70 MB`. Doing it in batches of `1000` means we only need `1000` articles loaded at a time, so our total memory usage will be a constant `1MB` as we loop through 70 batches of articles.
+
+But from a time perspective, if each article (hypothetically) takes 1ms to load, then doing them in batches is still going to take `70000 ms`. It will just either be `70000ms` in one go (without batching) or `70000ms` divided among 70 `1000ms` chunks.
+
+This may be acceptable for running a single offline task or background job, but no user will want to wait 70 seconds for a web request to respond. Beyond a certain table size, it simply isn't feasible to address all the data in a table (e.g. `Article.all`, `Comment.all`, etc) within a single web request.
+
+To get around this, many web applications use a technique you've likely seen before -- pagination. The concept behind pagination is fairly simple. Rather than listing _all_ our articles on a page, we'll simply list the first N articles at a time, where N is the paging limit. Additionally we'll give the user the option to view the _next_ N by clicking a button.
+
+Let's think about how we might implement this in a Rails app. We've seen already some examples of using ARel's `limit` and `offset` methods to restrict and customize which subset of data we're getting back from a query. In the context of pagination, `limit` translates directly to the page limit (`N` in our example). To figure out the offset, we simply need to know which page the user is viewing, and multiply that by the limit.
+
+For example:
+
+```
+page limit is 25 (can only view 25 articles at a time)
+user is currently viewing page 4
+```
+
+Remembering that page 1 is technically page 0 (since we start users viewing the first 25 articles), fetching the correct articles for this user would require a query like:
+
+```
+page_limit = 25
+current_page = 4
+Article.limit(page_limit).offset(page_limit * (current_page - 1))
+```
+
+With a large dataset, time constraints mean this technique is often the only reasonable way to allow a user to access _all_ the data available. Even if we could fetch all the records in a timely manner, no one wants to scroll through an HTML `ul` with 70000 `li`'s inside it, so pagination gives us both an effective UX and Query Performance solution to addressing large collections.
+
 ## Rethinking Data Storage
 
 Another way to reduce time spent at the database level is to move data out of the database completely.

@@ -2151,7 +2151,9 @@ What is all that garbage?  Twitter, like many API-providing services, wants to t
 
 You need to *restart your server* so the new library and initializer are picked up. In your browser go to [http://127.0.0.1:8080/auth/twitter](http://127.0.0.1:8080/auth/twitter) and, after a moment or two, you should see a Twitter login page. Login to Twitter using any account, then you should see a *Routing Error* from your application. If you've got that, then things are on the right track.
 
-If you get to this point and encounter a *401 Unauthorized* message there is more work to do. You're probably using your own API key and secret. You need to go into the [settings on Twitter for your application](https://dev.twitter.com/apps/), and add [http://127.0.0.1](http://127.0.0.1) as a registered callback domain. I also add [http://0.0.0.0](http://0.0.0.0) and [http://localhost](http://localhost) while I'm in there. Now give it a try and you should get the *Routing Error*
+If you get to this point and encounter a *401 Unauthorized* message there is more work to do. You're probably using your own API key and secret. You need to go into the [settings on Twitter for your application](https://dev.twitter.com/apps/), and add [http://127.0.0.1](http://127.0.0.1) as a registered callback domain. I also add [http://0.0.0.0](http://0.0.0.0) and [http://localhost](http://localhost) while I'm in there. Now give it a try and you should get the *Routing Error*.
+
+You may not be able to add more than one callback URL. If that is the case, setting your callback to [http://127.0.0.1](http://127.0.0.1) is the only way the Twitter API will allow you to reference your localhost within your app settings as of 13 Oct 2014. 
 
 ### Handling the Callback
 

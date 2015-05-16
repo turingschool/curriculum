@@ -2261,7 +2261,7 @@ end
 
 With this in place, we can now go to
 [http://localhost:3000/authors/new](http://localhost:3000/authors/new) and we
-should see the new user form should popup. Let's enter in "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to
+should see the new user form. Let's enter in "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to
 the show page for our new Author user.
 
 Now it's displaying the password and password_confirmation text here, lets delete that! Edit your `app/views/authors/show.html.erb` page to remove those from the display.

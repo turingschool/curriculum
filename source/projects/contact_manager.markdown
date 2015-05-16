@@ -2203,7 +2203,7 @@ How you create users might vary depending on the application. For the purposes o
 Let's write a test for our `SessionsController`. Make a new file `spec/controllers/sessions_controller_spec.rb`. We don't need all of the data that came back from `Twitter`, just the data that we're interested in.
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 
 describe SessionsController do
 

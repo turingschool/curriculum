@@ -2324,11 +2324,11 @@ Open up `app/controllers/application_controller.rb` and add the following to it:
 helper_method :current_user
 
 def current_user
-  @current_user ||= User.find(session[:user_id])
+  @current_user ||= User.where(id: session[:user_id]).take
 end
 ```
 
-The test fails because when we say `User.find(session[:user_id])` this comes back as nil.
+The test fails because when we say `User.where(id: session[:user_id]).take` this comes back as nil.
 
 Let's put the user id in the session. Go back to the sessions controller and update the `create` method:
 

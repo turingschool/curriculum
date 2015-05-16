@@ -1300,9 +1300,10 @@ Now let's shift over to the integration tests.
 
 Before you play with displaying email addresses, create a few of them manually in the console.
 
+Let's organize our person_view_spec a little before we add tests for email addresses.
 * Open the `person_view_spec.rb`
-* Wrap all the existing tests, including the `before` block in a `describe` block for phone numbers.
-* Create a new `describe` for the email addresses.
+* Wrap all the existing phone number tests, including the `before` block in a `describe` block for phone numbers.
+* Create a new, separate `describe` for the email addresses.
 * Create a `before` block within the new `describe` block that adds a couple of email addresses to the person and visits the person page.
 * Write a test that looks for LIs for each address. Try using this:
 

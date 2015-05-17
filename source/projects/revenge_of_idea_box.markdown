@@ -44,14 +44,18 @@ On the application's root, the user should:
 
 * See a list of all existing ideas, including the title, body, and quality for each idea.
 * Idea bodies longer than 100 characters should be truncated to the nearest word
-* See a 2 text boxes for entering the "Title" and "Body" for a new idea,
+* See 2 text boxes for entering the "Title" and "Body" for a new idea,
   and a "Save" button for committing that idea. 
+* ideas should appear in descending chronological order (most recently created
+  idea at the top)
 
 __Adding a new idea:__
 
 When a user clicks "Save":
 
 * A new idea with the provided title and body should appear in the idea list
+* The idea's "quality" should default to the lowest setting ("swill" -- ideas got to
+  work their way up from the bottom...)
 * The text fields should be cleared (ready to accept a new idea)
 * The page _should not_ reload
 * The idea should be committed to the database (it should still be present upon reloading the page)
@@ -85,14 +89,6 @@ __Editing an existing idea:__
   idea, and the user should see form fields to modify the idea's title and body.
 * The user should have the option to "Save" their edits, and clicking this should
   take them back to the idea list, where the edits will be reflected.
-
-__Idea List User Interface__
-
-* by default ideas should appear in descending chronological order (most recently created
-  idea at the top)
-* when viewing the list of ideas, the user should be able to sort ideas by "quality";
-  the default sort should be "Descending" (genius ideas, followed by plausible ideas, followed by swill).
-  Clicking the sort a second
 
 __Idea Filtering (searching)__
 

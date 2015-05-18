@@ -599,6 +599,7 @@ Next, open `irb` and try out the following:
 
 ```ruby
 require 'bitly'
+require 'erb'
 
 Bitly.use_api_version_3
 

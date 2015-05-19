@@ -59,7 +59,6 @@ When a user clicks "Save":
 * The text fields should be cleared (ready to accept a new idea)
 * The page _should not_ reload
 * The idea should be committed to the database (it should still be present upon reloading the page)
-* A new idea should default to the "swill" quality state
 
 __Deleting an existing idea:__
 

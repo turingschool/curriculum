@@ -110,7 +110,7 @@ that allows users to:
 
 No matter how carefully we code, it's inevitable in a real production system that things will go wrong
 from time to time. When this happens, we'd rather our users be greeted by a somewhat helpful and on-brand
-error message. Add custome 5xx and 4xx html pages to your application so that the user will see these
+error message. Add custom 5xx and 4xx html pages to your application so that the user will see these
 pages in error cases rather than the generic "Something went wrong" Rails error pages. The custom error
 pages should have relevant links back to main portions of the site, and should feature a design that follows
 the overall style/branding of the site.

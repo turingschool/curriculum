@@ -115,10 +115,6 @@ pages in error cases rather than the generic "Something went wrong" Rails error 
 pages should have relevant links back to main portions of the site, and should feature a design that follows
 the overall style/branding of the site.
 
-__Extension -- Error Tracking:__ Your application integrates a production error tracking service which notifies the team whenever
-an exception occurs in production. Some open source examples include: https://github.com/Sharagoz/rails_exception_handler,
-http://smartinez87.github.io/exception_notification/, or http://errbit.github.io/errbit/.
-
 ### Background Processing
 
 At this kind of scale, it won't be tenable to handle any slow task processing during a web request cycle.
@@ -152,11 +148,21 @@ This action should be available via a simple interaction from the Index/List UI,
 AJAX so that the page doesn't have to reload when favoriting an item. Give the user a link in the navbar to
 view their wishlist. From the wishlist, the user should be able to click an item to go to its detail page.
 
-#### Recommendations (requires Wishlist): Once a user has added items to their wishlist, give them recommendations for other
+#### Recommendations (requires Wishlist)
+
+Once a user has added items to their wishlist, give them recommendations for other
 items to check out. To determine which items to recommend for User A, take the items that User A has "favorited", then find
 other users who have also favorited those items. Then find additional items that those users have also favorited, and recommend
 them back to User A. Avoid recommending other items that User A has already favorited themselves.
 
-#### Infinite Scroll:__ Rather than displaying pagination links, simply display a single page's worth
+#### Infinite Scroll
+
+Rather than displaying pagination links, simply display a single page's worth
 of items when I initially load the page. When I scroll to the bottom of the page, use AJAX to fetch the next
 page's worth of items from the server, and append them to the bottom of the list.
+
+#### Error Tracking
+
+Your application integrates a production error tracking service which notifies the team whenever
+an exception occurs in production. Some open source examples include: https://github.com/Sharagoz/rails_exception_handler,
+http://smartinez87.github.io/exception_notification/, or http://errbit.github.io/errbit/.

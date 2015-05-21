@@ -112,6 +112,12 @@ some features from each:
 
 ### Feature Additions -- Base Expectations
 
+#### Images: Uploads -> URLs
+
+Holy AWS Bills Batman! At this scale we can't afford to host images for all of our items, users, etc.
+A first order of business should be replacing any image upload requirements with an option to provide
+an image url.
+
 #### Pagination
 
 With all the records we're handling now, it won't be feasible to simply render a list of every

@@ -184,7 +184,7 @@ Rather than displaying pagination links, simply display a single page's worth
 of items when I initially load the page. When I scroll to the bottom of the page, use AJAX to fetch the next
 page's worth of items from the server, and append them to the bottom of the list.
 
-#### Error Tracking
+#### Error Tracking (1/2 feature)
 
 Your application integrates a production error tracking service which notifies the team whenever
 an exception occurs in production. Some open source examples include: https://github.com/Sharagoz/rails_exception_handler,

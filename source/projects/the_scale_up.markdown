@@ -77,9 +77,26 @@ likely vary from these examples, but the table size expectations are as follows:
 * Appropriate numbers of associated records. So if each User has an associated address,
   then those records should be present in proportional numbers.
 
-Writing your seed script probably won't be too bad, but running it can take some time, so it's recommended
+Writing your seed script won't be too difficult, but running it can take some time, so it's recommended
 that you get started on this part early. Additionally, Ryan Bates' [Populator Gem](https://github.com/ryanb/populator)
 may be worth a look.
+
+#### Test-Driven Development
+
+Testing is just as important when taking over an existing codebase
+as it is during "greenfield" development. When working with code you don't understand, adding additional testing is often the _best_ way to wrap your head around what a component of the system is doing.
+
+* 4 - The code demonstrates high test coverage (>90%), tests at the feature and unit levels, and does not rely on external services.
+* 3 - The code demonstrates high test coverage (>80%), tests at feature and unit levels, but has some gaps or relies on external services.
+* 2 - The code demonstrates high test coverage (>80%), but does not adequately balance feature and unit tests.
+* 1 - The code does not have 80% test coverage or has significant gaps or weaknesses in testing.
+
+#### Code Quality
+
+* 4 - Application is exceptionally well-factored, makes good use of Rails features and conventions, and implements Object-Oriented abstractions around features or business logic. At a micro-level, methods are clear, concise, and well-designed.
+* 3 - The Application is well-factored and makes good use of Rails features and conventions, but does not utilize many object abstractions outside of the "Rails Box". At a micro-level, methods are clear and concise, with minimal issues around method scope, bloat, or naming.
+* 2 - The Application is reasonably well-factored but conflates or misplaces objects and responsibilities within the system. At a micro-level, methods are well-intentioned but suffer from poor naming, placement, or size.
+* 1 - The Application has difficulty organizing concepts into appropriate objects or methods, or struggles with organizing responsibilities according to the MVC paradigm.
 
 #### Additional Features
 
@@ -150,8 +167,8 @@ view their wishlist. From the wishlist, the user should be able to click an item
 
 #### Recommendations (requires Wishlist)
 
-Once a user has added items to their wishlist, give them recommendations for other
-items to check out. To determine which items to recommend for User A, take the items that User A has "favorited", then find
+Once a user has added items to their wishlist, give them recommendations for other items to check out.
+To determine which items to recommend for User A, take the items that User A has "favorited", then find
 other users who have also favorited those items. Then find additional items that those users have also favorited, and recommend
 them back to User A. Avoid recommending other items that User A has already favorited themselves.
 

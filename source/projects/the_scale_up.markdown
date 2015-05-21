@@ -44,10 +44,10 @@ per minute.
 
 The rubric for application performance will be:
 
-4: Average response time below 100ms with 600+ RPM
-3: Average response time below 200ms with 400+ RPM
-2: Average resposne time below 400ms with 300+ RPM
-1: Average response time above 400ms, or unable to handle 300 RPM
+* 4: Average response time below 100ms with 600+ RPM
+* 3: Average response time below 200ms with 400+ RPM
+* 2: Average resposne time below 400ms with 300+ RPM
+* 1: Average response time above 400ms, or unable to handle 300 RPM
 
 #### Load Testing / User Scripting
 
@@ -57,10 +57,10 @@ script which exercises the production application. Your load script should be pr
 separate project/repository with its own structure and set of dependencies.
 You will be evaluated on how thorough and scalable this script is:
 
-4: Load testing script exercises 85% of application endpoints (as reported by rake routes)
-3: Load testing script exercises 60% of application endpoints
-2: Load testing script exercises 40% of application endpoints
-3: Load testing script exercises 20% or less of application endpoints
+* 4: Load testing script exercises 85% of application endpoints (as reported by rake routes)
+* 3: Load testing script exercises 60% of application endpoints
+* 2: Load testing script exercises 40% of application endpoints
+* 1: Load testing script exercises 20% or less of application endpoints
 
 #### Database Load
 
@@ -88,10 +88,10 @@ the performance and scale requirements outlined above, your team will need to im
 of the existing codebase. Features are divided into __Base__ and __Supporting__ groups, and you'll need to implement
 some features from each:
 
-4: Implements all Base Features and 2 or more Supporting Features
-3: Implements all Base Features and 1 Supporting Feature
-2: Implements some Base Features
-1: Features are unreliable or partially impelemented
+* 4: Implements all Base Features and 2 or more Supporting Features
+* 3: Implements all Base Features and 1 Supporting Feature
+* 2: Implements some Base Features
+* 1: Features are unreliable or partially impelemented
 
 ### Feature Additions -- Base Expectations
 

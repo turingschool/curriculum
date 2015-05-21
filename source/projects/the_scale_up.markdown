@@ -163,13 +163,17 @@ world. Let's add a feature to:
 * Collect "region" information when creating lender accounts (we can use continents as our regions for now)
 * Add links at the top of the "Choose a Borrower", "Make a Loan", and "Category" pages that allow users
   to filter Loan Requests within that group by region
+* This filtering should be performed via AJAX so it does not require an additional page reload.
 
 #### Wishlist
 
 Allow users to save items to a "wishlist", which they can use to track interesting items before purchasing them.
-This action should be available via a simple interaction from the Index/List UI, and should be completed via
-AJAX so that the page doesn't have to reload when favoriting an item. Give the user a link in the navbar to
-view their wishlist. From the wishlist, the user should be able to click an item to go to its detail page.
+
+* This action should be available via a simple interaction from the Index/List UI
+* Favoriting should be completed via AJAX so that the page doesn't have to reload when favoriting an item.
+* Include a navbar link for logged in users to take them to their wishlist.
+* From the wishlist, the user should be able to click an item to go to its detail page.
+* Aditionally, each item on the List/Index should display the # of "favorites" it has received
 
 #### Recommendations (requires Wishlist)
 
@@ -178,7 +182,7 @@ To determine which items to recommend for User A, take the items that User A has
 other users who have also favorited those items. Then find additional items that those users have also favorited, and recommend
 them back to User A. Avoid recommending other items that User A has already favorited themselves.
 
-#### Infinite Scroll
+#### Infinite Scroll (1/2 feature)
 
 Rather than displaying pagination links, simply display a single page's worth
 of items when I initially load the page. When I scroll to the bottom of the page, use AJAX to fetch the next

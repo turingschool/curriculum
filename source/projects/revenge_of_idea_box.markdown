@@ -45,7 +45,7 @@ On the application's root, the user should:
 * See a list of all existing ideas, including the title, body, and quality for each idea.
 * Idea bodies longer than 100 characters should be truncated to the nearest word
 * See 2 text boxes for entering the "Title" and "Body" for a new idea,
-  and a "Save" button for committing that idea. 
+  and a "Save" button for committing that idea.
 * ideas should appear in descending chronological order (most recently created
   idea at the top)
 
@@ -116,3 +116,49 @@ let's provide them with a filtering interface on the idea list.
   ideas by Quality. The default sort should be descending ("genius" -> "plausible" -> "swill"),
   and clicking the sort a second time should reverse it. The Idea list should
   be sorted client-side without reloading the page.
+
+### Rubric
+
+### 1. Features
+
+* 4: All of the base expectations were completed and as well as one or more extensions
+* 3: All of the base expectations were met
+* 2: Missing one or two features from the base expectations
+* 1: Missing more than two base expectations and/or the application is not deployed and working in production
+
+### 2. User Interface
+
+* 4: The application is pleasant, logical, and easy to use
+* 3: The application has many strong pages/interactions, but a few holes in lesser-used functionality
+* 2: The application shows effort in the interface, but the result is not effective
+* 1: The application is confusing or difficult to use
+
+### 3. Testing
+
+* 4: Project has a running test suite that exercises the application at multiple levels including JavaScript tests
+* 3: Project has a running test suite that tests and multiple levels but fails to cover some features
+* 2: Project has sporadic use of tests and multiple levels
+* 1: Project did not really attempt to use TDD
+
+### 4. Rails Style
+
+* 4: Developer is able to craft Rails features that make smart use of Ruby, follow the principles of MVC, and push business logic down where it belongs
+* 3: Developer generally writes clean Rails features that make smart use of Ruby, with some struggles in pushing logic down the stack
+* 2: Developer struggles with some concepts of MVC and pushing logic down the stack
+* 1: Developer shows little or no understanding of how to craft Rails applications
+
+### 5. Ruby Style
+
+* 4: Developer writes code that is exceptionally clear and well-factored
+* 3: Developer solves problems with a balance between conciseness and clarity and often extracts logical components
+* 2: Developer writes effective code, but does not breakout logical components
+* 1: Developer writes code with unnecessary variables, operations, or steps which do not increase clarity
+* 0: Developer writes code that is difficult to understand
+
+### 6. JavaScript Style
+
+* 4: Developer writes code that is exceptionally clear and well-factored
+* 3: Developer solves problems with a balance between conciseness and clarity and often extracts logical components
+* 2: Developer writes effective code, but does not breakout logical components
+* 1: Developer writes code with unnecessary variables, operations, or steps which do not increase clarity
+* 0: Developer writes code that is difficult to understand

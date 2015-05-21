@@ -106,7 +106,7 @@ that allows users to:
 * Go to the first page
 * Go to the last page
 
-### Custom Exception and 404 Pages
+#### Custom Exception and 404 Pages
 
 No matter how carefully we code, it's inevitable in a real production system that things will go wrong
 from time to time. When this happens, we'd rather our users be greeted by a somewhat helpful and on-brand
@@ -115,7 +115,7 @@ pages in error cases rather than the generic "Something went wrong" Rails error 
 pages should have relevant links back to main portions of the site, and should feature a design that follows
 the overall style/branding of the site.
 
-### Background Processing
+#### Background Processing
 
 At this kind of scale, it won't be tenable to handle any slow task processing during a web request cycle.
 To solve this, we'll need to move these activities into asynchronous background workers using a queuing

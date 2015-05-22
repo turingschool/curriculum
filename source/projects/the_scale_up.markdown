@@ -12,7 +12,7 @@ In this project, the __Scale Up__, we'll be optimizing an existing project for p
 load. A few of the focuses of the project will be:
 
 * Handling a database with large numbers of records
-* Handling heavy request volumen/throughput
+* Handling heavy request volume/throughput
 * Diagnosing and fixing performance bottlenecks
   (without compromising existing features)
 * Adding features on top of an existing codebase
@@ -128,6 +128,8 @@ that allows users to:
 * See which page they're currently on
 * Go to the first page
 * Go to the last page
+* Go to the next page
+* Go to the previous page
 
 #### Custom Exception and 404 Pages
 
@@ -152,7 +154,7 @@ order confirmation processing, etc.
 For travel plans or event tickets, I generally care about making plans on a specific date.
 
 * Add an interface on the index pages which allows me to search for Reservations/Tickets by a range of dates.
-* Inclue a Calendar Picker UI for selecting the start and end dates. 
+* Include a Calendar Picker UI for selecting the start and end dates. 
 * Don't allow me to select dates in the past, or an end date prior to my start date
 
 #### Search By Region (Keevah)

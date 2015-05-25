@@ -421,7 +421,7 @@ Your contributions to the project will be assessed anonymously by your teammates
 ### Code Contributions
 
 * 4 - Directly involved in writing 30% or more of the code base and paired at least 50% of the time.
-* 3 - Directly involved in writing 30% or more of the code base.
+* 3 - Directly involved in writing 20% or more of the code base.
 * 2 - Directly involved in writing 10-25% of the code base or was known to frequently copy and paste code.
 * 1 - Directly involved in writing less than 10% of the code base.
 

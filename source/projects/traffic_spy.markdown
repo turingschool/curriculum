@@ -413,3 +413,32 @@ The project will be assessed with the following rubric:
 * 3: Application breaks components out to view partials but has some logic or complexity leaking into the view
 * 2: Application has messy views that mix logic and presentation
 * 1: Application shows a lack of understanding around view templates and how they should be used/constructed.
+
+## Peer Evalutaion Rubric
+
+Your contributions to the project will be assessed anonymously by your teammates. It is expected that you will have an average score of 3.
+
+### Code Contributions
+
+* 4 - Directly involved in writing 30% or more of the code base and paired at least 50% of the time.
+* 3 - Directly involved in writing 30% or more of the code base.
+* 2 - Directly involved in writing 10-25% of the code base or was known to frequently copy and paste code.
+* 1 - Directly involved in writing less than 10% of the code base.
+
+### Communication
+
+*NOTE:* This includes standard communication channels, project management tools, and use of Github.
+
+* 4 - Readily available for help and thoroughly explained code contributions and techniques. This person was a catalyst for good communication.
+* 3 - Usually available for help and their code contributions were generally understood by the group. Cooperated well with the communication channels established by the group.
+* 2 - Frequently unavailable and/or prevented group members from accomplishing learning goals. *NOTE:* This can apply even if the individual made significant contributions to the code base.
+* 1 - Caused unnecessary tension in the group and prevented group members from accomplishing learning goals.
+
+### Overall
+
+How likely are you to want to work with this person again?
+
+* 4 - This is one of the first people I would choose to work with.
+* 3 - I would enjoy working with this person again.
+* 2 - I'm hesitant to work with this person again.
+* 1 - I never want to work with this person again.

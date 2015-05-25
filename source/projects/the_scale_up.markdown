@@ -138,13 +138,6 @@ pages in error cases rather than the generic "Something went wrong" Rails error 
 pages should have relevant links back to main portions of the site, and should feature a design that follows
 the overall style/branding of the site.
 
-#### Background Processing
-
-At this kind of scale, it won't be tenable to handle any slow task processing during a web request cycle.
-To solve this, we'll need to move these activities into asynchronous background workers using a queuing
-library such as Resque or Sidekiq. Things to background include: sending emails, handling external API requests,
-order confirmation processing, etc.
-
 ### Feature Additions -- Supporting Features
 
 #### Search By Date (HomeAway, HubStub)
@@ -193,3 +186,10 @@ page's worth of items from the server, and append them to the bottom of the list
 Your application integrates a production error tracking service which notifies the team whenever
 an exception occurs in production. Some open source examples include: https://github.com/Sharagoz/rails_exception_handler,
 http://smartinez87.github.io/exception_notification/, or http://errbit.github.io/errbit/.
+
+#### Background Processing
+
+At this kind of scale, it won't be tenable to handle any slow task processing during a web request cycle.
+To solve this, we'll need to move these activities into asynchronous background workers using a queuing
+library such as Resque or Sidekiq. Things to background include: sending emails, handling external API requests,
+order confirmation processing, etc.

@@ -10,7 +10,7 @@ Expiring caches is hard. What if you could just ignore antiquated data? Enter ke
 1. The cache is append-only. What this means is that we never change the values stored in the cache, but instead create new key/value pairs.
 2. The key is calculated based on the object being cached. When the object changes, the key changes. The old key/value pair is irrelevant.
 3. Will you run out of memory? Ideal key/value stores for this technique automatically evict older entries when memory is needed.
-4. You can nest objects, and that ties their keys (and therefore, their values) together.Caching a post and its comments, then when a new comment is the post's cache gets invalidated (or rather creates a different key, making the old data irrelevant).
+4. You can nest objects, and that ties their keys (and therefore, their values) together. For example, caching an article and its comments. When a new comment is generated or changed, the whole articles's cache gets invalidated (or rather it creates a different key, making the old data irrelevant).
 
 ## Tooling Setup
 
@@ -126,7 +126,7 @@ the comments... mega slow.
 
 The `cache_digests` library uses MD5 hashing to generate cache keys. If any bit of the input to the the hash operation changes, then the hash output will change. Since that hash result changes the cache key being searched for changes. The old value will be cleaned up by `memcached` when memory is needed.
 
-`cache_digests` can hash both the templates and the data, so if you change either then a new cache key is generated.
+`cache_digests` can hash both the templates and the data, so changing either will generate a new cache key.
 
 ### Adding `cache_digests` to a Rails App
 

@@ -76,9 +76,9 @@ Parameters:
 
 Example Request:
 
-{% terminal %}
+```
 $ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/sources
-{% endterminal %}
+```
 
 cURL is a command-line tool for sending data using URL syntax.
 
@@ -146,9 +146,9 @@ payload based on the view requirements defined below.
 
 Example Request:
 
-{% terminal %}
+```
 curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","parameters":[],"eventName": "socialLogin","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
-{% endterminal %}
+```
 
 ### Possible Outcomes:
 
@@ -282,15 +282,15 @@ Parameters:
 
 Example AB Test Campaign:
 
-{% terminal %}
+```
 $ curl -i -d 'campaignName=socialSignup&eventNames[]=addedSocialThroughPromptA&eventNames[]=addedSocialThroughPromptB'  http://localhost:4567/sources/IDENTIFIER/campaigns
-{% endterminal %}
+```
 
 Example AB Test Campaign:
 
-{% terminal %}
+```
 $ curl -i -d 'campaignName=socialSignup&eventNames[]=registrationStep1&eventNames[]=registrationStep2&eventNames[]=registrationStep3&eventNames[]=registrationStep4'  http://localhost:4567/sources/IDENTIFIER/campaigns
-{% endterminal %}
+```
 
 Possible Outcomes:
 

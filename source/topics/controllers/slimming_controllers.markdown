@@ -263,7 +263,7 @@ But that's *unnecessary*. You can take advantage of the built in `find_or_initia
 ```ruby
 class ArticlesController < ApplicationController
   def article
-    @cached_article ||= Article.find_or_initialize_by_id(params[:id])
+    @cached_article ||= Article.find_or_initialize_by(id: params[:id])
   end
 
   # ...

@@ -25,7 +25,7 @@ The answer is a **cache**. A cache is a temporary storage place. In software, th
 
 The **database** is meant to be your durable, long-run data storage. You should use a cache in such a way that if it gets totally deleted you haven't lost any data of value. 
 
-An empty cache is **"cold"** and as we calculate and store data values we're **"warming"** it. If we try and load a piece of data from the cache and it's not that, that's a **"cache miss"**. If the data *is* there when we want it, that's a **"cache hit"**.
+An empty cache is **"cold"** and as we calculate and store data values we're **"warming"** it. If we try and load a piece of data from the cache and it's not there, that's a **"cache miss"**. If the data *is* there when we want it, that's a **"cache hit"**.
 
 When our underlying database data changes and the cache entries need to be removed we're **invalidating** them.
 
@@ -342,7 +342,7 @@ Awesome! Now, we can write our method in a much simpler way:
 
 One small note: you may notice that we've added `comment_` to the front of our
 key. This is because we have a `total_word_count` for both articles and
-comments. The keys in a hash much be unique.
+comments. The keys in a hash must be unique.
 
 #### Cache Data Must Be Simple
 

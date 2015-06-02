@@ -167,7 +167,9 @@ The project will be assessed with the following rubric:
 * 2: Application tests some components but has many gaps in coverage.
 * 1: Application does not demonstrate strong use of TDD
 
-### 3. File I/O
+### 3. Overall Functionality
+
+( Pending edits )
 
 * 4: Application warns the user when the output file exists and allows them to cancel the operation or overwrite the file
 * 3: Application reads and writes files as described

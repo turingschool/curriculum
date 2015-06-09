@@ -24,14 +24,64 @@ and is highly readable even when not converted to HTML. Here's an example:
 A typical user writes a *markdown document*, but here your challenge is to
 write a *markdown parser*.
 
-### Markdown Parsers
+### Experimenting with Markdown
 
 There are markdown parsers available for just about every language you can
 imagine. In the Ruby world some of the best known are Redcarpet, Rdiscount, and
-RedCloth. For any production system, unless you really take Chisel to the next
-level, you're [strongly encouraged to use RedCarpet](https://github.com/vmg/redcarpet).
+RedCloth.
 
-But let's figure out how a parser is built.
+Let's experiment with RedCarpet. Start by installing the gem:
+
+```
+$ gem install redcarpet
+```
+
+Then let's start IRB and load the gem:
+
+```
+$ irb
+> require 'redcarpet'
+```
+
+Many rendering engines are...over engineered. They are built to support multiple "rendering engines" with the
+idea that you might want to output things other than HTML. So with RedCarpet you need to initialize a *renderer*:
+
+```ruby
+renderer = Redcarpet::Render::HTML.new
+```
+
+Then we take that renderer and connect it with the Markdown engine:
+
+```ruby
+engine = Redcarpet::Markdown.new(renderer)
+```
+
+Now we finally have a `Markdown` instance stored in the `engine` variable. Now you're ready to render markdown into
+HTML:
+
+```ruby
+> engine.render("*hello* world")
+ => "<p><em>hello</em> world</p>\n"
+```
+
+Why did we get that result? We called the `render` method. It's expecting to take in markdown. How does it interpret that
+input?
+
+* The string has no new lines, so it's one "block"
+* The block doesn't start with `#`, so it's a paragraph (`<p>`) not a header. The whole output will be wrapped in
+`<p>` and `</p>`
+* Part of the input, `*hello*`, is wrapped in asterisks. That's the Markdown marker for emphasis. So that fragment `hello`
+will be wrapped in `<em>` and `</em>`
+
+Let's consider a more complex example. A way, way more complex example. Parse this document:
+
+```ruby
+> document = 1 # Fetch the document over http
+> document[0..100]  # Get a sense of the content
+> engine.render(document)[0..150]  # See some of the rendered output
+```
+
+Can you build up a parser like that? Let's find out!
 
 ## Learning Goals / Areas of Focus
 
@@ -77,6 +127,11 @@ And the resulting `my_output.html` would contain the following:
 ```
 
 Got it?
+
+### Restrictions
+
+* Don't use any regular expressions
+* Only use existing parsers to generate sample output or to validate your output
 
 ### Expected Functionality
 

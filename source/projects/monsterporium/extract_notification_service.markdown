@@ -274,7 +274,9 @@ Now go to the `welcome_email` method and rewrite it to expect a hash coming in w
 
 **Note**: Pretty soon that hash is going to be going through a JSON parsing. When it comes back from the JSON library, the keys will all be strings. So we might as well use strings for the keys now to avoid surprises later.
 
-Run the spec, but it should still be failing.
+Run just that spec again, it should now be passing.
+
+Run the whole spec suite, some should still be failing.
 
 #### Changing `SignupConfirmation`
 

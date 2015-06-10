@@ -234,6 +234,13 @@ The hash might look like this:
 {name: "John Doe", email: "john@example.com"}
 ```
 
+Or, if you wanted to keep the user that is created through FactoryGirl, you could have something like this:
+
+```ruby
+user = FactoryGirl.create(:user)
+Mailer.welcome_email({"name" => user.full_name, "email" => user.email}).deliver
+```
+
 Run just that spec and see it fail:
 
 {% terminal %}

@@ -125,7 +125,7 @@ There are currently no controller tests that create a user and trigger the welco
 `spec/features/anon_user_creates_account_spec.rb` to deliver to mailcatcher,
 let's create a controller spec that triggers the email.
 
-In `spec/controllers/users_controller_spec.rb` add this spec:
+In `spec/controllers/users_controller_spec.rb`, within the `describe UsersController do` block, add this spec:
 
 ```ruby
 describe "#create" do

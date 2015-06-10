@@ -1,10 +1,50 @@
 ---
 layout: page
-title: Service-Oriented Architecture
+title: Flack
 sidebar: true
 ---
 
-The goal of this project is to build a cluster of applications that speak to each other, but provide a unified interface to the user.
+# Flack - Service-Oriented-Chat
+
+In this project we'll be building a chat application that users can
+interact with through the browser.
+
+At minimum, the application is expected to:
+
+* Have a clear and pleasant interface
+* Allow users to sign up and authenticate
+* Deliver messages in real-time between multiple clients
+* Support multiple rooms or conversations
+* Persist messages on the server so they can be viewed later
+
+## Application Themes
+
+In addition to the basic chat features, each application is expected to
+provide additional value through integration with a thematic service.
+Your team will be expected to collaborate with the clients (a.k.a
+instuctors) to identify a useful theme and design ways to integrate it
+with your chat application.
+
+Some ideas might include:
+
+* A github-themed chat which allows users to receive updates from and
+  interact with repositories
+* A presentation/slideshow chat which allows presenters to host rooms
+  for giving presentations and receiving audience feedback
+* A customer-support chat system that allows users to be matched with
+  available support reps on an ad-hoc basis
+* A music-player chat where users can queue and listen to songs via an
+  online music service (or the same concept for video)
+* A project-management chat system that helps teams manage projects by
+  integrating with a project management system like Waffle or Trello
+* An ed-tech chat that helps teachers manage classrooms by recording
+  information such as attendence or grades
+
+Your team is welcome to use any of these ideas or come up with your own
+in conjunction with your client. Whatever concept you choose, the focus
+will be on working with your client to plan an iterative development
+cycle that satisfies basic chat features first and then layers in
+integrated functionality as the project progresses.
 
 ## Evaluation Criteria
 
@@ -14,7 +54,7 @@ The evaluation of the project is broken into three areas of focus:
 2. Client Satisfaction
 3. Learning & Progress
 
-### Technical Evaluation
+### Technical Objectives
 
 As we look through your project we're assessing these five areas of focus:
 
@@ -23,23 +63,16 @@ As we look through your project we're assessing these five areas of focus:
 * C) Rails MVC - well architected MVC that pushes logic down the stack
 * D) Test Driven Development - testing at multiple levels
 
-In each area we'll render an evaluation of:
-
-* 4 - Exceeded expectations, went above and beyond what you were *supposed* to do
-* 3 - Met expectations
-* 2 - Below expectations, made an attempt but really didn't hit the goal
-* 1 - Far below expectations, no effort or no effective effort
-
 #### A. Services
 
-* 4 - Project uses multiple services, each isolated from one another, along with wrapper gems to communicate
+* 4 - Project uses multiple services, each isolated from one another, along with wrapper libraries to communicate
 * 3 - Project uses multiple services to distribute workload
 * 2 - Project uses one service for some piece of the functionality
 * 1 - Project does utilize any internal services
 
 #### B. Encapsulation
 
-* 4 - Service connections are abstracted into gems that could be reused
+* 4 - Service connections are abstracted into reuseable libraries
 * 3 - Service connections are condensed into single classes that abstract the details
 * 2 - Some attempt is made to abstract the services from each other, but it is leaky
 * 1 - Each service has highly detailed knowledge of the others, meaning the code is highly coupled
@@ -91,18 +124,33 @@ Does it have a highly usable interface?
 
 #### D. Concept
 
-Does the application deliver on the concept? 
+Does the application deliver on the concept?
 
 * 4 - Exceeded expectations, this application is great
 * 3 - Met expectations, the application is a solid first version
 * 2 - Below expectations, this is at-best a prototype
 * 1 - Far below expectations, this doesn't demonstrate the value of the concept
 
-### Learning & Progress
+### Project Management and Process
 
-Working software is great, but this is still about learning. Let's discuss the progress and outcomes as a client + group.
+"Software projects don't fail for technical reasons." An important
+aspect of this project will be managing your team's development process
+and delivering functional software at every iteration.
 
-1. Did the team make effective use of Pivotal Tracker to guide development?
-2. Did the team find and use strategies for working together efficiently?
-3. Did each member of the team seek challenge and push themselves?
-4. Did each team member demonstrate growth and progress during the project?
+### A. Project Management process
+
+* 4 - The team demonstrates disciplined use of project management tools that is reflected in the application's source code
+* 3 - The team uses project management tools for conceptual
+planning, but development is still somewhat ad-hoc and disorganized
+* 2 - The team makes inconsistent use of management tools
+* 1 - Management and development are both ad-hoc and disorganized
+
+### B. Project Management process
+
+* 4 - The team executes disciplined project sprints, delivering
+functional projects at each step
+* 3 - The team plans project sprints effectively, but one or two sprints
+end with a non-functional product
+* 2 - The team plans project sprints, but sprints often end with
+incomplete features
+* 1 - The team performs one sprint -- to the finish.

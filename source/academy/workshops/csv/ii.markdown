@@ -319,18 +319,15 @@ thin air.
 Follow the trail of no such files, constants, and methods, until the
 integration test is producing an assertion failure rather than errors.
 
-Remember that in the integration test you should have a single `require`
-statement that has anything to do with the application:
+Remember that in the `phone_book_test` you should have a single `require_relative`
+statement for anything to do with the application:
 
 ```ruby
-require './lib/phone_book'
+require_relative '../lib/phone_book'
 ```
 
-If the app needs to load files to get the integration test to pass, put those
-require statements inside the `lib/phone_book.rb` file.
-
 All tests for anything other than the `lib/phone_book` class should put
-require statements in the test file.
+require statements in the integration test file.
 
 You'll have something to this effect:
 

@@ -214,10 +214,10 @@ We've created a few articles through the console, but we really don't have a web
 
 When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `config/routes.rb`.
 
-Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Blogger::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
+Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Rails::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails::Application.routes.draw do
   resources :articles
 end
 ```
@@ -489,7 +489,7 @@ Next, [create a repository](https://github.com/new) for the project and on the c
 $ git init
 $ git add .
 $ git commit -m "first blogger commit"
-$ git remote add origin git@github.com:your_github_username/your_repository_name.git
+$ git remote add origin https://github.com/your_github_username/your_repository_name.git
 $ git push -u origin master
 {% endterminal %}
 
@@ -941,11 +941,11 @@ update the attributes we're allowed to.
 
 Now try editing and saving some of your articles.
 
-### Adding a Flash
+### Adding a flash message
 
-Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash`.
+Our operations are working, but it would be nice if we gave the user some kind of status message about what took place. When we create an article the message might say "Article 'the-article-title' was created", or "Article 'the-article-title' was removed" for the remove action. We can accomplish this with the `flash` object.
 
-The controller provides you with accessors to interact with the `flash`. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string in the `flash`.
+The controller provides you with accessors to interact with the `flash` object. Calling `flash.notice` will fetch a value, and `flash.notice = "Your Message"` will store the string into it.
 
 #### Flash for Update
 
@@ -973,15 +973,15 @@ def update
 end
 ```
 
-#### Testing the Flash
+#### Testing the flash messages
 
 Try editing and saving an article through your browser. Does anything show up?
 
-We need to add the flash to our view templates. The `update` method redirects to the `show`, so we _could_ just add the display to our show template.
+We need to add the flash messages to our view templates. The `update` method redirects to the `show`, so we _could_ just add the display to our show template.
 
-However, we will use the flash in many actions of the application. Most of the time, it's preferred to add it to our layout.
+However, we will use the flash object in many actions of the application. Most of the time, it's preferred to add it to our layout.
 
-#### Flash in the Layout
+#### Flash messages in the Layout
 
 If you look in `app/views/layouts/application.html.erb` you'll find what is called the "application layout". A layout is used to wrap multiple view templates in your application. You can create layouts specific to each controller, but most often we'll just use one layout that wraps every view template in the application.
 
@@ -1005,7 +1005,7 @@ Looking at the default layout, you'll see this:
 
 ```
 
-The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash by adding this:
+The `yield` is where the view template content will be injected. Just *above* that yield, let's display the flash message by adding this:
 
 ```erb
 <p class="flash"><%= flash.notice %></p>
@@ -1013,7 +1013,7 @@ The `yield` is where the view template content will be injected. Just *above* th
 
 This outputs the value stored in the `flash` object in the attribute `:notice`.
 
-#### More Flash Testing
+#### More Flash Message Testing
 
 With the layout modified, try changing your article, clicking save, and you should see the flash message appear at the top of the `show` page.
 
@@ -1021,7 +1021,7 @@ With the layout modified, try changing your article, clicking save, and you shou
 
 Typical controllers will set flash messages in the `update`, `create`, and `destroy` actions. Insert messages into the latter two actions now.
 
-Test out each action/flash, then you're done with I1.
+Test out each action/flash messages, then you're done with I1.
 
 ### An Aside on the Site Root
 
@@ -1046,7 +1046,7 @@ $ git commit -m "form-based workflow feature completed"
 $ git push
 {% endterminal %}
 
-If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use GitHub's reset --hard functionality to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
+If you are not happy with the code changes you have implemented in this iteration, you don't have to throw the whole project away and restart it.  You can use Git's reset command to roll back to your first commit, and retry this iteration from there.  To do so, in your terminal, type in:
 
 {% terminal %}
 $ git log
@@ -1084,9 +1084,11 @@ Open the migration file that the generator created,
 added:
 
 ```ruby
-t.string  :author_name
-t.text    :body
-t.references :article
+t.string :author_name
+t.text :body
+t.references :article, index: true, foreign_key: true
+
+t.timestamps null: false
 ```
 
 Once that's complete, go to your terminal and run the migration:
@@ -1110,7 +1112,7 @@ article connects to many comments.
 
 Part of the big deal with Rails is that it makes working with these
 relationships very easy. When we created the migration for comments we started
-with an `references` field named `article`. The Rails convention for a
+with a `references` field named `article`. The Rails convention for a
 one-to-many relationship:
 
 * the objects on the "many" end should have a foreign key referencing the "one" object.
@@ -1181,7 +1183,7 @@ We want to display any comments underneath their parent article. Open `app/views
 
 ```erb
 <h3>Comments</h3>
-<%= render partial: 'articles/comment', collection: @article.comments %>
+<%= render partial: 'articles/comment', collection: @article.comments.reverse %>
 ```
 
 This renders a partial named `"comment"` and that we want to do it once for each element in the collection `@article.comments`. We saw in the console that when we call the `.comments` method on an article we'll get back an array of its associated comment objects. This render line will pass each element of that array one at a time into the partial named `"comment"`. Now we need to create the file `app/views/articles/_comment.html.erb` and add this code:
@@ -1434,6 +1436,13 @@ In `app/models/tag.rb`:
 has_many :taggings
 ```
 
+In `app/models/tagging.rb`:
+
+```ruby
+belongs_to :tag
+belongs_to :article
+```
+
 After Rails had been around for awhile, developers were finding this kind of relationship very common. In practical usage, if I had an object named `article` and I wanted to find its Tags, I'd have to run code like this:
 
 ```ruby
@@ -1483,7 +1492,7 @@ Add the following to our existing form in `app/views/articles/_form.html.erb`:
 </p>
 ```
 
-With that added, try to create an new article in your browser and your should see this error:
+With that added, try to create a new article in your browser and you should see this error:
 
 ```plain
 NoMethodError in Articles#new
@@ -1708,7 +1717,7 @@ $ bin/rails generate controller tags
 Then we need to add tags as a resource to our `config/routes.rb`, it should look like this:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails.Application.routes.draw do
 
   root to: 'articles#index'
   resources :articles do
@@ -2251,7 +2260,7 @@ moment we will find a routing error. The generator did not add a resource for
 our Authors. We need to update our `routes.rb` file:
 
 ```ruby
-Blogger::Application.routes.draw do
+Rails.Application.routes.draw do
   # ... other resources we have defined ...
   resources :authors
 end
@@ -2259,12 +2268,12 @@ end
 
 With this in place, we can now go to
 [http://localhost:3000/authors/new](http://localhost:3000/authors/new) and we
-should see the new user form should popup. Let's enter in "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to
+should see the new user form. Let's enter in "admin@example.com" for email, and "password" for the password and password_confirmation fields, then click "Create Author". We should be taken to
 the show page for our new Author user.
 
 Now it's displaying the password and password_confirmation text here, lets delete that! Edit your `app/views/authors/show.html.erb` page to remove those from the display.
 
-If you click _Back_, you'll see that the `app/views/authors/index.html.erb` page also shows the hash and salt. Edit the file to remove these as well.
+If you click _Back_, you'll see that the `app/views/authors/index.html.erb` page also shows the password and password_confirmation. Edit the file to remove these as well.
 
 We can see that we've created a user record in the system, but we can't really tell if we're logged in. Sorcery provides a couple of methods for our views that can help us out: `current_user` and `logged_in?`. The `current_user` method will return the currently logged-in user if one exists and `false` otherwise, and `logged_in?` returns `true` if a user is logged in and `false` if not.
 

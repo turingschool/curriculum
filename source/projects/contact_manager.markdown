@@ -1300,9 +1300,10 @@ Now let's shift over to the integration tests.
 
 Before you play with displaying email addresses, create a few of them manually in the console.
 
+Let's organize our person_view_spec a little before we add tests for email addresses.
 * Open the `person_view_spec.rb`
-* Wrap all the existing tests, including the `before` block in a `describe` block for phone numbers.
-* Create a new `describe` for the email addresses.
+* Wrap all the existing phone number tests, including the `before` block in a `describe` block for phone numbers.
+* Create a new, separate `describe` for the email addresses.
 * Create a `before` block within the new `describe` block that adds a couple of email addresses to the person and visits the person page.
 * Write a test that looks for LIs for each address. Try using this:
 
@@ -1999,7 +2000,7 @@ Just a few small changes to the `edit` template:
 Open the `email_addresses/new.html.erb` and change the heading from
 
 ```ruby
-<h1>Editing email_address</h1>
+<h1>New email_address</h1>
 ```
 
 To this:
@@ -2150,7 +2151,7 @@ What is all that garbage?  Twitter, like many API-providing services, wants to t
 
 You need to *restart your server* so the new library and initializer are picked up. In your browser go to [http://127.0.0.1:8080/auth/twitter](http://127.0.0.1:8080/auth/twitter) and, after a moment or two, you should see a Twitter login page. Login to Twitter using any account, then you should see a *Routing Error* from your application. If you've got that, then things are on the right track.
 
-If you get to this point and encounter a *401 Unauthorized* message there is more work to do. You're probably using your own API key and secret. You need to go into the [settings on Twitter for your application](https://dev.twitter.com/apps/), and add [http://127.0.0.1](http://127.0.0.1) as a registered callback domain. I also add [http://0.0.0.0](http://0.0.0.0) and [http://localhost](http://localhost) while I'm in there. Now give it a try and you should get the *Routing Error*
+If you get to this point and encounter a *401 Unauthorized* message there is more work to do. You're probably using your own API key and secret. You need to go into the [settings on Twitter for your application](https://dev.twitter.com/apps/), and add [http://127.0.0.1](http://127.0.0.1) as a registered callback domain. Now give it a try and you should get the *Routing Error*
 
 ### Handling the Callback
 
@@ -2203,7 +2204,7 @@ How you create users might vary depending on the application. For the purposes o
 Let's write a test for our `SessionsController`. Make a new file `spec/controllers/sessions_controller_spec.rb`. We don't need all of the data that came back from `Twitter`, just the data that we're interested in.
 
 ```ruby
-require 'spec_helper'
+require 'rails_helper'
 
 describe SessionsController do
 
@@ -2324,11 +2325,11 @@ Open up `app/controllers/application_controller.rb` and add the following to it:
 helper_method :current_user
 
 def current_user
-  @current_user ||= User.find(session[:user_id])
+  @current_user ||= User.find_by(id: session[:user_id])
 end
 ```
 
-The test fails because when we say `User.find(session[:user_id])` this comes back as nil.
+The test fails because our session does not contain the user id, and thus the `current_user` method returns nil.
 
 Let's put the user id in the session. Go back to the sessions controller and update the `create` method:
 
@@ -2376,7 +2377,7 @@ Finally, we're going to want to redirect to send them to the `root_path` after l
 Add a test for this behavior:
 
 ```ruby
-it 'redirects to the companies page' do
+it 'redirects to the home page' do
   request.env["omniauth.auth"] = {
     'provider' => 'twitter',
     'info' => {'name' => 'Charlie Allen'},

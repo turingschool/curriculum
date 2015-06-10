@@ -426,21 +426,68 @@ $ Article.pluck(:title)
 
 You get back an array of *just* the strings. Very little data transferred and very few objects created -- just the data you want.
 
-### Fetching Fewer Records at a Time
+### Fetching Fewer Records at a Time -- Iteration
 
-Imagine you have a hundred thousand articles in your system. Calling `Article.select(:title)` is still going to be expensive. It'll fetch all of them at once, instantiating many Ruby objects and greatly expanding your memory usage.
+Imagine you have a hundred thousand articles in your system. Calling `Article.select(:title)` is still going to be expensive -- even though it's creating _smaller_ ActiveRecord objects than normal, it still has to create 100k of them at once, and this adds up to a big memory and time cost.
 
-Imagine in your model/controller you've built up an ARel query that's stored into the variable `@articles`. From the view template, you can use the `find_each` method like this:
+A useful technique for when you need to iterate a large number of records is to use ActiveRecord's `.find_each` method. This is most useful for console scripts, rake tasks, or reporting jobs, where you often need to loop through all records of a certain type and perform some calculations on them.
 
-```erb
-<% @articles.find_each do |article| %>
-  <li><%= article.title %></li>
-<% end %>
+Instead of using `Article.all`, you can use `Article.find_each` to loop through all the articles in batches. By default the batch size is set to `1000`, but you can customize this depending on your needs (e.g. `find_each(batch_size: 50)`).
+
+Let's look at an example:
+
+```ruby
+@articles.find_each do |article|
+  puts article.title
+end
 ```
 
-By default, this will fetch the article records in batches of 1000 rather than one massive query. While it will run more queries, there can be a significant savings on total memory usage.
+In your console, you should see lines of output containing the title of each article in turn. But interspersed between these lines, you should also see some extra queries that look something like:
 
-You can override this quantity by passing `batch_size: 123` to the `find_each` method.
+```
+  Article Load (2.8ms)  SELECT  "articles".* FROM "articles"  WHERE ("articles"."id" > 60000)  ORDER BY "articles"."id" ASC LIMIT 1000
+```
+
+Here we can see ActiveRecord using the LIMIT and OFFSET capabilities of SQL to iterate through all of our articles _in batches_ rather than as a single lump.
+
+`find_each` is an ARel method, so it can be chained onto an existing query. Suppose we wanted to iterate all articles by a given author in batches:
+
+```ruby
+Article.where(author_id: 15).find_each do |article|
+  puts "author 15 wrote article #{article.id}"
+end
+```
+
+### Fetching Fewer Records at a Time -- Pagination
+
+`.find_each` is useful in scripts or offline tasks for keeping memory usage and databse load down, but it isn't really that useful for improving __time__ usage during web requests. To see why, let's consider an example.
+
+If we have 70k articles in our DB, and loading a single article takes `1kb` of memory, then loading all the articles obviously takes `70000k` or `70 MB`. Doing it in batches of `1000` means we only need `1000` articles loaded at a time, so our total memory usage will be a constant `1MB` as we loop through 70 batches of articles.
+
+But from a time perspective, if each article (hypothetically) takes 1ms to load, then doing them in batches is still going to take `70000 ms`. It will just either be `70000ms` in one go (without batching) or `70000ms` divided among 70 `1000ms` chunks.
+
+This may be acceptable for running a single offline task or background job, but no user will want to wait 70 seconds for a web request to respond. Beyond a certain table size, it simply isn't feasible to address all the data in a table (e.g. `Article.all`, `Comment.all`, etc) within a single web request.
+
+To get around this, many web applications use a technique you've likely seen before -- pagination. The concept behind pagination is fairly simple. Rather than listing _all_ our articles on a page, we'll only list `N` articles at a time, where `N` is the paging limit. By default, we'll start with the first `N`, but we'll also give the user the ability to select a different page via the UI.
+
+Let's think about how we might implement this in a Rails app. We've seen already some examples of using ARel's `limit` and `offset` methods to restrict and customize which subset of data we're getting back from a query. In the context of pagination, `limit` translates directly to the page limit (`N` in our example). To figure out the offset, we simply need to know which page the user is viewing, and multiply that by the limit.
+
+For example:
+
+```
+page limit is 25 (can only view 25 articles at a time)
+user is currently viewing page 4
+```
+
+Remembering that page 1 is technically page 0 (since we start users viewing the first 25 articles), fetching the correct articles for this user would require a query like:
+
+```
+page_limit = 25
+current_page = 4
+Article.limit(page_limit).offset(page_limit * (current_page - 1))
+```
+
+With a large dataset, time constraints mean this technique is often the only reasonable way to allow a user to access _all_ the data available. Even if we could fetch all the records in a timely manner, no one wants to scroll through an HTML `ul` with 70000 `li`'s inside it, so pagination gives us both an effective UX and Query Performance solution to addressing large collections.
 
 ## Rethinking Data Storage
 

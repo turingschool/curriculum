@@ -399,7 +399,7 @@ end
 While `.gsub` passes in the string that it found. Try this (with the bracket notation):
 
 ```ruby
-$ "this is a sentence".gsub("e"){|letter| letter.upcase}
+"this is a sentence".gsub("e"){|letter| letter.upcase}
 ```
 
 You'll see that `gsub` is using the result of the block as the replacement for the original match.
@@ -477,7 +477,7 @@ There are lots of cool things to do with an array. Here are a few examples:
 
 #### Explanation of `.sort`
 
-The sort method will return a new array where the elements are sorted. If the elements are strings they'll come back in alphabetacal order. If they're numbers they'll come back in ascending value order. Try these:
+The sort method will return a new array where the elements are sorted. If the elements are strings they'll come back in alphabetical order. If they're numbers they'll come back in ascending value order. Try these:
 
 {% irb %}
 $ one = ["this", "is", "an", "array"]

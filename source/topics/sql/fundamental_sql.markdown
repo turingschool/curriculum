@@ -73,7 +73,7 @@ This instruction creates a table named `fruits` that has three columns:
 
 ### Inserting Data
 
-Let's try inserting two fruits into our table:
+Let's try inserting three fruits into our table:
 
 {% terminal %}
 sqlite> INSERT INTO fruits(name, quantity) VALUES ('apples', 6);

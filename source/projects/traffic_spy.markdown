@@ -40,9 +40,19 @@ The project must use:
 * [PostgreSQL](http://www.postgresql.org/)
 * [ActiveRecord](http://guides.rubyonrails.org/active_record_basics.html)
 
+You'll want to set up the [DatabaseCleaner](https://github.com/DatabaseCleaner/database_cleaner) gem in order to have a clean database each time you run tests. Follow the instructions for setting up the gem. Due to a bug in the most recent version of the gem, you'll need to use this line when you set the strategy in your test helper file:
+
+```ruby
+  DatabaseCleaner.strategy = :truncation, {except: %w[public.schema_migrations]}
+```
+
+Want to read more about the bug? Click [here](https://github.com/DatabaseCleaner/database_cleaner/issues/317). 
+
+You will also probably want to set up a [rake task to run your tests](http://ruby-doc.org/stdlib-2.0/libdoc/rake/rdoc/Rake/TestTask.html). 
+
 See the "Resources" section at the bottom of this page for additional helpful documentation. 
 
-Before starting, make sure you have postgres installed.
+Before starting, make sure you have the [Postgres App](http://postgresapp.com/) installed.
 
 ### Restrictions
 
@@ -66,9 +76,9 @@ Parameters:
 
 Example Request:
 
-{% terminal %}
+```
 $ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/sources
-{% endterminal %}
+```
 
 cURL is a command-line tool for sending data using URL syntax.
 
@@ -136,9 +146,9 @@ payload based on the view requirements defined below.
 
 Example Request:
 
-{% terminal %}
+```
 curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","parameters":[],"eventName": "socialLogin","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
-{% endterminal %}
+```
 
 ### Possible Outcomes:
 
@@ -272,15 +282,15 @@ Parameters:
 
 Example AB Test Campaign:
 
-{% terminal %}
+```
 $ curl -i -d 'campaignName=socialSignup&eventNames[]=addedSocialThroughPromptA&eventNames[]=addedSocialThroughPromptB'  http://localhost:4567/sources/IDENTIFIER/campaigns
-{% endterminal %}
+```
 
 Example AB Test Campaign:
 
-{% terminal %}
+```
 $ curl -i -d 'campaignName=socialSignup&eventNames[]=registrationStep1&eventNames[]=registrationStep2&eventNames[]=registrationStep3&eventNames[]=registrationStep4'  http://localhost:4567/sources/IDENTIFIER/campaigns
-{% endterminal %}
+```
 
 Possible Outcomes:
 
@@ -403,3 +413,32 @@ The project will be assessed with the following rubric:
 * 3: Application breaks components out to view partials but has some logic or complexity leaking into the view
 * 2: Application has messy views that mix logic and presentation
 * 1: Application shows a lack of understanding around view templates and how they should be used/constructed.
+
+## Peer Evalutaion Rubric
+
+Your contributions to the project will be assessed anonymously by your teammates. It is expected that you will have an average score of 3.
+
+### Code Contributions
+
+* 4 - Directly involved in writing 30% or more of the code base and paired at least 50% of the time.
+* 3 - Directly involved in writing 20% or more of the code base.
+* 2 - Directly involved in writing 10-25% of the code base or was known to frequently copy and paste code.
+* 1 - Directly involved in writing less than 10% of the code base.
+
+### Communication
+
+*NOTE:* This includes standard communication channels, project management tools, and use of Github.
+
+* 4 - Readily available for help and thoroughly explained code contributions and techniques. This person was a catalyst for good communication.
+* 3 - Usually available for help and their code contributions were generally understood by the group. Cooperated well with the communication channels established by the group.
+* 2 - Frequently unavailable and/or prevented group members from accomplishing learning goals. *NOTE:* This can apply even if the individual made significant contributions to the code base.
+* 1 - Caused unnecessary tension in the group and prevented group members from accomplishing learning goals.
+
+### Overall
+
+How likely are you to want to work with this person again?
+
+* 4 - This is one of the first people I would choose to work with.
+* 3 - I would enjoy working with this person again.
+* 2 - I'm hesitant to work with this person again.
+* 1 - I never want to work with this person again.

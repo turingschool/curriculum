@@ -207,7 +207,7 @@ def show
 end
 ```
 
-A model's `find` method by default is searching the databaes by the id. We could
+A model's `find` method by default is searching the database by the id. We could
 change that to instead search by **slug**.
 
 ```ruby

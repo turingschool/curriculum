@@ -378,7 +378,7 @@ The actual messaging will take place in the `PurchaseConfirmation` and `SignupCo
 * When an email needs to be sent, publish a message to Redis
 * The existing `Mailer` functionality remains
 
-We'll use a channel named `"email_notifications"`. 
+We'll use a channel named `"email_notifications"`.
 
 ### A Temporary Listener
 
@@ -453,7 +453,7 @@ Did you get **two more emails**? Then you're ready to move on.
 
 #### Removing the Direct Email
 
-Comment out the line in `PurchaseConfirmation` and `SignupConfirmation` that triggers the email delivery. 
+Comment out the line in `PurchaseConfirmation` and `SignupConfirmation` that triggers the email delivery.
 
 Run `rspec spec/controllers` and verify that they all pass and a total of only *three* emails are delivered.
 

@@ -27,17 +27,17 @@ with your chat application.
 
 Some ideas might include:
 
-* A github-themed chat which allows users to receive updates from and
+1. A github-themed chat which allows users to receive updates from and
   interact with repositories
-* A presentation/slideshow chat which allows presenters to host rooms
+2. A presentation/slideshow chat which allows presenters to host rooms
   for giving presentations and receiving audience feedback
-* A customer-support chat system that allows users to be matched with
+3. A customer-support chat system that allows users to be matched with
   available support reps on an ad-hoc basis
-* A music-player chat where users can queue and listen to songs via an
+4. A music-player chat where users can queue and listen to songs via an
   online music service (or the same concept for video)
-* A project-management chat system that helps teams manage projects by
+5. A project-management chat system that helps teams manage projects by
   integrating with a project management system like Waffle or Trello
-* An ed-tech chat that helps teachers manage classrooms by recording
+6. An ed-tech chat that helps teachers manage classrooms by recording
   information such as attendence or grades
 
 Your team is welcome to use any of these ideas or come up with your own

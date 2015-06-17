@@ -2405,6 +2405,9 @@ and update it to include some links:
 
 ```erb
 <body>
+  <p class="flash">
+    <%= flash.notice %>
+  </p>
   <div id="container">
     <div id="content">
       <%= yield %>

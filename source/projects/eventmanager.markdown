@@ -1,4 +1,4 @@
----
+Iteration 3---
 layout: page
 title: EventManager
 sidebar: true
@@ -682,7 +682,7 @@ $ "123456".rjust 5, "0"
 
 Lastly, examining
 [String#slice](http://rubydoc.info/stdlib/core/String#slice-instance_method) in
-irb we can see that a number that is exactly five digits in length it has no
+irb we can see that for a number that is exactly five digits in length it has no
 effect. This also means we can apply it in cases when the zip code is five
 digits or more than five digits and it will have the same effect.
 

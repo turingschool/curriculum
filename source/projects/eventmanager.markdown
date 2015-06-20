@@ -735,9 +735,7 @@ We're accessing the `legislators.locate` method of their API, we send in an
 the API, then at the very end we have a `zip`. Try modifying the address with
 your own zipcode and load the page.
 
-If you're familiar with writing HTML then this XML document probably makes some
-sense to you. You can see there is a `response` object that has a list of
-`legislators`. That list contains five `legislator` objects which each contain
+This document is [JSON](http://json.org/) formatted. If you copy and paste the data into a [pretty printer](http://jsonprettyprint.com/), you can see there is a `response` object that has a list of `legislators`. That list contains four `legislator` objects which each contain
 a ton of data about a legislator. Cool!
 
 Let's look for a solution before we attempt to build a solution.

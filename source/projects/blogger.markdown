@@ -2161,7 +2161,7 @@ generate  model Author --skip-migration
 
 Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields.
 
-For this tutorial, you will need to add the username column to the Author model. To do that, open the migration file `*_sorcery_core.rb` file under `db/migrate` and add make sure your file looks like this:
+For this tutorial, you will need to add the username column to the Author model. To do that, open the migration file `*_sorcery_core.rb` file under `db/migrate` and make sure your file looks like this:
 
 ```ruby
 class SorceryCore < ActiveRecord::Migration
@@ -2405,6 +2405,9 @@ and update it to include some links:
 
 ```erb
 <body>
+  <p class="flash">
+    <%= flash.notice %>
+  </p>
   <div id="container">
     <div id="content">
       <%= yield %>

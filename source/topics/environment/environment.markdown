@@ -18,7 +18,6 @@ The setup instructions are broken down by platform: Mac, Linux, and Windows.
 
 If you don't already have a favorite text editor, we recommend using [Atom](https://atom.io/).
 
-However, if you're a student at Turing, please download and install [RubyMine](https://www.jetbrains.com/ruby/download/).
 
 ## Mac OS
 
@@ -156,6 +155,32 @@ Homebrew has Postgres for you. From your terminal:
 
 {% terminal %}
 $ brew install postgresql
+{% endterminal %}
+
+### Folder Structure
+
+Now, let's create a folder structure to store all of your code. We can start by
+moving to our home folder, and then creating a Turing folder.
+
+{% terminal %}
+$ cd ~
+$ mkdir turing
+{% endterminal %}
+
+At this point, we want to enter the directory we have created, and then we will
+create ourselves a directory for the first module. We call this new directory
+1module, so we can use tab complete more easily.
+
+{% terminal %}
+$ cd turing
+$ mkdir 1module
+{% endterminal %}
+
+Now that this is complete, you can now get to your first module folder from
+anywhere through the terminal by typing:
+
+{% terminal %}
+$ cd ~/turing/1module
 {% endterminal %}
 
 ## Linux

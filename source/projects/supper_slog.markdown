@@ -203,12 +203,111 @@ Additionally, as a restaurant owner, I should have the ability to create/edit/de
 my restaurant. These items should be attached to my specific restaurant, and should not
 appear on other restaurants' pages. They _should_ appear on the main page for my restaurant.
 
+Note that we'll be re-purposing the existing Admin functionality to work for individual restaurants.
+So whenver we talk about features for managing a restaurant from a store owner perspective,
+this should take place somewhere within the "admin" portion of the site.
+
 __Browsing Restaurants__
 
 Instead of showing a list of items on the application's main page, let's now display
 a list of restaurants. This will give users a basic way to browse the restaurants
 on the platform.
 
-### Ordering
+### Ordering -- Iteration 2
 
-As a logged-in user, I should be able to browse
+As a logged-in user, I should be able to browse restaurants on the site and
+browse items sold by those restaurants. Just as before, I should be able
+to add items to my cart, however this will now need to account for items across
+*multiple* stores.
+
+Once I have items in my cart, I should be able to check out. When checking out,
+I should see the existing dinner dash order flow, however I should now see my items
+divided by the store to which they belong.
+
+Once I complete my order, I should land on an order display page showing my items
+ordered by restaurant, as well as total spent, order status, etc.
+
+One question to consider is whether we model orders as a single record attached
+to multiple businesses via multiple items, or as individual records to separate
+items ordered for each business. We're not so savvy on these technical details,
+so we leave this decision up to you.
+
+### Browsing and Categorization -- Iteration 3
+
+As a restaurant owner, I should be able to CRUD a list of categories for my restaurant.
+Obviously the categories needed by a pizza shop may be different than those needed by
+a sushi shop, so my categories should be independent of those from other restaurants.
+
+When users browse my shop, they should see the items organized by categories and have
+the ability to filter on category.
+
+### Order Flow and Processing -- Iteration 4
+
+Customers nowadays expect constant updates on the status of their orders. Additionally,
+we need to facilitate the process involved in taking an order from payment to preparation
+to delivery.
+
+__New Order Statuses__
+
+We need to add some additional statuses to our order flow to track the
+whole process. Your names for some steps may vary, but the overall process
+should look something like:
+
+1. Paid
+2. Ready for Preparation
+3. Cancelled
+4. In Preparation
+5. Ready for Delivery
+6. Out for Delivery
+7. Delivered / Completed
+
+Unfortunately, we can't afford to refund orders that have already been made, so
+once an order has progressed to "in preparation" or beyond, it can no longer be
+cancelled.
+
+Additionally, as a store owner, I should be able to see a list of existing orders
+organized by their current status (just as in Dinner Dash, but now for my specific store).
+
+__New Restaurant Roles -- Cooks and Delivery People__
+
+Restaurant owners will need some additional hands to manage their production
+and delivery flow, so we need to add tools to facilitate this.
+
+1. As a restaurant owner, I should have an option in my admin panel to add users
+as cooks or delivery people.
+2. Adding users should be done by their email address.
+3. If a user with the supplied email address already exists in the system, they should
+be added to my store with the specified role
+4. If the user does not exist in the system, they should receive an email inviting
+them to register on the platform. Once they have done so, they should automatically
+be added to my store as requested.
+
+Cooks and Delivery People (we can call these users "staff") should also be able to
+see the order status breakdown for restaurants to which they are attached.
+
+__Order Delivery Pipeline__
+
+Once an order is paid, it should become "ready for preparation". As a cook,
+when viewing an order in this status, I should see an option to "prepare this order".
+
+Clicking this should:
+
+1. Assign it to me as the preparer/cook
+2. Move its status to "in preparation"
+
+As the cook preparing a given order, I should see an option to mark it "ready for delivery".
+Doing this should update its status to "ready for delivery".
+
+Similarly, as a delivery person viewing a list of orders marked "ready for delivery", I should have an
+option to "deliver this order". Clicking this should assign the order to me as its deliverer
+and should mark it "out for delivery".
+
+As the delivery person for an out-for-delivery order, I should have the option to
+"mark as delivered". This should make the order "completed"
+
+### Supporting Features -- Iterations 5+
+
+Completing all the above features should give us the baseline we need to get our
+restaurant platform off the ground. But to be competitive, we need some special features
+to really make our platform pop. Below is a list of supporting features that we're
+considering for the platform. __Your team needs to complete at least 3 of these.__

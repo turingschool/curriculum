@@ -4,26 +4,6 @@ title: Supper Slog
 sidebar: true
 ---
 
-Old Dinner Dashes
-
-https://github.com/HoracioChavez/dinner_dash
-https://github.com/ericfransen/dinner_dash
-https://github.com/BobGu/dinner_dash
-https://github.com/marcgarreau/grubhub_v2
-https://github.com/glenegbert/dinner-dash
-https://github.com/ianderse/dinner_dash
-
-new pivot features
-
-- Multitenancy - I should be able to register a new 
-- new order state: machine ordered -> paid -> in preparation -> out for delivery -> delivered
-- Assigning responsibility through delivery flow: after paid, order assigned to cook; after prepared order assigned to delivery person
-- New Roles: Cook, Delivery Person
-- "Theming" -- add ability for restaurants to a) select from a handful of existing themes / color schemes or b) add there own limited CSS
-- Restaurant "stocking" -- need to add available inventory to items; items shouldn't be
-  order-able when sold out
-- other pivot extensions
-
 Your Dinner Dash is *getting* somewhere, but our investors have decided that
 serving orders out of a single restaurant is never going to get us to the scale we'd like
 to see. What we need is a *platform*. 
@@ -34,7 +14,6 @@ ordering site for a single restaurant into a platform allowing individual restau
 to sell food online.
 
 ## Learning Goals
-
 
 ### Multi-Tenancy / White-Labeling
 
@@ -93,12 +72,12 @@ As a group, dig into the code base and pay particular attention to:
 * Components that are particularly strong or weak
 * Any interesting or unusual tools that were used
 
-### Beginning The Pivot
+### Beginning Supper Slog
 
 Once you've explored the base project:
 
 * Select one member of the group who will host the canonical repository for the project
-* Create a new, blank repository on GitHub named `the_pivot`
+* Create a new, blank repository on GitHub named `supper_slog`
 * Clone the Dinner Dash project that you'll be working with to your local machine
 * Go into that project directory and `git remote rm origin`
 * Add the new repository as a remote `git remote add origin git://new_repo_url`
@@ -111,7 +90,7 @@ Once you've explored the base project:
 We want to be able to easily compare the change between the start of the project and the end. For that purpose, create a tag in the repo and push it to GitHub:
 
 {% terminal %}
-$ git tag -a dinner_dash_v1
+$ git tag -a supper_slog_start_point
 $ git push --tags
 {% endterminal %}
 
@@ -310,4 +289,105 @@ As the delivery person for an out-for-delivery order, I should have the option t
 Completing all the above features should give us the baseline we need to get our
 restaurant platform off the ground. But to be competitive, we need some special features
 to really make our platform pop. Below is a list of supporting features that we're
-considering for the platform. __Your team needs to complete at least 3 of these.__
+considering for the platform. __Your team needs to complete at least 2 of these.__
+
+#### 1. Where's My Order / Magic 8-ball
+
+You can't place a pickup order and expect it ready immediately. Predict the pickup time when an order is submitted:
+
+* Each item in the store has a preparation time, defaulting to 12 minutes. Items can be edited to take longer.
+* If an order has more than six items, add 10 minutes for every additional six items.
+* Each already "paid" order in the system which is not "complete" delays the production start of this new order by 4 minutes.
+* This information should be displayed to a user on their order page
+
+#### 2. Deals! Deals! Deals!
+
+Store owners may put items or entire categories of items on sale. They can:
+
+* Create a "sale" and connect it with individual items or entire categories
+* Sales are created as a percentage off the normal price
+* View a list of all active sales
+* End a sale
+
+On the order "dashboard" they can:
+
+* View details of an individual order, including:
+  * If purchased on sale, original price, sale percentage and adjusted price
+  * Subtotal for the order
+  * Discount for the order
+  * Total for the order reflecting any discounts from applicable sales
+
+As a browsing User:
+
+* Sale prices are displayed in item listings alongside normal price and percentage savings
+
+#### 3. What's Good Here?
+
+On any item I can, as an Unauthenticated User:
+
+* See the posted reviews including:
+  * title, body, and a star rating 0-5
+  * the display name of the reviewer
+* See an average of the ratings broken down to half-stars
+
+On items I've purchased, as an Authenticated User I can:
+
+* Add a rating including:
+  * Star rating 0-5
+  * Title
+  * Body text
+
+#### 4. The Machine Knows What You Like
+
+Implement simple recommendations including:
+
+* The ability to easily see your last order and add the same items to the current order
+* When browsing an item, recommend 3 other items from that store that were ordered by customers who also ordered the item I'm viewing
+* If 3 other items can't be found, pull the most popular overall items from that store
+
+#### 5. Where Is It?
+
+Implement full-text search for both the consumer and administrator:
+
+__Consumer__
+
+* Search for items in the whole site
+* Search through "My Orders" for matches in the item name or description
+
+__Store Owner__
+
+Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
+
+* Status (drop-down)
+* Order total (drop-down for `>`, `<`, `=` and a text field for dollar-with-cents)
+* Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
+* Email address of purchaser
+
+#### 6. Transaction Processor
+
+Implement a "checkout" procedure using Stripe, Paypal or another service to handle credit card transactions in a "sandboxed" developer environment.
+
+You may need to add an additional "pending" order status to relect orders that are placed but not yet paid.
+
+When the card is processed, update the order to "paid" and send a confirmation email to the user. Emails should _only_ be sent when the appis in `production` mode. Don't spam people while you're getting it working.
+
+#### 7. Phone Updates
+
+As a customer, give me the option to add a contact number to my account.
+Whenever one of my orders changes its status, send me a text including information about the order and
+its current status.
+
+Additionally, include in the texts a contact number for the restaurant. If I text this number
+and include the ID for an order, I should receive info about that order including current status,
+items ordered, etc.
+
+Make sure, however, that I can only receive updates about my own orders.
+
+#### 8. Theming / Custom CSS per Restaurant
+
+Provide a mechanism for store owners to customize the display of their site by:
+
+1. selecting from a few pre-built themes
+2. provde their own CSS that will be added to the page
+
+For the included themes, focus on the basics like font style and color scheme.

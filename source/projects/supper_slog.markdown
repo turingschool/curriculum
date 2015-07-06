@@ -391,3 +391,25 @@ Provide a mechanism for store owners to customize the display of their site by:
 2. provde their own CSS that will be added to the page
 
 For the included themes, focus on the basics like font style and color scheme.
+
+## Evaluation Rubric
+
+The following criteria will be used for each evaluation:
+
+### Feature Delivery
+
+You'll be graded on each of the criteria below with a score of (1) well below
+expectations, (2) below expectations, (3) as expected, (4) better than expected.
+
+* Completion: Did you complete all base features as well as 2 supporting features?
+* Organization: did you use your project management tool to keep the project organized?
+
+### Technical Quality
+
+* Test-Driven Development: (1) disregard for testing, (2) gaps in test
+usage/coverage/design, (3) adequate testing, (4) exceptional use of testing
+* Code Quality: (1) poor factoring and understanding of MVC, (2) some gaps in
+code quality / application of MVC, (3) solid code quality and pushing logic down
+the stack, (4) exceptionally well factored code
+* User Experience: (1) inattention to the user experience, (2) some gaps in the
+UX, (3) UX is clear and makes it easy to navigate around the site (4) UX is especially polished and intuitive

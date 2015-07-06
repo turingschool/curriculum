@@ -290,6 +290,8 @@ Completing all the above features should give us the baseline we need to get our
 restaurant platform off the ground. But to be competitive, we need some special features
 to really make our platform pop. Below is a list of supporting features that we're
 considering for the platform. __Your team needs to complete at least 2 of these.__
+The instructors will work with you to identify which features we want to tackle in a
+later checkin.
 
 #### 1. Where's My Order / Magic 8-ball
 

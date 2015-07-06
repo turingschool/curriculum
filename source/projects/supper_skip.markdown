@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Supper Slog
+title: Supper Skip
 sidebar: true
 ---
 
@@ -72,12 +72,12 @@ As a group, dig into the code base and pay particular attention to:
 * Components that are particularly strong or weak
 * Any interesting or unusual tools that were used
 
-### Beginning Supper Slog
+### Beginning Supper Skip
 
 Once you've explored the base project:
 
 * Select one member of the group who will host the canonical repository for the project
-* Create a new, blank repository on GitHub named `supper_slog`
+* Create a new, blank repository on GitHub named `supper_skip`
 * Clone the Dinner Dash project that you'll be working with to your local machine
 * Go into that project directory and `git remote rm origin`
 * Add the new repository as a remote `git remote add origin git://new_repo_url`
@@ -90,7 +90,7 @@ Once you've explored the base project:
 We want to be able to easily compare the change between the start of the project and the end. For that purpose, create a tag in the repo and push it to GitHub:
 
 {% terminal %}
-$ git tag -a supper_slog_start_point
+$ git tag -a supper_skip_start_point
 $ git push --tags
 {% endterminal %}
 

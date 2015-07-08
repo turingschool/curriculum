@@ -144,6 +144,11 @@ any number of individual restaurants. This concept is sometimes called "Multi-te
 On top of that, we have a number of new features that we'll need to add to make our ordering
 platform competitive.
 
+## Technical Restrictions
+
+For the multitenancy portion of this project, you are not allowed to use any "out of the box"
+multitenancy gems such as `apartment` or `acts_as_tenant`.
+
 ### Multitenancy -- Iteration 1
 
 __Registering a Restaurant__

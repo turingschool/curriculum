@@ -15,29 +15,24 @@ load. A few of the focuses of the project will be:
 * Handling heavy request volume/throughput
 * Diagnosing and fixing performance bottlenecks
   (without compromising existing features)
-* Adding features on top of an existing codebase
 * Monitoring production (error and performance) behavior of an application
 
-For this project, each group will be receiving an existing "Pivot" project
+For this project, each student will be receiving an existing "Pivot" project
 to maintain and continue building upon. Your projects will be already
 deployed to production environments, and it will be your responsibility
 to keep them that way, adding new features and improving performance while
 avoiding downtime.
 
-### Teams
-
-The project will be completed by teams of four to five developers over the span of 7 days.
-
-Like all projects, individual team members are expected to:
-
-* Seek out features and responsibilities that are uncomfortable. The time to learn is now.
-* Support your teammates so that everyone can collaborate and contribute.
-
 ## Project Requirements:
 
-#### Production Performance Monitoring and Metrics
+#### 1. Production Deployment and Performance Monitoring
 
-Your project will come pre-configured with a Skylight.io performance monitoring service.
+Upon receiving your codebase, you will be expected to:
+
+1. Deploy the application to a fresh heroku instance
+2. Add Newrelic to the application to monitor its performance in
+   production
+
 You will be evaluated on the metrics reported by this service at the end of the project.
 Additionally, the project will be expected to comfortably handle several hundreds of requests
 per minute.
@@ -49,20 +44,25 @@ The rubric for application performance will be:
 * 2: Average resposne time below 400ms with 300+ RPM
 * 1: Average response time above 400ms, or unable to handle 300 RPM
 
-#### Load Testing / User Scripting
+#### 2. Load Testing / User Scripting
 
 In order to evaluate how our applications are performing, we'll need to expose them
-to heavy load. To do this, each team will be responsible for implementing a load-testing
-script which exercises the production application. Your load script should be provided as a
-separate project/repository with its own structure and set of dependencies.
-You will be evaluated on how thorough and scalable this script is:
+to heavy load. To do this, each student will be responsible for implementing a load-testing
+script which exercises the production application.
+
+Your load script can be provided as a separate project/repository with its own structure and set of dependencies,
+or included in the existing application as a rake task or other
+executable script.
+
+The goal of this script is to exercise as many of the application's
+endpoints as possible. The evaluation rubric for this coverage will be:
 
 * 4: Load testing script exercises 85% of application endpoints (as reported by rake routes)
 * 3: Load testing script exercises 60% of application endpoints
 * 2: Load testing script exercises 40% of application endpoints
 * 1: Load testing script exercises 20% or less of application endpoints
 
-#### Database Load
+#### 3. Database Load
 
 In addition to handling heavy request load from users, our applications will need to handle
 database load against a db with large numbers of records. To do this, we'll need to seed
@@ -74,51 +74,56 @@ likely vary from these examples, but the table size expectations are as follows:
 * 30,000+ "Tenant" records (whichever entity provides the items-for-purchase within your app)
 * 50,000+ "Order/Purchase" records
 * 15+ Tag/Category records (each Item or similar object should have at least 1 category)
-* Appropriate numbers of associated records. So if each User has an associated address,
+* Appropriate numbers of "associated records". So if each User has an associated address,
   then those records should be present in proportional numbers.
 
 Writing your seed script won't be too difficult, but running it can take some time, so it's recommended
 that you get started on this part early. Additionally, Ryan Bates' [Populator Gem](https://github.com/ryanb/populator)
 may be worth a look.
 
-#### Test-Driven Development
+#### 4. Performance Optimization Techniques
 
-Testing is just as important when taking over an existing codebase
-as it is during "greenfield" development. When working with code you don't understand, adding additional testing is often the _best_ way to wrap your head around what a component of the system is doing.
+Utilizing Rails' performance optimization features is a major focus
+for this project, and as such we will be evaluating your project on
+how effectively it takes advantage of these features:
 
-* 4 - The code demonstrates high test coverage (>90%), tests at the feature and unit levels, and does not rely on external services.
-* 3 - The code demonstrates high test coverage (>80%), tests at feature and unit levels, but has some gaps or relies on external services.
-* 2 - The code demonstrates high test coverage (>80%), but does not adequately balance feature and unit tests.
-* 1 - The code does not have 80% test coverage or has significant gaps or weaknesses in testing.
 
-#### Code Quality
+* 4 - Application appropriately utilizes multiple caching techniques
+  along with sophisticated query optimizations and combinations.
+* 3 - Application uses a proficient combination of caching, query
+  optimization, and code restructuring to achieve acceptable
+  performance.
+* 2 - Application includes some optimizations in the form of basic
+  caching or query optimization, but fails to attack the problem from
+  multiple angles.
+* 1 - Application lacks creativity in optimizing performance.
 
-* 4 - Application is exceptionally well-factored, makes good use of Rails features and conventions, and implements Object-Oriented abstractions around features or business logic. At a micro-level, methods are clear, concise, and well-designed.
-* 3 - The Application is well-factored and makes good use of Rails features and conventions, but does not utilize many object abstractions outside of the "Rails Box". At a micro-level, methods are clear and concise, with minimal issues around method scope, bloat, or naming.
-* 2 - The Application is reasonably well-factored but conflates or misplaces objects and responsibilities within the system. At a micro-level, methods are well-intentioned but suffer from poor naming, placement, or size.
-* 1 - The Application has difficulty organizing concepts into appropriate objects or methods, or struggles with organizing responsibilities according to the MVC paradigm.
+#### 5. Additional Features
 
-#### Additional Features
+In addition to the performance and scale requirements outlined above,
+you will need to implement a few new features on top of the existing codebase.
 
-Alas, just because we made it to the bigtime does not mean we're done working on our apps. In addition to
-the performance and scale requirements outlined above, your team will need to implement some new features on top
-of the existing codebase. Features are divided into __Base__ and __Supporting__ groups, and you'll need to implement
-some features from each:
+These features will most likely be necessary in order to hit the
+specified performance targets, but we specify them here to give you some
+initial guidance.
 
-* 4: Implements all Base Features and 2 or more Supporting Features
-* 3: Implements all Base Features and 1 Supporting Feature
+Additionally a few extensions are included before which you may tackle
+at your own discretion.
+
+Rubric:
+
+* 4: Implements all Required Features and 1 or more Extensions
+* 3: Implements all Base Features
 * 2: Implements some Base Features
 * 1: Features are unreliable or partially impelemented
 
-### Feature Additions -- Base Expectations
-
-#### Images: Uploads -> URLs
+__Images: Uploads -> URLs__
 
 Holy AWS Bills Batman! At this scale we can't afford to host images for all of our items, users, etc.
 A first order of business should be replacing any image upload requirements with an option to provide
 an image url.
 
-#### Pagination
+__Pagination__
 
 With all the records we're handling now, it won't be feasible to simply render a list of every
 item that's for sale. On any page that includes a "list" of items (Index, Tags, etc), add a Pagination interface
@@ -131,7 +136,7 @@ that allows users to:
 * Go to the next page
 * Go to the previous page
 
-#### Custom Exception and 404 Pages
+__Custom Exception and 404 Pages__
 
 No matter how carefully we code, it's inevitable in a real production system that things will go wrong
 from time to time. When this happens, we'd rather our users be greeted by a somewhat helpful and on-brand
@@ -140,27 +145,17 @@ pages in error cases rather than the generic "Something went wrong" Rails error 
 pages should have relevant links back to main portions of the site, and should feature a design that follows
 the overall style/branding of the site.
 
-### Feature Additions -- Supporting Features
+#### Additional Features -- Extensions
 
-#### Search By Date (HomeAway, HubStub)
+__Search By Date__
 
-For travel plans or event tickets, I generally care about making plans on a specific date.
+For dated item inventory, I generally care about making plans on a specific date.
 
 * Add an interface on the index pages which allows me to search for Reservations/Tickets by a range of dates.
-* Include a Calendar Picker UI for selecting the start and end dates. 
+* Include a Calendar Picker UI for selecting the start and end dates.
 * Don't allow me to select dates in the past, or an end date prior to my start date
 
-#### Search By Region (Keevah)
-
-We already have the ability to search by category, but many lenders are especially attached to regions of the
-world. Let's add a feature to:
-
-* Collect "region" information when creating lender accounts (we can use continents as our regions for now)
-* Add links at the top of the "Choose a Borrower", "Make a Loan", and "Category" pages that allow users
-  to filter Loan Requests within that group by region
-* This filtering should be performed via AJAX so it does not require an additional page reload.
-
-#### Wishlist
+__Wishlist__
 
 Allow users to save items to a "wishlist", which they can use to track interesting items before purchasing them.
 
@@ -170,26 +165,26 @@ Allow users to save items to a "wishlist", which they can use to track interesti
 * From the wishlist, the user should be able to click an item to go to its detail page.
 * Aditionally, each item on the List/Index should display the # of "favorites" it has received
 
-#### Recommendations (requires Wishlist)
+__Recommendations (requires Wishlist)__
 
 Once a user has added items to their wishlist, give them recommendations for other items to check out.
 To determine which items to recommend for User A, take the items that User A has "favorited", then find
 other users who have also favorited those items. Then find additional items that those users have also favorited, and recommend
 them back to User A. Avoid recommending other items that User A has already favorited themselves.
 
-#### Infinite Scroll (1/2 feature)
+__Infinite Scroll__
 
 Rather than displaying pagination links, simply display a single page's worth
 of items when I initially load the page. When I scroll to the bottom of the page, use AJAX to fetch the next
 page's worth of items from the server, and append them to the bottom of the list.
 
-#### Error Tracking (1/2 feature)
+__Error Tracking__
 
 Your application integrates a production error tracking service which notifies the team whenever
 an exception occurs in production. Some open source examples include: https://github.com/Sharagoz/rails_exception_handler,
 http://smartinez87.github.io/exception_notification/, or http://errbit.github.io/errbit/.
 
-#### Background Processing
+__Background Processing__
 
 At this kind of scale, it won't be tenable to handle any slow task processing during a web request cycle.
 To solve this, we'll need to move these activities into asynchronous background workers using a queuing

@@ -237,13 +237,12 @@ We need to add some additional statuses to our order flow to track the
 whole process. Your names for some steps may vary, but the overall process
 should look something like:
 
-1. Paid
-2. Ready for Preparation
-3. Cancelled
-4. In Preparation
-5. Ready for Delivery
-6. Out for Delivery
-7. Delivered / Completed
+1. Ready for Preparation
+2. Cancelled
+3. In Preparation
+4. Ready for Delivery
+5. Out for Delivery
+6. Delivered / Completed
 
 Unfortunately, we can't afford to refund orders that have already been made, so
 once an order has progressed to "in preparation" or beyond, it can no longer be

@@ -228,11 +228,6 @@ Which is turned into:
 </ol>
 ```
 
-#### Level 4 - Links
-
-At this point you're familiar with the basics of how Markdown works. Go
-[straight to the source to see how HTML links should work](http://daringfireball.net/projects/markdown/syntax#link). You do not need to implement the "Reference-Style Links", just the normal inline ones.
-
 ## Extensions
 
 If you finish all the base expectations, consider implementing two of these extensions:
@@ -244,6 +239,11 @@ Add support for images, both with and without the optional title attribute. Don'
 ### Blocks & Blockquotes
 
 Add support for both [Blockquotes](http://daringfireball.net/projects/markdown/syntax#blockquote) and [Code Blocks](http://daringfireball.net/projects/markdown/syntax#precode).
+
+### Links
+
+At this point you're familiar with the basics of how Markdown works. Go
+[straight to the source to see how HTML links should work](http://daringfireball.net/projects/markdown/syntax#link). You do not need to implement the "Reference-Style Links", just the normal inline ones.
 
 ### Reference-Style Links
 

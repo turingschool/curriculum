@@ -141,7 +141,7 @@ The evaluation of the project is broken into three areas of focus:
 
 As we look through your project we're assessing these areas of focus:
 
-* APIs - consuming and providing
+* APIs - using good programming techniques to manage consumption of an API
 * Interface - light view templates, logical and clean UX
 * Test Driven Development - testing at multiple levels
 

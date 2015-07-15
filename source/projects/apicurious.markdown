@@ -183,7 +183,7 @@ Does it have the expected features?
 
 Does it have a highly usable interface?
 
-* 4 - The application is pleasant, logical, and easy to use
-* 3 - The application has many strong pages/interactions, but a few holes in lesser-used functionality
+* 4 - The application is a logical and easy to use implementation of the target application
+* 3 - The application covers many interactions of the target application, but has a few holes in lesser-used functionality
 * 2 - The application shows effort in the interface, but the result is not effective
 * 1 - The application is confusing or difficult to use

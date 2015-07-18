@@ -29,7 +29,7 @@ Build a binary search tree which can:
 
 ## Extensions
 
-Additionally you can implement these additional features:
+Additionally you can implement these features:
 
 * find the total number of leaves on the tree
 * report the (maximum) height of the tree

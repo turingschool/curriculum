@@ -80,24 +80,6 @@ Additional interactions might include:
 * Generate a permalink for a post
 * Follow a user whose post was reblogged into my feed
 
-#### Slack
-
-Consider a very simplistic Slack Client. I should be able to:
-
-* Authenticate with my Slack account
-* Select a team to access (during authentication)
-* View a list of rooms that I'm a member of
-* Select a room and view a list of recent chats for that room
-* For each message displayed, see pertinent information for the user who posted
-it (profile pic, name, etc)
-* Favorite a message
-
-Additional interactions might include:
-
-* Posting a message into the room I'm currently viewing
-* Leave a room
-* Attach a file
-
 #### Github
 
 Consider a basic version of the Github profile / feed UI. I should be able to:

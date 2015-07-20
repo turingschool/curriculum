@@ -117,22 +117,8 @@ The evaluation of the project is broken into three areas of focus:
 
 1. Technical Evaluation
 2. Client Satisfaction
-3. Learning & Progress
 
 ### Technical Evaluation
-
-As we look through your project we're assessing these areas of focus:
-
-* APIs - using good programming techniques to manage consumption of an API
-* Interface - light view templates, logical and clean UX
-* Test Driven Development - testing at multiple levels
-
-In each area we'll render an evaluation of:
-
-* 4 - Exceeded expectations, went above and beyond what you were *supposed* to do
-* 3 - Met expectations
-* 2 - Below expectations, made an attempt but really didn't hit the goal
-* 1 - Far below expectations, no effort or no effective effort
 
 #### Server-Side Application and APIs
 

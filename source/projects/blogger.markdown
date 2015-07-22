@@ -188,6 +188,8 @@ $ Article.new
 
 The first line was just to demonstrate that you can run normal Ruby, just like `irb`, within your `console`. The second line referenced the `Article` model and called the `all` class method which returns an array of all articles in the database -- so far an empty array. The third line created a new article object. You can see that this new object had attributes `id`, `title`, `body`, `created_at`, and `updated_at`.
 
+Type `exit` to quit the Rails console.
+
 ### Looking at the Model
 
 All the code for the `Article` model is in the file `app/models/article.rb`, so let's open that now.

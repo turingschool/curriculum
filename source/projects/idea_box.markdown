@@ -881,7 +881,7 @@ And change the `save` method to use them:
 def save
   database.transaction do |db|
     db['ideas'] ||= []
-    db['ideas'] << {title: title, description: description}
+    db['ideas'] << {title: @title, description: @description}
   end
 end
 ```

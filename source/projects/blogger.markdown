@@ -90,10 +90,8 @@ If you see an error here, it's most likely related to the database. You are prob
 Our blog will be centered around "articles," so we'll need a table in the database to store all the articles and a model to allow our Rails app to work with that data. We'll use one of Rails' generators to create the required files. Switch to your terminal and enter the following:
 
 {% terminal %}
-$ bin/rails generate model Article
+$ rails generate model Article
 {% endterminal %}
-
-Note that we use `bin/rails` here but we used `rails` previously. The `rails` command is used for generating new projects, and the `bin/rails` command is used for controlling Rails.
 
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 

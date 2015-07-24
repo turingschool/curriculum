@@ -43,65 +43,11 @@ You will build an online ordering platform. Customers should be able to place or
 
 The extensions listed below are a non-exhaustive list of extension ideas. 
 
-### What's Good Here?
-
-On any item I can, as an Unauthenticated User:
-
-* See the posted reviews including:
-  * title, body, and a star rating 0-5
-  * the display name of the reviewer
-* See an average of the ratings broken down to half-stars
-
-On items I've purchased, as an Authenticated User I can:
-
-* Add a rating including:
-  * Star rating 0-5
-  * Title
-  * Body text
-* Edit a review I've previously submitted until 15 minutes after I first submitted it
-
-### The Machine Knows What You Like
-
-Implement simple recommendations including:
-
-* The ability to easily see your last order and add the same items to the current order
-* After an item is added to and order, recommend three items other customers have ordered with this item. If there aren't three other things that've been ordered, fill in with the most popular overall items
-* Combinations of several items (ex: an appetizer, main dish, and dessert) with a small discount over ordering them individually
-
-### Where Is It?
-
-Implement full-text search for both the consumer and administrator:
-
-#### Consumer
-
-* Search for items in the whole site
-* Search through "My Orders" for matches in the item name or description
-
-#### Administrator
-
-Search orders using a builder-style interface (like Google's "Advanced Search") allowing them to specify any of these:
-
-* Status (drop-down)
-* Order total (drop-down for `>`, `<`, `=` and a text field for dollar-with-cents)
-* Order date  (drop-down for `>`, `<`, `=` and a text field for a date)
-* Email address of purchaser
-
-### Transaction Processor
-
-Implement a "checkout" procedure using Stripe, Paypal or another service to handle credit card transactions in a "sandboxed" developer environment.
-
-When the card is processed, update the order to "paid" and send a confirmation email to the user. Emails should _only_ be sent when the app is in `production` mode. Don't spam people while you're getting it working.
-
-### Phone Confirmation
-
-As a restaurant I have a registered contact phone number. When an order is placed online the system calls me with an interaction like this:
-
-* "Hi, this is **StoreName*** calling with an online order. Press 1 to accept, 3 to reject". They press "1"
-* "The customer name is John Schmoe."
-* "The customer will pickup the order at 5:45PM"
-* "The order includes: shrimp wontons, chicken pad thai large, and green tea ice cream small. There are a total of 3 items."
-* "Press 1 to confirm the order, 2 to repeat, or 3 to cancel."
-* The result of the call updates the order in the database and sends an email to the customer.
+* product reviews
+* product recommendations based on past orders
+* product and category search
+* credit card processing with Stripe or Paypal
+* phone or text message order confirmation
 
 ## Evaluation Process
 

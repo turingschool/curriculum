@@ -439,7 +439,7 @@ Open `spec/models/person_spec.rb` and you'll see this:
 ```ruby
 require 'rails_helper'
 
-RSpec.describe Person, :type => :model do
+RSpec.describe Person, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
 ```
@@ -453,7 +453,7 @@ Let's create an example using the `it` method to test that a `Person` without a 
 ```ruby
 require 'rails_helper'
 
-RSpec.describe Person, :type => :model do
+RSpec.describe Person, type: :model do
   it 'is invalid without a first name' do
     person = Person.new(first_name: nil)
     expect(person).not_to be_valid
@@ -549,7 +549,7 @@ describe "PUT update" do
 
     it "updates the requested person" do
       person = Person.create! valid_attributes
-      put :update, {:id => person.to_param, :person => new_attributes}, valid_session
+      put :update, {id: person.to_param, person: new_attributes}, valid_session
       person.reload
       skip("Add assertions for updated state")
     end
@@ -572,7 +572,7 @@ Next, we need to update the test to check that the new values have persisted.
 ```ruby
 it "updates the requested person" do
   person = Person.create! valid_attributes
-  put :update, {:id => person.to_param, :person => new_attributes}, valid_session
+  put :update, {id: person.to_param, person: new_attributes}, valid_session
   person.reload
   expect(person.first_name).to eq('NewFirstName')
   expect(person.last_name).to eq('NewLastName')
@@ -833,7 +833,7 @@ let(:new_attributes) {
 
 it "updates the requested phone_number" do
   phone_number = PhoneNumber.create! valid_attributes
-  put :update, {:id => phone_number.to_param, :phone_number => new_attributes}, valid_session
+  put :update, {id: phone_number.to_param, phone_number: new_attributes}, valid_session
   phone_number.reload
   expect(phone_number.number).to eq('MyNewString')
   expect(phone_number.person_id).to eq(2)
@@ -1018,7 +1018,7 @@ This is not the behavior we are looking for. Let's change the expectation:
 it "redirects to the phone number's person" do
   alice = Person.create(first_name: 'Alice', last_name: 'Smith')
   valid_attributes = {number: '555-8888', person_id: alice.id}
-  post :create, {:phone_number => valid_attributes}, valid_session
+  post :create, {phone_number: valid_attributes}, valid_session
   expect(response).to redirect_to(alice)
 end
 ```
@@ -1143,7 +1143,7 @@ it "redirects to the phone_number" do
   bob = Person.create(first_name: 'Bob', last_name: 'Jones')
   valid_attributes = {number: '555-5678', person_id: bob.id}
   phone_number = PhoneNumber.create! valid_attributes
-  put :update, {:id => phone_number.to_param, :phone_number => valid_attributes}, valid_session
+  put :update, {id: phone_number.to_param, phone_number: valid_attributes}, valid_session
   expect(response).to redirect_to(bob)
 end
 ```
@@ -1185,7 +1185,7 @@ Lastly the customer wants a delete link for each phone number. Follow a similar 
 One note: the "destroy" action of a rails controller is triggered by sending an HTTP DELETE request to the appropriate path. You will need to use the `method` option on the `link_to` helper to include this in the delete links. It will look something like:
 
 ```
-<%= link_to('delete', phone_number_path(phone_number), :method => "delete") %>
+<%= link_to('delete', phone_number_path(phone_number), method: "delete") %>
 ```
 
 Once your tests are passing, let's commit!
@@ -1491,8 +1491,8 @@ Run the tests again, and they should be passing, but for the wrong reasons. Let'
 ```ruby
 require 'rails_helper'
 
-RSpec.describe PhoneNumber, :type => :model do
-  let(:person) { Person.create(:first_name => "Jimbob", :last_name => "Billy") }
+RSpec.describe PhoneNumber, type: :model do
+  let(:person) { Person.create(first_name: "Jimbob", last_name: "Billy") }
   let(:phone_number) { PhoneNumber.new(number: "111-222-3333", contact_id: person.id, contact_type: 'Person') }
 
   it 'is valid' do
@@ -1782,7 +1782,7 @@ We don't want to expose these endpoints to the world, so let's make sure that th
 change the `resources :phone_numbers`, in `routes.rb`, to read as follows:
 
 ```ruby
-resources :phone_numbers, :except => [:index, :show]
+resources :phone_numbers, except: [:index, :show]
 ```
 
 You're going to have to delete the corresponding routing specs as well.
@@ -1940,7 +1940,7 @@ First, in `phone_numbers/_phone_numbers.html.erb` delete `@company`.
 Then, in `people/show.html.erb` change the call to render to be as follows:
 
 ```erb
-<%= render 'phone_numbers/phone_numbers', :phone_numbers => @person.phone_numbers %>
+<%= render 'phone_numbers/phone_numbers', phone_numbers: @person.phone_numbers %>
 ```
 
 And finally, in `companies/show.html.erb`, update the call to render to send in the `@company.phone_numbers`.
@@ -2056,8 +2056,8 @@ end
 You will probably get some errors about `email_address` being undefined. Lets fill in this as well as a person with some `let`s at the top of the file:
 
 ```ruby
-  let(:person) { Person.create(:first_name => "Bob", :last_name => "Smith") }
-  let(:email_address) { EmailAddress.new(:contact_id => person.id, :contact_type => "Person", :address => "MyString") }
+  let(:person) { Person.create(first_name: "Bob", last_name: "Smith") }
+  let(:email_address) { EmailAddress.new(contact_id: person.id, contact_type: "Person", address: "MyString") }
   before(:each) do
     assign(:email_address, email_address)
   end
@@ -2231,7 +2231,7 @@ Run this test, and it will fail because we don't have a route for the `sessions#
 We do have a route that goes there, but we can't call it from this controller test. We could add this line to the `config/routes.rb`:
 
 ```ruby
-resource :sessions, :only => [:create]
+resource :sessions, only: [:create]
 ```
 
 Now the test should fail because we don't actually do anything useful in the controller action yet.
@@ -2244,8 +2244,8 @@ My controller looks like this:
 class SessionsController < ApplicationController
   def create
     data = request.env['omniauth.auth']
-    User.create(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
-    render :nothing => true
+    User.create(provider: data['provider'], uid: data['uid'], name: data['info']['name'])
+    render nothing: true
   end
 end
 ```
@@ -2275,8 +2275,8 @@ To get this to pass I changed my create method to this:
 ```ruby
 def create
   data = request.env['omniauth.auth']
-  user = User.where(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name']).first_or_create
-  render :nothing => true
+  user = User.where(providerL data['provider'], uid: data['uid'], name: data['info']['name']).first_or_create
+  render nothing: true
 end
 ```
 
@@ -2337,7 +2337,7 @@ def create
   data = request.env['omniauth.auth']
   user = User.where(provider: data['provider'], uid: data['uid'], name: data['info']['name']).first_or_create
   session[:user_id] = user.id
-  render :nothing => true
+  render nothing: true
 end
 ```
 
@@ -2367,7 +2367,7 @@ Now, back to `SessionsController`. Update the action to use the new method on th
 def create
   user = User.find_or_create_by_auth(request.env['omniauth.auth'])
   session[:user_id] = user.id
-  render :nothing => true
+  render nothing: true
 end
 ```
 
@@ -2587,7 +2587,7 @@ context 'when logged in' do
       delete "/logout" => "sessions#destroy", as: :logout
     end
     user = User.create(name: 'Jane Doe')
-    visit fake_login_path(:user_id => user.id)
+    visit fake_login_path(user_id: user.id)
   end
 
   after(:each) do
@@ -2637,7 +2637,7 @@ I had to update the before filter in the sessions controller spec to include the
 ```ruby
 before(:each) do
   Rails.application.routes.draw do
-    resource :sessions, :only => [:create, :destroy]
+    resource :sessions, only: [:create, :destroy]
   end
 end
 ```
@@ -2910,7 +2910,7 @@ describe "GET index" do
   it "assigns the current user's people" do
     user = User.create
     person = Person.create! valid_attributes.merge(user_id: user.id)
-    get :index, {}, {:user_id => user.id}
+    get :index, {}, {user_id: user.id}
     assigns(:people).should eq([person])
   end
 end

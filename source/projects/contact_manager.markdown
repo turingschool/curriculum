@@ -1484,7 +1484,7 @@ In the failing spec, change both references to `person_id` to `contact_id`. In t
 
 Rerun the phone number model specs.
 
-Now they're complaining that about an `undefined method `person_id'`. OK, no problem. Open up the phone number model. Update any validations that include `person_id` to `contact_id`.
+Now they're complaining that about an `undefined method 'person_id'`. OK, no problem. Open up the phone number model. Update any validations that include `person_id` to `contact_id`.
 
 Run the tests again, and they should be passing, but for the wrong reasons. Let's improve our tests. We still have references to `person` that need to be changed to `contact`. When updated they should look something like this:
 

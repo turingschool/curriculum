@@ -2275,7 +2275,7 @@ To get this to pass I changed my create method to this:
 ```ruby
 def create
   data = request.env['omniauth.auth']
-  user = User.where(providerL data['provider'], uid: data['uid'], name: data['info']['name']).first_or_create
+  user = User.where(provider: data['provider'], uid: data['uid'], name: data['info']['name']).first_or_create
   render nothing: true
 end
 ```

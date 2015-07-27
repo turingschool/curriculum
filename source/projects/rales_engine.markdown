@@ -4,7 +4,7 @@ title: RalesEngine
 sidebar: true
 ---
 
-You haven't forgotten about your old friend [SalesEngine]({% page_url projects/sales_engine %}),
+You haven't forgotten about your old friend [SalesEngine](http://tutorials.jumpstartlab.com/projects/sales_engine.html),
 have you? That's ok if you have, since this project will re-acquaint you!
 
 In this project, we'll use Rails and ActiveRecord to

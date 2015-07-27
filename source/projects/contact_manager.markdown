@@ -9,7 +9,6 @@ language: ruby
 In this advanced Rails project, you'll create a contact manager. The tools that you will use include the following:
 
 * Testing with [RSpec](http://relishapp.com/rspec/) to drive your development
-* Creating view templates with [Haml](http://haml-lang.com/) and [Sass](http://sass-lang.com/)
 * Building reusable view code with helpers and partials
 * Refactoring
 * Managing authentication and authorization
@@ -34,7 +33,7 @@ Rails is not currently installed on this system.
 $ gem install rails
 ...
 $ rails -v
-Rails 4.1.6
+Rails 4.2.3
 {% endterminal %}
 
 <div class="note">
@@ -440,7 +439,7 @@ Open `spec/models/person_spec.rb` and you'll see this:
 ```ruby
 require 'rails_helper'
 
-RSpec.describe Person, :type => :model do
+RSpec.describe Person, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 end
 ```
@@ -454,7 +453,7 @@ Let's create an example using the `it` method to test that a `Person` without a 
 ```ruby
 require 'rails_helper'
 
-RSpec.describe Person, :type => :model do
+RSpec.describe Person, type: :model do
   it 'is invalid without a first name' do
     person = Person.new(first_name: nil)
     expect(person).not_to be_valid
@@ -550,7 +549,7 @@ describe "PUT update" do
 
     it "updates the requested person" do
       person = Person.create! valid_attributes
-      put :update, {:id => person.to_param, :person => new_attributes}, valid_session
+      put :update, {id: person.to_param, person: new_attributes}, valid_session
       person.reload
       skip("Add assertions for updated state")
     end
@@ -573,7 +572,7 @@ Next, we need to update the test to check that the new values have persisted.
 ```ruby
 it "updates the requested person" do
   person = Person.create! valid_attributes
-  put :update, {:id => person.to_param, :person => new_attributes}, valid_session
+  put :update, {id: person.to_param, person: new_attributes}, valid_session
   person.reload
   expect(person.first_name).to eq('NewFirstName')
   expect(person.last_name).to eq('NewLastName')
@@ -834,7 +833,7 @@ let(:new_attributes) {
 
 it "updates the requested phone_number" do
   phone_number = PhoneNumber.create! valid_attributes
-  put :update, {:id => phone_number.to_param, :phone_number => new_attributes}, valid_session
+  put :update, {id: phone_number.to_param, phone_number: new_attributes}, valid_session
   phone_number.reload
   expect(phone_number.number).to eq('MyNewString')
   expect(phone_number.person_id).to eq(2)
@@ -1019,7 +1018,7 @@ This is not the behavior we are looking for. Let's change the expectation:
 it "redirects to the phone number's person" do
   alice = Person.create(first_name: 'Alice', last_name: 'Smith')
   valid_attributes = {number: '555-8888', person_id: alice.id}
-  post :create, {:phone_number => valid_attributes}, valid_session
+  post :create, {phone_number: valid_attributes}, valid_session
   expect(response).to redirect_to(alice)
 end
 ```
@@ -1144,7 +1143,7 @@ it "redirects to the phone_number" do
   bob = Person.create(first_name: 'Bob', last_name: 'Jones')
   valid_attributes = {number: '555-5678', person_id: bob.id}
   phone_number = PhoneNumber.create! valid_attributes
-  put :update, {:id => phone_number.to_param, :phone_number => valid_attributes}, valid_session
+  put :update, {id: phone_number.to_param, phone_number: valid_attributes}, valid_session
   expect(response).to redirect_to(bob)
 end
 ```
@@ -1186,7 +1185,7 @@ Lastly the customer wants a delete link for each phone number. Follow a similar 
 One note: the "destroy" action of a rails controller is triggered by sending an HTTP DELETE request to the appropriate path. You will need to use the `method` option on the `link_to` helper to include this in the delete links. It will look something like:
 
 ```
-<%= link_to('delete', phone_number_path(phone_number), :method => "delete") %>
+<%= link_to('delete', phone_number_path(phone_number), method: "delete") %>
 ```
 
 Once your tests are passing, let's commit!
@@ -1485,15 +1484,15 @@ In the failing spec, change both references to `person_id` to `contact_id`. In t
 
 Rerun the phone number model specs.
 
-Now they're complaining that about an `undefined method `person_id'`. OK, no problem. Open up the phone number model. Update any validations that include `person_id` to `contact_id`.
+Now they're complaining that about an `undefined method 'person_id'`. OK, no problem. Open up the phone number model. Update any validations that include `person_id` to `contact_id`.
 
 Run the tests again, and they should be passing, but for the wrong reasons. Let's improve our tests. We still have references to `person` that need to be changed to `contact`. When updated they should look something like this:
 
 ```ruby
 require 'rails_helper'
 
-RSpec.describe PhoneNumber, :type => :model do
-  let(:person) { Person.create(:first_name => "Jimbob", :last_name => "Billy") }
+RSpec.describe PhoneNumber, type: :model do
+  let(:person) { Person.create(first_name: "Jimbob", last_name: "Billy") }
   let(:phone_number) { PhoneNumber.new(number: "111-222-3333", contact_id: person.id, contact_type: 'Person') }
 
   it 'is valid' do
@@ -1551,7 +1550,7 @@ The tests are still complaining. Open up the phone numbers controller and replac
 
 I'm now seeing a new error for _all_ of my tests when running them - `Cannot redirect to nil!`. If you are seeing different errors, retrace your steps and read through your code thoroughly. These errors should be happening for tests that are trying to create phone numbers.
 
-The reason we are seeing this failure is due to Rails use of strong parameters in the controller. There you should see a method named `phone_number_params`. Notice any attributes missing from `permit? We don't have `:contact_type`. Go ahead and add it. These are the attributes our controller will allow to be changed.
+The reason we are seeing this failure is due to Rails use of strong parameters in the controller. There you should see a method named `phone_number_params`. Notice any attributes missing from permit? We don't have `:contact_type`. Go ahead and add it. These are the attributes our controller will allow to be changed.
 
 ```ruby
 def phone_number_params
@@ -1567,13 +1566,13 @@ Let's move on to the `person_view_spec`:
 $ bundle exec rspec spec/features/person_view_spec.rb
 {% endterminal %}
 
-We are getting `undefined method `phone_numbers'`. We need to update `has_many :phone_numbers` in our person model.
+We are getting `undefined method 'phone_numbers'`. We need to update `has_many :phone_numbers` in our person model.
 
 ```ruby
 has_many :phone_numbers, as: :contact
 ```
 
-Now when we run our tests we should see different failures (confirm you don't see `undefined method `phone_numbers'`). The new error is `ActionView::Template::Error: undefined method `person_id'`. As the error indicates, the failure is occuring in our view. In the person `show` template in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
+Now when we run our tests we should see different failures (confirm you don't see `undefined method 'phone_numbers'`). The new error is `ActionView::Template::Error: undefined method 'person_id'`. As the error indicates, the failure is occuring in our view. In the person `show` template in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
 
 This helps, but we're still seeing the same error -- what gives!? If you look closely you'll see that the "undefined method person_id" error has now moved to a different place: `app/views/phone_numbers/_form.html.erb`. Recall that our feature test goes through the steps of creating and editing new phone numbers, which uses the phone numbers form. So to fix these errors we also need to update the phone number form to remove the outdated `person_id` field.
 
@@ -1783,7 +1782,7 @@ We don't want to expose these endpoints to the world, so let's make sure that th
 change the `resources :phone_numbers`, in `routes.rb`, to read as follows:
 
 ```ruby
-resources :phone_numbers, :except => [:index, :show]
+resources :phone_numbers, except: [:index, :show]
 ```
 
 You're going to have to delete the corresponding routing specs as well.
@@ -1896,7 +1895,7 @@ Do you remember copying and pasting some view code?  I told you to do it, so don
 
 Partials are view templates which represent reuseable chunks of markup and display logic. They're especially useful for representing similar data in multiple places in your application, as we are doing now with phone numbers and email addresses. Let's extract some of this duplicated markup into partials.
 
-Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
+Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the companies template with a call to render that partial:
 
 ```erb
 <%= render 'phone_numbers/phone_numbers' %>
@@ -1941,7 +1940,7 @@ First, in `phone_numbers/_phone_numbers.html.erb` delete `@company`.
 Then, in `people/show.html.erb` change the call to render to be as follows:
 
 ```erb
-<%= render 'phone_numbers/phone_numbers', :phone_numbers => @person.phone_numbers %>
+<%= render 'phone_numbers/phone_numbers', phone_numbers: @person.phone_numbers %>
 ```
 
 And finally, in `companies/show.html.erb`, update the call to render to send in the `@company.phone_numbers`.
@@ -2057,8 +2056,8 @@ end
 You will probably get some errors about `email_address` being undefined. Lets fill in this as well as a person with some `let`s at the top of the file:
 
 ```ruby
-  let(:person) { Person.create(:first_name => "Bob", :last_name => "Smith") }
-  let(:email_address) { EmailAddress.new(:contact_id => person.id, :contact_type => "Person", :address => "MyString") }
+  let(:person) { Person.create(first_name: "Bob", last_name: "Smith") }
+  let(:email_address) { EmailAddress.new(contact_id: person.id, contact_type: "Person", address: "MyString") }
   before(:each) do
     assign(:email_address, email_address)
   end
@@ -2232,7 +2231,7 @@ Run this test, and it will fail because we don't have a route for the `sessions#
 We do have a route that goes there, but we can't call it from this controller test. We could add this line to the `config/routes.rb`:
 
 ```ruby
-resource :sessions, :only => [:create]
+resource :sessions, only: [:create]
 ```
 
 Now the test should fail because we don't actually do anything useful in the controller action yet.
@@ -2245,8 +2244,8 @@ My controller looks like this:
 class SessionsController < ApplicationController
   def create
     data = request.env['omniauth.auth']
-    User.create(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name'])
-    render :nothing => true
+    User.create(provider: data['provider'], uid: data['uid'], name: data['info']['name'])
+    render nothing: true
   end
 end
 ```
@@ -2276,8 +2275,8 @@ To get this to pass I changed my create method to this:
 ```ruby
 def create
   data = request.env['omniauth.auth']
-  user = User.where(:provider => data['provider'], :uid => data['uid'], :name => data['info']['name']).first_or_create
-  render :nothing => true
+  user = User.where(provider: data['provider'], uid: data['uid'], name: data['info']['name']).first_or_create
+  render nothing: true
 end
 ```
 
@@ -2325,20 +2324,20 @@ Open up `app/controllers/application_controller.rb` and add the following to it:
 helper_method :current_user
 
 def current_user
-  @current_user ||= User.find_by(id: session[:user_id])
+  @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
 end
 ```
 
-The test fails because our session does not contain the user id, and thus the `current_user` method returns nil.
+The test would fail wihtout adding `if session[:user_id]` because if our session does not contain the user id, and the `current_user` method returns nil.
 
-Let's put the user id in the session. Go back to the sessions controller and update the `create` method:
+Let's also put the user id in the session. Go back to the sessions controller and update the `create` method:
 
 ```ruby
 def create
   data = request.env['omniauth.auth']
   user = User.where(provider: data['provider'], uid: data['uid'], name: data['info']['name']).first_or_create
   session[:user_id] = user.id
-  render :nothing => true
+  render nothing: true
 end
 ```
 
@@ -2368,7 +2367,7 @@ Now, back to `SessionsController`. Update the action to use the new method on th
 def create
   user = User.find_or_create_by_auth(request.env['omniauth.auth'])
   session[:user_id] = user.id
-  render :nothing => true
+  render nothing: true
 end
 ```
 
@@ -2458,7 +2457,7 @@ Just because we're following the REST convention doesn't mean we can't also crea
 Open `/config/routes.rb` and add a custom route:
 
 ```ruby
-match "/login" => redirect("/auth/twitter"), as: :login
+get "/login" => redirect("/auth/twitter"), as: :login
 ```
 
 Finally, the test is failing because we don't have a login link in the page.
@@ -2584,11 +2583,11 @@ context 'when logged in' do
     Rails.application.routes.draw do
       root to: 'site#index'
       get '/fake_login' => 'fake_sessions#create', as: :fake_login
-      match '/login' => redirect('/auth/twitter'), as: :login
+      get '/login' => redirect('/auth/twitter'), as: :login
       delete "/logout" => "sessions#destroy", as: :logout
     end
     user = User.create(name: 'Jane Doe')
-    visit fake_login_path(:user_id => user.id)
+    visit fake_login_path(user_id: user.id)
   end
 
   after(:each) do
@@ -2638,7 +2637,7 @@ I had to update the before filter in the sessions controller spec to include the
 ```ruby
 before(:each) do
   Rails.application.routes.draw do
-    resource :sessions, :only => [:create, :destroy]
+    resource :sessions, only: [:create, :destroy]
   end
 end
 ```
@@ -2911,7 +2910,7 @@ describe "GET index" do
   it "assigns the current user's people" do
     user = User.create
     person = Person.create! valid_attributes.merge(user_id: user.id)
-    get :index, {}, {:user_id => user.id}
+    get :index, {}, {user_id: user.id}
     assigns(:people).should eq([person])
   end
 end

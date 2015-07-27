@@ -2324,13 +2324,13 @@ Open up `app/controllers/application_controller.rb` and add the following to it:
 helper_method :current_user
 
 def current_user
-  @current_user ||= User.find_by(id: session[:user_id])
+  @current_user ||= User.find_by(id: session[:user_id]) if session[:user_id]
 end
 ```
 
-The test fails because our session does not contain the user id, and thus the `current_user` method returns nil.
+The test would fail wihtout adding `if session[:user_id]` because if our session does not contain the user id, and the `current_user` method returns nil.
 
-Let's put the user id in the session. Go back to the sessions controller and update the `create` method:
+Let's also put the user id in the session. Go back to the sessions controller and update the `create` method:
 
 ```ruby
 def create
@@ -2457,7 +2457,7 @@ Just because we're following the REST convention doesn't mean we can't also crea
 Open `/config/routes.rb` and add a custom route:
 
 ```ruby
-match "/login" => redirect("/auth/twitter"), as: :login
+match "/login" => redirect("/auth/twitter"), as: :login, via: [:get]
 ```
 
 Finally, the test is failing because we don't have a login link in the page.

@@ -2457,7 +2457,7 @@ Just because we're following the REST convention doesn't mean we can't also crea
 Open `/config/routes.rb` and add a custom route:
 
 ```ruby
-match "/login" => redirect("/auth/twitter"), as: :login, via: [:get]
+get "/login" => redirect("/auth/twitter"), as: :login
 ```
 
 Finally, the test is failing because we don't have a login link in the page.
@@ -2583,7 +2583,7 @@ context 'when logged in' do
     Rails.application.routes.draw do
       root to: 'site#index'
       get '/fake_login' => 'fake_sessions#create', as: :fake_login
-      match '/login' => redirect('/auth/twitter'), as: :login
+      get '/login' => redirect('/auth/twitter'), as: :login
       delete "/logout" => "sessions#destroy", as: :logout
     end
     user = User.create(name: 'Jane Doe')

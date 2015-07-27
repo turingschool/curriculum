@@ -1895,7 +1895,7 @@ Do you remember copying and pasting some view code?  I told you to do it, so don
 
 Partials are view templates which represent reuseable chunks of markup and display logic. They're especially useful for representing similar data in multiple places in your application, as we are doing now with phone numbers and email addresses. Let's extract some of this duplicated markup into partials.
 
-Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the list in the companies template with a call to render that partial:
+Create a partial `app/views/phone_numbers/_phone_numbers.html.erb`. Copy the phone number list from the `companies/show.html.erb` template into the partial, and then replace the list in the companies template with a call to render that partial:
 
 ```erb
 <%= render 'phone_numbers/phone_numbers' %>

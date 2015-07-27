@@ -1550,7 +1550,7 @@ The tests are still complaining. Open up the phone numbers controller and replac
 
 I'm now seeing a new error for _all_ of my tests when running them - `Cannot redirect to nil!`. If you are seeing different errors, retrace your steps and read through your code thoroughly. These errors should be happening for tests that are trying to create phone numbers.
 
-The reason we are seeing this failure is due to Rails use of strong parameters in the controller. There you should see a method named `phone_number_params`. Notice any attributes missing from `permit? We don't have `:contact_type`. Go ahead and add it. These are the attributes our controller will allow to be changed.
+The reason we are seeing this failure is due to Rails use of strong parameters in the controller. There you should see a method named `phone_number_params`. Notice any attributes missing from permit? We don't have `:contact_type`. Go ahead and add it. These are the attributes our controller will allow to be changed.
 
 ```ruby
 def phone_number_params

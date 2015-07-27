@@ -1566,13 +1566,13 @@ Let's move on to the `person_view_spec`:
 $ bundle exec rspec spec/features/person_view_spec.rb
 {% endterminal %}
 
-We are getting `undefined method `phone_numbers'`. We need to update `has_many :phone_numbers` in our person model.
+We are getting `undefined method 'phone_numbers'`. We need to update `has_many :phone_numbers` in our person model.
 
 ```ruby
 has_many :phone_numbers, as: :contact
 ```
 
-Now when we run our tests we should see different failures (confirm you don't see `undefined method `phone_numbers'`). The new error is `ActionView::Template::Error: undefined method `person_id'`. As the error indicates, the failure is occuring in our view. In the person `show` template in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
+Now when we run our tests we should see different failures (confirm you don't see `undefined method 'phone_numbers'`). The new error is `ActionView::Template::Error: undefined method 'person_id'`. As the error indicates, the failure is occuring in our view. In the person `show` template in the link to 'Add new phone number' change `person_id` to `contact_id`. Also, add in the `contact_type: 'Person'` here.
 
 This helps, but we're still seeing the same error -- what gives!? If you look closely you'll see that the "undefined method person_id" error has now moved to a different place: `app/views/phone_numbers/_form.html.erb`. Recall that our feature test goes through the steps of creating and editing new phone numbers, which uses the phone numbers form. So to fix these errors we also need to update the phone number form to remove the outdated `person_id` field.
 

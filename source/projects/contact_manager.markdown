@@ -9,7 +9,6 @@ language: ruby
 In this advanced Rails project, you'll create a contact manager. The tools that you will use include the following:
 
 * Testing with [RSpec](http://relishapp.com/rspec/) to drive your development
-* Creating view templates with [Haml](http://haml-lang.com/) and [Sass](http://sass-lang.com/)
 * Building reusable view code with helpers and partials
 * Refactoring
 * Managing authentication and authorization

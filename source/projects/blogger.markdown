@@ -1377,7 +1377,7 @@ Now that the comments feature has been added push it up to GitHub:
 
 {% terminal %}
 $ git add .
-$ git commit -m "finished blog comments feature"
+$ git commit -m "finish blog comments feature"
 $ git push
 {% endterminal %}
 

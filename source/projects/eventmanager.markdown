@@ -1,4 +1,4 @@
-Iteration 3---
+---
 layout: page
 title: EventManager
 sidebar: true

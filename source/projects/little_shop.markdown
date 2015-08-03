@@ -46,7 +46,7 @@ You should not write code or migrations until a story calls for it.
 
 Teams will meet with the product owner regularly and demo completed stories. The product owner will request additional features at each meeting and those stories should be completed prior to your next meeting. Project scope and requirements can change at the discretion of the product owner so following an agile approach is really important.
 
-It is expected that teams will have meaningful discussions and code reviews using comments on Github. Your instructors will be looking for this. Commits should also have meaningful messages. If you have commits that say things like `Fixing hound complaints.`, you will likely be asked to [squash](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html) those commits. Rebasing should be done _before_ the branch is merged into master or you will run into problems.
+It is expected that teams will have meaningful discussions and code reviews using comments on Github. Your instructors will be looking for this. Commits should also have meaningful messages. If you have commits that say things like "Fixing hound complaints.", you will likely be asked to [squash](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html) those commits. Rebasing should be done _before_ the branch is merged into master or you will run into problems.
 
 The master branch of your project should always remain in a state where it can demoed and deployed... yes, even days that you don't have any _planned_ meetings.
 

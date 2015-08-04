@@ -1,8 +1,10 @@
 ---
 layout: page
-title: Untitled
+title: Little Shop of Orders
 sidebar: true
 ---
+
+# Little Shop of Orders
 
 In this project you'll use Ruby on Rails to build an online commerce platform to facilitate online ordering.
 

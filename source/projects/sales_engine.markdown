@@ -92,7 +92,7 @@ Before digging too deeply into the listed methods below, you need to build a sys
 
 ### Entry Point
 
-After calling the following code is called, all the dependencies should be loaded up:
+After the following code is called, all the dependencies should be loaded up:
 
 ```ruby
 engine = SalesEngine.new

@@ -478,9 +478,9 @@ end
 
 The next piece I'm interested in is the middle section. Arrays in Ruby have a method named `.collect`.
 
-The `.each` method that we're already using goes through the elements in the array and runs the block once for each element.
+The `.each` method that we're already using goes through the elements in the array and runs the block once for each element. The return value of .each is always the receiver of the method call.
 
-The `.collect` method does the same thing, *but* it also gathers the results of running the block into an array and gives you back that array.
+The `.collect` method does the same thing, *but* it also gathers the results of running the block on each element of the array and gives you back that transformed array.
 
 Let's try an example in IRB:
 

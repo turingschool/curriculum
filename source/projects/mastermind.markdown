@@ -9,30 +9,30 @@ In this project you'll use Ruby to build an implementation of the classic game M
 
 ### Learning Goals / Areas of Focus
 
-* Proficiently use TDD to drive development
+* Apply principles of flow control across multiple methods
 * Practice breaking a program into logical components
 * Learn to implement a REPL interface
-* Apply previously learned Enumerable techniques in a real context
+* Apply Enumerable techniques in a real context
+
+*NOTE* that you are not expected to write automated software tests for this project.
 
 ## Base Expectations
 
-Use [this repository as a template][mmgh] for your project.
-
-[mmgh]: https://github.com/turingschool-examples/mastermind
-
 You are to build a playable game of Mastermind that runs in a REPL interface.
+
+Begin by [cloning the template repository](https://github.com/turingschool-examples/mastermind).
 
 ### Starting a Game
 
 * The player starts the game by running `ruby mastermind.rb`
 * Then they see:
 
-{% irb %}
+```
 Welcome to MASTERMIND
 
 Would you like to (p)lay, read the (i)nstructions, or (q)uit?
 >
-{% endirb %}
+```
 
 * If they enter `p` or `play` then they enter the *game flow* described below.
 * If they enter `i` or `instructions` they should be presented with a short explanation of how
@@ -43,11 +43,11 @@ the game is played.
 
 Once the user starts a game they should see:
 
-{% irb %}
+```
 I have generated a beginner sequence with four elements made up of: (r)ed,
 (g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game.
 What's your guess?
-{% endirb %}
+```
 
 They can then enter a guess in the form `rrgb`
 
@@ -59,11 +59,10 @@ They can then enter a guess in the form `rrgb`
 * If they guess the secret sequence, enter the *end game* flow below
 * Otherwise give them feedback on the guess like this:
 
-{% irb %}
+```
 'RRGB' has 3 of the correct elements with 2 in the correct positions
 You've taken 1 guess
-
-{% endirb %}
+```
 
 Then let them guess again, repeating the game flow loop.
 
@@ -71,12 +70,12 @@ Then let them guess again, repeating the game flow loop.
 
 When the user correctly guesses the sequence, output the following:
 
-{% irb %}
+```
 Congratulations! You guessed the sequence 'GRRB' in 8 guesses over 4 minutes,
 22 seconds.
 
 Do you want to (p)lay again or (q)uit?
-{% endirb %}
+```
 
 If they enter `'p'` or `'play'` then restart the game. `'q'` or `'quit'` ends
 the game.
@@ -100,7 +99,7 @@ level they'd like to play with the following adaptations:
 Use a file on the file system (like CSV, JSON, etc) to track completed
 games across runs of the program. When the user wins the game, output a message like this:
 
-{% irb %}
+```
 Congratulations! You've guessed the sequence! What's your name?
 
 > Jeff
@@ -114,7 +113,7 @@ average.
 2. Jeff solved 'BRGG' in 11 guesses over 4m45s
 3. Jorge solved 'BBBB' in 12 guesses over 4m15s
 4. Jorge solved 'GGBB' in 12 guesses over 5m12s
-{% endirb %}
+```
 
 Note that they're ranked first by number of guesses then by time.
 
@@ -128,6 +127,7 @@ Create an executable script that allows the user to just run `mastermind`
 from their terminal without directly executing Ruby.
 
 ### Other Ideas
+
 * Add a `history` instruction to the gameplay which can be called before entering a guess and it'll display
 all previous guesses and results in a compact form
 * Visual Interface - add colors and ASCII graphics to make a more compelling
@@ -146,12 +146,12 @@ The project will be assessed with the following rubric:
 * 2:  Application runs but the code has many long methods (>8 lines) and needs significant refactoring
 * 1:  Application generates syntax error or crashes during execution
 
-### 2. Test-Driven Development
+### 2. Enumerable & Collections
 
-* 4: Application is broken into components which are well tested in both isolation and integration
-* 3: Application uses tests to exercise core functionality, but has some gaps in coverage or leaves edge cases untested.
-* 2: Application tests some components but has many gaps in coverage.
-* 1: Application does not demonstrate strong use of TDD
+* 4: Application consistently makes use of the best-choice Enumerable methods and collections
+* 3: Application demonstrates comfortable use of several Enumerable techniques and collections
+* 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
+* 1: Application demonstrates deficiencies with Enumerable and struggles with collections
 
 ### 3. REPL Interface and Game Functionality
 
@@ -162,7 +162,7 @@ The project will be assessed with the following rubric:
 
 ### 4. Breaking Logic into Components
 
-* 4: Application effectively breaks logical components apart with clear intent and usage
-* 3: Application has multiple components with defined responsibilities but there is some leaking of responsibilities
-* 2: Application has some logical components but divisions of responsibility are inconsistent or unclear and/or there is a "God" object taking too much responsibility
-* 1: Application logic shows poor decomposition with too much logic mashed together
+* 4: Application consistently breaks concepts into logical classes and methods which encapsulate functionality.
+* 3: Application consistently breaks concepts into logical methods to encapsulate functionality.
+* 2: Application makes use of some methods, but the divisions or encapsulation are unclear.
+* 1: Application makes use of just a few huge methods to control the bulk of the functionality.

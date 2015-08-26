@@ -20,8 +20,6 @@ In this project you'll use Ruby to build an implementation of the classic game M
 
 You are to build a playable game of Mastermind that runs in a REPL interface.
 
-Begin by [cloning the template repository](https://github.com/turingschool-examples/mastermind).
-
 ### Starting a Game
 
 * The player starts the game by running `ruby mastermind.rb`

@@ -3,6 +3,17 @@ layout: page
 title: Chisel
 ---
 
+## Before You Begin
+
+This project is going to center on Markdown and HTML. If you don't have
+experience with those two technologies it'll be hard to really understand how
+to construct/implement your code.
+
+If you'd like to build just enough familiarity, try these resource:
+
+* [Codecademy's HTML and CSS Track](https://www.codecademy.com/tracks/web) focusing on the "HTML Basics" all the way up to but not including "CSS: An Overview"
+* This [Markdown Tutorial](http://markdowntutorial.com/)
+
 ## Introduction
 
 HTML is an amazing tool for marking up documents, but it's not very fun for

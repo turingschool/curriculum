@@ -20,7 +20,7 @@ debugging the computer.
 Since the military requires you to log goddamn everything (yeah, I'm a veteran),
 she taped it into the log with the caption "First actual case of bug being found."
 
-![Computer Bug](/images/first-computer-bug.jpg)
+![Computer Bug](http://tutorials.jumpstartlab.com/images/first-computer-bug.jpg)
 
 ## Before The Bug
 

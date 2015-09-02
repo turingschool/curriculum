@@ -790,9 +790,8 @@ the instance method `some_method` of the class `SomeClass`.
 
 ### Seeing Is Believing
 
-Seeing Is Believing is greate for extracting and verifying small steps.
+Seeing Is Believing is great for extracting and verifying small steps.
 It's in your editor, so its easier to work with, you can change a line
 anywhere and then re-run it.
 
-[sib]:               https://github.com/JoshCheek/seeing_is_believing
-[readline-notation]: https://www.gnu.org/software/bash/manual/html_node/Introduction-and-Notation.html#Introduction-and-Notation
+Learn more about [SIB here](https://github.com/JoshCheek/seeing_is_believing).

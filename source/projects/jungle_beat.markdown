@@ -18,7 +18,7 @@ $ say -r 500 -v Boing "ding, dah, oom, oom, ding, oom, oom, oom, ding, dah, oom,
 Yeah. That's what we're looking for. Now try it from Ruby:
 
 ```
-$ irb
+$ pry
 > `say -r 500 -v Boing "ding, dah, oom, oom"`
 ```
 
@@ -71,9 +71,9 @@ Which will play the eight sounds.
 
 ### A Dynamic Interaction Model
 
-Then we'll want to stretch the Linked List underpinnings from an IRB session:
+Then we'll want to stretch the Linked List underpinnings from a Pry session:
 
-```irb
+```ruby
 > jb = JungleBeat.new("deep dep dep deep")
 > jb.play
 => 4 # also plays the sounds

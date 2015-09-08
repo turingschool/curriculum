@@ -5,7 +5,7 @@ title: Jungle Beat
 
 ## Before You Begin
 
-We're going to do some silly things with sound and linked lists.
+We're going to do some silly things with sound and linked lists. Let's make a drum machine that's backed by a linked list.
 
 ### Making Sound
 
@@ -15,9 +15,16 @@ Go into your Terminal and try this:
 $ say -r 500 -v Boing "ding, dah, oom, oom, ding, oom, oom, oom, ding, dah, oom, oom, ding, dah, oom, oom, ding, dah, oom, oom "
 ```
 
-Yeah. That's what we're looking for.
+Yeah. That's what we're looking for. Now try it from Ruby:
 
-### Linked Lists?
+```
+$ irb
+> `say -r 500 -v Boing "ding, dah, oom, oom"`
+```
+
+Note that the backticks allow you to run terminal commands from within Ruby.
+
+### Linked Lists
 
 Linked Lists are one of the most fundamental Computer Science data structures. A Linked List models a collection of data as a series of "nodes" which link to one another in a chain.
 
@@ -71,7 +78,7 @@ Then we'll want to stretch the Linked List underpinnings from an IRB session:
 > jb.play
 => 4 # also plays the sounds
 > jb.append("deep bop bop deep")
-=> 8 # also plays the sounds
+=> 8
 > jb.all
 => "deep dep dep deep deep bop bop deep"
 > jb.prepend("tee tee tee tee")
@@ -94,7 +101,7 @@ Then we'll want to stretch the Linked List underpinnings from an IRB session:
 
 ### Internal Structure
 
-You must use a Linked List to store your beats. Each node should contain only a single "word"/beat. You'll want to implement each of the following features for your list:
+You must use a Linked List to store your beats. Each node should contain only a single "word"/beat. You'll want to implement at least each of the following features for your list:
 
 * `append` an element to the end of the list
 * `prepend` an element at the beginning of the list
@@ -102,6 +109,10 @@ You must use a Linked List to store your beats. Each node should contain only a 
 * `includes?` gives back `true` or `false` whether the supplied value is in the list
 * `pop` or more elements from the end of the list
 * `count` the number of elements in the list
+
+## Extensions
+
+*Forthcoming*
 
 ## Tips
 
@@ -116,12 +127,12 @@ You must use a Linked List to store your beats. Each node should contain only a 
 
 ## Constraints
 
-* Make sure that your code is well tested for both *expected cases* and *edge cases*.
+* Make sure that your code is well tested for both *expected cases* and *edge cases*. Try popping more elements than there are in the list. Try seeing if an empty list includes anything. Try inserting elements at a position beyond the length of the list. That kind of thing.
 * Avoid using other ruby collections (Arrays, Hashes, etc) in your implementation.
 
 ## Resources
 
-Need some help? You check out some of the following resources:
+Need some help on Linked Lists? You can check out some of the following resources:
 
 * https://www.youtube.com/watch?v=oiW79L8VYXk
 * http://www.eternallyconfuzzled.com/tuts/datastructures/jsw_tut_linklist.aspx

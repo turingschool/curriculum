@@ -88,13 +88,13 @@ Then we'll want to stretch the Linked List underpinnings from a Pry session:
 > jb.include?("dep")
 => true
 > jb.pop(4)
-=> 4
+=> "deep bop bop deep"
 > jb.all
-=> "tee tee tee tee deep dep dep deep deep bop bop deep"
+=> "tee tee tee tee deep dep dep deep"
 > jb.count
-=> 12
+=> 8
 > jb.insert(4, "boop bop bop boop")
-=> "tee tee tee tee boop bop bop boop deep dep dep deep deep bop bop deep"
+=> "tee tee tee tee boop bop bop boop deep dep dep deep"
 > jb.find(8, 2)
 => "deep dep"
 ```

@@ -1203,5 +1203,3 @@ Encrypting each letter with a different rotation will make it hard for for someo
 Assuming you are rotating through the same 91 characters, choosing three numbers would require a cracker to look through **753571** possible combinations to figure out what you wrote. Each number you add would make that amount increase even more!
 
 {% endexercise %}
-
-### Dpohsbuvmbujpot\"

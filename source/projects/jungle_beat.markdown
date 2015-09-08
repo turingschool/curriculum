@@ -78,7 +78,7 @@ Then we'll want to stretch the Linked List underpinnings from a Pry session:
 > jb.play
 => 4 # also plays the sounds
 > jb.append("deep bop bop deep")
-=> 8
+=> 4
 > jb.all
 => "deep dep dep deep deep bop bop deep"
 > jb.prepend("tee tee tee tee")

@@ -55,12 +55,25 @@ or included in the existing application as a rake task or other
 executable script.
 
 The goal of this script is to exercise as many of the application's
-endpoints as possible. The evaluation rubric for this coverage will be:
+endpoints as possible. The evaluation rubric for this coverage will be
+based on the _required user paths_ listed below:
 
-* 4: Load testing script exercises 85% of application endpoints (as reported by rake routes)
-* 3: Load testing script exercises 60% of application endpoints
-* 2: Load testing script exercises 40% of application endpoints
-* 1: Load testing script exercises 20% or less of application endpoints
+* 4: Load testing script exercises all required endpoints and adds 2 or more of its own
+* 3: Load testing script exercises all required endpoints
+* 2: Load testing script misses 1-3 endpoints
+* 1: Load testing misses many endpoints
+
+__Required User Paths__
+
+* Anonymous user browses loan requests
+* User browses pages of loan requests
+* User browses categories
+* User browses pages of categories
+* User views individual loan request
+* New user signs up as lender
+* New user signs up as borrower
+* New borrower creates loan request
+* Lender makes loan
 
 #### 3. Database Load
 

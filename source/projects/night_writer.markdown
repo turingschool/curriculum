@@ -52,7 +52,9 @@ Created 'output_message.txt' containing 256 characters.
 
 ### Character Support
 
-Use just the [lowercase letters a-z here from the American Foundation for the Blind](http://braillebug.afb.org/braille_print.asp) for your project.
+Use the [lowercase letters a-z here from the American Foundation for the Blind](http://braillebug.afb.org/braille_print.asp) for your project.
+
+We also need to support capitalization. In Braille, capitalization comes from a shift character. You'll find that character at the end of the fourth row of the previous graphic. When that character appears, the next character (and only the next character) is a capital. So `e` comes out as one 2x3 set of Braille points, but `E` is 4x3: the shift character followed by the normal `e`. Consider how this will affect your line length restrictions.
 
 ## Development Phases
 

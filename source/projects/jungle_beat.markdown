@@ -109,7 +109,7 @@ You must use a Linked List to store your beats. Each node should contain only a 
 * `includes?` gives back `true` or `false` whether the supplied value is in the list
 * `pop` one or more elements from the end of the list
 * `count` the number of elements in the list
-* `find` one or more elements based on arbitrary positions in the list
+* `find` one or more elements based on arbitrary positions in the list. The first parameter indicates the first position to return and the second parameter specifies how many elements to return.
 * `all` return all elements in the linked list in order
 
 ## Extensions

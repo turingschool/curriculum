@@ -92,6 +92,29 @@ About this point, you should try Braille-ifying a message and exchange it with a
 
 Then it's time to dive into the reading.
 
+## Extensions
+
+### 1. Supporting Numbers
+
+Return to the graphic referenced above and you'll find a the `#` in the bottom
+left corner. Notice that the representations for 1-9 are actually the same as
+a-i. This number sign is a "switch" which means that all of the following "letters",
+up to the next space, are actually numbers. After the space it's assumed that
+we're back to words/letters unless we see another number switch.
+
+Add support for numbers to your program.
+
+### 2. Supporting Contractions
+
+There are contractions commonly understood in Braille. They're a single letter
+symbol (so it has spaces on each side) which stands in for a common word.
+
+Find the symbols [here on Wikipedia](https://en.wikipedia.org/wiki/English_Braille#One-letter_contractions)
+and add support in your program for the following: a, but, can, do, every, from, go, have, just, knowledge, like, more, not, people, quite, rather, so, that, us, very, it, you, as, child, shall, this, which, out, will, enough, were, in
+
+These should be used both when going from standard characters to Braille (ie, `from`
+  is output as one character of Braille) and in your expansion from Braille to standard characters.
+
 ## Evaluation Rubric
 
 The project will be assessed with the following rubric:

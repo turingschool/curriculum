@@ -179,7 +179,7 @@ voice. Let's setup a usage like this:
 ## Constraints
 
 * Make sure that your code is well tested for both *expected cases* and *edge cases*. Try popping more elements than there are in the list. Try seeing if an empty list includes anything. Try inserting elements at a position beyond the length of the list. That kind of thing.
-* Avoid using other ruby collections (Arrays, Hashes, etc) in your implementation.
+* Avoid using other ruby collections (Arrays, Hashes, etc) for the storage of your beats. That's where you're supposed to use the linked list. But having Arrays elsewhere in your code, or using methods that return arrays (like `.split`) are totally ok.
 
 ## Resources
 

@@ -191,7 +191,7 @@ The project will be assessed with the following rubric:
 
 * 4: Application is broken into components which are well tested in both isolation and integration
 * 3: Application uses tests to exercise core functionality, but has some gaps in coverage or leaves edge cases untested.
-* 2: Application tests some components but has many gaps in coverage.
+* 2: I can edit the code to be broken without a test failing (ie swap characters, change `<` to `<=`, place `true` into a conditional, delete a line, etc)
 * 1: Application does not demonstrate strong use of TDD
 
 ### 4. Breaking Logic into Components

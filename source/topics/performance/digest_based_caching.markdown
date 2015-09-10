@@ -320,23 +320,27 @@ when the comment was created, it updated the timestamp on the article. The updat
 
 ## Nested Cache Elements
 
-### Thinking About `updated_at`
+Our caching approach is getting better -- now our article page can
+cache all of the markup but still be updated when the relevant child
+records (i.e. comments are changed or created).
 
-There's one problem with this technique, though. Adding the comment touched the parent article, which meant changing the `updated_at`. The view template was outputting that `updated_at` to represent when the content of the article itself was updated, which  didn't really happen. You might not care this time, but for some applications, this isn't
-great. 
+But there's one improvement we can still make. Currently, when a comment
+is updated or created, we end up re-generating the markup for the entire page
+(and then re-inserting it into the cache with the appropriate cache digest).
 
-There's another way. We can nest the cache blocks within the template, then `:touch` isn't needed down in the models. 
-
-**Remove** all the `touch` bits from the models. Return to the article in the browser and add another comment:
-
-![stale cache](/images/caching/stale_cache.png)
-
-Oh no! It still says 16 total comments, and this troll-y comment I left before
-is the 'newest' one. But I added another! Where'd it go?
-
-Well, because our `updated_at` wasn't modified for `@article`, the digest generated the same old cache key.
+But just because one comment changes, there's no reason we should have to
+re-generate _all_ the other comments as well. This is exactly what
+_nested caching_ (aka Russian Doll Caching) allows us to achieve.
 
 ### Listing Cache Dependencies
+
+For starters, let's take advantage of a Rails feature which allows
+us to identify "dependencies" within our template. Eventually, we'd
+like to get to a point where our article template has a _nested dependency_
+on a separate template for rendering each comment.
+
+Then, we can create a _nested_ cache which contains that comment independently
+of the _outer_ cache containing the article itself.
 
 We can see the nested dependencies with this rake task:
 
@@ -351,7 +355,8 @@ Nothing yet.
 
 ### Extracting a Partial
 
-Find the part of the view template that renders the comments using `@article.comments.each`. Cut the segment inside of the each block out to a partial:
+Find the part of the view template that renders the comments using `@article.comments.each`.
+Cut the segment inside of the each block out to a partial:
 
 ```html+erb
 <%= render partial: 'comments/comment', collection: @article.comments %>
@@ -360,16 +365,23 @@ Find the part of the view template that renders the comments using `@article.com
 and in `app/views/comments/_comment.html.erb`:
 
 ```html+erb
+<% cache comment do %>
 <div class='comment'>
   <p>
     <em><%= comment.author_name %></em>
-    said <%= distance_of_time_in_words(comment.article.created_at, comment.created_at) %> later:
+    said <%= distance_of_time_in_words(@article.created_at, comment.created_at) %> later:
   </p>
   <p><%= comment.body %></p>
 </div>
+<% end %>
 ```
 
-If you're seeing the comments repeating over and over again after refreshing the show page, make sure you've deleted the each block that previously surrounded the portion you cut out. 
+Notice that we include an additional `cache` block within the comment partial.
+This will allow us to cache each comment independently, so that if _one_ comment
+changes, we can still rely on all of the cached data for the _remaining_ comments.
+
+__Note__ If you're seeing the comments repeating over and over again after refreshing the show page,
+make sure you've deleted the each block that previously surrounded the portion you cut out. 
 
 #### Reevaluating Dependencies
 
@@ -382,9 +394,75 @@ $ bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show
 ]
 {% endterminal %}
 
-Rails will now know that we rely on this partial. When it caches the whole template, it'll cache each rendering of the partial individually. If any of the comments changes, its key will change making the old fragment/key obsolete. The whole page, which is dependent on this fragment, will also generate a different key.
+Rails will now know that we rely on this partial.
+When it caches the whole template, it'll cache each rendering of the partial individually.
+If any of the comments changes, its key will change making the old fragment/key obsolete.
+The whole page, which is dependent on this fragment, will also generate a different key.
 
-Hit refresh, and you should see all posted comments.
+However, the other _individual_ comment caches (which have not changed), will still be
+valid. So the outer, article cache, can reuse these inner caches when re-generating itself.
+
+For our trivial example with blogger, this won't make much of a difference. But in a more
+complex scenario, the ability to reuse that inner cache data can make a large difference.
+
+### Nested Caches in action.
+
+Let's check out a last example to see how this system works.
+Load a fresh article page and observe the log output. You should
+see something like this:
+
+```
+  Cache digest for app/views/comments/_comment.html.erb: d473922263896e6e8ada6ce051d4abfa
+Cache read: views/comments/66-20150909231953716957000/d473922263896e6e8ada6ce051d4abfa
+Read fragment views/comments/66-20150909231953716957000/d473922263896e6e8ada6ce051d4abfa (0.3ms)
+Cache write: views/comments/66-20150909231953716957000/d473922263896e6e8ada6ce051d4abfa
+Write fragment views/comments/66-20150909231953716957000/d473922263896e6e8ada6ce051d4abfa (1.1ms)
+  Cache digest for app/views/comments/_comment.html.erb: d473922263896e6e8ada6ce051d4abfa
+Cache read: views/comments/67-20150909231953718725000/d473922263896e6e8ada6ce051d4abfa
+Read fragment views/comments/67-20150909231953718725000/d473922263896e6e8ada6ce051d4abfa (0.3ms)
+Cache write: views/comments/67-20150909231953718725000/d473922263896e6e8ada6ce051d4abfa
+Write fragment views/comments/67-20150909231953718725000/d473922263896e6e8ada6ce051d4abfa (0.2ms)
+  Rendered comments/_comment.html.erb (5.2ms)
+Cache write: views/articles/20-20150909231953714300000/510ae7e99c098d692f3d1380c5733d27
+Write fragment views/articles/20-20150909231953714300000/510ae7e99c098d692f3d1380c5733d27 (0.8ms)
+  Rendered articles/show.html.erb within layouts/application (15.6ms)
+Completed 200 OK in 44ms (Views: 41.3ms | ActiveRecord: 1.7ms)
+```
+
+If we look closely, we can see 2 things going on here:
+
+1. The template generates cache digests and data for all of the individual comments in the template
+2. Finally it generates a digest and data for the outer article cache.
+
+### Comment Updating With Russian Doll Caching
+
+Now that we have our nested caching in place, let's try adding a new comment.
+Create a new comment via the form, and watch the log output as the page reloads:
+
+```
+  Cache digest for app/views/comments/_comment.html.erb: d473922263896e6e8ada6ce051d4abfa
+Cache read: views/comments/66-20150909231953716957000/d473922263896e6e8ada6ce051d4abfa
+Read fragment views/comments/66-20150909231953716957000/d473922263896e6e8ada6ce051d4abfa (0.2ms)
+  Cache digest for app/views/comments/_comment.html.erb: d473922263896e6e8ada6ce051d4abfa
+Cache read: views/comments/67-20150909231953718725000/d473922263896e6e8ada6ce051d4abfa
+Read fragment views/comments/67-20150909231953718725000/d473922263896e6e8ada6ce051d4abfa (0.2ms)
+  Cache digest for app/views/comments/_comment.html.erb: d473922263896e6e8ada6ce051d4abfa
+Cache read: views/comments/4094-20150910010408517771000/d473922263896e6e8ada6ce051d4abfa
+Read fragment views/comments/4094-20150910010408517771000/d473922263896e6e8ada6ce051d4abfa (0.3ms)
+Cache write: views/comments/4094-20150910010408517771000/d473922263896e6e8ada6ce051d4abfa
+Write fragment views/comments/4094-20150910010408517771000/d473922263896e6e8ada6ce051d4abfa (0.2ms)
+  Rendered comments/_comment.html.erb (4.1ms)
+Cache write: views/articles/20-20150910010408518910000/510ae7e99c098d692f3d1380c5733d27
+Write fragment views/articles/20-20150910010408518910000/510ae7e99c098d692f3d1380c5733d27 (0.2ms)
+  Rendered articles/show.html.erb within layouts/application (12.6ms)
+```
+
+Again, looking closely, we can see 3 interesting things going on:
+
+1. For the new comment, a new cache digest and fragment is generated
+2. For all the existing, unchanged comments, the existing cache digest and fragment are read
+3. For the outer, article cache, a new digest and fragment are generated. It now contains
+all of the existing reused comments as well as the newly created one.
 
 ## More Resources
 

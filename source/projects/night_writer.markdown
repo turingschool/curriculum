@@ -115,6 +115,84 @@ and add support in your program for the following: a, but, can, do, every, from,
 These should be used both when going from standard characters to Braille (ie, `from`
   is output as one character of Braille) and in your expansion from Braille to standard characters.
 
+## Examples
+
+Below are a few examples to help you develop your implementation. You're encouraged
+to submit additional examples, especially for the extensions, as pull requests.
+
+### lowercase character
+
+    "a"
+
+    0.
+    ..
+    ..
+
+### two lowercase characters
+
+    "ab"
+
+    0.0.
+    ..0.
+    ....
+
+### uppercase character
+
+    "A"
+
+    ..0.
+    ....
+    .0..
+
+### two uppercase characters
+
+    "AB"
+
+    ..0...0.
+    ......0.
+    .0...0..
+
+### all characters
+
+    "AB"
+
+    ..0...0.
+    ......0.
+    .0...0..
+
+### 80 characters wide
+
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+    0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.
+    ................................................................................
+    ................................................................................
+
+### 82 characters wide (41 English letters)
+
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+    0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.
+    ................................................................................
+    ................................................................................
+    0.
+    ..
+    ..
+
+### all characters
+
+    " !',-.?abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    ..............0.0.00000.00000..0.00.0.00000.00000..0.00.0..000000...0...0...00..
+    ..00..0...000...0....0.00.00000.00..0....0.00.00000.00..0.00...0.0......0.......
+    ..0.0...00.000....................0.0.0.0.0.0.0.0.0.0.0000.0000000.0...0...0...0
+    00..0...00..00..0....0...0..0...0...00..00..0...00..00..0....0...0..0...0....0..
+    .0...0..0...00..00..0...00......0........0...0..0...00..00..0...00......0...00..
+    ...0...0...0...0...0...0...00..00..00..00..00..00..00..00..00..00..000.000.0.0.0
+    00..00..0.
+    .....0...0
+    00.000.000
+
 ## Evaluation Rubric
 
 The project will be assessed with the following rubric:
@@ -136,8 +214,8 @@ The project will be assessed with the following rubric:
 ### 3. Test-Driven Development
 
 * 4: Application is broken into components which are well tested in both isolation and integration
-* 3: Application uses tests to exercise core functionality, but has some gaps in coverage or leaves edge cases untested.
-* 2: Application tests some components but has many gaps in coverage.
+* 3: Application uses tests to exercise core functionality but leaves many common edge cases untested.
+* 2: Minor mutations to the implementation code, such as swaping characters, changing `<` to `<=`, placing `true` into a conditional, or deleting a line of code which break the functionality do not cause any tests to fail.
 * 1: Application does not demonstrate strong use of TDD
 
 ### 4. Breaking Logic into Components

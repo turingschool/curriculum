@@ -137,17 +137,6 @@ EXPLAIN for: SELECT "tags".* FROM "tags"  WHERE "tags"."name" = 'ruby'
 
 You can see it using the index `index_tags_on_name`.
 
-#### Auto-Explain
-
-With Rails 3.2 there's also an "auto-explain" feature that can help you find and diagnose slow queries. In the `config/environments/development.rb` configuration file:
-
-```
-config.active_record.auto_explain_threshold_in_seconds = 0.5
-```
-
-Then any query which takes longer than the threshold will automatically trigger an `EXPLAIN` and the results inserted into the log file.
-
-Note that the `EXPLAIN` runs after the original query, which was already slow, so you're paying an additional performance penalty.
 
 ## Using `includes`
 

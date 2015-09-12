@@ -20,7 +20,7 @@ In the end, we'll have a Ruby Processing program which:
 * Erases with brushes via the keyboard + mouse
 * Clears the canvas via the keyboard
 
-We'll build the project in several iteration so we can get one piece working at a time.
+We'll build the project in several iterations so we can get one piece working at a time.
 
 ## Iteration 0: Background
 
@@ -68,7 +68,7 @@ def key_pressed
 end
 ```
 
-* Save your file and click on the running sketch window. 
+* Save your file and click on the running sketch window.
 * Type a few letters on the keyboard.
 * Look at the command prompt where the `rp5` instruction is running and you should see lines like these:
 
@@ -271,7 +271,7 @@ When your user types `-`, decrease the size of the brush by one pixel.
 
 ### Changing Shape
 
-Let's allow users to use five different shape brushes. They can switch brushes by typing `s1` for "shape 1" or `s2` for "shape 2". 
+Let's allow users to use five different shape brushes. They can switch brushes by typing `s1` for "shape 1" or `s2` for "shape 2".
 
 Create the following brushes for them:
 

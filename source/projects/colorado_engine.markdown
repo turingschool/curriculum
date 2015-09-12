@@ -1,5 +1,106 @@
 # (Colorado Data Project)
 
+### Data Processing
+
+Process each of the data files in the `data` folder to enable the following interactions.
+
+Assume we start with loading our data and finding a school district like this:
+
+```
+dr = DistrictRepository.new("./data")
+district = dr.find_by_name("ACADEMY 20")
+```
+
+Then each `district` has several child objects loaded with data allowing us to ask questions like this:
+
+```
+district.enrollment.in_year(2009) # => 22620
+district.graduation_rate.for_high_school_in_year(2010) # => 0.895
+district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
+```
+
+### Objects and Methods for Basic Data Access
+
+#### `District`
+
+The `District` is the top of our data hierarchy. It has the following methods:
+
+* `statewide_testing` - returns an instance of `StatewideTesting`
+
+
+#### `StatewideTesting`
+
+The instance of this object represents data from the following files:
+
+* `3rd grade students scoring proficient or above on the CSAP_TCAP.csv`
+* `4th grade students scoring proficient or above on the CSAP_TCAP.csv`
+* `8th grade students scoring proficient or above on the CSAP_TCAP.csv`
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_Math.csv`
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_Reading.csv`
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_Science.csv`
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_Writing.csv`
+
+An instance of this class represents the data for a single district and offers the following methods:
+
+##### `.proficient_for_subject_by_grade_in_year(subject, grade, year)`
+
+This method take three parameters:
+
+* `subject` as a symbol from the following set: `[:math, :reading, :writing]`
+* `grade` as an integer from the following set: `[3, 4, 8]`
+* `year` as an integer for any year reported in the data
+
+A call to this method with any invalid parameter (like subject of `:science`) should raise a `UnknownDataError`.
+
+The method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
+```
+
+##### `.proficient_for_subject_by_race_in_year(subject, race, year)`
+
+This method take three parameters:
+
+* `subject` as a symbol from the following set: `[:math, :reading, :writing, :science]`
+* `race` as a symbol from the following set: `[:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]`
+* `year` as an integer for any year reported in the data
+
+A call to this method with any invalid parameter (like subject of `:history`) should raise a `UnknownDataError`.
+
+The method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+district.statewide_testing.proficient_for_subject_by_race_in_year(:math, :asian, 2012) # => 0.818
+```
+
+##### `.proficient_for_subject_in_year(subject, year)`
+
+This method take two parameters:
+
+* `subject` as a symbol from the following set: `[:math, :reading, :writing, :science]`
+* `year` as an integer for any year reported in the data
+
+A call to this method with any invalid parameter (like subject of `:history`) should raise a `UnknownDataError`.
+
+The method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+district.statewide_testing.proficient_for_subject_in_year(:math, 2012) # => 0.680
+```
+
+### Trending and Representation
+
+### Data Analysis
+
+
+
 ## Reference
 
 ### Data Sources
@@ -15,7 +116,6 @@
 * [High School Graduation Rates](http://datacenter.kidscount.org/data/tables/6134-high-school-graduation-rates?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867,133/any/12806)
 * [Dropout Rates by Race and Ethnicity](http://datacenter.kidscount.org/data/tables/7296-dropout-rates-by-race-and-ethnicity?loc=7&loct=10#detailed/10/1278-1457/false/868,867/785,786,787,788,789,790,791,792,3494,2302/14353)
 * [Online Pupil Enrollment](http://datacenter.kidscount.org/data/tables/7141-online-pupil-enrollment?loc=7&loct=10#detailed/10/1278-1457/false/36,868,867/any/14171)
-* [Charter School Membership](http://datacenter.kidscount.org/data/tables/7813-charter-school-membership?loc=7&loct=10#detailed/10/1278-1457/false/868/any/15081,15082)
 * [Remediation in Higher Education](http://datacenter.kidscount.org/data/tables/7663-remediation-in-higher-education?loc=7&loct=10#detailed/10/1278-1457/false/867,133,38/any/14818)
 * [3rd Grade Students Scoring Proficient or Above on the CSAP/TCAP](http://datacenter.kidscount.org/data/tables/5651-3rd-grade-students-scoring-proficient-or-above-on-the-csap-tcap?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867,133/129,130,145/12252)
 * [4rd Grade Students Scoring Proficient or Above on the CSAP/TCAP](http://datacenter.kidscount.org/data/tables/7081-4th-grade-students-scoring-proficient-or-advanced-on-csap-tcap?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867,133/any/14099)

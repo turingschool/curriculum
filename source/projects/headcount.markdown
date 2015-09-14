@@ -28,6 +28,8 @@ academic data.
 6. Add your teammate(s) as collaborators.
 7. Create a [Waffle.io](http://waffle.io) account for project management.
 
+## Base Expectations
+
 ### Objects and Methods for Basic Data Access
 
 #### `DistrictRepository`
@@ -95,7 +97,7 @@ This method takes one parameter:
 A call to this method with an unknown race should raise a `UnknownDataError`.
 
 The method returns a hash grouped by race referencing percentages by subject all
-as three digit floats.
+as truncated three digit floats.
 
 *Example*:
 
@@ -174,6 +176,61 @@ The instance of this object represents data from the following files:
 * `Special education.csv`
 
 An instance of this class represents the data for a single district and offers the following methods:
+
+##### `.dropout_rate_in_year(year)`
+
+##### `.dropout_rate_by_gender_in_year(year)`
+
+##### `.dropout_rate_by_race_in_year(year)`
+
+##### `.dropout_rate_for_race_or_ethnicity(race)`
+
+##### `.dropout_rate_for_race_or_ethnicity_in_year(race, year)`
+
+##### `.graduation_rate`
+
+##### `.graduation_rate_in_year(year)`
+
+##### `.kindergarten_participation`
+
+##### `.kindergarten_participation_in_year(year)`
+
+##### `.online_participation`
+
+##### `.online_participation_in_year(year)`
+
+##### `.participation`
+
+##### `.participation_in_year(year)`
+
+##### `.participation_by_race_or_ethnicity`
+
+##### `.participation_by_race_or_ethnicity_in_year(year)`
+
+##### `.special_education`
+
+##### `.special_education_in_year(year)`
+
+##### `.remediation`
+
+##### `.remediation_in_year(year)`
+
+#### `EconomicProfile`
+
+The instance of this object represents data from the following files:
+
+* `Median household income.csv`
+* `School-aged children in poverty.csv`
+* `Students qualifying for free or reduced price lunch.csv`
+* `Title I students.csv`
+
+An instance of this class represents the data for a single district and offers the following methods:
+
+##### `.free_or_reduced_lunch`
+
+##### `.free_or_reduced_lunch_in_year(year)`
+
+##### [TODO: more methods for this category]
 
 ### Data Relationships
 

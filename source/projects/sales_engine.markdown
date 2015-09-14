@@ -23,14 +23,14 @@ Let's write a data reporting tool that manipulates and reports on merchant trans
 
 ### Getting Started
 
-1. One team member clones the repository at https://github.com/turingschool/sales_engine.
+1. One team member clones the repository at https://github.com/turingschool-examples/sales_engine.
 2. `cd sales_engine`
 3. `git remote rm origin`
 4. Create a new repository on Github, then add that remote to your `sales_engine` from the command line.
 5. Push your repository to the new remote origin.
 6. Add your teammate(s) as collaborators.
 7. Create a [Waffle.io](http://waffle.io) account for project management.
-8. Use the [Spec Harness](https://github.com/turingschool/sales_engine_spec_harness) to check your progress along the way. The `README.md` file includes instructions for setup and usage. 
+8. Use the [Spec Harness](https://github.com/turingschool/sales_engine_spec_harness) to check your progress along the way. The `README.md` file includes instructions for setup and usage.
 
 ### Data Supplied
 

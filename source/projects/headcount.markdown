@@ -61,7 +61,12 @@ The instance of this object represents data from the following files:
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Reading.csv`
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Writing.csv`
 
-An instance of this class represents the data for a single district and offers the following methods:
+##### `.initialize(name)`
+
+An instance this class can be initialized by supplying the name of the district
+which is then used to find the matching data in the data files.
+
+That instance then offers the following methods:
 
 ##### `.proficient_by_grade(grade)`
 
@@ -77,7 +82,7 @@ as three digit floats.
 *Example*:
 
 ```
-district.statewide_testing.proficient_by_grade(3)
+statewide_testing.proficient_by_grade(3)
 # => {2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
       2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
       2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
@@ -102,7 +107,7 @@ as truncated three digit floats.
 *Example*:
 
 ```
-district.statewide_testing.proficient_by_race_or_ethnicity(:asian)
+statewide_testing.proficient_by_race_or_ethnicity(:asian)
 # => {2011 => {:math => 0.816, :reading => 0.897, :writing => 0.826},
       2012 => {:math => 0.818, :reading => 0.893, :writing => 0.808},
       2013 => {:math => 0.805, :reading => 0.901, :writing => 0.810},
@@ -125,7 +130,7 @@ The method returns a truncated three-digit floating point number representing a 
 *Example*:
 
 ```
-district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
+statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
 ```
 
 ##### `.proficient_for_subject_by_race_in_year(subject, race, year)`
@@ -143,7 +148,7 @@ The method returns a truncated three-digit floating point number representing a 
 *Example*:
 
 ```
-district.statewide_testing.proficient_for_subject_by_race_in_year(:math, :asian, 2012) # => 0.818
+statewide_testing.proficient_for_subject_by_race_in_year(:math, :asian, 2012) # => 0.818
 ```
 
 ##### `.proficient_for_subject_in_year(subject, year)`
@@ -160,7 +165,7 @@ The method returns a truncated three-digit floating point number representing a 
 *Example*:
 
 ```
-district.statewide_testing.proficient_for_subject_in_year(:math, 2012) # => 0.680
+statewide_testing.proficient_for_subject_in_year(:math, 2012) # => 0.680
 ```
 
 #### `Enrollment`
@@ -175,9 +180,28 @@ The instance of this object represents data from the following files:
 * `Pupil enrollment.csv`
 * `Special education.csv`
 
-An instance of this class represents the data for a single district and offers the following methods:
+##### `.initialize(name)`
+
+An instance this class can be initialized by supplying the name of the district
+which is then used to find the matching data in the data files.
+
+That instance then offers the following methods:
 
 ##### `.dropout_rate_in_year(year)`
+
+This method take two parameters:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+enrollment.dropout_rate_in_year(2012) # => 0.680
+```
 
 ##### `.dropout_rate_by_gender_in_year(year)`
 

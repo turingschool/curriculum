@@ -26,7 +26,7 @@ district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 200
 The `District` is the top of our data hierarchy. It has the following methods:
 
 * `statewide_testing` - returns an instance of `StatewideTesting`
-
+* `enrollment` - returns an instance of `Enrollment`
 
 #### `StatewideTesting`
 
@@ -94,6 +94,23 @@ The method returns a truncated three-digit floating point number representing a 
 ```
 district.statewide_testing.proficient_for_subject_in_year(:math, 2012) # => 0.680
 ```
+
+#### `Enrollment`
+
+The instance of this object represents data from the following files:
+
+* `Dropout rates by race and ethnicity.csv`
+* `High school graduation rates.csv`
+* `Kindergartners in full-day program.csv`
+* `Online pupil enrollment.csv`
+* `Pupil enrollment by race_ethnicity.csv`
+* `Pupil enrollment.csv`
+* `Special education.csv`
+
+An instance of this class represents the data for a single district and offers the following methods:
+
+##### `.proficient_for_subject_by_grade_in_year(subject, grade, year)`
+
 
 ### Trending and Representation
 

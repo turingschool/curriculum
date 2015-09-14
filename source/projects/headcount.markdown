@@ -275,9 +275,52 @@ enrollment.dropout_rate_for_race_or_ethnicity(:asian)
 
 ##### `.dropout_rate_for_race_or_ethnicity_in_year(race, year)`
 
-##### `.graduation_rate`
+This method takes two parameters:
+
+* `race` as a symbol from the following set: `[:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]`
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+enrollment.dropout_rate_for_race_or_ethnicity_in_year(:asian, 2012) # => 0.001
+```
+
+##### `.graduation_rate_by_year`
+
+This method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+enrollment.graduation_rate_by_year
+# => {2010 => 0.895,
+      2011 => 0.895,
+      2012 => 0.889,
+      2013 => 0.913,
+      2014 => 0.898,
+     }
+```
 
 ##### `.graduation_rate_in_year(year)`
+
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+enrollment.graduation_rate_in_year(2010) # => 0.895
+```
 
 ##### `.kindergarten_participation`
 

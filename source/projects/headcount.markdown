@@ -46,7 +46,7 @@ The `DistrictRepository` is responsible for holding and searching our `District`
 instances. It offers the following methods:
 
 * `find_by_name` - returns either `nil` or an instance of `District` having done a *case insensitive* search
-* `find_all_with` - returns either `[]` or one or more matches which contain the supplied name fragment, *case insensitive*
+* `find_all_matching` - returns either `[]` or one or more matches which contain the supplied name fragment, *case insensitive*
 
 There is no one data file that contains just the districts. The data must be extracted from one of the other files.
 
@@ -54,7 +54,7 @@ There is no one data file that contains just the districts. The data must be ext
 
 The `District` is the top of our data hierarchy. It has the following methods:
 
-* `name` - returns the all-capitals string name of the district
+* `name` - returns the upcased string name of the district
 * `statewide_testing` - returns an instance of `StatewideTesting`
 * `enrollment` - returns an instance of `Enrollment`
 
@@ -322,10 +322,13 @@ An instance of this class represents the data for a single district and offers t
 
 ### Relationships Layer
 
+*TODO: These are just a sketch of where we're going.*
+
 Assume we start with loading our data and finding a school district like this:
 
 ```
-dr = DistrictRepository.new("./data")
+dr = DistrictRepository.new
+dr.load('./data')
 district = dr.find_by_name("ACADEMY 20")
 ```
 
@@ -333,13 +336,13 @@ Then each `district` has several child objects loaded with data allowing us to a
 
 ```
 district.enrollment.in_year(2009) # => 22620
-district.graduation_rate.for_high_school_in_year(2010) # => 0.895
+district.enrollment.graduation_rate.for_high_school_in_year(2010) # => 0.895
 district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
 ```
 
 ### Analysis Layer
 
-*Coming soon!*
+*TODO: Coming soon!*
 
 ## References
 

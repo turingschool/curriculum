@@ -405,9 +405,66 @@ enrollment.participation_by_year
 
 ##### `.participation_in_year(year)`
 
-##### `.participation_by_race_or_ethnicity`
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a single integer.
+
+*Example*:
+
+```
+enrollment.participation_in_year(2013) # => 23973
+```
+
+##### `.participation_by_race_or_ethnicity(race)`
+
+This method takes one parameter:
+
+* `race` as a symbol from the following set: `[:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]`
+
+A call to this method with any unknown `race` should raise an `UnknownRaceError`.
+
+The method returns a hash with years as keys and a three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+enrollment.participation_by_race_or_ethnicity(:asian)
+# => {
+  2011 => 0.047,
+  2012 => 0.041,
+  2013 => 0.052,
+  2014 => 0.056
+}
+```
 
 ##### `.participation_by_race_or_ethnicity_in_year(year)`
+
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a hash with race markers as keys and a three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+enrollment.participation_by_race_or_ethnicity_in_year(2012)
+# => {
+  :asian => 0.036,
+  :black => 0.029,
+  :pacific_islander => 0.118,
+  :hispanic => 0.003,
+  :native_american => 0.004,
+  :two_or_more => 0.050,
+  :white => 0.756
+}
+```
 
 ##### `.special_education_by_year`
 

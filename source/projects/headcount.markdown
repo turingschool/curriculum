@@ -187,6 +187,7 @@ The instance of this object represents data from the following files:
 * `Pupil enrollment by race_ethnicity.csv`
 * `Pupil enrollment.csv`
 * `Special education.csv`
+* `Remediation in higher education.csv`
 
 ##### `.initialize(name)`
 

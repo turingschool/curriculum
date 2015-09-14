@@ -5,7 +5,8 @@ sidebar: true
 ---
 
 Federal and state governments publish a huge amount of data. You can find
-a large collection of it on [Data.gov](http://data.gov).
+a large collection of it on [Data.gov](http://data.gov) -- everything from land surveys
+to pollution to census data.
 
 As programmers, we can use those data sets to ask and answer questions. Starting
 with CSV data we will:
@@ -21,11 +22,9 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 ### Goals
 
 * Use tests to drive both the design and implementation of code
+* Decompose a large application into components such as parsers, repositories, and analysis tools
 * Use test fixtures instead of actual data when testing
-* Build a complex system of relationships using multiple interacting classes
-* Demonstrate the DRY principle with modules and/or duck typing
-* Separate parsing and data loading logic from business logic
-* Use memoization to improve performance
+* Connect related objects together through references
 
 ### Getting Started
 

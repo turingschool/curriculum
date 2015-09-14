@@ -4,8 +4,17 @@ title: Headcount
 sidebar: true
 ---
 
-In this project you'll build data access and analysis tooling around a set of
-academic data.
+Federal and state governments publish a huge amount of data. You can find
+a large collection of it on [Data.gov](http://data.gov).
+
+As programmers, we can use those data sets to ask and answer questions. Starting
+with CSV data we will:
+
+* build a "Data Access Layer" which allows us to query/search the underlying data
+* build a "Relationships Layer" which creates connections between related data
+* build an "Analysis Layer" which uses the data and relationships to draw conclusions
+
+We'll build upon a dataset centered around schools in Colorado provided by the Annie E. Casey foundation.
 
 ## Project Overview
 

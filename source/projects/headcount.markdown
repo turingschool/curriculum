@@ -1,23 +1,32 @@
-# Headcount
+---
+layout: page
+title: Headcount
+sidebar: true
+---
 
-### Data Processing
+In this project you'll build data access and analysis tooling around a set of
+academic data.
 
-Process each of the data files in the `data` folder to enable the following interactions.
+## Project Overview
 
-Assume we start with loading our data and finding a school district like this:
+### Goals
 
-```
-dr = DistrictRepository.new("./data")
-district = dr.find_by_name("ACADEMY 20")
-```
+* Use tests to drive both the design and implementation of code
+* Use test fixtures instead of actual data when testing
+* Build a complex system of relationships using multiple interacting classes
+* Demonstrate the DRY principle with modules and/or duck typing
+* Separate parsing and data loading logic from business logic
+* Use memoization to improve performance
 
-Then each `district` has several child objects loaded with data allowing us to ask questions like this:
+### Getting Started
 
-```
-district.enrollment.in_year(2009) # => 22620
-district.graduation_rate.for_high_school_in_year(2010) # => 0.895
-district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
-```
+1. One team member clones the repository at https://github.com/turingschool-examples/headcount.
+2. `cd headcount`
+3. `git remote rm origin`
+4. Create your own new `headcount` repository on GitHub, then add that remote to your `headcount` from the command line.
+5. Push your repository to the new remote origin.
+6. Add your teammate(s) as collaborators.
+7. Create a [Waffle.io](http://waffle.io) account for project management.
 
 ### Objects and Methods for Basic Data Access
 
@@ -29,7 +38,7 @@ instances. It offers the following methods:
 * `find_by_name` - returns either `nil` or an instance of `District` having done a *case insensitive* search
 * `find_all_with` - returns either `[]` or one or more matches which contain the supplied name fragment, *case insensitive*
 
-There is no one data file that contains just the districts. The data must be extracted from the other files.
+There is no one data file that contains just the districts. The data must be extracted from one of the other files.
 
 #### `District`
 
@@ -48,7 +57,6 @@ The instance of this object represents data from the following files:
 * `8th grade students scoring proficient or above on the CSAP_TCAP.csv`
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Math.csv`
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Reading.csv`
-* `Average proficiency on the CSAP_TCAP by race_ethnicity_Science.csv`
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Writing.csv`
 
 An instance of this class represents the data for a single district and offers the following methods:
@@ -61,7 +69,7 @@ This method takes one parameter:
 
 A call to this method with an unknown grade should raise a `UnknownDataError`.
 
-The method returns a hash grouped by year referencing percentaces by subject all
+The method returns a hash grouped by year referencing percentages by subject all
 as three digit floats.
 
 *Example*:
@@ -75,6 +83,28 @@ district.statewide_testing.proficient_by_grade(3)
       2012 => {:math => 0.870, :reading => 0.830, :writing => 0.655},
       2013 => {:math => 0.855, :reading => 0.859, :writing => 0.639},
       2014 => {:math => 0.834, :reading => 0.831, :writing => 0.668},
+     }
+```
+
+##### `.proficient_by_race_or_ethnicity(race)`
+
+This method takes one parameter:
+
+* `race` as a symbole from the following set: `[:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]`
+
+A call to this method with an unknown race should raise a `UnknownDataError`.
+
+The method returns a hash grouped by race referencing percentages by subject all
+as three digit floats.
+
+*Example*:
+
+```
+district.statewide_testing.proficient_by_race_or_ethnicity(:asian)
+# => {2011 => {:math => 0.816, :reading => 0.897, :writing => 0.826},
+      2012 => {:math => 0.818, :reading => 0.893, :writing => 0.808},
+      2013 => {:math => 0.805, :reading => 0.901, :writing => 0.810},
+      2014 => {:math => 0.800, :reading => 0.855, :writing => 0.789},
      }
 ```
 
@@ -100,7 +130,7 @@ district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 200
 
 This method take three parameters:
 
-* `subject` as a symbol from the following set: `[:math, :reading, :writing, :science]`
+* `subject` as a symbol from the following set: `[:math, :reading, :writing]`
 * `race` as a symbol from the following set: `[:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]`
 * `year` as an integer for any year reported in the data
 
@@ -118,7 +148,7 @@ district.statewide_testing.proficient_for_subject_by_race_in_year(:math, :asian,
 
 This method take two parameters:
 
-* `subject` as a symbol from the following set: `[:math, :reading, :writing, :science]`
+* `subject` as a symbol from the following set: `[:math, :reading, :writing]`
 * `year` as an integer for any year reported in the data
 
 A call to this method with any invalid parameter (like subject of `:history`) should raise a `UnknownDataError`.
@@ -145,14 +175,26 @@ The instance of this object represents data from the following files:
 
 An instance of this class represents the data for a single district and offers the following methods:
 
-##### `.proficient_for_subject_by_grade_in_year(subject, grade, year)`
+### Data Relationships
 
+Assume we start with loading our data and finding a school district like this:
+
+```
+dr = DistrictRepository.new("./data")
+district = dr.find_by_name("ACADEMY 20")
+```
+
+Then each `district` has several child objects loaded with data allowing us to ask questions like this:
+
+```
+district.enrollment.in_year(2009) # => 22620
+district.graduation_rate.for_high_school_in_year(2010) # => 0.895
+district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
+```
 
 ### Trending and Representation
 
 ### Data Analysis
-
-
 
 ## Reference
 
@@ -176,5 +218,4 @@ An instance of this class represents the data for a single district and offers t
 * [Pupil Enrollment by Race & Ethnicity](http://datacenter.kidscount.org/data/tables/3736-pupil-enrollment-by-race-ethnicity?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867,133/84,87,86,85,88,1849,185,13/11661,7630)
 * [AVERAGE PROFICIENCY ON THE CSAP/TCAP BY RACE/ETHNICITY: READING](http://datacenter.kidscount.org/data/tables/6727-average-proficiency-on-the-csap-tcap-by-race-ethnicity-reading?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867/2756,2161,2159,2819,2157,2158,2820,2160/13821)
 * [AVERAGE PROFICIENCY ON THE CSAP/TCAP BY RACE/ETHNICITY: MATH](http://datacenter.kidscount.org/data/tables/6567-average-proficiency-on-the-csap-tcap-by-race-ethnicity-math?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867/2756,2161,2159,2819,2157,2158,2820,2160/13563)
-* [AVERAGE PROFICIENCY ON THE CSAP/TCAP BY RACE/ETHNICITY: SCIENCE](http://datacenter.kidscount.org/data/tables/6728-average-proficiency-on-the-csap-tcap-by-race-ethnicity-science?loc=7&loct=10#detailed/10/1278-1457/false/867/2756,2161,2159,2819,2157,2158,2820,2160/13822)
 * [AVERAGE PROFICIENCY ON THE CSAP/TCAP BY RACE/ETHNICITY: WRITING](http://datacenter.kidscount.org/data/tables/6729-average-proficiency-on-the-csap-tcap-by-race-ethnicity-writing?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867/2756,2161,2159,2819,2157,2158,2820,2160/13823)

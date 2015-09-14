@@ -501,7 +501,33 @@ enrollment.special_education_in_year(2013) # => 0.105
 
 ##### `.remediation_by_year`
 
+This method returns a hash with years as keys and an floating point three-significant digits representing a percentage.
+
+*Example*:
+
+```
+enrollment.participation_by_year
+# => {2009 => 0.232,
+      2010 => 0.251,
+      2011 => 0.278
+     }
+```
+
 ##### `.remediation_in_year(year)`
+
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a single three-digit floating point percentage.
+
+*Example*:
+
+```
+enrollment.remediation_in_year(2010) # => 0.250
+```
 
 #### `EconomicProfile`
 

@@ -292,7 +292,7 @@ enrollment.dropout_rate_for_race_or_ethnicity_in_year(:asian, 2012) # => 0.001
 
 ##### `.graduation_rate_by_year`
 
-This method returns a truncated three-digit floating point number representing a percentage.
+This method returns a hash with years as keys and a truncated three-digit floating point number representing a percentage.
 
 *Example*:
 
@@ -322,15 +322,71 @@ The method returns a truncated three-digit floating point number representing a 
 enrollment.graduation_rate_in_year(2010) # => 0.895
 ```
 
-##### `.kindergarten_participation`
+##### `.kindergarten_participation_by_year`
+
+This method returns a hash with years as keys and a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+enrollment.kindergarten_participation_by_year
+# => {2010 => 0.391,
+      2011 => 0.353,
+      2012 => 0.267,
+      2013 => 0.487,
+      2014 => 0.490,
+     }
+```
 
 ##### `.kindergarten_participation_in_year(year)`
 
-##### `.online_participation`
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```
+enrollment.kindergarten_participation_in_year(2010) # => 0.391
+```
+
+##### `.online_participation_by_year`
+
+This method returns a hash with years as keys and an integer as the value.
+
+*Example*:
+
+```
+enrollment.online_participation_by_year
+# => {2010 => 16,
+      2011 => 18,
+      2012 => 24,
+      2013 => 32,
+      2014 => 40,
+     }
+```
 
 ##### `.online_participation_in_year(year)`
 
-##### `.participation`
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a single integer.
+
+*Example*:
+
+```
+enrollment.online_participation_in_year(2013) # => 33
+```
+
+##### `.participation_by_year`
 
 ##### `.participation_in_year(year)`
 
@@ -338,11 +394,11 @@ enrollment.graduation_rate_in_year(2010) # => 0.895
 
 ##### `.participation_by_race_or_ethnicity_in_year(year)`
 
-##### `.special_education`
+##### `.special_education_by_year`
 
 ##### `.special_education_in_year(year)`
 
-##### `.remediation`
+##### `.remediation_by_year`
 
 ##### `.remediation_in_year(year)`
 

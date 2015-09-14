@@ -468,7 +468,36 @@ enrollment.participation_by_race_or_ethnicity_in_year(2012)
 
 ##### `.special_education_by_year`
 
+This method returns a hash with years as keys and an floating point three-significant digits representing a percentage.
+
+*Example*:
+
+```
+enrollment.participation_by_year
+# => {2009 => 0.075,
+      2010 => 0.078,
+      2011 => 0.072,
+      2012 => 0.071,
+      2013 => 0.070,
+      2014 => 0.068,
+     }
+```
+
 ##### `.special_education_in_year(year)`
+
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a single three-digit floating point percentage.
+
+*Example*:
+
+```
+enrollment.special_education_in_year(2013) # => 0.105
+```
 
 ##### `.remediation_by_year`
 

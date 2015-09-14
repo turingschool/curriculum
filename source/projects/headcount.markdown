@@ -21,6 +21,14 @@ district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 200
 
 ### Objects and Methods for Basic Data Access
 
+#### `DistrictRepository`
+
+The `DistrictRepository` is responsible for holding and searching our `District`
+instances. It offers the following methods:
+
+* `find_by_name` - returns either `nil` or an instance of `District` having done a *case insensitive* search
+* `find_all_with` - returns either `[]` or one or more matches which contain the supplied name fragment, *case insensitive*
+
 #### `District`
 
 The `District` is the top of our data hierarchy. It has the following methods:

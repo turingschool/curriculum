@@ -38,7 +38,7 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 
 ## Base Expectations
 
-### Objects and Methods for Basic Data Access
+### Data Access Layer
 
 #### `DistrictRepository`
 
@@ -264,7 +264,7 @@ An instance of this class represents the data for a single district and offers t
 
 ##### [TODO: more methods for this category]
 
-### Data Relationships
+### Relationships Layer
 
 Assume we start with loading our data and finding a school district like this:
 
@@ -281,11 +281,9 @@ district.graduation_rate.for_high_school_in_year(2010) # => 0.895
 district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
 ```
 
-### Trending and Representation
+### Analysis Layer
 
-### Data Analysis
-
-## Reference
+## References
 
 ### Data Sources
 

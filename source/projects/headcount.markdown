@@ -388,6 +388,21 @@ enrollment.online_participation_in_year(2013) # => 33
 
 ##### `.participation_by_year`
 
+This method returns a hash with years as keys and an integer as the value.
+
+*Example*:
+
+```
+enrollment.participation_by_year
+# => {2009 => 22620,
+      2010 => 22620,
+      2011 => 23119,
+      2012 => 23657,
+      2013 => 23973,
+      2014 => 24578,
+     }
+```
+
 ##### `.participation_in_year(year)`
 
 ##### `.participation_by_race_or_ethnicity`

@@ -29,10 +29,13 @@ instances. It offers the following methods:
 * `find_by_name` - returns either `nil` or an instance of `District` having done a *case insensitive* search
 * `find_all_with` - returns either `[]` or one or more matches which contain the supplied name fragment, *case insensitive*
 
+There is no one data file that contains just the districts. The data must be extracted from the other files.
+
 #### `District`
 
 The `District` is the top of our data hierarchy. It has the following methods:
 
+* `name` - returns the all-capitals string name of the district
 * `statewide_testing` - returns an instance of `StatewideTesting`
 * `enrollment` - returns an instance of `Enrollment`
 
@@ -50,9 +53,34 @@ The instance of this object represents data from the following files:
 
 An instance of this class represents the data for a single district and offers the following methods:
 
+##### `.proficient_by_grade(grade)`
+
+This method takes one parameter:
+
+* `grade` as an integer from the following set: `[3, 4, 8]`
+
+A call to this method with an unknown grade should raise a `UnknownDataError`.
+
+The method returns a hash grouped by year referencing percentaces by subject all
+as three digit floats.
+
+*Example*:
+
+```
+district.statewide_testing.proficient_by_grade(3)
+# => {2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
+      2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
+      2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
+      2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
+      2012 => {:math => 0.870, :reading => 0.830, :writing => 0.655},
+      2013 => {:math => 0.855, :reading => 0.859, :writing => 0.639},
+      2014 => {:math => 0.834, :reading => 0.831, :writing => 0.668},
+     }
+```
+
 ##### `.proficient_for_subject_by_grade_in_year(subject, grade, year)`
 
-This method take three parameters:
+This method takes three parameters:
 
 * `subject` as a symbol from the following set: `[:math, :reading, :writing]`
 * `grade` as an integer from the following set: `[3, 4, 8]`

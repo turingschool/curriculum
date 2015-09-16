@@ -538,7 +538,7 @@ An instance of this class represents the data for a single district and offers t
 
 ### Relationships Layer
 
-*TODO: These are just a sketch of where we're going.*
+*TODO: These are just a sketch of where we're going -- don't try to implement this yet!.*
 
 Assume we start with loading our data and finding a school district like this:
 
@@ -700,7 +700,13 @@ Then let's do the same calculation across a subset of districts:
 ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => true
 ```
 
-*TODO: More analysis coming soon!*
+#### *TODO: More analysis coming soon!*
+
+Some ideas:
+
+* How economically diverse are districts? Does Title 1 designation or Free/Reduced price lunch vary inversely with median household income? Do districts tend to be bifurcated or homogenous?
+* With the understanding that a special education designation includes both academic and behavioral disorders, do we see a correlation between the percentages of students with Special Education diagnoses and the median household income? What about the relationship between Special Education and racial makeup? Does it appear that being non-white raises the chances a student is referred for Special Education services? Does there appear to be a correlation between the percentage of students in Special Education and the district's dropout rate?
+* It is generally accepted that small classroom size leads to better academic results. Is the same true for districts? Do small districts outperform larger ones?
 
 ## References
 

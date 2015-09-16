@@ -569,7 +569,7 @@ Then ask/answer these questions:
 
 #### Where is the most growth happening in statewide testing?
 
-We have district data about 3rd and 8th grade achievement in reading, math, and writing. That gives us several possibilities.
+We have district data about 3rd and 8th grade achievement in reading, math, and writing. Consider that our data sources have absolute values, not growth. We're interested in who is making the most progress, not who scores the highest. That means calculating growth by comparing the absolute values across two or more years.
 
 ##### Finding a single leader
 
@@ -578,19 +578,21 @@ ha.top_statewide_testing_year_over_year_growth(:subject => :math)
 # => ['the top district name', 0.123]
 ```
 
-Where `0.123` is their average percentage growth across years.
+Where `0.123` is their average percentage growth across years. If there are three years of proficiency data, that's `((year 2 - year 1) + (year 3 - year 2))/2`.
 
 ##### Finding multiple leaders
 
-Let's say we want to be able to find several top districts:
+Let's say we want to be able to find several top districts using the same calculations:
 
 ```
 ha.top_statewide_testing_year_over_year_growth(:top => 3, :subject => :math) # => [['top district name', growth_1],['second district name', growth_2],['third district name', growth_3]]
 ```
 
-Where `growth_1` through `3` represents their average growth between years.
+Where `growth_1` through `growth_3` represents their average growth across years.
 
-##### Across subjects
+##### Across all subjects
+
+What about growth across all three subject areas?
 
 ```
 ha.top_statewide_testing_year_over_year_growth
@@ -599,37 +601,60 @@ ha.top_statewide_testing_year_over_year_growth
 
 Where `0.111` is the district's average percentage growth across years across subject areas.
 
+But that considers all three subjects in equal proportion. No Child Left Behind guidelines generally emphasize reading and math, so let's add the ability to weight subject areas:
+
+```
+ha.top_statewide_testing_year_over_year_growth(:weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0})
+# => ['the top district name', 0.111]
+```
+
+The weights *must* add up to 1.
+
 #### Does Kindergarten participation affect outcomes?
+
+In many states, including Colorado, Kindergarten is offered at public schools but is not free for all residents. Denver, for instance, will charge as much as $310/month for Kindergarten. There's then a disincentive to enroll a child in Kindergarten. Does participation in Kindergarten with other factors/outcomes?
 
 ##### How does a district's kindergarten participation rate compare to the state average?
 
+First, let's ask how an individual district's participation percentage compares to the statewide average:
+
 ```
-ha.kindergarten_participation_rate_delta('district_name', :against => 'state') # => 0.123
+ha.kindergarten_participation_rate_variation('district_name', :against => 'state') # => 0.123
 ```
 
-Where `0.123` is the percentage difference between the district and the state. Negative percentage implies that the district performs lower than the state average.
+Where `0.123` is the percentage difference between the district and the state. A negative percentage implies that the district performs lower than the state average.
 
 ##### How does a district's kindergarten participation rate compare to another district?
 
+Let's next compare this variance against another district:
+
 ```
-ha.kindergarten_participation_rate_delta('district_name', :against => 'second_district') # => 0.123
+ha.kindergarten_participation_rate_variation('district_name', :against => 'second_district') # => 0.123
 ```
 
 Where `0.123` is the percentage difference between the primary district and the against district. Negative percentage implies that the district performs lower than the against district.
 
 ##### How does kindergarten participation variation compare to the median household income variation?
 
-For a single district:
+Does a higher median income mean more kids enroll in Kindergarten? For a single district:
 
 ```
 ha.kindergarten_participation_against_household_income('district_name') # => 1.2
 ```
 
-Where `1.2` is the average of the percentage delta for the district in kindergarten participation divided by the percentage delta for the district in median income.
+Consider the *kindergarten variation* to be the result calculated against the state average as described above. The *median income variation* is a similar calculation of the district's median income divided by the state average median income. Then dividing the *kindergarten variation* by the *median income variation* results in `1.2` in the sample.
+
+If this result is close to `1`, then we'd infer that the *kindergarten variation* and the *median income variation* are closely related.
 
 ##### Statewide does the kindergarten participation correlate with the median household income?
 
-Evaluate the `kindergarten_participation_against_household_income` for all districts and if the result is between `0.6` and `1.5` then we'll say that these percentages are correlated. If more than 70% of districts show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
+Let's consider the `kindergarten_participation_against_household_income` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that these percentages are correlated. For a single district:
+
+```
+ha.kindergarten_participation_correlates_with_household_income(:for => 'district name') # => true
+```
+
+Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
 
 ```
 ha.kindergarten_participation_correlates_with_household_income(:for => 'state') # => true
@@ -641,20 +666,38 @@ And let's add the ability to just consider a subset of districts:
 ha.kindergarten_participation_correlates_with_household_income(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => false
 ```
 
+##### How does kindergarten participation variation compare to the high school graduation variation?
+
+There's thinking that kindergarten participation has long-term effects. Given our limited data set, let's *assume* that variance in kindergarten rates for a given district is similar to when current high school students were kindergarten age (~10 years ago). Let's compare the variance in kindergarten participation and high school graduation.
+
+For a single district:
+
+```
+ha.kindergarten_participation_against_high_school_graduation('district_name') # => 1.2
+```
+
+Call *kindergarten variation* the result of dividing the district's kindergarten participation by the statewide average. Call *graduation variation* the result of dividing the district's graduation rate by the statewide average. Divide the *kindergarten variation* by the *graduation variation* to find the *kindergarten-graduation variance*.
+
+If this result is close to `1`, then we'd infer that the *kindergarten variation* and the *graduation variation* are closely related.
+
 ##### Does Kindergarten participation predict high school graduation?
 
+Let's consider the `kindergarten_participation_against_high_school_graduation` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that they are correlated. For a single district:
+
 ```
-ha.kindergarten_participation_against_high_school_graduation(:for => 'state') # => true
+ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'district name') # => true
 ```
 
-Call *kindergarten variation* the result of dividing the district's kindergarten participation by the statewide average. Call *graduation variation* the result of dividing the district's graduation rate by the statewide average.
+Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
 
-For 70% or more of school districts, is the *kindergarten variation* divided by the *graduation variation* positive (IE: they vary in the same direction)?
+```
+ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'state') # => true
+```
 
 Then let's do the same calculation across a subset of districts:
 
 ```
-ha.kindergarten_participation_against_high_school_graduation(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => true
+ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => true
 ```
 
 *TODO: More analysis coming soon!*

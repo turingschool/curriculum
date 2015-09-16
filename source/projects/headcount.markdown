@@ -569,7 +569,107 @@ district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 200
 
 ### Analysis Layer
 
-*TODO: Coming soon!*
+Our analysis is centered on answering questions about the data.
+
+Who will answer those questions? Assuming we have a `dr` that's an instance of `DistrictRepository` let's initialize a `HeadcountAnalyist` like this:
+
+```
+ha = HeadcountAnalyist.new(dr)
+```
+
+Then ask/answer these questions:
+
+#### Where is the most growth happening in statewide testing?
+
+We have district data about 3rd and 8th grade achievement in reading, math, and writing. That gives us several possibilities.
+
+##### Finding a single leader
+
+```
+ha.top_statewide_testing_year_over_year_growth(:subject => :math)
+# => ['the top district name', 0.123]
+```
+
+Where `0.123` is their average percentage growth across years.
+
+##### Finding multiple leaders
+
+Let's say we want to be able to find several top districts:
+
+```
+ha.top_statewide_testing_year_over_year_growth(:top => 3, :subject => :math) # => [['top district name', growth_1],['second district name', growth_2],['third district name', growth_3]]
+```
+
+Where `growth_1` through `3` represents their average growth between years.
+
+##### Across subjects
+
+```
+ha.top_statewide_testing_year_over_year_growth
+# => ['the top district name', 0.111]
+```
+
+Where `0.111` is the district's average percentage growth across years across subject areas.
+
+#### Does Kindergarten participation affect outcomes?
+
+##### How does a district's kindergarten participation rate compare to the state average?
+
+```
+ha.kindergarten_participation_rate_delta('district_name', :against => 'state') # => 0.123
+```
+
+Where `0.123` is the percentage difference between the district and the state. Negative percentage implies that the district performs lower than the state average.
+
+##### How does a district's kindergarten participation rate compare to another district?
+
+```
+ha.kindergarten_participation_rate_delta('district_name', :against => 'second_district') # => 0.123
+```
+
+Where `0.123` is the percentage difference between the primary district and the against district. Negative percentage implies that the district performs lower than the against district.
+
+##### How does kindergarten participation variation compare to the median household income variation?
+
+For a single district:
+
+```
+ha.kindergarten_participation_against_household_income('district_name') # => 1.2
+```
+
+Where `1.2` is the average of the percentage delta for the district in kindergarten participation divided by the percentage delta for the district in median income.
+
+##### Statewide does the kindergarten participation correlate with the median household income?
+
+Evaluate the `kindergarten_participation_against_household_income` for all districts and if the result is between `0.6` and `1.5` then we'll say that these percentages are correlated. If more than 70% of districts show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
+
+```
+ha.kindergarten_participation_correlates_with_household_income(:for => 'state') # => true
+```
+
+And let's add the ability to just consider a subset of districts:
+
+```
+ha.kindergarten_participation_correlates_with_household_income(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => false
+```
+
+##### Does Kindergarten participation predict high school graduation?
+
+```
+ha.kindergarten_participation_against_high_school_graduation(:for => 'state') # => true
+```
+
+Call *kindergarten variation* the result of dividing the district's kindergarten participation by the statewide average. Call *graduation variation* the result of dividing the district's graduation rate by the statewide average.
+
+For 70% or more of school districts, is the *kindergarten variation* divided by the *graduation variation* positive (IE: they vary in the same direction)?
+
+Then let's do the same calculation across a subset of districts:
+
+```
+ha.kindergarten_participation_against_high_school_graduation(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => true
+```
+
+*TODO: More analysis coming soon!*
 
 ## References
 

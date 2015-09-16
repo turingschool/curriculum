@@ -63,24 +63,18 @@ The `District` is the top of our data hierarchy. It has the following methods:
 The instance of this object represents data from the following files:
 
 * `3rd grade students scoring proficient or above on the CSAP_TCAP.csv`
-* `4th grade students scoring proficient or above on the CSAP_TCAP.csv`
 * `8th grade students scoring proficient or above on the CSAP_TCAP.csv`
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Math.csv`
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Reading.csv`
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Writing.csv`
 
-##### `.initialize(name)`
-
-An instance this class can be initialized by supplying the name of the district
-which is then used to find the matching data in the data files.
-
-That instance then offers the following methods:
+An instance this class offers the following methods:
 
 ##### `.proficient_by_grade(grade)`
 
 This method takes one parameter:
 
-* `grade` as an integer from the following set: `[3, 4, 8]`
+* `grade` as an integer from the following set: `[3, 8]`
 
 A call to this method with an unknown grade should raise a `UnknownDataError`.
 
@@ -128,7 +122,7 @@ statewide_testing.proficient_by_race_or_ethnicity(:asian)
 This method takes three parameters:
 
 * `subject` as a symbol from the following set: `[:math, :reading, :writing]`
-* `grade` as an integer from the following set: `[3, 4, 8]`
+* `grade` as an integer from the following set: `[3, 8]`
 * `year` as an integer for any year reported in the data
 
 A call to this method with any invalid parameter (like subject of `:science`) should raise a `UnknownDataError`.
@@ -189,12 +183,7 @@ The instance of this object represents data from the following files:
 * `Special education.csv`
 * `Remediation in higher education.csv`
 
-##### `.initialize(name)`
-
-An instance this class can be initialized by supplying the name of the district
-which is then used to find the matching data in the data files.
-
-That instance then offers the following methods:
+An instance this class offers the following methods:
 
 ##### `.dropout_rate_in_year(year)`
 
@@ -554,8 +543,7 @@ An instance of this class represents the data for a single district and offers t
 Assume we start with loading our data and finding a school district like this:
 
 ```
-dr = DistrictRepository.new
-dr.load('./data')
+dr = DistrictRepository.from_csv('./data')
 district = dr.find_by_name("ACADEMY 20")
 ```
 
@@ -563,7 +551,7 @@ Then each `district` has several child objects loaded with data allowing us to a
 
 ```
 district.enrollment.in_year(2009) # => 22620
-district.enrollment.graduation_rate.for_high_school_in_year(2010) # => 0.895
+district.enrollment.graduation_rate_for_high_school_in_year(2010) # => 0.895
 district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
 ```
 
@@ -571,10 +559,10 @@ district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 200
 
 Our analysis is centered on answering questions about the data.
 
-Who will answer those questions? Assuming we have a `dr` that's an instance of `DistrictRepository` let's initialize a `HeadcountAnalyist` like this:
+Who will answer those questions? Assuming we have a `dr` that's an instance of `DistrictRepository` let's initialize a `HeadcountAnalyst` like this:
 
 ```
-ha = HeadcountAnalyist.new(dr)
+ha = HeadcountAnalyst.new(dr)
 ```
 
 Then ask/answer these questions:
@@ -688,7 +676,6 @@ ha.kindergarten_participation_against_high_school_graduation(:across => ['distri
 * [Online Pupil Enrollment](http://datacenter.kidscount.org/data/tables/7141-online-pupil-enrollment?loc=7&loct=10#detailed/10/1278-1457/false/36,868,867/any/14171)
 * [Remediation in Higher Education](http://datacenter.kidscount.org/data/tables/7663-remediation-in-higher-education?loc=7&loct=10#detailed/10/1278-1457/false/867,133,38/any/14818)
 * [3rd Grade Students Scoring Proficient or Above on the CSAP/TCAP](http://datacenter.kidscount.org/data/tables/5651-3rd-grade-students-scoring-proficient-or-above-on-the-csap-tcap?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867,133/129,130,145/12252)
-* [4rd Grade Students Scoring Proficient or Above on the CSAP/TCAP](http://datacenter.kidscount.org/data/tables/7081-4th-grade-students-scoring-proficient-or-advanced-on-csap-tcap?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867,133/any/14099)
 * [8th Grade Students Scoring Proficient or Above on the CSAP/TCAP](http://datacenter.kidscount.org/data/tables/5657-8th-grade-students-scoring-proficient-or-above-on-the-csap-tcap?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867,133/129,130,145/12262)
 * [Pupil Enrollment by Race & Ethnicity](http://datacenter.kidscount.org/data/tables/3736-pupil-enrollment-by-race-ethnicity?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867,133/84,87,86,85,88,1849,185,13/11661,7630)
 * [AVERAGE PROFICIENCY ON THE CSAP/TCAP BY RACE/ETHNICITY: READING](http://datacenter.kidscount.org/data/tables/6727-average-proficiency-on-the-csap-tcap-by-race-ethnicity-reading?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867/2756,2161,2159,2819,2157,2158,2820,2160/13821)

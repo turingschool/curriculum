@@ -83,7 +83,7 @@ as three digit floats.
 
 *Example*:
 
-```
+```ruby
 statewide_testing.proficient_by_grade(3)
 # => { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
 #      2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
@@ -108,7 +108,7 @@ as truncated three digit floats.
 
 *Example*:
 
-```
+```ruby
 statewide_testing.proficient_by_race_or_ethnicity(:asian)
 # => { 2011 => {math: 0.816, reading: 0.897, writing: 0.826},
 #      2012 => {math: 0.818, reading: 0.893, writing: 0.808},
@@ -131,7 +131,7 @@ The method returns a truncated three-digit floating point number representing a 
 
 *Example*:
 
-```
+```ruby
 statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
 ```
 
@@ -149,7 +149,7 @@ The method returns a truncated three-digit floating point number representing a 
 
 *Example*:
 
-```
+```ruby
 statewide_testing.proficient_for_subject_by_race_in_year(:math, :asian, 2012) # => 0.818
 ```
 
@@ -166,7 +166,7 @@ The method returns a truncated three-digit floating point number representing a 
 
 *Example*:
 
-```
+```ruby
 statewide_testing.proficient_for_subject_in_year(:math, 2012) # => 0.680
 ```
 
@@ -197,7 +197,7 @@ The method returns a truncated three-digit floating point number representing a 
 
 *Example*:
 
-```
+```ruby
 enrollment.dropout_rate_in_year(2012) # => 0.680
 ```
 
@@ -213,7 +213,7 @@ The method returns a hash with genders as keys and three-digit floating point nu
 
 *Example*:
 
-```
+```ruby
 enrollment.dropout_rate_by_gender_in_year(2012)
 # => {:female => 0.002, :male => 0.002}
 ```
@@ -230,7 +230,7 @@ The method returns a hash with race markers as keys and a three-digit floating p
 
 *Example*:
 
-```
+```ruby
 enrollment.dropout_rate_by_race_in_year(2012)
 # => {
   :asian => 0.001,
@@ -255,7 +255,7 @@ The method returns a hash with years as keys and a three-digit floating point nu
 
 *Example*:
 
-```
+```ruby
 enrollment.dropout_rate_for_race_or_ethnicity(:asian)
 # => {
   2011 => 0.047,
@@ -276,7 +276,7 @@ The method returns a truncated three-digit floating point number representing a 
 
 *Example*:
 
-```
+```ruby
 enrollment.dropout_rate_for_race_or_ethnicity_in_year(:asian, 2012) # => 0.001
 ```
 
@@ -286,7 +286,7 @@ This method returns a hash with years as keys and a truncated three-digit floati
 
 *Example*:
 
-```
+```ruby
 enrollment.graduation_rate_by_year
 # => {2010 => 0.895,
       2011 => 0.895,
@@ -308,7 +308,7 @@ The method returns a truncated three-digit floating point number representing a 
 
 *Example*:
 
-```
+```ruby
 enrollment.graduation_rate_in_year(2010) # => 0.895
 ```
 
@@ -318,7 +318,7 @@ This method returns a hash with years as keys and a truncated three-digit floati
 
 *Example*:
 
-```
+```ruby
 enrollment.kindergarten_participation_by_year
 # => {2010 => 0.391,
       2011 => 0.353,
@@ -340,7 +340,7 @@ The method returns a truncated three-digit floating point number representing a 
 
 *Example*:
 
-```
+```ruby
 enrollment.kindergarten_participation_in_year(2010) # => 0.391
 ```
 
@@ -350,7 +350,7 @@ This method returns a hash with years as keys and an integer as the value.
 
 *Example*:
 
-```
+```ruby
 enrollment.online_participation_by_year
 # => {2010 => 16,
       2011 => 18,
@@ -372,7 +372,7 @@ The method returns a single integer.
 
 *Example*:
 
-```
+```ruby
 enrollment.online_participation_in_year(2013) # => 33
 ```
 
@@ -382,7 +382,7 @@ This method returns a hash with years as keys and an integer as the value.
 
 *Example*:
 
-```
+```ruby
 enrollment.participation_by_year
 # => {2009 => 22620,
       2010 => 22620,
@@ -405,7 +405,7 @@ The method returns a single integer.
 
 *Example*:
 
-```
+```ruby
 enrollment.participation_in_year(2013) # => 23973
 ```
 
@@ -421,7 +421,7 @@ The method returns a hash with years as keys and a three-digit floating point nu
 
 *Example*:
 
-```
+```ruby
 enrollment.participation_by_race_or_ethnicity(:asian)
 # => {
   2011 => 0.047,
@@ -443,7 +443,7 @@ The method returns a hash with race markers as keys and a three-digit floating p
 
 *Example*:
 
-```
+```ruby
 enrollment.participation_by_race_or_ethnicity_in_year(2012)
 # => {
   :asian => 0.036,
@@ -462,7 +462,7 @@ This method returns a hash with years as keys and an floating point three-signif
 
 *Example*:
 
-```
+```ruby
 enrollment.special_education_by_year
 # => {2009 => 0.075,
       2010 => 0.078,
@@ -485,7 +485,7 @@ The method returns a single three-digit floating point percentage.
 
 *Example*:
 
-```
+```ruby
 enrollment.special_education_in_year(2013) # => 0.105
 ```
 
@@ -495,7 +495,7 @@ This method returns a hash with years as keys and an floating point three-signif
 
 *Example*:
 
-```
+```ruby
 enrollment.remediation_by_year
 # => {2009 => 0.232,
       2010 => 0.251,
@@ -515,7 +515,7 @@ The method returns a single three-digit floating point percentage.
 
 *Example*:
 
-```
+```ruby
 enrollment.remediation_in_year(2010) # => 0.250
 ```
 
@@ -536,7 +536,7 @@ This method returns a hash with years as keys and an floating point three-signif
 
 *Example*:
 
-```
+```ruby
 economic_profile.free_or_reduced_lunch_by_year
 # => { 2000 => 0.020,
 #      2001 => 0.024,
@@ -568,7 +568,7 @@ The method returns a single three-digit floating point percentage.
 
 *Example*:
 
-```
+```ruby
 enrollment.remediation_in_year(2012) # => 0.125
 ```
 
@@ -579,7 +579,7 @@ It returns an empty hash if the district's data is not in the CSV.
 
 *Example*:
 
-```
+```ruby
 economic_profile.school_aged_children_in_poverty_in_year
 # => { 1995 => 0.032,
 #      1997 => 0.035,
@@ -613,7 +613,7 @@ The method returns a single three-digit floating point percentage.
 
 *Example*:
 
-```
+```ruby
 economic_profile.school_aged_children_in_poverty_in_year(2012) # => 0.064
 ```
 
@@ -624,7 +624,7 @@ It returns an empty hash if the district's data is not in the CSV.
 
 *Example*:
 
-```
+```ruby
 economic_profile.title_1_students_by_year
 # => {2009 => 0.014, 2011 => 0.011, 2012 => 0.01, 2013 => 0.012, 2014 => 0.027}
 ```
@@ -641,7 +641,7 @@ The method returns a single three-digit floating point percentage.
 
 *Example*:
 
-```
+```ruby
 economic_profile.title_1_students_in_year(2012) # => 0.01
 ```
 
@@ -653,14 +653,14 @@ economic_profile.title_1_students_in_year(2012) # => 0.01
 
 Assume we start with loading our data and finding a school district like this:
 
-```
+```ruby
 dr = DistrictRepository.from_csv('./data')
 district = dr.find_by_name("ACADEMY 20")
 ```
 
 Then each `district` has several child objects loaded with data allowing us to ask questions like this:
 
-```
+```ruby
 district.enrollment.participation_in_year(2013) # => 22620
 district.enrollment.graduation_rate_in_year(2010) # => 0.895
 district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
@@ -672,7 +672,7 @@ Our analysis is centered on answering questions about the data.
 
 Who will answer those questions? Assuming we have a `dr` that's an instance of `DistrictRepository` let's initialize a `HeadcountAnalyst` like this:
 
-```
+```ruby
 ha = HeadcountAnalyst.new(dr)
 ```
 
@@ -684,7 +684,7 @@ We have district data about 3rd and 8th grade achievement in reading, math, and 
 
 ##### Finding a single leader
 
-```
+```ruby
 ha.top_statewide_testing_year_over_year_growth(:subject => :math)
 # => ['the top district name', 0.123]
 ```
@@ -695,7 +695,7 @@ Where `0.123` is their average percentage growth across years. If there are thre
 
 Let's say we want to be able to find several top districts using the same calculations:
 
-```
+```ruby
 ha.top_statewide_testing_year_over_year_growth(:top => 3, :subject => :math) # => [['top district name', growth_1],['second district name', growth_2],['third district name', growth_3]]
 ```
 
@@ -705,7 +705,7 @@ Where `growth_1` through `growth_3` represents their average growth across years
 
 What about growth across all three subject areas?
 
-```
+```ruby
 ha.top_statewide_testing_year_over_year_growth
 # => ['the top district name', 0.111]
 ```
@@ -714,7 +714,7 @@ Where `0.111` is the district's average percentage growth across years across su
 
 But that considers all three subjects in equal proportion. No Child Left Behind guidelines generally emphasize reading and math, so let's add the ability to weight subject areas:
 
-```
+```ruby
 ha.top_statewide_testing_year_over_year_growth(:weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0})
 # => ['the top district name', 0.111]
 ```
@@ -729,7 +729,7 @@ In many states, including Colorado, Kindergarten is offered at public schools bu
 
 First, let's ask how an individual district's participation percentage compares to the statewide average:
 
-```
+```ruby
 ha.kindergarten_participation_rate_variation('district_name', :against => 'state') # => 0.123
 ```
 
@@ -739,7 +739,7 @@ Where `0.123` is the percentage difference between the district and the state. A
 
 Let's next compare this variance against another district:
 
-```
+```ruby
 ha.kindergarten_participation_rate_variation('district_name', :against => 'second_district') # => 0.123
 ```
 
@@ -749,7 +749,7 @@ Where `0.123` is the percentage difference between the primary district and the 
 
 Does a higher median income mean more kids enroll in Kindergarten? For a single district:
 
-```
+```ruby
 ha.kindergarten_participation_against_household_income('district_name') # => 1.2
 ```
 
@@ -761,19 +761,19 @@ If this result is close to `1`, then we'd infer that the *kindergarten variation
 
 Let's consider the `kindergarten_participation_against_household_income` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that these percentages are correlated. For a single district:
 
-```
+```ruby
 ha.kindergarten_participation_correlates_with_household_income(:for => 'district name') # => true
 ```
 
 Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
 
-```
+```ruby
 ha.kindergarten_participation_correlates_with_household_income(:for => 'state') # => true
 ```
 
 And let's add the ability to just consider a subset of districts:
 
-```
+```ruby
 ha.kindergarten_participation_correlates_with_household_income(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => false
 ```
 
@@ -783,7 +783,7 @@ There's thinking that kindergarten participation has long-term effects. Given ou
 
 For a single district:
 
-```
+```ruby
 ha.kindergarten_participation_against_high_school_graduation('district_name') # => 1.2
 ```
 
@@ -795,19 +795,19 @@ If this result is close to `1`, then we'd infer that the *kindergarten variation
 
 Let's consider the `kindergarten_participation_against_high_school_graduation` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that they are correlated. For a single district:
 
-```
+```ruby
 ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'district name') # => true
 ```
 
 Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
 
-```
+```ruby
 ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'state') # => true
 ```
 
 Then let's do the same calculation across a subset of districts:
 
-```
+```ruby
 ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => true
 ```
 

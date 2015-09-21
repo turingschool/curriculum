@@ -463,7 +463,7 @@ This method returns a hash with years as keys and an floating point three-signif
 *Example*:
 
 ```
-enrollment.participation_by_year
+enrollment.special_education_by_year
 # => {2009 => 0.075,
       2010 => 0.078,
       2011 => 0.072,
@@ -496,7 +496,7 @@ This method returns a hash with years as keys and an floating point three-signif
 *Example*:
 
 ```
-enrollment.participation_by_year
+enrollment.remediation_by_year
 # => {2009 => 0.232,
       2010 => 0.251,
       2011 => 0.278
@@ -530,15 +530,126 @@ The instance of this object represents data from the following files:
 
 An instance of this class represents the data for a single district and offers the following methods:
 
-##### `.free_or_reduced_lunch`
+##### `.free_or_reduced_lunch_by_year`
+
+This method returns a hash with years as keys and an floating point three-significant digits representing a percentage.
+
+*Example*:
+
+```
+economic_profile.free_or_reduced_lunch_by_year
+# => { 2000 => 0.020,
+#      2001 => 0.024,
+#      2002 => 0.027,
+#      2003 => 0.030,
+#      2004 => 0.034,
+#      2005 => 0.058,
+#      2006 => 0.041,
+#      2007 => 0.050,
+#      2008 => 0.061,
+#      2009 => 0.070,
+#      2010 => 0.079,
+#      2011 => 0.084,
+#      2012 => 0.125,
+#      2013 => 0.091,
+#      2014 => 0.087,
+#    }
+```
 
 ##### `.free_or_reduced_lunch_in_year(year)`
 
-##### [TODO: more methods for this category]
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a single three-digit floating point percentage.
+
+*Example*:
+
+```
+enrollment.remediation_in_year(2012) # => 0.125
+```
+
+##### `.school_aged_children_in_poverty_in_year`
+
+This method returns a hash with years as keys and an floating point three-significant digits representing a percentage.
+It returns an empty hash if the district's data is not in the CSV.
+
+*Example*:
+
+```
+economic_profile.school_aged_children_in_poverty_in_year
+# => { 1995 => 0.032,
+#      1997 => 0.035,
+#      1999 => 0.032,
+#      2000 => 0.031,
+#      2001 => 0.029,
+#      2002 => 0.033,
+#      2003 => 0.037,
+#      2004 => 0.034,
+#      2005 => 0.042,
+#      2006 => 0.036,
+#      2007 => 0.039,
+#      2008 => 0.044,
+#      2009 => 0.047,
+#      2010 => 0.057,
+#      2011 => 0.059,
+#      2012 => 0.064,
+#      2013 => 0.048,
+#    }
+```
+
+##### `.school_aged_children_in_poverty_in_year(year)`
+
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a single three-digit floating point percentage.
+
+*Example*:
+
+```
+economic_profile.school_aged_children_in_poverty_in_year(2012) # => 0.064
+```
+
+##### `.title_1_students_by_year`
+
+This method returns a hash with years as keys and an floating point three-significant digits representing a percentage.
+It returns an empty hash if the district's data is not in the CSV.
+
+*Example*:
+
+```
+economic_profile.title_1_students_by_year
+# => {2009 => 0.014, 2011 => 0.011, 2012 => 0.01, 2013 => 0.012, 2014 => 0.027}
+```
+
+##### `.title_1_students_in_year(year)`
+
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a single three-digit floating point percentage.
+
+*Example*:
+
+```
+economic_profile.title_1_students_in_year(2012) # => 0.01
+```
+
+
+##### [TODO: what should we see for median household income?]
+
 
 ### Relationships Layer
-
-*TODO: These are just a sketch of where we're going -- don't try to implement this yet!.*
 
 Assume we start with loading our data and finding a school district like this:
 
@@ -550,8 +661,8 @@ district = dr.find_by_name("ACADEMY 20")
 Then each `district` has several child objects loaded with data allowing us to ask questions like this:
 
 ```
-district.enrollment.in_year(2009) # => 22620
-district.enrollment.graduation_rate_for_high_school_in_year(2010) # => 0.895
+district.enrollment.participation_in_year(2013) # => 22620
+district.enrollment.graduation_rate_in_year(2010) # => 0.895
 district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
 ```
 

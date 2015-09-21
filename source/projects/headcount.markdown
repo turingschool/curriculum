@@ -232,15 +232,14 @@ The method returns a hash with race markers as keys and a three-digit floating p
 
 ```ruby
 enrollment.dropout_rate_by_race_in_year(2012)
-# => {
-  :asian => 0.001,
-  :black => 0.001,
-  :pacific_islander => 0.001,
-  :hispanic => 0.001,
-  :native_american => 0.001,
-  :two_or_more => 0.001,
-  :white => 0.001
-}
+# => { :asian => 0.001,
+#      :black => 0.001,
+#      :pacific_islander => 0.001,
+#      :hispanic => 0.001,
+#      :native_american => 0.001,
+#      :two_or_more => 0.001,
+#      :white => 0.001
+#    }
 ```
 
 ##### `.dropout_rate_for_race_or_ethnicity(race)`
@@ -257,10 +256,7 @@ The method returns a hash with years as keys and a three-digit floating point nu
 
 ```ruby
 enrollment.dropout_rate_for_race_or_ethnicity(:asian)
-# => {
-  2011 => 0.047,
-  2012 => 0.041
-}
+# => {2011 => 0.047, 2012 => 0.041}
 ```
 
 ##### `.dropout_rate_for_race_or_ethnicity_in_year(race, year)`
@@ -288,12 +284,12 @@ This method returns a hash with years as keys and a truncated three-digit floati
 
 ```ruby
 enrollment.graduation_rate_by_year
-# => {2010 => 0.895,
-      2011 => 0.895,
-      2012 => 0.889,
-      2013 => 0.913,
-      2014 => 0.898,
-     }
+# => { 2010 => 0.895,
+#      2011 => 0.895,
+#      2012 => 0.889,
+#      2013 => 0.913,
+#      2014 => 0.898,
+#    }
 ```
 
 ##### `.graduation_rate_in_year(year)`
@@ -320,12 +316,12 @@ This method returns a hash with years as keys and a truncated three-digit floati
 
 ```ruby
 enrollment.kindergarten_participation_by_year
-# => {2010 => 0.391,
-      2011 => 0.353,
-      2012 => 0.267,
-      2013 => 0.487,
-      2014 => 0.490,
-     }
+# => { 2010 => 0.391,
+#      2011 => 0.353,
+#      2012 => 0.267,
+#      2013 => 0.487,
+#      2014 => 0.490,
+#    }
 ```
 
 ##### `.kindergarten_participation_in_year(year)`
@@ -352,12 +348,12 @@ This method returns a hash with years as keys and an integer as the value.
 
 ```ruby
 enrollment.online_participation_by_year
-# => {2010 => 16,
-      2011 => 18,
-      2012 => 24,
-      2013 => 32,
-      2014 => 40,
-     }
+# => { 2010 => 16,
+#      2011 => 18,
+#      2012 => 24,
+#      2013 => 32,
+#      2014 => 40,
+#    }
 ```
 
 ##### `.online_participation_in_year(year)`
@@ -384,13 +380,13 @@ This method returns a hash with years as keys and an integer as the value.
 
 ```ruby
 enrollment.participation_by_year
-# => {2009 => 22620,
-      2010 => 22620,
-      2011 => 23119,
-      2012 => 23657,
-      2013 => 23973,
-      2014 => 24578,
-     }
+# => { 2009 => 22620,
+#      2010 => 22620,
+#      2011 => 23119,
+#      2012 => 23657,
+#      2013 => 23973,
+#      2014 => 24578,
+#    }
 ```
 
 ##### `.participation_in_year(year)`
@@ -423,12 +419,11 @@ The method returns a hash with years as keys and a three-digit floating point nu
 
 ```ruby
 enrollment.participation_by_race_or_ethnicity(:asian)
-# => {
-  2011 => 0.047,
-  2012 => 0.041,
-  2013 => 0.052,
-  2014 => 0.056
-}
+# => { 2011 => 0.047,
+#      2012 => 0.041,
+#      2013 => 0.052,
+#      2014 => 0.056
+#    }
 ```
 
 ##### `.participation_by_race_or_ethnicity_in_year(year)`
@@ -445,15 +440,14 @@ The method returns a hash with race markers as keys and a three-digit floating p
 
 ```ruby
 enrollment.participation_by_race_or_ethnicity_in_year(2012)
-# => {
-  :asian => 0.036,
-  :black => 0.029,
-  :pacific_islander => 0.118,
-  :hispanic => 0.003,
-  :native_american => 0.004,
-  :two_or_more => 0.050,
-  :white => 0.756
-}
+# => { :asian => 0.036,
+#      :black => 0.029,
+#      :pacific_islander => 0.118,
+#      :hispanic => 0.003,
+#      :native_american => 0.004,
+#      :two_or_more => 0.050,
+#      :white => 0.756
+#    }
 ```
 
 ##### `.special_education_by_year`
@@ -464,13 +458,13 @@ This method returns a hash with years as keys and an floating point three-signif
 
 ```ruby
 enrollment.special_education_by_year
-# => {2009 => 0.075,
-      2010 => 0.078,
-      2011 => 0.072,
-      2012 => 0.071,
-      2013 => 0.070,
-      2014 => 0.068,
-     }
+# => { 2009 => 0.075,
+#      2010 => 0.078,
+#      2011 => 0.072,
+#      2012 => 0.071,
+#      2013 => 0.070,
+#      2014 => 0.068,
+#    }
 ```
 
 ##### `.special_education_in_year(year)`
@@ -497,10 +491,10 @@ This method returns a hash with years as keys and an floating point three-signif
 
 ```ruby
 enrollment.remediation_by_year
-# => {2009 => 0.232,
-      2010 => 0.251,
-      2011 => 0.278
-     }
+# => { 2009 => 0.232,
+#      2010 => 0.251,
+#      2011 => 0.278
+#    }
 ```
 
 ##### `.remediation_in_year(year)`

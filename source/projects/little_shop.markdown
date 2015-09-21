@@ -24,7 +24,6 @@ In this project you'll use Ruby on Rails to build an online commerce platform to
 Project implementation may **not** use:
 
 * Any external library for authentication except `bcrypt`
-* A pre-existing, externally created CSS/HTML design/template unless given permission by an instructor (however, you may use [Bootstrap](http://getbootstrap.com/), [Zurb Foundation](http://foundation.zurb.com/), etc.)
 
 ### Getting Started
 

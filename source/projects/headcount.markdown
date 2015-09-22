@@ -68,7 +68,7 @@ The instance of this object represents data from the following files:
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Reading.csv`
 * `Average proficiency on the CSAP_TCAP by race_ethnicity_Writing.csv`
 
-An instance this class offers the following methods:
+An instance of this class offers the following methods:
 
 ##### `.proficient_by_grade(grade)`
 
@@ -183,7 +183,7 @@ The instance of this object represents data from the following files:
 * `Special education.csv`
 * `Remediation in higher education.csv`
 
-An instance this class offers the following methods:
+An instance of this class offers the following methods:
 
 ##### `.dropout_rate_in_year(year)`
 

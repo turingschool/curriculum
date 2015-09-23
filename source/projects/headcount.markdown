@@ -57,6 +57,7 @@ The `District` is the top of our data hierarchy. It has the following methods:
 * `name` - returns the upcased string name of the district
 * `statewide_testing` - returns an instance of `StatewideTesting`
 * `enrollment` - returns an instance of `Enrollment`
+* `economic_profile` - returns an instance of `EconomicProfile`
 
 #### `StatewideTesting`
 

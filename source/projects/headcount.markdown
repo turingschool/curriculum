@@ -724,20 +724,21 @@ In many states, including Colorado, Kindergarten is offered at public schools bu
 First, let's ask how an individual district's participation percentage compares to the statewide average:
 
 ```ruby
-ha.kindergarten_participation_rate_variation('district_name', :against => 'state') # => 0.123
+ha.kindergarten_participation_rate_variation('district_name', :against => 'state') # => 0.766
 ```
 
-Where `0.123` is the percentage difference between the district and the state. A negative percentage implies that the district performs lower than the state average.
+Where `0.766` is the percentage difference between the district and the state (use division). A value less than 1 implies that the district performs lower than the state average, and a value greater than 1 implies that the district performs better than the state average.
 
 ##### How does a district's kindergarten participation rate compare to another district?
 
 Let's next compare this variance against another district:
 
 ```ruby
-ha.kindergarten_participation_rate_variation('district_name', :against => 'second_district') # => 0.123
+ha.kindergarten_participation_rate_variation('district_name', :against => 'second_district') # => 1.501
 ```
 
-Where `0.123` is the percentage difference between the primary district and the against district. Negative percentage implies that the district performs lower than the against district.
+Where `1.501` is the percentage difference between the primary district and the against district (use division). A value less than 1 implies that the district performs lower than the against, and a value greater than 1 implies that the district performs better than the against average.
+
 
 ##### How does kindergarten participation variation compare to the median household income variation?
 

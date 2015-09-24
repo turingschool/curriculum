@@ -675,12 +675,33 @@ Then ask/answer these questions:
 
 #### Where is the most growth happening in statewide testing?
 
-We have district data about 3rd and 8th grade achievement in reading, math, and writing. Consider that our data sources have absolute values, not growth. We're interested in who is making the most progress, not who scores the highest. That means calculating growth by comparing the absolute values across two or more years.
+We have district data about 3rd and 8th grade achievement in reading, math, and writing.
+Consider that our data sources have absolute values, not growth.
+We're interested in who is making the most progress, not who scores the highest.
+That means calculating growth by comparing the absolute values across two or more years.
+
+##### A valid grade must be provided
+
+Because there are multiple grades with which we could answer these questions,
+the grade must be provided, or an `InsufficientInformationError` should be raised.
+
+```ruby
+ha.top_statewide_testing_year_over_year_growth(subject: :math)
+# ~> InsufficientInformationError: A grade must be provided to answer this question
+```
+
+And only valid grades are allowed.
+
+```ruby
+ha.top_statewide_testing_year_over_year_growth(grade: 3, subject: :math) # => ...some sort of result...
+ha.top_statewide_testing_year_over_year_growth(grade: 8, subject: :math) # => ...some sort of result...
+ha.top_statewide_testing_year_over_year_growth(grade: 9, subject: :math) # ~> UnknownDataError: 9 is not a known grade
+```
 
 ##### Finding a single leader
 
 ```ruby
-ha.top_statewide_testing_year_over_year_growth_in_3rd_grade(:math)
+ha.top_statewide_testing_year_over_year_growth(grade: 3, subject: :math)
 # => ['the top district name', 0.123]
 ```
 
@@ -691,7 +712,8 @@ Where `0.123` is their average percentage growth across years. If there are thre
 Let's say we want to be able to find several top districts using the same calculations:
 
 ```ruby
-ha.top_statewide_testing_year_over_year_growth(:top => 3, :subject => :math) # => [['top district name', growth_1],['second district name', growth_2],['third district name', growth_3]]
+ha.top_statewide_testing_year_over_year_growth(grade: 3, top: 3, subject: :math)
+# => [['top district name', growth_1], ['second district name', growth_2], ['third district name', growth_3]]
 ```
 
 Where `growth_1` through `growth_3` represents their average growth across years.
@@ -701,7 +723,7 @@ Where `growth_1` through `growth_3` represents their average growth across years
 What about growth across all three subject areas?
 
 ```ruby
-ha.top_statewide_testing_year_over_year_growth
+ha.top_statewide_testing_year_over_year_growth(grade: 3)
 # => ['the top district name', 0.111]
 ```
 
@@ -710,7 +732,7 @@ Where `0.111` is the district's average percentage growth across years across su
 But that considers all three subjects in equal proportion. No Child Left Behind guidelines generally emphasize reading and math, so let's add the ability to weight subject areas:
 
 ```ruby
-ha.top_statewide_testing_year_over_year_growth(:weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0})
+ha.top_statewide_testing_year_over_year_growth(grade: 8, :weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0})
 # => ['the top district name', 0.111]
 ```
 
@@ -725,7 +747,7 @@ In many states, including Colorado, Kindergarten is offered at public schools bu
 First, let's ask how an individual district's participation percentage compares to the statewide average:
 
 ```ruby
-ha.kindergarten_participation_rate_variation('district_name', :against => 'state') # => 0.766
+ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO') # => 0.766
 ```
 
 Where `0.766` is the result of the district average divided by state average. (i.e. find the district's average participation across all years and didvide it by the average of the state participation data across all years.) A value less than 1 implies that the district performs lower than the state average, and a value greater than 1 implies that the district performs better than the state average.
@@ -755,16 +777,19 @@ If this result is close to `1`, then we'd infer that the *kindergarten variation
 
 ##### Statewide does the kindergarten participation correlate with the median household income?
 
-Let's consider the `kindergarten_participation_against_household_income` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that these percentages are correlated. For a single district:
+Let's consider the `kindergarten_participation_against_household_income` and set a correlation window between `0.6` and `1.5`.
+If the result is in that range then we'll say that these percentages are correlated. For a single district:
 
 ```ruby
-ha.kindergarten_participation_correlates_with_household_income(:for => 'district name') # => true
+ha.kindergarten_participation_correlates_with_household_income(for: 'ACADEMY 20') # => true
+ha.kindergarten_participation_correlates_with_household_income(for: 'COLORADO') # => true
 ```
 
-Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
+Then let's look statewide.
+If more than some percentage of districts across the state show a correlation, then we'll answer `true`.
 
 ```ruby
-ha.kindergarten_participation_correlates_with_household_income(:for => 'state') # => true
+ha.kindergarten_participation_correlates_with_household_income(for: 'ACADEMY 20') # => true
 ```
 
 And let's add the ability to just consider a subset of districts:
@@ -798,7 +823,7 @@ ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'di
 Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
 
 ```ruby
-ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'state') # => true
+ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'COLORADO') # => true
 ```
 
 Then let's do the same calculation across a subset of districts:

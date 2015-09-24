@@ -679,7 +679,7 @@ We have district data about 3rd and 8th grade achievement in reading, math, and 
 ##### Finding a single leader
 
 ```ruby
-ha.top_statewide_testing_year_over_year_growth(:subject => :math)
+ha.top_statewide_testing_year_over_year_growth_in_3rd_grade(:math)
 # => ['the top district name', 0.123]
 ```
 

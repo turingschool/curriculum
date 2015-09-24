@@ -739,7 +739,6 @@ ha.kindergarten_participation_rate_variation('district_name', :against => 'some_
 ```
 
 Where `1.501` is the result of the district average divided by 'against' district's average. (i.e. find the district's average participation across all years and didvide it by the average of the 'against' district's participation data across all years.) A value less than 1 implies that the district performs lower than the against district's average, and a value greater than 1 implies that the district performs better than the against district's average.
-Add Comment
 
 
 ##### How does kindergarten participation variation compare to the median household income variation?

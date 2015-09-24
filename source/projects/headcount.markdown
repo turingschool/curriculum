@@ -57,6 +57,7 @@ The `District` is the top of our data hierarchy. It has the following methods:
 * `name` - returns the upcased string name of the district
 * `statewide_testing` - returns an instance of `StatewideTesting`
 * `enrollment` - returns an instance of `Enrollment`
+* `economic_profile` - returns an instance of `EconomicProfile`
 
 #### `StatewideTesting`
 
@@ -566,7 +567,7 @@ The method returns a single three-digit floating point percentage.
 enrollment.remediation_in_year(2012) # => 0.125
 ```
 
-##### `.school_aged_children_in_poverty_in_year`
+##### `.school_aged_children_in_poverty_by_year`
 
 This method returns a hash with years as keys and an floating point three-significant digits representing a percentage.
 It returns an empty hash if the district's data is not in the CSV.
@@ -574,7 +575,7 @@ It returns an empty hash if the district's data is not in the CSV.
 *Example*:
 
 ```ruby
-economic_profile.school_aged_children_in_poverty_in_year
+economic_profile.school_aged_children_by_poverty_in_year
 # => { 1995 => 0.032,
 #      1997 => 0.035,
 #      1999 => 0.032,

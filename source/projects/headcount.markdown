@@ -28,13 +28,33 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 
 ### Getting Started
 
-1. One team member clones the repository at https://github.com/turingschool-examples/headcount.
-2. `cd headcount`
-3. `git remote rm origin`
-4. Create your own new `headcount` repository on GitHub, then add that remote to your `headcount` from the command line.
-5. Push your repository to the new remote origin.
-6. Add your teammate(s) as collaborators.
-7. Create a [Waffle.io](http://waffle.io) account for project management.
+1. One team member forks the repository at https://github.com/turingschool-examples/headcount and adds the others as collaborators.
+1. Everyone on the team clones the repository
+1. Create a [Waffle.io](http://waffle.io) account for project management.
+   Just play with it a bit to see what kinds of things it can do,
+   identify things that seem like they will be useful (eg to coordinate your work)
+   and then use it for those things.
+1. Add this test and push single-mindedly towards getting it to pass.
+   First try and get all the pieces in place (ie ignore correctness, can you hard-code the objects that it needs?)
+   Each time you run the tests, state what you think the error is going to be
+   (you and your partner don't have to agree, but each of you should try to anticipate it).
+   Read every error, and make sure you know why it got that error before you attempt to pass it.
+   Be wary of adding additional tests until you get this passing. This should require you to define exactly 3 classes.
+   If you get this passing with less than that, go check your understanding again.
+   If you get it passing with more than that, then you did too much.
+   You should have this passing on day 1. If you don't then you probably are doing too much planning and research.
+   Stop planning, stop researching, what do these words mean, why is it currently failing, what will get past that 1 error?
+
+   ```ruby
+   class TestEconomicProfile < Minitest::Test
+     def test_free_or_reduced_lunch_in_year
+       path       = File.expand_path("../data", __dir__)
+       repository = DistrictRepository.from_csv(path)
+       district   = repository.find_by_name("ACADEMY 20")
+       assert_equal 0.895, district.enrollment.graduation_rate_in_year(2010)
+     end
+   end
+   ```
 
 ## Base Expectations
 
@@ -757,10 +777,10 @@ Where `0.766` is the result of the district average divided by state average. (i
 Let's next compare this variance against another district:
 
 ```ruby
-ha.kindergarten_participation_rate_variation('district_name', :against => 'some_other_district_name') # => 1.501
+ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'YUMA SCHOOL DISTRICT 1') # => 1.234
 ```
 
-Where `1.501` is the result of the district average divided by 'against' district's average. (i.e. find the district's average participation across all years and didvide it by the average of the 'against' district's participation data across all years.) A value less than 1 implies that the district performs lower than the against district's average, and a value greater than 1 implies that the district performs better than the against district's average.
+Where `1.234` is the result of the district average divided by 'against' district's average. (i.e. find the district's average participation across all years and didvide it by the average of the 'against' district's participation data across all years.) A value less than 1 implies that the district performs lower than the against district's average, and a value greater than 1 implies that the district performs better than the against district's average.
 
 
 ##### How does kindergarten participation variation compare to the median household income variation?
@@ -768,10 +788,12 @@ Where `1.501` is the result of the district average divided by 'against' distric
 Does a higher median income mean more kids enroll in Kindergarten? For a single district:
 
 ```ruby
-ha.kindergarten_participation_against_household_income('district_name') # => 1.2
+ha.kindergarten_participation_against_household_income('ACADEMY 20') # => 1.234
 ```
 
-Consider the *kindergarten variation* to be the result calculated against the state average as described above. The *median income variation* is a similar calculation of the district's median income divided by the state average median income. Then dividing the *kindergarten variation* by the *median income variation* results in `1.2` in the sample.
+Consider the *kindergarten variation* to be the result calculated against the state average as described above.
+The *median income variation* is a similar calculation of the district's median income divided by the state average median income.
+Then dividing the *kindergarten variation* by the *median income variation* results in `1.234` in the sample.
 
 If this result is close to `1`, then we'd infer that the *kindergarten variation* and the *median income variation* are closely related.
 
@@ -795,7 +817,7 @@ ha.kindergarten_participation_correlates_with_household_income(for: 'ACADEMY 20'
 And let's add the ability to just consider a subset of districts:
 
 ```ruby
-ha.kindergarten_participation_correlates_with_household_income(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => false
+ha.kindergarten_participation_correlates_with_household_income(:across => ['ACADEMY 20', 'YUMA SCHOOL DISTRICT 1', 'WILEY RE-13 JT', 'SPRINGFIELD RE-4']) # => false
 ```
 
 ##### How does kindergarten participation variation compare to the high school graduation variation?
@@ -805,7 +827,7 @@ There's thinking that kindergarten participation has long-term effects. Given ou
 For a single district:
 
 ```ruby
-ha.kindergarten_participation_against_high_school_graduation('district_name') # => 1.2
+ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20') # => 1.234
 ```
 
 Call *kindergarten variation* the result of dividing the district's kindergarten participation by the statewide average. Call *graduation variation* the result of dividing the district's graduation rate by the statewide average. Divide the *kindergarten variation* by the *graduation variation* to find the *kindergarten-graduation variance*.
@@ -817,7 +839,7 @@ If this result is close to `1`, then we'd infer that the *kindergarten variation
 Let's consider the `kindergarten_participation_against_high_school_graduation` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that they are correlated. For a single district:
 
 ```ruby
-ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'district name') # => true
+ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20') # => true
 ```
 
 Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
@@ -862,3 +884,86 @@ Some ideas:
 * [AVERAGE PROFICIENCY ON THE CSAP/TCAP BY RACE/ETHNICITY: READING](http://datacenter.kidscount.org/data/tables/6727-average-proficiency-on-the-csap-tcap-by-race-ethnicity-reading?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867/2756,2161,2159,2819,2157,2158,2820,2160/13821)
 * [AVERAGE PROFICIENCY ON THE CSAP/TCAP BY RACE/ETHNICITY: MATH](http://datacenter.kidscount.org/data/tables/6567-average-proficiency-on-the-csap-tcap-by-race-ethnicity-math?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867/2756,2161,2159,2819,2157,2158,2820,2160/13563)
 * [AVERAGE PROFICIENCY ON THE CSAP/TCAP BY RACE/ETHNICITY: WRITING](http://datacenter.kidscount.org/data/tables/6729-average-proficiency-on-the-csap-tcap-by-race-ethnicity-writing?loc=7&loct=10#detailed/10/1278-1457/false/869,36,868,867/2756,2161,2159,2819,2157,2158,2820,2160/13823)
+
+## Evaluation Rubric
+
+NOTE: Update this rubric when the project settles more.
+
+The project will be assessed with the following guidelines:
+
+
+### 1. Influence points!
+
+An influence point may be used by your evaluator to influence their decision on a score in a positive direction.
+So, if they were unsure about whether to give a `2` or a `3` on "Overall Functionality", they could use
+the influence point on that category and make it a 3.
+
+* You achieve an influence point if you submit at least one pull request to improve this project description, and it is merged in
+  [Example](https://github.com/turingschool/curriculum/pull/1092).
+* Currently this project is very new and needs us to give it our consideration, attention, and love.
+  A pull request that identifies a requirement that cannot be satisfied, and reinterprets it to make sense
+  will show that you are helping take ownership over the project and improve it for the rest of your class,
+  and everyone who comes after you. Don't let everyone suffer through whatever you suffered through,
+  take your insights and improve the project for everyone after you!
+
+  This influence point can be acheived by pushing the "cursor of consensus" forward.
+  The **"cursor of consensus"** is the current interpretation of the requirements,
+  as agreed upon by enough people to assume that it is the most reasonable way to make sense of it.
+  You can basically think of it as the project description + the test harness.
+  To prove that the consensus exists, you need at least 5 students to "+1" the pull request.
+  [Example](https://github.com/turingschool/curriculum/pull/1094)
+
+
+### 1. Overall Functionality
+
+Currently, the analysis layer contains a lot of functionality that needs to be figured out
+(go figure it out, update it, and get an influence point!)
+
+* 4: Passes the Test Harness (you'll get this later in the project, to discourage you from using the test harness)
+* 3: Satisfied the "cursor of consensus" in the Analysys Layer (we need a lot more thought put into this area).
+* 2: Completes the Data Access Layer
+* 1: Passes that test in the "getting started" section that you should write first
+
+
+### 2. Enumerables
+
+You may get 1 point for each of these, your score for this category is the sum of your points.
+
+* Fewer than 5 calls to `each`
+* Uses each of the following methods on `Array` at least once: `map`, `group_by`, `to_h`, `select`, `reject`
+* Uses each of the following methods on `Hash` at least once: `Hash`: `fetch`, `[]`, `map` (note that this gives back an array that you can call `to_h` on)
+* At least 1 use of "symbol to proc"
+
+
+### 3. Fundamental Ruby & Style
+
+* 4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring
+* 3:  Application shows strong effort towards organization, content, and refactoring
+* 2:  Application runs but the code has long methods, unnecessary or poorly named variables, and needs significant refactoring
+* 1:  Application generates syntax error or crashes during execution
+
+
+### 4. Test-Driven Development
+
+* 4: Application is broken into components which are well tested in both isolation and integration
+* 3: Application uses tests to exercise core functionality, but has some gaps in coverage or leaves edge cases untested.
+* 2: If I edit the code to be broken, then a test fails (in other words, the tests prove that the code is correct by failing when I add bugs to the code)
+* 1: Application does not demonstrate strong use of TDD
+
+
+### 5. Breaking Logic into Components
+
+* 4: I can look at your code for the `DistrictRepository`, `District`, `Enrollment`, `StatewideTesting`, and not know whether you got your data from the CSV, or the JSON, or a test, or anywhere else.
+* 3: Application has multiple components with defined responsibilities but there is some leaking of responsibilities
+* 2: Application has some logical components but divisions of responsibility are inconsistent or unclear and/or there is a "God" object taking too much responsibility
+* 1: Application logic shows poor decomposition with too much logic mashed together
+
+
+### 6. Code Sanitation
+
+The output from `rake sanitation:all` shows... (assuming I figure out how this thing works and get it working :P)
+
+* 4: Zero complaints
+* 3: Five or fewer complaints
+* 2: Six to ten complaints
+* 1: More than ten complaints

@@ -25,7 +25,7 @@ We'll use an iterative approach to develop one feature at a time. Here goes!
 
 Let's lay the groundwork for our project. In your terminal, switch to the directory where you'd like your project to be stored.
 
-Lets install Rails or ensure that we have it installed.
+Let's install Rails or ensure that we have it installed.
 
 {% terminal %}
 $ rails -v
@@ -95,7 +95,7 @@ $ bundle exec rails server
 
 This will, by default, use the Webrick server which is slow as molasses. Hit `Ctrl-C` to stop it. Some of the alternative servers are [mongrel](https://github.com/mongrel/mongrel), [unicorn](http://unicorn.bogomips.org/), [thin](http://code.macournoyer.com/thin/), and [puma](http://puma.io/).
 
-Here's how to setup unicorn.
+Here's how to set up unicorn.
 
 <div class="note">
 <p>Unicorn will not work on Windows. You can follow the same steps below though by substituting in 'thin' for 'unicorn'.</p>
@@ -150,17 +150,17 @@ We want to host our Rails application on the internet using the popular [Heroku]
 
 If you don't already have one, you'll need to create [a Heroku account](https://id.heroku.com/signup/www-header). After creating your account download and install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
-Heroku requires applications to use a PostgresSQL database and not a Sqlite database. So we need to update our application to use the PostgresSQL gem (named **pg**). Along with installing the **pg** gem we will also need to install and configure a PostgreSQL database. This could be trivial amount of work or may consume an entire afternoon.
+Heroku requires applications to use a PostgreSQL database and not a SQLite database. So we need to update our application to use the PostgreSQL gem (named **pg**). Along with installing the **pg** gem we will also need to install and configure a PostgreSQL database. This could be a trivial amount of work or may consume an entire afternoon.
 
-An ideal situation is if we could continue to use Sqlite locally and PostgresSQL only on Heroku. This configuration is indeed possible.
+An ideal situation is if we could continue to use SQLite locally and PostgreSQL only on Heroku. This configuration is indeed possible.
 
-Our application, by default is run in **development** mode.
+Our application, by default, is run in **development** mode.
 
 When we run our tests the application runs in **test** mode.
 
 When we deploy to Heroku, our application is run in **production** mode.
 
-We want to continue to use Sqlite while in **development** and **test**. We will use PostgresSQL in **production**.
+We want to continue to use SQLite while in **development** and **test**. We will use PostgreSQL in **production**.
 
 Find the line in your gem file that says `gem 'sqlite3'` and move this into the `:development, :test` group:
 
@@ -674,7 +674,7 @@ As we finish the iteration we'll merge the changes back into master and ship it.
 
 ### Modeling The Objects
 
-First, let's think about the data relationship. A person is going to have multiple phone numbers, and a phone number is going to belong to one person. In the database world, this is a one-to-many relationship, one person has many phone numbers.
+First, let's think about the data relationship. A person is going to have multiple phone numbers, and a phone number is going to belong to one person. In the database world, this is a one-to-many relationship: one person has many phone numbers.
 
 #### One-to-Many Relationship
 
@@ -695,7 +695,7 @@ Run the tests and make sure the test fails with `undefined method 'phone_numbers
 
 #### Scaffolding the Phone Number Model
 
-We'll use the scaffold generator again to save us a little time. For now we'll keep the phone number simple that contains the phone number, represented as a String, and a reference to the Person that owns the number. Generate it with this command at the terminal:
+We'll use the scaffold generator again to save us a little time. For now we'll keep the model that contains the phone number simple. It will contain the phone number, represented as a String, and a reference to the Person that owns the number. Generate it with this command at the terminal:
 
 {% terminal %}
 $ bundle exec rails generate scaffold PhoneNumber number:string person_id:integer
@@ -1276,7 +1276,7 @@ Let's add some quality controls to our `EmailAddress` model.
 * Run your tests and make sure it *fails*
 * Add a validation to ensure that the `address` attribute `EmailAddress` is present
 * Run your tests and see that your `it 'is valid'` test fails.
-* Update the `let` block giving your `EmailAddress` and `address`.
+* Update the `let` block giving your `EmailAddress` an `address`.
 * Run the tests and see that they pass.
 * Update the controller spec and get the pending tests to pass.
 * Commit.
@@ -1287,7 +1287,7 @@ Let's add some quality controls to our `EmailAddress` model.
 * Run the tests, and see the `it 'is valid'` test fail as well as several controller specs.
 * Update the `valid_attributes` method in the controller specs.
 * Update the `let` block in the email address spec.
-* Run your tests and make sure it *passes*
+* Run your tests and make sure they *pass*
 
 If you're green, go ahead and check in those changes.
 
@@ -1301,7 +1301,7 @@ Before you play with displaying email addresses, create a few of them manually i
 
 Let's organize our person_view_spec a little before we add tests for email addresses.
 * Open the `person_view_spec.rb`
-* Wrap all the existing phone number tests, including the `before` block in a `describe` block for phone numbers.
+* Wrap all the existing phone number tests, including the `before` block, in a `describe` block for phone numbers.
 * Create a new, separate `describe` for the email addresses.
 * Create a `before` block within the new `describe` block that adds a couple of email addresses to the person and visits the person page.
 * Write a test that looks for LIs for each address. Try using this:
@@ -1330,14 +1330,14 @@ If everything passes, check in your changes.
 * Make sure the test is failing.
 * Make the spec pending while we drop into a lower level and fix this
 * Open up the email addresses controller specs
-* change the `it "redirects to the created email_address"` spec
+* Change the `it "redirects to the created email_address"` spec
   so that it redirects to the email address's person. You'll need to create the related person.
-* see it fail
-* fix the controller
-* see the other specs fail
-* fix the specs
-* go back to the `person_view_spec` and remove the pending declaration
-* run the tests and see that it is still failing. When trying to create an email address, the form is failing to submit, because we haven't connected it to a person.
+* See it fail
+* Fix the controller
+* See the other specs fail
+* Fix the specs
+* Go back to the `person_view_spec` and remove the pending declaration
+* Run the tests and see that it is still failing. When trying to create an email address, the form is failing to submit, because we haven't connected it to a person.
 * Make the failing spec pending
 * Update the test in `person_view_spec` that has the link to add new email addresses, and make sure that it expects the `current_url` to be the url containing the `person_id`.
 * Remove the pending declaration on the test that was failing, and see that it is *still* failing.
@@ -1372,7 +1372,7 @@ As you start to think about the model, it might trigger your instinct for inheri
   <p>STI has always been controversal, and every time I've used it, I've regretted it. For that reason, I ban STI!</p>
 </div>
 
-Instead we'll build up companies in the most simplistic way: duplicating a lot of code. Once we see where things are duplicated, we'll extract them out and get the code DRY. A robust test suite will permit us be aggressive in our refactoring.
+Instead we'll build up companies in the most simplistic way: duplicating a lot of code. Once we see where things are duplicated, we'll extract them out and get the code DRY. A robust test suite will permit us to be aggressive in our refactoring.
 
 In the end, we'll have clean, simple code that follows _The Ruby Way_.
 
@@ -1647,8 +1647,8 @@ it 'responds with its created phone numbers' do
 end
 
 it 'responds with its created email addresses' do
-  person.email_addresses.build(address: 'me@example.com')
-  expect(person.email_addresses.map(&:address)).to eq(['me@example.com'])
+  person.email_addresses.build(email: 'me@example.com')
+  expect(person.email_addresses.map(&:email)).to eq(['me@example.com'])
 end
 ```
 

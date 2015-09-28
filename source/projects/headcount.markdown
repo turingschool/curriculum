@@ -892,7 +892,7 @@ NOTE: Update this rubric when the project settles more.
 The project will be assessed with the following guidelines:
 
 
-### 1. Influence points!
+### 0. Influence points!
 
 An influence point may be used by your evaluator to influence their decision on a score in a positive direction.
 So, if they were unsure about whether to give a `2` or a `3` on "Overall Functionality", they could use

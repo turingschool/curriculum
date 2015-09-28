@@ -236,9 +236,11 @@ server.stop
 ### The env hash
 
 The keys to this hash are mostly pre-defined (as in: go hard code them into the hash).
-Some of the headers might not be. I do know that you can run the Sinatra framework
-using this hash (rack.input should be the body, I think... you'll have to play with it to see!
-...do that after you get everything else working ;)
+Some of the headers might not be (I found a list [here](https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/lint.rb#L65)).
+...don't worry about that stuff until after you get Sinatra working ;)
+
+I do know that you can run the Sinatra framework
+using this hash (rack.input should be the body, I think... you'll have to play with it to see!)
 
 ```ruby
 require 'stringio'
@@ -281,7 +283,7 @@ $ rackup config.ru -p 9292
 And now click this link: [http://localhost:9292/this/is/the/path](http://localhost:9292/this/is/the/path)
 
 
-## Toplevel tests you must pass
+## Toplevel tests... Start Here
 
 Because the server must wait until the request is made, it will lock the program up.
 And since the program is locked up, it can't send the request!
@@ -297,7 +299,10 @@ $ gem install rspec mrspec rest-client
 ```
 
 Then put the following code in `spec/acceptance_spec.rb`.
-You can continue to use rspec, or switch to minitest,
+While working on this, you're going to need to parse HTTP requests
+and generate HTTP responses.
+You'll want to do that in other code that can be tested without the need for the server to be running.
+You write those tests in rspec, or minitest,
 because [mrspec](https://rubygems.org/gems/mrspec) can run them both
 by just running `$ mrspec` from the root of your project.
 Just use whichever you're most comfortable with.
@@ -357,7 +362,111 @@ RSpec.describe 'Acceptance test' do
 end
 ```
 
+## Serving Your NightWriter
+
+This code uses a Ruby web framework called Sinatra
+to make a web interface to your NightWriter project.
+First, get yours working using a real server,
+then switch the `use_my_server`
+variable to have it use your server instead of the real one.
+You're going to have to edit it to work with your NightWriter instead of mine.
+
+Install Sinatra with `gem install sinatra`
+Put the file in `examples/night_writer.rb`
+And then execute it with `ruby examples/night_writer.rb`
+
+```ruby
+# go to http://localhost:9292/to_braille
+
+# require your code you used for NightWriter
+# note that we are talking to it through a web interface instead of a command-line interface
+# hope you wrote it well enough to support that ;)
+require '/Users/josh/deleteme/night_writer/lib/night'
+
+# require a webserver named Sinatra
+require 'sinatra/base'
+
+class NightWriterServer < Sinatra::Base
+  get '/to_braille' do
+    "<form action='/to_braille' method='post'>
+      <input type='textarea' name='english-message'></input>
+      <input type='Submit'></input>
+    </form>"
+  end
+
+  post '/to_braille' do
+    message = params['english-message']
+    braille = Night::Write.call(message) # <-- change this to look like your night writer code
+    "<pre>#{braille}</pre>"
+  end
+end
+
+
+# switch this to use your server
+use_my_server = false
+
+if use_my_server
+  require_relative 'lib/http_yeah_you_know_me' # <-- probably right, but double check it
+  server = HttpYeahYouKnowMe.new(9292, NightWriterServer)
+  at_exit { server.stop }
+  server.start
+else
+  NightWriterServer.set :port, 9292
+  NightWriterServer.run!
+end
+```
+
 
 ## Assessment Rubric
 
 Coming eventually. Pass my acceptance tests and you'll be in a really really good spot :)
+
+### 1. Overall Functionality
+
+4: Serves your night wrighter (or some other project)
+3: Passes my acceptance tests up above
+2: Passes 2 of my acceptance tests up above
+1: Passes 1 of my acceptance tests up above
+
+### 2. Test-Driven Development
+
+1 point for each of these:
+
+* Your tests all pass
+* You have tests on all behaviour of parsing requests and generating responses.
+* Your tests describe the behaviour in human readable words (eg "it stores the first word in the REQUEST_METHOD key")
+* Parsing / Generating code know nothing about sockets
+  (it receives an IO object, but don't know it's a socket vs a file),
+  and they know nothing about the app.
+  Keep them simple, good code is identifiable because it makes everything look easy.
+
+### 3. Code Sanitation
+
+This one is pass / fail.
+Your indentation must be right, according to the [indentation guide](https://gist.github.com/JoshCheek/b3c6a8d430b2e1ac8bb2).
+Keep your indentation correct the whole time.
+When you enter a class/method/block, you indent. When you leave, you outdent.
+If this is hard, then add one of those tools that checks it for you.
+
+### 4. Knowledge Retention
+
+1 Point for each of these!
+
+* You can recite the anatomy of a request and of a response, without any aid.
+* Using `$ curl -i some-url` to see a response
+  * You can show me a redirect
+  * You can show me an html body
+  * You can show me a JSON body, and tell me what header will be different from the HTML one
+* Using `$ nc -l 9292` and typing in the response by hand
+  * You can show me a GET request that was sent from your browser
+  * You can show me a POST request that was sent from your browser (edit a form)
+  * You can set a cookie
+  * You can redirect the browser to [http://turing.io](http://turing.io/)
+  * You can serve HTML and have it highlighted
+  * You can serve the same HTML, but change 1 header to not have it highlighted
+
+### 5. Adoration points
+
+These don't go to anything, but I will give you mad adoration points if you practice until
+you can delete your parsing code and then use your tests to rewrite it (one failure at a time,
+stating out loud what each failure is going to be), in less than 10 minutes.

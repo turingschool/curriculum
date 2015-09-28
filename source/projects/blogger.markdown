@@ -1773,7 +1773,7 @@ With that, a long Iteration 3 is complete!
 
 ####Saving to GitHub.
 
-Woah! The tagging feature is now complete. Good on you. Your going to want to push this to the repo.
+Woah! The tagging feature is now complete. Good on you. You're going to want to push this to the repo.
 
 {% terminal %}
 $ git add .

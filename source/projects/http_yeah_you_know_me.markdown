@@ -423,10 +423,10 @@ Coming eventually. Pass my acceptance tests and you'll be in a really really goo
 
 ### 1. Overall Functionality
 
-4: Serves your night wrighter (or some other project)
-3: Passes my acceptance tests up above
-2: Passes 2 of my acceptance tests up above
-1: Passes 1 of my acceptance tests up above
+* 4: Serves your night wrighter (or some other project)
+* 3: Passes my acceptance tests up above
+* 2: Passes 2 of my acceptance tests up above
+* 1: Passes 1 of my acceptance tests up above
 
 ### 2. Test-Driven Development
 

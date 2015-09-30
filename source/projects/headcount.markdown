@@ -85,9 +85,9 @@ The instance of this object represents data from the following files:
 
 * `3rd grade students scoring proficient or above on the CSAP_TCAP.csv`
 * `8th grade students scoring proficient or above on the CSAP_TCAP.csv`
-* `Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv`
-* `Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv`
-* `Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv`
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_Math.csv`
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_Reading.csv`
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_Writing.csv`
 
 An instance of this class offers the following methods:
 
@@ -288,6 +288,8 @@ This method takes two parameters:
 * `year` as an integer for any year reported in the data
 
 A call to this method with any unknown `year` should return `nil`.
+
+A call to this method with any unknown `race` should raise an UnknownRaceError
 
 The method returns a truncated three-digit floating point number representing a percentage.
 

@@ -682,7 +682,7 @@ A call to this method with any unknown year range should return nil. This method
 *Example*:
 
 ```ruby
-economic_profile.median_household_income_in_year(2005-2009) # => 85060
+economic_profile.median_household_income_in_year(2005..2009) # => 85060
 ```
 
 ### Relationships Layer

@@ -122,7 +122,7 @@ This method takes one parameter:
 
 * `race` as a symbol from the following set: `[:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]`
 
-A call to this method with an unknown race should raise a `UnknownDataError`.
+A call to this method with an unknown race should raise a `UnknownRaceError`.
 
 The method returns a hash grouped by race referencing percentages by subject all
 as truncated three digit floats.

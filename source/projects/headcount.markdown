@@ -668,7 +668,7 @@ This method returns a hash with year ranges in the data as keys and five digit F
 
 ```ruby
 economic_profile.median_household_income_by_year
-# => {2005-2009 => 85060, 2006-2010 => 85450, 2008-2012 => 89615, 2007-2011 => 88099, 2009-2013 => 89953}
+# => {2005..2009 => 85060, 2006..2010 => 85450, 2008..2012 => 89615, 2007..2011 => 88099, 2009..2013 => 89953}
 ```
 
 ##### `median_household_income_in_year(year_range)`

@@ -30,18 +30,7 @@ If this is your first time using UNIX then you'll need a few of the most essenti
 * The tilde (`~`) is a shortcut for your "home" directory. You can enter `cd ~` from any folder on the system and you'll jump back to your home directory.
 * The single period (`.`) is a reference to the current directory. If you enter `cd .` it won't go anywhere. But the period is useful especially with Git which you'll see soon.
 * The double period (`..`) is a reference to the parent directory of the current directory (one step up the tree). Try entering `cd ..` then `ls` and you should see your user folder. `cd` back into that.
-* Removing directories is a bit different. Try `rm -rf sample_directory` to remove our previously created sample directory
-
-### Setting Up Terminal Access for Atom
-
-One of the things you'll do frequently is open an entire folder (like when working on a project) in your text editor. Let's get that setup:
-
-* Open Atom (`command-spacebar` for spotlight, type `Atom`, and hit enter).
-* Click the `Atom` menu in the top left corner
-* Click `Install Shell Commands`
-* Return to your terminal and enter `which atom`. You should get back `/usr/local/bin/atom`
-* Enter `atom .` to open your user directory in Atom.
-* Experiment with creating a file in Atom and using `ls` in the terminal to see it. Try creating a file in the terminal with `touch` and see if it shows up in Atom.
+* Removing directories is a bit different. Try `rm -rf sample_directory` to remove our previously created sample directory.
 
 ## Customizing Your Terminal
 

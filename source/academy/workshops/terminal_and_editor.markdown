@@ -56,14 +56,10 @@ A little bit of increased efficiency in your use of the Unix environment and you
 * `alias` for shorthand commands, like I define `e` to launch my editor
 * `source` to run scripts of bash commands
 
-#### Dotfiles
+#### A sample .bash_profile
 
-Snippets from my `.bash_profile` are below.
+Snippets from Jeff's `.bash_profile` are below.
 The top three lines setup a yellow lightning bolt as my prompt because, well, it's awesome.
-
-We have set up some dotfiles you can use,
-go to [bootstrap new students](https://github.com/turingschool/bootstrap_new_students)
-and follow the instructions there.
 
 ```
 export PS1="\W \[\033[0;33m\]⚡\[\033[0;39m\] "
@@ -73,17 +69,8 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 export EDITOR='/usr/local/bin/atom'
 export CC=/usr/local/bin/gcc-4.2
 
-# My general projects directory:
-alias cdp="cd /Users/jcasimir/Dropbox/Projects/"
-
-# My most commonly used project, "curriculum":
-alias cdc="cd /Users/jcasimir/Dropbox/Projects/curriculum/source"
-
-# Use "be" instead of "bundle exec" for Rails
-alias be="bundle exec $1"
-
-# Use "a" and a folder/file to launch Atom
-alias a="atom $1"
+# A shortcut for getting back to our "Module 1" directory
+alias m1="cd ~/turing/1module"
 
 # Enable git's tab-completion library
 source /usr/local/etc/bash_completion.d/git-completion.bash

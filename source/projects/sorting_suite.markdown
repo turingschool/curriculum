@@ -3,23 +3,25 @@
 Sorting algorithms are one of the common domains for studying Computer Science data structures and algorithms. They give us an opportunity to focus on algorithms of various complexity all solving a relatively simple problem.
 
 In this project, you are challenged to implement *three*
-fundamental sorting algorithms.
+fundamental sorting algorithms. Your final submission should include at least these six files:
 
-## Bubble Sort
+* `bubble_sort.rb`
+* `bubble_sort_test.rb`
+* `insertion_sort.rb`
+* `insertion_sort_test.rb`
+* `merge_sort.rb`
+* `merge_sort_test.rb`
 
-**Effective Practices**
+## 1. Bubble Sort
 
-* **First solve it by hand with playing cards** Isolate your lack of familiarity with the sorting algorithm from your lack of familiarity with the programming / language, so that they can't double team you. Here is how I would do this: get a few playing cards and do the sorting by hand on the table (do it with bubble sort since we have an entire example for that one). Once you can reliably do this, observe the things you are considering as you do it. How did you decide when to stop? How did you decide whether to swap? Those things are conditions for loops, or they are `if` statements. Are you using your hands to point at particular cards? Your hands are indexes in the array. What does the hand track? That's what you should name it :)
-* **Don't try to make it good until you've made it work** Trying to find the "right way"™ is often paralyzing (because there isn't one). Don't let your perception of other people's perception of "right" / "wrong" prevent you from progressing. Once you get something that works, then consider how you can nudge it in effective ways until it is good. You don't have to have them split into files until the end, you don't have to have them in classes / methods until the end. If I were in your position right now, I'd totally solve them in a single file with no particular abstractions, running over and over with Seeing Is Believing, and then once it worked, wrap a class around it, and then google how to do the namespace thing and add that, and then figure out how to get them into a file, and figure out what tests I'd need to feel confident that it worked correctly and I hadn't missed anything, and add that, then move the tests out into a test file)
+### Big Picture
 
+Bubble Sort is often one of the first algorithms of any kind that programmers attempt. There are very few steps which make it not too difficult to implement. But it takes many instructions to actually execute -- so the performance is typically quite bad.
 
-### Theory
+### The Algorithm
 
-https://vimeo.com/channels/sortalgorithms/15558527
+You can see a [graphical run of the algorithm here](https://vimeo.com/channels/sortalgorithms/15558527).
 
-<iframe src="https://player.vimeo.com/video/15558527?color=F6AD3F&byline=0&portrait=0" width="500" height="333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
-A straight forward sorting algorithm to implement is Bubble Sort.
 For a high level understanding check out the [wikipedia article](https://en.wikipedia.org/wiki/Bubble_sort).
 Bubble sort works by comparing and possibly swapping two values in an array. Say we
 start with this array of numbers:
@@ -90,16 +92,13 @@ Pre-Sequence Previous Current Swap? Post-Sequence
    0 1 2 3 4     3       4      N   0 1 2 3 4
 ```
 
+### Expectations
 
-### Challenge
-
-Implement a namespaced BubbleSort which will make the following code snippets
-work.
+Implement a `BubbleSort` class which will make the following code snippet work:
 
 ```ruby
-# Should work with strings, too, which is nice, because then your elements and indexes don't look the same
-sorter = SortingSuite::BubbleSort.new
-=> <#BubbleSort ...>
+sorter = BubbleSort.new
+=> #<BubbleSort:0x007f81a19e94e8>
 sorter.sort(["d", "b", "a", "c"])
 => ["a", "b", "c", "d"]
 ```

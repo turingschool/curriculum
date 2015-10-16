@@ -105,80 +105,93 @@ sorter.sort(["d", "b", "a", "c"])
 
 ## Insertion Sort
 
-**Internalize the lessons of Bubble Sort before attempting Insertion Sort:**
+### Big Picture
 
-All the thought processes and tools of Bubble Sort will be useful on insertion sort.
-Here is an approach to internalize the lessons:
+Insertion sort is a next step up from Bubble Sort. Make sure that you've successfully implemented Bubble Sort before you dive into this section.
 
-* Try rewriting Bubble Sort without referincing your working implementation.
-* If you get stuck, look at your working implementation, use that to get past the hurdle, then immediately delete the part you looked up, and rewrite it from memory.
-* When you complete it, keep in mind the parts you got stuck on and what the solution was, then delete the whole thing and repeat it.
-* Continue doing this until you can write it without referencing the other implementation.
-* Now try to do it again, but faster
-* Now try to do it again, but without any errors (ie it sorts correctly the first time)
-* Now try to do it again, but as quickly as you can, with as few errors as you can.
-* Now you are ready for Insertion Sort ;)
+Insertion sort uses slightly more complex logic but the algorithm is generally much higher performing than Bubble.
 
-### Theory
+### The Algorithm
 
-https://vimeo.com/channels/sortalgorithms/15558983
-
-<iframe src="https://player.vimeo.com/video/15558983?color=F6AD3F&byline=0&portrait=0" width="500" height="333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+You can [see a visualization of the algorithm here](https://vimeo.com/channels/sortalgorithms/15558983).
 
 For a high level understanding check out the [wikipedia article](https://en.wikipedia.org/wiki/insertion_sort).
-Insertion sort works by creating a new array which will always be sorted,
-and adding each element to it, in the correct position,
-by comparing each element in the array, until it finds the insertion location,
-and then inserting the element there by shifting all the elements after it down one to make space.
+Insertion sort works by creating a new, empty array of results. We iterate through the set to be sorted, pulling one element at a time, then inserting it into its correct position in the new array.
 
-Let's start with this array of numbers:
+Let's start with this array of numbers: `[1,0,4,3,2]`
 
-#### Insert the 1:
+#### Pass 1
 
-Since the array is empty, it is sorted, so we add the `1` to the end.
+We pull the first element from the unsorted list and insert it into the sorted list:
 
 ```
-unsorted:    [1,   0,   2,   3,   4  ]
-sorted pre:  [nil, nil, nil, nil, nil]
-sorted post: [1,   nil, nil, nil, nil]
+unsorted:      [1,0,4,3,2]
+to insert:     1
+sorted pre:    []
+sorted post:   [1]
+unsorted post: [0,4,3,2]
 ```
 
-#### Insert the 0:
+#### Pass 2
 
-We compare the 0 to the 1, it goes before the 1,
-so we move the 1 down to make space, and then
-place the 0 there.
+We pull the first unsorted element, the `0`, and compare it to the first element of the sorted set, `1`. Since the `0` before the `1`, we insert it at the front of the sorted set:
 
 ```
-unsorted:           [1,   0,   2,   3,   4  ]
-sorted pre:         [1,   nil, nil, nil, nil]
-after making space: [nil, 1,   nil, nil, nil]
-sorted post:        [0,   1,   nil, nil, nil]
+unsorted:      [0,4,3,2]
+to insert:     0
+sorted pre:    [1]
+sorted post:   [0,1]
+unsorted post: [4,3,2]
 ```
 
-#### Insert the 2:
+#### Pass 3
 
-We compare the 2 to the 0 and then the 1.
-We haven't found where it goes, and there are no more numbers to compare,
-so we insert it at the end.
+We pull the first unsorted element, the `4`, and compare it to the first element of the sorted set, `0`. Since the `4` is greater, we look at the next position of the sorted set, `1`. The `4` is greater but there are no other elements, so we add the `4` to the end of the sorted array.
 
 ```
-unsorted:    [1,   0,   2,   3,   4  ]
-sorted pre:  [1,   nil, nil, nil, nil]
-sorted post: [0,   1,   2,   nil, nil]
+unsorted:      [4,3,2]
+to insert:     4
+sorted pre:    [0,1]
+sorted post:   [0,1,4]
+unsorted post: [3,2]
 ```
+
+#### Pass 4
+
+We pull the first unsorted element, the `3`, and compare it to the first element of the sorted set, `0`. Since the `3` is greater, we look at the next position of the sorted set, `1`. The `3` is greater, so we look at the next position of the sorted set, `4`. The `3` is less than `4`, so we insert the `3` at this position pushing the `4` to the right.
+
+```
+unsorted:      [3,2]
+to insert:     3
+sorted pre:    [0,1,4]
+sorted post:   [0,1,3,4]
+unsorted post: [2]
+```
+
+#### Pass 5
+
+We pull the first unsorted element, the `2`, and compare it to the first element of the sorted set, `0`. Since the `2` is greater, we look at the next position of the sorted set, `1`. The `2` is greater, so we look at the next position of the sorted set, `3`. The `2` is less than `3`, so we insert the `3` at this position pushing the `3` to the right.
+
+```
+unsorted:      [2]
+to insert:     2
+sorted pre:    [0,1,3,4]
+sorted post:   [0,1,2,3,4]
+unsorted post: []
+```
+
+Then our unsorted array is empty, meaning we're done with the algorithm.
 
 ### Challenge
 
-Implement a namespaced InsertionSort which will make the following code snippets
-work.
+Implement an `InsertionSort` which will make the following code snippet
+work:
 
 ```ruby
-SortingSuite::InsertionSort.new([3, 2, 1]).sort
-=> [1, 2, 3]
-
-SortingSuite::InsertionSort.new([2,5,4,1,3]).sort
-=> [1, 2, 3, 4, 5]
+sorter = InsertionSort.new
+=> #<InsertionSort:0x007f81a19e94e8>
+sorter.sort(["d", "b", "a", "c"])
+=> ["a", "b", "c", "d"]
 ```
 
 ## Merge Sort

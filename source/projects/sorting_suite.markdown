@@ -204,8 +204,6 @@ Here is a video I made with the intent of introducing recursion in a much more g
 
 https://vimeo.com/channels/sortalgorithms/15559012
 
-<iframe src="https://player.vimeo.com/video/15559012?color=F6AD3F&byline=0&portrait=0" width="500" height="333" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
 For a high level understanding check out the [wikipedia article](https://en.wikipedia.org/wiki/merge_sort).
 For a sweet line dancing example, [see this](https://www.youtube.com/watch?v=XaqR3G_NVoo)
 Merge sort can be thought of as splitting an array into two arrays and sorting
@@ -266,11 +264,10 @@ Implement a namespaced MergeSort which will make the following code snippets
 work.
 
 ```ruby
-SortingSuite::MergeSort.new([3, 2, 1]).sort
-=> [1, 2, 3]
-
-SortingSuite::MergeSort.new([5,3,1,2,4]).sort
-=> [1, 2, 3, 4, 5]
+sorter = MergeSort.new
+=> #<MergeSort:0x007f81a19e94e8>
+sorter.sort(["d", "b", "a", "c"])
+=> ["a", "b", "c", "d"]
 ```
 
 ## Extensions

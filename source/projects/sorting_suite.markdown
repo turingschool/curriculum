@@ -103,7 +103,7 @@ sorter.sort(["d", "b", "a", "c"])
 => ["a", "b", "c", "d"]
 ```
 
-## Insertion Sort
+## 2. Insertion Sort
 
 ### Big Picture
 
@@ -194,7 +194,7 @@ sorter.sort(["d", "b", "a", "c"])
 => ["a", "b", "c", "d"]
 ```
 
-## Merge Sort
+## 3. Merge Sort
 
 Merge sort is the most fascinating sorting algorithm of the three, IMO, because it uses a technique called recursion.
 Recursion was a total mind-trip for me when I learned it.

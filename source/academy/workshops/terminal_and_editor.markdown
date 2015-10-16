@@ -30,18 +30,7 @@ If this is your first time using UNIX then you'll need a few of the most essenti
 * The tilde (`~`) is a shortcut for your "home" directory. You can enter `cd ~` from any folder on the system and you'll jump back to your home directory.
 * The single period (`.`) is a reference to the current directory. If you enter `cd .` it won't go anywhere. But the period is useful especially with Git which you'll see soon.
 * The double period (`..`) is a reference to the parent directory of the current directory (one step up the tree). Try entering `cd ..` then `ls` and you should see your user folder. `cd` back into that.
-* Removing directories is a bit different. Try `rm -rf sample_directory` to remove our previously created sample directory
-
-### Setting Up Terminal Access for Atom
-
-One of the things you'll do frequently is open an entire folder (like when working on a project) in your text editor. Let's get that setup:
-
-* Open Atom (`command-spacebar` for spotlight, type `Atom`, and hit enter).
-* Click the `Atom` menu in the top left corner
-* Click `Install Shell Commands`
-* Return to your terminal and enter `which atom`. You should get back `/usr/local/bin/atom`
-* Enter `atom .` to open your user directory in Atom.
-* Experiment with creating a file in Atom and using `ls` in the terminal to see it. Try creating a file in the terminal with `touch` and see if it shows up in Atom.
+* Removing directories is a bit different. Try `rm -rf sample_directory` to remove our previously created sample directory.
 
 ## Customizing Your Terminal
 
@@ -56,14 +45,10 @@ A little bit of increased efficiency in your use of the Unix environment and you
 * `alias` for shorthand commands, like I define `e` to launch my editor
 * `source` to run scripts of bash commands
 
-#### Dotfiles
+#### A sample .bash_profile
 
-Snippets from my `.bash_profile` are below.
+Snippets from Jeff's `.bash_profile` are below.
 The top three lines setup a yellow lightning bolt as my prompt because, well, it's awesome.
-
-We have set up some dotfiles you can use,
-go to [bootstrap new students](https://github.com/turingschool/bootstrap_new_students)
-and follow the instructions there.
 
 ```
 export PS1="\W \[\033[0;33m\]⚡\[\033[0;39m\] "
@@ -73,17 +58,8 @@ export LSCOLORS=ExFxBxDxCxegedabagacad
 export EDITOR='/usr/local/bin/atom'
 export CC=/usr/local/bin/gcc-4.2
 
-# My general projects directory:
-alias cdp="cd /Users/jcasimir/Dropbox/Projects/"
-
-# My most commonly used project, "curriculum":
-alias cdc="cd /Users/jcasimir/Dropbox/Projects/curriculum/source"
-
-# Use "be" instead of "bundle exec" for Rails
-alias be="bundle exec $1"
-
-# Use "a" and a folder/file to launch Atom
-alias a="atom $1"
+# A shortcut for getting back to our "Module 1" directory
+alias m1="cd ~/turing/1module"
 
 # Enable git's tab-completion library
 source /usr/local/etc/bash_completion.d/git-completion.bash

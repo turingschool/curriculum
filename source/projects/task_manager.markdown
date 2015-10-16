@@ -26,7 +26,7 @@ Next, let's make a config file from the command line: `touch config.ru`. This fi
 require 'bundler'
 Bundler.require
 
-$LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/app"))
+$LOAD_PATH.unshift(File.expand_path("app", __dir__))
 
 require 'controllers/task_manager_app'
 
@@ -70,7 +70,7 @@ Inside of it, add the following code:
 
 ```ruby
 class TaskManagerApp < Sinatra::Base
-  set :root, File.join(File.dirname(__FILE__), '..')
+  set :root, File.expand_path("..", __dir__)
 
   get '/' do
     'hello, world!'
@@ -98,7 +98,7 @@ Let's change our controller to render an ERB view instead of 'hello, world!'. In
 
 ```ruby
 class TaskManagerApp < Sinatra::Base
-  set :root, File.join(File.dirname(__FILE__), '..')
+  set :root, File.expand_path("..", __dir__)
 
   get '/' do
     erb :dashboard
@@ -145,7 +145,7 @@ Let's add a route for the first link we want -- our Task Index. In `app/controll
 
 ```ruby
 class TaskManagerApp < Sinatra::Base
-  set :root, File.join(File.dirname(__FILE__), '..')
+  set :root, File.expand_path("..", __dir__)
 
   get '/' do
     erb :dashboard
@@ -184,7 +184,7 @@ We need a route that will bring a user to a form where they can enter a new task
 
 ```ruby
 class TaskManagerApp < Sinatra::Base
-  set :root, File.join(File.dirname(__FILE__), '..')
+  set :root, File.expand_path("..", __dir__)
 
   get '/' do
     erb :dashboard
@@ -228,7 +228,7 @@ In our controller:
 
 ```ruby
 class TaskManagerApp < Sinatra::Base
-  set :root, File.join(File.dirname(__FILE__), '..')
+  set :root, File.expand_path("..", __dir__)
 
   get '/' do
     erb :dashboard
@@ -442,7 +442,7 @@ Let's set up another route in our controller to handle this behavior:
 require 'models/task_manager'
 
 class TaskManagerApp < Sinatra::Base
-  set :root, File.join(File.dirname(__FILE__), '..')
+  set :root, File.expand_path("..", __dir__)
 
   get '/' do
     erb :dashboard

@@ -732,11 +732,11 @@ Where `0.123` is their average percentage growth across years. If there are thre
 Let's say we want to be able to find several top districts using the same calculations:
 
 ```ruby
-ha.top_statewide_testing_year_over_year_growth(grade: 3, top: 3, subject: :math)
+ha.top_statewide_testing_year_over_year_growth(grade: 3, subject: :math, top: 3)
 # => [['top district name', growth_1], ['second district name', growth_2], ['third district name', growth_3]]
 ```
 
-Where `growth_1` through `growth_3` represents their average growth across years.
+Where `growth_1` through `growth_3` represents their average percentage growth across years.
 
 ##### Across all subjects
 
@@ -752,7 +752,7 @@ Where `0.111` is the district's average percentage growth across years across su
 But that considers all three subjects in equal proportion. No Child Left Behind guidelines generally emphasize reading and math, so let's add the ability to weight subject areas:
 
 ```ruby
-ha.top_statewide_testing_year_over_year_growth(grade: 8, :weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0})
+ha.top_statewide_testing_year_over_year_growth_weighted(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
 # => ['the top district name', 0.111]
 ```
 

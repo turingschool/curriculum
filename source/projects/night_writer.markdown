@@ -200,9 +200,9 @@ The project will be assessed with the following rubric:
 ### 1. Overall Functionality
 
 * 4: Application follows the complete spec and two extensions
-* 3: Application converts to Braille and back successfully
-* 2: Application only converts to Braille or from Braille
-* 1: Application generates errors or crashes during normal usage
+* 3: Application follows the complete spec and one extension
+* 2: Application converts to Braille and back successfully
+* 1: Application only converts to Braille or from Braille
 
 ### 2. Fundamental Ruby & Style
 

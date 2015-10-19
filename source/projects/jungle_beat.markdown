@@ -52,26 +52,7 @@ The three nodes here hold the data "hello", "world", and "!". The first two node
 
 ## Base Expectations
 
-### A Static Interaction Model
-
-Our tool is going to be used in two ways. The first, from the command line, is just for playing a script of beats:
-
-```
-$ ruby ./lib/jungle_beats.rb beats.txt
-Played 8 sounds from `beats.txt`
-```
-
-Where the `beats.txt` looks like this:
-
-```
-ding ding dah dah ding ding dah dah
-```
-
-Which will play the eight sounds.
-
-### A Dynamic Interaction Model
-
-Then we'll want to stretch the Linked List underpinnings from a Pry session:
+Then we'll exercise the functionality from a Pry session:
 
 ```ruby
 > jb = JungleBeat.new("deep dep dep deep")

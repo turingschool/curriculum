@@ -58,7 +58,9 @@ We also need to support capitalization. In Braille, capitalization comes from a 
 
 ## Development Phases
 
-As you work to implement the project here are some ideas of how you might start into the problem:
+As you work to implement the project below are some ideas of how you might start into the problem.
+
+If you'd like an example of how you might extract the File I/O into an external class, [check out this gist](https://gist.github.com/jcasimir/fd0ceaf731e79c9dd5da).
 
 ### 1. The Runner
 

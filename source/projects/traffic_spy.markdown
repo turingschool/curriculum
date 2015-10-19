@@ -214,7 +214,7 @@ When the url for the identifier does exists:
 * Shortest response time
 * Average response time
 * Which HTTP verbs have been used
-* Most popular referrrers
+* Most popular referrers
 * Most popular user agents
 
 When the url for the identifier does not exist:

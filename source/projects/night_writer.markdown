@@ -152,14 +152,6 @@ to submit additional examples, especially for the extensions, as pull requests.
     ......0.
     .0...0..
 
-### all characters
-
-    "AB"
-
-    ..0...0.
-    ......0.
-    .0...0..
-
 ### 80 characters wide
 
     "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"

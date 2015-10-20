@@ -183,7 +183,7 @@ This method take two parameters:
 
 A call to this method with any invalid parameter (like subject of `:history`) should raise a `UnknownDataError`.
 
-The method returns a truncated three-digit floating point number representing a percentage.
+The method returns a truncated three-digit floating point number representing the percentage for the "All Students" option proficient in the given subject.
 
 *Example*:
 

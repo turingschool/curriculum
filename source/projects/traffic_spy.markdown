@@ -154,7 +154,7 @@ curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02
 
 #### Missing Payload - 400 Bad Request
 
-If the payload is missing return status `400 Bad Request` with a descriptive
+If the payload is missing, return status `400 Bad Request` with a descriptive
 error message.
 
 #### Already Received Request - 403 Forbidden

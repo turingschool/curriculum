@@ -83,22 +83,7 @@ Then we'll exercise the functionality from a Pry session:
 
 As you work to implement the project here are ideas for some of your first iterations:
 
-### 1. The Runner
-
-Write a Ruby program that can just output a string like:
-
-```
-$ ruby ./lib/encrypt.rb message.txt encrypted.txt
-Created 'encrypted.txt' with the key 82648 and date 030415
-```
-
-Then work to:
-
-* Pull the specified output filename from the command line arguments and put it into the string output
-* Get today's date, format it, and output it in the string
-* Generate a random number as the key and output it in the string
-
-### 2. Key Generator
+### 1. Key Generator
 
 It'd be great if instead of random numbers we could generate a legitimate key. Starting from your runner:
 
@@ -108,7 +93,7 @@ It'd be great if instead of random numbers we could generate a legitimate key. S
 * Go through building the implementation
 * Use it from your runner to generate and output a valid key
 
-### 3. Offsets
+### 2. Offsets
 
 Before we can start encrypting we probably need to calculate the offsets.
 
@@ -116,7 +101,7 @@ Before we can start encrypting we probably need to calculate the offsets.
 * Pass the current date and the generated key into the offset calculator
 * Write tests and implementation around the idea of being able to pass in the date and key, then query the A, B, C, and D final rotations
 
-### 4. Encryption
+### 3. Encryption
 
 Now that you have all the components you're ready to encrypt a message.
 
@@ -124,15 +109,7 @@ Now that you have all the components you're ready to encrypt a message.
 * What information would the encryptor need to be "setup" and ready to encrypt messages? Pass that in.
 * Call an encrypt method and pass in a string message. Get back the encrypted version.
 
-### 5. File I/O
-
-Now that you can encrypt a message you need to get them in and out.
-
-* Write a FileReader object which can take in the input filename (from the command line) and read the text into a string
-* Send that string into the encryptor and get back an encrypted string
-* Write a FileWriter object which can take the output filename (from the command line) and write out the encrypted string
-
-### 6. Next Steps
+### 4. Next Steps
 
 Now you should have all the components in place such that your command-line encryption is working! Next up:
 

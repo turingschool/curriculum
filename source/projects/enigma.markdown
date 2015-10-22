@@ -65,7 +65,19 @@ that to determine when you've correctly guessed the key.
 
 ### Usage
 
-( Forthcoming )
+Then we'll exercise the functionality from a Pry session:
+
+```ruby
+> require './lib/enigma'
+> e = Enigma.new
+> my_message = "This is so secret!! ..end.."
+> output = e.encrypt(12345, my_message)
+=> # encrypted message here
+> e.decrypt(12345, Date.today, output)
+=> "This is so secret!! ..end.."
+> e.crack(Date.today, output)
+=> "This is so secret!! ..end.."
+```
 
 ## Development Phases
 

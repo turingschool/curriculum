@@ -65,28 +65,7 @@ that to determine when you've correctly guessed the key.
 
 ### Usage
 
-The tool is used from the command line like so:
-
-```
-$ ruby ./lib/encrypt.rb message.txt encrypted.txt
-Created 'encrypted.txt' with the key 82648 and date 030415
-```
-
-That will take the plaintext file `message.txt` and create an encrypted file `encrypted.txt`.
-
-Then, if we know the key, we can decrypt:
-
-```
-$ ruby ./lib/decrypt.rb encrypted.txt decrypted.txt 82648 030415
-Created 'decrypted.txt' with the key 82648 and date 030415
-```
-
-But if we don't know the key, we can try to crack it with just the date:
-
-```
-$ ruby ./lib/crack.rb encrypted.txt cracked.txt 030415
-Created 'cracked.txt' with the cracked key 82648 and date 030415
-```
+( Forthcoming )
 
 ## Development Phases
 
@@ -149,13 +128,50 @@ Now you should have all the components in place such that your command-line encr
 * Swap some encrypted messages with a classmate and see if each other can decrypt them correctly
 * Start experimenting with the cracking functionality
 
+## Extensions
+
+### 1. File I/O
+
+Build functionality so the tool can be used from the command line like so:
+
+```
+$ ruby ./lib/encrypt.rb message.txt encrypted.txt
+Created 'encrypted.txt' with the key 82648 and date 030415
+```
+
+That will take the plaintext file `message.txt` and create an encrypted file `encrypted.txt`.
+
+Then, if we know the key, we can decrypt:
+
+```
+$ ruby ./lib/decrypt.rb encrypted.txt decrypted.txt 82648 030415
+Created 'decrypted.txt' with the key 82648 and date 030415
+```
+
+But if we don't know the key, we can try to crack it with just the date:
+
+```
+$ ruby ./lib/crack.rb encrypted.txt cracked.txt 030415
+Created 'cracked.txt' with the cracked key 82648 and date 030415
+```
+
+### 2. Character Support
+
+Improve your system so it supports all of the following:
+
+* all capital letters
+* all lowercase letters
+* all numbers
+* spaces
+* these symbols: `!@#$%^&*()[],.<>;:/?\|`
+
 ## Evaluation Rubric
 
 The project will be assessed with the following rubric:
 
 ### 1. Overall Functionality
 
-* 4: Application follows the complete spec and can crack a 100-character message in under 1 second
+* 4: Application follows the complete spec and one extension
 * 3: Application encrypts, decrypts, and cracks files as described
 * 2: Application is missing one of the three operations
 * 1: Application is missing two operations or crashes during normal usage

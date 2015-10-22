@@ -26,12 +26,6 @@ Build a binary search tree which can:
 * find the `minimum` value in the tree
 * implement a `sort` that outputs an array of the values in sorted order (by traversing the tree, not using Ruby's sort method)
 
-As the final challenge, add the ability to `delete` a value from the tree and repair the tree.
-
-Beyond your tests, data should come in and go out using files:
-
-* import data from a file with one value per line (values are unique within the input)
-* output a file, similar to the input file, with the values in ascending order
 
 ## Extensions
 
@@ -39,6 +33,13 @@ Additionally you can implement these features:
 
 * find the total number of leaves on the tree
 * report the (maximum) height of the tree
+
+As the final challenge, add the ability to `delete` a value from the tree and repair the tree.
+
+Beyond your tests, data should come in and go out using files:
+
+* import data from a file with one value per line (values are unique within the input)
+* output a file, similar to the input file, with the values in ascending order
 
 ## Evaluation Rubric
 

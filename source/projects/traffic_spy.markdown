@@ -199,7 +199,7 @@ When an identifier does not exist return a page that displays the following:
 A client is able to view URL specific data at the following address:
 
 ```
-http://yourapplication:port/sources/IDENTIFIER/urls/RELATIVE/PATH
+http://yourapplication:port/sources/IDENTIFIER/urls/RELATIVEPATH
 
 Examples:
 

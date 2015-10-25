@@ -72,6 +72,9 @@ commands in the terminal.
 Additionally, we'd like to be able to ask multiple questions during a single
 session, so we'll want the interface to "persist" until we ask it to quit.
 
+First, work through this [basic CLI tutorial](http://tutorials.jumpstartlab.com/topics/cli.html)
+to get a feel for the process.
+
 ### Generating Additional Git JSON dumps
 
 If you'd like to try it out with a different git repository, you can use this

@@ -3,7 +3,7 @@ layout: page
 title: CompleteMe
 ---
 
-## Introduction
+## CompleteMe
 
 Everyone in today's smartphone-saturated world has had their
 share of interactions with textual "autocomplete." You
@@ -44,7 +44,7 @@ Take a moment and read more about Tries:
 
 Of course, our Trie won't be very useful without a good dataset
 to populate it. Fortunately, our computers ship with a special
-file on them containing a list of standard dictionary words.
+file containing a list of standard dictionary words.
 It lives at `/usr/share/dict/words`
 
 Using the unix utility `wc` (word count), we can see that the file

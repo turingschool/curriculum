@@ -21,6 +21,30 @@ answer questions about this data.
 
 ### JSON
 
+[JSON](https://en.wikipedia.org/wiki/JSON) stands for JavaScript Object Notation,
+and is a popular data serialization and interchange format.
+
+Its serialization format is based on JavaScript's object model, where
+objects are simply Hash-like structures of properties and associated
+values.
+
+For this project, we won't need to know much about JSON beyond accepting the basic
+premise that JSON allows us to encode data as a string (often for the purposes of storing
+it in a file or sending it over the network), and then de-serialize this information
+back into an actual language data structure (i.e. a `Hash` or `Array` in Ruby).
+
+When de-serializing (i.e. parsing) JSON, we'll encounter 1 of 2 standard data structures:
+
+1. An array
+2. A Hash
+
+Here's a nice tutorial on using the JSON facilities built into Ruby's standard library:
+
+https://hackhands.com/ruby-read-json-file-hash/
+
+It should get you up to speed on the basics you need to be productive working with
+JSON from Ruby.
+
 ### Interface
 
 ### Functionality

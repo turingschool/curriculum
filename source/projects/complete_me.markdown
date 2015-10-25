@@ -20,7 +20,7 @@ incompetent systems on our phones...
 ### Data Structure -- Introduction to Tries
 
 A common way to solve this problem is using a data structure
-called a __Trie__. The name comes from the idea of a Re__trie__val
+called a __Trie__. The name comes from the idea of a Re-trie-val
 tree, and it's useful for storing and then fetching paths through
 arbitrary (often textual) data.
 

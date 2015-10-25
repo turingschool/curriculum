@@ -65,6 +65,13 @@ Here are the basic questions we want to be able to answer
 
 ### Interface
 
+We're going to expose this via a CLI. Your application will be written in
+Ruby, but it will need to allow the user to interact with it by entering
+commands in the terminal.
+
+Additionally, we'd like to be able to ask multiple questions during a single
+session, so we'll want the interface to "persist" until we ask it to quit.
+
 ### Generating Additional Git JSON dumps
 
 If you'd like to try it out with a different git repository, you can use this

@@ -57,8 +57,74 @@ $ cat /usr/share/dict/words | wc -l
 
 Should be enough for us!
 
-### Interaction Model
+### Required Features
 
-### Extensions
+To complete the project, you will need to build an autocomplete
+system which provides the following features:
 
-#### Usage Frequency Weighting
+1. Insert a single word to the autocomplete dictionary
+2. Populate a newline-separated list of words into the dictionary
+3. Suggest completions for a substring
+4. Mark a selection for a substring
+5. Weight subsequent suggestions based on previous selections
+
+### Basic Interaction Model
+
+We'll expect to interact with your completion project from an interactive
+pry session, following a model something like this:
+
+```ruby
+# open pry from root project directory
+require "./lib/complete_me.rb"
+
+completion = CompleteMe.new
+
+completion.insert("pizza")
+
+completion.suggest("piz")
+=> ["pizza"]
+
+dictionary = File.read("/usr/share/dict/words")
+
+completion.populate(dictionary)
+
+completion.suggest("piz")
+=> ["pizza", "pizzeria", "pizzicato"]
+```
+
+### Usage Frequency Weighting
+
+The common gripe about autocomplete systems is that they give us
+suggestions that are technically valid but not at all what we wanted.
+
+A solution to this problem is to "train" the completion dictionary
+over time based on the user's actual selections. So, if a user
+consistently selects "pizza" in response to completions for "pizz",
+it probably makes sense to recommend that as their first suggestion.
+
+To facilitate this, your library should support a `select` method,
+which takes a substring and the selected suggestion. You
+will need to record this selection in your trie and use it
+to influence future selections to make.
+
+Here's what that interaction model should look like:
+
+
+```ruby
+require "./lib/complete_me.rb"
+
+completion = CompleteMe.new
+
+dictionary = File.read("/usr/share/dict/words")
+
+completion.populate(dictionary)
+
+completion.suggest("piz")
+=> ["pizza", "pizzeria", "pizzicato"]
+
+completion.select("piz", "pizzeria")
+
+completion.suggest("piz")
+=> ["pizzeria", "pizza", "pizzicato"]
+```
+

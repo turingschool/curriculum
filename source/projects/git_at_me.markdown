@@ -45,9 +45,25 @@ https://hackhands.com/ruby-read-json-file-hash/
 It should get you up to speed on the basics you need to be productive working with
 JSON from Ruby.
 
-### Interface
+### Project Functionality
 
-### Functionality
+Our goal is to add some basic analytics functionality on top of a standard
+git repository. Imagine GitHub's repo graphing and analysis functionality
+but via a CLI.
+
+Here are the basic questions we want to be able to answer
+
+* Find commits by user
+* Find commits by date
+* Find total number of branches
+* Find average number of insertions and deletions per commit
+* Find aveage number of files changed per commit
+* Find number of "merge" commits vs. number of standard commits
+* Find top N contributors by number of commits
+* Find top day of the week for commits
+* Find top date for commits
+
+### Interface
 
 ### Generating Additional Git JSON dumps
 

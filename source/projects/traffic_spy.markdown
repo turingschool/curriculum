@@ -77,7 +77,7 @@ Parameters:
 Example Request:
 
 ```
-$ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:4567/sources
+$ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:9393/sources
 ```
 
 cURL is a command-line tool for sending data using URL syntax.

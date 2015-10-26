@@ -152,13 +152,27 @@ You can structure the internals of your program however you like,
 but if the top level interface does not match, the
 spec harness will be unable to evaluate your work.
 
+## Extensions
+
+### 1. Denver Addresses
+
+Working with words was interesting, but what about a bigger dataset? Check out [this data file](http://data.denvergov.org/dataset/city-and-county-of-denver-addresses) (you'll want the CSV version) that contains all the known addresses in the city of Denver. Can you make your autocomplete work with that dataset?
+
+### 2. Substrings
+
+Could your word lookup possibly handle middle-of-the-word matches? So that `com` would list both the possibilities `complete` and `incomplete`? How does this change the memory requirements of your running program?
+
+### 3. Visual Interface
+
+Can you create a graphical user interface for your code? Something that a "normal person" might plausibly use? You could use HTML via Sinatra/Rails, but consider something like [Shoes](http://shoesrb.com/) or [Ruby Processing](https://github.com/jashkenas/ruby-processing).
+
 ## Evaluation Rubric
 
 The project will be assessed with the following rubric:
 
 ### 1. Functional Expectations
 
-* 4: Application fulfills all base expectations and two extensions
+* 4: Application fulfills all base expectations and one extension
 * 3: Application fulfills all base expectations
 * 2: Application is missing one base expectation
 * 1: Application is missing more than one base expectation

@@ -12,8 +12,9 @@ worth the trouble, given the ridiculous completions it
 sometimes attempts.
 
 But how would you actually __make__ an autocomplete system?
+
 In this project, __CompleteMe__ we'll be exploring this idea by
-building such a system. Perhaps in the process we will develop
+a simple textual autocomplete system. Perhaps in the process we will develop
 some sympathy for the developers who built the seemingly
 incompetent systems on our phones...
 
@@ -26,14 +27,17 @@ arbitrary (often textual) data.
 
 A Trie is somewhat similar to the binary trees you may have seen before,
 but whereas each node in a binary tree points to up to 2 subtrees,
-nodes within our retrieval tries will point to `N` nodes, where `N`
+nodes within our retrieval tries will point to `N` subtrees, where `N`
 is the size of the alphabet we want to complete within.
 
-Thus for a latin-alphabet text trie, each node will potentially
-have 26 children, one for each potential character that could follow
+Thus for a simple latin-alphabet text trie, each node will potentially
+have 26 children, one for each character that could potentially follow
 the text entered thus far.
 (In graph theory terms, we could classify this as a Directed, Acyclic
 graph of order 26, but hey, who's counting?)
+
+What we end up with is a broadly-branched tree where paths from the
+root to the leaves represent "words" within the dictionary.
 
 Take a moment and read more about Tries:
 
@@ -63,10 +67,11 @@ To complete the project, you will need to build an autocomplete
 system which provides the following features:
 
 1. Insert a single word to the autocomplete dictionary
-2. Populate a newline-separated list of words into the dictionary
-3. Suggest completions for a substring
-4. Mark a selection for a substring
-5. Weight subsequent suggestions based on previous selections
+2. Count the number of words in the dictionary
+3. Populate a newline-separated list of words into the dictionary
+4. Suggest completions for a substring
+5. Mark a selection for a substring
+6. Weight subsequent suggestions based on previous selections
 
 ### Basic Interaction Model
 
@@ -81,12 +86,18 @@ completion = CompleteMe.new
 
 completion.insert("pizza")
 
+completion.count
+=> 1
+
 completion.suggest("piz")
 => ["pizza"]
 
 dictionary = File.read("/usr/share/dict/words")
 
 completion.populate(dictionary)
+
+completion.count
+=> 235886
 
 completion.suggest("piz")
 => ["pizza", "pizzeria", "pizzicato"]
@@ -127,6 +138,19 @@ completion.select("piz", "pizzeria")
 completion.suggest("piz")
 => ["pizzeria", "pizza", "pizzicato"]
 ```
+
+## Spec Harness
+
+This is the first project where we'll use an automated spec harness
+to evaluate the correctness of your projects.
+
+For this reason, you'll want to make sure to follow the
+top-level interface described in the previous sections
+closely.
+
+You can structure the internals of your program however you like,
+but if the top level interface does not match, the
+spec harness will be unable to evaluate your work.
 
 ## Evaluation Rubric
 

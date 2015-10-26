@@ -156,7 +156,7 @@ spec harness will be unable to evaluate your work.
 
 ### 1. Denver Addresses
 
-Working with words was interesting, but what about a bigger dataset? Check out [this data file](http://data.denvergov.org/dataset/city-and-county-of-denver-addresses) (you'll want the CSV version) that contains all the known addresses in the city of Denver. Can you make your autocomplete work with that dataset?
+Working with words was interesting, but what about a bigger dataset? Check out [this data file](http://data.denvergov.org/dataset/city-and-county-of-denver-addresses) (you'll want the CSV version) that contains all the known addresses in the city of Denver. Use the `full_address` field that's last in the row. Can you make your autocomplete work with that dataset?
 
 ### 2. Substrings
 
@@ -164,7 +164,7 @@ Could your word lookup possibly handle middle-of-the-word matches? So that `com`
 
 ### 3. Visual Interface
 
-Can you create a graphical user interface for your code? Something that a "normal person" might plausibly use? You could use HTML via Sinatra/Rails, but consider something like [Shoes](http://shoesrb.com/) or [Ruby Processing](https://github.com/jashkenas/ruby-processing).
+Can you create a graphical user interface for your code? Something that a "normal person" might plausibly use? Consider a toolkit like [Shoes](http://shoesrb.com/) or [Ruby Processing](https://github.com/jashkenas/ruby-processing).
 
 ## Evaluation Rubric
 

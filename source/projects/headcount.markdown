@@ -38,13 +38,13 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 
 ## Base Expectations
 
-### Iteration 1
+## Iteration 1
 
 For an agile approach to this project, we'll start out by building out the "Data Access Layer", "Relationships Layer", and "Analysis Layer" for a single CSV file.
 
-#### Data Access Layer
+### Data Access Layer
 
-##### `DistrictRepository`
+#### `DistrictRepository`
 
 The `DistrictRepository` is responsible for holding and searching our `District`
 instances. It offers the following methods:
@@ -54,14 +54,14 @@ instances. It offers the following methods:
 
 There is no one data file that contains just the districts. The data must be extracted from one of the other files.
 
-##### `District`
+#### `District`
 
 The `District` is the top of our data hierarchy. It has the following methods:
 
 * `name` - returns the upcased string name of the district
 * `enrollment` - returns an instance of `Enrollment`
 
-##### `Enrollment`
+#### `Enrollment`
 
 For iteration 1, the instance of this object represents data from this file:
 
@@ -69,7 +69,7 @@ For iteration 1, the instance of this object represents data from this file:
 
 An instance of this class offers the following methods:
 
-###### `.kindergarten_participation_by_year`
+##### `.kindergarten_participation_by_year`
 
 This method returns a hash with years as keys and a truncated three-digit floating point number representing a percentage.
 
@@ -85,7 +85,7 @@ enrollment.kindergarten_participation_by_year
 #    }
 ```
 
-###### `.kindergarten_participation_in_year(year)`
+##### `.kindergarten_participation_in_year(year)`
 
 This method takes one parameter:
 
@@ -101,7 +101,7 @@ The method returns a truncated three-digit floating point number representing a 
 enrollment.kindergarten_participation_in_year(2010) # => 0.391
 ```
 
-#### Relationships Layer
+### Relationships Layer
 
 Assume we start with loading our data and finding a school district like this:
 
@@ -116,7 +116,7 @@ Then each `district` now has a single child object loaded with data allowing us 
 district.enrollment.kindergarten_participation_in_year(2010) # => 0.391
 ```
 
-#### Analysis Layer
+### Analysis Layer
 
 Our analysis is centered on answering questions about the data.
 
@@ -128,11 +128,11 @@ ha = HeadcountAnalyst.new(dr)
 
 Then ask/answer these questions:
 
-##### Does Kindergarten participation affect outcomes?
+#### Does Kindergarten participation affect outcomes?
 
 In many states, including Colorado, Kindergarten is offered at public schools but is not free for all residents. Denver, for instance, will charge as much as $310/month for Kindergarten. There's then a disincentive to enroll a child in Kindergarten. Does participation in Kindergarten with other factors/outcomes?
 
-###### `How does a district's kindergarten participation rate compare to the state average?`
+##### `How does a district's kindergarten participation rate compare to the state average?`
 
 First, let's ask how an individual district's participation percentage compares to the statewide average:
 
@@ -142,7 +142,7 @@ ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO
 
 Where `0.766` is the result of the district average divided by state average. (i.e. find the district's average participation across all years and didvide it by the average of the state participation data across all years.) A value less than 1 implies that the district performs lower than the state average, and a value greater than 1 implies that the district performs better than the state average.
 
-###### `How does a district's kindergarten participation rate compare to another district?`
+##### `How does a district's kindergarten participation rate compare to another district?`
 
 Let's next compare this variance against another district:
 
@@ -152,11 +152,11 @@ ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'YUMA SCH
 
 Where `1.234` is the result of the district average divided by 'against' district's average. (i.e. find the district's average participation across all years and didvide it by the average of the 'against' district's participation data across all years.) A value less than 1 implies that the district performs lower than the against district's average, and a value greater than 1 implies that the district performs better than the against district's average.
 
-### Iteration 2: Adding more CSVs
+## Iteration 2: Adding more CSVs
 
 Next, now that we have the pieces working for a single CSV file of Kindergarteners, let's add some more data to the equation in Interaton 2.
 
-#### `Enrollment`
+### `Enrollment`
 
 Back in the `Enrollment` class, let's add another CSV file:
 
@@ -164,7 +164,7 @@ Back in the `Enrollment` class, let's add another CSV file:
 
 And let's add the following methods:
 
-##### `.graduation_rate_by_year`
+#### `.graduation_rate_by_year`
 
 This method returns a hash with years as keys and a truncated three-digit floating point number representing a percentage.
 
@@ -180,7 +180,7 @@ enrollment.graduation_rate_by_year
 #    }
 ```
 
-##### `.graduation_rate_in_year(year)`
+#### `.graduation_rate_in_year(year)`
 
 This method takes one parameter:
 
@@ -196,9 +196,9 @@ The method returns a truncated three-digit floating point number representing a 
 enrollment.graduation_rate_in_year(2010) # => 0.895
 ```
 
-#### Analysis
+### Analysis
 
-##### How does kindergarten participation variation compare to the high school graduation variation?
+#### How does kindergarten participation variation compare to the high school graduation variation?
 
 There's thinking that kindergarten participation has long-term effects. Given our limited data set, let's *assume* that variance in kindergarten rates for a given district is similar to when current high school students were kindergarten age (~10 years ago). Let's compare the variance in kindergarten participation and high school graduation.
 
@@ -212,7 +212,7 @@ Call *kindergarten variation* the result of dividing the district's kindergarten
 
 If this result is close to `1`, then we'd infer that the *kindergarten variation* and the *graduation variation* are closely related.
 
-##### Does Kindergarten participation predict high school graduation?
+#### Does Kindergarten participation predict high school graduation?
 
 Let's consider the `kindergarten_participation_against_high_school_graduation` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that they are correlated. For a single district:
 

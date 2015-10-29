@@ -80,7 +80,7 @@ pry session, following a model something like this:
 
 ```ruby
 # open pry from root project directory
-require "./lib/complete_me.rb"
+require "./lib/complete_me"
 
 completion = CompleteMe.new
 
@@ -122,7 +122,7 @@ Here's what that interaction model should look like:
 
 
 ```ruby
-require "./lib/complete_me.rb"
+require "./lib/complete_me"
 
 completion = CompleteMe.new
 

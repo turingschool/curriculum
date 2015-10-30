@@ -660,9 +660,30 @@ The method returns a single three-digit floating point percentage.
 economic_profile.title_1_students_in_year(2012) # => 0.01
 ```
 
+##### `median_household_income_by_year`
 
-##### [TODO: what should we see for median household income?]
+This method returns a hash with year ranges in the data as keys and five digit Fixnums representing median household income in dollars. It returns an empty hash if the district's data is not in the file "Median household income.csv".
 
+*Example*:
+
+```ruby
+economic_profile.median_household_income_by_year
+# => {2005..2009 => 85060, 2006..2010 => 85450, 2008..2012 => 89615, 2007..2011 => 88099, 2009..2013 => 89953}
+```
+
+##### `median_household_income_in_year(year_range)`
+
+This method takes one parameter:
+
+* `year` as an integer for any year range reported in the data
+
+A call to this method with any unknown year range should return nil. This method should return a five digit Fixnum representing median household income in dollars. This method looks at data from the file "Median household income.csv".
+
+*Example*:
+
+```ruby
+economic_profile.median_household_income_in_year(2005..2009) # => 85060
+```
 
 ### Relationships Layer
 

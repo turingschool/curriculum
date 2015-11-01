@@ -44,24 +44,12 @@ Metaphor aside, let's run through the protocol as executed by computers:
 * The server hands the response off to their ISP and it goes through the internet to arrive at your computer
 * Your browser receives that response, unwraps it, and displays the data on your machine.
 
-That's HTTP.
+That's HTTP. You can read more on [wikipedia article](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
+or the [IETF specification](https://tools.ietf.org/html/rfc2616).
 
-### Base Expectation
+### The Request
 
-You can make your own server if you can accept a request,
-parse it (which means turn the string into something more useful, like a hash),
-and write the response.
-
-The format of the request and response is defined by something called "http",
-which probably stands for something, but those words won't help you understand it,
-so lets just talk about how it works, and then, if you need more context,
-you can read the [wikipedia article](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
-or the specification [https://tools.ietf.org/html/rfc2616](https://tools.ietf.org/html/rfc2616).
-
-
-## The HTTP Request
-
-### Example:
+Here is what an actual request looks like. Note that it's just a single highly-formatted string:
 
 ```
 POST /to_braille HTTP/1.1
@@ -81,46 +69,18 @@ Accept-Language: en-US,en;q=0.8
 english-message=asdf
 ```
 
-### Anatomy of a [Request](https://tools.ietf.org/html/rfc2616#section-5):
+The parts we're most interested in are:
 
-1. The first line aka [Request-Line](https://tools.ietf.org/html/rfc2616#section-5.1)
-  1. The method aka verb ("POST")
-  2. The path ("/to_braille")
-  3. The HTTP version ("HTTP/1.1")
-2. [Headers](https://tools.ietf.org/html/rfc2616#section-4.2)
-  * Any number of "Key: Value" pairs
-  * Some headers have meaning, eg `Content-Length` tells you how long the body is (20 characters)
-3. [Body](https://tools.ietf.org/html/rfc2616#section-7.2)
-  * 0 or more characters. We don't have to care what they represent as the server, we'll let the application deal with that.
-  * We need to be careful to not read too far, or it will lock up our server. We can tell how much to read by checking the `Content-Length` header.
-    If no `Content-Length` header is provided, the body should be assumed to be 0 characters.
+* The first line, `POST /to_braille HTTP/1.1`, which specifies the *verb*, *path*, and *protocol* which we'll pick apart later
+* `Host` which is where the request is sent to
+* `Accept` which specifies what format of data the client wants back in the response
+* `Origin` which is the return address
 
-### View an HTTP request
+With those pieces of information a typical server can generate a response.
 
-First, we'll start a server that prints requests and lets us type the responses in:
+### The Response
 
-```
-$ nc -l 9292
-```
-
-And now click this link: [http://localhost:9292/this/is/the/path](http://localhost:9292/this/is/the/path)
-
-You can either quit out, or you can type a response like the following.
-If you type the response, then be careful not to press return before typing
-(then you would be on the second line), and remember it won't think you're done
-giving it headers until it sees the empty line, so that last time, you'll have
-to press return 2 times (once to end the header, and once for the empty line).
-
-```
-HTTP/1.1 302 Found
-Location: http://turing.io
-
-```
-
-
-## The HTTP Response
-
-### Example:
+The Server generates and transmits a response that looks like this:
 
 ```
 HTTP/1.1 301 Moved Permanently
@@ -142,356 +102,110 @@ The document has moved
 </BODY></HTML>
 ```
 
-### Anatomy of a [Response](https://tools.ietf.org/html/rfc2616#section-6):
+The parts we're most interested in are:
 
-1. The first line aka [Status-Line](https://tools.ietf.org/html/rfc2616#section-6.1)
-  1. The HTTP version "HTTP/1.1"
-  2. The status code (eg 301)
-  3. The reason phrase (eg "Moved Permanently") I call this the "status code for humans"
-2. [Headers](https://tools.ietf.org/html/rfc2616#section-4.2)
-  * Any number of "Key: Value" pairs
-  * Ending when you find a blank line
-3. [Body](https://tools.ietf.org/html/rfc2616#section-7.2)
-  * You don't need to worry about setting the `Content-Length` or `Content-Type` fields,
-    we'll let the app do that.
+* The first line, `HTTP/1.1 301 Moved Permanently`, which has the *protocol* and the *response code*
+* The unmarked lines after `X-Frame-Options` which make up the *body* of the response
 
-### View an HTTP response
+## Experiment
 
-We'll use a program called `curl` to make a request from the command line.
-It normally prints just the body, but if we give it the `-i` flag, it will print
-the whole response.
+Ruby has handy built-in libraries for dealing with most of the low-level networking details about running a server. Let's write a short program that can start up, listen for a request, print that request out to the screen, then shut down.
 
-```
-$ curl -i 'http://google.com'
-```
+First, we need to "open a port" which basically means "tell the computer that network requests identified addressed for a specific port should belong to this program".
 
+On your computer there are dozens of programs that are using the network connection at any given time. If the messages in and out of those programs were all happening through the same channel then it'd be confusing which message belongs to which program. Think of the *port* like a mailbox in an apartment building: all the residents (aka programs) share the same street address (your computer) but each have their own mailbox (or port).
 
-## Getting comfortable
-
-To familiarize yourself with this stuff, try making some requests using curl,
-and look at them to see what all is interesting! The first one will be: `$ curl -i 'http://google.com'`
-
-* http://google.com
-* https://api.github.com/users/JoshCheek
-
-Try writing some responses by hand using `nc -l 9292`
-Can you do these things?
-
-* Redirect the browser (status code of `302` and header named `Location`)
-* Return this html `<h1>i am a header</h1>` (`Content-Type` header needs to be `text/html`, set the `Content-Length` header, and body, too)
-* Try starting the server on a couple of different ports and hitting them in the browser
-* Set a cookie (forgot what the header is, I think it's `Set-Cookie` with a key/value pair like `my_cookie=yummy`, then make a second request and see that the browser sends you back the cookie you set)
-* Search for something on [http://www.amazon.com/](http://www.amazon.com/), then replace `www.amazon.com` with `localhost:9292`
-  All that crap at the end of the path is called the query string. Take a guess where it's going to be in the request.
-* See a form submission (edit any form on any page to point at your server -- another way is to start your Rails server,
-  request the form, stop the server, start nc on that port, and then submit it)
-* Render arbitrary other headers and see that they are present in the browser (the browser will typicall have a network tab where you can see info like this, search "help" for "dev tools" or something)
-* Start nc on two different ports and redirect the browser from the one to the other, then you can see it come in twice.
-
-
-## Accepting a request from Ruby
+Let's start our server instance and have it listen on port `9292`:
 
 ```ruby
-# Tell my computer that web requests to http://localhost:9292 should be sent to me
 require 'socket'
-port       = 9292
-tcp_server = TCPServer.new(port)
+tcp_server = TCPServer.new(9292)
+```
 
-# Wait for a request
+Then tell that server to accept a request and store it into a variable we'll call `request`:
+
+```ruby
 client = tcp_server.accept
+request = client.read
+```
 
-# Read the request
-first_line = client.gets
-puts "The first line is: #{first_line}"
+Note that when the program runs it'll hang on that `read` method call waiting for a request to come in. When it arrives it'll get `read`, stored into `request`, then we want to print it out:
 
-# Write the response
+```ruby
+puts request.inspect
+```
+
+Then send back a response:
+
+```ruby
 client.print("HTTP/1.1 302 Found\r\n")
 client.print("Location: http://turing.io\r\n")
 client.print("Content-Type: text/html; charset=UTF-8\r\n")
 client.print("Content-Length: 219\r\n")
 client.print("\r\n")
-client.print("<HTML><HEAD></HEAD><BODY></BODY>\r\n")
+client.print("<HTML><HEAD></HEAD><BODY>It works!</BODY>\r\n")
 client.close
+```
 
-# I'm done now, computer ^_^
+And close up the server:
+
+```ruby
 tcp_server.close_read
 tcp_server.close_write
 ```
 
-## The interface you must support
+Save that file and run it. Open your web browser and enter the address `http://127.0.0.1:9292`. If everything worked then your browser should show the words *It works!*. Flip over to the terminal where your ruby program was running and you should see the request outputted to the terminal.
 
-### What does a webserver do?
+You just built a web server.
 
-* Receive the request
-* Parse it into a Hash (this is called the `env` hash, more about it below)
-* Call into the application, (Sinatra or Rails or whatever)
-* The application returns the instructions for what to put in the response,
-  an array with the status code, headers, body, eg:
+[TODO: Validate that this really works. Post a second file or Gist with the whole code together.]
 
-  `[302, {'Location' => 'http://turing.io'}, ["<h1>hi</h1>"]]`
-* Write the response
+## The Project
 
-### The interface
+You're going to build a web application capable of:
 
-We'll define the interface like this:
+* Receiving a request from a user
+* Comprehending the request's intent and source
+* Generating a response
+* Sending the response to the user
 
-```ruby
-# You'll need to pass this through to the TCPServer
-port = 9292
+### Version 0 - Hello, World
 
-# The app:
-#   You're serving the code, the app is responsible for deciding what to do with the request.
-#   An app is any object that has a method named `call`
-#   that can receive a the hash you parsed from the request
-#   and return an array with these three things in it
-app = lambda do |env_hash|
-  [302, {'Location' => 'http://turing.io'}, ["<h1>hi</h1>"]]
-end
+Build a web application/server that:
 
-# For clarity:
-env_hash = {} # What you parse from the request
-app.call(env_hash) # => [200, {"Content-Type"=>"text/plain", "Content-Length"=>"5"}, ["hello"]]
+* listens on port 9292
+* responds to HTTP requests
+* responds with a valid HTML response that displays the words `Hello, World! (0)` where the `0` increments each request until the server is restarted
 
-# Your server takes the port and the app, starts up when we call start, closes the read / write when we call stop
-server = HttpYeahYouKnowMe.new(port, app)
-server.start # this will lock the computer up as it waits for the request to come in
-server.stop
+### Version 1 - Outputting Diagnostics
+
+Let's start to rip apart that request and output it in your response. In the body of your response, include a block of HTML like this including the actual information from the request:
+
+```html
+<pre>
+Verb: POST
+Path: /
+Protocol: HTTP/1.1
+Host: 127.0.0.1
+Port: 9292
+Origin: 127.0.0.1
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+</pre>
 ```
 
-### The env hash
+Keep the code that outputs this block at the bottom of all your future outputs to help with your debugging.
 
-The keys to this hash are mostly pre-defined (as in: go hard code them into the hash).
-Some of the headers might not be (I found a list [here](https://github.com/rack/rack/blob/028438ffffd95ce1f6197d38c04fa5ea6a034a85/lib/rack/lint.rb#L65)).
-...don't worry about that stuff until after you get Sinatra working ;)
+### Version 2 - Supporting Paths
 
-I do know that you can run the Sinatra framework
-using this hash (rack.input should be the body, I think... you'll have to play with it to see!)
+Now let's react to the `path` that the user specifies:
 
-```ruby
-require 'stringio'
+* If they request the root, aka `/`, respond with just the debug info from V1.
+* If they request `/hello`, respond with "Hello, World! (0)" where the `0` increments each time the path is requested, but not when any other path is requested.
+* If they request `/datetime`, respond with today's date and time in this format: `11:07AM on Sunday, October November 1, 2015`.
+* If they request `/shutdown`, respond with "Total Requests: 12" where `12` is the aggregate of all requests. It also causes the server to exit / stop serving requests.
 
-# You for sure need these keys:
-{"REQUEST_METHOD" => "GET", "PATH_INFO" => "/users/456", "rack.input" => StringIO.new}
-```
+### Version 3 - Supporting Verbs
 
-To figure out what you're supposed to set the other keys to,
-define a web app that will let you explore the keys,
-and then hand it to a real server:
+### Version 4 - Supporting Parameters
 
-```
-$ gem install rack puma
-```
-
-In a file called "config.ru"
-
-```ruby
-class LetsGoExploring
-  def call(hash)
-    status_code = 200
-    headers     = {'Content-Type' => 'text/html;', 'Content-Length' => '15'}
-    body        = ["<h1>Hello!</h1>"]
-
-    require "pry"
-    binding.pry
-
-    [status_code, headers, body]
-  end
-run
-```
-
-Then run it with
-
-```
-$ rackup config.ru -p 9292
-```
-
-And now click this link: [http://localhost:9292/this/is/the/path](http://localhost:9292/this/is/the/path)
-
-
-## Toplevel tests... Start Here
-
-Because the server must wait until the request is made, it will lock the program up.
-And since the program is locked up, it can't send the request!
-
-To get around this, we have to use something called a thread.
-But this project isn't about threads,
-so I'm giving you the toplevel tests that you need to pass.
-
-First make sure you have the gems we need
-
-```ruby
-$ gem install rspec mrspec rest-client
-```
-
-Then put the following code in `spec/acceptance_spec.rb`.
-While working on this, you're going to need to parse HTTP requests
-and generate HTTP responses.
-You'll want to do that in other code that can be tested without the need for the server to be running.
-You write those tests in rspec, or minitest,
-because [mrspec](https://rubygems.org/gems/mrspec) can run them both
-by just running `$ mrspec` from the root of your project.
-Just use whichever you're most comfortable with.
-
-```ruby
-require_relative '../lib/http_yeah_you_know_me'
-require 'rest-client' # you may need to `gem install rest-client`
-
-RSpec.describe 'Acceptance test' do
-  def run_server(port, app, &block)
-    server = HttpYeahYouKnowMe.new(port, app)
-    thread = Thread.new { server.start }
-    thread.abort_on_exception = true
-    block.call
-  ensure
-    thread.kill
-    server.stop
-  end
-
-
-  it 'accepts and responds to a web request' do
-    path_info = "this value should be overridden by the app!"
-
-    app = lambda do |env_hash|
-      path_info = env_hash['PATH_INFO']
-      body      = "hello, class ^_^"
-      [200, {'Content-Type' => 'text/plain', 'Content-Length' => body.length, 'omg' => 'bbq'}, [body]]
-    end
-
-    run_server 9292, app do
-      response = RestClient.get 'localhost:9292/users'
-      expect(response.code).to eq 200
-      expect(response.headers[:omg]).to eq 'bbq'
-      expect(response.body).to eq "hello, class ^_^"
-      expect(path_info).to eq '/users'
-    end
-  end
-
-
-  it 'handles multiple requests' do
-    app = lambda { |env_hash| [200, {'Content-Type' => 'text/plain'}, []] }
-
-    run_server 9292, app do
-      expect(RestClient.get('localhost:9292/').code).to eq 200
-      expect(RestClient.get('localhost:9292/').code).to eq 200
-    end
-  end
-
-
-  it 'starts on the specified port' do
-    app = lambda { |env_hash| [200, {'Content-Type' => 'text/plain', 'Content-Length' => 5}, ['hello']] }
-
-    run_server 9292, app do
-      expect(RestClient.get('localhost:9292/').body).to eq 'hello'
-    end
-  end
-end
-```
-
-## Serving Your NightWriter
-
-This code uses a Ruby web framework called Sinatra
-to make a web interface to your NightWriter project.
-First, get yours working using a real server,
-then switch the `use_my_server`
-variable to have it use your server instead of the real one.
-You're going to have to edit it to work with your NightWriter instead of mine.
-
-Install Sinatra with `gem install sinatra`
-Put the file in `examples/night_writer.rb`
-And then execute it with `ruby examples/night_writer.rb`
-
-```ruby
-# go to http://localhost:9292/to_braille
-
-# require your code you used for NightWriter
-# note that we are talking to it through a web interface instead of a command-line interface
-# hope you wrote it well enough to support that ;)
-require '/Users/josh/deleteme/night_writer/lib/night'
-
-# require a webserver named Sinatra
-require 'sinatra/base'
-
-class NightWriterServer < Sinatra::Base
-  get '/to_braille' do
-    "<form action='/to_braille' method='post'>
-      <input type='textarea' name='english-message'></input>
-      <input type='Submit'></input>
-    </form>"
-  end
-
-  post '/to_braille' do
-    message = params['english-message']
-    braille = Night::Write.call(message) # <-- change this to look like your night writer code
-    "<pre>#{braille}</pre>"
-  end
-end
-
-
-# switch this to use your server
-use_my_server = false
-
-if use_my_server
-  require_relative 'lib/http_yeah_you_know_me' # <-- probably right, but double check it
-  server = HttpYeahYouKnowMe.new(9292, NightWriterServer)
-  at_exit { server.stop }
-  server.start
-else
-  NightWriterServer.set :port, 9292
-  NightWriterServer.run!
-end
-```
-
-
-## Assessment Rubric
-
-Coming eventually. Pass my acceptance tests and you'll be in a really really good spot :)
-
-### 1. Overall Functionality
-
-* 4: Serves your night wrighter (or some other project)
-* 3: Passes my acceptance tests up above
-* 2: Passes 2 of my acceptance tests up above
-* 1: Passes 1 of my acceptance tests up above
-
-### 2. Test-Driven Development
-
-1 point for each of these:
-
-* Your tests all pass
-* You have tests on all behaviour of parsing requests and generating responses.
-* Your tests describe the behaviour in human readable words (eg "it stores the first word in the REQUEST_METHOD key")
-* Parsing / Generating code know nothing about sockets
-  (it receives an IO object, but don't know it's a socket vs a file),
-  and they know nothing about the app.
-  Keep them simple, good code is identifiable because it makes everything look easy.
-
-### 3. Code Sanitation
-
-This one is pass / fail.
-Your indentation must be right, according to the [indentation guide](https://gist.github.com/JoshCheek/b3c6a8d430b2e1ac8bb2).
-Keep your indentation correct the whole time.
-When you enter a class/method/block, you indent. When you leave, you outdent.
-If this is hard, then add one of those tools that checks it for you.
-
-### 4. Knowledge Retention
-
-1 Point for each of these!
-
-* You can recite the anatomy of a request and of a response, without any aid.
-* Using `$ curl -i some-url` to see a response
-  * You can show me a redirect
-  * You can show me an html body
-  * You can show me a JSON body, and tell me what header will be different from the HTML one
-* Using `$ nc -l 9292` and typing in the response by hand
-  * You can show me a GET request that was sent from your browser
-  * You can show me a POST request that was sent from your browser (edit a form)
-  * You can set a cookie
-  * You can redirect the browser to [http://turing.io](http://turing.io/)
-  * You can serve HTML and have it highlighted
-  * You can serve the same HTML, but change 1 header to not have it highlighted
-
-### 5. Adoration points
-
-These don't go to anything, but I will give you mad adoration points if you practice until
-you can delete your parsing code and then use your tests to rewrite it (one failure at a time,
-stating out loud what each failure is going to be), in less than 10 minutes.
+### Version 5 - Bringing It All Together

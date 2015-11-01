@@ -271,3 +271,7 @@ Let's modify your game from Version 4 to use status codes:
 ## Extensions
 
 ## Rubric
+
+## Addendum Content
+
+There is content from previous versions not germane to the assignment above [available here](https://github.com/turingschool/curriculum/blob/master/source/projects/http_yeah_you_know_me-addendum.markdown).

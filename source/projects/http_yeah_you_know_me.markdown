@@ -120,45 +120,54 @@ Let's start our server instance and have it listen on port `9292`:
 ```ruby
 require 'socket'
 tcp_server = TCPServer.new(9292)
-```
-
-Then tell that server to accept a request and store it into a variable we'll call `request`:
-
-```ruby
 client = tcp_server.accept
-request = client.read
 ```
 
-Note that when the program runs it'll hang on that `read` method call waiting for a request to come in. When it arrives it'll get `read`, stored into `request`, then we want to print it out:
+We can read the request from the `client` object which is what we call an IO stream. Here's a snippet to keep reading from that stream until the input is a blank line and store all the request lines in an array `request_lines`:
 
 ```ruby
-puts request.inspect
+puts "Ready for a request"
+request_lines = []
+while line = client.gets and !line.chomp.empty?
+  request_lines << line.chomp
+end
 ```
 
-Then send back a response:
+Note that when the program runs it'll hang on that `gets` method call waiting for a request to come in. When it arrives it'll get read and stored into `request_lines`, then lets print it to the console for debugging:
 
 ```ruby
-client.print("HTTP/1.1 302 Found\r\n")
-client.print("Location: http://turing.io\r\n")
-client.print("Content-Type: text/html; charset=UTF-8\r\n")
-client.print("Content-Length: 219\r\n")
-client.print("\r\n")
-client.print("<HTML><HEAD></HEAD><BODY>It works!</BODY>\r\n")
-client.close
+puts "Got this request:"
+puts request_lines.inspect
+```
+
+Then it's time to build a response. For this example let's just print out the request data as the response:
+
+```ruby
+puts "Sending response."
+response = "<pre>" + request_lines.join("\n") + "</pre>"
+output = "<html><head></head><body>#{response}</body></html>"
+headers = ["http/1.1 200 ok",
+          "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
+          "server: ruby",
+          "content-type: text/html; charset=iso-8859-1",
+          "content-length: #{output.length}\r\n\r\n"].join("\r\n")
+client.puts headers
+client.puts output
 ```
 
 And close up the server:
 
 ```ruby
-tcp_server.close_read
-tcp_server.close_write
+puts "\nWrote this response:\n#{output}"
+client.close
+puts "\nResponse complete, exiting."
 ```
 
-Save that file and run it. Open your web browser and enter the address `http://127.0.0.1:9292`. If everything worked then your browser should show the words *It works!*. Flip over to the terminal where your ruby program was running and you should see the request outputted to the terminal.
+Save that file and run it. Open your web browser and enter the address `http://127.0.0.1:9292`. If everything worked then your browser should show all the details of your request. Flip over to the terminal where your ruby program was running and you should see the request outputted to the terminal.
 
 You just built a web server.
 
-[TODO: Validate that this really works. Post a second file or Gist with the whole code together.]
+Having trouble? Check out the [whole file here](https://github.com/turingschool/curriculum/blob/master/source/projects/http_yeah_you_know_me.rb).
 
 ## The Project
 

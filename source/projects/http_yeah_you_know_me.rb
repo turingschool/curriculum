@@ -14,7 +14,6 @@ puts request_lines.inspect
 puts "Sending response."
 response = "<pre>" + request_lines.join("\n") + "</pre>"
 output = "<html><head></head><body>#{response}</body></html>"
-
 headers = ["http/1.1 200 ok",
           "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
           "server: ruby",
@@ -22,6 +21,7 @@ headers = ["http/1.1 200 ok",
           "content-length: #{output.length}\r\n\r\n"].join("\r\n")
 client.puts headers
 client.puts output
+
 puts "\nWrote this response:\n#{output}"
 client.close
 puts "\nResponse complete, exiting."

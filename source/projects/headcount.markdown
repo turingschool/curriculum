@@ -42,18 +42,8 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 
 We'll start out by building out the "Data Access Layer", "Relationships Layer", and "Analysis Layer" for a single CSV file. This is an outline for the structure:
 
-      Data Access Layer:      Analysis Layer:
- -----      ---------------------      ----------
-| CSV | -> | District Repository | <- | Analysis |
- -----      ---------------------      ----------
-                      |
-                  ----------
-  Relationships  | District |
-      Layer:      ----------
-                      |
-                 ------------
-                | Enrollment |
-                 ------------
+![Iteration 0](http://i.imgur.com/hKqZTWG.png)
+
 ### Data Access Layer
 
 #### `DistrictRepository`

@@ -10,6 +10,11 @@ In this project we'll begin to introduce HTTP, the protocol that runs the web, a
 
 ### Learning Goals
 
+* Practice breaking a workflow into a system of coordinating components
+* Practice using TDD at the unit, integration, and acceptance levels
+* Understand how the HTTP request/response cycle works
+* Practice implementing basic HTTP requests and responses
+
 ### Background
 
 The internet, which for most people is the web...how does that work?

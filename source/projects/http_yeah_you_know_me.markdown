@@ -85,8 +85,7 @@ http/1.1 200 ok
 date: Sun,  1 Nov 2015 17:25:48 -0700
 server: ruby
 content-type: text/html; charset=iso-8859-1
-content-length: 447
-
+content-length: 27
 
 The response body goes here
 ```
@@ -95,6 +94,7 @@ The parts we're most interested in are:
 
 * The first line, `HTTP/1.1 200 ok`, which has the *protocol* and the *response code*
 * The unmarked lines at the end which make up the *body* of the response
+* `content-length` which tells the client when to stop listening
 
 ## Experiment
 

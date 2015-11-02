@@ -158,18 +158,7 @@ Where `1.234` is the result of the district average divided by 'against' distric
 
 Next, now that we have the pieces working for a single CSV file of Kindergarteners, let's add some more data to the equation in Interaton 1.
 
-      Data Access Layer:      Analysis Layer:
- -----      ---------------------      ----------
-| CSV | -> | District Repository | <- | Analysis |
- -----      ---------------------      ----------
-                      |
-                  ----------
-  Relationships  | District |
-      Layer:      ----------
-                      |
-                 ------------
-                | Enrollment |  <--- More data
-                 ------------
+![Iteration 1](http://imgur.com/7drdEKc.png)
 
 ### `Enrollment`
 
@@ -249,18 +238,8 @@ ha.kindergarten_participation_correlates_with_high_school_graduation(:across => 
 
 ### Iteration 2 - Another Relationship - Statewide Testing
 
-      Data Access Layer:      Analysis Layer:
- -----      ---------------------      ----------
-| CSV | -> | District Repository | <- | Analysis |
- -----      ---------------------      ----------
-                      |
-                  ----------
-  Relationships  | District |
-      Layer:      ----------
-                   /       \
-         ------------   ------------------
-        | Enrollment | | StatewideTesting |
-         ------------   ------------------
+![Iteration 2](http://imgur.com/Rhpl1is.png)
+
 #### `District`
 
 The `District` class now also has the following additional method:
@@ -448,18 +427,7 @@ The weights *must* add up to 1.
 
 ### Iteration 3: Economic Profile
 
-      Data Access Layer:      Analysis Layer:
- -----      ---------------------      ----------
-| CSV | -> | District Repository | <- | Analysis |
- -----      ---------------------      ----------
-                      |
-                  ----------
-  Relationships  | District |
-      Layer:      ----------
-                   /       \          \
- ------------   ------------------   ------------------
-| Enrollment | | StatewideTesting | | Economic Profile |
- ------------   ------------------   ------------------
+![Iteration 3](http://imgur.com/RYS8SJs.png)
 
 #### `District`
 

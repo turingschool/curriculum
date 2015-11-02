@@ -52,21 +52,15 @@ or the [IETF specification](https://tools.ietf.org/html/rfc2616).
 Here is what an actual request looks like. Note that it's just a single highly-formatted string:
 
 ```
-POST /to_braille HTTP/1.1
-Host: localhost:9292
+GET / HTTP/1.1
+Host: 127.0.0.1:9292
 Connection: keep-alive
-Content-Length: 20
 Cache-Control: max-age=0
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
-Origin: http://localhost:9292
 Upgrade-Insecure-Requests: 1
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36 OPR/32.0.1948.25
-Content-Type: application/x-www-form-urlencoded
-Referer: http://localhost:9292/to_braille
-Accept-Encoding: gzip, deflate, lzma
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2490.80 Safari/537.36
+Accept-Encoding: gzip, deflate, sdch
 Accept-Language: en-US,en;q=0.8
-
-english-message=asdf
 ```
 
 The parts we're most interested in are:
@@ -74,7 +68,6 @@ The parts we're most interested in are:
 * The first line, `POST /to_braille HTTP/1.1`, which specifies the *verb*, *path*, and *protocol* which we'll pick apart later
 * `Host` which is where the request is sent to
 * `Accept` which specifies what format of data the client wants back in the response
-* `Origin` which is the return address
 
 With those pieces of information a typical server can generate a response.
 
@@ -83,29 +76,20 @@ With those pieces of information a typical server can generate a response.
 The Server generates and transmits a response that looks like this:
 
 ```
-HTTP/1.1 301 Moved Permanently
-Location: http://www.google.com/
-Content-Type: text/html; charset=UTF-8
-Date: Sat, 26 Sep 2015 21:51:13 GMT
-Expires: Mon, 26 Oct 2015 21:51:13 GMT
-Cache-Control: public, max-age=2592000
-Server: gws
-Content-Length: 219
-X-XSS-Protection: 1; mode=block
-X-Frame-Options: SAMEORIGIN
+http/1.1 200 ok
+date: Sun,  1 Nov 2015 17:25:48 -0700
+server: ruby
+content-type: text/html; charset=iso-8859-1
+content-length: 447
 
-<HTML><HEAD><meta http-equiv="content-type" content="text/html;charset=utf-8">
-<TITLE>301 Moved</TITLE></HEAD><BODY>
-<H1>301 Moved</H1>
-The document has moved
-<A HREF="http://www.google.com/">here</A>.
-</BODY></HTML>
+
+The response body goes here
 ```
 
 The parts we're most interested in are:
 
-* The first line, `HTTP/1.1 301 Moved Permanently`, which has the *protocol* and the *response code*
-* The unmarked lines after `X-Frame-Options` which make up the *body* of the response
+* The first line, `HTTP/1.1 200 ok`, which has the *protocol* and the *response code*
+* The unmarked lines at the end which make up the *body* of the response
 
 ## Experiment
 
@@ -158,7 +142,7 @@ client.puts output
 And close up the server:
 
 ```ruby
-puts "\nWrote this response:\n#{output}"
+puts ["Wrote this response:", headers, output].join("\n")
 client.close
 puts "\nResponse complete, exiting."
 ```

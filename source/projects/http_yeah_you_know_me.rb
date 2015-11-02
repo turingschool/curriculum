@@ -22,6 +22,6 @@ headers = ["http/1.1 200 ok",
 client.puts headers
 client.puts output
 
-puts "\nWrote this response:\n#{output}"
+puts ["Wrote this response:", headers, output].join("\n")
 client.close
 puts "\nResponse complete, exiting."

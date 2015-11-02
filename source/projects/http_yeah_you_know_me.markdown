@@ -178,7 +178,7 @@ You're going to build a web application capable of:
 * Generating a response
 * Sending the response to the user
 
-### Version 0 - Hello, World
+### Iteration 0 - Hello, World
 
 Build a web application/server that:
 
@@ -186,7 +186,7 @@ Build a web application/server that:
 * responds to HTTP requests
 * responds with a valid HTML response that displays the words `Hello, World! (0)` where the `0` increments each request until the server is restarted
 
-### Version 1 - Outputting Diagnostics
+### Iteration 1 - Outputting Diagnostics
 
 Let's start to rip apart that request and output it in your response. In the body of your response, include a block of HTML like this including the actual information from the request:
 
@@ -204,7 +204,7 @@ Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0
 
 Keep the code that outputs this block at the bottom of all your future outputs to help with your debugging.
 
-### Version 2 - Supporting Paths
+### Iteration 2 - Supporting Paths
 
 Now let's react to the `path` that the user specifies:
 
@@ -213,7 +213,7 @@ Now let's react to the `path` that the user specifies:
 * If they request `/datetime`, respond with today's date and time in this format: `11:07AM on Sunday, October November 1, 2015`.
 * If they request `/shutdown`, respond with "Total Requests: 12" where `12` is the aggregate of all requests. It also causes the server to exit / stop serving requests.
 
-### Version 3 - Supporting Parameters
+### Iteration 3 - Supporting Parameters
 
 Often we want to supply some data with a request. For instance, if you were submitting a search, that'd typically be a `GET` request that has a parameter. When we use parameters in `GET` requests they are embedded in the URL like this:
 
@@ -235,7 +235,7 @@ In your HTML response page, output one of these:
 
 Where `WORD` is the parameter from the URL.
 
-### Version 4 - Verbs & Parameters
+### Iteration 4 - Verbs & Parameters
 
 The *path* is the main way that the user specifies what they're requesting, but the secondary tool is the *verb*. There are several official verbs, but the only two typical servers use are `GET` and `POST`.
 
@@ -258,7 +258,7 @@ A request to this verb/path combo tells us:
 
 This is how we make a guess. The request includes a parameter named `guess`. The server stores the guess and sends the user a redirect response, causing the client to make a `GET` to `/game`.
 
-### Version 5 - Response Codes
+### Iteration 5 - Response Codes
 
 We use the HTTP response code as a short hand way to explain the result of the request. Here are the most common HTTP status codes:
 
@@ -269,7 +269,7 @@ We use the HTTP response code as a short hand way to explain the result of the r
 * `404 Not Found`
 * `500 Internal Server Error`
 
-Let's modify your game from Version 4 to use status codes:
+Let's modify your game from Iteration 4 to use status codes:
 
 * Most requests, unless listed below, should respond with a `200`.
 * When you submit the `POST` to `/new_game` and there is no game in progress, it should start one and respond with a `301` redirect.
@@ -279,7 +279,57 @@ Let's modify your game from Version 4 to use status codes:
 
 ## Extensions
 
-## Rubric
+### 1. HTTP-Accept
+
+The `HTTP-Accept` parameter is used to specify what kind of data the client wants in response. Modify your `/word_search` path so that if the `HTTP-Accept` starts with `application/json` then they are sent a JSON body like the following.
+
+A search for `pizza` returns this JSON:
+
+```
+{"word":"pizza","is_word":true}
+```
+
+A search for `pizz` returns JSON with possible matches like this:
+
+```
+{"word":"pizza","is_word":true,"possible_matches":["pizza","pizzeria","pizzicato"]}
+```
+
+### 2. Threading
+
+What happens if your web server gets more than one request at a time? Let's experiment with Threads. *to be continued*
+
+## Evaluation Rubric
+
+The project will be assessed with the following rubric:
+
+### 1. Overall Functionality
+
+* 4: Application implements all five iterations and at least one extension
+* 3: Application implements four iterations
+* 2: Application implements three iteration
+* 1: Application implements two or fewer iterations
+
+### 2. Fundamental Ruby & Style
+
+* 4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring
+* 3:  Application shows some effort toward organization but still has 6 or fewer long methods (> 8 lines) and needs some refactoring.
+* 2:  Application runs but the code has many long methods (>8 lines) and needs significant refactoring
+* 1:  Application generates syntax error or crashes during execution
+
+### 3. Test-Driven Development
+
+* 4: Application is broken into components which are well tested in both isolation and integration
+* 3: Application uses tests to exercise core functionality and some edge cases, but fails to break out component objects/tests.
+* 2: Application uses tests to exercise core functionality but leaves many common edge cases untested.
+* 1: Application does not demonstrate strong use of TDD
+
+### 4. Breaking Logic into Components
+
+* 4: Application effectively breaks logical components apart with clear intent and usage
+* 3: Application has multiple components with defined responsibilities but there is some leaking of responsibilities
+* 2: Application has some logical components but divisions of responsibility are inconsistent or unclear and/or there is a "God" object taking too much responsibility
+* 1: Application logic shows poor decomposition with too much logic mashed together
 
 ## Addendum Content
 

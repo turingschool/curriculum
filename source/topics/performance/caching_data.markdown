@@ -307,7 +307,7 @@ We created the `sample` hash with no keys, so asking for `sample["count"]` would
 **But**, it doesn't store that value. So if you now ask for the key again the normal way:
 
 {% irb %}
-irb > cache["count"]
+irb > sample["count"]
 => nil
 {% endirb %}
 

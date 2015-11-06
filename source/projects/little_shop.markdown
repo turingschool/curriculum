@@ -107,8 +107,8 @@ following criteria:
 
 * 4: Project is highly usable and ready to deploy to customers
 * 3: Project is highly usable, but needs more polish before it'd be customer-ready
-* 2: Project needs significantly more attention to the User Experience, but works
-* 1: Project is difficult or unpleasant to use
+* 2: Project needs more attention to the User Experience, but works
+* 1: Project is difficult or unpleasant to use, or needs significantly more attention to user experience
 
 ### 7. Workflow
 

@@ -19,7 +19,7 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 
 ## Project Overview
 
-### Goals
+### Learning Goals
 
 * Use tests to drive both the design and implementation of code
 * Decompose a large application into components such as parsers, repositories, and analysis tools
@@ -30,17 +30,74 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 ### Getting Started
 
 1. One team member forks the repository at https://github.com/turingschool-examples/headcount and adds the others as collaborators.
-1. Everyone on the team clones the repository
-1. Create a [Waffle.io](http://waffle.io) account for project management.
+2. Everyone on the team clones the repository
+3. Create a [Waffle.io](http://waffle.io) account for project management.
    Just play with it a bit to see what kinds of things it can do,
    identify things that seem like they will be useful (eg to coordinate your work)
    and then use it for those things.
+
+### Functional Objectives
+
+__TODO - WHat DOES THE WHOLE THING ACTUALLY DO?__
+
+### Data Structure and Key Concepts
+
+During this project, we'll be working with a large body of data
+that covers various information about Colorado school districts.
+
+The data is divided into multiple CSV files, with the concept of
+a __District__ being the unifying piece of information across the
+various data files.
+
+__Districts__ are identified by simple names (strings), and are listed
+under the `Location` column in each file.
+
+So, for example, the file `Kindergartners in full-day program.csv` contains
+data about Kindergarten enrollment rates over time. Let's look at the file headers
+along with a sample row:
+
+```
+Location,TimeFrame,DataFormat,Data
+AGUILAR REORGANIZED 6,2007,Percent,1
+```
+
+The `Location`, column indicates the District ("AGUILAR REORGANIZED 6"), which
+will re-appear as a District in other data files as well. The other columns
+indicate various information about the statistic being reported. Note that
+percentages appear as decimal values out of `1`, with `1` meaning 100% enrollment.
+
+
+With the idea of a __District__ sitting at the top of our overall data hierarchy
+(it's the thing around which all the other information is organized), we can now
+look at the secondary layers.
+
+We will ultimately be performing analysis across numerous data files within the
+project, but it turns out that there are generally multiple files dealing with
+a related concepts. The overarching data themes we'll be working with include:
+
+* __Enrollment__ - Information about enrollment rates across various
+grade levels in each district
+* __Statewide Testing__ - Information about test results in each district
+broken down by grade level, race, and ethnicity
+* __Economic Profile__ - Information about socioeconomic profiles of
+students and within districts
 
 ## Base Expectations
 
 ## Iteration 0 - The Structure
 
-We'll start out by building out the "Data Access Layer", "Relationships Layer", and "Analysis Layer" for a single CSV file. This is an outline for the structure:
+For our first iteration, we're going to build out a complete "slice"
+of project functionality across 2 of our data files. This process
+will include:
+
+1. Reading and parsing data from the appropriate CSV files
+2. Creating domain objects out of this data
+3. Constructing appropriate relationships between domain objects
+where needed
+4. Using the collected domain objects to answer analytical questions
+about the underlying data
+
+The data files we'll be tackling in this iteration include:
 
 ![Iteration 0](http://i.imgur.com/hKqZTWG.png)
 

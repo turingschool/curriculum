@@ -20,7 +20,6 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 - [Project Overview](#project-overview)
     - [Learning Goals](#learning-goals)
     - [Getting Started](#getting-started)
-    - [Functional Objectives](#functional-objectives)
     - [Data Structure and Key Concepts](#data-structure-and-key-concepts)
         - [Districts](#districts)
         - [Aggregate Data Categories](#aggregate-data-categories)
@@ -96,10 +95,6 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
    Just play with it a bit to see what kinds of things it can do,
    identify things that seem like they will be useful (eg to coordinate your work)
    and then use it for those things.
-
-## Functional Objectives
-
-__TODO - WHat DOES THE WHOLE THING ACTUALLY DO?__
 
 ## Data Structure and Key Concepts
 
@@ -210,17 +205,19 @@ Ultimately, a crude visualization of the structure might look like this:
 ## Iteration 0 - The Structure
 
 For our first iteration, we're going to build out a complete "slice"
-of project functionality across 2 of our data files. This process
-will include:
+of project functionality across several of our data files.
+For this iteration, the slice we'll be focusing on deals with Enrollment
+data by district.
 
-1. Reading and parsing data from the appropriate CSV files
-2. Creating domain objects out of this data
-3. Constructing appropriate relationships between domain objects
-where needed
-4. Using the collected domain objects to answer analytical questions
-about the underlying data
+To complete the iteration, we'll need to achieve the following:
 
-The data files we'll be tackling in this iteration include:
+1. Provide a top-level interface to query for information by District
+name
+2. Create basic domain objects for the District and Enrollment data
+3. Construct appropriate relationships between Districts and underlying
+Enrollment data
+4. Use these domain objects to answer some basic analytical questions
+about enrollment by district.
 
 ![Iteration 0](http://i.imgur.com/hKqZTWG.png)
 

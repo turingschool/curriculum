@@ -31,7 +31,7 @@ Starting with the CSV data we will:
    identify things that seem like they will be useful (eg to coordinate your work)
    and then use it for those things.
 
-## Data Structure and Key Concepts
+## Key Concepts
 
 ### Districts
 
@@ -54,7 +54,7 @@ Location,TimeFrame,DataFormat,Data
 AGUILAR REORGANIZED 6,2007,Percent,1
 ```
 
-The `Location`, column indicates the District ("AGUILAR REORGANIZED 6"), which
+The `Location`, column indicates the District (`AGUILAR REORGANIZED 6`), which
 will re-appear as a District in other data files as well. The other columns
 indicate various information about the statistic being reported. Note that
 percentages appear as decimal values out of `1`, with `1` meaning 100% enrollment.
@@ -78,38 +78,33 @@ students and within districts
 
 ### Data Files by Category
 
-The list of files that are relevant to each data "category" are as follows:
+The list of files that are relevant to each data "category" are listed below. You'll find the data files in the `data` folder of the cloned repository.
 
 #### Enrollment
 
-* Dropout rates by race and ethnicity.csv
-* High school graduation rates.csv
-* Kindergartners in full-day program.csv
-* Online pupil enrollment.csv
-* Pupil enrollment by race_ethnicity.csv
-* Pupil enrollment.csv
-* Special education.csv
+* `Dropout rates by race and ethnicity.csv`
+* `High school graduation rates.csv`
+* `Kindergartners in full-day program.csv`
+* `Online pupil enrollment.csv`
+* `Pupil enrollment by race_ethnicity.csv`
+* `Pupil enrollment.csv`
+* `Special education.csv`
 
 #### Statewide Testing
 
-* 3rd grade students scoring proficient or above on the CSAP_TCAP.csv
-* 8th grade students scoring proficient or above on the CSAP_TCAP.csv
-* Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv
-* Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv
-* Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv
-* Remediation in higher education.csv
+* `3rd grade students scoring proficient or above on the` CSAP_TCAP.csv
+* `8th grade students scoring proficient or above on the` CSAP_TCAP.csv
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv`
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_` Reading.csv
+* `Average proficiency on the CSAP_TCAP by race_ethnicity_` Writing.csv
+* `Remediation in higher education.csv`
 
 #### Economic Profile
 
-* Median household income.csv
-* School-aged children in poverty.csv
-* Students qualifying for free or reduced price lunch.csv
-* Title I students.csv
-
-To summarize, remember that the information in all of the data files is ultimately organized
-around __Districts__. Across multiple files, we can additionally identify
-a handful of conceptual categories, and we will use these categorizations to
-guide the abstractions we build around the data.
+* `Median household income.csv`
+* `School-aged children in poverty.csv`
+* `Students qualifying for free or reduced price lunch.csv`
+* `Title I students.csv`
 
 Ultimately, a crude visualization of the structure might look like this:
 
@@ -148,19 +143,53 @@ them into Iterations in their own files:
 
 The project will be assessed with the following guidelines:
 
-### 1. Overall Functionality
+### 1. Functional Expectations
 
-### 2. Enumerables
+* 4: Application fulfills all base expectations and two extensions
+* 3: Application fulfills all base expectations as tested by the spec harness
+* 2: Application has some missing functionality but no crashes
+* 1: Application crashes during normal usage
 
-### 3. Fundamental Ruby & Style
+### 2. Test-Driven Development
 
-### 4. Test-Driven Development
+* 4: Application is broken into components which are well tested in both isolation and integration using appropriate data
+* 3: Application is well tested but does not balance isolation and integration tests, using only the data necessary to test the functionality
+* 2: Application makes some use of tests, but the coverage is insufficient
+* 1: Application does not demonstrate strong use of TDD
 
-### 5. Breaking Logic into Components
+### 3. Encapsulation / Breaking Logic into Components
+
+* 4: Application is expertly divided into logical components each with a clear, single responsibility
+* 3: Application effectively breaks logical components apart but breaks the principle of SRP
+* 2: Application shows some effort to break logic into components, but the divisions are inconsistent or unclear
+* 1: Application logic shows poor decomposition with too much logic mashed together
+
+### 4. Fundamental Ruby & Style
+
+* 4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring
+* 3:  Application shows strong effort towards organization, content, and refactoring
+* 2:  Application runs but the code has long methods, unnecessary or poorly named variables, and needs significant refactoring
+* 1:  Application generates syntax error or crashes during execution
+
+### 5. Enumerable & Collections
+
+* 4: Application consistently makes use of the best-choice Enumerable methods
+* 3: Application demonstrates comfortable use of appropriate Enumerable methods
+* 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
+* 1: Application demonstrates deficiencies with Enumerable and struggles with collections
 
 ### 6. Code Sanitation
 
-## Data Sources
+The output from `rake sanitation:all` shows...
+
+* 4: Zero complaints
+* 3: Five or fewer complaints
+* 2: Six to ten complaints
+* 1: More than ten complaints
+
+## Appendix - Data Sources
+
+The original data files and more information about the data can be found here:
 
 * [Search Index](http://datacenter.kidscount.org/data#CO/10/0)
 * [Median Household Income](http://datacenter.kidscount.org/data/tables/6228-median-household-income?loc=7&loct=10#detailed/10/1278-1457/false/1376,1201,1074,880,815/any/12960)

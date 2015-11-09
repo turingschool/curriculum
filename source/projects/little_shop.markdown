@@ -41,7 +41,7 @@ You will build an online ordering platform. Customers should be able to place or
 
 Each team will have an assigned project manager that will be the primary point of contact between the product owner (instructor) and the rest of the team.
 
-Most stories will be provided by the product owner. You will be asked to write your own stories occasionally and they should follow the same format as the ones that are provided to you.
+Most initial stories will be provided by the product owner. You will be asked to write your own stories over the course of the project and they should follow the same format as the ones that are provided to you.
 
 You should not write code or migrations until a story calls for it.
 

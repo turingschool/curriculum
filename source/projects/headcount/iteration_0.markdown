@@ -31,7 +31,11 @@ There is no one data file that contains just the districts. The data must be ext
 
 ```ruby
 dr = DistrictRepository.new
-dr.load_data(:kindergarten => "./data/Kindergartners in full-day program.csv")
+dr.load_data({
+  :enrollment => {
+    :kindergarten => "./data/Kindergartners in full-day program.csv"
+  }
+})
 district = dr.find_by_name("ACADEMY 20")
 # => <District>
 ```
@@ -59,7 +63,11 @@ For iteration 0, the instance of this object represents one line of data from th
 
 ```ruby
 er = EnrollmentRepository.new
-er.load_data(:kindergarten => "./data/Kindergartners in full-day program.csv")
+er.load_data({
+  :enrollment => {
+    :kindergarten => "./data/Kindergartners in full-day program.csv"
+  }
+})
 enrollment = er.find_by_name("ACADEMY 20")
 # => <Enrollment>
 ```
@@ -110,7 +118,11 @@ Instead of loading just one data file into our `DistrictRepository`, we now want
 
 ```ruby
 dr = DistrictRepository.new
-dr.load_data('./data')
+dr.load_data({
+  :enrollment => {
+    :kindergarten => "./data/Kindergartners in full-day program.csv"
+  }
+})
 district = dr.find_by_name("ACADEMY 20")
 ```
 

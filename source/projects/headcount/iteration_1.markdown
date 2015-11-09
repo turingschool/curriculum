@@ -11,9 +11,11 @@ Return to the `EnrollmentRepository` to add support for a second data file:
 ```ruby
 er = EnrollmentRepository.new
 er.load_data({
-  :kindergarten => "./data/Kindergartners in full-day program.csv",
-  :high_school_graduation => "./data/High school graduation rates.csv"
-  )
+  :enrollment => {
+    :kindergarten => "./data/Kindergartners in full-day program.csv",
+    :high_school_graduation => "./data/High school graduation rates.csv"
+  }
+})
 enrollment = er.find_by_name("ACADEMY 20")
 # => <Enrollment>
 ```

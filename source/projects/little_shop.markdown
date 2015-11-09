@@ -49,7 +49,7 @@ Teams will meet with the product owner regularly and demo completed stories. The
 
 It is expected that teams will have meaningful discussions and code reviews using comments on Github. Your instructors will be looking for this. Commits should also have meaningful messages. If you have commits that say things like "Fixing hound complaints.", you will likely be asked to [squash](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html) those commits. Rebasing should be done _before_ the branch is merged into master or you will run into problems.
 
-The master branch of your project should always remain in a state where it can demoed and deployed... yes, even days that you don't have any _planned_ meetings.
+The master branch of your project should always remain in a state where it can be demoed and deployed... yes, even days that you don't have any _planned_ meetings.
 
 Everyone will provide feedback for group members at the end of the project.
 

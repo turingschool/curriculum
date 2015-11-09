@@ -147,8 +147,6 @@ them into Iterations in their own files:
 
 ## Evaluation Rubric
 
-NOTE: Update this rubric when the project settles more.
-
 The project will be assessed with the following guidelines:
 
 ### 1. Overall Functionality

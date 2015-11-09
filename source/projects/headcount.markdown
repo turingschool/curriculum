@@ -1,9 +1,3 @@
----
-layout: page
-title: Headcount
-sidebar: true
----
-
 # HeadCount
 
 Federal and state governments publish a huge amount of data. You can find
@@ -22,7 +16,6 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
 **Table of Contents**
 
-- [-](#-)
 - [HeadCount](#headcount)
 - [Project Overview](#project-overview)
     - [Learning Goals](#learning-goals)

@@ -1,4 +1,4 @@
-# Iteration 2 - Statewide Test
+# Iteration 2 - Statewide Testing
 
 ![Iteration 2](http://imgur.com/Rhpl1is.png)
 

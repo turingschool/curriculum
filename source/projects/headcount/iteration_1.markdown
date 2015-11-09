@@ -1,4 +1,4 @@
-# Iteration 1: Adding more data
+# Iteration 1: High School Graduation
 
 Now that we have the pieces working for a single CSV file of Kindergarteners, let's add some more data to the equation in Interaton 1.
 

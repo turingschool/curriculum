@@ -19,6 +19,73 @@ with CSV data we will eventually:
 
 We'll build upon a dataset centered around schools in Colorado provided by the Annie E. Casey foundation.
 
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-generate-toc again -->
+**Table of Contents**
+
+- [-](#-)
+- [HeadCount](#headcount)
+- [Project Overview](#project-overview)
+    - [Learning Goals](#learning-goals)
+    - [Getting Started](#getting-started)
+    - [Functional Objectives](#functional-objectives)
+    - [Data Structure and Key Concepts](#data-structure-and-key-concepts)
+        - [Districts](#districts)
+    - [Aggregate Data Categories](#aggregate-data-categories)
+    - [Data Files by Category](#data-files-by-category)
+- [Project Iterations and Base Expectations](#project-iterations-and-base-expectations)
+    - [Iteration 0 - The Structure](#iteration-0---the-structure)
+        - [Data Access Layer](#data-access-layer)
+            - [`DistrictRepository`](#districtrepository)
+            - [`District`](#district)
+            - [`Enrollment`](#enrollment)
+                - [`.kindergarten_participation_by_year`](#kindergartenparticipationbyyear)
+                - [`.kindergarten_participation_in_year(year)`](#kindergartenparticipationinyearyear)
+        - [Relationships Layer](#relationships-layer)
+        - [Analysis Layer](#analysis-layer)
+            - [Does Kindergarten participation affect outcomes?](#does-kindergarten-participation-affect-outcomes)
+                - [`How does a district's kindergarten participation rate compare to the state average?`](#how-does-a-districts-kindergarten-participation-rate-compare-to-the-state-average)
+                - [`How does a district's kindergarten participation rate compare to another district?`](#how-does-a-districts-kindergarten-participation-rate-compare-to-another-district)
+    - [Iteration 1: Adding more data](#iteration-1-adding-more-data)
+        - [`Enrollment`](#enrollment)
+            - [`.graduation_rate_by_year`](#graduationratebyyear)
+            - [`.graduation_rate_in_year(year)`](#graduationrateinyearyear)
+        - [Analysis](#analysis)
+            - [How does kindergarten participation variation compare to the high school graduation variation?](#how-does-kindergarten-participation-variation-compare-to-the-high-school-graduation-variation)
+            - [Does Kindergarten participation predict high school graduation?](#does-kindergarten-participation-predict-high-school-graduation)
+    - [Iteration 2 - Another Relationship - Statewide Testing](#iteration-2---another-relationship---statewide-testing)
+        - [`District`](#district)
+        - [`StatewideTesting`](#statewidetesting)
+            - [`.proficient_by_grade(grade)`](#proficientbygradegrade)
+            - [`.proficient_by_race_or_ethnicity(race)`](#proficientbyraceorethnicityrace)
+            - [`.proficient_for_subject_by_grade_in_year(subject, grade, year)`](#proficientforsubjectbygradeinyearsubject-grade-year)
+            - [`.proficient_for_subject_by_race_in_year(subject, race, year)`](#proficientforsubjectbyraceinyearsubject-race-year)
+            - [`.proficient_for_subject_in_year(subject, year)`](#proficientforsubjectinyearsubject-year)
+        - [Analysis / Queries](#analysis--queries)
+            - [Where is the most growth happening in statewide testing?](#where-is-the-most-growth-happening-in-statewide-testing)
+            - [A valid grade must be provided](#a-valid-grade-must-be-provided)
+            - [Finding a single leader](#finding-a-single-leader)
+            - [Finding multiple leaders](#finding-multiple-leaders)
+            - [Across all subjects](#across-all-subjects)
+    - [Iteration 3: Economic Profile](#iteration-3-economic-profile)
+        - [-](#-)
+        - [`EconomicProfile`](#economicprofile)
+        - [Analysis/Queries](#analysisqueries)
+            - [How does kindergarten participation variation compare to the median household income variation?](#how-does-kindergarten-participation-variation-compare-to-the-median-household-income-variation)
+            - [Statewide does the kindergarten participation correlate with the median household income?](#statewide-does-the-kindergarten-participation-correlate-with-the-median-household-income)
+    - [Evaluation Rubric](#evaluation-rubric)
+        - [0. Influence points!](#0-influence-points)
+        - [1. Overall Functionality](#1-overall-functionality)
+        - [2. Enumerables](#2-enumerables)
+        - [3. Fundamental Ruby & Style](#3-fundamental-ruby--style)
+        - [4. Test-Driven Development](#4-test-driven-development)
+        - [5. Breaking Logic into Components](#5-breaking-logic-into-components)
+        - [6. Code Sanitation](#6-code-sanitation)
+    - [References](#references)
+        - [Data Sources](#data-sources)
+
+<!-- markdown-toc end -->
+
+
 # Project Overview
 
 ## Learning Goals

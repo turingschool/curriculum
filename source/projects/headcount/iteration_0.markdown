@@ -58,7 +58,8 @@ instances. It offers the following methods:
 For iteration 0, the instance of this object represents one line of data from the file `Kindergartners in full-day program.csv`. It's initialized and used like this:
 
 ```ruby
-er = EnrollmentRepository.new("./data/Kindergartners in full-day program.csv")
+er = EnrollmentRepository.new
+er.load_data(:kindergarten => "./data/Kindergartners in full-day program.csv")
 enrollment = er.find_by_name("ACADEMY 20")
 # => <Enrollment>
 ```
@@ -108,7 +109,8 @@ enrollment.kindergarten_participation_in_year(2010) # => 0.391
 Instead of loading just one data file into our `DistrictRepository`, we now want to specify the data directory and have it figure out what data it wants/needs:
 
 ```ruby
-dr = DistrictRepository.from_csv('./data')
+dr = DistrictRepository.new
+dr.load_data('./data')
 district = dr.find_by_name("ACADEMY 20")
 ```
 

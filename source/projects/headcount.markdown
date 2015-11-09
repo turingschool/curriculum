@@ -73,8 +73,7 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
     - [4. Test-Driven Development](#4-test-driven-development)
     - [5. Breaking Logic into Components](#5-breaking-logic-into-components)
     - [6. Code Sanitation](#6-code-sanitation)
-- [References](#references)
-    - [-](#-)
+- [Data Sources](#data-sources)
 
 <!-- markdown-toc end -->
 
@@ -740,9 +739,7 @@ The output from `rake sanitation:all` shows... (assuming I figure out how this t
 * 2: Six to ten complaints
 * 1: More than ten complaints
 
-# References
-
-### Data Sources
+# Data Sources
 
 * [Search Index](http://datacenter.kidscount.org/data#CO/10/0)
 * [Median Household Income](http://datacenter.kidscount.org/data/tables/6228-median-household-income?loc=7&loct=10#detailed/10/1278-1457/false/1376,1201,1074,880,815/any/12960)

@@ -4,6 +4,8 @@ title: Headcount
 sidebar: true
 ---
 
+# HeadCount
+
 Federal and state governments publish a huge amount of data. You can find
 a large collection of it on [Data.gov](http://data.gov) -- everything from land surveys
 to pollution to census data.
@@ -17,9 +19,9 @@ with CSV data we will eventually:
 
 We'll build upon a dataset centered around schools in Colorado provided by the Annie E. Casey foundation.
 
-## Project Overview
+# Project Overview
 
-### Learning Goals
+## Learning Goals
 
 * Use tests to drive both the design and implementation of code
 * Decompose a large application into components such as parsers, repositories, and analysis tools
@@ -27,7 +29,7 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
 * Connect related objects together through references
 * Learn an agile approach to building software
 
-### Getting Started
+## Getting Started
 
 1. One team member forks the repository at https://github.com/turingschool-examples/headcount and adds the others as collaborators.
 2. Everyone on the team clones the repository
@@ -36,11 +38,13 @@ We'll build upon a dataset centered around schools in Colorado provided by the A
    identify things that seem like they will be useful (eg to coordinate your work)
    and then use it for those things.
 
-### Functional Objectives
+## Functional Objectives
 
 __TODO - WHat DOES THE WHOLE THING ACTUALLY DO?__
 
-### Data Structure and Key Concepts
+## Data Structure and Key Concepts
+
+### Districts
 
 During this project, we'll be working with a large body of data
 that covers various information about Colorado school districts.
@@ -66,6 +70,7 @@ will re-appear as a District in other data files as well. The other columns
 indicate various information about the statistic being reported. Note that
 percentages appear as decimal values out of `1`, with `1` meaning 100% enrollment.
 
+## Aggregate Data Categories
 
 With the idea of a __District__ sitting at the top of our overall data hierarchy
 (it's the thing around which all the other information is organized), we can now
@@ -81,6 +86,8 @@ grade levels in each district
 broken down by grade level, race, and ethnicity
 * __Economic Profile__ - Information about socioeconomic profiles of
 students and within districts
+
+## Data Files by Category
 
 The list of files that are relevant to each data "category" are as follows:
 
@@ -139,7 +146,7 @@ Ultimately, a crude visualization of the structure might look like this:
 |  | -- Rates of students qualifying for Title I assistance
 ```
 
-## Base Expectations
+# Project Iterations and Base Expectations
 
 ## Iteration 0 - The Structure
 
@@ -193,12 +200,12 @@ This method returns a hash with years as keys and a truncated three-digit floati
 
 ```ruby
 enrollment.kindergarten_participation_by_year
-# => { 2010 => 0.391,
-#      2011 => 0.353,
-#      2012 => 0.267,
-#      2013 => 0.487,
-#      2014 => 0.490,
-#    }
+=> { 2010 => 0.391,
+     2011 => 0.353,
+     2012 => 0.267,
+     2013 => 0.487,
+     2014 => 0.490,
+   }
 ```
 
 ##### `.kindergarten_participation_in_year(year)`
@@ -290,12 +297,12 @@ This method returns a hash with years as keys and a truncated three-digit floati
 
 ```ruby
 enrollment.graduation_rate_by_year
-# => { 2010 => 0.895,
-#      2011 => 0.895,
-#      2012 => 0.889,
-#      2013 => 0.913,
-#      2014 => 0.898,
-#    }
+=> { 2010 => 0.895,
+     2011 => 0.895,
+     2012 => 0.889,
+     2013 => 0.913,
+     2014 => 0.898,
+     }
 ```
 
 #### `.graduation_rate_in_year(year)`
@@ -350,17 +357,17 @@ Then let's do the same calculation across a subset of districts:
 ha.kindergarten_participation_correlates_with_high_school_graduation(:across => ['district_1', 'district_2', 'district_3', 'district_4']) # => true
 ```
 
-### Iteration 2 - Another Relationship - Statewide Testing
+## Iteration 2 - Another Relationship - Statewide Testing
 
 ![Iteration 2](http://imgur.com/Rhpl1is.png)
 
-#### `District`
+### `District`
 
 The `District` class now also has the following additional method:
 
 * `statewide_testing` - returns an instance of `StatewideTesting`
 
-#### `StatewideTesting`
+### `StatewideTesting`
 
 The instance of this object represents data from the following files:
 
@@ -372,7 +379,7 @@ The instance of this object represents data from the following files:
 
 An instance of this class offers the following methods:
 
-##### `.proficient_by_grade(grade)`
+#### `.proficient_by_grade(grade)`
 
 This method takes one parameter:
 
@@ -387,17 +394,17 @@ as three digit floats.
 
 ```ruby
 statewide_testing.proficient_by_grade(3)
-# => { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
-#      2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
-#      2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
-#      2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
-#      2012 => {:math => 0.830, :reading => 0.870, :writing => 0.655},
-#      2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
-#      2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
-#    }
+=> { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
+     2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
+     2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
+     2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
+     2012 => {:math => 0.830, :reading => 0.870, :writing => 0.655},
+     2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
+     2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
+   }
 ```
 
-##### `.proficient_by_race_or_ethnicity(race)`
+#### `.proficient_by_race_or_ethnicity(race)`
 
 This method takes one parameter:
 
@@ -412,14 +419,14 @@ as truncated three digit floats.
 
 ```ruby
 statewide_testing.proficient_by_race_or_ethnicity(:asian)
-# => { 2011 => {math: 0.816, reading: 0.897, writing: 0.826},
-#      2012 => {math: 0.818, reading: 0.893, writing: 0.808},
-#      2013 => {math: 0.805, reading: 0.901, writing: 0.810},
-#      2014 => {math: 0.800, reading: 0.855, writing: 0.789},
-#    }
+=> { 2011 => {math: 0.816, reading: 0.897, writing: 0.826},
+     2012 => {math: 0.818, reading: 0.893, writing: 0.808},
+     2013 => {math: 0.805, reading: 0.901, writing: 0.810},
+     2014 => {math: 0.800, reading: 0.855, writing: 0.789},
+   }
 ```
 
-##### `.proficient_for_subject_by_grade_in_year(subject, grade, year)`
+#### `.proficient_for_subject_by_grade_in_year(subject, grade, year)`
 
 This method takes three parameters:
 
@@ -437,7 +444,7 @@ The method returns a truncated three-digit floating point number representing a 
 statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
 ```
 
-##### `.proficient_for_subject_by_race_in_year(subject, race, year)`
+#### `.proficient_for_subject_by_race_in_year(subject, race, year)`
 
 This method take three parameters:
 
@@ -455,7 +462,7 @@ The method returns a truncated three-digit floating point number representing a 
 statewide_testing.proficient_for_subject_by_race_in_year(:math, :asian, 2012) # => 0.818
 ```
 
-##### `.proficient_for_subject_in_year(subject, year)`
+#### `.proficient_for_subject_in_year(subject, year)`
 
 This method take two parameters:
 
@@ -472,7 +479,7 @@ The method returns a truncated three-digit floating point number representing a 
 statewide_testing.proficient_for_subject_in_year(:math, 2012) # => 0.680
 ```
 
-#### Analysis/Queries
+### Analysis / Queries
 
 #### Where is the most growth happening in statewide testing?
 
@@ -481,51 +488,54 @@ Consider that our data sources have absolute values, not growth.
 We're interested in who is making the most progress, not who scores the highest.
 That means calculating growth by comparing the absolute values across two or more years.
 
-##### A valid grade must be provided
+#### A valid grade must be provided
 
 Because there are multiple grades with which we could answer these questions,
 the grade must be provided, or an `InsufficientInformationError` should be raised.
 
 ```ruby
 ha.top_statewide_testing_year_over_year_growth(subject: :math)
-# ~> InsufficientInformationError: A grade must be provided to answer this question
+~> InsufficientInformationError: A grade must be provided to answer this question
 ```
 
 And only valid grades are allowed.
 
 ```ruby
-ha.top_statewide_testing_year_over_year_growth(grade: 3, subject: :math) # => ...some sort of result...
-ha.top_statewide_testing_year_over_year_growth(grade: 8, subject: :math) # => ...some sort of result...
-ha.top_statewide_testing_year_over_year_growth(grade: 9, subject: :math) # ~> UnknownDataError: 9 is not a known grade
+ha.top_statewide_testing_year_over_year_growth(grade: 3, subject: :math)
+=> ...some sort of result...
+ha.top_statewide_testing_year_over_year_growth(grade: 8, subject: :math)
+=> ...some sort of result...
+ha.top_statewide_testing_year_over_year_growth(grade: 9, subject: :math)
+~> UnknownDataError: 9 is not a known grade
 ```
 
-##### Finding a single leader
+#### Finding a single leader
 
 ```ruby
 ha.top_statewide_testing_year_over_year_growth(grade: 3, subject: :math)
-# => ['the top district name', 0.123]
+=> ['the top district name', 0.123]
 ```
 
 Where `0.123` is their average percentage growth across years. If there are three years of proficiency data, that's `((year 2 - year 1) + (year 3 - year 2))/2`.
 
-##### Finding multiple leaders
+#### Finding multiple leaders
 
 Let's say we want to be able to find several top districts using the same calculations:
 
 ```ruby
 ha.top_statewide_testing_year_over_year_growth(grade: 3, top: 3, subject: :math)
-# => [['top district name', growth_1], ['second district name', growth_2], ['third district name', growth_3]]
+=> [['top district name', growth_1], ['second district name', growth_2], ['third district name', growth_3]]
 ```
 
 Where `growth_1` through `growth_3` represents their average growth across years.
 
-##### Across all subjects
+#### Across all subjects
 
 What about growth across all three subject areas?
 
 ```ruby
 ha.top_statewide_testing_year_over_year_growth(grade: 3)
-# => ['the top district name', 0.111]
+=> ['the top district name', 0.111]
 ```
 
 Where `0.111` is the district's average percentage growth across years across subject areas.
@@ -534,12 +544,12 @@ But that considers all three subjects in equal proportion. No Child Left Behind 
 
 ```ruby
 ha.top_statewide_testing_year_over_year_growth(grade: 8, :weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0})
-# => ['the top district name', 0.111]
+=> ['the top district name', 0.111]
 ```
 
 The weights *must* add up to 1.
 
-### Iteration 3: Economic Profile
+## Iteration 3: Economic Profile
 
 ![Iteration 3](http://imgur.com/RYS8SJs.png)
 
@@ -621,7 +631,6 @@ the influence point on that category and make it a 3.
   To prove that the consensus exists, you need at least 5 students to "+1" the pull request.
   [Example](https://github.com/turingschool/curriculum/pull/1094)
 
-
 ### 1. Overall Functionality
 
 Currently, the analysis layer contains a lot of functionality that needs to be figured out
@@ -632,7 +641,6 @@ Currently, the analysis layer contains a lot of functionality that needs to be f
 * 2: Completes the Data Access Layer
 * 1: Passes that test in the "getting started" section that you should write first
 
-
 ### 2. Enumerables
 
 You may get 1 point for each of these, your score for this category is the sum of your points.
@@ -642,14 +650,12 @@ You may get 1 point for each of these, your score for this category is the sum o
 * Uses each of the following methods on `Hash` at least once: `Hash`: `fetch`, `[]`, `map` (note that this gives back an array that you can call `to_h` on)
 * At least 1 use of "symbol to proc"
 
-
 ### 3. Fundamental Ruby & Style
 
 * 4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring
 * 3:  Application shows strong effort towards organization, content, and refactoring
 * 2:  Application runs but the code has long methods, unnecessary or poorly named variables, and needs significant refactoring
 * 1:  Application generates syntax error or crashes during execution
-
 
 ### 4. Test-Driven Development
 
@@ -658,14 +664,12 @@ You may get 1 point for each of these, your score for this category is the sum o
 * 2: If I edit the code to be broken, then a test fails (in other words, the tests prove that the code is correct by failing when I add bugs to the code)
 * 1: Application does not demonstrate strong use of TDD
 
-
 ### 5. Breaking Logic into Components
 
 * 4: I can look at your code for the `DistrictRepository`, `District`, `Enrollment`, `StatewideTesting`, and not know whether you got your data from the CSV, or the JSON, or a test, or anywhere else.
 * 3: Application has multiple components with defined responsibilities but there is some leaking of responsibilities
 * 2: Application has some logical components but divisions of responsibility are inconsistent or unclear and/or there is a "God" object taking too much responsibility
 * 1: Application logic shows poor decomposition with too much logic mashed together
-
 
 ### 6. Code Sanitation
 
@@ -675,7 +679,6 @@ The output from `rake sanitation:all` shows... (assuming I figure out how this t
 * 3: Five or fewer complaints
 * 2: Six to ten complaints
 * 1: More than ten complaints
-
 
 ## References
 

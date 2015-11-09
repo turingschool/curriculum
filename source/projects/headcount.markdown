@@ -82,6 +82,63 @@ broken down by grade level, race, and ethnicity
 * __Economic Profile__ - Information about socioeconomic profiles of
 students and within districts
 
+The list of files that are relevant to each data "category" are as follows:
+
+__Enrollment__
+
+* Dropout rates by race and ethnicity.csv
+* High school graduation rates.csv
+* Kindergartners in full-day program.csv
+* Online pupil enrollment.csv
+* Pupil enrollment by race_ethnicity.csv
+* Pupil enrollment.csv
+* Special education.csv
+
+__Statewide Testing__
+
+* 3rd grade students scoring proficient or above on the CSAP_TCAP.csv
+* 8th grade students scoring proficient or above on the CSAP_TCAP.csv
+* Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv
+* Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv
+* Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv
+* Remediation in higher education.csv
+
+__Economic Profile__
+
+* Median household income.csv
+* School-aged children in poverty.csv
+* Students qualifying for free or reduced price lunch.csv
+* Title I students.csv
+
+To summarize, remember that the information in all of the data files is ultimately organized
+around __Districts__. Across multiple files, we can additionally identify
+a handful of conceptual categories, and we will use these categorizations to
+guide the abstractions we build around the data.
+
+Ultimately, a crude visualization of the structure might look like this:
+
+```
+- District: Gives access to all the data relating to a single, named school district
+|-- Enrollment: Gives access to enrollment data within that district, including:
+|  | -- Dropout rate information
+|  | -- Kindergarten enrollment rates
+|  | -- Online enrollment rates
+|  | -- Overall enrollment rates
+|  | -- Enrollment rates by race and ethnicity
+|  | -- High school graduation rates by race and ethnicity
+|  | -- Special education enrollment rates
+|-- Statewide Testing: Gives access to testing data within the district, including:
+|  | -- 3rd grade standardized test results
+|  | -- 8th grade standardized test results
+|  | -- Subject-specific test results by race and ethnicity
+|  | -- Higher education remediation rates
+|-- Economic Profile: Gives access to economic information within the district, including:
+|  | -- Median household income
+|  | -- Rates of school-aged children living below the poverty line
+|  | -- Rates of students qualifying for free or reduced price programs
+|  | -- Rates of students qualifying for Title I assistance
+```
+
 ## Base Expectations
 
 ## Iteration 0 - The Structure

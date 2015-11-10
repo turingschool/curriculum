@@ -8,6 +8,8 @@ sidebar: true
 
 Every project that we've done so far—with the exception of Game Time—has been bound by the whole HTTP request/response cycle. In this project, we're going to head off the beaten track for a bit and build real time applications with WebSockets. When the server gets new information, it pushes it out to all of the connected clients.
 
+Your mission in this project is to build one of two real-time applications based on the user personas explained below. You will choose the approach that you feel works best.
+
 ## Learning Objectives
 
 - Build a rich web application that leverages WebSockets to push data to connected clients in real time.
@@ -17,8 +19,13 @@ Every project that we've done so far—with the exception of Game Time—has bee
 
 This is your last project at Turing, which means you're about to go off and be developers out in the real world. A big topic for Module 4 has been this idea of trade-offs. Your mission is to complete a base set of requires and satisfy the user personas described below. How you choose to approach it is up to you. Some possible approaches might be:
 
-- Build a Node application that starts off just keeping all of the data in memory using local variables. This is problematic because if your process crashes it will lose all of that data in memory. On the other hand, it's simple to get up and running.
-- Build two applications: a Rails application that handles data persistence, providing an API, and serving static assets along with a Node application that focuses exclusively on pushing messages to client over WebSocket connections.
+### On the Server
+
+- Build a Node application that starts off just keeping all of the data in memory using local variables. This is problematic because if your process crashes it will lose all of that data in memory. On the other hand, it's simple to get up and running. Once you have the basic application up and running, you can use a simple key-value data store like Redis to persist your data in the event that your process goes down.
+- Build two applications: a Rails application that handles data persistence, providing an API, and serving static assets along with a Node application that focuses exclusively on pushing messages to client over WebSocket connections. You could use Redis to facilitate PubSub messaging between the two applications.
+
+### On the Client
+
 - Use jQuery for all updating and DOM manipulations.
 - Explore a front-end framework like Ember or React to handle all of the client-side concerns of your application.
 

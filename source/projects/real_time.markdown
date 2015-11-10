@@ -42,7 +42,7 @@ This is your last project at Turing, which means you're about to go off and be d
   - He drops the link into Slack and his students vote.
   - Steve feels pleased when he sees that 100% of his students are absolute masters of everything he has ever taught.
   - He turns off the poll before a certain student that comes late every day arrives and messes up his perfect score.
-- Tan is a software engineer who often finds him self in the odd position of not having enough to do. As a result, he often stops by his old school to grab lunch or a cup of decaffeinated tea with the current students there. But, the neighbor gets pretty busy around lunch time and trying to figure out where to eat can take a while and by the time everyone agrees, most places are already full.
+- Tan is a software engineer who often finds him self in the odd position of not having enough to do. As a result, he often stops by his old school to grab lunch or a cup of decaffeinated tea with the current students there. But, the neighborhood gets pretty busy around lunch time, and trying to figure out where to eat can take a while and by the time everyone agrees, most places are already full.
   - These days, Tan uses Crowdsource to tally everyone's preferences before he arrives.
   - Tan puts in three or four local places into the application and generates a new poll. He chooses to share the results as they come in. As a result each voting page is also showing the results in real time as they come in.
   - Before leaving the house, he realizes that he is going to need to have this decided by the time he gets there. He chooses a time to have the poll automatically close.

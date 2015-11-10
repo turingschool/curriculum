@@ -585,17 +585,6 @@ require 'notifications'
 
 #### Fourth Try
 
-Run `rake`.
-
-It complains that it can't find the file. Put the following line at
-the top of the test helper to put `lib` on the load path:
-
-```ruby
-$:.unshift File.expand_path("./../../lib", __FILE__)
-```
-
-#### Fifth Try
-
 Run `rake` again, and finally we get the correct error: _undefined method
 'answer'_.
 

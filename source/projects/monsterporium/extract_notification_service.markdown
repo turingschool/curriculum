@@ -125,7 +125,7 @@ There are currently no controller tests that create a user and trigger the welco
 `spec/features/anon_user_creates_account_spec.rb` to deliver to mailcatcher,
 let's create a controller spec that triggers the email.
 
-In `spec/controllers/users_controller_spec.rb` add this spec:
+In `spec/controllers/users_controller_spec.rb`, within the `describe UsersController do` block, add this spec:
 
 ```ruby
 describe "#create" do
@@ -234,6 +234,13 @@ The hash might look like this:
 {name: "John Doe", email: "john@example.com"}
 ```
 
+Or, if you wanted to keep the user that is created through FactoryGirl, you could have something like this:
+
+```ruby
+user = FactoryGirl.create(:user)
+Mailer.welcome_email({"name" => user.full_name, "email" => user.email}).deliver
+```
+
 Run just that spec and see it fail:
 
 {% terminal %}
@@ -267,7 +274,9 @@ Now go to the `welcome_email` method and rewrite it to expect a hash coming in w
 
 **Note**: Pretty soon that hash is going to be going through a JSON parsing. When it comes back from the JSON library, the keys will all be strings. So we might as well use strings for the keys now to avoid surprises later.
 
-Run the spec, but it should still be failing.
+Run just that spec again, it should now be passing.
+
+Run the whole spec suite, some should still be failing.
 
 #### Changing `SignupConfirmation`
 
@@ -378,7 +387,7 @@ The actual messaging will take place in the `PurchaseConfirmation` and `SignupCo
 * When an email needs to be sent, publish a message to Redis
 * The existing `Mailer` functionality remains
 
-We'll use a channel named `"email_notifications"`. 
+We'll use a channel named `"email_notifications"`.
 
 ### A Temporary Listener
 
@@ -455,7 +464,7 @@ Did you get **two more emails**? Then you're ready to move on.
 
 #### Removing the Direct Email
 
-Comment out the line in `PurchaseConfirmation` and `SignupConfirmation` that triggers the email delivery. 
+Comment out the line in `PurchaseConfirmation` and `SignupConfirmation` that triggers the email delivery.
 
 Run `rspec spec/controllers` and verify that they all pass and a total of only *three* emails are delivered.
 

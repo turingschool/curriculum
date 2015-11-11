@@ -31,7 +31,7 @@ Project implementation may **not** use:
 
 1. One team member creates a repository named "dinner_dash"
 2. Add the other team members as collaborators
-3. Add your project to Waffle.io 
+3. Add your project to Waffle.io
 4. Configure [Hound](https://houndci.com/) for style guide violations
 5. Configure [Skylight](http://docs.skylight.io/getting-started/) to monitor your app's performance
 6. Create issues for user stories
@@ -101,11 +101,10 @@ As an Administrator, I can also view an order "dashboard" where I can:
 * See a listing of all orders with:
   * the total number of orders by status
   * links for each individual order
-  * filter orders to display by status type (for statuses "ordered", "paid", "cancelled", "completed")
+  * filter orders to display by status type (for statuses "ordered", "cancelled", "completed")
   * link to transition to a different status:
-      * link to "cancel" individual orders which are currently "ordered" or "paid"
-      * link to "mark as paid" orders which are "ordered"
-      * link to "mark as completed" individual orders which are currently "paid"
+      * link to "cancel" individual orders which are currently "ordered"
+      * link to "mark as completed" individual orders which are currently "ordered"
 * Access details of an individual order, including:
   * Order date and time
   * Purchaser full name and email address
@@ -164,7 +163,7 @@ To support the evaluation process, please make the following available via the `
 
 ## Submission Guidelines
 
-* Your project must be live on Heroku for your evaluation 
+* Your project must be live on Heroku for your evaluation
 * Your `README` file on GitHub should contain a link to your live site
 
 ## Extensions
@@ -177,7 +176,7 @@ You can't place a pickup order and expect it ready immediately. Predict the pick
 
 * Each item in the store has a preparation time, defaulting to 12 minutes. Items can be edited to take longer.
 * If an order has more than six items, add 10 minutes for every additional six items.
-* Each already "paid" order in the system which is not "complete" delays the production start of this new order by 4 minutes.
+* Each already "ordered" order in the system which is not "complete" delays the production start of this new order by 4 minutes.
 
 ### SAVINGS! SAVINGS! SAVINGS!
 
@@ -247,6 +246,8 @@ Search orders using a builder-style interface (like Google's "Advanced Search") 
 
 Implement a "checkout" procedure using Stripe, Paypal or another service to handle credit card transactions in a "sandboxed" developer environment.
 
+Implement a new status for orders, "paid", that will be used when the order has been "ordered" but not yet "completed".
+
 When the card is processed, update the order to "paid" and send a confirmation email to the user. Emails should _only_ be sent when the app is in `production` mode. Don't spam people while you're getting it working.
 
 ### Phone Confirmation
@@ -310,6 +311,6 @@ following criteria:
 ### 7. Workflow
 
 * 4: Excellent use of branches, pull requests, and a project management tool.
-* 3: Good use of branches, pull requests, and a project-management tool. 
-* 2: Sporadic use of branches, pull requests, and/or project-management tool. 
+* 3: Good use of branches, pull requests, and a project-management tool.
+* 2: Sporadic use of branches, pull requests, and/or project-management tool.
 * 1: Little use of branches, pull requests, and/or a project-management tool.

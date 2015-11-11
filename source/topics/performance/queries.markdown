@@ -255,7 +255,7 @@ If an object is _always_ going to load its child records then a `default_scope` 
 Continuing with our previous example, suppose we always want the comments for an article to be loaded.  Instead of having to remember to add `include: :comments` to all finder calls add the following to the `Article` model:
 
 ```ruby
-default_scope include: {comments: :approval}
+default_scope { includes( comments: :approval )}
 ```
 
 After the above has been added to the model, then `Article.find(1)` will include the associated `comments`. Therefore, if you need that article's comments, another database query is no longer necessary.
@@ -277,7 +277,7 @@ And the default scope will be ignored.
 You can write your own custom scopes in `ActiveRecord` models. To achieve the same goal as before, we might write this one:
 
 ```ruby
-scope :with_comments, include: {comments: :approval}
+scope :with_comments, -> { includes( comments: :approval )}
 ```
 
 The `Article` model now has a `with_comments` scope that can be used where associated `comments` and `approval` are eager loaded, but other calls to the model will not pay the cost of loading the comments.

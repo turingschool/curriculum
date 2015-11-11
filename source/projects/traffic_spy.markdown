@@ -107,7 +107,7 @@ with the following data for the client:
 {"identifier":"jumpstartlab"}
 ```
 
-* identifier - the unique identitier for the application that has been created
+* identifier - the unique identifier for the application that has been created
   for the client.
 
 You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html). 
@@ -212,7 +212,7 @@ http://yourapplication:port/sources/jumpstartlab/urls/article/1
 http://yourapplication:port/sources/jumpstartlab/urls/about
 ```
 
-When the url for the identifier does exists:
+When the url for the identifier does exist:
 
 * Longest response time
 * Shortest response time

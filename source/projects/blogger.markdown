@@ -650,7 +650,7 @@ What are all those? We see the `{` and `}` on the outside, representing a `Hash`
 * `article` : Points to a nested hash with the data from the form itself
   * `title` : The title from the form
   * `body` : The body from the form
-* `commit` : This key holds the text of the button they clicked. From the server side, clicking a "Save" or "Cancel" button look exactly the same except for this parameter.
+* `commit` : This key holds the text of the button they clicked. From the server side, clicking a "Save" or "Cancel" button looks exactly the same except for this parameter.
 * `action` : Which controller action is being activated for this request
 * `controller` : Which controller class is being activated for this request
 

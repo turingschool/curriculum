@@ -439,6 +439,8 @@ In that listener, instead of a meaningless `puts` statement, it's time to actual
 * Determine what kind of email needs to be sent
 * Call the appropriate `Mailer` method and send in the data
 
+**Note**: You will need to stop and restart your `lib/notifications.rb` file after making your changes.
+
 #### Double-Sending Email
 
 Our Rails application is still sending the emails, but our listener should also be sending the emails. As a result, we should be getting duplicate emails.

@@ -822,6 +822,8 @@ class FakeEmail
 end
 ```
 
+**Note**: You will need to `require 'erb'` in your test.
+
 The test is **almost** passing. The whitespace at the end of the template
 doesn't matter, let's just get rid of it:
 

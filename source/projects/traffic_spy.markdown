@@ -203,7 +203,7 @@ When an identifier does exist, but no payload data has been submitted for the so
 A client is able to view URL specific data at the following address:
 
 ```
-http://yourapplication:port/sources/IDENTIFIER/urls/RELATIVE/PATH
+http://yourapplication:port/sources/IDENTIFIER/urls/RELATIVEPATH
 
 Examples:
 

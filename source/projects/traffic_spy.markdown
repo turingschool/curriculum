@@ -46,11 +46,11 @@ You'll want to set up the [DatabaseCleaner](https://github.com/DatabaseCleaner/d
   DatabaseCleaner.strategy = :truncation, {except: %w[public.schema_migrations]}
 ```
 
-Want to read more about the bug? Click [here](https://github.com/DatabaseCleaner/database_cleaner/issues/317). 
+Want to read more about the bug? Click [here](https://github.com/DatabaseCleaner/database_cleaner/issues/317).
 
-You will also probably want to set up a [rake task to run your tests](http://ruby-doc.org/stdlib-2.0/libdoc/rake/rdoc/Rake/TestTask.html). 
+You will also probably want to set up a [rake task to run your tests](http://ruby-doc.org/stdlib-2.0/libdoc/rake/rdoc/Rake/TestTask.html).
 
-See the "Resources" section at the bottom of this page for additional helpful documentation. 
+See the "Resources" section at the bottom of this page for additional helpful documentation.
 
 Before starting, make sure you have the [Postgres App](http://postgresapp.com/) installed.
 
@@ -110,7 +110,7 @@ with the following data for the client:
 * identifier - the unique identifier for the application that has been created
   for the client.
 
-You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html). 
+You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html).
 
 ### Processing Requests
 
@@ -218,7 +218,7 @@ When the url for the identifier does exist:
 * Shortest response time
 * Average response time
 * Which HTTP verbs have been used
-* Most popular referrrers
+* Most popular referrers
 * Most popular user agents
 
 When the url for the identifier does not exist:
@@ -365,7 +365,7 @@ Presuming that a user is likely to keep statistics pages open for a long time, u
 
 ## Extension: HTTP Authentication
 
-Use HTTP Auth to "secure" the data dashboard. 
+Use HTTP Auth to "secure" the data dashboard.
 
 ## Resources
 

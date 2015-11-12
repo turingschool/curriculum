@@ -6,12 +6,12 @@ title: Pushing Logic Down the Stack
 ## High Level
 
 In an MVC application the Controller has a lot of jobs, which means that over
-time it tends to attract code. To build high-quality applications to try and
+time it tends to attract code. The goal is to build high-quality applications that
 push logic down the stack towards the models.
 
 ### Learning Goals
 
-Through this discussion you should developer a stronger understanding of:
+Through this discussion you should develop a stronger understanding of:
 
 * What does and doesn't belong in a controller?
 * Why are controllers difficult to reason about and test?

@@ -84,7 +84,7 @@ ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADE
 Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
 
 ```ruby
-ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'COLORADO') # => true
+ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE') # => true
 ```
 
 Then let's do the same calculation across a subset of districts:

@@ -120,23 +120,6 @@ The method returns a truncated three-digit floating point number representing a 
 statewide_test.proficient_for_subject_by_race_in_year(:math, :asian, 2012) # => 0.818
 ```
 
-### `.proficient_for_subject_in_year(subject, year)`
-
-This method take two parameters:
-
-* `subject` as a symbol from the following set: `[:math, :reading, :writing]`
-* `year` as an integer for any year reported in the data
-
-A call to this method with any invalid parameter (like subject of `:history`) should raise an `UnknownDataError`.
-
-The method returns a truncated three-digit floating point number representing a percentage.
-
-*Example*:
-
-```ruby
-statewide_test.proficient_for_subject_in_year(:math, 2012) # => 0.680
-```
-
 ## Relationship: `District` to `StatewideTest`
 
 When the `DistrictRepository` is built from the data folder, an instance of `District` should now be connected to an instance of `StatewideTest`:

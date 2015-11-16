@@ -128,6 +128,30 @@ We'll add another relationship:
 
 ## Analysis
 
+### Which districts have both high poverty and a high school graduation rate?
+
+Which districts match all of these criteria:
+
+* Above the statewide average in number of students qualifying for free and reduced price lunch
+* Above the statewide average percentage of school-aged children in poverty
+* Above the statewide average high school graduation rate
+
+```ruby
+ha.high_poverty_and_high_school_graduation
+# =>
+#  [
+#   ["District 1", {:free_and_reduced_price_lunch => 0.021,
+#                   :children_in_poverty => 0.023,
+#                   :high_school_graduation => 0.67}],
+#   ["District 2", {:free_and_reduced_price_lunch => 0.021,
+#                   :children_in_poverty => 0.023,
+#                   :high_school_graduation => 0.67}],
+#   ["Statewide Average", {:free_and_reduced_price_lunch => 0.019,
+#                   :children_in_poverty => 0.018,
+#                   :high_school_graduation => 0.55}],
+#  ]
+```
+
 ### How does kindergarten participation variation compare to the median household income variation?
 
 Does a higher median income mean more kids enroll in Kindergarten? For a single district:

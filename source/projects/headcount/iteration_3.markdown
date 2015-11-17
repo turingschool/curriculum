@@ -290,13 +290,20 @@ Does a higher median income mean more kids enroll in Kindergarten? For a single 
 ha.kindergarten_participation_against_household_income('ACADEMY 20') # => 1.234
 ```
 
-Consider the *kindergarten variation* to be the result calculated against the state average as described above.
-The *median income variation* is a similar calculation of the district's median income divided by the state average median income.
+To determine this value, we'll take the district's `kindergarten_variation` and
+divide it by the district's `median_income_variation`, where:
+
+* *kindergarten variation* is defined as the district's average kindergarten participation
+compared against the state's average as described in iteration 1.
+* *median income variation* defined as the district's average median income divided by the state's average median income
+as defined in iteration 3
+
 Then dividing the *kindergarten variation* by the *median income variation* results in `1.234` in the sample.
 
-If this result is close to `1`, then we'd infer that the *kindergarten variation* and the *median income variation* are closely related.
 
 ### Statewide does the kindergarten participation correlate with the median household income?
+
+If this result is close to `1`, then we'd infer that the *kindergarten variation* and the *median income variation* are closely related.
 
 Let's consider the `kindergarten_participation_against_household_income` and set a correlation window between `0.6` and `1.5`.
 If the result is in that range then we'll say that these percentages are correlated. For a single district:

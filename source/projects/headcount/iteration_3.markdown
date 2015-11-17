@@ -36,7 +36,19 @@ ep = epr.find_by_name("ACADEMY 20")
 
 ## `EconomicProfile`
 
-An instance of this class contains the data from the file above for a single district and offers the following methods:
+An instance of this class contains the data from the file above for a single district.
+We would create one like this:
+
+```ruby
+data = {:median_household_income => {2015 => 50000, 2014 => 60000},
+        :children_in_poverty => {2012 => 0.1845},
+        :free_or_reduced_price_lunch => {2014 => {:percentage => 0.023, :total => 100}},
+        :title_i => {2015 => 0.543},
+       }
+economic_profile = EconomicProfile.new(data)
+```
+
+And it would offer the following methods:
 
 ### `.median_household_income_in_year(year)`
 
@@ -51,9 +63,8 @@ The method returns an integer.
 *Example*:
 
 ```ruby
-economic_profile.median_household_income_in_year(2012)
-=> 53125
-
+economic_profile.median_household_income_in_year(2015)
+=> 50000
 ```
 
 ### `.median_household_income_average`
@@ -64,7 +75,7 @@ This method takes no parameters. It returns an integer averaging the known media
 
 ```ruby
 economic_profile.median_household_income_average
-=> 51234
+=> 60000
 ```
 
 ### `.children_in_poverty_in_year(year)`
@@ -81,10 +92,10 @@ The method returns a float representing a percentage.
 
 ```ruby
 economic_profile.children_in_poverty_in_year(2012)
-=> 0.203
+=> 0.184
 ```
 
-### `.free_or_reduced_price_lunch_in_year(year)`
+### `.free_or_reduced_price_lunch_percentage_in_year(year)`
 
 This method takes one parameter:
 
@@ -97,8 +108,26 @@ The method returns a float representing a percentage.
 *Example*:
 
 ```ruby
-economic_profile.free_or_reduced_price_lunch_in_year(2012)
-=> 0.125
+economic_profile.free_or_reduced_price_lunch_in_year(2014)
+=> 0.023
+```
+
+### `.free_or_reduced_price_lunch_number_in_year(year)`
+
+This method takes one parameter:
+
+* `year` as an integer
+
+A call to this method with an unknown year should raise an `UnknownDataError`.
+
+The method returns an integer representing the total number of children
+on Free or Reduced Price Lunch in that year.
+
+*Example*:
+
+```ruby
+economic_profile.free_or_reduced_price_lunch_total_in_year(2012)
+=> 100
 ```
 
 ### `.title_i_in_year(year)`
@@ -114,8 +143,8 @@ The method returns a float representing a percentage.
 *Example*:
 
 ```ruby
-economic_profile.title_i_in_year(2012)
-=> 0.010
+economic_profile.title_i_in_year(2015)
+=> 0.543
 ```
 
 ## Relationships

@@ -80,7 +80,7 @@ The method returns a float representing a percentage.
 *Example*:
 
 ```ruby
-economic_profile.children_in_poverty(2012)
+economic_profile.children_in_poverty_in_year(2012)
 => 0.203
 ```
 

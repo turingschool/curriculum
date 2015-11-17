@@ -204,7 +204,7 @@ Where `0.111` is the district's average percentage growth across years across su
 But that considers all three subjects in equal proportion. No Child Left Behind guidelines generally emphasize reading and math, so let's add the ability to weight subject areas:
 
 ```ruby
-ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0})
+ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
 => ['the top district name', 0.111]
 ```
 

@@ -166,19 +166,20 @@ Which districts match all of these criteria:
 * Above the statewide average high school graduation rate
 
 ```ruby
-ha.high_poverty_and_high_school_graduation
-# =>
-#  [
-#   ["District 1", {:free_and_reduced_price_lunch => 0.021,
-#                   :children_in_poverty => 0.023,
-#                   :high_school_graduation => 0.67}],
-#   ["District 2", {:free_and_reduced_price_lunch => 0.021,
-#                   :children_in_poverty => 0.023,
-#                   :high_school_graduation => 0.67}],
-#   ["Statewide Average", {:free_and_reduced_price_lunch => 0.019,
-#                   :children_in_poverty => 0.018,
-#                   :high_school_graduation => 0.55}],
-#  ]
+rs = ha.high_poverty_and_high_school_graduation
+# => <ResultSet>
+rs.matching_districts.count
+# => 2
+rs.matching_districts
+# => [<ResultEntry>, <ResultEntry>]
+rs.statewide_average
+# => <ResultEntry>
+rs.statewide_average.free_and_reduced_price_lunch_rate
+# => 0.019
+rs.statewide_average.children_in_poverty_rate
+# => 0.023
+rs.statewide_average.high_school_graduation_rate
+# => 0.67
 ```
 
 ### Where do we see significant income disparity?

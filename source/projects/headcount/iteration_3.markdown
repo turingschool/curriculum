@@ -175,13 +175,13 @@ rs.matching_districts.count
 # => 2
 rs.matching_districts
 # => [<ResultEntry>, <ResultEntry>]
-# rs.matching_districts.first.name
+rs.matching_districts.first.name
 # => "District 1"
-# rs.matching_districts.first.free_and_reduced_price_lunch_rate
+rs.matching_districts.first.free_and_reduced_price_lunch_rate
 # => 0.021
-# rs.matching_districts.first.children_in_poverty_rate
+rs.matching_districts.first.children_in_poverty_rate
 # => 0.023
-# rs.matching_districts.first.high_school_graduation_rate
+rs.matching_districts.first.high_school_graduation_rate
 # => 0.67
 rs.statewide_average
 # => <ResultEntry>
@@ -209,11 +209,11 @@ rs.matching_districts.count
 # => 2
 rs.matching_districts
 # => [<ResultEntry>, <ResultEntry>]
-# rs.matching_districts.first.name
+rs.matching_districts.first.name
 # => "District 1"
-# rs.matching_districts.first.median_household_income
+rs.matching_districts.first.median_household_income
 # => 52000
-# rs.matching_districts.first.children_in_poverty
+rs.matching_districts.first.children_in_poverty
 # => 0.023
 rs.statewide_average
 # => <ResultEntry>

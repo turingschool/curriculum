@@ -152,6 +152,28 @@ ha.high_poverty_and_high_school_graduation
 #  ]
 ```
 
+### Where do we see significant income disparity?
+
+There are obviously going to be some wealthy and some poorer school districts. But which districts show a high disparity in income by both having a high median income and a high rate of child poverty?
+
+Which districts satisfy all of the following:
+
+* Above the statewide average in median household income
+* Above the statewide average percentage of school-aged children in poverty
+
+```ruby
+ha.high_income_disparity
+# =>
+#  [
+#   ["District 1", {:median_household_income => 52000,
+#                   :children_in_poverty => 0.023}],
+#   ["District 2", {:median_household_income => 51000,
+#                   :children_in_poverty => 0.022}],
+#   ["Statewide Average", {:median_household_income => 48000,
+#                   :children_in_poverty => 0.017}],
+#  ]
+```
+
 ### How does kindergarten participation variation compare to the median household income variation?
 
 Does a higher median income mean more kids enroll in Kindergarten? For a single district:

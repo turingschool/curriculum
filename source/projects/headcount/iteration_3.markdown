@@ -76,11 +76,13 @@ economic_profile.median_household_income_in_year(2009)
 
 This method takes no parameters. It returns an integer averaging the known median household incomes.
 
+This should be an average of the reported income from all the available year ranges.
+
 *Example*:
 
 ```ruby
 economic_profile.median_household_income_average
-=> 60000
+=> 55000
 ```
 
 ### `.children_in_poverty_in_year(year)`
@@ -162,6 +164,61 @@ We'll add another relationship:
 
 ## Analysis
 
+
+### ResultSets
+
+For the analysis queries in the following sections, we'll often be
+reporting multiple results in answer to a given query.
+
+To clarify this process, let's use a dedicates `ResultSet` object that aggregates
+and provides an interface into the given results.
+
+The `ResultSet` will represent the aggregate collection of results, and
+each data element will be respresented as a `ResultEntry` within that
+collection.
+
+The `ResultSet` should have the following methods:
+
+* `#matching_districts` - returns an array of `ResultEntry` objects
+* `#statewide_average` - returns a single `ResultEntry` object representing the average across the state
+
+The `ResultEntry` should be a simple wrapper around a hash that
+exposes certain keys of the hash as methods.
+
+The accepted keys will be the following:
+
+* `:free_and_reduced_price_lunch_rate`
+* `:children_in_poverty_rate`
+* `:high_school_graduation_rate`
+* `:median_household_income`
+
+Each of these keys should be accessible by invoking a method
+of the same name.
+
+**Example:**
+
+```ruby
+r1 = ResultEntry.new({free_and_reduced_price_lunch_rate: 0.5,
+	children_in_poverty_rate: 0.25,
+    high_school_graduation_rate: 0.75})
+r2 = ResultEntry.new({free_and_reduced_price_lunch_rate: 0.3,
+	children_in_poverty_rate: 0.2,
+    high_school_graduation_rate: 0.6})
+
+rs = ResultSet.new(matching_districts: [r1], statewide_average: r2)
+
+rs.matching_districts.first.free_and_reduced_price_punch_rate # => 0.5
+rs.matching_districts.first.children_in_poverty_rate # => 0.25
+rs.matching_districts.first.high_school_graduation_rate # => 0.75
+
+rs.statewide_average.free_and_reduced_price_punch_rate # => 0.3
+rs.statewide_average.children_in_poverty_rate # => 0.2
+rs.statewide_average.high_school_graduation_rate # => 0.6
+```
+
+**Note** That every key might not be present for every `ResultEntry` --
+the methods whose keys are missing should return `nil` in these cases.
+
 ### Which districts have both high poverty and a high school graduation rate?
 
 Which districts match all of these criteria:
@@ -169,9 +226,6 @@ Which districts match all of these criteria:
 * Above the statewide average in number of students qualifying for free and reduced price lunch
 * Above the statewide average percentage of school-aged children in poverty
 * Above the statewide average high school graduation rate
-
-Additionally, let's use a dedicated "Result Set" object that aggregates
-and provides an interface into these results.
 
 ```ruby
 rs = ha.high_poverty_and_high_school_graduation
@@ -218,7 +272,7 @@ rs.matching_districts.first.name
 # => "District 1"
 rs.matching_districts.first.median_household_income
 # => 52000
-rs.matching_districts.first.children_in_poverty
+rs.matching_districts.first.children_in_poverty_rate
 # => 0.023
 rs.statewide_average
 # => <ResultEntry>

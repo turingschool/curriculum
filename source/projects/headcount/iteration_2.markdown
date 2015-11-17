@@ -177,7 +177,7 @@ ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
 => ['the top district name', 0.123]
 ```
 
-Where `0.123` is their average percentage growth across years. If there are three years of proficiency data, that's `((year 2 - year 1) + (year 3 - year 2))/2`.
+Where `0.123` is their average percentage growth across years. If there are three years of proficiency data (year1, year2, year3), that's `((proficiency at year3) - (proficiency at year1)) / (year3 - year1)`.
 
 #### Finding multiple leaders
 

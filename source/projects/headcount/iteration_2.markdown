@@ -24,7 +24,7 @@ str = StatewideTestRepository.new
 str.load_data({
   :statewide_testing => {
     :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
-    :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+    :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
     :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
     :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
     :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
@@ -133,7 +133,7 @@ dr.load_data({
   },
   :statewide_testing => {
     :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
-    :eigth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+    :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
     :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
     :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
     :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
@@ -177,7 +177,7 @@ ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
 => ['the top district name', 0.123]
 ```
 
-Where `0.123` is their average percentage growth across years. If there are three years of proficiency data, that's `((year 2 - year 1) + (year 3 - year 2))/2`.
+Where `0.123` is their average percentage growth across years. If there are three years of proficiency data (year1, year2, year3), that's `((proficiency at year3) - (proficiency at year1)) / (year3 - year1)`.
 
 #### Finding multiple leaders
 
@@ -204,7 +204,7 @@ Where `0.111` is the district's average percentage growth across years across su
 But that considers all three subjects in equal proportion. No Child Left Behind guidelines generally emphasize reading and math, so let's add the ability to weight subject areas:
 
 ```ruby
-ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math = 0.5, :reading => 0.5, :writing => 0.0})
+ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
 => ['the top district name', 0.111]
 ```
 

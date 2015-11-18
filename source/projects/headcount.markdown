@@ -139,8 +139,9 @@ them into Iterations in their own files:
 * [Iteration 1](headcount/iteration_1.markdown) - High School Graduation
 * [Iteration 2](headcount/iteration_2.markdown) - Statewide Testing
 * [Iteration 3](headcount/iteration_3.markdown) - Economic Profile
-* Iteration 4 - Total Enrollment (coming soon)
-* Iteration 5 - Special Education, Remediation, and Dropout Rates (coming soon)
+* [Iteration 4](headcount/iteration_4.markdown) - Economic Analysis
+* Iteration 5 - Total Enrollment (coming soon)
+* Iteration 6 - Special Education, Remediation, and Dropout Rates (coming soon)
 
 ## Evaluation Rubric
 

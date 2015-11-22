@@ -86,7 +86,7 @@ Mary mentors up and coming software engineers because of the deep joy generates 
 
 - She heads over to the Personal Time website and creates a bunch of slots. She notices that the site already knew she was on Eastern Time. She puts in a number of time slots.
 - She sends the link out to her proteges.
-- When they visit the page, they all of the dates and times in their current time zones as well, so there is no confusion about when they're meeting.
+- When they visit the page, they see all of the dates and times in their current time zones as well, so there is no confusion about when they're meeting.
 
 ## Evaluation Criteria
 

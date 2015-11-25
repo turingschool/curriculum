@@ -134,7 +134,7 @@ on Free or Reduced Price Lunch in that year.
 *Example*:
 
 ```ruby
-economic_profile.free_or_reduced_price_lunch_total_in_year(2012)
+economic_profile.free_or_reduced_price_lunch_number_in_year(2012)
 => 100
 ```
 

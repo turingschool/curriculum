@@ -230,7 +230,7 @@ In the first call to `split` it tries to cut on spaces but there are none, so yo
 
 #### `.sub` and `.gsub`
 
-These two methods can be used to replace parts of a string. They're like using "Find & Replace" in a word processor. `.sub`, short for substitute, replaces just a single occurance. `.gsub`, short for global substitute, replaces all occurances (like "Replace All").
+These two methods can be used to replace parts of a string. They're like using "Find & Replace" in a word processor. `.sub`, short for substitute, replaces just a single occurence. `.gsub`, short for global substitute, replaces all occurences (like "Replace All").
 
 For both `.sub` and `.gsub` you'll need to specify two arguments: first the substring you're wanting to replace and second the string you want to replace it with.
 

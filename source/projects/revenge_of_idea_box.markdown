@@ -5,7 +5,7 @@ sidebar: true
 points: 150
 ---
 
-**Nota bene**: This project is the spiritual successor to [Idea Box][ib], but there is no requirement that you need to have done or even be away of Idea Box to be successful on this project.
+**Nota bene**: This project is the spiritual successor to [Idea Box][ib], but there is no requirement that you need to have done or even be aware of Idea Box to be successful on this project.
 
 [ib]: ./idea_box.markdown
 
@@ -58,7 +58,7 @@ We'll be primarily working with _Idea_ objects.
 
 On the application's root, the user should:
 
-* See a list of all existing ideas, including the title, body, and quality for each idea. (2 points, manditory for specification adherence)
+* See a list of all existing ideas, including the title, body, and quality for each idea. (2 points, mandatory for specification adherence)
 * Idea bodies longer than 100 characters should be truncated to the nearest word. (5 points)
 * Ideas should appear in descending chronological order (with the most recently created
   idea at the top). (3 points)
@@ -70,14 +70,14 @@ On the application's root, the user should:
 On the application's main page, a user should:
 
 * See two text boxes for entering the "Title" and "Body" for a new idea,
-  and a "Save" button for committing that idea. (3 points, manditory for specification adherence)
+  and a "Save" button for committing that idea. (3 points, mandatory for specification adherence)
 
 When a user clicks "Save":
 
-* A new idea with the provided title and body should appear in the idea list. (5 points, manditory for specification adherence)
+* A new idea with the provided title and body should appear in the idea list. (5 points, mandatory for specification adherence)
 * The text fields should be cleared and ready to accept a new idea. (2 points)
-* The page _should not_ reload. (3 points, manditory for specification adherence)
-* The idea should be committed to the database. It should still be present upon reloading the page. (2 points, manditory for specification adherence)
+* The page _should not_ reload. (3 points, mandatory for specification adherence)
+* The idea should be committed to the database. It should still be present upon reloading the page. (2 points, mandatory for specification adherence)
 
 #### Deleting an existing idea
 
@@ -86,9 +86,9 @@ When a user clicks "Save":
 When viewing the idea list:
 
 * Each idea in the list should have a link or button to "Delete" (or 𝗫, etc). (2 points)
-* Upon clicking "Delete", the appropriate idea should be removed from the list (5 points, manditory for specification adherence).
-* The page _should not_ reload when an idea is deleted. (5 points, manditory for specification adherence)
-* The idea should be removed from the database. It should not re-appear on next page load. (3 points, manditory for specification adherence)
+* Upon clicking "Delete", the appropriate idea should be removed from the list (5 points, mandatory for specification adherence).
+* The page _should not_ reload when an idea is deleted. (5 points, mandatory for specification adherence)
+* The idea should be removed from the database. It should not re-appear on next page load. (3 points, mandatory for specification adherence)
 
 #### Changing the quality of an idea
 
@@ -109,10 +109,10 @@ As we said above, ideas should start out as "swill." In order to change the reco
 
 * Each idea on the idea list should include a link or button to edit the idea. (4 points)
 * Clicking this link should _not_ take the user to a separate "edit" page for the given
-  idea. (4 points, manditory for specification adherence)
+  idea. (4 points, mandatory for specification adherence)
 * After clicking on the edit link, the user should see form fields to modify the idea's title and body. (4 points)
-* The user should have the option to "Save" their edits, and clicking this should create an POST request using AJAX. (4 points, manditory for specification adherence)
-* If the user reloads the page, their edits will be reflected. (4 points, manditory for specification adherence)
+* The user should have the option to "Save" their edits, and clicking this should create an POST request using AJAX. (4 points, mandatory for specification adherence)
+* If the user reloads the page, their edits will be reflected. (4 points, mandatory for specification adherence)
 
 #### Idea Filtering and Searching
 

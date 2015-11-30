@@ -111,7 +111,7 @@ As we said above, ideas should start out as "swill." In order to change the reco
 * Clicking this link should _not_ take the user to a separate "edit" page for the given
   idea. (4 points, manditory for specification adherence)
 * After clicking on the edit link, the user should see form fields to modify the idea's title and body. (4 points)
-* The user should have the option to "Save" their edits, and clicking this should create an POST request using AJAX. (4 points, manditory for specification adherence)
+* The user should have the option to "Save" their edits, and clicking this should create an PUT request using AJAX. (4 points, manditory for specification adherence)
 * If the user reloads the page, their edits will be reflected. (4 points, manditory for specification adherence)
 
 #### Idea Filtering and Searching

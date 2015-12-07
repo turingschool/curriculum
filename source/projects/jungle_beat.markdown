@@ -55,6 +55,7 @@ The three nodes here hold the data "hello", "world", and "!". The first two node
 Then we'll exercise the functionality from a Pry session:
 
 ```ruby
+require "./lib/jungle_beat"
 > jb = JungleBeat.new("deep dep dep deep")
 > jb.play
 => 4 # also plays the sounds

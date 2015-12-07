@@ -110,7 +110,11 @@ the tree when `load` is called, ignore it.
 
 ## Extensions
 
-### `leaves`
+### Understanding the Shape
+
+This extensions is made up of two methods:
+
+#### `leaves`
 
 How many leaf nodes are on the tree?
 
@@ -119,7 +123,7 @@ tree.leaves
 # => 2
 ```
 
-### `height`
+#### `height`
 
 What is the height (aka the maximum depth) of the tree?
 
@@ -130,7 +134,7 @@ tree.height
 # => 3
 ```
 
-### `delete`
+### Deleting Nodes
 
 Remove a specified piece of data from the tree:
 
@@ -140,6 +144,8 @@ tree.delete("a")
 tree.delete("x")
 # => nil
 ```
+
+Note that any children of the deleted node should still be present in the tree.
 
 ## Evaluation Rubric
 

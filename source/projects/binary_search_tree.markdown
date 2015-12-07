@@ -17,29 +17,129 @@ A binary tree is built from *nodes*. Each node has:
 
 ## Base Expectations
 
-Build a binary search tree which can:
+Build a binary search tree which can fulfill each of the interactions below.
 
-* `insert` a new unique value into the tree
-* verify/reject the presence of a value in the tree with `include?`
-* report the depth of a node in the tree with `depth_of`
-* find the `maximum` value in the tree
-* find the `minimum` value in the tree
-* implement a `sort` that outputs an array of the values in sorted order (by traversing the tree, not using Ruby's sort method)
+Assume we've started with:
 
+```ruby
+tree = BinarySearchTree.new
+```
+
+### `insert`
+
+The `insert` method adds a new node with the passed-in data. It returns the
+depth of the new node in the tree.
+
+```ruby
+tree.insert("m")
+# => 0
+tree.insert("c")
+# => 1
+tree.insert("q")
+# => 1
+tree.insert("a")
+# => 2
+```
+
+For all the later methods defined here, assume that we've run these four inserts.
+
+### `include?`
+
+Verify/reject the presence of a piece of data in the tree:
+
+```ruby
+tree.include?("q")
+# => true
+tree.include?("b")
+# => false
+```
+
+### `depth_of`
+
+Reports the depth of the tree where a piece of data appears:
+
+```ruby
+tree.depth_of("q")
+# => 1
+tree.depth_of("a")
+# => 2
+```
+
+### `max`
+
+What is the largest value present in the tree?
+
+```ruby
+tree.max
+# => "q"
+```
+
+### `min`
+
+What is the smallest value present in the tree?
+
+```ruby
+tree.max
+# => "a"
+```
+
+### `sort`
+
+Return an array of all the elements in sorted order. *Note*: you're not using
+Ruby's `Array#sort`, you're traversing the tree.
+
+What is the largest value present in the tree?
+
+```ruby
+tree.sort
+# => ["a", "c", "m", "q"]
+```
+
+### `load`
+
+Assuming we have a file named `numbers.txt` with one value per line:
+
+```ruby
+tree.load('numbers.txt')
+# => 224
+```
+
+Where the return value is the number of unique values inserted into the tree. If
+a number is present more than one time in the input file *or* already present in
+the tree when `load` is called, ignore it.
 
 ## Extensions
 
-Additionally you can implement these features:
+### `leaves`
 
-* find the total number of leaves on the tree
-* report the (maximum) height of the tree
+How many leaf nodes are on the tree?
 
-As the final challenge, add the ability to `delete` a value from the tree and repair the tree.
+```ruby
+tree.leaves
+# => 2
+```
 
-Beyond your tests, data should come in and go out using files:
+### `height`
 
-* import data from a file with one value per line (values are unique within the input)
-* output a file, similar to the input file, with the values in ascending order
+What is the height (aka the maximum depth) of the tree?
+
+What is the largest value present in the tree?
+
+```ruby
+tree.height
+# => 3
+```
+
+### `delete`
+
+Remove a specified piece of data from the tree:
+
+```ruby
+tree.delete("a")
+# => "a"
+tree.delete("x")
+# => nil
+```
 
 ## Evaluation Rubric
 

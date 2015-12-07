@@ -108,6 +108,34 @@ Where the return value is the number of unique values inserted into the tree. If
 a number is present more than one time in the input file *or* already present in
 the tree when `load` is called, ignore it.
 
+### `health`
+
+Report on the health of the tree by summarizing the number of nodes beneath each node on a given level.
+
+Assuming you start with the four elements from `insert`...
+
+```ruby
+tree.insert("b")
+tree.insert("e")
+tree.insert("f")
+tree.insert("g")
+tree.insert("h")
+tree.health(0)
+=> [['m',9,100]]
+tree.health(1)
+=> [['c',7,77],['q',1,11]]
+tree.health(2)
+=> [['a',2,22],['e',4,44]]
+```
+
+Where the return value is an `Array` with one nested array per node at that level. The nested array is:
+
+```
+[data in the node, 1 + number of child nodes, floored percentage of (1+children) over the total number of nodes]
+```
+
+When the percentages of two nodes at the same level are dramatically different, like `22` and `44` above, then we know that this tree is starting to become unbalanced.
+
 ## Extensions
 
 ### Understanding the Shape

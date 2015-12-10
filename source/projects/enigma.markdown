@@ -19,6 +19,9 @@ In this project you'll use Ruby to build a tool for cracking an encryption algor
 You are to build an encryption engine for encrypting, decrypting, and cracking
 messages.
 
+Additionally, your program will need to read messages from and output them to
+the file system.
+
 ### Encryption Notes
 
 The encryption is based on rotation. The character map is made up of all the
@@ -85,6 +88,32 @@ Then we'll exercise the functionality from a Pry session:
 => "This is so secret!! ..end.."
 ```
 
+### Working with Files
+
+In addition to the pry form above, we'll want to use the tool
+from the command line like so:
+
+```
+$ ruby ./lib/encrypt.rb message.txt encrypted.txt
+Created 'encrypted.txt' with the key 82648 and date 030415
+```
+
+That will take the plaintext file `message.txt` and create an encrypted file `encrypted.txt`.
+
+Then, if we know the key, we can decrypt:
+
+```
+$ ruby ./lib/decrypt.rb encrypted.txt decrypted.txt 82648 030415
+Created 'decrypted.txt' with the key 82648 and date 030415
+```
+
+But if we don't know the key, we can try to crack it with just the date:
+
+```
+$ ruby ./lib/crack.rb encrypted.txt cracked.txt 030415
+Created 'cracked.txt' with the cracked key 82648 and date 030415
+```
+
 ## Development Phases
 
 As you work to implement the project here are ideas for some of your first iterations:
@@ -125,32 +154,7 @@ Now you should have all the components in place such that your command-line encr
 
 ## Extensions
 
-### 1. File I/O
-
-Build functionality so the tool can be used from the command line like so:
-
-```
-$ ruby ./lib/encrypt.rb message.txt encrypted.txt
-Created 'encrypted.txt' with the key 82648 and date 030415
-```
-
-That will take the plaintext file `message.txt` and create an encrypted file `encrypted.txt`.
-
-Then, if we know the key, we can decrypt:
-
-```
-$ ruby ./lib/decrypt.rb encrypted.txt decrypted.txt 82648 030415
-Created 'decrypted.txt' with the key 82648 and date 030415
-```
-
-But if we don't know the key, we can try to crack it with just the date:
-
-```
-$ ruby ./lib/crack.rb encrypted.txt cracked.txt 030415
-Created 'cracked.txt' with the cracked key 82648 and date 030415
-```
-
-### 2. Character Support
+### 1. Character Support
 
 Improve your system so it supports all of the following:
 

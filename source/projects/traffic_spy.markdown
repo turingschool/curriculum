@@ -218,8 +218,8 @@ When the url for the identifier does exist:
 * Shortest response time
 * Average response time
 * Which HTTP verbs have been used
-* Most popular referrers
-* Most popular user agents
+* Three most popular referrers
+* Three most popular user agents
 
 When the url for the identifier does not exist:
 

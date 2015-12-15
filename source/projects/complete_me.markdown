@@ -139,9 +139,34 @@ completion.suggest("piz")
 => ["pizzeria", "pizza", "pizzicato"]
 ```
 
-__Tracking per Substring__
+## Spec Harness
 
-A simple approach to this problem would be to simply
+This is the first project where we'll use an automated spec harness
+to evaluate the correctness of your projects.
+
+For this reason, you'll want to make sure to follow the
+top-level interface described in the previous sections
+closely.
+
+You can structure the internals of your program however you like,
+but if the top level interface does not match, the
+spec harness will be unable to evaluate your work.
+
+## Support Tooling
+
+Please make sure that, before your evaluation, your project has each of the following:
+
+* SimpleCov reporting accurate test coverage statistics
+* TravisCI running your all your tests and they all pass
+* CodeClimate evaluating the quality of your code (best to set it up early to see the change over time)
+
+## Supporting Features
+
+In addition to the base features included above, you must choose **one** of the following to implement:
+
+### 1. Substring-Specific Selection Tracking
+
+A simple approach to tracking selections would be to simply
 "count" the number of times a given word is selected
 (e.g. "pizza" - 4 times, etc). But a more sophisticated solution
 would allow us to track selection information _per completion string_.
@@ -183,26 +208,35 @@ However for the substring "pi", we choose "pizza" twice and
 "piz" don't count when suggesting against "pi", so now "pizza"
 and "pizzicato" come up as the top choices.
 
-## Spec Harness
+### 2. Word Deletion and Tree Pruning
 
-This is the first project where we'll use an automated spec harness
-to evaluate the correctness of your projects.
+Let's add a feature that let's us delete words from the tree.
+When deleting a node, we'll need to consider a couple of cases.
 
-For this reason, you'll want to make sure to follow the
-top-level interface described in the previous sections
-closely.
+First, make sure that we adjust our tree so that the node relating to
+the removed word is no longer seen as a valid word. This means
+that subsequent suggestions should no longer return it as a match for
+any of its substrings.
 
-You can structure the internals of your program however you like,
-but if the top level interface does not match, the
-spec harness will be unable to evaluate your work.
+For "intermediate" nodes (i.e. nodes that still have
+children below them), this is all you need to do.
 
-## Support Tooling
+However, for **leaf nodes** (i.e. nodes at the end of the tree), we
+will also want to **completely remove** those nodes from the tree.
+Since the node in question no longer represents a word and there
+are no remaining nodes below it, there's no point in keeping it in the
+tree, so we should remove it.
 
-Please make sure that, before your evaluation, your project has each of the following:
+**Additionally**, once we remove this node, we would also want to
+remove any of its parents for which it was the only child. That is --
+if, once we remove our word in question, the node above it is now
+a path to nowhere, we should also remove that node. This process would
+repeat up the chain until we finally reach "word" node that we want
+to keep around.
 
-* SimpleCov reporting accurate test coverage statistics
-* TravisCI running your all your tests and they all pass
-* CodeClimate evaluating the quality of your code (best to set it up early to see the change over time)
+The exact implementation of this process will depend on how your
+tree is built, so we likely won't include it in the spec harness. You
+will need to provide your own tests that demonstrate this functionality.
 
 ## Extensions
 

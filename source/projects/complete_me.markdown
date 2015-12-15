@@ -103,7 +103,7 @@ completion.suggest("piz")
 => ["pizza", "pizzeria", "pizzicato"]
 ```
 
-### Usage Frequency Weighting
+### Usage Weighting
 
 The common gripe about autocomplete systems is that they give us
 suggestions that are technically valid but not at all what we wanted.
@@ -138,6 +138,50 @@ completion.select("piz", "pizzeria")
 completion.suggest("piz")
 => ["pizzeria", "pizza", "pizzicato"]
 ```
+
+__Tracking per Substring__
+
+A simple approach to this problem would be to simply
+"count" the number of times a given word is selected
+(e.g. "pizza" - 4 times, etc). But a more sophisticated solution
+would allow us to track selection information _per completion string_.
+
+That is, we want to make sure that when `select`ing a given word,
+that selection is only counted toward subsequent suggestions against
+the same substring. Here's an example:
+
+```
+require "./lib/complete_me"
+
+completion = CompleteMe.new
+
+dictionary = File.read("/usr/share/dict/words")
+
+completion.populate(dictionary)
+
+completion.select("piz", "pizzeria")
+completion.select("piz", "pizzeria")
+completion.select("piz", "pizzeria")
+
+completion.select("pi", "pizza")
+completion.select("pi", "pizza")
+completion.select("pi", "pizzicato")
+
+completion.suggest("piz")
+=> ["pizzeria", "pizza", "pizzicato"]
+
+completion.suggest("pi")
+=> ["pizza", "pizzicato","pizzeria"]
+```
+
+In this example, against the substring "piz" we choose
+"pizzeria" 3 times, making it the dominant choice for this
+substring.
+
+However for the substring "pi", we choose "pizza" twice and
+"pizzicato" once. The previous selections of "pizzeria" against
+"piz" don't count when suggesting against "pi", so now "pizza"
+and "pizzicato" come up as the top choices.
 
 ## Spec Harness
 

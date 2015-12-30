@@ -67,9 +67,9 @@ The method returns an integer.
 *Example*:
 
 ```ruby
-economic_profile.median_household_income_in_year(2005)
+economic_profile.estimated_median_household_income_in_year(2005)
 => 50000
-economic_profile.median_household_income_in_year(2009)
+economic_profile.estimated_median_household_income_in_year(2009)
 => 55000
 ```
 

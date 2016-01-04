@@ -96,6 +96,15 @@ The parts we're most interested in are:
 * The unmarked lines at the end which make up the *body* of the response
 * `content-length` which tells the client when to stop listening
 
+### Tooling
+
+While working on this project you're going to need to make a lot of HTTP requests. There are many
+tools that can help you with that, but we recommend you use the following:
+
+1. **Web Browser** -- if you need to make HTTP GET requests you can use the browser, but it's the weakest of these three tools.
+2. [**Postman**](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) -- a Chrome extension which gives you amazing control and the ability to make any kind of request. Use this for your manual testing and experimentation.
+3. [**Hurley**](https://github.com/lostisland/hurley) -- a Ruby library for making requests and parsing responses. Use this for your automated testing, basically like a scripted version of request/reponse cycles you could do with Postman.
+
 ## Experiment
 
 Ruby has handy built-in libraries for dealing with most of the low-level networking details about running a server. Let's write a short program that can start up, listen for a request, print that request out to the screen, then shut down.

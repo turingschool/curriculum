@@ -219,7 +219,8 @@ Often we want to supply some data with a request. For instance, if you were subm
 http://host:port/path?param=value&param2=value2
 ```
 
-You know your computer has a dictionary built in, right? Write an "endpoint" that works like this:
+You know your computer has a dictionary built in, right? It's stored in a special file on your
+machine located at `/usr/share/dict/words`. Let's use this information to write an "endpoint" that works like this:
 
 * The path is `/word_search`
 * The verb will always be a `GET`

@@ -206,7 +206,7 @@ Keep the code that outputs this block at the bottom of all your future outputs t
 
 Now let's react to the `path` that the user specifies:
 
-* If they request the root, aka `/`, respond with just the debug info from V1.
+* If they request the root, aka `/`, respond with just the debug info from Iteration 1.
 * If they request `/hello`, respond with "Hello, World! (0)" where the `0` increments each time the path is requested, but not when any other path is requested.
 * If they request `/datetime`, respond with today's date and time in this format: `11:07AM on Sunday, November 1, 2015`.
 * If they request `/shutdown`, respond with "Total Requests: 12" where `12` is the aggregate of all requests. It also causes the server to exit / stop serving requests.
@@ -240,6 +240,8 @@ The *path* is the main way that the user specifies what they're requesting, but 
 
 We use `GET` to fetch information. We typically use `POST` to send information to the server. When we submit parameters in a `POST` they're in the body of the request rather than in the URL.
 
+Changing the verb and submitting parameters in the body instead of the parameters for a `POST` request can both be done in Postman. 
+
 Let's write a simple guessing game that works like this:
 
 #### `POST` to `/start_game`
@@ -271,8 +273,8 @@ We use the HTTP response code as a short hand way to explain the result of the r
 Let's modify your game from Iteration 4 to use status codes:
 
 * Most requests, unless listed below, should respond with a `200`.
-* When you submit the `POST` to `/new_game` and there is no game in progress, it should start one and respond with a `301` redirect.
-* When you submit the `POST` to `/new_game` but there is already a game in progress, it should respond with `403`.
+* When you submit the `POST` to `/start_game` and there is no game in progress, it should start one and respond with a `301` redirect.
+* When you submit the `POST` to `/start_game` but there is already a game in progress, it should respond with `403`.
 * If an unknown path is requested, like `/fofamalou`, the server responds with a `404`.
 * If the server generates an error, then it responds with a `500`. Within the response let's present the whole stack trace. Since you don't write bugs, create an `/force_error` endpoint which just raises a `SystemError` exception.
 
@@ -305,9 +307,9 @@ The project will be assessed with the following rubric:
 ### 1. Overall Functionality
 
 * 4: Application implements all five iterations and at least one extension
-* 3: Application implements four iterations
-* 2: Application implements three iteration
-* 1: Application implements two or fewer iterations
+* 3: Application implements iterations 0 - 4
+* 2: Application implements iterations 0 - 3
+* 1: Application implements through interation 2 or less
 
 ### 2. Fundamental Ruby & Style
 

@@ -1,4 +1,26 @@
-# Iteration 1 - Starting the Analysis Layer
+# Iteration 1 - Starting the Relationship & Analysis Layers
+
+## Starting the Relationships Layer
+
+Instead of loading just one data file into our `DistrictRepository`, we now want to specify the data directory and have it figure out what data it wants/needs:
+
+```ruby
+dr = DistrictRepository.new
+dr.load_data({
+  :enrollment => {
+    :kindergarten => "./data/Kindergartners in full-day program.csv"
+  }
+})
+district = dr.find_by_name("ACADEMY 20")
+```
+
+And when a `DistrictRepository` is created in this way then it *automatically* creates the `EnrollmentRepository` as described above and allows us to access the enrollment data for a district like this:
+
+```ruby
+district.enrollment.kindergarten_participation_in_year(2010) # => 0.391
+```
+
+## Starting the Analysis Layer: Kindergarten Analysis
 
 Our analysis is centered on answering questions about the data.
 
@@ -7,8 +29,6 @@ Who will answer those questions? Assuming we have a `dr` that's an instance of `
 ```ruby
 ha = HeadcountAnalyst.new(dr)
 ```
-
-## Kindergarten Analysis
 
 Then ask/answer these questions:
 

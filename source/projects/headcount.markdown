@@ -134,8 +134,8 @@ Ultimately, a crude visualization of the structure might look like this:
 Because the requirements for this project are lengthy and complex, we've broken
 them into Iterations in their own files:
 
-* [Iteration 0](headcount/iteration_0.markdown) - District Kindergarten Data Access & Relationships
-* [Iteration 1](headcount/iteration_1.markdown) - District Kindergarten Analysis
+* [Iteration 0](headcount/iteration_0.markdown) - District Kindergarten Data Access
+* [Iteration 1](headcount/iteration_1.markdown) - District Kindergarten Relationships & Analysis
 * [Iteration 2](headcount/iteration_2.markdown) - High School Graduation
 * [Iteration 3](headcount/iteration_3.markdown) - Statewide Testing
 * [Iteration 4](headcount/iteration_4.markdown) - Economic Profile

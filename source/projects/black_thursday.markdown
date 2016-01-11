@@ -1,6 +1,6 @@
-# Hyde
+# Black Thursday
 
-Writing your own blogging engine is almost a right of passage for aspiring web developers. In this project you'll build a "Static Site Generator" -- a system that allows the author to write content in a writing-friendly format (like Markdown), then the system generates HTML and puts it all together. For reference, existing systems that do this include [Jekyll](https://jekyllrb.com/), [Middleman](https://middlemanapp.com/), and many others.
+A business is only as smart as its data. Let's build a system able to load, parse, search, and execute business intelligence queries against the data from a typical e-commerece business.
 
 ## Project Overview
 
@@ -14,7 +14,7 @@ Writing your own blogging engine is almost a right of passage for aspiring web d
 
 ### Getting Started
 
-1. One team member forks the repository at https://github.com/turingschool-examples/hyde and adds the other(s) as collaborators.
+1. One team member forks the repository at https://github.com/turingschool-examples/black_thursday and adds the other(s) as collaborators.
 2. Everyone on the team clones the repository
 3. Create a [Waffle.io](http://waffle.io) account for project management.
 4. Setup [CodeClimate](https://codeclimate.com/) to monitor code quality along the way

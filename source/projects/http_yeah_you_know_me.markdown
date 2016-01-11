@@ -70,7 +70,7 @@ Accept-Language: en-US,en;q=0.8
 
 The parts we're most interested in are:
 
-* The first line, `POST /to_braille HTTP/1.1`, which specifies the *verb*, *path*, and *protocol* which we'll pick apart later
+* The first line, `GET / HTTP/1.1`, which specifies the *verb*, *path*, and *protocol* which we'll pick apart later
 * `Host` which is where the request is sent to
 * `Accept` which specifies what format of data the client wants back in the response
 

@@ -8,6 +8,8 @@ Who will answer those questions? Assuming we have a `dr` that's an instance of `
 ha = HeadcountAnalyst.new(dr)
 ```
 
+## Kindergarten Analysis
+
 Then ask/answer these questions:
 
 ### Does Kindergarten participation affect outcomes?

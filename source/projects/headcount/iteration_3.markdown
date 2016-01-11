@@ -1,6 +1,6 @@
-# Iteration 2 - Statewide Testing
+# Iteration 3 - Statewide Testing
 
-![Iteration 2](http://imgur.com/Rhpl1is.png)
+![Iteration 3](http://imgur.com/Rhpl1is.png)
 
 ### `StatewideTestRepository`
 

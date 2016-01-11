@@ -1,8 +1,8 @@
-# Iteration 1: High School Graduation
+# Iteration 2: High School Graduation
 
 Now that we have the pieces working for a single CSV file of Kindergarteners, let's add some more data to the equation in Interaton 1.
 
-![Iteration 1](http://imgur.com/7drdEKc.png)
+![Iteration 2](http://imgur.com/7drdEKc.png)
 
 ## `EnrollmentRepository` and High School Graduation Data
 

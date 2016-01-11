@@ -1,6 +1,6 @@
-# Iteration 3: Economic Profile
+# Iteration 4: Economic Profile
 
-![Iteration 3](http://imgur.com/RYS8SJs.png)
+![Iteration 4](http://imgur.com/RYS8SJs.png)
 
 ## Data Access Layer
 

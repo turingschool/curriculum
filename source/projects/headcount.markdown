@@ -27,9 +27,8 @@ Starting with the CSV data we will:
 1. One team member forks the repository at https://github.com/turingschool-examples/headcount and adds the other(s) as collaborators.
 2. Everyone on the team clones the repository
 3. Create a [Waffle.io](http://waffle.io) account for project management.
-   Just play with it a bit to see what kinds of things it can do,
-   identify things that seem like they will be useful (eg to coordinate your work)
-   and then use it for those things.
+4. Setup [CodeClimate](https://codeclimate.com/) to monitor code quality along the way
+5. Setup [TravisCI](https://travis-ci.org/) to run your tests ever time you push
 
 ## Key Concepts
 

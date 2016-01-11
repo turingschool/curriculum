@@ -1,6 +1,6 @@
 # I3: Item Sales
 
-We've got a good foundation, now it's time to actually track the sale of items. There are three new data files to mix into the system, so for this iteration we'll focus on just DAL and Relationships.
+We've got a good foundation, now it's time to actually track the sale of items. There are three new data files to mix into the system, so for this iteration we'll focus primarily on DAL and Relationships with just a bit of Business Intelligence.
 
 ## Data Access Layer
 
@@ -143,3 +143,52 @@ c = Customer.new({
 ```
 
 ## Relationships
+
+There are many connections to draw between all these objects. Assuming we start with this:
+
+```ruby
+se = SalesEngine.new
+se.load_data({
+  :items => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+  :invoices => "./data/invoices.csv",
+  :invoice_items => "./data/invoice_items.csv",
+  :transactions => "./data/transactions.csv",
+  :customers => "./data/customers.csv"
+})
+```
+
+Then we can find connections from an invoice:
+
+```ruby
+invoice = se.invoices.find_by_id(20)
+invoice.items # => [item, item, item]
+invoice.transactions # => [transaction, transaction]
+invoice.customer # => customer
+```
+
+Or a transaction:
+
+```ruby
+transaction = se.transactions.find_by_id(40)
+transaction.invoice # => invoice
+```
+
+And if we started with a merchant we could find the customers who've purchased one or more items at their store:
+
+```ruby
+merchant = se.merchants.find_by_id(10)
+merchant.customers # => [customer, customer, customer]
+```
+
+Or from the customer side we could find the merchants they've purchased from:
+
+```ruby
+customer = se.customers.find_by_id(30)
+customer.merchants # => [merchant, merchant]
+```
+
+## Business Intelligence
+
+* invoice is paid
+* invoice total

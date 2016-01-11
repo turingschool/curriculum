@@ -103,7 +103,7 @@ tools that can help you with that, but we recommend you use the following:
 
 1. **Web Browser** -- if you need to make HTTP GET requests you can use the browser, but it's the weakest of these three tools.
 2. [**Postman**](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) -- a Chrome extension which gives you amazing control and the ability to make any kind of request. Use this for your manual testing and experimentation.
-3. [**Hurley**](https://github.com/lostisland/hurley) -- a Ruby library for making requests and parsing responses. Use this for your automated testing, basically like a scripted version of request/reponse cycles you could do with Postman.
+3. [**Faraday**](https://github.com/lostisland/faraday) -- a Ruby library for making requests and parsing responses. Use this for your automated testing, basically like a scripted version of request/reponse cycles you could do with Postman.
 
 ## Experiment
 
@@ -240,7 +240,7 @@ The *path* is the main way that the user specifies what they're requesting, but 
 
 We use `GET` to fetch information. We typically use `POST` to send information to the server. When we submit parameters in a `POST` they're in the body of the request rather than in the URL.
 
-Changing the verb and submitting parameters in the body instead of the parameters for a `POST` request can both be done in Postman. 
+Changing the verb and submitting parameters in the body instead of the parameters for a `POST` request can both be done in Postman.
 
 Let's write a simple guessing game that works like this:
 

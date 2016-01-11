@@ -138,7 +138,7 @@ them into Iterations in their own files:
 * [Iteration 1](headcount/iteration_1.markdown) - District Kindergarten Analysis
 * [Iteration 2](headcount/iteration_2.markdown) - High School Graduation
 * [Iteration 3](headcount/iteration_3.markdown) - Statewide Testing
-* [Iteration 4](headcount/iteration_3.markdown) - Economic Profile
+* [Iteration 4](headcount/iteration_4.markdown) - Economic Profile
 * [Iteration 5](headcount/iteration_5.markdown) - Economic Analysis
 * Iteration 6 - Total Enrollment (coming soon)
 * Iteration 7 - Special Education, Remediation, and Dropout Rates (coming soon)
@@ -149,8 +149,8 @@ The project will be assessed with the following guidelines:
 
 ### 1. Functional Expectations
 
-* 4: Application fulfills all base expectations and two extensions
-* 3: Application fulfills all base expectations as tested by the spec harness
+* 4: Application fulfills at least one Iteration beyond Iteration 4
+* 3: Application fulfills all expectations through Iteration 4 as tested by the spec harness
 * 2: Application has some missing functionality but no crashes
 * 1: Application crashes during normal usage
 

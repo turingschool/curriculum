@@ -43,7 +43,7 @@ i = Invoice.new({
   :customer_id => 7,
   :merchant_id => 8,
   :status => "pending",
-  :created_at => Time.now
+  :created_at => Time.now,
   :updated_at => Time.now
 })
 ```

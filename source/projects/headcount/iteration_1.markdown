@@ -1,95 +1,69 @@
-# Iteration 1: High School Graduation
+# Iteration 1 - Starting the Relationship & Analysis Layers
 
-Now that we have the pieces working for a single CSV file of Kindergarteners, let's add some more data to the equation in Interaton 1.
+## Starting the Relationships Layer
 
-![Iteration 1](http://imgur.com/7drdEKc.png)
-
-## `EnrollmentRepository` and High School Graduation Data
-
-Return to the `EnrollmentRepository` to add support for a second data file:
+Instead of loading just one data file into our `DistrictRepository`, we now want to specify the data directory and have it figure out what data it wants/needs:
 
 ```ruby
-er = EnrollmentRepository.new
-er.load_data({
+dr = DistrictRepository.new
+dr.load_data({
   :enrollment => {
-    :kindergarten => "./data/Kindergartners in full-day program.csv",
-    :high_school_graduation => "./data/High school graduation rates.csv"
+    :kindergarten => "./data/Kindergartners in full-day program.csv"
   }
 })
-enrollment = er.find_by_name("ACADEMY 20")
-# => <Enrollment>
+district = dr.find_by_name("ACADEMY 20")
 ```
 
-Then on that `Enrollment` instance let's add the following data access methods:
-
-### `.graduation_rate_by_year`
-
-This method returns a hash with years as keys and a truncated three-digit floating point number representing a percentage.
-
-*Example*:
+And when a `DistrictRepository` is created in this way then it *automatically* creates the `EnrollmentRepository` as described above and allows us to access the enrollment data for a district like this:
 
 ```ruby
-enrollment.graduation_rate_by_year
-=> { 2010 => 0.895,
-     2011 => 0.895,
-     2012 => 0.889,
-     2013 => 0.913,
-     2014 => 0.898,
-     }
+district.enrollment.kindergarten_participation_in_year(2010) # => 0.391
 ```
 
-### `.graduation_rate_in_year(year)`
+## Starting the Analysis Layer: Kindergarten Analysis
 
-This method takes one parameter:
+Our analysis is centered on answering questions about the data.
 
-* `year` as an integer for any year reported in the data
-
-A call to this method with any unknown `year` should return `nil`.
-
-The method returns a truncated three-digit floating point number representing a percentage.
-
-*Example*:
+Who will answer those questions? Assuming we have a `dr` that's an instance of `DistrictRepository` let's initialize a `HeadcountAnalyst` like this:
 
 ```ruby
-enrollment.graduation_rate_in_year(2010) # => 0.895
+ha = HeadcountAnalyst.new(dr)
 ```
 
-## Analysis
+Then ask/answer these questions:
 
-For this additional data there aren't any new relationships to construct, so let's jump right into the analysis.
+### Does Kindergarten participation affect outcomes?
 
-### How does kindergarten participation variation compare to the high school graduation variation?
+In many states, including Colorado, Kindergarten is offered at public schools but is not free for all residents. Denver, for instance, will charge as much as $310/month for Kindergarten. There's then a disincentive to enroll a child in Kindergarten. Does participation in Kindergarten with other factors/outcomes?
 
-There's thinking that kindergarten participation has long-term effects. Given our limited data set, let's *assume* that variance in kindergarten rates for a given district is similar to when current high school students were kindergarten age (~10 years ago). Let's compare the variance in kindergarten participation and high school graduation.
+Let's start to build tooling to answer this question.
 
-For a single district:
+### How does a district's kindergarten participation rate compare to the state average?
+
+First, let's ask how an individual district's participation percentage compares to the statewide average:
 
 ```ruby
-ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20') # => 1.234
+ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO') # => 0.766
 ```
 
-Call *kindergarten variation* the result of dividing the district's kindergarten participation by the statewide average. Call *graduation variation* the result of dividing the district's graduation rate by the statewide average. Divide the *kindergarten variation* by the *graduation variation* to find the *kindergarten-graduation variance*.
+Where `0.766` is the result of the district average divided by state average. (i.e. find the district's average participation across all years and divide it by the average of the state participation data across all years.) A value less than 1 implies that the district performs lower than the state average, and a value greater than 1 implies that the district performs better than the state average.
 
-If this result is close to `1`, then we'd infer that the *kindergarten variation* and the *graduation variation* are closely related.
+### How does a district's kindergarten participation rate compare to another district?
 
-### Does Kindergarten participation predict high school graduation?
-
-Let's consider the `kindergarten_participation_against_high_school_graduation` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that they are correlated. For a single district:
+Let's next compare this variance against another district:
 
 ```ruby
-ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
-# => true
+ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'YUMA SCHOOL DISTRICT 1') # => 1.234
 ```
 
-Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
+Where `1.234` is the result of the district average divided by 'against' district's average. (i.e. find the district's average participation across all years and didvide it by the average of the 'against' district's participation data across all years.) A value less than 1 implies that the district performs lower than the against district's average, and a value greater than 1 implies that the district performs better than the against district's average.
+
+### How does a district's kindergarten participation rate trend against the the state average?
+
+Then, how are the numbers changing each year?
 
 ```ruby
-ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE') # => true
+ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO') # => {2009 => 0.766, 2010 => 0.566, 2011 => 0.46 }
 ```
 
-Then let's do the same calculation across a subset of districts:
-
-```ruby
-ha.kindergarten_participation_correlates_with_high_school_graduation(
-  :across => ['district_1', 'district_2', 'district_3', 'district_4']) # => true
-```
+With the similar calculation as above now broken down by year.

@@ -89,7 +89,7 @@ $ ruby lib/event_manager.rb
 -bash: ruby: command not found
 {% endterminal %}
 
-If the file was not created then you will be presented with the following error
+If the file was not created then you will be presented with the following error:
 message
 
 {% terminal %}
@@ -225,15 +225,15 @@ puts "EventManager initialized."
 lines = File.readlines "event_attendees.csv"
 lines.each do |line|
   columns = line.split(",")
-  puts columns
+  p columns
 end
 ```
 
 Within our array of columns we want to access our 'first_Name'. This would be
-the third column or column at the array's second element `columns[2]`.
+the third column or third element at the array's second index `columns[2]`.
 
-Arrays start counting at 0 instead of 1. To get the idea we would access the
-array's zeroth element `columns[0]`.
+Arrays start counting at 0 instead of 1. To get the idea, we would access the
+array's first element at `columns[0]`.
 
 
 ```ruby lib/event_manager.rb

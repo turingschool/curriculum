@@ -117,10 +117,10 @@ You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/a
 A registered application will send `POST` requests to the following URL:
 
 ```
-http://yourapplication:port/sources/IDENTIFIER/data
+http://yourapplication:port/sources/identifier/data
 ```
 
-Where `IDENTIFIER` is the unique identifier generated previously for this site.
+Where `identifier` is the unique identifier generated previously for this site.
 The request will contain a parameter named 'payload' which contains JSON data with this structure:
 
 ```
@@ -260,7 +260,7 @@ When the event has been defined:
 
 * Hour by hour breakdown of when the event was received. How many were shown
   at noon? at 1pm? at 2pm? Do it for all 24 hours.
-* How many times it was recieved overall
+* How many times it was received overall
 
 When the event has not been defined:
 

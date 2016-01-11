@@ -1,4 +1,4 @@
-# Iteration 4: Economic Profile
+# Iteration 4: Data Access and Relationships: Economic Profile
 
 ![Iteration 4](http://imgur.com/RYS8SJs.png)
 
@@ -162,7 +162,3 @@ economic_profile.title_i_in_year(2015)
 We'll add another relationship:
 
 * `economic_profile` - returns an instance of `EconomicProfile`
-
-## Analysis
-
-No analysis for this iteration -- it'll happen in I4.

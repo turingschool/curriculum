@@ -69,12 +69,44 @@ invoice.merchant
 
 ## Business Intelligence
 
+Assume we're created `sa` as a `SalesAnalyst` instance:
+
 ### How many invoices does the average merchant have?
+
+```ruby
+sa.average_invoices_per_merchant # => 8.5
+sa.average_invoices_per_merchant_standard_deviation # => 1.2
+```
 
 ### Who are our top performing merchants?
 
+Which merchants are more than two standard deviations *above* the mean?
+
+```ruby
+sa.top_merchants_by_invoice_count # => [merchant, merchant, merchant]
+```
+
 ### Who are our lowest performing merchants?
+
+Which merchants are more than two standard deviations *below* the mean?
+
+```ruby
+sa.bottom_merchants_by_invoice_count # => [merchant, merchant, merchant]
+```
 
 ### Which days of the week see the most sales?
 
+Which days are more than two standard deviations *above* the mean?
+
+```ruby
+sa.top_days_by_invoice_count # => ["Sunday", "Saturday"]
+```
+
 ### What percentage of invoices are not shipped?
+
+What percentage of invoices are "shipped" vs "pending"?
+
+```ruby
+sa.invoice_status(:pending) # => 5.2
+sa.invoice_status(:shipped) # => 94.8
+```

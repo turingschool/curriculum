@@ -6,11 +6,51 @@ Now we'll begin to move a little faster. Let's work with invoices and build up t
 
 ### `InvoiceRepository`
 
+The `InvoiceRepository` is responsible for holding and searching our `Invoice`
+instances. It offers the following methods:
+
+* `all` - returns an array of all known `Invoice` instances
+* `find_by_id` - returns either `nil` or an instance of `Invoice` with a matching ID
+* `find_all_by_customer_id` - returns either `[]` or one or more matches which have a matching customer ID
+* `find_all_by_merchant_id` - returns either `[]` or one or more matches which have a matching merchant ID
+* `find_all_by_status` - returns either `[]` or one or more matches which have a matching status
+
+The data can be found in `data/invoices.csv` so the instance is created and used like this:
+
+```ruby
+ir = InvoiceRepository.new
+ir.load_data("./data/invoices.csv")
+invoice = ir.find_by_id(6)
+# => <invoice>
+```
+
 ### `Invoice`
 
-id,customer_id,merchant_id,status,created_at,updated_at
+The invoice has the following data accessible:
+
+* `id` - returns the integer id
+* `customer_id` - returns the customer id
+* `merchant_id` - returns the merchant id
+* `status` - returns the status
+* `created_at` - returns a `Date` instance for the date the item was first created
+* `updated_at` - returns a `Date` instance for the date the item was last modified
+
+We create an instance like this:
+
+```ruby
+i = Invoice.new({
+  :id => 6,
+  :customer_id => 7,
+  :merchant_id => 8,
+  :status => "pending",
+  :created_at => Time.now
+  :updated_at => Time.now
+})
+```
 
 ## Relationships
+
+Then connect our invoices to our merchants:
 
 ```ruby
 se = SalesEngine.new

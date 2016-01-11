@@ -70,8 +70,8 @@ The Item instance offers the following methods:
 * `name` - returns the name of the item
 * `description` - returns the description of the item
 * `unit_price` - returns the price of the item formatted as a `BigDecimal`
-* `created_on` - returns a `Date` instance for the date the item was first created
-* `updated_on` - returns a `Date` instance for the date the item was last modified
+* `created_at` - returns a `Time` instance for the date the item was first created
+* `updated_at` - returns a `Time` instance for the date the item was last modified
 
 We create an instance like this:
 
@@ -80,7 +80,7 @@ i = Item.new({
               :name => "Pencil",
               :description => "You can use it to write things",
               :unit_price => BigDecimal.new(10.99,4),
-              :created_on => Date.today,
+              :created_at => Time.now,
               :updated_at => Time.now
             })
 ```

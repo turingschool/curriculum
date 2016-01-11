@@ -11,6 +11,7 @@ The idea of a *DAL* is to write classes which load and parse your raw data, allo
 The `MerchantRepository` is responsible for holding and searching our `Merchant`
 instances. It offers the following methods:
 
+* `all` - returns an array of all known `Merchant` instances
 * `find_by_name` - returns either `nil` or an instance of `District` having done a *case insensitive* search
 * `find_all_by_name` - returns either `[]` or one or more matches which contain the supplied name fragment, *case insensitive*
 
@@ -42,6 +43,7 @@ instances. This object represents one line of data from the file `items.csv`.
 
 It offers the following methods:
 
+* `all` - returns an array of all known `Item` instances
 * `find_by_name` - returns either `nil` or an instance of `Item` having done a *case insensitive* search
 * `find_all_with_description` - returns either `[]` or instances of `Item` where the supplied string appears in the item description (case insensitive)
 * `find_all_by_price` - returns either `[]` or instances of `Item` where the supplied price exactly matches
@@ -78,3 +80,20 @@ i = Item.new({
               :updated_at => Time.now
             })
 ```
+
+### `SalesEngine`
+
+Then let's tie these ideas together with one common root, a `SalesEngine` instance:
+
+```ruby
+se = SalesEngine.new
+se.load_data({
+  :items => "./data/items.csv",
+  :merchants => "./data/merchants.csv"
+})
+```
+
+From there we can find the child instances:
+
+* `items` returns an instance of `ItemRepository` with all the item instances loaded
+* `merchants` returns an instance of `MerchantRepository` with all the merchant instances loaded

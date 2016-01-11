@@ -136,12 +136,13 @@ them into Iterations in their own files:
 
 * [Iteration 0](headcount/iteration_0.markdown) - District Kindergarten Data Access
 * [Iteration 1](headcount/iteration_1.markdown) - District Kindergarten Relationships & Analysis
-* [Iteration 2](headcount/iteration_2.markdown) - High School Graduation
-* [Iteration 3](headcount/iteration_3.markdown) - Statewide Testing
-* [Iteration 4](headcount/iteration_4.markdown) - Economic Profile
-* [Iteration 5](headcount/iteration_5.markdown) - Economic Analysis
-* Iteration 6 - Total Enrollment (coming soon)
-* Iteration 7 - Special Education, Remediation, and Dropout Rates (coming soon)
+* [Iteration 2](headcount/iteration_2.markdown) - Remaining Enrollment Access & Analysis: High School Graduation
+* [Iteration 3](headcount/iteration_3.markdown) - Data Access & Relationships: Statewide Testing
+* [Iteration 4](headcount/iteration_4.markdown) - Data Access & Relationships: Economic Profile
+* [Iteration 5](headcount/iteration_5.markdown) - Analysis: Statewide Testing
+* [Iteration 6](headcount/iteration_6.markdown) - Analysis: Economic Profile
+* Iteration 7 - Total Enrollment (coming soon)
+* Iteration 8 - Special Education, Remediation, and Dropout Rates (coming soon)
 
 ## Evaluation Rubric
 

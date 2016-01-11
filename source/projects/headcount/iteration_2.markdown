@@ -1,4 +1,4 @@
-# Iteration 2: High School Graduation
+# Iteration 2 - Access and Analysis: High School Graduation
 
 Now that we have the pieces working for a single CSV file of Kindergarteners, let's add some more data to the equation in Interaton 1.
 

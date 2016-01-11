@@ -39,7 +39,7 @@ Because the requirements for this project are lengthy and complex, we've broken
 them into Iterations in their own files. Your project *must* implement iterations 0 through 3.
 
 * [Iteration 0](black_thursday/iteration_0.markdown) - Merchants & Items
-* [Iteration 1](black_thursday/iteration_1.markdown) - Beginning Relationships and Business Intelligence (*pending*)
+* [Iteration 1](black_thursday/iteration_1.markdown) - Beginning Relationships and Business Intelligence
 * [Iteration 2](black_thursday/iteration_2.markdown) - Basic Invoices
 * [Iteration 3](black_thursday/iteration_3.markdown) - Item Sales
 * [Iteration 4](black_thursday/iteration_4.markdown) - Merchant Analytics

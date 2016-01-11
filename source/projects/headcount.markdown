@@ -150,8 +150,8 @@ The project will be assessed with the following guidelines:
 
 ### 1. Functional Expectations
 
-* 4: Application fulfills at least one Iteration beyond Iteration 4
-* 3: Application fulfills all expectations through Iteration 4 as tested by the spec harness
+* 4: Application fulfills all expectations of Iterations 0 - 6 *as well as* one additional, comparable Iteration of your own design.
+* 3: Application fulfills expectations of Iterations 0 - 4 *as well as* one of Iterations 5 or 6
 * 2: Application has some missing functionality but no crashes
 * 1: Application crashes during normal usage
 

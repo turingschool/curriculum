@@ -260,7 +260,7 @@ When the event has been defined:
 
 * Hour by hour breakdown of when the event was received. How many were shown
   at noon? at 1pm? at 2pm? Do it for all 24 hours.
-* How many times it was recieved overall
+* How many times it was received overall
 
 When the event has not been defined:
 

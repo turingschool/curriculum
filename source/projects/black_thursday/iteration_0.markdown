@@ -1,4 +1,4 @@
-# Iteration 0 - Initial Structure
+# Iteration 0 - Merchants & Items
 
 The goal of this iteration is to get the ball rolling by focusing on a "Data Access Layer" for multiple CSV files.
 

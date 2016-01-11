@@ -38,8 +38,12 @@ From a technical perspective, this project will emphasize:
 Because the requirements for this project are lengthy and complex, we've broken
 them into Iterations in their own files:
 
-* [Iteration 0](iteration_0.markdown) - Zero
-* [Iteration 1](iteration_1.markdown) - One
+* [Iteration 0](black_thursday/iteration_0.markdown) - Merchants & Items
+* [Iteration 1](black_thursday/iteration_1.markdown) - Beginning Relationships and Business Intelligence (*pending*)
+* Iteration 2 - *pending*
+* Iteration 3 - *pending*
+* Iteration 4 - *pending*
+* Iteration 5 - *pending*
 
 ## Evaluation Rubric
 

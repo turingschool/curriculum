@@ -1,213 +1,95 @@
-# Iteration 2 - Statewide Testing
+# Iteration 1: High School Graduation
 
-![Iteration 2](http://imgur.com/Rhpl1is.png)
+Now that we have the pieces working for a single CSV file of Kindergarteners, let's add some more data to the equation in Interaton 1.
 
-### `StatewideTestRepository`
+![Iteration 1](http://imgur.com/7drdEKc.png)
 
-The `StatewideTestRepository` is responsible for holding and searching our `StatewideTest`
-instances. It offers the following methods:
+## `EnrollmentRepository` and High School Graduation Data
 
-* `find_by_name` - returns either `nil` or an instance of `StatewideTest` having done a *case insensitive* search
-
-The `StatewideTest` instances are built using these data files:
-
-* `3rd grade students scoring proficient or above on the CSAP_TCAP.csv`
-* `8th grade students scoring proficient or above on the CSAP_TCAP.csv`
-* `Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv`
-* `Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv`
-* `Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv`
-
-The repository is initialized and used like this:
+Return to the `EnrollmentRepository` to add support for a second data file:
 
 ```ruby
-str = StatewideTestRepository.new
-str.load_data({
-  :statewide_testing => {
-    :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
-    :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
-    :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
-    :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
-    :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
-  }
-})
-str = str.find_by_name("ACADEMY 20")
-# => <StatewideTest>
-```
-
-## `StatewideTest`
-
-An instance of this class contains *all* the data from the files above for a single district and offers the following methods:
-
-### `.proficient_by_grade(grade)`
-
-This method takes one parameter:
-
-* `grade` as an integer from the following set: `[3, 8]`
-
-A call to this method with an unknown grade should raise an `UnknownDataError`.
-
-The method returns a hash grouped by year referencing percentages by subject all as three digit floats.
-
-*Example*:
-
-```ruby
-statewide_test.proficient_by_grade(3)
-=> { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
-     2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
-     2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
-     2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
-     2012 => {:math => 0.830, :reading => 0.870, :writing => 0.655},
-     2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
-     2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
-   }
-```
-
-### `.proficient_by_race_or_ethnicity(race)`
-
-This method takes one parameter:
-
-* `race` as a symbol from the following set: `[:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]`
-
-A call to this method with an unknown race should raise an `UnknownRaceError`.
-
-The method returns a hash grouped by race referencing percentages by subject all
-as truncated three digit floats.
-
-*Example*:
-
-```ruby
-statewide_test.proficient_by_race_or_ethnicity(:asian)
-=> { 2011 => {math: 0.816, reading: 0.897, writing: 0.826},
-     2012 => {math: 0.818, reading: 0.893, writing: 0.808},
-     2013 => {math: 0.805, reading: 0.901, writing: 0.810},
-     2014 => {math: 0.800, reading: 0.855, writing: 0.789},
-   }
-```
-
-### `.proficient_for_subject_by_grade_in_year(subject, grade, year)`
-
-This method takes three parameters:
-
-* `subject` as a symbol from the following set: `[:math, :reading, :writing]`
-* `grade` as an integer from the following set: `[3, 8]`
-* `year` as an integer for any year reported in the data
-
-A call to this method with any invalid parameter (like subject of `:science`) should raise an `UnknownDataError`.
-
-The method returns a truncated three-digit floating point number representing a percentage.
-
-*Example*:
-
-```ruby
-statewide_test.proficient_for_subject_by_grade_in_year(:math, 3, 2008) # => 0.857
-```
-
-### `.proficient_for_subject_by_race_in_year(subject, race, year)`
-
-This method take three parameters:
-
-* `subject` as a symbol from the following set: `[:math, :reading, :writing]`
-* `race` as a symbol from the following set: `[:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]`
-* `year` as an integer for any year reported in the data
-
-A call to this method with any invalid parameter (like subject of `:history`) should raise an `UnknownDataError`.
-
-The method returns a truncated three-digit floating point number representing a percentage.
-
-*Example*:
-
-```ruby
-statewide_test.proficient_for_subject_by_race_in_year(:math, :asian, 2012) # => 0.818
-```
-
-## Relationship: `District` to `StatewideTest`
-
-When the `DistrictRepository` is built from the data folder, an instance of `District` should now be connected to an instance of `StatewideTest`:
-
-```ruby
-dr = DistrictRepository.new
-dr.load_data({
+er = EnrollmentRepository.new
+er.load_data({
   :enrollment => {
     :kindergarten => "./data/Kindergartners in full-day program.csv",
-    :high_school_graduation => "./data/High school graduation rates.csv",
-  },
-  :statewide_testing => {
-    :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
-    :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
-    :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
-    :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
-    :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+    :high_school_graduation => "./data/High school graduation rates.csv"
   }
 })
-district = dr.find_by_name("ACADEMY 20")
-statewide_test = district.statewide_test
+enrollment = er.find_by_name("ACADEMY 20")
+# => <Enrollment>
+```
+
+Then on that `Enrollment` instance let's add the following data access methods:
+
+### `.graduation_rate_by_year`
+
+This method returns a hash with years as keys and a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```ruby
+enrollment.graduation_rate_by_year
+=> { 2010 => 0.895,
+     2011 => 0.895,
+     2012 => 0.889,
+     2013 => 0.913,
+     2014 => 0.898,
+     }
+```
+
+### `.graduation_rate_in_year(year)`
+
+This method takes one parameter:
+
+* `year` as an integer for any year reported in the data
+
+A call to this method with any unknown `year` should return `nil`.
+
+The method returns a truncated three-digit floating point number representing a percentage.
+
+*Example*:
+
+```ruby
+enrollment.graduation_rate_in_year(2010) # => 0.895
 ```
 
 ## Analysis
 
-### Where is the most growth happening in statewide testing?
+For this additional data there aren't any new relationships to construct, so let's jump right into the analysis.
 
-We have district data about 3rd and 8th grade achievement in reading, math, and writing. Consider that our data sources have absolute values, not growth. We're interested in who is making the most progress, not who scores the highest. That means calculating growth by comparing the absolute values across two or more years.
+### How does kindergarten participation variation compare to the high school graduation variation?
 
-#### A valid grade must be provided
+There's thinking that kindergarten participation has long-term effects. Given our limited data set, let's *assume* that variance in kindergarten rates for a given district is similar to when current high school students were kindergarten age (~10 years ago). Let's compare the variance in kindergarten participation and high school graduation.
 
-Because there are multiple grades with which we could answer these questions,
-the grade must be provided, or an `InsufficientInformationError` should be raised.
-
-```ruby
-ha.top_statewide_test_year_over_year_growth(subject: :math)
-~> InsufficientInformationError: A grade must be provided to answer this question
-```
-
-And only valid grades are allowed.
+For a single district:
 
 ```ruby
-ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
-=> ...some sort of result...
-ha.top_statewide_test_year_over_year_growth(grade: 8, subject: :math)
-=> ...some sort of result...
-ha.top_statewide_test_year_over_year_growth(grade: 9, subject: :math)
-~> UnknownDataError: 9 is not a known grade
+ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20') # => 1.234
 ```
 
-#### Finding a single leader
+Call *kindergarten variation* the result of dividing the district's kindergarten participation by the statewide average. Call *graduation variation* the result of dividing the district's graduation rate by the statewide average. Divide the *kindergarten variation* by the *graduation variation* to find the *kindergarten-graduation variance*.
+
+If this result is close to `1`, then we'd infer that the *kindergarten variation* and the *graduation variation* are closely related.
+
+### Does Kindergarten participation predict high school graduation?
+
+Let's consider the `kindergarten_participation_against_high_school_graduation` and set a correlation window between `0.6` and `1.5`. If the result is in that range then we'll say that they are correlated. For a single district:
 
 ```ruby
-ha.top_statewide_test_year_over_year_growth(grade: 3, subject: :math)
-=> ['the top district name', 0.123]
+ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
+# => true
 ```
 
-Where `0.123` is their average percentage growth across years. If there are three years of proficiency data (year1, year2, year3), that's `((proficiency at year3) - (proficiency at year1)) / (year3 - year1)`.
-
-#### Finding multiple leaders
-
-Let's say we want to be able to find several top districts using the same calculations:
+Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
 
 ```ruby
-ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
-=> [['top district name', growth_1], ['second district name', growth_2], ['third district name', growth_3]]
+ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE') # => true
 ```
 
-Where `growth_1` through `growth_3` represents their average growth across years.
-
-#### Across all subjects
-
-What about growth across all three subject areas?
+Then let's do the same calculation across a subset of districts:
 
 ```ruby
-ha.top_statewide_test_year_over_year_growth(grade: 3)
-=> ['the top district name', 0.111]
+ha.kindergarten_participation_correlates_with_high_school_graduation(
+  :across => ['district_1', 'district_2', 'district_3', 'district_4']) # => true
 ```
-
-Where `0.111` is the district's average percentage growth across years across subject areas.
-
-But that considers all three subjects in equal proportion. No Child Left Behind guidelines generally emphasize reading and math, so let's add the ability to weight subject areas:
-
-```ruby
-ha.top_statewide_test_year_over_year_growth(grade: 8, :weighting => {:math => 0.5, :reading => 0.5, :writing => 0.0})
-=> ['the top district name', 0.111]
-```
-
-The weights *must* add up to 1.
-
-### [TODO: Add another area of analysis for this iteration]

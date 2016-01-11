@@ -20,50 +20,18 @@ A business is only as smart as its data. Let's build a system able to load, pars
 4. Setup [CodeClimate](https://codeclimate.com/) to monitor code quality along the way
 5. Setup [TravisCI](https://travis-ci.org/) to run your tests ever time you push
 
+### Spec Harness
+
+This project will be assessed with the help of a [spec harness](https://github.com/turingschool/sales_engine_spec_harness). The `README.md` file includes instructions for setup and usage. Note that the spec harness **is not** a replacement for your own test suite.
+
 ## Key Concepts
 
 From a technical perspective, this project will emphasize:
 
 * File I/O
-* Parsing and Markup
+* Relationships between objects
 * Encapsulating Responsibilities
 * Light data / analytics
-
-#### Functionality
-
-The "application" will be run as an executable from a user's machine (gem or npm module). It needs to include several features:
-
-* a "generator" to scaffold out a new site (eg `hyde new my-blog`)
-* a "build" step which processes provided markdown files into rendered HTML templates. You'll likely want to use an existing Markdown processor for this, although if you ask nicely a module 1 student might let you use their Chisel.
-* a "serve" command which boots a simple HTTP server to allow viewing the site in development.
-
-#### File Locations and Path Conventions
-
-Remember that by convention, the "root" file for a static HTML site is its `index.html`. This is what will be served by, for example, github pages if you ship your site to it. We'd like to also allow arbitrary path nesting based on whatever structure a user provides with their site.
-
-So, for example, a file located in the source at:
-
-`articles/my_article.markdown`
-
-should get built as:
-
-`articles/my_article.html`
-
-and be retrievable on the server at:
-
-`my_url.com/articles/my_article.html`
-
-### Serving static assets
-
-We'd like our users to be able to include static assets like Javascripts, Stylesheets, and Images.
-
-### Extensions
-
-* Rails-style "layouts" for extracting standard template functionality
-* Partials
-* CSS preprocessor (using sass or less)
-
-
 
 ## Project Iterations and Base Expectations
 

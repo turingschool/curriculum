@@ -36,14 +36,14 @@ From a technical perspective, this project will emphasize:
 ## Project Iterations and Base Expectations
 
 Because the requirements for this project are lengthy and complex, we've broken
-them into Iterations in their own files:
+them into Iterations in their own files. Your project *must* implement iterations 0 through 3.
 
 * [Iteration 0](black_thursday/iteration_0.markdown) - Merchants & Items
 * [Iteration 1](black_thursday/iteration_1.markdown) - Beginning Relationships and Business Intelligence (*pending*)
-* Iteration 2 - *pending*
-* Iteration 3 - *pending*
-* Iteration 4 - *pending*
-* Iteration 5 - *pending*
+* [Iteration 2](black_thursday/iteration_2.markdown) - Basic Invoices
+* [Iteration 3](black_thursday/iteration_3.markdown) - Item Sales
+* [Iteration 4](black_thursday/iteration_4.markdown) - Merchant Analytics
+* [Iteration 5](black_thursday/iteration_5.markdown) - Customer Analytics
 
 ## Evaluation Rubric
 
@@ -51,10 +51,10 @@ The project will be assessed with the following guidelines:
 
 ### 1. Functional Expectations
 
-* 4: Application fulfills all base expectations and two extensions
-* 3: Application fulfills all base expectations as tested by the spec harness
-* 2: Application has some missing functionality but no crashes
-* 1: Application crashes during normal usage
+* 4: Application implements iterations 0, 1, 2, 3, (4 or 5), and features of your own design
+* 3: Application implements iterations 0, 1, 2, 3, and either 4 or 5
+* 2: Application implements iterations 0, 1, 2, and 3
+* 1: Application does not fully implement iterations 0, 1, 2, and 3
 
 ### 2. Test-Driven Development
 

@@ -1,25 +1,23 @@
 # Iteration 1 - Starting Relationships and Business Intelligence
 
-**PENDING**
+With the beginnings of a Data Access Layer in place we can begin building relationships between objects and derive some business intelligence.
 
 ## Starting the Relationships Layer
 
-Instead of loading just one data file into our `DistrictRepository`, we now want to specify the data directory and have it figure out what data it wants/needs:
+Merchants and Items are linked conceptually by the `merchant_id` in `Item` corresponding to the `id` in `Merchant`. Connect them in code to allow for the following interaction:
 
 ```ruby
-dr = DistrictRepository.new
-dr.load_data({
-  :enrollment => {
-    :kindergarten => "./data/Kindergartners in full-day program.csv"
-  }
+se = SalesEngine.new
+se.load_data({
+  :items => "./data/items.csv",
+  :merchants => "./data/merchants.csv"
 })
-district = dr.find_by_name("ACADEMY 20")
-```
-
-And when a `DistrictRepository` is created in this way then it *automatically* creates the `EnrollmentRepository` as described above and allows us to access the enrollment data for a district like this:
-
-```ruby
-district.enrollment.kindergarten_participation_in_year(2010) # => 0.391
+merchant = se.merchants.find_by_id(10)
+merchant.items
+# => [<item>, <item>, <item>]
+item = se.items.find_by_id(20)
+item.merchant
+# => <merchant>
 ```
 
 ## Starting the Analysis Layer

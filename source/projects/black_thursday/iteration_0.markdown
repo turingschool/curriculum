@@ -12,6 +12,7 @@ The `MerchantRepository` is responsible for holding and searching our `Merchant`
 instances. It offers the following methods:
 
 * `all` - returns an array of all known `Merchant` instances
+* `find_by_id` - returns either `nil` or an instance of `Item` with a matching ID
 * `find_by_name` - returns either `nil` or an instance of `District` having done a *case insensitive* search
 * `find_all_by_name` - returns either `[]` or one or more matches which contain the supplied name fragment, *case insensitive*
 
@@ -26,8 +27,9 @@ merchant = mr.find_by_name("Halvorson Group")
 
 ### `Merchant`
 
-The merchant is one of the critical concepts in our data hierarchy. But it starts with just one method:
+The merchant is one of the critical concepts in our data hierarchy.
 
+* `id` - returns the integer id of the merchant
 * `name` - returns the name of the merchant
 
 We create an instance like this:
@@ -44,6 +46,7 @@ instances. This object represents one line of data from the file `items.csv`.
 It offers the following methods:
 
 * `all` - returns an array of all known `Item` instances
+* `find_by_id` - returns either `nil` or an instance of `Item` with a matching ID
 * `find_by_name` - returns either `nil` or an instance of `Item` having done a *case insensitive* search
 * `find_all_with_description` - returns either `[]` or instances of `Item` where the supplied string appears in the item description (case insensitive)
 * `find_all_by_price` - returns either `[]` or instances of `Item` where the supplied price exactly matches
@@ -63,6 +66,7 @@ item = ir.find_by_name("Item Repellat Dolorum")
 
 The Item instance offers the following methods:
 
+* `id` - returns the integer id of the item
 * `name` - returns the name of the item
 * `description` - returns the description of the item
 * `unit_price` - returns the price of the item formatted as a `BigDecimal`

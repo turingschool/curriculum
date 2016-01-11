@@ -22,48 +22,56 @@ item.merchant
 
 ## Starting the Analysis Layer
 
-Our analysis is centered on answering questions about the data.
+Our analysis will use the data and relationships to calculate information.
 
-Who will answer those questions? Assuming we have a `dr` that's an instance of `DistrictRepository` let's initialize a `HeadcountAnalyst` like this:
+Who in the system will answer those questions? Assuming we have a `se` that's an instance of `SalesEngine` let's initialize a `SalesAnalyst` like this:
 
 ```ruby
-ha = HeadcountAnalyst.new(dr)
+sa = SalesAnalyst.new(se)
 ```
 
 Then ask/answer these questions:
 
-### Does Kindergarten participation affect outcomes?
+### How many products do merchants sell?
 
-In many states, including Colorado, Kindergarten is offered at public schools but is not free for all residents. Denver, for instance, will charge as much as $310/month for Kindergarten. There's then a disincentive to enroll a child in Kindergarten. Does participation in Kindergarten with other factors/outcomes?
-
-Let's start to build tooling to answer this question.
-
-### How does a district's kindergarten participation rate compare to the state average?
-
-First, let's ask how an individual district's participation percentage compares to the statewide average:
+Do most of our merchants offer just a few items or do they represent a warehouse?
 
 ```ruby
-ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO') # => 0.766
+sa.average_items_per_merchant # => 8.5
 ```
 
-Where `0.766` is the result of the district average divided by state average. (i.e. find the district's average participation across all years and divide it by the average of the state participation data across all years.) A value less than 1 implies that the district performs lower than the state average, and a value greater than 1 implies that the district performs better than the state average.
-
-### How does a district's kindergarten participation rate compare to another district?
-
-Let's next compare this variance against another district:
+And what's the standard deviation?
 
 ```ruby
-ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'YUMA SCHOOL DISTRICT 1') # => 1.234
+sa.average_items_per_merchant_standard_deviation # => 1.2
 ```
 
-Where `1.234` is the result of the district average divided by 'against' district's average. (i.e. find the district's average participation across all years and didvide it by the average of the 'against' district's participation data across all years.) A value less than 1 implies that the district performs lower than the against district's average, and a value greater than 1 implies that the district performs better than the against district's average.
+### Which merchants have the fewest items?
 
-### How does a district's kindergarten participation rate trend against the the state average?
-
-Then, how are the numbers changing each year?
+Maybe we could boost sales on the platform by encouraging merchants to list more items. Which merchants are more than one standard deviation below the average number of products offered?
 
 ```ruby
-ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO') # => {2009 => 0.766, 2010 => 0.566, 2011 => 0.46 }
+sa.merchants_with_low_item_count # => [merchant, merchant, merchant]
 ```
 
-With the similar calculation as above now broken down by year.
+### What are prices like on our platform?
+
+Are these merchants selling commodity or luxury goods? Let's find the average price of a merchant's items (by supplying the merchant ID):
+
+```ruby
+sa.average_item_price_for_merchant(6) # => BigDecimal
+```
+
+Then average that across all merchants:
+
+```ruby
+sa.average_price_per_merchant # => BigDecimal
+```
+
+### Which are our *Golden Items*?
+
+Given that our platform is going to charge merchants based on their sales, expensive items are extra exciting to us. Which are our "Golden Items", those two standard-deviations above the average item price?
+
+```ruby
+sa.golden_items # => [item, item, item, item]
+```

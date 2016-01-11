@@ -75,15 +75,15 @@ transaction = tr.find_by_id(6)
 
 ### `Transaction`
 
-The invoice item has the following data accessible:
+The transaction has the following data accessible:
 
 * `id` - returns the integer id
 * `invoice_id` - returns the invoice id
 * `credit_card_number` - returns the credit card number
 * `credit_card_expiration_date` - returns the credit card expiration date
 * `result` - the transaction result
-* `created_at` - returns a `Date` instance for the date the invoice item was first created
-* `updated_at` - returns a `Date` instance for the date the invoice item was last modified
+* `created_at` - returns a `Date` instance for the date the transaction was first created
+* `updated_at` - returns a `Date` instance for the date the transaction was last modified
 
 We create an instance like this:
 
@@ -101,6 +101,45 @@ t = Transaction.new({
 
 ### `CustomerRepository`
 
+Customers represent a person who's made one or more purchases in our system.
+
+The `CustomerRepository` is responsible for holding and searching our `Customers`
+instances. It offers the following methods:
+
+* `all` - returns an array of all known `Customers` instances
+* `find_by_id` - returns either `nil` or an instance of `InvoiceItem` with a matching ID
+* `find_all_by_first_name` - returns either `[]` or one or more matches which have a first name matching the substring fragment supplied
+* `find_all_by_last_name` - returns either `[]` or one or more matches which have a last name matching the substring fragment supplied
+
+The data can be found in `data/customers.csv` so the instance is created and used like this:
+
+```ruby
+cr = CustomerRepository.new
+cr.load_data("./data/customers.csv")
+customer = cr.find_by_id(6)
+# => <customer>
+```
+
 ### `Customer`
+
+The customer has the following data accessible:
+
+* `id` - returns the integer id
+* `first_name` - returns the first name
+* `last_name` - returns the last name
+* `created_at` - returns a `Date` instance for the date the customer was first created
+* `updated_at` - returns a `Date` instance for the date the customer was last modified
+
+We create an instance like this:
+
+```ruby
+c = Customer.new({
+  :id => 6,
+  :first_name => "Joan",
+  :last_name => "Clarke",
+  :created_at => Time.now,
+  :updated_at => Time.now
+})
+```
 
 ## Relationships

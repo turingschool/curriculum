@@ -7,10 +7,9 @@ With the beginnings of a Data Access Layer in place we can begin building relati
 Merchants and Items are linked conceptually by the `merchant_id` in `Item` corresponding to the `id` in `Merchant`. Connect them in code to allow for the following interaction:
 
 ```ruby
-se = SalesEngine.new
-se.load_data({
-  :items => "./data/items.csv",
-  :merchants => "./data/merchants.csv"
+se = SalesEngine.from_csv({
+  :items     => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
 })
 merchant = se.merchants.find_by_id(10)
 merchant.items

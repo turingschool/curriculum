@@ -11,9 +11,10 @@ The idea of a *DAL* is to write classes which load and parse your raw data, allo
 Then let's tie everything together with one common root, a `SalesEngine` instance:
 
 ```ruby
-se = SalesEngine.new
-se.load_data(:items => "./data/items.csv",
-             :merchants => "./data/merchants.csv")
+se = SalesEngine.from_csv({
+  :items     => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+})
 ```
 
 From there we can find the child instances:
@@ -34,12 +35,13 @@ instances. It offers the following methods:
 The data can be found in `data/merchants.csv` so the instance is created and used like this:
 
 ```ruby
-se = SalesEngine.new
-se.load_data(:items => "./data/items.csv",
-             :merchants => "./data/merchants.csv")
+se = SalesEngine.from_csv({
+  :items     => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+})
 
-mr = se.merchant_repository
-merchant = mr.find_by_name("Halvorson Group")
+mr = se.merchants
+merchant = mr.find_by_name("CJsDecor")
 # => <Merchant>
 ```
 
@@ -74,11 +76,12 @@ It offers the following methods:
 It's initialized and used like this:
 
 ```ruby
-se = SalesEngine.new
-se.load_data(:items => "./data/items.csv",
-             :merchants => "./data/merchants.csv")
+se = SalesEngine.from_csv({
+  :items     => "./data/items.csv",
+  :merchants => "./data/merchants.csv"
+})
 
-ir = se.item_repository
+ir   = se.items
 item = ir.find_by_name("Item Repellat Dolorum")
 # => <Item>
 ```
@@ -98,10 +101,10 @@ We create an instance like this:
 
 ```ruby
 i = Item.new({
-              :name => "Pencil",
-              :description => "You can use it to write things",
-              :unit_price => BigDecimal.new(10.99,4),
-              :created_at => Time.now,
-              :updated_at => Time.now
-            })
+  :name        => "Pencil",
+  :description => "You can use it to write things",
+  :unit_price  => BigDecimal.new(10.99,4),
+  :created_at  => Time.now,
+  :updated_at  => Time.now,
+})
 ```

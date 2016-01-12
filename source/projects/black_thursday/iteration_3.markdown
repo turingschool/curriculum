@@ -20,7 +20,7 @@ The data can be found in `data/invoice_items.csv` so the instance is created and
 
 ```ruby
 ir = InvoiceItemRepository.new
-ir.load_data("./data/invoice_items.csv")
+ir.from_csv("./data/invoice_items.csv")
 invoice = ir.find_by_id(6)
 # => <invoice_item>
 ```
@@ -68,7 +68,7 @@ The data can be found in `data/transactions.csv` so the instance is created and 
 
 ```ruby
 tr = TransactionRepository.new
-tr.load_data("./data/transactions.csv")
+tr.from_csv("./data/transactions.csv")
 transaction = tr.find_by_id(6)
 # => <transaction>
 ```
@@ -115,7 +115,7 @@ The data can be found in `data/customers.csv` so the instance is created and use
 
 ```ruby
 cr = CustomerRepository.new
-cr.load_data("./data/customers.csv")
+cr.from_csv("./data/customers.csv")
 customer = cr.find_by_id(6)
 # => <customer>
 ```
@@ -148,7 +148,7 @@ There are many connections to draw between all these objects. Assuming we start 
 
 ```ruby
 se = SalesEngine.new
-se.load_data({
+se.from_csv({
   :items => "./data/items.csv",
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv",

@@ -18,9 +18,8 @@ instances. It offers the following methods:
 The data can be found in `data/invoices.csv` so the instance is created and used like this:
 
 ```ruby
-ir = InvoiceRepository.new
-ir.load_data("./data/invoices.csv")
-invoice = ir.find_by_id(6)
+se = SalesEngine.from_csv({:invoices => "./data/invoices.csv"})
+invoice = se.invoices.find_by_id(6)
 # => <invoice>
 ```
 
@@ -39,12 +38,12 @@ We create an instance like this:
 
 ```ruby
 i = Invoice.new({
-  :id => 6,
+  :id          => 6,
   :customer_id => 7,
   :merchant_id => 8,
-  :status => "pending",
-  :created_at => Time.now,
-  :updated_at => Time.now
+  :status      => "pending",
+  :created_at  => Time.now,
+  :updated_at  => Time.now,
 })
 ```
 
@@ -53,8 +52,7 @@ i = Invoice.new({
 Then connect our invoices to our merchants:
 
 ```ruby
-se = SalesEngine.new
-se.load_data({
+se = SalesEngine.from_csv({
   :items => "./data/items.csv",
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv"

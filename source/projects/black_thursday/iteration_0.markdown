@@ -96,6 +96,7 @@ The Item instance offers the following methods:
 * `unit_price` - returns the price of the item formatted as a `BigDecimal`
 * `created_at` - returns a `Time` instance for the date the item was first created
 * `updated_at` - returns a `Time` instance for the date the item was last modified
+* `merchant_id` - returns the integer merchant id of the item
 
 We create an instance like this:
 

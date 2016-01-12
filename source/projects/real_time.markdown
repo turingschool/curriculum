@@ -55,7 +55,7 @@ Tan is a software engineer who often finds him self in the odd position of not h
 - Tan puts in three or four local places into the application and generates a new poll. He chooses to share the results as they come in. As a result each voting page is also showing the results in real time as they come in.
 - Before leaving the house, he realizes that he is going to need to have this decided by the time he gets there. He chooses a time to have the poll automatically close.
 - He shares a link to the poll with his friends.
-- Tan arrives at his old school and checks his phone. He sees that the group has made a decision and on of his friends had already headed over to grab a table.
+- Tan arrives at his old school and checks his phone. He sees that the group has made a decision and one of his friends has already headed over to grab a table.
 
 
 ### Personal Time

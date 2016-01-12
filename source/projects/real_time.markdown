@@ -82,7 +82,7 @@ Marissa works at a local non-profit helping where she helps people find jobs in 
 
 #### Mary
 
-Mary mentors up and coming software engineers because of the deep joy generates in her heart. As much as she loves working with junior developers, she is on the East Coast and many of the people she works with live in Mountain Time. Mary, being comfortable with technology, decides to offload this task to a computer rather than dealing with it herself. Mary has many of the same needs as Marissa, with some additional requirements:
+Mary mentors up and coming software engineers because of the deep joy it generates in her heart. As much as she loves working with junior developers, she is on the East Coast and many of the people she works with live in Mountain Time. Mary, being comfortable with technology, decides to offload this task to a computer rather than dealing with it herself. Mary has many of the same needs as Marissa, with some additional requirements:
 
 - She heads over to the Personal Time website and creates a bunch of slots. She notices that the site already knew she was on Eastern Time. She puts in a number of time slots.
 - She sends the link out to her proteges.

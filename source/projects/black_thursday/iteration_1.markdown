@@ -36,13 +36,13 @@ Then ask/answer these questions:
 Do most of our merchants offer just a few items or do they represent a warehouse?
 
 ```ruby
-sa.average_items_per_merchant # => 8.5
+sa.average_items_per_merchant # => 8.56
 ```
 
 And what's the standard deviation?
 
 ```ruby
-sa.average_items_per_merchant_standard_deviation # => 1.2
+sa.average_items_per_merchant_standard_deviation # => 1.23
 ```
 
 ### Which merchants have the fewest items?

@@ -31,8 +31,8 @@ The invoice has the following data accessible:
 * `customer_id` - returns the customer id
 * `merchant_id` - returns the merchant id
 * `status` - returns the status
-* `created_at` - returns a `Date` instance for the date the item was first created
-* `updated_at` - returns a `Date` instance for the date the item was last modified
+* `created_at` - returns a `Time` instance for the date the item was first created
+* `updated_at` - returns a `Time` instance for the date the item was last modified
 
 We create an instance like this:
 

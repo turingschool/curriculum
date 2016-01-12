@@ -68,7 +68,7 @@ Marissa works at a local non-profit helping where she helps people find jobs in 
 - This generates two unique URLs: one where she can see all of her appointments and one that she can give to people to schedule a time.
 - She is autoredirected to the first URL, which we'll call the "Admin Dashboard" from this point forward.
 - On the Admin Dashboard, the application displays an additional URL for her to give out to students. We'll call this the "scheduling page" from this point forward.
-- She puts in a bunch of time slot into the administration dashboard. Each time slot has the following:
+- She puts in a bunch of time slots into the administration dashboard. Each time slot has the following:
   - The date in which the time slot occurs.
   - The start time.
   - The end time.

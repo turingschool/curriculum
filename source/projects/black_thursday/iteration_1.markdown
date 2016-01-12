@@ -69,8 +69,8 @@ sa.average_price_per_merchant # => BigDecimal
 
 ### Which are our *Golden Items*?
 
-Given that our platform is going to charge merchants based on their sales, expensive items are extra exciting to us. Which are our "Golden Items", those two standard-deviations above the average item price?
+Given that our platform is going to charge merchants based on their sales, expensive items are extra exciting to us. Which are our "Golden Items", those two standard-deviations above the average item price? Return the item objects of these "Golden Items".
 
 ```ruby
-sa.golden_items # => [item, item, item, item]
+sa.golden_items # => [<item>, <item>, <item>, <item>]
 ```

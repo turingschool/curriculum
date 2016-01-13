@@ -51,7 +51,7 @@ economic_profile = EconomicProfile.new(data)
 
 And it would offer the following methods:
 
-### `.estimated_median_household_income_in_year(year)`
+### `.median_household_income_in_year(year)`
 
 This method takes one parameter:
 
@@ -116,7 +116,7 @@ The method returns a float representing a percentage.
 *Example*:
 
 ```ruby
-economic_profile.free_or_reduced_price_lunch_in_year(2014)
+economic_profile.free_or_reduced_price_lunch_percentage_in_year(2014)
 => 0.023
 ```
 
@@ -134,7 +134,7 @@ on Free or Reduced Price Lunch in that year.
 *Example*:
 
 ```ruby
-economic_profile.free_or_reduced_price_lunch_total_in_year(2012)
+economic_profile.free_or_reduced_price_lunch_number_in_year(2012)
 => 100
 ```
 

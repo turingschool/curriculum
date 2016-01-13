@@ -34,8 +34,8 @@ The invoice item has the following data accessible:
 * `invoice_id` - returns the invoice id
 * `quantity` - returns the quantity
 * `unit_price` - returns the unit_price
-* `created_at` - returns a `Date` instance for the date the invoice item was first created
-* `updated_at` - returns a `Date` instance for the date the invoice item was last modified
+* `created_at` - returns a `Time` instance for the date the invoice item was first created
+* `updated_at` - returns a `Time` instance for the date the invoice item was last modified
 
 We create an instance like this:
 

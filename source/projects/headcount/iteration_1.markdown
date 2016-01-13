@@ -2,7 +2,7 @@
 
 ## Starting the Relationships Layer
 
-Instead of loading just one data file into our `DistrictRepository`, we now want to specify the data directory and have it figure out what data it wants/needs:
+Let's tweak our `DistrictRepository` to specify the kindergarten load file like this:
 
 ```ruby
 dr = DistrictRepository.new
@@ -14,7 +14,7 @@ dr.load_data({
 district = dr.find_by_name("ACADEMY 20")
 ```
 
-And when a `DistrictRepository` is created in this way then it *automatically* creates the `EnrollmentRepository` as described above and allows us to access the enrollment data for a district like this:
+And when a `DistrictRepository` is created in this way then it *automatically* creates the `EnrollmentRepository` as described previously and allows us to access the enrollment data for a district like this:
 
 ```ruby
 district.enrollment.kindergarten_participation_in_year(2010) # => 0.391

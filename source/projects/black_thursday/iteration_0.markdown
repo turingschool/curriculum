@@ -55,7 +55,7 @@ The merchant is one of the critical concepts in our data hierarchy.
 We create an instance like this:
 
 ```ruby
-m = Merchant.new({:name => "Turing School"})
+m = Merchant.new({:id => 5, :name => "Turing School"})
 ```
 
 ### `ItemRepository`

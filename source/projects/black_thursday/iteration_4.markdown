@@ -11,13 +11,19 @@ We can query the MerchantRepository for the following:
 To find out the total revenue for a given date:
 
 ```rb
-merchants.revenue(date) #=> Date
+merchants.revenue(date) #=> $$
 ```
 
 To find the top x performing merchants in terms of revenue:  
 
 ```rb
-merchants.most_revenue(x)
+merchants.most_revenue(x) #=> [merchant, merchant, merchant]
+```
+
+If no number is given for `most_revenue`, it takes the top 20 percent by default: 
+
+```rb
+merchants.most_revenue #=> [merchant, merchant, merchant] (20 % of top merchants by revenue)
 ```
 
 It's also possible to filter the results to find which merchants are in x percentile:
@@ -35,7 +41,7 @@ merchants.all.top_percent(xx) #=> [merchant, merchant, merchant]
 To find which merchants were most popular in which month (more about `by_month(month)` below): 
 
 ```rb
-merchants.most_revenue(x).by_month(month) #=> [merchant, merchant, merchant ]
+merchants.most_revenue.by_month(month) #=> [merchant, merchant, merchant ]
 ```
 
 ### `CustomerRepository`

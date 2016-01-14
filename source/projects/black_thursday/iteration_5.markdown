@@ -8,45 +8,57 @@ The marketing team loved the software and told everyone in the office how much b
 
 The logistics team need to be able to filter merchants by the following:
 
+Which merchants have pending invoices:
+
+```rb
+sa = SalesAnalyst.new
+
+sa.merchants_with_pending_invoices
+```
+
+**Note:** an invoice is considered pending if none of it’s transactions are successful.
+
 Which merchants had only one transaction:
 
 ```rb
-merchants.only_one_transaction #=> [merchant, merchant, merchant]
+sa = SalesAnalyst.new
+
+sa.merchants_with_only_one_transaction #=> [merchant, merchant, merchant]
 ```
 
 Which merchants had only one transaction in a given month:
 
 ```rb
-merchants.only_one_transaction.by_month(month) #=> [merchant, merchant, merchant]
+sa = SalesAnalyst.new
+
+sa.merchants_with_only_one_transaction.by_month(month) #=> [merchant, merchant, merchant]
 ```
 
 `by_month` works as a filter and can be used on any collection:
 
 ```rb
-merchants.with_pending_invoices.by_month(month) #=> [merchant, merchant, merchant]
-merchants.most_revenue.by_month(month)          #=> [merchant, merchant, merchant]
+sa = SalesAnalyst.new
+
+sa.merchants_with_pending_invoices.by_month(month) #=> [merchant, merchant, merchant]
+sa.top_revenue_earners.by_month(month)          #=> [merchant, merchant, merchant]
 ```
-
-Which merchants have pending invoices:
-
-```rb
-merchants.with_pending_invoices #=> [merchant, merchant, merchant]
-```
-
-**Note:** an invoice is considered pending if none of it’s transactions are successful.
 
 For individual merchants we need to find the following data,
 
 total revenue for a single merchant:
 
 ```rb
-merchant.revenue #=> $$$
+sa = SalesAnalyst.new
+
+sa.revenue_by_merchant(merchant_id) #=> $$$
 ```
 
 find the invoice with the highest total $ amount:
 
 ```rb
-merchant.best_invoice
+sa = SalesAnalyst.new
+
+sa.best_invoice
 ```
 
 ### More from the marketing team

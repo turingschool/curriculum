@@ -190,5 +190,7 @@ customer.merchants # => [merchant, merchant]
 
 ## Business Intelligence
 
-* `invoice.is_paid_in_full?` returns true if the invoice is paid in full 
+* `invoice.is_paid_in_full?` returns true if the invoice is paid in full
 * `invoice.total` returns the total $ amount of the invoice
+
+**Note:** Failed charges should never be counted in revenue totals or statistics.

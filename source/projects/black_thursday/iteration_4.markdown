@@ -20,22 +20,22 @@ To find the top x performing merchants in terms of revenue:
 merchants.most_revenue(x) #=> [merchant, merchant, merchant]
 ```
 
-If no number is given for `most_revenue`, it takes the top 20 merchants by default: 
+If no number is given for `most_revenue`, it takes the top 20 merchants by default:
 
 ```rb
 merchants.most_revenue #=> [merchant, merchant, merchant] (20 % of top merchants by revenue)
 ```
 
-It's also possible to filter the results to find which merchants are in x percentile:
+Rank all the merchants by revenue:
 
 ```rb
-merchants.all.in_percentile(xx) #=> [merchant, merchant, merchant]
+merchants.ranked_by_revenue #=> [merchant, merchant, merchant]
 ```
 
 And filter the results to find the top x percent:
 
 ```rb
-merchants.all.top_percent(xx) #=> [merchant, merchant, merchant]
+merchants.ranked_by_revenue.top_percent(xx) #=> [merchant, merchant, merchant]
 ```
 
 To find which merchants were most popular in which month (more about `by_month(month)` below):

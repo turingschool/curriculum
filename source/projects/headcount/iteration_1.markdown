@@ -34,7 +34,7 @@ Then ask/answer these questions:
 
 ### Does Kindergarten participation affect outcomes?
 
-In many states, including Colorado, Kindergarten is offered at public schools but is not free for all residents. Denver, for instance, will charge as much as $310/month for Kindergarten. There's then a disincentive to enroll a child in Kindergarten. Does participation in Kindergarten with other factors/outcomes?
+In many states, including Colorado, Kindergarten is offered at public schools but is not free for all residents. Denver, for instance, will charge as much as $310/month for Kindergarten. There's then a disincentive to enroll a child in Kindergarten. Does participation in Kindergarten correlate with other factors/outcomes?
 
 Let's start to build tooling to answer this question.
 

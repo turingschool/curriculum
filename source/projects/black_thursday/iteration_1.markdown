@@ -82,10 +82,10 @@ Are these merchants selling commodity or luxury goods? Let's find the average pr
 sa.average_item_price_for_merchant(6) # => BigDecimal
 ```
 
-Then average that across all merchants:
+Then we can sum all of the averages and find the average price across all merchants (this implies that each merchant's average has equal weight in the calculation): 
 
 ```ruby
-sa.average_price_per_merchant # => BigDecimal
+sa.average_average_price_per_merchant # => BigDecimal
 ```
 
 ### Which are our *Golden Items*?

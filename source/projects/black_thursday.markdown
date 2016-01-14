@@ -22,7 +22,7 @@ A business is only as smart as its data. Let's build a system able to load, pars
 
 ### Spec Harness
 
-This project will be assessed with the help of a [spec harness](https://github.com/turingschool/sales_engine_spec_harness). The `README.md` file includes instructions for setup and usage. Note that the spec harness **is not** a replacement for your own test suite.
+This project will be assessed with the help of a [spec harness](https://github.com/turingschool/black_thursday_spec_harness). The `README.md` file includes instructions for setup and usage. Note that the spec harness **is not** a replacement for your own test suite.
 
 ## Key Concepts
 

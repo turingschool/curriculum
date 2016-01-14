@@ -63,7 +63,7 @@ Where `1.234` is the result of the district average divided by 'against' distric
 Then, how are the numbers changing each year?
 
 ```ruby
-ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO') # => {2009 => 0.766, 2010 => 0.566, 2011 => 0.46 }
+ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO') # => {2009 => 0.652, 2010 => 0.681, 2011 => 0.728 }
 ```
 
 With the similar calculation as above now broken down by year.

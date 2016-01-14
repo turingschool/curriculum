@@ -82,8 +82,8 @@ The transaction has the following data accessible:
 * `credit_card_number` - returns the credit card number
 * `credit_card_expiration_date` - returns the credit card expiration date
 * `result` - the transaction result
-* `created_at` - returns a `Date` instance for the date the transaction was first created
-* `updated_at` - returns a `Date` instance for the date the transaction was last modified
+* `created_at` - returns a `Time` instance for the date the transaction was first created
+* `updated_at` - returns a `Time` instance for the date the transaction was last modified
 
 We create an instance like this:
 

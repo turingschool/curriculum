@@ -36,13 +36,34 @@ Then ask/answer these questions:
 Do most of our merchants offer just a few items or do they represent a warehouse?
 
 ```ruby
-sa.average_items_per_merchant # => 8.56
+sa.average_items_per_merchant # => 2.88
 ```
 
 And what's the standard deviation?
 
 ```ruby
-sa.average_items_per_merchant_standard_deviation # => 1.23
+sa.average_items_per_merchant_standard_deviation # => 3.26
+```
+
+### Note on Standard Deviations
+
+There are two ways for calculating standard deviations -- for a population and for a sample.
+
+For this project, use the sample standard deviation.
+
+As an example, given the set `3,4,5`. We would calculate the deviation using the following steps:
+
+1. Take the difference between each number and the mean and square it
+2. Sum these square differences together
+3. Divide the sum by the number of elements minus 1
+4. Take the square root of this result
+
+Or, in pseudocode:
+
+```
+set = [3,4,5]
+
+std_dev = sqrt( ( (3-4)^2+(4-4)^2+(5-4)^2 ) / 2 )
 ```
 
 ### Which merchants have the fewest items?

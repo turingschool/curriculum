@@ -8,7 +8,7 @@ Performance reviews are coming up and it's time to explroe the highs and the low
 
 We can query the MerchantRepository for the following:
 
-To find out which day of the year was the most successful in terms of revenue made:
+To find out the total revenue for a given date:
 
 ```rb
 merchants.revenue(date) #=> Date

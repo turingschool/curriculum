@@ -1,4 +1,4 @@
-# Iteration 4: Merchant Analytics
+# Iteration 4: Merchant (and some Customer) Analytics
 
 Performance reviews are coming up and it's time to explroe the highs and the lows.
 
@@ -20,12 +20,6 @@ To find the top x performing merchants in terms of revenue:
 merchants.most_revenue(x)
 ```
 
-To find which merchants were most popular in which month:
-
-```rb
-merchants.most_revenue_by_month(month) #=> [merchant, merchant, merchant ]
-```
-
 It's also possible to filter the results to find which merchants are in x percentile:
 
 ```rb
@@ -36,6 +30,12 @@ And filter the results to find the top x percent:
 
 ```rb
 merchants.all.top_percent(xx) #=> [merchant, merchant, merchant]
+```
+
+To find which merchants were most popular in which month (more about `by_month(month)` below): 
+
+```rb
+merchants.most_revenue(x).by_month(month) #=> [merchant, merchant, merchant ]
 ```
 
 ### `CustomerRepository`
@@ -75,6 +75,6 @@ customers.one_time_buyers.by_month(month)
 `by_month` acts as as a filter for all collections:  
 
 ```rb
-customers.most_popular.by_month(month) #=> #=> [customer, customer, customer]
+merchants.most_popular.by_month(month) #=> #=> [customer, customer, customer]
 customers.top_buyers.by_month(month) #=> #=> [customer, customer, customer]
 ```

@@ -98,6 +98,10 @@ The Item instance offers the following methods:
 * `updated_at` - returns a `Time` instance for the date the item was last modified
 * `merchant_id` - returns the integer merchant id of the item
 
+It also offers the following method:
+
+* `unit_price_to_dollars` - returns the price of the item in dollars formatted as a `Float` 
+
 We create an instance like this:
 
 ```ruby

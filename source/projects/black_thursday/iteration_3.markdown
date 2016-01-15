@@ -37,6 +37,10 @@ The invoice item has the following data accessible:
 * `created_at` - returns a `Time` instance for the date the invoice item was first created
 * `updated_at` - returns a `Time` instance for the date the invoice item was last modified
 
+It also offers the following method:
+
+* `unit_price_to_dollars` - returns the price of the invoice item in dollars formatted as a `Float`
+
 We create an instance like this:
 
 ```ruby

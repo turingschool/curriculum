@@ -45,15 +45,19 @@ And filter the results to find the top x percent:
 ```rb
 sa = SalesAnalyst.new
 
-sa.merchants_ranked_by_revenue.top_percent(xx) #=> [merchant, merchant, merchant]
+collection = sa.merchants_ranked_by_revenue.
+sa.top_percent(collection, xx) #=> [merchant, merchant, merchant]
 ```
+
+**Note:** percentages will be given as decimals, e.g. 0.6, 0.45, 0.55, and it rounds up. If the given percentage represents 15.2 merchants, you should return 16 merchants.
 
 To find which merchants were most popular in which month (more about `by_month(month)` below):
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.top_revenue_earners.by_month(month) #=> [merchant, merchant, merchant ]
+collection = sa.top_revenue_earners
+sa.by_month(collection, month) #=> [merchant, merchant, merchant ]
 ```
 
 ### `CustomerRepository`
@@ -97,12 +101,15 @@ Find which month had the most `one_time_buyers`:
 ```rb
 sa = SalesAnalyst.new
 
-sa.one_time_buyers.by_month(month)
+collection = sa.one_time_buyers
+collection.by_month(collection, month)
 ```
 
 `by_month` acts as as a filter for all collections:  
 
 ```rb
-sa.most_popular_merchants.by_month(month) #=> #=> [customer, customer, customer]
-sa.top_buyers.by_month(month) #=> #=> [customer, customer, customer]
+collection = sa.most_popular_merchants
+
+collection.by_month(collection, month) #=> #=> [customer, customer, customer]
+collection.by_month(collection, month) #=> #=> [customer, customer, customer]
 ```

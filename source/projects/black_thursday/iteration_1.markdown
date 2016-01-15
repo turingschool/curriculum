@@ -66,12 +66,12 @@ set = [3,4,5]
 std_dev = sqrt( ( (3-4)^2+(4-4)^2+(5-4)^2 ) / 2 )
 ```
 
-### Which merchants have the fewest items?
+### Which merchants sell the most items?
 
-Maybe we could boost sales on the platform by encouraging merchants to list more items. Which merchants are more than one standard deviation below the average number of products offered?
+Maybe we could set a good example for our lower sellers by displaying the merchants who have the most items for sale. Which merchants are more than one standard deviation above the average number of products offered?
 
 ```ruby
-sa.merchants_with_low_item_count # => [merchant, merchant, merchant]
+sa.merchants_with_high_item_count # => [merchant, merchant, merchant]
 ```
 
 ### What are prices like on our platform?

@@ -80,14 +80,6 @@ sa = SalesAnalyst.new
 sa.top_merchant_for_customer(customer_id) #=> <Merchant >
 ```
 
-And in turn find out which __merchant__ was the most popular:
-
-```rb
-sa = SalesAnalyst.new
-
-sa.most_popular_merchants #=> [merchant, merchant, merchant]
-```
-
 Find which customers only had one transaction:
 
 ```rb

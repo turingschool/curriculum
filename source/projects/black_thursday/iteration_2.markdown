@@ -102,7 +102,7 @@ sa.top_days_by_invoice_count # => ["Sunday", "Saturday"]
 
 ### What percentage of invoices are not shipped?
 
-What percentage of invoices are `shipped` vs `pending`? (takes symbol as argument)
+What percentage of invoices are `shipped` vs `pending` vs `returned`? (takes symbol as argument)
 
 ```ruby
 sa.invoice_status(:pending) # => 5.25

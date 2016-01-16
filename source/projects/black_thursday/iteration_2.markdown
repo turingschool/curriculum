@@ -106,5 +106,6 @@ What percentage of invoices are `shipped` vs `pending` vs `returned`? (takes sym
 
 ```ruby
 sa.invoice_status(:pending) # => 5.25
-sa.invoice_status(:shipped) # => 94.83
+sa.invoice_status(:shipped) # => 93.75
+sa.invoice_status(:returned) # => 1.00
 ```

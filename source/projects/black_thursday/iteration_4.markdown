@@ -102,6 +102,6 @@ collection.by_month(collection, month)
 ```rb
 collection = sa.most_popular_merchants
 
-collection.by_month(collection, month) #=> #=> [customer, customer, customer]
-collection.by_month(collection, month) #=> #=> [customer, customer, customer]
+collection.by_month(collection, month) #=> #=> [merchant, merchant, merchant]
+collection.by_month(collection, month) #=> #=> [merchant, merchant, merchant]
 ```

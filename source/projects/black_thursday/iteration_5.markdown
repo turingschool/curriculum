@@ -16,7 +16,7 @@ sa = SalesAnalyst.new
 sa.merchants_with_pending_invoices
 ```
 
-**Note:** an invoice is considered pending if none of it’s transactions are successful.
+**Note:** an invoice is considered pending if one or more of it’s transactions are not successful.
 
 Which merchants had only one transaction:
 
@@ -53,22 +53,50 @@ sa = SalesAnalyst.new
 sa.revenue_by_merchant(merchant_id) #=> $$$
 ```
 
-find the invoice with the highest total $ amount:
+which item sold most in terms of quantity and revenue: 
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.best_invoice
+sa.most_sold_item_for_merchant(merchant_id) #=> item
+
+sa.best_item_for_merchant(merchant_id) #=> item
+```
+
+and find out which month the merchant sold the most: 
+
+```rb
+sa = SalesAnalyst.new
+
+sa.best_month_for_merchant(merchant_id) => "Month name"
+```
+
+find the best invoice, an invoice with the highest total $ amount:
+
+```rb
+sa = SalesAnalyst.new
+
+sa.best_invoice #=> invoice
+```
+
+and if passed a merchant_id, the method `best_invoice` returns the best invoice for a given merchant. 
+
+```rb 
+sa = SalesAnalyst.new
+
+sa.best_invoice(merchant_id) #=> invoice
 ```
 
 ### More from the marketing team
 
-The marketing department called and said they were super jealous on the `top_percent` and `in_percentile` filters that the logistics team had available to use on `Merchant` instances. Let's extend the filters to be available for the following instances: `Invoice`, `Customer`, `Merchant` and `Item`.
+The marketing department called and said they were super jealous on the `top_percent` and `in_percentile` filters that the logistics team had available to use on `Merchant` instances. Let's extend the filters to be available for all objects: `Invoice`, `Customer`, `Merchant`, `Transaction` and `Item`.
 
 The filters are:
 
 ```rb
-.top_percent(xx)
-.in_percentile(xx)
-.by_month(month)
+.top_percent(0.xx)
+.bottom_percent(0.xx)
+
+.by_weekday("Weekday")
+.by_month("Month name")
 ```

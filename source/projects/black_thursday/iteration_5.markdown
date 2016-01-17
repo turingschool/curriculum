@@ -62,9 +62,9 @@ which item sold most in terms of quantity and revenue:
 ```rb
 sa = SalesAnalyst.new
 
-sa.most_sold_item_for_merchant(merchant_id) #=> item
+sa.most_sold_item_for_merchant(merchant_id) #=> item (in terms of quantity sold)
 
-sa.best_item_for_merchant(merchant_id) #=> item
+sa.best_item_for_merchant(merchant_id) #=> item (in terms of revenue generated)
 ```
 
 and find out which month the merchant sold the most: 

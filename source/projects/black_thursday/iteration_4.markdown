@@ -80,7 +80,7 @@ sa = SalesAnalyst.new
 sa.top_merchant_for_customer(customer_id) #=> <Merchant >
 ```
 
-Find which customers only had one transaction:
+Find which customers only had one invoice:
 
 ```rb
 sa = SalesAnalyst.new

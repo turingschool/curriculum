@@ -72,7 +72,7 @@ sa = SalesAnalyst.new
 sa.top_buyers(x) #=> [customer, customer, customer]
 ```
 
-Be able to find which merchant the customers bought the most items from:
+Be able to find which merchant the customer bought the most items from:
 
 ```rb
 sa = SalesAnalyst.new

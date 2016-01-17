@@ -31,7 +31,8 @@ Which merchants had only one transaction in a given month:
 ```rb
 sa = SalesAnalyst.new
 
-sa.merchants_with_only_one_transaction.by_month(month) #=> [merchant, merchant, merchant]
+collection = merchants_with_only_one_transaction
+sa.by_month(collection, month) #=> [merchant, merchant, merchant]
 ```
 
 `by_month` works as a filter and can be used on any collection:
@@ -39,8 +40,11 @@ sa.merchants_with_only_one_transaction.by_month(month) #=> [merchant, merchant, 
 ```rb
 sa = SalesAnalyst.new
 
-sa.merchants_with_pending_invoices.by_month(month) #=> [merchant, merchant, merchant]
-sa.top_revenue_earners.by_month(month)          #=> [merchant, merchant, merchant]
+collection = sa.merchants_with_pending_invoices
+sa.by_month(collection, month) #=> [merchant, merchant, merchant]
+
+collection = sa.top_revenue_earners
+sa.by_month(collection, month)          #=> [merchant, merchant, merchant]
 ```
 
 For individual merchants we need to find the following data,
@@ -94,9 +98,9 @@ The marketing department called and said they were super jealous on the `top_per
 The filters are:
 
 ```rb
-.top_percent(0.xx)
-.bottom_percent(0.xx)
+.top_percent(collection, 0.xx)
+.bottom_percent(collection, 0.xx)
 
-.by_weekday("Weekday")
-.by_month("Month name")
+.by_weekday(collection, "Weekday")
+.by_month(collection, "Month name")
 ```

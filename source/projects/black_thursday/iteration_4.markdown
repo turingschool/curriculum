@@ -9,6 +9,7 @@ sa = SalesAnalyst.new
 
 sa.total_revenue_by_date(date) #=> $$
 ```
+**Note:** When calculating revenue the ``unit_price`` listed within ``invoice_items`` should be used. The ``invoice_item.unit_price`` represents the final sale price of an item after sales, discounts or other intermediary price changes.
 
 Find the top x performing merchants in terms of revenue:  
 

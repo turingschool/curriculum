@@ -94,7 +94,7 @@ sa.bottom_merchants_by_invoice_count # => [merchant, merchant, merchant]
 
 ### Which days of the week see the most sales?
 
-Which days are more than one standard deviations *above* the mean?
+On which days are invoices created at more than one standard deviation *above* the mean?
 
 ```ruby
 sa.top_days_by_invoice_count # => ["Sunday", "Saturday"]

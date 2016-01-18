@@ -34,20 +34,20 @@ sa = SalesAnalyst.new
 sa.one_time_buyers #=> [customer, customer, customer]
 ```
 
-Find which month had the most `one_time_buyers`:
+Find which item most `one_time_buyers` bought:
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.one_time_buyers_in_month("Month name") #=> [customer, customer]
+sa.one_time_buyers_item #=> [item, item]
 ```
 
-Find which item a customer bought the most of:
+Find which items a given customer bought most recently (by the `created_at` on the related invoice):
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.favorite_item(customer_id) #=> [item]
+sa.most_recently_bought_items(customer_id) #=> [item]
 ```
 
 Return all items that were purchased most if there are several with the same quantity:
@@ -55,7 +55,7 @@ Return all items that were purchased most if there are several with the same qua
 ```rb
 sa = SalesAnalyst.new
 
-sa.favorite_item(customer_id) #=> [item, item, item]
+sa.most_recently_bought_items(customer_id) #=> [item, item, item]
 ```
 
 Find customers with unpaid invoices:
@@ -71,5 +71,9 @@ sa.customers_with_unpaid_invoices #=> [customer, customer, customer]
 Find the best invoice, the invoice with the highest dollar amount:
 
 ```rb
-sa.best_invoice #=> invoice
+sa.best_invoice_by_revenue #=> invoice
+```
+
+```rb
+sa.best_invoice_by_quantity #=> invoice
 ```

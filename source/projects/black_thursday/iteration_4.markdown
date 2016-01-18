@@ -7,7 +7,7 @@ Find out the total revenue for a given date:
 ```rb
 sa = SalesAnalyst.new
 
-sa.merchant_revenue_by_date(date) #=> $$
+sa.total_revenue_by_date(date) #=> $$
 ```
 
 Find the top x performing merchants in terms of revenue:  
@@ -36,12 +36,18 @@ sa.merchants_with_pending_invoices #=> [merchant, merchant, merchant]
 
 **Note:** an invoice is considered pending if one or more of it’s transactions are not successful.
 
-Which merchants had only one transaction:
+Which merchants offer only one item:
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.merchants_with_only_one_invoice #=> [merchant, merchant, merchant]
+sa.merchants_with_only_one_item #=> [merchant, merchant, merchant]
+```
+
+And which month most of those merchants registered on our platform:
+
+```rb
+sa.merchants_with_only_one_item_registered_in_month("Month name") #=> [merchant, merchant, merchant]
 ```
 
 Find the total revenue for a single merchant:

@@ -34,7 +34,7 @@ sa = SalesAnalyst.new
 sa.merchants_with_pending_invoices #=> [merchant, merchant, merchant]
 ```
 
-**Note:** an invoice is considered pending if one or more of it’s transactions are not successful.
+**Note:** an invoice is considered pending if none of its transactions are successful.
 
 Which merchants offer only one item:
 

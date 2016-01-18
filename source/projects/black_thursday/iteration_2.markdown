@@ -94,7 +94,7 @@ sa.bottom_merchants_by_invoice_count # => [merchant, merchant, merchant]
 
 ### Which days of the week see the most sales?
 
-Which days are more than two standard deviations *above* the mean?
+Which days are more than one standard deviations *above* the mean?
 
 ```ruby
 sa.top_days_by_invoice_count # => ["Sunday", "Saturday"]
@@ -102,9 +102,9 @@ sa.top_days_by_invoice_count # => ["Sunday", "Saturday"]
 
 ### What percentage of invoices are not shipped?
 
-What percentage of invoices are "shipped" vs "pending"?
+What percentage of invoices are `shipped` vs `pending` vs `returned`? (takes symbol as argument)
 
 ```ruby
-sa.invoice_status(:pending) # => 5.2
-sa.invoice_status(:shipped) # => 94.8
+sa.invoice_status(:pending) # => 5.25
+sa.invoice_status(:shipped) # => 94.83
 ```

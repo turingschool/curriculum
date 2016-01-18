@@ -37,6 +37,10 @@ The invoice item has the following data accessible:
 * `created_at` - returns a `Time` instance for the date the invoice item was first created
 * `updated_at` - returns a `Time` instance for the date the invoice item was last modified
 
+It also offers the following method:
+
+* `unit_price_to_dollars` - returns the price of the invoice item in dollars formatted as a `Float`
+
 We create an instance like this:
 
 ```ruby
@@ -82,8 +86,8 @@ The transaction has the following data accessible:
 * `credit_card_number` - returns the credit card number
 * `credit_card_expiration_date` - returns the credit card expiration date
 * `result` - the transaction result
-* `created_at` - returns a `Date` instance for the date the transaction was first created
-* `updated_at` - returns a `Date` instance for the date the transaction was last modified
+* `created_at` - returns a `Time` instance for the date the transaction was first created
+* `updated_at` - returns a `Time` instance for the date the transaction was last modified
 
 We create an instance like this:
 
@@ -190,5 +194,7 @@ customer.merchants # => [merchant, merchant]
 
 ## Business Intelligence
 
-* `invoice.is_paid_in_full?` returns true if the invoice is paid in full 
+* `invoice.is_paid_in_full?` returns true if the invoice is paid in full
 * `invoice.total` returns the total $ amount of the invoice
+
+**Note:** Failed charges should never be counted in revenue totals or statistics.

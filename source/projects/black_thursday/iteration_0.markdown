@@ -55,7 +55,7 @@ The merchant is one of the critical concepts in our data hierarchy.
 We create an instance like this:
 
 ```ruby
-m = Merchant.new({:name => "Turing School"})
+m = Merchant.new({:id => 5, :name => "Turing School"})
 ```
 
 ### `ItemRepository`
@@ -97,6 +97,10 @@ The Item instance offers the following methods:
 * `created_at` - returns a `Time` instance for the date the item was first created
 * `updated_at` - returns a `Time` instance for the date the item was last modified
 * `merchant_id` - returns the integer merchant id of the item
+
+It also offers the following method:
+
+* `unit_price_to_dollars` - returns the price of the item in dollars formatted as a `Float` 
 
 We create an instance like this:
 

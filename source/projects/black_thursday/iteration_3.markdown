@@ -151,8 +151,7 @@ c = Customer.new({
 There are many connections to draw between all these objects. Assuming we start with this:
 
 ```ruby
-se = SalesEngine.new
-se.from_csv({
+se = SalesEngine.from_csv({
   :items => "./data/items.csv",
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv",

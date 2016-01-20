@@ -64,7 +64,7 @@ which item sold most in terms of quantity and revenue:
 ```rb
 sa = SalesAnalyst.new
 
-sa.most_sold_item_for_merchant(merchant_id) #=> item (in terms of quantity sold)
+sa.most_sold_item_for_merchant(merchant_id) #=> [item] (in terms of quantity sold) or, if there is a tie, [item, item, item]
 
 sa.best_item_for_merchant(merchant_id) #=> item (in terms of revenue generated)
 ```

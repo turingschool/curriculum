@@ -2,6 +2,18 @@
 
 Our marketing team is asking for better data about of our customer base to launch a new project and have the following requirements:
 
+Find out whether or not a given invoice is paid in full:   
+
+```rb
+# invoice.transactions.map(&:result) #=> ["failed", "success"]  
+invoice.is_paid_in_full? #=> true
+
+# invoice.transactions.map(&:result) #=> ["failed", "failed"]  
+invoice.is_paid_in_full? #=> false
+```
+
+**Note:** Returns true if at least one of the associated transactions' result is "success".  
+
 Find the x customers that spent the most $:
 
 ```rb

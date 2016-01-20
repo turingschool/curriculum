@@ -45,7 +45,7 @@ sa = SalesAnalyst.new
 sa.merchants_with_only_one_item #=> [merchant, merchant, merchant]
 ```
 
-And which month most of those merchants registered on our platform:
+And merchants that only sell one item by the month they registered (merchant.created_at):
 
 ```rb
 sa.merchants_with_only_one_item_registered_in_month("Month name") #=> [merchant, merchant, merchant]

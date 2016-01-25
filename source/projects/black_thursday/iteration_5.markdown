@@ -54,12 +54,12 @@ sa = SalesAnalyst.new
 sa.one_time_buyers_item #=> [item, item]
 ```
 
-Find which items a given customer bought most recently (by the `created_at` on the related invoice):
+Find which items a given customer bought in given year (by the `created_at` on the related invoice):
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.most_recently_bought_items(customer_id) #=> [item]
+sa.items_bought_in_year(customer_id, year) #=> [item]
 ```
 
 Return all items that were purchased most if there are several with the same quantity:

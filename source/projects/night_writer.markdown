@@ -21,7 +21,7 @@ Braille uses a two-by-three grid of dots to represent characters. We'll simulate
 
 The `0` represents a raised dot. The period is an unraised space. The above code reads "hello world" in normal text. You can experiment with [converting other words](http://www.euroblind.org/resources/braille-converter/) yourself and share some samples with your classmates.
 
-Let's also constrain our Braille files to eighty characters wide.
+Let's also constrain our Braille files to 80 braille characters (160 dots) wide.
 
 ## Learning Goals / Areas of Focus
 
@@ -41,20 +41,20 @@ $ ruby ./lib/night_write.rb message.txt braille.txt
 Created 'braille.txt' containing 256 characters
 ```
 
-That will take the plaintext file `message.txt` and create a Braille simulation file `braille.txt`.
+That will use the plaintext file `message.txt` to create a Braille simulation file `braille.txt`.
 
 Then we can convert that Braille simulation back to normal text:
 
 ```
-$ ruby ./lib/night_read.rb braille.txt output_message.txt
-Created 'output_message.txt' containing 256 characters.
+$ ruby ./lib/night_read.rb braille.txt original_message.txt
+Created 'original_message.txt' containing 256 characters.
 ```
 
 ### Character Support
 
 Use the [lowercase letters a-z here from the American Foundation for the Blind](http://braillebug.afb.org/braille_print.asp) for your project.
 
-We also need to support capitalization. In Braille, capitalization comes from a shift character. You'll find that character at the end of the fourth row of the previous graphic. When that character appears, the next character (and only the next character) is a capital. So `e` comes out as one 2x3 set of Braille points, but `E` is 4x3: the shift character followed by the normal `e`. Consider how this will affect your line length restrictions.
+We also need to support capitalization. In Braille, capitalization comes from a shift character. You'll find that character at the end of the fourth row of the previous graphic. When that character appears, the next character (and only the next character) is a capital. So `e` comes out as one 2x3 set of Braille points, but `E` is 4x3: the shift character followed by the normal `e`. Consider how this will affect your line width restrictions.
 
 ## Development Phases
 
@@ -73,16 +73,28 @@ Created 'braille.txt' containing 256 characters
 
 Then work to:
 
-* Pull the specified output filename from the command line arguments and put it into the string output
-* Get the actual number of characters from the `message.txt` and output it in the message
+* Pull the specified output filename from the command line arguments and print it in the terminal
+* Get the actual number of characters from the `message.txt` and output it in the terminal
 
 ### 2. Echo Characters
 
-Your Braille-simulation file will need three lines of output for every one line of input. Generate output that is the same as your input line three times.
+Your Braille-simulation file will need three lines of output for every one line of input. Start by outputting your input in three repeated rows.
+
+```
+hello world
+```
+
+Turns into
+
+```
+hello world
+hello world
+hello world
+```
 
 ### 3. Mapping
 
-You'll need a component, a "machine" if you will, where you can put in a normal character and get out the Braille equivalent. It's time to build that now.
+You'll need a component that takes a normal text character and returns the Braille equivalent. It's time to build that now.
 
 ### 4. Triple Replacement
 
@@ -98,24 +110,21 @@ Then it's time to dive into the reading.
 
 ### 1. Supporting Numbers
 
-Return to the graphic referenced above and you'll find a the `#` in the bottom
-left corner. Notice that the representations for 1-9 are actually the same as
-a-i. This number sign is a "switch" which means that all of the following "letters",
-up to the next space, are actually numbers. After the space it's assumed that
-we're back to words/letters unless we see another number switch.
+Return to the graphic referenced above and you'll find a the `#` in the bottom left corner. Notice that the representations for 1-9 are actually the same as a-i. This number sign is a "switch" which means that all of the following "letters", up to the next space, are actually numbers. After the space it's assumed that we're back to words/letters unless we see another number switch.
 
 Add support for numbers to your program.
 
 ### 2. Supporting Contractions
 
-There are contractions commonly understood in Braille. They're a single letter
-symbol (so it has spaces on each side) which stands in for a common word.
+There are contractions commonly understood in Braille. They're a single letter symbol (so it has spaces on each side) which stands in for a common word.
 
-Find the symbols [here on Wikipedia](https://en.wikipedia.org/wiki/English_Braille#One-letter_contractions)
-and add support in your program for the following: a, but, can, do, every, from, go, have, just, knowledge, like, more, not, people, quite, rather, so, that, us, very, it, you, as, child, shall, this, which, out, will, enough, were, in
+Find the symbols [here on Wikipedia](https://en.wikipedia.org/wiki/English_Braille#One-letter_contractions) and add support in your program for the following:
 
-These should be used both when going from standard characters to Braille (ie, `from`
-  is output as one character of Braille) and in your expansion from Braille to standard characters.
+```
+a, but, can, do, every, from, go, have, just, knowledge, like, more, not, people, quite, rather, so, that, us, very, it, you, as, child, shall, this, which, out, will, enough, were, in
+```
+
+These should be used both when going from standard characters to Braille (ie, `from` is output as one character of Braille) and in your expansion from Braille to standard characters.
 
 ## Examples
 

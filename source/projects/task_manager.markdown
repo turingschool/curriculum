@@ -366,11 +366,13 @@ require 'yaml/store'
 require_relative 'task'
 
 class TaskManager
-  def self.database
-    @database ||= YAML::Store.new("db/task_manager")
+  attr_reader :database
+
+  def initialize(database)
+    @database = database
   end
 
-  def self.create(task)
+  def create(task)
     database.transaction do
       database['tasks'] ||= []
       database['total'] ||= 0

@@ -269,7 +269,7 @@ When we access `params[:task]`, we get back just the part we want; the title and
 
 Let's change the code inside of our controller. Find the `post '/tasks'` route:
 
-```
+```ruby
   post '/tasks' do
     task_manager.create(params[:task])
     redirect '/tasks'

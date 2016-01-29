@@ -79,7 +79,7 @@ tree.max
 What is the smallest value present in the tree?
 
 ```ruby
-tree.max
+tree.min
 # => "a"
 ```
 
@@ -155,7 +155,6 @@ tree.leaves
 
 What is the height (aka the maximum depth) of the tree?
 
-What is the largest value present in the tree?
 
 ```ruby
 tree.height

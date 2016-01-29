@@ -13,7 +13,7 @@ A binary tree is built from *nodes*. Each node has:
 
 * A) An element of data
 * B) A link to the *left*. All nodes to the left have data elements less/lower than this node's data element.
-* C) A link to the *right*. All nodes to the right have data elementes more/greater than this node's data element.
+* C) A link to the *right*. All nodes to the right have data elements more/greater than this node's data element.
 
 ## Base Expectations
 

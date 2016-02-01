@@ -5,7 +5,7 @@ sidebar: true
 points: 150
 ---
 
-**Nota bene**: This project is the spiritual successor to [Idea Box][ib], but there is no requirement that you need to have done or even be away of Idea Box to be successful on this project.
+**Nota bene**: This project is the spiritual successor to [Idea Box][ib], but there is no requirement that you need to have done or even be aware of Idea Box to be successful on this project.
 
 [ib]: ./idea_box.markdown
 

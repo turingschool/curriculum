@@ -122,3 +122,5 @@ Create 2 migrations:
 Now that we have a place to store out client data, make sure you go into the models and establish the relationships between ```PayloadRequest```, and ```Client```, and you set up appropriate validations for the ```Client```.
 
 ### Iteration 2
+
+Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates normal form. Extract the data necessary to normalize the database so far.

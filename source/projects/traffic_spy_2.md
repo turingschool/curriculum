@@ -109,13 +109,27 @@ Now that we have a PayloadRequest model started, finish it off by creating valid
 
 ### Iteration 1
 
-Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates normal form. Extract the data necessary to normalize the database so far.
+Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates normal form. Extract the data necessary to normalize the database so far. Do this by creating migrations, models and establishing appropriate relationships between models.
 
 ### Iteration 2
 
+Our database design is looking better. Now, let's start to manipulate some of that data we're storing.
+
+We want to analyze the ```PayloadRequests``` for the following stats:
+
+* Average Response time for our clients app across all requests
+* Max Response time across all requests
+* Min Response time across all requests
+* Most frequent request type
+* List of all HTTP verbs used
+* Most popular URL
+* Least popular URL
+
+### Iteration 3
+
 Now that we've set up a basic app that can store data from a client, let's expand the features so we can accept PayloadRequests from multiple clients.
 
-We already have a ```PayloadRequest``` model and database table, and we know that a PayloadRequest will belong to a Client, and a Client will have many PayloadRequests. That means we need to figure out a way to store ```Client``` data and somehow relate that to our ```PayloadRequest``` data.
+We already have a ```PayloadRequest``` model and database table, and we know that a ```PayloadRequest``` will belong to a ```Client```, and a ```Client``` will have many ```PayloadRequests```. That means we need to figure out a way to store ```Client``` data and somehow relate that to our ```PayloadRequest``` data.
 
 A Client has two attributes, an ```identifier```, and a ```rootUrl```.
 
@@ -124,8 +138,3 @@ Create 2 migrations:
 * Create a migration to add a reference to the ```Client``` on the ```PayloadRequest``` table. This migration will establish the one-to-many relationship that ```PayloadRequest```s and ```Client```s have.
 
 Now that we have a place to store out client data, make sure you go into the models and establish the relationships between ```PayloadRequest```, and ```Client```, and you set up appropriate validations for the ```Client```.
-
-
-### Iteration 3
-
-Our database design is looking better. Now, let's start to manipulate some of that data we're storing.

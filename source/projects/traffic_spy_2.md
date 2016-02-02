@@ -109,6 +109,10 @@ Now that we have a PayloadRequest model started, finish it off by creating valid
 
 ### Iteration 1
 
+Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates normal form. Extract the data necessary to normalize the database so far.
+
+### Iteration 2
+
 Now that we've set up a basic app that can store data from a client, let's expand the features so we can accept PayloadRequests from multiple clients.
 
 We already have a ```PayloadRequest``` model and database table, and we know that a PayloadRequest will belong to a Client, and a Client will have many PayloadRequests. That means we need to figure out a way to store ```Client``` data and somehow relate that to our ```PayloadRequest``` data.
@@ -121,6 +125,7 @@ Create 2 migrations:
 
 Now that we have a place to store out client data, make sure you go into the models and establish the relationships between ```PayloadRequest```, and ```Client```, and you set up appropriate validations for the ```Client```.
 
-### Iteration 2
 
-Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates normal form. Extract the data necessary to normalize the database so far.
+### Iteration 3
+
+Our database design is looking better. Now, let's start to manipulate some of that data we're storing.

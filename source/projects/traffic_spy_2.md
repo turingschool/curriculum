@@ -64,9 +64,9 @@ The project may not use:
 
 ### Iteration 0
 
-The core idea behind TrafficSpy is that your application will store and analyze data from a clients website about visitors to their site. For iteration 0 lets begin by storing some of that data, and for now we'll assume our TrafficSpy application is analyzing data for only one client.
+The core idea behind TrafficSpy is that your application will store and analyze data from a clients website about visitors to their site. For iteration 0 let's begin by storing some of that data, and for now we'll assume our TrafficSpy application is analyzing data for only one client.
 
-To store data with ActiveRecord/Postresql we need to create migrations and a model for a particular resource. In this example we have a PayloadRequest resource, so we need a PayloadRequest model, and a migration that will create a PayloadRequest table with the necessary attributes.
+To store data with ActiveRecord/Postresql we need to create migrations and a model for a particular resource. In this example we have a PayloadRequest resource, so we need a ```PayloadRequest``` model, and a migration that will create a ```PayloadRequest``` table with the necessary attributes.
 
 Our payload looks like this:
 
@@ -88,9 +88,9 @@ payload = {
 
 Currently, our client only cares about some of the information within the payload. They want to track data about the ```url```, ```requestedAt```, ```respondedIn```, ```referredBy```, and ```requestType```.
 
-* Create a migration that creates a `PayloadRequest` table that has a column for each of the previously mentioned attributes.
+* Create a migration that creates a ```PayloadRequest``` table that has a column for each of the previously mentioned attributes.
 
-Now that we have a database table for the PayloadRequest we start with our model.
+Now that we have a database table for the ```PayloadRequest``` we start with our model.
 
 Let's create a new file within our model directory - `payload_request.rb`. Don't forget to inherit from `ActiveRecord::Base`. The start of the file should look something like this:
 
@@ -118,3 +118,7 @@ A Client has two attributes, an ```identifier```, and a ```rootUrl```.
 Create 2 migrations:
 * Create the ```Client``` table with the respective attributes
 * Create a migration to add a reference to the ```Client``` on the ```PayloadRequest``` table. This migration will establish the one-to-many relationship that ```PayloadRequest```s and ```Client```s have.
+
+Now that we have a place to store out client data, make sure you go into the models and establish the relationships between ```PayloadRequest```, and ```Client```, and you set up appropriate validations for the ```Client```.
+
+### Iteration 2

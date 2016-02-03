@@ -86,9 +86,7 @@ payload = {
 }
 ```
 
-Currently, our client only cares about some of the information within the payload. They want to track data about the ```url```, ```requestedAt```, ```respondedIn```, ```referredBy```, and ```requestType```.
-
-* Create a migration that creates a ```PayloadRequest``` table that has a column for each of the previously mentioned attributes.
+* Create a migration that creates a ```PayloadRequest``` table that has a column for each of the attributes.
 
 Now that we have a database table for the ```PayloadRequest``` we start with our model.
 
@@ -125,8 +123,21 @@ We want to analyze the ```PayloadRequests``` for the following stats:
 * Min Response time across all requests
 * Most frequent request type
 * List of all HTTP verbs used
-* Most popular URL
-* Least popular URL
+* List of URLs listed form most requested to least requested
+* Web browser breakdown across all requests(userAgent)
+* OS breakdown across all requests(userAgent)
+* Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
+
+
+Our clients also find it valuable to have stats on specific URLs. For a specific URL, let's find the following Stats:
+
+* Max Response time
+* Min Response time
+* A list of response times across all requests listed from longest response time to shortest response time.
+* Average Response time for this URL
+* HTTP Verb(s) associated used to it this URL
+* Three most popular referrers
+* Three most popular user agents
 
 ### Iteration 3
 
@@ -226,3 +237,74 @@ Our application should process the request with one of the 4 following outcomes.
   * When data is submitted to an application URL that does not exist, return a `403 Forbidden` with a descriptive error message.
 * 4. __Success__ - 200 OK
   * When the request contains a unique payload return status `200 OK`.
+
+### Iteration 6
+
+Now that we have a site up and a an endpoints for our clients to register their applications and submit payload data for their applications, our client's want a place to go to view the statistic we have generated for their applications.
+
+We'll want and endpoint for a client to see their aggregate site data:
+
+```
+http://yourapplication:port/sources/IDENTIFIER
+```
+
+When the IDENTIFIER exists and a Client goes to their endpoint they should be able to view statistics for:
+
+* Average Response time across all requests
+* Max Response time across all requests
+* Min Response time across all requests
+* Most frequent request type
+* List of all HTTP verbs used
+* List of URLs listed form most requested to least requested
+* Web browser breakdown across all requests
+* OS breakdown across all requests
+* Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
+
+When an identifier does not exist return a page that displays the following:
+
+* Message that the identifier does not exist
+
+When an identifier does exist, but no payload data has been submitted for the source.
+
+* Message that no payload data has been received for this source
+
+### Iteration 7
+
+We also have stats we generated that are specific to a Clients URLs. Let's create a view that will show our URL specific stats.
+
+The URL we will create for this will be:
+
+```
+http://yourapplication:port/sources/IDENTIFIER/urls/RELATIVEPATH
+
+Examples:
+
+http://yourapplication:port/sources/jumpstartlab/urls/blog
+http://yourapplication:port/sources/jumpstartlab/urls/article/1
+http://yourapplication:port/sources/jumpstartlab/urls/about
+```
+
+First - let's set up our client's specific statistics to have the URLs link to their respective URL specific page.
+
+on the page that is found at this endpoint:
+
+```
+http://yourapplication:port/sources/IDENTIFIER
+```
+
+make sure you have: Hyperlinks of each url to view url specific data.
+
+
+If the url for the identifier __DOES__ exist let's display the url specific stats in this view:
+
+* Max Response time
+* Min Response time
+* A list of response times across all requests listed from longest response time to shortest response time.
+* Average Response time for this URL
+* HTTP Verb(s) associated used to it this URL
+* Three most popular referrers
+* Three most popular user agents
+
+If the url for the identifier __DOES NOT__ exist:
+
+* Display a message that the url has not been requested

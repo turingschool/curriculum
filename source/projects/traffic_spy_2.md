@@ -107,6 +107,9 @@ Now that we have a PayloadRequest model started, finish it off by creating valid
 
 * All the attributes must be present in the request.
 
+You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html).
+
+
 ### Iteration 1
 
 Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates normal form. Extract the data necessary to normalize the database so far. Do this by creating migrations, models and establishing appropriate relationships between models.
@@ -138,3 +141,53 @@ Create 2 migrations:
 * Create a migration to add a reference to the ```Client``` on the ```PayloadRequest``` table. This migration will establish the one-to-many relationship that ```PayloadRequest```s and ```Client```s have.
 
 Now that we have a place to store out client data, make sure you go into the models and establish the relationships between ```PayloadRequest```, and ```Client```, and you set up appropriate validations for the ```Client```.
+
+### Iteration 4
+
+Now let's get into the nitty gritty that is the internet. Currently our app works by feeding it data directly, but that's not how we plan for it to be used in the real world. We want our app to be accessible via the internet.
+
+First, let's have clients register their application by submitting a post request to the following address:
+
+```
+http://yourapplication:port/sources
+```
+The parameter that we will require a client to pass will be:
+
+* identifier
+* rootUrl
+
+We can send a request with this specific information via the Terminal and the ```curl``` command. Check out how to use the ```curl``` command via your Terminal by typing ```man curl```. This will bring up the manual for ```curl```.
+
+We will send a request like this:
+
+```
+$ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://localhost:9393/sources
+```
+
+Wondering what `-i` and `-d` mean? Check the manual.
+
+
+A post to ```http://yourapplication:port/sources``` will require one of three possible responses from our application.
+
+* 1. Missing Parameters - 400 Bad Request
+
+If missing any of the required parameters return status `400 Bad Request` with
+a descriptive error message.
+
+Wondering how to send back a status code from a Sinatra app? Check out the [Sinatra docs](http://www.sinatrarb.com/intro.html).
+
+* 2. Identifier Already Exists - 403 Forbidden
+
+If that identifier already exists return status `403 Forbidden` with a
+descriptive error message.
+
+* 3. Success - 200 OK
+
+When the request contains all the required parameters return status `200 OK`
+with the following data for the client:
+
+```
+{"identifier":"jumpstartlab"}
+```
+
+* identifier - the unique identifier for the application that has been created for the client.

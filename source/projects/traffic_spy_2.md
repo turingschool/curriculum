@@ -191,3 +191,38 @@ with the following data for the client:
 ```
 
 * identifier - the unique identifier for the application that has been created for the client.
+
+### Iteration 5
+
+After completing iteration 4, we can now register Clients and their applications. However, there is still no way to get their data into our application. Let's change this by adding an endpoint for Clients to post their payload data.
+
+A registered application will send `POST` requests to the following URL:
+
+```
+http://yourapplication:port/sources/IDENTIFIER/data
+```
+
+IDENTIFIER, in this URL, is the unique identifier for the client.
+
+If you recall from iterations 0 and 1 we've already structured our app to accept payload data. If everything was set up correctly we should need to change much if anything for this to work with the payload being sent over HTTP.
+
+Everything sent of HTTP by nature is a string. That makes JSON structure perfect for sending data over HTTP. We will send our payload request as a parameter called 'payload' which contains the payload as JSON data.
+
+Here is an example of sending a payload to our application:
+
+```
+curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","parameters":[],"eventName":"socialLogin","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
+```
+
+Find the Ruby JSON docs [here](http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html).
+
+Our application should process the request with one of the 4 following outcomes.
+
+* 1. __Missing Payload__ - 400 Bad Request
+  * If the payload is missing, return status `400 Bad Request` with a descriptive error message.
+* 2. __Already Received Request__ - 403 Forbidden
+  * If the request payload has already been received return status `403 Forbidden` with a descriptive error message.
+* 3. __Application Not Registered__ - 403 Forbidden
+  * When data is submitted to an application URL that does not exist, return a `403 Forbidden` with a descriptive error message.
+* 4. __Success__ - 200 OK
+  * When the request contains a unique payload return status `200 OK`.

@@ -1,19 +1,28 @@
 ---
 layout: page
-title: Binary Search Tree
+title: Suggested for You
 ---
+
+## Overview
+
+You are a junior developer at Netflix. You're on a team that is developing a list of movies for Netflix users called "Suggested for You." Each time movies are added to Netflix, an algorithm determines a score of how likely a given user is to enjoy that movie.
+
+* Scores are integers between 0 and 100
+* No two movies will get the same score
+
+It is your job to take new movies that have been scored, and store them in a Binary Search Tree.
+
+## Binary Search Trees
 
 A binary search tree is a fundamental data structure useful for organizing large sets of data.
 
 More on Wikipedia: http://en.wikipedia.org/wiki/Binary_search_tree
 
-## Overview
-
 A binary tree is built from *nodes*. Each node has:
 
 * A) An element of data
-* B) A link to the *left*. All nodes to the left have data elements less/lower than this node's data element.
-* C) A link to the *right*. All nodes to the right have data elements more/greater than this node's data element.
+* B) A link to the *left*. All nodes to the left have elements with a value less or lower than this node's data element.
+* C) A link to the *right*. All nodes to the right have elements with a value more or greater than this node's data element.
 
 ## Base Expectations
 
@@ -27,17 +36,16 @@ tree = BinarySearchTree.new
 
 ### `insert`
 
-The `insert` method adds a new node with the passed-in data. It returns the
-depth of the new node in the tree.
+The `insert` method adds a new node with the passed-in data. Each node is comprised of a score and a movie title. It returns the depth of the new node in the tree.
 
 ```ruby
-tree.insert("m")
+tree.insert(61, "Bill & Ted's Excellent Adventure")
 # => 0
-tree.insert("c")
+tree.insert(16, "Johnny English")
 # => 1
-tree.insert("q")
+tree.insert(92, "Sharknado 3")
 # => 1
-tree.insert("a")
+tree.insert(50, "Hannibal Buress: Animal Furnace")
 # => 2
 ```
 
@@ -45,96 +53,111 @@ For all the later methods defined here, assume that we've run these four inserts
 
 ### `include?`
 
-Verify/reject the presence of a piece of data in the tree:
+Verify/reject the presence of a score in the tree:
 
 ```ruby
-tree.include?("q")
+tree.include?(16)
 # => true
-tree.include?("b")
+tree.include?(72)
 # => false
 ```
 
 ### `depth_of`
 
-Reports the depth of the tree where a piece of data appears:
+Reports the depth of the tree where a score appears. Return nil if the score does not exist:
 
 ```ruby
-tree.depth_of("q")
+tree.depth_of(92)
 # => 1
-tree.depth_of("a")
+tree.depth_of(50)
 # => 2
 ```
 
 ### `max`
 
-What is the largest value present in the tree?
+Which movie has the highest score in the list? What is it's score?
 
 ```ruby
 tree.max
-# => "q"
+# => {"Sharknado 3"=>92}
 ```
 
 ### `min`
 
-What is the smallest value present in the tree?
+Which movie has the lowest score in the list? What is it's score?
 
 ```ruby
 tree.min
-# => "a"
+# => {"Johnny English"=>16}
 ```
 
 ### `sort`
 
-Return an array of all the elements in sorted order. *Note*: you're not using
-Ruby's `Array#sort`, you're traversing the tree.
-
-What is the largest value present in the tree?
+Return an array of all the movies and scores in sorted ascending order. Return them as an array of hashes.
+*Note*: you're not using Ruby's `Array#sort`. You're traversing the tree.
 
 ```ruby
 tree.sort
-# => ["a", "c", "m", "q"]
+# => [{"Johnny English"=>16},
+#   {"Hannibal Buress: Animal Furnace"=>50},
+#   {"Bill & Ted's Excellent Adventure"=>61},
+#  {"Sharknado 3"=>92}]
 ```
 
 ### `load`
 
-Assuming we have a file named `numbers.txt` with one value per line:
+Assuming we have a file named `movies.txt` with one score/movie pair per line:
 
-```ruby
-tree.load('numbers.txt')
-# => 224
+```
+# movies.txt sample format:
+34, Hannibal Buress: Comedy Camisado
+63, Meet My Valentine
+22, Experimenter
+84, French Dirty
+41, Love
+10, I Love You Phillip Morris
 ```
 
-Where the return value is the number of unique values inserted into the tree. If
-a number is present more than one time in the input file *or* already present in
-the tree when `load` is called, ignore it.
+```ruby
+tree.load('movies.txt')
+# => 26
+```
+
+Where the return value is the number of movies inserted into the tree. If a score is already present in the tree when `load` is called, ignore it.
+
+See an example file [here](https://gist.github.com/neight-allen/dbc9e3ad0f79bff24888)
 
 ### `health`
 
-Report on the health of the tree by summarizing the number of nodes beneath each node on a given level.
+Report on the health of the tree by summarizing the number of child nodes (nodes beneath each node) at a given depth. For health, we're worried about 3 values:
 
-Assuming you start with the four elements from `insert`...
+* Score of the node
+* Total number of child nodes including the current node
+* Percentage of all the nodes that are this node or it's children
 
 ```ruby
-tree.insert("b")
-tree.insert("e")
-tree.insert("f")
-tree.insert("g")
-tree.insert("h")
+tree.insert(98, "Animals United")
+tree.insert(58, "Armageddon")
+tree.insert(36, "Bill & Ted's Bogus Journey")
+tree.insert(93, "Bill & Ted's Excellent Adventure")
+tree.insert(86, "Charlie's Angels")
+tree.insert(38, "Charlie's Country")
+tree.insert(69, "Collateral Damage")
 tree.health(0)
-=> [['m',9,100]]
+=> [[98, 7, 100]]
 tree.health(1)
-=> [['c',7,77],['q',1,11]]
+=> [[58, 6, 85]]
 tree.health(2)
-=> [['a',2,22],['e',4,44]]
+=> [[36, 2, 28], [93, 3, 42]]
 ```
 
 Where the return value is an `Array` with one nested array per node at that level. The nested array is:
 
 ```
-[data in the node, 1 + number of child nodes, floored percentage of (1+children) over the total number of nodes]
+[score in the node, 1 + number of child nodes, floored percentage of (1+children) over the total number of nodes]
 ```
 
-When the percentages of two nodes at the same level are dramatically different, like `22` and `44` above, then we know that this tree is starting to become unbalanced.
+When the percentages of two nodes at the same level are dramatically different, like `28` and `42` above, then we know that this tree is starting to become unbalanced.
 
 ## Extensions
 
@@ -144,7 +167,7 @@ This extensions is made up of two methods:
 
 #### `leaves`
 
-How many leaf nodes are on the tree?
+A leaf is a node that has no left or right value. How many leaf nodes are on the tree?
 
 ```ruby
 tree.leaves
@@ -163,12 +186,12 @@ tree.height
 
 ### Deleting Nodes
 
-Remove a specified piece of data from the tree:
+Remove a specified piece score from the tree:
 
 ```ruby
-tree.delete("a")
-# => "a"
-tree.delete("x")
+tree.delete(30)
+# => 30
+tree.delete(101)
 # => nil
 ```
 

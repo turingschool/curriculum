@@ -317,7 +317,19 @@ If the url for the identifier __DOES NOT__ exist:
 
 ## Extensions
 
-Coming soon!
+### Javascript to Send PayloadRequest
+
+Currently the only way to get data to our app is to:
+
+1.) Use the browser to send a request through the user interface
+
+2.) send a cUrl request from our terminal to the correct endpoint.
+
+For this extension, write some JavaScript/AJAX that you can give a client to embed in their site that will automate sending the PayloadRequest for a specific page from the client's site to your app.
+
+### Deleting Account
+
+For this extension implement a feature that allows a customer to delete their account and all their associated data. Be sure to only allow a client to delete their own account. 
 
 ## Evaluation Rubric
 

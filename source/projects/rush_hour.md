@@ -9,7 +9,7 @@ In this project you'll use Ruby, Sinatra, and ActiveRecord to build a web traffi
 
 Your application will receive data over HTTP from a simulation engine. The simulator will construct and transmit HTTP requests which include tracking data.
 
-Imagine that I run a commercial website and embed JavaScript code which gets activated each time a page is viewed on my site. That JavaScript captures information about the visitor and the page they're viewing then, in the background, submits that data to *your* TrafficSpy application.
+Imagine that I run a commercial website and embed JavaScript code which gets activated each time a page is viewed on my site. That JavaScript captures information about the visitor and the page they're viewing then, in the background, submits that data to *your* RushHour application.
 
 Your application parses and stores that data.
 
@@ -29,7 +29,7 @@ Later, I visit your site and can view data about my traffic through a HTML inter
 
 ### Clone the Project
 
-1. One team member forks the skeleton repository at [https://github.com/turingschool-examples/traffic-spy-skeleton](https://github.com/turingschool-examples/traffic-spy-skeleton)
+1. One team member forks the skeleton repository at [https://github.com/turingschool-examples/traffic-spy-skeleton](https://github.com/turingschool-examples/rush-hour-skeleton)
 2. Add the other team members as collaborators
 
 ### Requirements
@@ -62,7 +62,7 @@ The project may not use:
 
 ## Instructions
 
-Iterations 0-7 must be completed to consider the project complete. Iterations 0-1 have a test harness so you get your database started on the right track. From there - implementation is up to your team. Please use TDD every step of the way. Tests are expected for all features and all the models - including iterations 0-1. You can run the test harness with the command ```rake harness```. 
+Iterations 0-7 must be completed to consider the project complete. Iterations 0-1 have a test harness so you get your database started on the right track. From there - implementation is up to your team. Please use TDD every step of the way. Tests are expected for all features and all the models - including iterations 0-1. You can run the test harness with the command ```rake harness```.
 
 The spec harness should pass completely before you move on to iteration 2.
 
@@ -70,7 +70,7 @@ The spec harness should pass completely before you move on to iteration 2.
 
 ### Iteration 0
 
-The core idea behind TrafficSpy is that your application will store and analyze data from a clients website about visitors to their site. For iteration 0 let's begin by storing some of that data.
+The core idea behind RushHour is that your application will store and analyze data from a clients website about visitors to their site. For iteration 0 let's begin by storing some of that data.
 
 To store data with ActiveRecord/Postresql we need to create migrations and a model for a particular resource. In this example we have a PayloadRequest resource, so we need a ```PayloadRequest``` model, and a migration that will create a ```PayloadRequest``` table with the necessary attributes.
 

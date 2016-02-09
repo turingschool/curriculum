@@ -44,3 +44,4 @@ end
 
 * http://www.hokstad.com/ruby-object-model
 * [Metaprogramming Ruby](http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Pros/dp/1941222129/ref=sr_1_2?ie=UTF8&qid=1402519944&sr=8-2&keywords=metaprogramming+ruby)
+* http://viewsourcecode.org/why/hacking/seeingMetaclassesClearly.html

@@ -229,9 +229,9 @@ The project will be assessed with the following rubric:
 * 2:  Application runs but the code has long methods, unnecessary or poorly named variables, and needs significant refactoring
 * 1:  Application generates syntax error or crashes during execution
 
-### 5. Enumerable & Collections
+### 5. Looping *or* Recursion
 
-* 4: Application consistently makes use of the best-choice Enumerable methods
-* 3: Application demonstrates comfortable use of appropriate Enumerable methods
-* 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
-* 1: Application demonstrates deficiencies with Enumerable and struggles with collections
+* 4: Application makes excellent use of loop/recursion techniques
+* 3: Application makes effective use of loop/recursion techniques
+* 2: Application has issues with loop/recursion techniques or mixes them inappropriately
+* 1: Application struggles to loop/recurse at all

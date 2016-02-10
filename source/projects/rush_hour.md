@@ -122,13 +122,24 @@ Now that we have our basic database design in place, we can see that it isn't qu
 
 Our database design is looking better. Now, let's start to manipulate some of that data we're storing.
 
-We want to analyze the ```PayloadRequests``` for the following stats:
+We want to analyze the payload requests for the following stats. Some methods will be built directly on the PayloadRequest model, while other methods will be built in the most appropriate class. For example:
+
+```ruby
+class Url  < ActiveRecord::Base
+  has_many :payload_requests
+
+  def self.most_to_least_requested
+    #implement this method :)
+  end
+end
+```
 
 * Average Response time for our clients app across all requests
 * Max Response time across all requests
 * Min Response time across all requests
 * Most frequent request type
 * List of all HTTP verbs used
+
 * List of URLs listed form most requested to least requested
 * Web browser breakdown across all requests(userAgent)
 * OS breakdown across all requests(userAgent)
@@ -144,7 +155,7 @@ Our clients also find it valuable to have stats on specific URLs. For a specific
 * Average Response time for this URL
 * HTTP Verb(s) associated used to it this URL
 * Three most popular referrers
-* Three most popular user agents. We can think of a 'user agent' as the combination of OS and Browser. 
+* Three most popular user agents. We can think of a 'user agent' as the combination of OS and Browser.
 
 ### Iteration 3
 
@@ -159,6 +170,18 @@ Create 2 migrations:
 * Create a migration to add a reference to the ```Client``` on the ```PayloadRequest``` table. This migration will establish the one-to-many relationship that ```PayloadRequest```s and ```Client```s have.
 
 Now that we have a place to store out client data, make sure you go into the models and establish the relationships between ```PayloadRequest```, and ```Client```, and you set up appropriate validations for the ```Client```.
+
+Join the client table with its resources. For example:
+
+```ruby
+class Client < ActiveRecord::Base
+  #More Code Here
+  has_many :urls
+  #More Code Here
+end
+```
+
+This won't work all by it's self. Take a look at [this documentation don active record associations](http://guides.rubyonrails.org/association_basics.html#the-has-many-through-association) to get it to work. 
 
 ### Iteration 4
 

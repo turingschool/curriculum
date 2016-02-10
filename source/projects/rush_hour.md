@@ -144,7 +144,7 @@ Our clients also find it valuable to have stats on specific URLs. For a specific
 * Average Response time for this URL
 * HTTP Verb(s) associated used to it this URL
 * Three most popular referrers
-* Three most popular user agents
+* Three most popular user agents. We can think of a 'user agent' as the combination of OS and Browser. 
 
 ### Iteration 3
 

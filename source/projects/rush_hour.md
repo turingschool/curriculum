@@ -133,7 +133,7 @@ We want to analyze the ```PayloadRequests``` for the following stats:
 * Web browser breakdown across all requests(userAgent)
 * OS breakdown across all requests(userAgent)
 * Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
-* Events listen from most received to least.(When no events have been defined display a message that states no events have been defined)
+* Events listen from most received to least.
 
 
 Our clients also find it valuable to have stats on specific URLs. For a specific URL, let's find the following Stats:

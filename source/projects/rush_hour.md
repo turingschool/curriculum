@@ -144,7 +144,7 @@ end
 * Web browser breakdown across all requests(userAgent)
 * OS breakdown across all requests(userAgent)
 * Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
-* Events listen from most received to least.
+* Events listed from most received to least.
 
 
 Our clients also find it valuable to have stats on specific URLs. For a specific URL, let's find the following Stats:

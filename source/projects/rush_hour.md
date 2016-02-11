@@ -153,7 +153,7 @@ Our clients also find it valuable to have stats on specific URLs. For a specific
 * Min Response time
 * A list of response times across all requests listed from longest response time to shortest response time.
 * Average Response time for this URL
-* HTTP Verb(s) associated used to it this URL
+* HTTP Verb(s) associated with this URL
 * Three most popular referrers
 * Three most popular user agents. We can think of a 'user agent' as the combination of OS and Browser.
 

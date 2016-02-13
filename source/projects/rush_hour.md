@@ -270,9 +270,9 @@ Our application should process the request with one of the 4 following outcomes.
 
 ### Iteration 6
 
-Now that we have a site up and a an endpoints for our clients to register their applications and submit payload data for their applications, our client's want a place to go to view the statistic we have generated for their applications.
+Now that we have a site up and endpoints for our clients to register their applications and submit payload data for their applications, our clients want a place to go to view the statistics we have generated for their applications.
 
-We'll want and endpoint for a client to see their aggregate site data:
+We'll want an endpoint for a client to see their aggregate site data:
 
 ```
 http://yourapplication:port/sources/IDENTIFIER

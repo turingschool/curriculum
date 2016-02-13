@@ -341,7 +341,19 @@ If the url for the identifier __DOES NOT__ exist:
 
 ### Iteration 8
 
-Our client would like to have a 24hour breakdown of their specific events. Implement a hour by hour breakdown of when the event was received. How many were shown at noon? at 1pm? at 2pm? Do it for all 24 hours. Also, display on this page the overall number of times the specific event was received.
+Our client would like to have a 24hour breakdown of their specific events:
+
+```
+http://yourapplication:port/sources/IDENTIFIER/events/EVENTNAME
+
+Examples:
+
+http://yourapplication:port/sources/jumpstartlab/events/startedRegistration
+http://yourapplication:port/sources/jumpstartlab/events/addedSocialThroughPromptA
+http://yourapplication:port/sources/jumpstartlab/events/addedSocialThroughPromptB
+```
+
+Implement a hour by hour breakdown of when the event was received. How many were shown at noon? at 1pm? at 2pm? Do it for all 24 hours. Also, display on this page the overall number of times the specific event was received.
 
 When the event has not been defined:
 Display a message that no event with the given name has been defined and then a hyperlink to the Application Events Index.

@@ -62,7 +62,7 @@ The project may not use:
 
 ## Instructions
 
-Iterations 0-8 must be completed to consider the project complete. Iterations 0-1 have a test harness so you get your database started on the right track. From there - implementation is up to your team. Please use TDD every step of the way. Tests are expected for all features and all the models - including iterations 0-1. You can run the test harness with the command ```rake harness```.
+Iterations 0-8 must be completed to consider the project complete. Please use TDD every step of the way. Tests are expected for all features and all the models - including iterations 0-1. You can run the test harness with the command.
 
 
 ## Base Expectations:

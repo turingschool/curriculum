@@ -93,9 +93,8 @@ Then they enter a coordinate:
 
 * If the coordinate has already been shot at, reject the guess and ask them to
 shoot again
-* If the coordinate misses the opponent ships, mark it with an `O` on the map.
-* If the coordinate "hits" an opponent ship, mark it with an `H` on the map and
-enter the Hit Ship sequence below
+* If the coordinate misses the opponent ships, output 'Shot Missed'. The next time you show the map, mark that location with an `O`.
+* If the coordinate "hits" an opponent ship, enter the Hit Ship sequence below. The next time you show the map, mark that location with an `H`.
 
 Then move to the Enemy Shoots sequence.
 
@@ -116,11 +115,10 @@ D     Y
 
 Where `XX` and `YYY` represent the player's ships.
 
-* The computer player randomly selects a location which has not been shot at and
+* The computer player randomly selects a location which has not been shot at, and
 shoots at it.
-* If the shot misses the player ships, mark it with a `M` on the map.
-* If the shot "hits" a player ship, mark it with an `H` on the map and
-enter the Hit Ship sequence
+* If the shot misses the player ships, output "Shot missed". Mark it with a `M` on the map.
+* If the shot "hits" a player ship, enter the Hit Ship sequence. Mark it with an `H` on the map
 
 Then move to the Player Shoots sequence.
 
@@ -129,13 +127,12 @@ Then move to the Player Shoots sequence.
 * If the hit did not sink the ship, tell them that they hit an enemy ship
 * If the hit sunk the ship, tell them they sunk it and the size of the ship.
 * If the hit sunk the ship and it was the last enemy ship, then enter the
-End Game sequence
 
 #### End Game Sequence
 
 When either the player or computer wins the game...
 
-* Output a sorry/congratulations message
+* Output a sorry or congratulations message
 * Output how many shots it took the winner to sink the opponent's ships
 * Output the total time that the game took to play
 

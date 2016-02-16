@@ -156,9 +156,9 @@ spec harness will be unable to evaluate your work.
 
 Please make sure that, before your evaluation, your project has each of the following:
 
-* SimpleCov reporting accurate test coverage statistics
-* TravisCI running your all your tests and they all pass
-* CodeClimate evaluating the quality of your code (best to set it up early to see the change over time)
+* [SimpleCov](https://github.com/colszowka/simplecov) reporting accurate test coverage statistics
+* [TravisCI](https://travis-ci.org/) running your all your tests and they all pass
+* [CodeClimate](https://codeclimate.com/github/signup) evaluating the quality of your code (best to set it up early to see the change over time)
 
 ## Supporting Features
 

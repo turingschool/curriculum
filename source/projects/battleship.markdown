@@ -22,12 +22,12 @@ computer player.
 The game will include several distinct phases:
 
 1. [Start Game Sequence](#start-game-sequence)
-2. [Computer Ship Placement]()
-3. Player Ship Placement
-4. Player Shot Sequence
-5. Computer Shot Sequence
-6. Ship Hit Sequence
-7. End Game Sequence
+2. [Computer Ship Placement](#computer-ship-placement)
+3. [Player Ship Placement](#player-ship-placement)
+4. [Player Shot Sequence](#player-shot-sequence)
+5. [Computer Shot Sequence](#computer-shot-sequence)
+6. [Ship Hit Sequence](#ship-hit-sequence)
+7. [End Game Sequence](#end-game-sequence)
 
 ### Start Game Sequence
 
@@ -120,7 +120,7 @@ D
 ===========
 ```
 
-### Player Shooting Sequence
+### Player Shot Sequence
 
 Once the ships are laid out the game starts with the Player Shoots Sequence.
 
@@ -167,7 +167,7 @@ the new shot.
 
 Finally, prompt the player to end their turn by pressing `ENTER`.
 
-### Enemy Shooting Sequence
+### Computer Shot Sequence
 
 Once the player has ended their turn, the AI will fire. This follows
 a similar process, except that instead of prompting for a target, the
@@ -186,7 +186,7 @@ missed.
 
 Then, return to the Player Shot Sequence.
 
-### Hit Ship Sequence
+### Ship Hit Sequence
 
 * If the hit did not sink the ship, tell them that they hit an enemy ship
 * If the hit sunk the ship, tell them they sunk it and the size of the ship.

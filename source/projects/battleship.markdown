@@ -23,12 +23,13 @@ You are to build a playable game of Battleship that runs in a REPL interface.
 * The player starts the game by running `ruby battleship.rb`
 * Then they see:
 
-{% irb %}
+
+```
 Welcome to BATTLESHIP
 
 Would you like to (p)lay, read the (i)nstructions, or (q)uit?
 >
-{% endirb %}
+```
 
 * If they enter `p` or `play` then they enter the *ship layout* described below.
 * If they enter `i` or `instructions` they should be presented with a short explanation of how
@@ -39,7 +40,7 @@ the game is played.
 
 Once the user starts a game they should see:
 
-{% irb %}
+```
 I have laid out my ships on the grid.
 You now need to layout your two ships.
 The first is two units long and the
@@ -47,7 +48,7 @@ second is three units long.
 The grid has A1 at the top left and D4 at the bottom right.
 
 Enter the squares for the two-unit ship:
-{% endirb %}
+```
 
 Then they enter coordinates like this:
 
@@ -74,7 +75,7 @@ Once the ships are laid out the game starts with the Player Shoots Sequence.
 
 The game first outputs a map:
 
-{% irb %}
+```
 Your turn! Here's what you know:
 
 ===========
@@ -86,7 +87,7 @@ D
 ===========
 
 Enter a coordinate to shoot at:
-{% endirb %}
+```
 
 Then they enter a coordinate:
 
@@ -100,7 +101,7 @@ Then move to the Enemy Shoots sequence.
 
 #### Enemy Shoots Sequence
 
-{% irb %}
+```
 My turn! Here's your map:
 
 ===========
@@ -111,7 +112,7 @@ C     Y
 D     Y
 ===========
 
-{% endirb %}
+```
 
 Where `XX` and `YYY` represent the player's ships.
 

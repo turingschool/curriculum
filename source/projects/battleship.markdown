@@ -1,7 +1,7 @@
----
-layout: page
-title: Battleship
----
+# Battleship
+
+
+![Classic fun for the whole family!](http://vignette4.wikia.nocookie.net/battleship/images/f/fd/Battleship-1.jpg/revision/latest?cb=20120303020432)
 
 In this project you'll use Ruby to build an implementation of the classic game Battleship.
 
@@ -11,18 +11,26 @@ In this project you'll use Ruby to build an implementation of the classic game B
 
 * Proficiently use TDD to drive development
 * Practice breaking a program into logical components
-* Learn to implement a REPL interface
+* Practice implementing a useable REPL interface
 * Apply previously learned Enumerable techniques in a real context
 
 ## Base Expectations
 
 You are to build a playable game of Battleship that runs in a REPL interface.
+The game will allow a single human player to play against a (simplistic)
+computer player.
+
+The game will include several distinct phases:
+
+1. Ship Placement
+2. Player Turns
+3. Computer Turns
+4. End of Game
 
 ### Starting a Game
 
-* The player starts the game by running `ruby battleship.rb`
+* The player starts the game by running `ruby battleship.rb` from within your project directory
 * Then they see:
-
 
 ```
 Welcome to BATTLESHIP
@@ -36,7 +44,15 @@ Would you like to (p)lay, read the (i)nstructions, or (q)uit?
 the game is played.
 * If they enter `q` or `quit` then the game should exit
 
-### Ship Layout
+### Ship Layout (Setup Phase)
+
+During this initial setup phase, the user will enter the positions
+for their ships on the game grid. First, we'll display an
+introductory prompt explaining how to enter a ship position.
+Then, the user will be prompted to enter a list of coordinates
+for each ship.
+
+#### Initial Prompt
 
 Once the user starts a game they should see:
 
@@ -50,6 +66,8 @@ The grid has A1 at the top left and D4 at the bottom right.
 Enter the squares for the two-unit ship:
 ```
 
+#### Entering Ship Coordinates
+
 Then they enter coordinates like this:
 
 ```text
@@ -57,7 +75,12 @@ A1 A2
 ```
 
 Which places the two element ship on squares A1 and A2. Then it asks for the
-coordinates for the three-unit ship. Note that:
+coordinates for the three-unit ship.
+
+#### Validating Ship Coordinates
+
+Note that their are certain restrictions on where a ship can be placed.
+Specifically:
 
 * Ships cannot wrap around the board
 * Ships cannot overlap
@@ -65,19 +88,34 @@ coordinates for the three-unit ship. Note that:
 * Coordinates must correspond to the first and last units of the ship.
 (IE: You can't place a two unit ship at "A1 A3")
 
-Then they enter the *game flow* sequence.
+If a user enters an invalid ship coordinate, the game should display a
+message explaining which of the rules their choice violated, then
+ask them to re-enter all coordinates for that specific ship. (Any previous
+ship placements should still be retained)
 
-### Game Flow
+Once all ships have been placed, the user can enter the main game flow
+phase.
 
-Once the ships are laid out the game starts with the Player Shoots Sequence.
+#### Computer Ship Placement
 
-#### Player Shoots Sequences
+After the player has placed their ships, the computer player should place
+their ships. The baseline computer should simply use random placements,
+but stil obey the same constraints listed above.
 
-The game first outputs a map:
+### Game Flow (Main Phase)
+
+During the main game, players take turns firing
+at one another by selecting positions on the grid to attack.
+
+#### Rendering the Game Grid
+
+During this phase the game will frequently need to display
+the current game view. We'll use a simple ASCII text grid
+of letters (to indicate rows) and numbers (to indicate columns).
+
+Your board will look something like this:
 
 ```
-Your turn! Here's what you know:
-
 ===========
 . 1 2 3 4
 A
@@ -85,44 +123,75 @@ B
 C
 D
 ===========
-
-Enter a coordinate to shoot at:
 ```
 
-Then they enter a coordinate:
+#### Player Shooting Sequence
 
-* If the coordinate has already been shot at, reject the guess and ask them to
-shoot again
-* If the coordinate misses the opponent ships, output 'Shot Missed'. The next time you show the map, mark that location with an `O`.
-* If the coordinate "hits" an opponent ship, enter the Hit Ship sequence below. The next time you show the map, mark that location with an `H`.
+Once the ships are laid out the game starts with the Player Shoots Sequence.
 
-Then move to the Enemy Shoots sequence.
+1. Display the map from the current player's point of view
+2. Prompt the player for a position on which to fire
+3. Indicate whether that shot was a hit or a miss and display an updated map
 
-#### Enemy Shoots Sequence
+##### 1. Displaying the map
+
+Display a map using the format described above. On the map, include
+information about the current player's previous shots. For every
+shot that landed a hit, mark that position with an `H`, and fore very
+shot that missed, mark that position with an `M`.
+
+So, on the first turn, a player's grid will look empty. But as the game
+progresses, it will gradually fill up with misses and hits:
 
 ```
-My turn! Here's your map:
-
 ===========
 . 1 2 3 4
-A X X
-B     Y
-C     Y
-D     Y
+A H M
+B H   M
+C   H M
+D
 ===========
-
 ```
 
-Where `XX` and `YYY` represent the player's ships.
+##### 2. Prompting Player for a Shot
 
-* The computer player randomly selects a location which has not been shot at, and
-shoots at it.
-* If the shot misses the player ships, output "Shot missed". Mark it with a `M` on the map.
-* If the shot "hits" a player ship, enter the Hit Ship sequence. Mark it with an `H` on the map
+At the bottom of the grid display, the board should include a message
+prompting the player to enter a coordinate to fire on. This should follow
+the same pattern as when placing ships --  a letter/number combination to
+indicate the row and column to hit.
 
-Then move to the Player Shoots sequence.
+You should validate that the player's choice is a valid coordinate on the
+board, and that they have not already fired on that position before. (If they
+have, display a message explaining these constraints)
 
-#### Hit Ship Sequence
+##### 3. Displaying Shot Information
+
+After the player has entered their target, display a short message indicating
+whether it was a hit or a miss. Additionally, re-render the board showing
+the new shot.
+
+Finally, prompt the player to end their turn by pressing `ENTER`.
+
+#### Enemy Shooting Sequence
+
+Once the player has ended their turn, the AI will fire. This follows
+a similar process, except that instead of prompting for a target, the
+computer will simply select one at random from the positions that it
+has not yet fired at (again, not a very sophisticated AI, but good enough
+for now).
+
+Once the computer has selected, display a message to the human player
+indicating which position the computer fired at and whether it was a
+miss or a hit.
+
+Finally, give the player an overview of the computer's progress so far by
+displaying the game grid of the player's ships with `H`s over any positions
+the computer has hit and `M`s over any positions the computer has fired at but
+missed.
+
+Then, return to the Player Shot Sequence.
+
+### Hit Ship Sequence
 
 * If the hit did not sink the ship, tell them that they hit an enemy ship
 * If the hit sunk the ship, tell them they sunk it and the size of the ship.

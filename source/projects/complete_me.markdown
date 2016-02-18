@@ -157,8 +157,6 @@ spec harness will be unable to evaluate your work.
 Please make sure that, before your evaluation, your project has each of the following:
 
 * [SimpleCov](https://github.com/colszowka/simplecov) reporting accurate test coverage statistics
-* [TravisCI](https://travis-ci.org/) running your all your tests and they all pass
-* [CodeClimate](https://codeclimate.com/github/signup) evaluating the quality of your code (best to set it up early to see the change over time)
 
 ## Supporting Features
 
@@ -251,6 +249,11 @@ Could your word lookup possibly handle middle-of-the-word matches? So that `com`
 ### 3. Visual Interface
 
 Can you create a graphical user interface for your code? Something that a "normal person" might plausibly use? Consider a toolkit like [Shoes](http://shoesrb.com/) or [Ruby Processing](https://github.com/jashkenas/ruby-processing).
+
+### 4. Automated Reporting
+
+* [TravisCI](https://travis-ci.org/) running your all your tests and they all pass
+* [CodeClimate](https://codeclimate.com/github/signup) evaluating the quality of your code (best to set it up early to see the change over time)
 
 ## Evaluation Rubric
 

@@ -147,6 +147,31 @@ $  pry
 
 ### Example
 
+As a high level example, if we built the Hyde project that we looked at in the previous step, we would end up with this resulting project structure:
+
+```
+worace @ hyde_sample ➸  tree .
+.
+├── _output
+│   ├── css
+│   │   └── main.css
+│   ├── index.html
+│   ├── pages
+│   │   └── about.html
+│   └── posts
+│       └── 2016-02-20-welcome-to-hyde.html
+└── source
+    ├── css
+    │   └── main.css
+    ├── index.markdown
+    ├── pages
+    │   └── about.markdown
+    └── posts
+        └── 2016-02-20-welcome-to-hyde.markdown
+```
+
+Notice that each directory and file under `source` gets translated into the corresponding place under `_output`.
+
 ### Useful Ruby File Utilities
 
 #### Functionality

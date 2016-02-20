@@ -29,10 +29,6 @@ From a technical perspective, this project will emphasize:
 * Encapsulating Responsibilities
 * Light data / analytics
 
-## Setup -- Project Skeleton
-
--- Start from cloning a basic skeleton
-
 ## Evaluation Rubric
 
 Available [here](rubric.markdown).

@@ -29,6 +29,126 @@ From a technical perspective, this project will emphasize:
 * Encapsulating Responsibilities
 * Light data / analytics
 
+## Iterations / Features
+
+### Iteration 0: Generator a New Hyde Blog
+### Iteration 1: Processing Source Files Into HTML
+### Iteration 2: Generating new posts
+### Iteration 2: Customizing Design With Layouts
+### Iteration 3: Supporting Feature
+
+## Setup -- Project Skeleton
+
+-- Start from cloning a basic skeleton
+
+## Iteration 0 -- Generating the Site Structure
+
+Most static site generators include a command to generate the initial scaffolding for a new blog or site. This gives us more control and consistency around how the files and directories in our Hyde projects will be named, which keeps many of our later steps simpler.
+
+### Interface
+
+To generate a new Hyde project, the user will use this command:
+
+```
+bin/hyde new /path/to/the/site
+```
+
+Where `/path/to/the/site` indicates where Hyde should place the new project skeleton. For example a user might generate one in their home directory using `bin/hyde new ~/my-sweet-blog`.
+
+### Hyde Directory Structure
+
+Once a user requests a new Hyde project, we'll need to do 2 things
+
+1. Create the new directory (running the `new` command with a directory that already exists should result in an error)
+2. Fill the new directory with the appropriate Hyde files and directories
+
+The starting project skeleton will look like this:
+
+```
+.
+├── _output
+└── source
+    ├── css
+    │   └── main.css
+    ├── index.markdown
+    ├── pages
+    │   └── about.markdown
+    └── posts
+        └── 2016-02-20-welcome-to-hyde.markdown
+```
+
+### Hyde Directory Contents
+
+* `_output` - This is where we'll eventually put our generated site contents. Users generally won't actually work with files in this directory. Rather, they will be generated from the other source (markdown) files in the project
+* `source/` - This directory will house our "input" files. To "build" our site, we'll process all the files and subdirectories in this directory and transfer them to the `_output` directory in the appropriate format.
+* `source/css` - This directory will contain stylesheets that users can use to style their sites
+* `source/index.markdown` - This markdown file will eventually become our site's `index.html`. By convention a site's `index.html` is used as its root page.
+* `source/pages` - Markdown files in this directory will become standalone pages at the appropriate url. For example a file at `source/pages/pizza.markdown` could be viewed at `my-site.com/pages/pizza.html`
+* `source/posts` - Another "source" directory -- markown files in this directory will be used similarly to those in pages.
+
+## Iteration 1: Building Site Files
+
+### Interface
+
+A user will build their site by running `hyde` with the subcommand `build` and providing the path to the Hyde project they'd like to build. For example:
+
+```
+bin/hyde build ~/my-sweet-blog
+```
+
+### Build Process
+
+Building the site requires processing each file and directory inside of `source` and generating a corresponding output file in the appropriate place under `_output`. For starters, the only files we'll apply any special processing to are `.markdown` (or `.md`) files. Other files (`.css`, `.jpg`, etc) will simply be copied as is.
+
+Our processing algorithm looks something like:
+
+1. Iterate through all the files and directories in the `source` directory
+2. If an element is a Markdown file, convert it to html and copy it to the appropriate place inside
+of `_output`
+3. If an element is any other type of File, simply copy it to the appropriate place inside `_output`
+4. If an element is directory, create a matching subdirectory inside the `_output` directory, then repeat
+this process for any files or folders within it.
+
+### Why Markdown?
+
+### Converting Markdown to HTML
+
+**From the Command Line:**
+
+```
+$  gem install kramdown
+Successfully installed kramdown-1.9.0
+1 gem installed
+$  echo "# Some Markdown\n\n* a list\n* another item" > sample.markdown
+$  kramdown sample.markdown
+<h1 id="some-markdown">Some Markdown</h1>
+
+<ul>
+  <li>a list</li>
+  <li>another item</li>
+</ul>
+```
+
+**From Ruby / Pry:**
+
+```
+$  gem install kramdown
+Successfully installed kramdown-1.9.0
+1 gem installed
+$  pry
+[1] pry(main)> require "kramdown"
+=> true
+[2] pry(main)> markdown = "# Some Markdown\n\n* a list\n* another item"
+=> "# Some Markdown\n\n* a list\n* another item"
+[3] pry(main)> Kramdown::Document.new(markdown).to_html
+=> "<h1 id=\"some-markdown\">Some Markdown</h1>\n\n<ul>\n  <li>a list</li>\n  <li>another item</li>\n</ul>\n"
+[4] pry(main)>
+```
+
+### Example
+
+### Useful Ruby File Utilities
+
 #### Functionality
 
 The "application" will be run as an executable from a user's machine (gem or npm module). It needs to include several features:

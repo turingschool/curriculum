@@ -43,13 +43,11 @@ them into Iterations in their own files:
 * [Iteration 2](iteration_2.markdown) - Generating new blog post files
 * [Iteration 3](iteration_3.markdown) - Customizing site design with layouts and CSS
 
-### Serving static assets
+### Possible Supporting Features
 
-We'd like our users to be able to include static assets like Javascripts, Stylesheets, and Images.
-
-### Extensions
-
-* Rails-style "layouts" for extracting standard template functionality
 * Partials
 * CSS preprocessor (using sass or less)
+* Gem extraction
+* Include a dev server for serving built files
+* FS Event Watcher to rebuild automatically on file change
 

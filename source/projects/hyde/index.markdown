@@ -111,6 +111,14 @@ this process for any files or folders within it.
 
 ### Why Markdown?
 
+If this is your first time encountering Markdown, you might ask yourself "Why go to all this trouble to avoid HTML?"
+
+According to John Gruber, the creator of [Markdown](https://daringfireball.net/projects/markdown/):
+
+> Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML). [...] Tihe overriding design goal for Markdown’s formatting syntax is to make it as readable as possible. The idea is that a Markdown-formatted document should be publishable as-is, as plain text, without looking like it’s been marked up with tags or formatting instructions.
+
+HTML is the dominant method for transmitting formatted textual content over the web. As far as computer languages go, HTML is fairly straightforward. Unfortunately HTML is still fundamentally designed to be read by machines, not humans. This makes things especially difficult when working with hand-written text -- formatting our content as HTML adds a layer of complex syntax which obscures the original content. Markdown is an attempt to allow us to generate HTML automatically while still keeping our content readable (for humans).
+
 ### Converting Markdown to HTML
 
 **From the Command Line:**

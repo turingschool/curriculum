@@ -34,8 +34,8 @@ From a technical perspective, this project will emphasize:
 ### Iteration 0: Generator a New Hyde Blog
 ### Iteration 1: Processing Source Files Into HTML
 ### Iteration 2: Generating new posts
-### Iteration 2: Customizing Design With Layouts
-### Iteration 3: Supporting Feature
+### Iteration 3: Customizing Design With Layouts
+### Iteration 4: Supporting Features
 
 ## Setup -- Project Skeleton
 
@@ -121,6 +121,8 @@ HTML is the dominant method for transmitting formatted textual content over the 
 
 ### Converting Markdown to HTML
 
+How do we actually convert markdown (our source files) to HTML (our output files)? Fortunately there are numerous tools out there to make this process work. We'll recommend using the [kramdown](http://kramdown.gettalong.org/index.html) gem for this job. Here are some examples of how to use it.
+
 **From the Command Line:**
 
 ```
@@ -153,7 +155,7 @@ $  pry
 [4] pry(main)>
 ```
 
-### Example
+### Building a Hyde Project -- Full Example
 
 As a high level example, if we built the Hyde project that we looked at in the previous step, we would end up with this resulting project structure:
 
@@ -216,7 +218,33 @@ We'd like our users to be able to include static assets like Javascripts, Styles
 * Partials
 * CSS preprocessor (using sass or less)
 
+## Iteration 2 -- Generating New Blog Files
 
+For Hyde to become a viable blogging platform, we should add some commands to make common operations easy for our users. One of these is generating new posts for the blog. Add a hyde subcommand `post` which generates a new blog post file.
+
+The command will be used like this:
+
+```
+bin/hyde post [Hyde Project Directory] [Post Title]
+```
+
+Where `[Hyde Project Directory]` gives the path to the root of the user's Hyde project and `[Post Title]` takes any remaining text provided and uses it as the post's title.
+
+
+**Example:**
+
+```
+bin/hyde post ~/my-sweet-blog Juicy Post
+Created a new post file at ~/my-sweet-blog/source/posts/2016-02-20-juicy-post.markdown
+```
+
+And inside of `~/my-sweet-blog/source/posts/2016-02-20-juicy-post.markdown`, Hyde should pre-populate some basic content:
+
+```markdown
+# Juicy Post
+
+Your content here
+```
 
 ## Project Iterations and Base Expectations
 

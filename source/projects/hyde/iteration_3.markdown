@@ -36,14 +36,47 @@ For this iteration you need to do several things
 
 1. Add an additional `source/layouts/` directory to the Hyde project generator
 2. Update the generator to include a standard layout `default.html.erb` when generating a new project
-3. Update your `build` process so that each page gets its content
-injected into the layout (more on this below)
+3. Update your `build` process so that each page gets its content injected into the layout (more on this below)
 
 
 ### Working with ERB
 
-TK
+ERB allows you to make pages more flexible by allowing you to call ruby methods and variables. A page that would have otherwise been static can now change based on the variables you set. Here is an example HTML file using ERB for dynamic content:
+
+```erb
+<html>
+  <head><title>Ruby Toys -- <%= @name %></title></head>
+  <body>
+
+    <h1><%= @name %> (<%= @code %>)</h1>
+    <p><%= @desc %></p>
+
+    <ul>
+      <% @features.each do |f| %>
+        <li><b><%= f %></b></li>
+      <% end %>
+    </ul>
+
+    <p>
+      <% if @cost < 10 %>
+        <b>Only <%= @cost %>!!!</b>
+      <% else %>
+         Call for a price, today!
+      <% end %>
+    </p>
+
+  </body>
+</html>
+```
+
+ERB files always end with `.erb` but also have the file extension they would have had anyway. So HTML files with ERB tags added to them will end with `.html.erb`. After they have been processed, the resulting file is just `.html`
 
 ### Injecting page content into a layout
 
-TK
+```erb
+
+<body>
+  <div class='navbar'></div>
+  <%= @output_from_markdown %>
+  <div class='footer'></div>
+</body>

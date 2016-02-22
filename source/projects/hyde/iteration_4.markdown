@@ -12,8 +12,12 @@ TK
 
 ### Publish to github pages
 
-Create a publish script that will publish your website to
+Create a publish script that will publish your website to [https://pages.github.com/](https://pages.github.com/)
 
 TK
 
-[https://pages.github.com/](https://pages.github.com/)
+### Support Partials
+
+Create partial layout files to keep your layout from getting out of control. Then render those partials in your layout.
+
+TK

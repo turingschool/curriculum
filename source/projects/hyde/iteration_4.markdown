@@ -10,11 +10,13 @@ Use this to set variables that are used in your ERB layouts. This way, each page
 
 TK
 
-### Publish to github pages
+### Watch for file changes
 
-Create a publish script that will publish your website to [https://pages.github.com/](https://pages.github.com/)
+Add a script that will watch for changes in source files, and rebuild them when source files are changed.
 
-TK
+```
+bin/hyde watchfs
+```
 
 ### Support Partials
 

@@ -9,10 +9,9 @@ Choose one of the following translations to add
 * [Haml](http://haml.info/) => HTML
 * [Sass](http://sass-lang.com/) => CSS
 
-### Watch for file changes
 
-Add a script that will watch for changes in source files, and rebuild them when files are changed.
+### Publish to github pages
 
-```
-bin/hyde watchfs
-```
+Create a publish script that will publish your website to [https://pages.github.com/](https://pages.github.com/)
+
+TK

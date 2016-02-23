@@ -41,7 +41,7 @@ How do we actually convert markdown (our source files) to HTML (our output files
 $  gem install kramdown
 Successfully installed kramdown-1.9.0
 1 gem installed
-$  echo "# Some Markdown\n\n* a list\n* another item" > sample.markdown
+$  echo -e "# Some Markdown\n\n* a list\n* another item" > sample.markdown
 $  kramdown sample.markdown
 <h1 id="some-markdown">Some Markdown</h1>
 

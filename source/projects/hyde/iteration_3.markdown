@@ -30,6 +30,8 @@ Additionally, we so far haven't made any use of the starting CSS files we genera
 
 In the context of web design a "layout" is a special template that extracts some of the common formatting for a document or collection of documents. The point of a layout is to pull out commonly repeated markup so that we don't have to directly copy it into all of our files. For example many sites will put all of the common content for their header, sidebar, and footer into a layout, since these contents appear the same on every page.
 
+For Hyde, we'd like to define a standard layout file which contains all of the "boilerplate" markup for our pages. Then, when we build the site, each individual page (or post) should have its rendered content injected into the appropriate place in the layout.
+
 ### Supporting Layouts in Hyde
 
 For this iteration you need to do several things
@@ -38,6 +40,44 @@ For this iteration you need to do several things
 2. Update the generator to include a standard layout `default.html.erb` when generating a new project
 3. Update your `build` process so that each page gets its content injected into the layout (more on this below)
 
+### Dynamic Templating with ERB
+
+Ruby ships with a built-in templating system called [ERB](http://ruby-doc.org/stdlib-2.3.0/libdoc/erb/rdoc/ERB.html). You can think of ERB as string interpolation on steroids -- it allows us to take pre-defined template strings and then make them dynamic by inserting ruby code.
+
+Nothing about ERB makes it specific to HTML, however that is a common use case. Especially in the context of web applications (e.g. Rails) you'll frequently see ERB used to make HTML templates dynamic.
+
+### ERB Template Crash Course
+
+ERB is part of Ruby's standard library, so we can access it simply by requiring it. To make an ERB template, we simply pass it a string (this could be defined in code, or read from a file). Within an ERB template string, we use 2 special templating tags: `<% %>` to indicate ruby code that should be evaluated but not output into the template, and `<%= %>` to indicate ruby code that should be evaluated _and_ printed to the template.
+
+For example:
+
+```ruby
+require "erb"
+template_string = "No equal sign (not printed): <% 'ruby code -- not printed to the template' %> -- Equal sign (printed): <%= 1 + 1 %>"
+ERB.new(template_string).result
+"No equal sign (not printed):  -- Equal sign (printed): 2"
+```
+
+#### ERB With Local Bindings
+
+Sometimes we'd like to inject specifically named variables into our ERB when we render it. For example rendering a template string that uses a variable `pizza_toppings`:
+
+```
+"Your 'Za features: <%= pizza_toppings %>"
+```
+
+ERB supports this by allowing us to provide a `binding` value when generating a `result`. The `binding` conveys local variable references that can be accessed inside of the template string when it gets evaluated.
+
+```ruby
+require "erb"
+
+template_string = "Your 'Za features: <%= pizza_toppings %>"
+pizza_toppings = "anchovies, mushrooms, and salami"
+
+ERB.new(template_string).result(binding)
+"Your 'Za features: anchovies, mushrooms, and salami"
+```
 
 ### Working with ERB
 

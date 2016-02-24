@@ -44,11 +44,11 @@ r2 = ResultEntry.new({free_and_reduced_price_lunch_rate: 0.3,
 
 rs = ResultSet.new(matching_districts: [r1], statewide_average: r2)
 
-rs.matching_districts.first.free_and_reduced_price_punch_rate # => 0.5
+rs.matching_districts.first.free_and_reduced_price_lunch_rate # => 0.5
 rs.matching_districts.first.children_in_poverty_rate # => 0.25
 rs.matching_districts.first.high_school_graduation_rate # => 0.75
 
-rs.statewide_average.free_and_reduced_price_punch_rate # => 0.3
+rs.statewide_average.free_and_reduced_price_lunch_rate # => 0.3
 rs.statewide_average.children_in_poverty_rate # => 0.2
 rs.statewide_average.high_school_graduation_rate # => 0.6
 ```
@@ -113,7 +113,7 @@ rs.matching_districts.first.children_in_poverty_rate
 # => 0.023
 rs.statewide_average
 # => <ResultEntry>
-rs.statewide_average.median_hosuehold_income
+rs.statewide_average.median_household_income
 # => 48000
 rs.statewide_average.children_in_poverty_rate
 # => 0.017

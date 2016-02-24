@@ -16,9 +16,8 @@ Writing your own blogging engine is almost a right of passage for aspiring web d
 
 1. One team member forks the repository at https://github.com/turingschool-examples/hyde and adds the other(s) as collaborators.
 2. Everyone on the team clones the repository
-3. Create a [Waffle.io](http://waffle.io) account for project management.
-4. Setup [CodeClimate](https://codeclimate.com/) to monitor code quality along the way
-5. Setup [TravisCI](https://travis-ci.org/) to run your tests ever time you push
+3. Add SimpleCov to track project coverage
+4. Choose one of [CodeClimate](https://codeclimate.com/) or [TravisCI](https://travis-ci.org/) to monitor your project
 
 ## Key Concepts
 

@@ -239,14 +239,14 @@ After completing iteration 4, we can now register Clients and their applications
 A registered application will send `POST` requests to the following URL:
 
 ```
-http://yourapplication:port/sources/IDENTIFIER/data
+http://yourapplication:port/sources/:IDENTIFIER/data
 ```
 
 IDENTIFIER, in this URL, is the unique identifier for the client.
 
-If you recall from iterations 0 and 1 we've already structured our app to accept payload data. If everything was set up correctly we should need to change much if anything for this to work with the payload being sent over HTTP.
+If you recall from iterations 0 and 1 we've already structured our app to accept payload data. If everything was set up correctly we should not need to change much if anything for this to work with the payload being sent over HTTP.
 
-Everything sent of HTTP by nature is a string. That makes JSON structure perfect for sending data over HTTP. We will send our payload request as a parameter called 'payload' which contains the payload as JSON data.
+Everything sent over HTTP by nature is a string. That makes JSON structure perfect for sending data over HTTP. We will send our payload request as a parameter called 'payload' which contains the payload as JSON data.
 
 Here is an example of sending a payload to our application:
 

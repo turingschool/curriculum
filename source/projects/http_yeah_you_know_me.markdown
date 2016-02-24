@@ -244,6 +244,24 @@ Changing the verb and submitting parameters in the body instead of the parameter
 
 Let's write a simple guessing game that works like this:
 
+#### Handling POST Requests
+
+So far all of the requests we've dealt with have been using HTTP's GET verb. A GET request signifies _fetching_ rather than _sending_ information. POST requests, on the other hand, signify _sending_ information. In this section we'll be using post requests to allow users to send us data to interact with the simple HTTP game.
+
+So what do we need to do differently when handling POST requests vs. GETs? Fortunately, most of the other parsing we've done will remain the same -- headers, paths, parameters, etc. When reading a POST request, however, we also need to give attention to the request body.
+
+Remember that in an HTTP request the body is separated from the headers with a blank line -- in our basic parsing so far, encountering this blank line is how we know when we're done reading headers. Everything after the blank line, then, is the body. To read the body from the request, we need to look at a specific header, called `Content-Length` which is included with the request. The Content-Length header tells us the number of bytes (roughly equivalent with the number of characters) that are included in the request body.
+
+Once we find this number, we can use a special socket method `read`, to read that specific number of bytes.
+
+In short, then our process for reading the body of a post request looks like this:
+
+1. Read the request headers by reading lines until we encounter a blank one (same as before)
+2. Find the Content-Length header and see how many bytes it says are included in the request.
+3. User `Socket#read` to read that number of bytes from the socket, thus reading the request body.
+
+For this iteration you'll need to update your request handling to use this process to read the request body for any POST requests your server receives.
+
 #### `POST` to `/start_game`
 
 This request begins a game. The response says `Good luck!` and starts a game.

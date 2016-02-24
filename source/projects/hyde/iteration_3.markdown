@@ -92,7 +92,7 @@ With this tool at our disposal, we should be able to define a simple HTML layout
 </html>
 ```
 
-Note that ERB files always end with `.erb` but can also have the file extension they would have had anyway. So HTML files with ERB tags added to them often end with `.html.erb`. After they have get processed, it's common to name the resulting file with just `.html`.
+Note that ERB files always end with `.erb` but can also have the file extension they would have had anyway. So HTML files with ERB tags added to them often end with `.html.erb`. After they get processed, it's common to name the resulting file with just `.html`.
 
 ## Requirements
 

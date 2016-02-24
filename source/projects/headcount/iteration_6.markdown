@@ -151,10 +151,10 @@ ha.kindergarten_participation_correlates_with_household_income(for: 'COLORADO') 
 ```
 
 Then let's look statewide.
-If more than some percentage of districts across the state show a correlation, then we'll answer `true`.
+If more than 70% percentage of districts across the state show a correlation, then we'll answer `true`.
 
 ```ruby
-ha.kindergarten_participation_correlates_with_household_income(for: 'ACADEMY 20') # => true
+ha.kindergarten_participation_correlates_with_household_income(for: 'STATEWIDE') # => true
 ```
 
 And let's add the ability to just consider a subset of districts:

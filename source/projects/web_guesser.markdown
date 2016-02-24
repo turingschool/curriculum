@@ -41,21 +41,21 @@ In your Command Prompt:
 * Create new git repository with `git init`
 * Create our server file with `touch web_guesser.rb`
 
-Then go over to SublimeText and open that `web_guesser.rb` file.
+Then go over to your text editor (Atom, SublimeText, etc...) and open that `web_guesser.rb` file.
 
 ### Hello, World
 
 Let's focus first on getting the server running. Start off your file with this:
 
 ```ruby
-require 'sinatra'
+require "sinatra"
 
 get '/' do
   "Hello, World!"
 end
 ```
 
-And save it in SublimeText
+And save it in your text editor
 
 ### Start the Server
 
@@ -106,11 +106,11 @@ That's no fun. Let's add on a library that can automatically reload the code whe
 * Stop your server if it's running with `Ctrl-C`
 * Install the `sinatra-contrib` gem by typing `gem install sinatra-contrib`
 
-Then, go back to SublimeText and add a second `require` statement underneath the existing one:
+Then, go back to your text editor and add a second `require` statement underneath the existing one:
 
 ```ruby
-require 'sinatra'
-require 'sinatra/reloader'
+require "sinatra"
+require "sinatra/reloader"
 ```
 
 #### Test It Out
@@ -205,7 +205,7 @@ The SECRET NUMBER is <%= number %>
 Then, in your `web_guesser.rb`, you need to pass the local variable into the ERB template like this:
 
 ```ruby
-erb :index, :locals => {:number => number}
+erb :index, locals: { number: number }
 ```
 
 Translated to English, this means "render the ERB template named `index` and create a local variable for the template named `number` which has the same value as the `number` variable from this server code."
@@ -217,6 +217,7 @@ Our current output to the browser isn't really valid HTML. The browser that we'r
 Let's instead output valid HTML ourselves. Rewrite your template so it looks like this, which has the minimum valid HTML tags:
 
 ```erb
+<!DOCTYPE html>
 <html>
   <head></head>
   <body>

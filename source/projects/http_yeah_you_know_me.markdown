@@ -298,7 +298,39 @@ A search for `pizz` returns JSON with possible matches like this:
 
 ### 2. Threading
 
-What happens if your web server gets more than one request at a time? Let's experiment with Threads. *to be continued*
+A [Thread](http://ruby-doc.org/core-2.2.0/Thread.html) represents an independent flow (thread) of execution. Threads allow us to model concurrent processes that need to occur at the same time, independent of one another.
+
+You can read more about threads in the ruby docs, but the basic usage looks like this:
+
+```ruby
+t = Thread.new do
+  puts "hi from the other thread"
+end
+hi from other thread
+=> #<Thread:0x007f81d3bddd08@(pry):65 sleep>
+```
+
+If a thread returns a value, we can capture it by calling `#value`:
+
+```ruby
+pry(main)> t = Thread.new { 1 + 1 }
+=> #<Thread:0x007f81d4398070@(pry):66 dead>
+pry(main)> t.value
+=> 2
+
+pry(main)> t = Thread.new { sleep(3); 1 + 1 }
+=> #<Thread:0x007f81d42ec770@(pry):68 sleep>
+pry(main)> t.value #hangs
+=> 2
+```
+
+Note that if the thread is busy doing some work, calling `#value` will hang until that
+thread is finished.
+
+
+With these tools at your disposal, enhance your server handler so that each request/response gets handled in its own thread. If done correctly, this will allow you to handle multiple requests at a time.
+
+To demonstrate this functionality, additionally add a new GET endpoint `/sleepy` which sleeps for 3 seconds and then returns a 200 OK response with the body `"yawn..."`. You should be able to handle multiple `/sleepy` requests in a row without the second one waiting for the first one to complete.
 
 ## Evaluation Rubric
 

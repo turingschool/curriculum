@@ -354,6 +354,18 @@ To demonstrate this functionality, additionally add a new GET endpoint `/sleepy`
 
 The project will be assessed with the following rubric:
 
+### Code Sanitation
+
+To help give us a more automated approach to evaluating code cleanliness in the project, the template includes the [Cane](https://github.com/square/cane) and [Reek](https://github.com/troessner/reek) gems. These tools will analyze your codebase and print out warnings for common problems like:
+
+* Long methods
+* Long lines
+* Too many branches
+
+To run the sanitation checker, use this command (from the root of your project):
+
+`$ rake sanitation:all`
+
 ### 1. Overall Functionality
 
 * 4: Application implements all five iterations and at least one extension

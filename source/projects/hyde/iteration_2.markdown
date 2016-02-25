@@ -5,7 +5,7 @@ For Hyde to become a viable blogging platform, we should add some commands to ma
 The command will be used like this:
 
 ```
-bin/hyde post "Hyde Project Directory" Post Title
+bin/hyde post /path/to/my/blog_directory Post Title
 ```
 
 Where `"Hyde Project Directory"` gives the path to the root of the user's Hyde project and `Post Title` takes any remaining text provided and uses it as the post's title.

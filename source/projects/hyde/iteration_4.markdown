@@ -22,7 +22,7 @@ title: "Sweet Post"
 ---
 ```
 
-The resulting HTML in the output will be:
+The resulting output HTML for that post will be:
 
 ```
 <title>Sweet Blog - Sweet Post</title>

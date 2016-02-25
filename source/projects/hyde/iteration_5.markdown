@@ -20,10 +20,12 @@ Running:
 bin/hyde publish
 ```
 
-will build and publish that build to github pages. Then you should be able to visit your site from the browser at a URL kind of like this one:
+will build and publish that build to github pages. Then you should be able to visit your site index from the browser at a URL kind of like this one:
 
 ```
 github_username.github.io/hyde
 ```
 
-Your source files should not be available through github pages
+Ensure your `index.md` has relative links to your posts and pages so you can view them.
+
+Your source files should not be viewable on your github pages site

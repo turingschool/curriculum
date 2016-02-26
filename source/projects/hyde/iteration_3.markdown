@@ -37,7 +37,7 @@ For Hyde, we'd like to define a standard layout file which contains all of the "
 For this iteration you need to do several things
 
 1. Add an additional `source/layouts/` directory to the Hyde project generator
-2. Update the generator to include a standard layout `default.html.erb` when generating a new project
+2. Update the generator to include a standard layout `source/layouts/default.html.erb` when generating a new project
 3. Update your `build` process so that each page gets its content injected into the layout (more on this below)
 
 ### Dynamic Templating with ERB

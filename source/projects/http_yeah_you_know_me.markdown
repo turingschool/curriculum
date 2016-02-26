@@ -277,6 +277,31 @@ A request to this verb/path combo tells us:
 
 This is how we make a guess. The request includes a parameter named `guess`. The server stores the guess and sends the user a redirect response, causing the client to make a `GET` to `/game`.
 
+### Sending a Redirect
+
+A [Redirect](https://en.wikipedia.org/wiki/URL_redirection) is a special kind of HTTP response. It indicates to an HTTP client that the resource they requested should be fetched from a different location. A redirect is HTTP's mechanism of telling a client (often a web browser) to "go over there." You've seen this on the web whenever you submit a web form and your browser automatically loads a new page. Redirects are often used in response to POST requests.
+
+To respond with a redirect, you need to send 2 things:
+
+1. A `3xx` status code -- in our case `302` will be the standard status code for redirecting
+2. A special header called `Location` -- the `Location` header indicates the new URL the browser should visit. For example the header `Location: http://google.com` would tell a web browser to navigate to google's homepage.
+
+Here's what the headers for an example redirect response would look like:
+
+```
+$ curl -I google.com
+HTTP/1.1 301 Moved Permanently
+Location: http://www.google.com/
+Content-Type: text/html; charset=UTF-8
+Date: Fri, 26 Feb 2016 01:55:24 GMT
+Expires: Sun, 27 Mar 2016 01:55:24 GMT
+Cache-Control: public, max-age=2592000
+Server: gws
+Content-Length: 219
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+```
+
 ### Iteration 5 - Response Codes
 
 We use the HTTP response code as a short hand way to explain the result of the request. Here are the most common HTTP status codes:

@@ -99,5 +99,5 @@ Note that ERB files always end with `.erb` but can also have the file extension 
 For this iteration, update Hyde to allow user-defined layouts:
 
 1. Add an additional `source/layouts/` directory to the Hyde project generator
-2. Update the generator to include a standard layout `default.html.erb` when generating a new project
+2. Update the generator to include a standard layout `source/layouts/default.html.erb` when generating a new project
 3. Update your `build` process so that each page gets its content injected into the layout using ERB. Note that you will probably first need to translate the page content from markdown to html and _then_ inject it into the layout.

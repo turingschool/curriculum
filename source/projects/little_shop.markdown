@@ -12,9 +12,9 @@ In this project you'll use Ruby on Rails to build an online commerce platform to
 
 ### Learning Goals
 
-* Use TDD to drive all layers of Rails development including unit, integration, and user acceptance tests
+* Use TDD to drive all layers of Rails development including unit and integration tests
 * Design a system of models which use one-to-one, one-to-many, and many-to-many relationships
-* Practice mixing HTML, CSS, and Rails templates to create an inviting and usable User Interface
+* Practice mixing HTML, CSS, and templates to create an inviting and usable User Interface
 * Differentiate responsibilities between components of the Rails stack
 * Build a logical user-flow that moves across multiple controllers and models
 * Practice an agile workflow and improve communication skills working within a team

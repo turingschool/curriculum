@@ -51,7 +51,7 @@ Find which item most `one_time_buyers` bought:
 ```rb
 sa = SalesAnalyst.new
 
-sa.one_time_buyers_item #=> [item, item]
+sa.one_time_buyers_item #=> [item]
 ```
 
 Find which items a given customer bought in given year (by the `created_at` on the related invoice):

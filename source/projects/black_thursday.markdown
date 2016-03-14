@@ -17,8 +17,7 @@ A business is only as smart as its data. Let's build a system able to load, pars
 1. One team member forks the repository at https://github.com/turingschool-examples/black_thursday and adds the other(s) as collaborators.
 2. Everyone on the team clones the repository
 3. Create a [Waffle.io](http://waffle.io) account for project management.
-4. Setup [CodeClimate](https://codeclimate.com/) to monitor code quality along the way
-5. Setup [TravisCI](https://travis-ci.org/) to run your tests ever time you push
+4. Setup [SimpleCov](https://github.com/colszowka/simplecov) to monitor test coverage along the way
 
 ### Spec Harness
 

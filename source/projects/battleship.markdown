@@ -28,6 +28,7 @@ The game will include several distinct phases:
 5. [Computer Shot Sequence](#computer-shot-sequence)
 6. [Ship Hit Sequence](#ship-hit-sequence)
 7. [End Game Sequence](#end-game-sequence)
+8. Setup [SimpleCov](https://github.com/colszowka/simplecov) to monitor test coverage along the way
 
 ### Start Game Sequence
 

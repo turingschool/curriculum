@@ -252,8 +252,7 @@ Can you create a graphical user interface for your code? Something that a "norma
 
 ### 4. Automated Reporting
 
-* [TravisCI](https://travis-ci.org/) running your all your tests and they all pass
-* [CodeClimate](https://codeclimate.com/github/signup) evaluating the quality of your code (best to set it up early to see the change over time)
+* Setup [SimpleCov](https://github.com/colszowka/simplecov) to monitor test coverage along the way
 
 ## Evaluation Rubric
 

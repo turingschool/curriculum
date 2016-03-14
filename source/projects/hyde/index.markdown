@@ -16,8 +16,7 @@ Writing your own blogging engine is almost a right of passage for aspiring web d
 
 1. One team member forks the repository at https://github.com/turingschool-examples/hyde and adds the other(s) as collaborators.
 2. Everyone on the team clones the repository
-3. Add SimpleCov to track project coverage
-4. Choose one of [CodeClimate](https://codeclimate.com/) or [TravisCI](https://travis-ci.org/) to monitor your project
+3. Setup [SimpleCov](https://github.com/colszowka/simplecov) to monitor test coverage along the way
 
 ## Key Concepts
 

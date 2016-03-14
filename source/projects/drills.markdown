@@ -2,7 +2,7 @@
 
 _Practice makes perfect._
 
-Learning to program is a long journey. Additionally, no amount of instruction can truly teach you how to program. At the end of the day it's up to us to put in the time and the practice required to truly internalize the lessons we're being taught.
+Learning to program is a long journey. Additionally, no amount of instruction can truly teach you how to program. At the end of the day it's up to us to put in the time and the practice required to internalize the lessons we're being taught.
 
 With that in mind, our focus for this first week will be on practice and repetition. This collection of exercises is designed to give you guided practice and practical exposure to the concepts being discussed in our introductory lessons.
 

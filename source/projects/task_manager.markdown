@@ -46,7 +46,7 @@ $ mkdir app
 $ mkdir db
 ```
 
-We'll use the `app` folder for all of our implementation code. Our `db` folder will hold our fake database (we're going to use a [YAML](http://www.yaml.org/) file, not a real database).
+We'll use the `app` folder for all of our implementation code. Our `db` folder will hold our database (we're going to use a [YAML](http://www.yaml.org/) file, not a 'real' database like postgresql). We use the YAML file instead of a more traditional database because we can simple open a YAML file and the data inside is human readable, which is a nice easy introduction to databases. 
 
 We'll need a few folders inside of our app folder so that we can separate our files.
 

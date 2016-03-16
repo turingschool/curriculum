@@ -56,7 +56,8 @@ The three nodes here hold the data "hello", "world", and "!". The first two node
 * [Iteration 1](jungle_beat/iteration_1.md) - Append, All and Count (Single Node)
 * [Iteration 2](jungle_beat/iteration_2.md) - Append, Prepend and Insert (Multiple Nodes)
 * [Iteration 3](jungle_beat/iteration_3.md) - Managing Nodes
-* [Iteration 4](jungle_beat/iteration_4.md) - Tying It All Together
+* [Iteration 4](jungle_beat/iteration_4.md) - Creating a Linked List Wrapper
+* [Iteration 5](jungle_beat/iteration_5.md) - Playing Beats
 * [Extensions](jungle_beat/extensions.md) - Validating Beats, Speed & Voice
 
 ## Internal Structure

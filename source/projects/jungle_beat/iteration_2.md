@@ -6,21 +6,23 @@ Now we have nodes and a `LinkedList` class that manages the list. Next step is t
 
 `insert` will insert one or more elements at a given position in the list. It takes two parameters, the first one is the position at which to insert nodes, the second parameter is the string of data to be inserted.
 
+`prepend` and `append` takes a string parameter with data separated by spaces. Given the string "plop sup dip", three nodes should be added to the list.
+
 Expected behavior:
 
 ```ruby
 > require "./lib/linked_list"
-> LL = LinkedList.new
-> LL.append("plop sup")
+> list = LinkedList.new
+> list.append("plop sup")
 => 2
-> LL.all
+> list.alist
 => "deep plop sup"
-> LL.prepend("dop waa")
+> list.prepend("dop waa")
 => 2
-> LL.all
+> list.all
 => "dop waa deep plop sup"
-> LL.count
+> list.count
 => 5
-> LL.insert(2, "woo wii")
+> list.insert(2, "woo wii")
 => "dop waa woo wii deep plop sup"
 ```

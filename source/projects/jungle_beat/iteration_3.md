@@ -12,15 +12,17 @@ Expected behavior:
 
 ```ruby
 > require "./lib/linked_list"
-> LL = LinkedList.new
-> LL.append("deep woo whi shu blop")
+> list = LinkedList.new
+> list.append("deep woo whi shu blop")
 => 5
-> LL.find(2, 1)
+> list.all
+=> "deep woo whi shu blop"
+> list.find(2, 1)
 => "shi shu"
-> LL.pop
+> list.pop
 => "blop"
-> LL.pop(2)
+> list.pop(2)
 => "shi shu"
-> LL.all
+> list.all
 => "deep woo"
 ```

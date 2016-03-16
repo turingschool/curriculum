@@ -1,24 +1,23 @@
-# Iteration 4 - Tying It All Together
+# Iteration 4 - Creating a Linked List Wrapper
 
-Awesome! We have built out almost the entire program. At this point, go through your code (and tests) to make sure the methods you have built comply with these descriptions:
+Awesome! We have built most of our program and now it's time to wrap the Linked List logic in a `JungleBeat` class.
 
-* `append` an element to the end of the list
-* `prepend` an element at the beginning of the list
-* `all` return all elements in the linked list in order
-* `insert` one or more elements at an arbitrary position in the list
-* `includes?` gives back `true` or `false` whether the supplied value is in the list
-* `pop` one or more elements from the end of the list
-* `count` the number of elements in the list
-* `find` one or more elements based on arbitrary positions in the list. The first parameter indicates the first position to return and the second parameter specifies how many elements to return.
-
-The last step is to actually build and play sounds with a `JungleBeat` class.
+When we create a new instance of the `JungleBeat` class, a `LinkedList` object is also instantiated and available as an attribute on the `JungleBeat` instance. Now, we can manage our linked list through the `JungleBeat` class. With this extra layer, the linked list itself does not have to make any assumptions about what data is provided when we append nodes. If we want to append "deep dop dii" as three nodes, the `JungleBeat` class can take care of properly formatting the data (eg: splitting the string) before passing it down to the `LinkedList`.
 
 Expected behavior:
 
 ```ruby
 > require "./lib/jungle_beat"
-> jb = JungleBeat.new("deep doop shi shu woo")
-=> 5
-> jb.play
-=> 5 (as well as playing the sounds!)
+> jb = JungleBeat.new
+=> <JungleBeat list=<LinkedList head=nil #234567890890> #456789045678>
+> jb.list
+=> <LinkedList head=nil #234567890890>
+> jb.list.head
+=> nil
+> jb.append("deep doo ditt")
+=> "deep doo ditt"
+> jb.list.head.data
+=> "deep"
+> jb.list.head.next_node.data
+=> "doo"
 ```

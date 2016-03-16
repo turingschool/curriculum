@@ -4,24 +4,28 @@ Perfect, we are almost there! Next is to add `find`, `pop` and `includes?` metho
 
 `find` takes two parameters, the first indicates the first position to return and the second parameter specifies how many elements to return.
 
-`pop` removes elements from the list. It takes an integer as a parameter which indicates how many elements will be popped off the list. If no parameter is given, it removes only one element.
-
 `includes?` gives back true or false whether the supplied value is in the list.
+
+`pop` removes elements from the list. It takes an integer as a parameter which indicates how many elements will be popped off the list. If no parameter is given, it defaults to removing one node.
 
 Expected behavior:
 
 ```ruby
-> require "./lib/jungle_beat"
-> jb = JungleBeat.new("deep")
-=> 1
-> jb.append("woo whi shu blop")
-=> 4
-> jb.find(2, 1)
-=> "shi shu"
-> jb.pop
+....
+> list.to_string
+=> "deep woo shi shu blop"
+> list.find(2, 1)
+=> "shi"
+> list.find(1, 3)
+=> "woo shi shu"
+> list.includes?("deep")
+=> true
+> list.includes?("dep")
+=> false
+> list.pop
 => "blop"
-> jb.pop(2)
+> list.pop(2)
 => "shi shu"
-> jb.all
+> list.to_string
 => "deep woo"
 ```

@@ -6,9 +6,9 @@ Expected behavior:
 
 ```ruby
 > require "./lib/node"
-> n = Node.new("deep")
-> n.data
-=> "deep"
-> n.next_node
+> node = Node.new("plop")
+> node.data
+=> "plop"
+> node.next_node
 => nil
 ```

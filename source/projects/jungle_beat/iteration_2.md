@@ -1,6 +1,6 @@
 # Iteration 2 - Append, Prepend and Insert (Multiple Nodes)
 
-Now we have nodes and a `JungleBeat` class that manages the list. Next step is to add the `insert` and `prepend` methods as well as ensuring that `insert`, `append` and `prepend` works for both single and multiple nodes.
+Now we have nodes and a `LinkedList` class that manages the list. Next step is to add the `insert` and `prepend` methods.
 
 `prepend` will add nodes to the beginning of the list.
 
@@ -9,19 +9,20 @@ Now we have nodes and a `JungleBeat` class that manages the list. Next step is t
 Expected behavior:
 
 ```ruby
-> require "./lib/jungle_beat"
-> jb = JungleBeat.new("deep")
+> require "./lib/linked_list"
+> list = LinkedList.new
+> list.append("plop")
 => 1
-> jb.append("plop sup")
-=> 2
-> jb.all
-=> "deep plop sup"
-> jb.prepend("dop waa")
-=> 2
-> jb.all
-=> "dop waa deep plop sup"
-> jb.count
-=> 5
-> jb.insert(2, "woo wii")
-=> "dop waa woo wii deep plop sup"
+> list.to_string
+=> "plop"
+> list.append("suu")
+=> 1
+> list.prepend("dop")
+=> 1
+> list.to_string
+=> "dop plop suu"
+> list.count
+=> 3
+> list.insert(1, "woo")
+=> "dop plop woo suu"
 ```

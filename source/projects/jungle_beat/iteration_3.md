@@ -11,17 +11,16 @@ Perfect, we are almost there! Next is to add `find`, `pop` and `includes?` metho
 Expected behavior:
 
 ```ruby
-> require "./lib/jungle_beat"
-> jb = JungleBeat.new("deep")
-=> 1
-> jb.append("woo whi shu blop")
-=> 4
-> jb.find(2, 1)
+> require "./lib/linked_list"
+> LL = LinkedList.new
+> LL.append("deep woo whi shu blop")
+=> 5
+> LL.find(2, 1)
 => "shi shu"
-> jb.pop
+> LL.pop
 => "blop"
-> jb.pop(2)
+> LL.pop(2)
 => "shi shu"
-> jb.all
+> LL.all
 => "deep woo"
 ```

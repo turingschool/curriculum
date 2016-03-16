@@ -11,7 +11,7 @@ Awesome! We have built out almost the entire program. At this point, go through 
 * `count` the number of elements in the list
 * `find` one or more elements based on arbitrary positions in the list. The first parameter indicates the first position to return and the second parameter specifies how many elements to return.
 
-The last step is to actually play sounds with our `JungleBeat` class.
+The last step is to actually build and play sounds with a `JungleBeat` class.
 
 Expected behavior:
 

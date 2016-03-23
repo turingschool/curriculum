@@ -53,7 +53,7 @@ The three nodes here hold the data "hello", "world", and "!". The first two node
 ## Base Expectations
 
 * [Iteration 0](jungle_beat/iteration_0.md) - Node Basics
-* [Iteration 1](jungle_beat/iteration_1.md) - Append, All and Count (Single Node)
+* [Iteration 1](jungle_beat/iteration_1.md) - Append, To_string and Count (Single Node)
 * [Iteration 2](jungle_beat/iteration_2.md) - Append, Prepend and Insert (Multiple Nodes)
 * [Iteration 3](jungle_beat/iteration_3.md) - Managing Nodes
 * [Iteration 4](jungle_beat/iteration_4.md) - Creating a Linked List Wrapper
@@ -64,7 +64,7 @@ The three nodes here hold the data "hello", "world", and "!". The first two node
 
 * `append` an element to the end of the list
 * `prepend` an element at the beginning of the list
-* `all` return all elements in the linked list in order
+* `to_string` return all elements in the linked list in order
 * `insert` one or more elements at an arbitrary position in the list
 * `includes?` gives back `true` or `false` whether the supplied value is in the list
 * `pop` one or more elements from the end of the list

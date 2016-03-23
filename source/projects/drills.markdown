@@ -19,6 +19,10 @@ The **[Ruby Exercises](https://github.com/turingschool/ruby-exercises)** reposit
 * Core Types
 * Command/Query
 * Mythical Creatures
+
+
+__Optional:__
+
 * Objects and Methods
 * Comparisons
 * Mutation

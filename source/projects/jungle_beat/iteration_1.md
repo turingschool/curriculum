@@ -1,4 +1,4 @@
-# Iteration 1 - Append, All and Count
+# Iteration 1 - Append, To_String and Count
 
 Great! We have nodes. Next step is to create the `LinkedList` class.
 

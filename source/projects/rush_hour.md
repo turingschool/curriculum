@@ -9,17 +9,17 @@ In this project you'll use Ruby, Sinatra, and ActiveRecord to build a web traffi
 
 Your application will receive data over HTTP from a simulation engine. The simulator will construct and transmit HTTP requests which include tracking data.
 
-Imagine that I run a commercial website and embed JavaScript code which gets activated each time a page is viewed on my site. That JavaScript captures information about the visitor and the page they're viewing then, in the background, submits that data to *your* RushHour application.
+Imagine that I run a commercial website and embed JavaScript code which gets activated each time a page is viewed on my site. That JavaScript captures information about the visitor and the page they're viewing then, in the background, submits that data to __*your*__ RushHour application.
 
 Your application parses and stores that data.
 
-Later, I visit your site and can view data about my traffic through a HTML interface.
+Later, I visit your site and can view data about my website traffic through a HTML interface you built.
 
 ## Learning Goals
 
 * Understand how web traffic works
 * Dig into HTTP concepts including headers, referrers, and payload
-* Design a normalized SQL-based database structure
+* Design a normalized SQL-based relational database structure
 * Use ActiveRecord to interface with the database from Ruby
 * Practice fundamental database storage and retrieval
 * Understand and practice HTTP verbs including GET, PUT, and POST
@@ -64,6 +64,8 @@ The project may not use:
 
 Iterations 0-8 must be completed to consider the project complete. Please use TDD every step of the way. Tests are expected for all features and all the models - including iterations 0-1.
 
+* __NOTE__ - Some of the work done in early iterations of this project may not make it into the final production code. And that's ok - it's to be expected that early work in most projects may not make the final cut.
+
 
 ## Base Expectations:
 
@@ -104,24 +106,29 @@ end
 
 ```
 
-If we didn't inherit from active record base we wouldn't get a the nice query methods and database interaction methods that are o so nice.
+If we didn't inherit from ActiveRecord::Base we wouldn't get the ActiveRecord database query methods that are nice and easy to work with.
 
 Now that we have a PayloadRequest model started, finish it off by creating validations for the PayloadRequest attributes.
 
 * All the attributes must be present in the request.
 
-You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html).
+You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html) to make sure no record is saved without having all attributes present.
 
 
 ### Iteration 1
 
-Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates normal form. Extract the data necessary to normalize the database so far. Do this by creating migrations, models and establishing appropriate relationships between models.
+ <!-- ***** NEED TO ADD LINK TO NORMAL FORM INFORMATION - BUILD A REPO/GIST?? ***** -->
+
+Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates _normal form_ and is structured in a way that will generate a lot of repetitive data. What's __normal form__ you ask? You can learn more [here.](INSERT LINK HERE) Extract the data necessary to normalize the database so far. Do this by creating migrations, models and establishing appropriate relationships between models.
+
+[This tool](http://ondras.zarovi.cz/sql/demo/) is a database modeling tool that can help you quickly design and iterate on your database design.
+
 
 ### Iteration 2
 
-Our database design is looking better. Now, let's start to manipulate some of that data we're storing.
+Hopefully our database design is looking better. Now, let's start to manipulate some of that data we're storing.
 
-We want to analyze the payload requests for the following stats. Some methods will be built directly on the PayloadRequest model, while other methods will be built in the most appropriate class. For example:
+We want to analyze all the payload requests for the following stats. Some methods will be built directly on the PayloadRequest model, while other methods will be built __in the most appropriate class__. For example:
 
 ```ruby
 class Url  < ActiveRecord::Base
@@ -138,15 +145,13 @@ end
 * Min Response time across all requests
 * Most frequent request type
 * List of all HTTP verbs used
-
 * List of URLs listed form most requested to least requested
 * Web browser breakdown across all requests(userAgent)
 * OS breakdown across all requests(userAgent)
 * Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
 * Events listed from most received to least.
 
-
-Our clients also find it valuable to have stats on specific URLs. For a specific URL, let's find the following Stats:
+Our client also finds it valuable to have stats on specific URLs. For a specific URL, let's find the following Stats:
 
 * Max Response time
 * Min Response time
@@ -158,45 +163,54 @@ Our clients also find it valuable to have stats on specific URLs. For a specific
 
 ### Iteration 3
 
-Now that we've set up a basic app that can store data from a client, let's expand the features so we can accept PayloadRequests from multiple clients.
+Now that we've set up a basic app that can store data from a client, let's expand the functionality so we can support multiple clients.
 
-We already have a ```PayloadRequest``` model and database table, and we know that a ```PayloadRequest``` will belong to a ```Client```, and a ```Client``` will have many ```PayloadRequests```. That means we need to figure out a way to store ```Client``` data and somehow relate that to our ```PayloadRequest``` data.
+At this point we will also need to rethink where we make our
 
-A Client has two attributes, an ```identifier```, and a ```rootUrl```.
+We already have a `PayloadRequest` model and database table, and we know that a `PayloadRequest` will belong to a `Client`, and a `Client` will have many `PayloadRequests`. That means we need to figure out a way to store `Client` data and somehow relate that to our `PayloadRequest` data.
 
-Create 2 migrations:
-* Create the ```Client``` table with the respective attributes
-* Create a migration to add a reference to the ```Client``` on the ```PayloadRequest``` table. This migration will establish the one-to-many relationship that ```PayloadRequest```s and ```Client```s have.
+A Client has two attributes, an `identifier`, and a `rootUrl`.
 
-Now that we have a place to store out client data, make sure you go into the models and establish the relationships between ```PayloadRequest```, and ```Client```, and you set up appropriate validations for the ```Client```.
+Create migrations to do the following:
+* Create the `Client` table with the necessary attributes
+* Create a migration to add a reference to the `Client` on the `PayloadRequest` table. This migration will establish the one-to-many relationship that `PayloadRequest`s and `Client`s have.
+
+Now that we have a place to store out client data, make sure you go into the models and establish the relationships between `PayloadRequest`, and `Client`, and you set up appropriate validations for the `Client`.
 
 Join the client table with its resources. For example:
 
 ```ruby
 class Client < ActiveRecord::Base
   #More Code Here
-  has_many :urls
+  has_many :payload_requests
   #More Code Here
 end
 ```
 
-This won't work all by it's self. Take a look at [this documentation don active record associations](http://guides.rubyonrails.org/association_basics.html#the-has-many-through-association) to get it to work.
+If your schema utilizes a join table to connect resources, make sure you remember to link the resources with `:through`. Take a look at [this documentation on active record associations](http://guides.rubyonrails.org/association_basics.html#the-has-many-through-association) to get it to work.
 
 ### Iteration 4
 
-Now let's get into the nitty gritty that is the internet. Currently our app works by feeding it data directly, but that's not how we plan for it to be used in the real world. We want our app to be accessible via the internet.
+Now let's get into the nitty gritty that is the internet. Currently our app works by feeding it data directly, but that's not how we plan for it to be used in the real world. We want our app to be accessible by feeding it data from an external client/source.
 
 First, let's have clients register their application by submitting a post request to the following address:
 
 ```
 http://yourapplication:port/sources
 ```
+
+so while you're in development it will looks something like this:
+
+```
+http://localhost:9393/sources
+```
+
 The parameter that we will require a client to pass will be:
 
 * identifier
 * rootUrl
 
-We can send a request with this specific information via the Terminal and the ```curl``` command. Check out how to use the ```curl``` command via your Terminal by typing ```man curl```. This will bring up the manual for ```curl```.
+We can send a request with this specific information via the Terminal and the `curl` command. Check out how to use the `curl` command via your Terminal by typing `man curl`. This will bring up the manual for `curl`.
 
 We will send a request like this:
 
@@ -207,12 +221,11 @@ $ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://l
 Wondering what `-i` and `-d` mean? Check the manual.
 
 
-A post to ```http://yourapplication:port/sources``` will require one of three possible responses from our application.
+A post to `http://yourapplication:port/sources``` will require one of three possible responses from our application.
 
 * 1. Missing Parameters - 400 Bad Request
 
-If missing any of the required parameters return status `400 Bad Request` with
-a descriptive error message.
+If missing any of the required parameters return status `400 Bad Request` with a descriptive error message.
 
 Wondering how to send back a status code from a Sinatra app? Check out the [Sinatra docs](http://www.sinatrarb.com/intro.html).
 
@@ -223,8 +236,7 @@ descriptive error message.
 
 * 3. Success - 200 OK
 
-When the request contains all the required parameters return status `200 OK`
-with the following data for the client:
+When the request contains all the required parameters return status `200 OK` with the following data for the client:
 
 ```
 {"identifier":"jumpstartlab"}
@@ -274,7 +286,7 @@ Now that we have a site up and endpoints for our clients to register their appli
 We'll want an endpoint for a client to see their aggregate site data:
 
 ```
-http://yourapplication:port/sources/IDENTIFIER
+http://yourapplication:port/sources/:IDENTIFIER
 ```
 
 When the IDENTIFIER exists and a Client goes to their endpoint they should be able to view statistics for:
@@ -297,6 +309,10 @@ When an identifier does exist, but no payload data has been submitted for the so
 
 * Message that no payload data has been received for this source
 
+### Populate/Seed data
+
+Now that you have everything set up and ready to go for accepting data submitted by clients, you may notice that it kind of sucks to have to write a cURL command for every payload. [Here](https://github.com/turingschool/rush_hour_test_script) you can find the test script. Follow the directions and with one command you will have a bunch of data for your app.
+
 ### Iteration 7
 
 We also have stats we generated that are specific to a Clients URLs. Let's create a view that will show our URL specific stats.
@@ -304,7 +320,7 @@ We also have stats we generated that are specific to a Clients URLs. Let's creat
 The URL we will create for this will be:
 
 ```
-http://yourapplication:port/sources/IDENTIFIER/urls/RELATIVEPATH
+http://yourapplication:port/sources/:IDENTIFIER/urls/:RELATIVEPATH
 
 Examples:
 
@@ -318,7 +334,7 @@ First - let's set up our client's specific statistics to have the URLs link to t
 on the page that is found at this endpoint:
 
 ```
-http://yourapplication:port/sources/IDENTIFIER
+http://yourapplication:port/sources/:IDENTIFIER
 ```
 
 make sure you have: Hyperlinks of each url to view url specific data.

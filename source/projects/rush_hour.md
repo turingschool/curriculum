@@ -117,9 +117,8 @@ You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/a
 
 ### Iteration 1
 
- <!-- ***** NEED TO ADD LINK TO NORMAL FORM INFORMATION - BUILD A REPO/GIST?? ***** -->
 
-Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates _normal form_ and is structured in a way that will generate a lot of repetitive data. What's __normal form__ you ask? You can learn more [here.](INSERT LINK HERE) Extract the data necessary to normalize the database so far. Do this by creating migrations, models and establishing appropriate relationships between models.
+Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates _normal form_ and is structured in a way that will generate a lot of repetitive data. What's __normal form__ you ask? You can learn more [here.](https://gist.github.com/Carmer/f9e060bf1ac30e3ab7b3) Extract the data necessary to normalize the database so far. Do this by creating migrations, models and establishing appropriate relationships between models.
 
 [This tool](http://ondras.zarovi.cz/sql/demo/) is a database modeling tool that can help you quickly design and iterate on your database design.
 

@@ -310,7 +310,7 @@ When an identifier does exist, but no payload data has been submitted for the so
 
 ### Populate/Seed data
 
-Now that you have everything set up and ready to go for accepting data submitted by clients, you may notice that it kind of sucks to have to write a cURL command for every payload. [Here](https://github.com/turingschool/rush_hour_test_script) you can find the test script. Follow the directions and with one command you will have a bunch of data for your app.
+Now that you have everything set up and ready to go for accepting data submitted by clients, you may notice that it kind of sucks to have to write a cURL command for every payload. [Here](https://github.com/turingschool/rush_hour_test_script) you will find the test script that will send a bunch of clients info and a bunch of payloads. Follow the directions and with one command you will have a bunch of data for your app.
 
 ### Iteration 7
 

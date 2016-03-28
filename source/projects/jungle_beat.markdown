@@ -62,10 +62,11 @@ The point of this process is to help us focus on small pieces at a time without 
 
 * [Iteration 0](jungle_beat/iteration_0.md) - Node Basics
 * [Iteration 1](jungle_beat/iteration_1.md) - Append, All and Count (Single Node)
-* [Iteration 2](jungle_beat/iteration_2.md) - Append, Prepend and Insert (Multiple Nodes)
-* [Iteration 3](jungle_beat/iteration_3.md) - Managing Nodes
-* [Iteration 4](jungle_beat/iteration_4.md) - Creating a Linked List Wrapper
-* [Iteration 5](jungle_beat/iteration_5.md) - Playing Beats
+* [Iteration 2](jungle_beat/iteration_2.md) - Append, All and Count (Multiple Nodes)
+* [Iteration 3](jungle_beat/iteration_3.md) - Insert and Prepend
+* [Iteration 4](jungle_beat/iteration_4.md) - Find, Pop, and Includes?
+* [Iteration 5](jungle_beat/iteration_5.md) - Creating a Linked List Wrapper
+* [Iteration 6](jungle_beat/iteration_6.md) - Playing Beats
 * [Extensions](jungle_beat/extensions.md) - Validating Beats, Speed & Voice
 
 ## Tips

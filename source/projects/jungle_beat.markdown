@@ -84,7 +84,7 @@ The point of this process is to help us focus on small pieces at a time without 
 
 ## Constraints
 
-* Make sure that your code is well tested for both *expected cases* and *edge cases*. Try popping more elements than there are in the list. Try seeing if an empty list includes anything. Try inserting elements at a position beyond the length of the list. Setup [SimpleCov](https://github.com/colszowka/simplecov) to better monitor test coverage along the way.
+* Make sure that your code is well tested for both *expected cases* and *edge cases*. Try popping more elements than there are in the list. Try seeing if an empty list includes anything. Try inserting elements at a position beyond the length of the list.
 * Avoid using other ruby collections (Arrays, Hashes, etc) for the storage of your beats. That's where you're supposed to use the linked list. But having Arrays elsewhere in your code, or using methods that return arrays (like `.split`) are totally ok.
 
 ## Resources

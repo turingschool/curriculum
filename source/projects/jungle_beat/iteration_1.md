@@ -1,8 +1,12 @@
 # Iteration 1 - Append, All and Count
 
-Great! We have nodes. Next step is to create the `LinkedList` class.
+Great! We have nodes. In this iteration we'll create the `LinkedList` class and start filling in its basic functionality.
 
-We are also going to build the `append`, `to_string` and `count` methods. `append` will add nodes to the end of the list, `to_string` will return the data of the linked list in order, and `count` will return the number of nodes in the list.
+We'll be adding the following methods:
+
+1. `append` - adds a new piece of data (data can really be anything) to the list
+2. `count` - tells us how many things are in the list
+3. `to_string` - generates a string of all the elements in the list, separated by spaces
 
 Expected behavior:
 

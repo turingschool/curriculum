@@ -3,11 +3,15 @@ layout: page
 title: Jungle Beat
 ---
 
-## Before You Begin
+# Jungle Beat
 
-We're going to do some silly things with sound and linked lists. Let's make a drum machine that's backed by a linked list.
+## Basics
 
-### Making Sound
+In this project we're going to do some silly things with sound. Specifically, we're going to make a very basic drum machine program.
+
+However to add some additional depth, let's also use this project as a chance to explore one of the fundamental data structures in computer science -- the Linked List.
+
+### Drum Machine 101 -- Making Sounds
 
 Go into your Terminal and try this:
 
@@ -50,26 +54,22 @@ The three nodes here hold the data "hello", "world", and "!". The first two node
 * Understanding how linked lists work to store and find data
 * Testing components in isolation and in combination
 
-## Base Expectations
+## Iterative Development
+
+As we work through this project, we'll be following an _iterative_ development process. This means we'll aim to build the system out of small but complete chunks which could reasonably stand on their own to perform some required function. The iterations are outlined below. It may be worth reading through them all at first to get a sense of the scope of the entire project, but we encourage you to then forget about later iterations until you get to them.
+
+The point of this process is to help us focus on small pieces at a time without getting overwhelmed by the scope of the entire project.
+
+### Iteration Base Expectations
 
 * [Iteration 0](jungle_beat/iteration_0.md) - Node Basics
 * [Iteration 1](jungle_beat/iteration_1.md) - Append, All and Count (Single Node)
-* [Iteration 2](jungle_beat/iteration_2.md) - Append, Prepend and Insert (Multiple Nodes)
-* [Iteration 3](jungle_beat/iteration_3.md) - Managing Nodes
-* [Iteration 4](jungle_beat/iteration_4.md) - Creating a Linked List Wrapper
-* [Iteration 5](jungle_beat/iteration_5.md) - Playing Beats
+* [Iteration 2](jungle_beat/iteration_2.md) - Append, All and Count (Multiple Nodes)
+* [Iteration 3](jungle_beat/iteration_3.md) - Insert and Prepend
+* [Iteration 4](jungle_beat/iteration_4.md) - Find, Pop, and Includes?
+* [Iteration 5](jungle_beat/iteration_5.md) - Creating a Linked List Wrapper
+* [Iteration 6](jungle_beat/iteration_6.md) - Playing Beats
 * [Extensions](jungle_beat/extensions.md) - Validating Beats, Speed & Voice
-
-## Internal Structure
-
-* `append` an element to the end of the list
-* `prepend` an element at the beginning of the list
-* `all` return all elements in the linked list in order
-* `insert` one or more elements at an arbitrary position in the list
-* `includes?` gives back `true` or `false` whether the supplied value is in the list
-* `pop` one or more elements from the end of the list
-* `count` the number of elements in the list
-* `find` one or more elements based on arbitrary positions in the list. The first parameter indicates the first position to return and the second parameter specifies how many elements to return.
 
 ## Tips
 

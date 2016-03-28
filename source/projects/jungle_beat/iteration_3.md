@@ -1,31 +1,28 @@
-# Iteration 3 - Managing Nodes
+# Iteration 3 - Additional Methods - `insert` and `prepend`
 
-Perfect, we are almost there! Next is to add `find`, `pop` and `includes?` methods.
+Now we have nodes and a `LinkedList` class that manages the list. Next step is to add the `insert` and `prepend` methods.
 
-`find` takes two parameters, the first indicates the first position to return and the second parameter specifies how many elements to return.
+`prepend` will add nodes to the beginning of the list.
 
-`includes?` gives back true or false whether the supplied value is in the list.
-
-`pop` removes elements from the list. It takes an integer as a parameter which indicates how many elements will be popped off the list. If no parameter is given, it defaults to removing one node.
+`insert` will insert one or more elements at a given position in the list. It takes two parameters, the first one is the position at which to insert nodes, the second parameter is the string of data to be inserted.
 
 Expected behavior:
 
 ```ruby
-....
+> require "./lib/linked_list"
+> list = LinkedList.new
+> list.append("plop")
+=> 1
 > list.to_string
-=> "deep woo shi shu blop"
-> list.find(2, 1)
-=> "shi"
-> list.find(1, 3)
-=> "woo shi shu"
-> list.includes?("deep")
-=> true
-> list.includes?("dep")
-=> false
-> list.pop
-=> "blop"
-> list.pop(2)
-=> "shi shu"
+=> "plop"
+> list.append("suu")
+=> 1
+> list.prepend("dop")
+=> 1
 > list.to_string
-=> "deep woo"
+=> "dop plop suu"
+> list.count
+=> 3
+> list.insert(1, "woo")
+=> "dop plop woo suu"
 ```

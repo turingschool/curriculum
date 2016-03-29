@@ -12,17 +12,19 @@ Expected behavior:
 > require "./lib/linked_list"
 > list = LinkedList.new
 > list.append("plop")
-=> 1
+=> "plop"
 > list.to_string
 => "plop"
 > list.append("suu")
-=> 1
+=> "suu"
 > list.prepend("dop")
-=> 1
+=> "dop"
 > list.to_string
 => "dop plop suu"
 > list.count
 => 3
 > list.insert(1, "woo")
+=> "woo"
+list.to_string
 => "dop plop woo suu"
 ```

@@ -29,6 +29,8 @@ With the previous 2 nodes merged into one node (thus not considering them anymor
 >  3. Add the new node to the queue.
 > 3. The last node is the root node, and the tree is complete.
 
+> ![huffman_tree](https://upload.wikimedia.org/wikipedia/commons/a/ac/Huffman_huff_demo.gif)
+
 You can now use this tree to determine the new bits for each character in your file. To find the bits for a character, just travel from the top of the tree, through the nodes, to the character's leaf. Each time you go left in the tree, add a `0`. Each time you go right, add a `1`. Once you arrive at the character, you're done.
 
 If you've properly built your tree, more common characters will have shorter codes than characters that appear less frequently.

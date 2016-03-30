@@ -164,8 +164,6 @@ Our client also finds it valuable to have stats on specific URLs. For a specific
 
 Now that we've set up a basic app that can store data from a client, let's expand the functionality so we can support multiple clients.
 
-At this point we will also need to rethink where we make our
-
 We already have a `PayloadRequest` model and database table, and we know that a `PayloadRequest` will belong to a `Client`, and a `Client` will have many `PayloadRequests`. That means we need to figure out a way to store `Client` data and somehow relate that to our `PayloadRequest` data.
 
 A Client has two attributes, an `identifier`, and a `rootUrl`.

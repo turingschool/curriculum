@@ -26,5 +26,5 @@ Expected behavior:
 > list.insert(1, "woo")
 => "woo"
 list.to_string
-=> "dop plop woo suu"
+=> "dop woo plop suu"
 ```

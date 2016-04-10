@@ -52,8 +52,9 @@ them into Iterations in their own files:
 * [Iteration 1](iteration_1.markdown) - Building Hyde source files into HTML
 * [Iteration 2](iteration_2.markdown) - Generating new blog post files
 * [Iteration 3](iteration_3.markdown) - Customizing site design with layouts and CSS
-* [Iteration 4](iteration_4.markdown) - Supporting features #1
-* [Iteration 5](iteration_5.markdown) - Supporting features #2
+* [Iteration 4](iteration_4.markdown) - Supporting post "tags"
+* [Iteration 5](iteration_5.markdown) - Supporting features #1
+* [Iteration 6](iteration_6.markdown) - Supporting features #2
 
 ### Possible Supporting Features
 

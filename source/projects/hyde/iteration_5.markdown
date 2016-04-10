@@ -1,31 +1,43 @@
-## Iteration 5 - Supporting features 2
+## Iteration 4 - Supporting features 1
 
-Choose one of the following supporting features to add. Additional features will be considered extensions.
+Do at least one of the following. Additional supporting features will be considered extensions.
 
-### Supporting more file types
+### Adding variables to markdown
 
-Choose one of the following translations to add
+Use this to set variables that are used in your ERB layouts. This way, each page can have a slightly different layout. Implement a pattern similar to the YAML frontmatter:
 
-* [Haml](http://haml.info/) => HTML
-* [Sass](http://sass-lang.com/) => CSS
+[https://middlemanapp.com/basics/frontmatter/](https://middlemanapp.com/basics/frontmatter/)
 
-
-### Publish to github pages
-
-Create a publish script that will publish your website to [https://pages.github.com/](https://pages.github.com/)
-
-Running:
+Then, if you have something like this in your `default.html.erb`:
 
 ```
-bin/hyde publish
+<title>Sweet Blog - <%= current_page.title =></title>
 ```
 
-will build and publish that build to github pages. Then you should be able to visit your site index from the browser at a URL kind of like this one:
+And this at the top of one of your source posts:
 
 ```
-github_username.github.io/hyde
+---
+title: "Sweet Post"
+---
 ```
 
-Ensure your `index.md` has relative links to your posts and pages so you can view them.
+The resulting output HTML for that post will be:
 
-Your source files should not be viewable on your github pages site
+```
+<title>Sweet Blog - Sweet Post</title>
+```
+
+### Watch for file changes
+
+Add a script that will watch for changes in source files, and rebuild them when source files are changed.
+
+```
+bin/hyde watchfs
+```
+
+### Support Partials
+
+Create partial layout files to keep your layout from getting out of control. Then render those partials in your layout.
+
+TK

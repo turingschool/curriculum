@@ -35,11 +35,42 @@ English tag names like `Italian Food` are great for users but will be a bit diff
 
 So for example, `Italian Food` becomes `italian_food`.
 
+### 4. Building Tag "Digest" Pages
 
-## Requirements
+Add an additional step to your `build` process which accomplishes the following:
 
-For this iteration, update Hyde to allow user-defined layouts:
+1. Compile a list of all of the tags mentioned across all of the posts
+2. For each of them, generate an output page at `_output/tags/my_tag.html`
+3. On this page, include the name of the tag **and** a bulleted-list of links pointing to all of the posts which are labeled with that tag
 
-1. Add an additional `source/layouts/` directory to the Hyde project generator
-2. Update the generator to include a standard layout `source/layouts/default.html.erb` when generating a new project
-3. Update your `build` process so that each page gets its content injected into the layout using ERB. Note that you will probably first need to translate the page content from markdown to html and _then_ inject it into the layout.
+For example if we consider the simple example from above with our Pizza post, we might end up with the following structure after building:
+
+```
+worace @ hyde_sample ➸  tree .
+.
+├── _output
+│   ├── css
+│   │   └── main.css
+│   ├── index.html
+│   ├── pages
+│   │   └── about.html
+│   ├── tags
+│   │   └── italian_food.html
+│   │   └── flatbread.html
+│   └── posts
+│       └── 2016-02-20-pizza.html
+└── source
+    ├── css
+    │   └── main.css
+    ├── index.markdown
+    ├── pages
+    │   └── about.markdown
+    └── posts
+        └── 2016-02-20-pizza.markdown
+```
+
+On each of these tag pages, we would expect to see a link to the appropriate pizza post `/posts/2016-02-20-pizza.html`
+
+### 5. Linking to a post's tags from the post
+
+Finally, let's also include a list of links on each post page pointing to each of its tags. So in our pizza example, we would want to see 2 links, one to `/tags/italian_food.html` and one to `/tags/flatbread.html`. You can arrange these within the post's rendered content however you feel is best.

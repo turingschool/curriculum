@@ -1,4 +1,4 @@
-## Iteration 3 - Supporting Post "Tags"
+## Iteration 4 - Supporting Post "Tags"
 
 Next, let's enhance our blogging engine by adding support to attach tags to our posts. Ultimately when a user tags a post, we want to accomplish 2 things:
 

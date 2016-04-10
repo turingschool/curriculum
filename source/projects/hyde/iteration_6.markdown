@@ -1,4 +1,4 @@
-## Iteration 5 - Supporting features 2
+## Iteration 6 - Supporting Feature #2
 
 Choose one of the following supporting features to add. Additional features will be considered extensions.
 

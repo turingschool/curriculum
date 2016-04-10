@@ -27,3 +27,15 @@ $ pry
 ```
 
 For this final section, add a `play` method to your JungleBeat class that will generate the string content of the JungleBeat and use it as input to the `say` command.
+
+> require "./lib/jungle_beat"
+> jb = JungleBeat.new
+=> <JungleBeat list=<LinkedList head=nil #234567890890> #456789045678>
+> jb.append("deep doo ditt woo hoo shu")
+=> "deep doo ditt woo hoo shu"
+> jb.count
+=> 6
+> jb.list.count
+=> 6
+> jb.play
+=> # plays the sounds deep doo ditt woo hoo shu

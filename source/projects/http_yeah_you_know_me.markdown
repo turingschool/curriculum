@@ -386,6 +386,8 @@ The project will be assessed with the following rubric:
 * 2: Application implements iterations 0 - 3
 * 1: Application implements through interation 2 or less
 
+**Echo/Foxtrot Note:** Requirements listed are for *Foxtrot* pairs -- Echo requirements are shifted by 1 additional iteration -- So a 3 for Echo requires completing Iterations 0-5
+
 ### 2. Fundamental Ruby & Style
 
 * 4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring

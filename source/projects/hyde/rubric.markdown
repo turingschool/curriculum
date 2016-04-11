@@ -9,6 +9,8 @@ The project will be assessed with the following guidelines:
 * 2: Application completes at least iterations 0-3
 * 1: Application does not complete iterations 0-3
 
+**Echo/Foxtrot Note:** Requirements listed are for *Foxtrot* pairs -- Echo requirements are shifted by 1 additional iteration -- So a 3 for Echo requires completing Iterations 0-6
+
 ### 2. Test-Driven Development
 
 * 4: Application is broken into components which are well tested in both isolation and integration using appropriate data

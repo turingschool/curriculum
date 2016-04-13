@@ -242,7 +242,15 @@ We use `GET` to fetch information. We typically use `POST` to send information t
 
 Changing the verb and submitting parameters in the body instead of the parameters for a `POST` request can both be done in Postman.
 
-Let's write a simple guessing game that works like this:
+Let's practice applying these techniques by building a simple guessing game that can be played via our HTTP server.
+
+The game will work like this:
+
+1. When a player starts a new game, the server picks a random number between 0 and 100.
+2. The player can make a new guess by sending a POST request containing the number they want to guess.
+3. When the player requests the game path, the server should show some information about the game including how many guesses have been made, what the most recent guess was, and whether it was too high, too low, or correct.
+
+The HTTP endpoints to support this game will look like this:
 
 #### `POST` to `/start_game`
 

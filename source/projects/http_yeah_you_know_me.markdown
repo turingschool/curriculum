@@ -244,6 +244,21 @@ Changing the verb and submitting parameters in the body instead of the parameter
 
 Let's write a simple guessing game that works like this:
 
+#### `POST` to `/start_game`
+
+This request begins a game. The response says `Good luck!` and starts a game.
+
+#### `GET` to `/game`
+
+A request to this verb/path combo tells us:
+
+* a) how many guesses have been taken.
+* b) if a guess has been made, it tells what the guess was and whether it was too high, too low, or correct
+
+#### `POST` to `/game`
+
+This is how we make a guess. The request includes a parameter named `guess`. The server stores the guess and sends the user a redirect response, causing the client to make a `GET` to `/game`.
+
 #### Handling POST Requests
 
 So far all of the requests we've dealt with have been using HTTP's GET verb. A GET request signifies _fetching_ rather than _sending_ information. POST requests, on the other hand, signify _sending_ information. In this section we'll be using post requests to allow users to send us data to interact with the simple HTTP game.
@@ -261,21 +276,6 @@ In short, then our process for reading the body of a post request looks like thi
 3. User `Socket#read` to read that number of bytes from the socket, thus reading the request body.
 
 For this iteration you'll need to update your request handling to use this process to read the request body for any POST requests your server receives.
-
-#### `POST` to `/start_game`
-
-This request begins a game. The response says `Good luck!` and starts a game.
-
-#### `GET` to `/game`
-
-A request to this verb/path combo tells us:
-
-* a) how many guesses have been taken.
-* b) if a guess has been made, it tells what the guess was and whether it was too high, too low, or correct
-
-#### `POST` to `/game`
-
-This is how we make a guess. The request includes a parameter named `guess`. The server stores the guess and sends the user a redirect response, causing the client to make a `GET` to `/game`.
 
 ### Sending a Redirect
 

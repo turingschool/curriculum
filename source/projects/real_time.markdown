@@ -22,7 +22,7 @@ This is your last project at Turing, which means you're about to go off and be d
 ### On the Client
 
 - Use jQuery for all updating and DOM manipulations.
-- Explore a front-end framework like Ember or React to handle all of the client-side concerns of your application.
+- You're welcome to explore a front-end framework like Ember or React to handle all of the client-side concerns of your application.
 
 ## Learning Objectives
 

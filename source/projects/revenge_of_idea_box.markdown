@@ -107,11 +107,10 @@ As we said above, ideas should start out as "swill." In order to change the reco
 
 (20 points total.)
 
-* Each idea on the idea list should include a link or button to edit the idea. (4 points)
+* When a user clicks the title or idea of an idea in the list, that text should become an editable text field, pre-populated with the existing idea title or body. (8 points)
 * Clicking this link should _not_ take the user to a separate "edit" page for the given
   idea. (4 points, mandatory for specification adherence)
-* After clicking on the edit link, the user should see form fields to modify the idea's title and body. (4 points)
-* The user should have the option to "Save" their edits, and clicking this should create an PUT request using AJAX. (4 points, mandatory for specification adherence)
+*  The user should be able to "commit" their changes by pressing "Enter/Return" or by clicking outside of the text field. (4 points)
 * If the user reloads the page, their edits will be reflected. (4 points, mandatory for specification adherence)
 
 #### Idea Filtering and Searching
@@ -128,12 +127,6 @@ let's provide them with a filtering interface on the idea list.
 ### Extensions
 
 Extensions are a great way to earn additional points beyond the 150 available in this project. That said, awarding points for delivering a given extension is up to the instructor, who may only award partial points depending on the quality of the implementation. The points listed below represent the maximum number of points. Extensions can _not_ be done after the fact without instructor permission in advance.
-
-#### Inline idea editing
-
-(10 additional points.)
-
-When a user clicks the title or idea of an idea in the list, that text should become an editable text field, pre-populated with the existing idea title or body. The user should be able to "commit" their changes by pressing "Enter/Return" or by clicking outside of the text field.
 
 #### Tagging
 

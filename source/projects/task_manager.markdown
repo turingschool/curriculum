@@ -56,7 +56,7 @@ $ mkdir app/models
 $ mkdir app/views
 ```
 
-Although we could put all of our code inside of the same folder (or even most of it in the same file), we're going to use this structure to mimic the [MVC](http://www.codelearn.org/ruby-on-rails-tutorial/mvc-in-rails) setup that Rails will give us. 
+Although we could put all of our code inside of the same folder (or even most of it in the same file), we're going to use this structure to mimic the [MVC](http://www.sitepoint.com/getting-started-with-mvc/) setup that Rails will give us. 
 
 ### Getting the App Running
 

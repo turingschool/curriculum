@@ -140,6 +140,12 @@ Add an optional third text field upon idea creation for "Tags". Tags should be a
 
 When viewing the ideas list, the user should have the option to sort ideas by Quality. The default sort should be descending ("genius" → "plausible" → "swill"), and clicking the sort a second time should reverse it. The Idea list should be sorted client-side without reloading the page.
 
+#### Student Directed Extension
+
+(10 additional points.)
+
+Student chooses an additional feature or performance optimization to add to the project. The extension must be intuitive and should not detract from the user's experience in any major way (i.e. not buggy or incomplete).
+
 ## Instructor Evaluation Points
 
 ### Specification Adherence

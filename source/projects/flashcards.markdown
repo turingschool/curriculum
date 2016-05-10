@@ -155,20 +155,20 @@ Modify your program so that when you run `ruby flashcard_runner.rb`, it uses car
 
 # Extensions
 
-1. Accepting Card Files
+### Accepting Card Files
 
 Prompt the user to enter a filename for the cards to use. Check whether or not the text file exists. If it does not, prompt the user to enter a new filename.
 
 Additionally, allow the user to enter a filename as a command line argument (ie `$ ruby flashcards.rb cards.txt`). Again, if the file does not exist, return a message and prompt for a new filename. 
 
-2. Saving Results
+### Saving Results
 
 At the end of the round, save the results to another text file. The results should include the question, answer, user response, and whether or not it was correct *for each card*. Use [Date](http://ruby-doc.org/stdlib-2.3.1/libdoc/date/rdoc/Date.html) and [Date#strftime](http://ruby-doc.org/stdlib-2.3.1/libdoc/date/rdoc/Date.html#method-i-strftime) to generate a dynamic results file name. For example, when I finish the game, a file would be generated `results-2016-05-10-4:45pm.txt`.
 
-3. Extra Practice
+### Extra Practice
 
 Put incorrectly answered cards back into the iteration to be asked again until the user answers correctly. 
 
-4. Hints
+### Hints
 
 Build in hint functionality. If a user enters "hint" when it's time to answer, the game should display a hint. In order to make this functional, you'll need to modify the text file you take in to include a hint.

@@ -42,8 +42,8 @@ Let's store the cards in a deck. Use TDD to drive the creation of an object that
 
 ```ruby
 card_1 = Card.new("What is the capital of Alaska?", "Juneau")
-card_2 = Card.new("", "")
-card_3 = Card.new("", "")
+card_2 = Card.new("The Viking spacecraft sent back to Earth photographs and reports about the surface of which planet?", "Mars")
+card_3 = Card.new("Describe in words the exact direction that is 697.5° clockwise from due north?", "North north west")
 deck = Deck.new([card_1, card_2, card_3])
 deck.cards
 => [card_1, card_2, card_3]
@@ -57,7 +57,7 @@ A round will be the object that processes responses and records answers. Use TDD
 
 ```ruby
 card_1 = Card.new("What is the capital of Alaska?", "Juneau")
-card_2 = Card.new("", "")
+card_2 = Card.new("Approximately how many miles are in one astronomical unit?", "93,000,000")
 deck = Deck.new([card_1, card_2])
 round = Round.new(deck)
 round.deck
@@ -72,8 +72,8 @@ round.give_feedback(answer_1)
 => "Correct!"
 round.number_correct
 => 1
-answer_2 = round.record_answer("", card_2)
-=> #<Answer:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @answer="sample answer1", @question="Sample question 1?">, @response="rachel">
+answer_2 = round.record_answer("2", card_2)
+=> #<Answer:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @answer="93,000,000", @question="Approximately how many miles are in one astronomical unit?">, @response="2">
 round.answers
 => [answer_1, answer_2]
 round.give_feedback(answer_2)
@@ -106,20 +106,20 @@ round.start
 Welcome! You're playing with 4 cards.
 -------------------------------------------------
 This is card number 1 out of 4.
-Question: Sample question 1?
-sample answer1
+Question: What is 5 + 5?
+10
 Correct!
 This is card number 2 out of 4.
-Question: Sample question 2?
-sample answer8
+Question: What is Rachel's favorite animal?
+panda
 Incorrect.
 This is card number 3 out of 4.
-Question: Sample question 3?
-sample answer3
+Question: What is Mike's middle name?
+nobody knows
 Correct!
 This is card number 4 out of 4.
-Question: Sample question 4?
-sample answer4
+Question: What cardboard cutout lives at Turing?
+Justin Bieber
 Correct!
 ****** Game over! ******
 You had 3 correct answers out of 4 for a score of 75%.
@@ -134,10 +134,10 @@ Let's build an object that will read in a text file and generate cards. Go back 
 Assuming we have a text file `cards.txt` that looks like this:
 
 ```
-Sample question 1?,sample answer1
-Sample question 2?,sample answer2
-Sample question 3?,sample answer3
-Sample question 4?,sample answer4
+What is 5 + 5?,10
+What is Rachel's favorite animal?,red panda
+What is Mike's middle name?,nobody knows
+What cardboard cutout lives at Turing?,Justin bieber
 ```
 
 Then we should be able to do this: 
@@ -145,19 +145,30 @@ Then we should be able to do this:
 ```ruby
 filename = "cards.txt"
 cards = CardGenerator.new(filename).cards
-=> [#<Card:0x007f9f1413cbe8 @answer="sample answer1", @question="Sample question 1?">,
- #<Card:0x007f9f1413c788 @answer="sample answer2", @question="Sample question 2?">,
- #<Card:0x007f9f1413c2b0 @answer="sample answer3", @question="Sample question 3?">,
- #<Card:0x007f9f14137da0 @answer="sample answer4", @question="Sample question 4?">]
+=> [#<Card:0x007f9f1413cbe8 @answer="10", @question="What is 5 + 5?">,
+ #<Card:0x007f9f1413c788 @answer="red panda", @question="What is Rachel's favorite animal?">,
+ #<Card:0x007f9f1413c2b0 @answer="nobody knows", @question="What is Mike's middle name?">,
+ #<Card:0x007f9f14137da0 @answer="Justin bieber", @question="What cardboard cutout lives at Turing?">]
 ```
 
 Modify your program so that when you run `ruby flashcard_runner.rb`, it uses cards from `cards.txt` instead of hardcoded cards. 
 
 # Extensions
 
-1. Prompt the user to enter a filename for the cards to use. Check whether or not the text file exists. If it does not, prompt the user to enter a new filename.
-1. Instead of prompting the user for a filename, accept a filename as a command line argument (ie `$ ruby flashcards.rb cards.txt`)
-1. At the end of the round, save the results to another text file `results.txt`. The results should include the question, answer, user response, and whether or not it was correct *for each card*. 
-1. Use [Time.now](http://ruby-doc.org/core-2.2.3/Time.html#method-c-now) to generate a dynamic results file name.
-1. Put incorrectly answered cards back into the iteration to be asked again.
-1. Build in hint functionality. If a user enters "hint" when it's time to answer, the game should display a hint. In order to make this functional, you'll need to modify the CSV file you take in. 
+1. Accepting Card Files
+
+Prompt the user to enter a filename for the cards to use. Check whether or not the text file exists. If it does not, prompt the user to enter a new filename.
+
+Additionally, allow the user to enter a filename as a command line argument (ie `$ ruby flashcards.rb cards.txt`). Again, if the file does not exist, return a message and prompt for a new filename. 
+
+2. Saving Results
+
+At the end of the round, save the results to another text file. The results should include the question, answer, user response, and whether or not it was correct *for each card*. Use [Date](http://ruby-doc.org/stdlib-2.3.1/libdoc/date/rdoc/Date.html) and [Date#strftime](http://ruby-doc.org/stdlib-2.3.1/libdoc/date/rdoc/Date.html#method-i-strftime) to generate a dynamic results file name. For example, when I finish the game, a file would be generated `results-2016-05-10-4:45pm.txt`.
+
+3. Extra Practice
+
+Put incorrectly answered cards back into the iteration to be asked again until the user answers correctly. 
+
+4. Hints
+
+Build in hint functionality. If a user enters "hint" when it's time to answer, the game should display a hint. In order to make this functional, you'll need to modify the text file you take in to include a hint.

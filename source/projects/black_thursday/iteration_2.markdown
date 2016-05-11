@@ -18,9 +18,8 @@ instances. It offers the following methods:
 The data can be found in `data/invoices.csv` so the instance is created and used like this:
 
 ```ruby
-ir = InvoiceRepository.new
-ir.load_data("./data/invoices.csv")
-invoice = ir.find_by_id(6)
+se = SalesEngine.from_csv({:invoices => "./data/invoices.csv"})
+invoice = se.invoices.find_by_id(6)
 # => <invoice>
 ```
 
@@ -32,19 +31,19 @@ The invoice has the following data accessible:
 * `customer_id` - returns the customer id
 * `merchant_id` - returns the merchant id
 * `status` - returns the status
-* `created_at` - returns a `Date` instance for the date the item was first created
-* `updated_at` - returns a `Date` instance for the date the item was last modified
+* `created_at` - returns a `Time` instance for the date the item was first created
+* `updated_at` - returns a `Time` instance for the date the item was last modified
 
 We create an instance like this:
 
 ```ruby
 i = Invoice.new({
-  :id => 6,
+  :id          => 6,
   :customer_id => 7,
   :merchant_id => 8,
-  :status => "pending",
-  :created_at => Time.now,
-  :updated_at => Time.now
+  :status      => "pending",
+  :created_at  => Time.now,
+  :updated_at  => Time.now,
 })
 ```
 
@@ -53,8 +52,7 @@ i = Invoice.new({
 Then connect our invoices to our merchants:
 
 ```ruby
-se = SalesEngine.new
-se.load_data({
+se = SalesEngine.from_csv({
   :items => "./data/items.csv",
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv"
@@ -96,7 +94,7 @@ sa.bottom_merchants_by_invoice_count # => [merchant, merchant, merchant]
 
 ### Which days of the week see the most sales?
 
-Which days are more than two standard deviations *above* the mean?
+On which days are invoices created at more than one standard deviation *above* the mean?
 
 ```ruby
 sa.top_days_by_invoice_count # => ["Sunday", "Saturday"]
@@ -104,9 +102,10 @@ sa.top_days_by_invoice_count # => ["Sunday", "Saturday"]
 
 ### What percentage of invoices are not shipped?
 
-What percentage of invoices are "shipped" vs "pending"?
+What percentage of invoices are `shipped` vs `pending` vs `returned`? (takes symbol as argument)
 
 ```ruby
-sa.invoice_status(:pending) # => 5.2
-sa.invoice_status(:shipped) # => 94.8
+sa.invoice_status(:pending) # => 5.25
+sa.invoice_status(:shipped) # => 93.75
+sa.invoice_status(:returned) # => 1.00
 ```

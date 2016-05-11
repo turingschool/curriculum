@@ -6,6 +6,22 @@ The goal of this iteration is to get the ball rolling by focusing on a "Data Acc
 
 The idea of a *DAL* is to write classes which load and parse your raw data, allowing your system to then interact with rich ruby objects to do more complex analysis. In this iteration we'll build the beginnings of a DAL by building the classes described below:
 
+### `SalesEngine`
+
+Then let's tie everything together with one common root, a `SalesEngine` instance:
+
+```ruby
+se = SalesEngine.from_csv({
+  :items     => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+})
+```
+
+From there we can find the child instances:
+
+* `items` returns an instance of `ItemRepository` with all the item instances loaded
+* `merchants` returns an instance of `MerchantRepository` with all the merchant instances loaded
+
 ### `MerchantRepository`
 
 The `MerchantRepository` is responsible for holding and searching our `Merchant`
@@ -19,9 +35,13 @@ instances. It offers the following methods:
 The data can be found in `data/merchants.csv` so the instance is created and used like this:
 
 ```ruby
-mr = MerchantRepository.new
-mr.load_data("./data/merchants.csv")
-merchant = mr.find_by_name("Halvorson Group")
+se = SalesEngine.from_csv({
+  :items     => "./data/items.csv",
+  :merchants => "./data/merchants.csv",
+})
+
+mr = se.merchants
+merchant = mr.find_by_name("CJsDecor")
 # => <Merchant>
 ```
 
@@ -35,7 +55,7 @@ The merchant is one of the critical concepts in our data hierarchy.
 We create an instance like this:
 
 ```ruby
-m = Merchant.new({:name => "Turing School"})
+m = Merchant.new({:id => 5, :name => "Turing School"})
 ```
 
 ### `ItemRepository`
@@ -56,8 +76,12 @@ It offers the following methods:
 It's initialized and used like this:
 
 ```ruby
-ir = ItemRepository.new
-ir.load_data("./data/items.csv")
+se = SalesEngine.from_csv({
+  :items     => "./data/items.csv",
+  :merchants => "./data/merchants.csv"
+})
+
+ir   = se.items
 item = ir.find_by_name("Item Repellat Dolorum")
 # => <Item>
 ```
@@ -72,32 +96,20 @@ The Item instance offers the following methods:
 * `unit_price` - returns the price of the item formatted as a `BigDecimal`
 * `created_at` - returns a `Time` instance for the date the item was first created
 * `updated_at` - returns a `Time` instance for the date the item was last modified
+* `merchant_id` - returns the integer merchant id of the item
+
+It also offers the following method:
+
+* `unit_price_to_dollars` - returns the price of the item in dollars formatted as a `Float` 
 
 We create an instance like this:
 
 ```ruby
 i = Item.new({
-              :name => "Pencil",
-              :description => "You can use it to write things",
-              :unit_price => BigDecimal.new(10.99,4),
-              :created_at => Time.now,
-              :updated_at => Time.now
-            })
-```
-
-### `SalesEngine`
-
-Then let's tie these ideas together with one common root, a `SalesEngine` instance:
-
-```ruby
-se = SalesEngine.new
-se.load_data({
-  :items => "./data/items.csv",
-  :merchants => "./data/merchants.csv"
+  :name        => "Pencil",
+  :description => "You can use it to write things",
+  :unit_price  => BigDecimal.new(10.99,4),
+  :created_at  => Time.now,
+  :updated_at  => Time.now,
 })
 ```
-
-From there we can find the child instances:
-
-* `items` returns an instance of `ItemRepository` with all the item instances loaded
-* `merchants` returns an instance of `MerchantRepository` with all the merchant instances loaded

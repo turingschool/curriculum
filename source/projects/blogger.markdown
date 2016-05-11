@@ -90,10 +90,10 @@ If you see an error here, it's most likely related to the database. You are prob
 Our blog will be centered around "articles," so we'll need a table in the database to store all the articles and a model to allow our Rails app to work with that data. We'll use one of Rails' generators to create the required files. Switch to your terminal and enter the following:
 
 {% terminal %}
-$ bin/rails generate model Article
+$ rails generate model Article
 {% endterminal %}
 
-Note that we use `bin/rails` here but we used `rails` previously. The `rails` command is used for generating new projects, and the `bin/rails` command is used for controlling Rails.
+Note that we use `rails` here but we used `bin/rails` previously. With `rails`, RubyGems will activate the latest version of the rails executable it can find in PATH. This is fine as long as you use this version of Rails in your project. If you have a project which uses an older version of Rails and you run `rails`, you can run into problems when trying to run code that's changed in the latest Rails version. `bin/rails` fixes this problem by making sure your environment uses the versions specified in your project's Gemfile.
 
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 
@@ -386,18 +386,6 @@ Instead, let's use a `link_to` helper:
 
 The first part of this helper after the `link_to`, in this case `article.title`, is the text you want the link to say. The next part is our route helper.
 
-When the template is rendered, it will output HTML like this:
-
-```html
-<a href="/articles/1">First Sample Article</a>
-```
-
-#### New Article Link
-
-At the very bottom of the template, let's add a link to the "Create a New Article" page.
-
-We'll use the `link_to` helper, we want it to display the text `"Create a New Article"`, and where should it point? Look in the routing table for the `new` action, that's where the form to create a new article will live. You'll find the name `new_article`, so the helper is `new_article_path`. Assemble those three parts and write the link in your template.
-
 But wait, there's one more thing. Our stylesheet for this project is going to look for a certain class on the link to make it look fancy. To add HTML attributes to a link, we include them in a Ruby hash style on the end like this:
 
 ```erb
@@ -411,7 +399,19 @@ Or, if you wanted to also have a CSS ID attribute:
     class: 'article_title', id: "article_#{article.id}" %>
 ```
 
-Use that technique to add the CSS class `new_article` to your "Create a New Article" link.
+When the template is rendered, it will output HTML like this:
+
+```html
+<a class="article_title" id="article_1" href="/articles/1">First Sample Article</a>
+```
+
+#### New Article Link
+
+At the very bottom of the template, let's add a link to the "Create a New Article" page.
+
+We'll use the `link_to` helper, we want it to display the text `"Create a New Article"`, and where should it point? Look in the routing table for the `new` action, that's where the form to create a new article will live. You'll find the name `new_article`, so the helper is `new_article_path`. Assemble those three parts and write the link in your template.
+
+Use the technique mentioned above to add the CSS class `new_article` to your "Create a New Article" link.
 
 ```erb
 <h1>All Articles</h1>
@@ -526,10 +526,6 @@ Create a new file `app/views/articles/new.html.erb` with these contents:
 ```
 
 Refresh your browser and you should just see the heading "Create a New Article".
-
-<div class="note">
-<p>Why the name <code>new.html.erb</code>? The first piece, <code>new</code>, matches the name of the controller method. The second, <code>html</code>, specifies the output format sent to the client. The third, <code>erb</code>, specifies the language the template is written in. Under different circumstances, we might use <code>new.json.erb</code> to output JSON or <code>new.html.haml</code> to use the HAML templating language.</p>
-</div>
 
 ### Writing a Form
 
@@ -1129,6 +1125,7 @@ class Comment < ActiveRecord::Base
   belongs_to :article
 end
 ```
+The reason this `belongs_to` field already exists is because when we generated the Comment model, we included this line: `article:references`. What that does is tell Rails that we want this model to _reference_ the Article model, thus creating a one-way relationship from Comment to Article. You can see this in action in our migration on the line `t.references :article`.
 
 A comment relates to a single article, it "belongs to" an article. We then want to declare the other side of the relationship inside `app/models/article.rb` like this:
 
@@ -1137,6 +1134,7 @@ class Article < ActiveRecord::Base
   has_many :comments
 end
 ```
+Unlike how `belongs_to :article` was implemented for us on the creation of the Comment model because of the references, the `has_many :comments` relationship must be entered in manually.
 
 Now an article "has many" comments, and a comment "belongs to" an article. We have explained to Rails that these objects have a one-to-many relationship.
 
@@ -1969,7 +1967,7 @@ This would automatically create a "medium" size where the largest dimension is 3
 
 If it's so easy, why don't we do it right now?  The catch is that paperclip doesn't do the image manipulation itself, it relies on a package called *imagemagick*. Image processing libraries like this are notoriously difficult to install. If you're on Linux, it might be as simple as `sudo apt-get install imagemagick`. On OS X, if you have Homebrew installed, it'd be `brew install imagemagick`. On windows you need to download and copy some EXEs and DLLs. It can be a hassle, which is why we won't do it during this class.
 
-If you do manage to get imagemagick installed, be advised that the custom sizes will only take affect on those images uploaded *after* the imagemagick installation. In otherwords, when the image is uploaded - Paperclip will use Imagemagick to create the customized sizes specified on the `has_attached_file` line. *This also means that if you change your sizes as a later time, any images that had been previously uploaded won't have versions at those new sizes.*
+If you do manage to get imagemagick installed, be advised that the custom sizes will only take affect on those images uploaded *after* the imagemagick installation. In otherwords, when the image is uploaded - Paperclip will use Imagemagick to create the customized sizes specified on the `has_attached_file` line. However, there is a fix for this! Whenever you change your `has_attached_file` styles - whether adding, editing, or deleting - you can easily reprocess all existing images with `rake paperclip:refresh CLASS=Article`. Just replace 'Article' with the model name containing your Paperclip images in your other projects.  For more information, see this helpful post in the [Paperclip documentation](https://github.com/thoughtbot/paperclip/wiki/Thumbnail-Generation).
 
 ### A Few Sass Examples
 

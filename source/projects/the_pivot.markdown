@@ -1,3 +1,5 @@
+#This project is out of date. Take a look at [this](https://github.com/turingschool/lesson_plans/blob/master/ruby_03-professional_rails_applications/the_pivot.md)
+
 ---
 layout: page
 title: The Pivot

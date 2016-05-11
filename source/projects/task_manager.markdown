@@ -46,7 +46,7 @@ $ mkdir app
 $ mkdir db
 ```
 
-We'll use the `app` folder for all of our implementation code. Our `db` folder will hold our fake database (we're going to use YAML, not a real database).
+We'll use the `app` folder for all of our implementation code. Our `db` folder will hold our database (we're going to use a [YAML](http://www.yaml.org/) file, not a 'real' database like postgresql). We use the YAML file instead of a more traditional database because we can simply open a YAML file and the data inside is human readable, which is a nice easy introduction to databases. 
 
 We'll need a few folders inside of our app folder so that we can separate our files.
 
@@ -56,7 +56,7 @@ $ mkdir app/models
 $ mkdir app/views
 ```
 
-Although we could put all of our code inside of the same folder (or even most of it in the same file), we're going to use this structure to mimic the [MVC](http://www.codelearn.org/ruby-on-rails-tutorial/mvc-in-rails) setup that Rails will give us. 
+Although we could put all of our code inside of the same folder (or even most of it in the same file), we're going to use this structure to mimic the [MVC](http://www.sitepoint.com/getting-started-with-mvc/) setup that Rails will give us. 
 
 ### Getting the App Running
 
@@ -269,14 +269,19 @@ When we access `params[:task]`, we get back just the part we want; the title and
 
 Let's change the code inside of our controller. Find the `post '/tasks'` route:
 
-```
+```ruby
   post '/tasks' do
-    TaskManager.create(params[:task])
+    task_manager.create(params[:task])
     redirect '/tasks'
+  end
+
+  def task_manager
+    database = YAML::Store.new('db/task_manager')
+    @task_manager ||= TaskManager.new(database)
   end
 ```
 
-We are going to delegate the creation of a task to a TaskManager class. You can think of this class as one whose job it is to manage all of our tasks. Once the task is created, we'll redirect to `'/tasks'` (our index) so that the user can see the task. 
+We are going to delegate the creation of a task to an instance of the TaskManager class. You can think of this class as one whose job it is to manage all of our tasks. Once the task is created, we'll redirect to `'/tasks'` (our index) so that the user can see the task. 
 
 First, we'll need to require this class in our controller. At the top of the controller file, add this line:
 
@@ -296,11 +301,13 @@ Inside of that file, we'll add the following code:
 require 'yaml/store'
 
 class TaskManager
-  def self.database
-    @database ||= YAML::Store.new("db/task_manager")
+  attr_reader :database
+
+  def initialize(database)
+    @database = database
   end
 
-  def self.create(task)
+  def create(task)
     database.transaction do
       database['tasks'] ||= []
       database['total'] ||= 0
@@ -313,9 +320,9 @@ end
 
 First, we require `'yaml/store'` which will allow us to store data in a specific file using [YAML](http://en.wikipedia.org/wiki/YAML) format. This is part of the [Ruby standard library](http://ruby-doc.org/stdlib-1.9.3/libdoc/yaml/rdoc/YAML.html). 
 
-Next, define a class method `self.database` which will return an instance of our YAML::Store using the "db/task_manager" file. This file will be created if it does not already exist. 
+Next, define a reader for `database` (`attr_reader :database`) which will return an instance of our YAML::Store using the "db/task_manager" file. This file will be created if it does not already exist. 
 
-Finally, we define a class method `self.create(task)` which will accept a task hash (remember `params[:task]`?). We call the `transaction` method on our `database`, which will allow us to execute several pieces of code together. 
+Finally, we define an instance method `create(task)` which will accept a task hash (remember `params[:task]`?). We call the `transaction` method on our `database`, which will allow us to execute several pieces of code together. 
 
 Inside of this transaction, we try to find ['tasks']. If it doesn't exist, we make it an empty array ([]). We also want to keep track of a total number of tasks, so we either find that (`database['total']`) or assign it to 0. Next, we increase that total by 1 (`database['total'] += 1`) because we are creating a new task. Finally, we take our `database['tasks']` and shovel in a hash that includes an `id` key with a value of the total number of tasks, a `title` key with a value of `task[:title]`, and a `description` key with a value of `task[:description]`.
 
@@ -347,23 +354,25 @@ We actually want to pull these tasks using our TaskManager class. Let's change t
 
 ```ruby
   get '/tasks' do
-    @tasks = TaskManager.all
+    @tasks = task_manager.all
     erb :index
   end
 ```
 
-We haven't defined this `TaskManager.all` method yet, but we want it to return an array of Task objects. Let's do that. Inside of your `app/models/task_manager.rb` file:
+We haven't defined this `task_manager.all` method yet, but we want it to return an array of Task objects. Let's do that. Inside of your `app/models/task_manager.rb` file:
 
 ```ruby
 require 'yaml/store'
 require_relative 'task'
 
 class TaskManager
-  def self.database
-    @database ||= YAML::Store.new("db/task_manager")
+  attr_reader :database
+
+  def initialize(database)
+    @database = database
   end
 
-  def self.create(task)
+  def create(task)
     database.transaction do
       database['tasks'] ||= []
       database['total'] ||= 0
@@ -372,19 +381,19 @@ class TaskManager
     end
   end
 
-  def self.raw_tasks
+  def raw_tasks
     database.transaction do
       database['tasks'] || []
     end
   end
 
-  def self.all
+  def all
     raw_tasks.map { |data| Task.new(data) }
   end
 end
 ```
 
-We added two new methods. Let's talk about the first one, `self.raw_tasks`. This will go into our YAML file and retrieve everything under `database['tasks']`. What does this output look like? Well, if we were to call just that method, we would get something that looks like this: 
+We added two new methods. Let's talk about the first one, `raw_tasks`. This will go into our YAML file and retrieve everything under `database['tasks']`. What does this output look like? Well, if we were to call just that method, we would get something that looks like this: 
 
 ```
 [{"id"=>1, "title"=>"Make cookies", "description"=>"They are delicious."}, {"id"=>2, "title"=>"Write code.", "description"=>"Always write code."}]
@@ -392,7 +401,7 @@ We added two new methods. Let's talk about the first one, `self.raw_tasks`. This
 
 It's an array of hashes; one hash for each task in our YAML file. This is ok, but what we really want is for these hashes to be actual Task objects. 
 
-This is where our `self.all` method comes in. We will map over the `raw_tasks` and pass that data hash into `Task.new`. Let's create a new model for Task:
+This is where our `all` method comes in. We will map over the `raw_tasks` and pass that data hash into `Task.new`. Let's create a new model for Task:
 
 ```
 $ touch app/models/task.rb
@@ -416,7 +425,7 @@ end
 
 Here we are defining the class `Task` and then creating attr_readers for title, description, and id. Upon initialization, it will accept a data hash and access each piece of data via the keys (`data["id"]`, `data["title"]`, `data["description"]`). 
 
-Now, when we call `TaskManager.all`, we will get back an array of Task objects. Navigate to `http://localhost:9393/tasks`. You should see a `#` sign for each task in your YAML file, but no actual data. 
+Now, when we call `task_manager.all`, we will get back an array of Task objects. Navigate to `http://localhost:9393/tasks`. You should see a `#` sign for each task in your YAML file, but no actual data. 
 
 ### Updating the Index View
 
@@ -449,7 +458,7 @@ class TaskManagerApp < Sinatra::Base
   end
 
   get '/tasks' do
-    @tasks = TaskManager.all
+    @tasks = task_manager.all
     erb :index
   end
 
@@ -458,18 +467,23 @@ class TaskManagerApp < Sinatra::Base
   end
 
   post '/tasks' do
-    TaskManager.create(params[:task])
+    task_manager.create(params[:task])
     redirect '/tasks'
   end
 
   get '/tasks/:id' do |id|
-    @task = TaskManager.find(id.to_i)
+    @task = task_manager.find(id.to_i)
     erb :show
+  end
+
+  def task_manager
+    database = YAML::Store.new('db/task_manager')
+    @task_manager ||= TaskManager.new(database)
   end
 end
 ```
 
-The `/:id` will take whatever is at that point in the URL and allow us to access it as a local variable `id`. Next, we create an instance varaible `@task` which will hold the return value of `TaskManager.find(id.to_i)`. We don't have this method yet. Why `id.to_i`? `id` is coming in as a string (like `"1"` or `"2"`) from the URL but we want it to be an integer. 
+The `/:id` will take whatever is at that point in the URL and allow us to access it as a local variable `id`. Next, we create an instance varaible `@task` which will hold the return value of `task_manager.find(id.to_i)`. We don't have this method yet. Why `id.to_i`? `id` is coming in as a string (like `"1"` or `"2"`) from the URL but we want it to be an integer. 
 
 Before we build our find method, let's create the view:
 
@@ -497,7 +511,13 @@ require 'yaml/store'
 require_relative 'task'
 
 class TaskManager
-  def self.create(task)
+  attr_reader :database
+
+  def initialize(database)
+    @database = database
+  end
+
+  def create(task)
     database.transaction do
       database['tasks'] ||= []
       database['total'] ||= 0
@@ -506,30 +526,26 @@ class TaskManager
     end
   end
 
-  def self.database
-    @database ||= YAML::Store.new("db/task_manager")
-  end
-
-  def self.raw_tasks
+  def raw_tasks
     database.transaction do
       database['tasks'] || []
     end
   end
 
-  def self.all
+  def all
     raw_tasks.map { |data| Task.new(data) }
   end
 
-  def self.raw_task(id)
+  def raw_task(id)
     raw_tasks.find { |task| task["id"] == id }
   end
 
-  def self.find(id)
+  def find(id)
     Task.new(raw_task(id))
   end
 end
 ```
 
-In the `self.raw_task(id)` method, we're taking the `raw_tasks` and finding the one where the `task["id"]` is the same as the id that is passed in. That will return a hash of the task data. In the `self.find(id)` method, we'll create a Task object from that hash of task data.
+In the `raw_task(id)` method, we're taking the `raw_tasks` and finding the one where the `task["id"]` is the same as the id that is passed in. That will return a hash of the task data. In the `find(id)` method, we'll create a Task object from that hash of task data.
 
 Refresh `http://localhost:9393/tasks/1`. Assuming that you have a task in your YAML file with the id of 1, you should see the task title and description displayed. You should also be able to click back to the task index. 

@@ -503,7 +503,7 @@ Turn that into code like this...
 
 ```ruby
   def everyones_last_tweet
-    friends = @client.friends
+    friends = @client.friends.collect { |friend| @client.user(friend) }
     friends.each do |friend|
       # find each friend's last message
       # print each friend's screen_name

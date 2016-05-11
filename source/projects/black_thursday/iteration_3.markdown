@@ -20,7 +20,7 @@ The data can be found in `data/invoice_items.csv` so the instance is created and
 
 ```ruby
 ir = InvoiceItemRepository.new
-ir.load_data("./data/invoice_items.csv")
+ir.from_csv("./data/invoice_items.csv")
 invoice = ir.find_by_id(6)
 # => <invoice_item>
 ```
@@ -34,8 +34,12 @@ The invoice item has the following data accessible:
 * `invoice_id` - returns the invoice id
 * `quantity` - returns the quantity
 * `unit_price` - returns the unit_price
-* `created_at` - returns a `Date` instance for the date the invoice item was first created
-* `updated_at` - returns a `Date` instance for the date the invoice item was last modified
+* `created_at` - returns a `Time` instance for the date the invoice item was first created
+* `updated_at` - returns a `Time` instance for the date the invoice item was last modified
+
+It also offers the following method:
+
+* `unit_price_to_dollars` - returns the price of the invoice item in dollars formatted as a `Float`
 
 We create an instance like this:
 
@@ -59,7 +63,7 @@ The `TransactionRepository` is responsible for holding and searching our `Transa
 instances. It offers the following methods:
 
 * `all` - returns an array of all known `Transaction` instances
-* `find_by_id` - returns either `nil` or an instance of `InvoiceItem` with a matching ID
+* `find_by_id` - returns either `nil` or an instance of `Transaction` with a matching ID
 * `find_all_by_invoice_id` - returns either `[]` or one or more matches which have a matching invoice ID
 * `find_all_by_credit_card_number` - returns either `[]` or one or more matches which have a matching credit card number
 * `find_all_by_result` - returns either `[]` or one or more matches which have a matching status
@@ -68,7 +72,7 @@ The data can be found in `data/transactions.csv` so the instance is created and 
 
 ```ruby
 tr = TransactionRepository.new
-tr.load_data("./data/transactions.csv")
+tr.from_csv("./data/transactions.csv")
 transaction = tr.find_by_id(6)
 # => <transaction>
 ```
@@ -82,8 +86,8 @@ The transaction has the following data accessible:
 * `credit_card_number` - returns the credit card number
 * `credit_card_expiration_date` - returns the credit card expiration date
 * `result` - the transaction result
-* `created_at` - returns a `Date` instance for the date the transaction was first created
-* `updated_at` - returns a `Date` instance for the date the transaction was last modified
+* `created_at` - returns a `Time` instance for the date the transaction was first created
+* `updated_at` - returns a `Time` instance for the date the transaction was last modified
 
 We create an instance like this:
 
@@ -107,7 +111,7 @@ The `CustomerRepository` is responsible for holding and searching our `Customers
 instances. It offers the following methods:
 
 * `all` - returns an array of all known `Customers` instances
-* `find_by_id` - returns either `nil` or an instance of `InvoiceItem` with a matching ID
+* `find_by_id` - returns either `nil` or an instance of `Customer` with a matching ID
 * `find_all_by_first_name` - returns either `[]` or one or more matches which have a first name matching the substring fragment supplied
 * `find_all_by_last_name` - returns either `[]` or one or more matches which have a last name matching the substring fragment supplied
 
@@ -115,7 +119,7 @@ The data can be found in `data/customers.csv` so the instance is created and use
 
 ```ruby
 cr = CustomerRepository.new
-cr.load_data("./data/customers.csv")
+cr.from_csv("./data/customers.csv")
 customer = cr.find_by_id(6)
 # => <customer>
 ```
@@ -127,8 +131,8 @@ The customer has the following data accessible:
 * `id` - returns the integer id
 * `first_name` - returns the first name
 * `last_name` - returns the last name
-* `created_at` - returns a `Date` instance for the date the customer was first created
-* `updated_at` - returns a `Date` instance for the date the customer was last modified
+* `created_at` - returns a `Time` instance for the date the customer was first created
+* `updated_at` - returns a `Time` instance for the date the customer was last modified
 
 We create an instance like this:
 
@@ -147,8 +151,7 @@ c = Customer.new({
 There are many connections to draw between all these objects. Assuming we start with this:
 
 ```ruby
-se = SalesEngine.new
-se.load_data({
+se = SalesEngine.from_csv({
   :items => "./data/items.csv",
   :merchants => "./data/merchants.csv",
   :invoices => "./data/invoices.csv",
@@ -190,5 +193,7 @@ customer.merchants # => [merchant, merchant]
 
 ## Business Intelligence
 
-* invoice is paid
-* invoice total
+* `invoice.is_paid_in_full?` returns true if the invoice is paid in full
+* `invoice.total` returns the total $ amount of the invoice
+
+**Note:** Failed charges should never be counted in revenue totals or statistics.

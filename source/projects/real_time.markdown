@@ -22,7 +22,7 @@ This is your last project at Turing, which means you're about to go off and be d
 ### On the Client
 
 - Use jQuery for all updating and DOM manipulations.
-- Explore a front-end framework like Ember or React to handle all of the client-side concerns of your application.
+- You're welcome to explore a front-end framework like Ember or React to handle all of the client-side concerns of your application.
 
 ## Learning Objectives
 
@@ -55,7 +55,7 @@ Tan is a software engineer who often finds him self in the odd position of not h
 - Tan puts in three or four local places into the application and generates a new poll. He chooses to share the results as they come in. As a result each voting page is also showing the results in real time as they come in.
 - Before leaving the house, he realizes that he is going to need to have this decided by the time he gets there. He chooses a time to have the poll automatically close.
 - He shares a link to the poll with his friends.
-- Tan arrives at his old school and checks his phone. He sees that the group has made a decision and on of his friends had already headed over to grab a table.
+- Tan arrives at his old school and checks his phone. He sees that the group has made a decision and one of his friends has already headed over to grab a table.
 
 
 ### Personal Time
@@ -68,7 +68,7 @@ Marissa works at a local non-profit helping where she helps people find jobs in 
 - This generates two unique URLs: one where she can see all of her appointments and one that she can give to people to schedule a time.
 - She is autoredirected to the first URL, which we'll call the "Admin Dashboard" from this point forward.
 - On the Admin Dashboard, the application displays an additional URL for her to give out to students. We'll call this the "scheduling page" from this point forward.
-- She puts in a bunch of time slot into the administration dashboard. Each time slot has the following:
+- She puts in a bunch of time slots into the administration dashboard. Each time slot has the following:
   - The date in which the time slot occurs.
   - The start time.
   - The end time.
@@ -82,11 +82,11 @@ Marissa works at a local non-profit helping where she helps people find jobs in 
 
 #### Mary
 
-Mary mentors up and coming software engineers because of the deep joy generates in her heart. As much as she loves working with junior developers, she is on the East Coast and many of the people she works with live in Mountain Time. Mary, being comfortable with technology, decides to offload this task to a computer rather than dealing with it herself. Mary has many of the same needs as Marissa, with some additional requirements:
+Mary mentors up and coming software engineers because of the deep joy it generates in her heart. As much as she loves working with junior developers, she is on the East Coast and many of the people she works with live in Mountain Time. Mary, being comfortable with technology, decides to offload this task to a computer rather than dealing with it herself. Mary has many of the same needs as Marissa, with some additional requirements:
 
 - She heads over to the Personal Time website and creates a bunch of slots. She notices that the site already knew she was on Eastern Time. She puts in a number of time slots.
 - She sends the link out to her proteges.
-- When they visit the page, they all of the dates and times in their current time zones as well, so there is no confusion about when they're meeting.
+- When they visit the page, they see all of the dates and times in their current time zones as well, so there is no confusion about when they're meeting.
 
 ## Evaluation Criteria
 
@@ -96,47 +96,47 @@ Please read the entire rubric before beginning the project.
 
 Does it have the expected features?
 
-* 4 - Exceeded expectations. There are more features than we planned.
-* 3 - Met expectations as outlined by the user personas, the application is a solid first version. All planned features were delivered.
-* 2 - Some features were sacrificed to meet the deadline. At best, this is a prototype. Major features covered by the learning goals listed above were not written by the developer.
-* 1 - Major features are missing, there are major bugs that make it impossible to use, and/or the application is not deployed to production.
+* 100 points - Exceeded expectations. There are more features than we planned.
+* 75 points - Met expectations as outlined by the user personas, the application is a solid first version. All planned features were delivered.
+* 50 points - Some features were sacrificed to meet the deadline. At best, this is a prototype. Major features covered by the learning goals listed above were not written by the developer.
+* 25 points - Major features are missing, there are major bugs that make it impossible to use, and/or the application is not deployed to production.
 * 0 - There is no application.
 
 ### Code Quality (JavaScript and/or Ruby)
 
-* 4 - Developer writes code that is exceptionally clear and well-factored. Application is expertly divided into logical components each with a clear, single responsibility.
-* 3 - Developer solves problems with a balance between conciseness and clarity and often extracts logical components. Developer can speak to choices made in the code and knows what every line of code is doing.
-* 2 - Developer writes effective code, but does not breakout logical components. Application shows some effort to break logic into components, but the divisions are inconsistent or unclear. There are many large methods or functions and it is not clear to the evaluator what a given section of code does.
-* 1 - Developer writes code with unnecessary variables, operations, or steps which do not increase clarity.
-* 0 - Developer writes code that is difficult to understand. Application logic shows poor decomposition with too much logic mashed together.
+* 30 points - Developer writes code that is exceptionally clear and well-factored. Application is expertly divided into logical components each with a clear, single responsibility.
+* 25 points - Developer solves problems with a balance between conciseness and clarity and often extracts logical components. Developer can speak to choices made in the code and knows what every line of code is doing.
+* 20 points - Developer writes effective code, but does not breakout logical components. Application shows some effort to break logic into components, but the divisions are inconsistent or unclear. There are many large methods or functions and it is not clear to the evaluator what a given section of code does.
+* 10 points - Developer writes code with unnecessary variables, operations, or steps which do not increase clarity.
+* 0 points - Developer writes code that is difficult to understand. Application logic shows poor decomposition with too much logic mashed together.
 
 ### Client-Side Application
 
-* 4 - Your application has exceptionally well-factored code with little or now duplication and all components separated out into logical components.
-* 3 - Your application is thoughtfully put together with some duplication and no major bugs.
-* 2 - Your application has a significant amount of duplication and one or major bugs.
-* 1 - Your client-side application does not function or the application does not make use of WebSockets for updating information on the client.
-* 0 - There is little or no client-side code.
+* 30 points - Your application has exceptionally well-factored code with little or now duplication and all components separated out into logical components.
+* 25 points - Your application is thoughtfully put together with some duplication and no major bugs.
+* 20 points - Your application has a significant amount of duplication and one or major bugs.
+* 10 points - Your client-side application does not function or the application does not make use of WebSockets for updating information on the client.
+* 0 points - There is little or no client-side code.
 
 ### Test-Driven Development
 
-* 4 - The code demonstrates high test coverage. It is tested at the feature, controller and unit levels. It tests the WebSocket as well as the controller endpoints.
-* 3 - The code demonstrates high test coverage. It is tests at controller and unit levels. All controller/routes are tested. There are no failing tests.
-* 2 - The code demonstrates high test coverage. One or more enpoints are not tested or the internal business logic is not fully tested.
-* 1 - Many areas of the code are not covered by tests.
-* 0 - No tests were written or the testing framework does not work.
+* 30 points - The code demonstrates high test coverage. It is tested at the feature, controller and unit levels. It tests the WebSocket as well as the controller endpoints.
+* 25 points - The code demonstrates high test coverage. It is tests at controller and unit levels. All controller/routes are tested. There are no failing tests.
+* 20 points - The code demonstrates high test coverage. One or more enpoints are not tested or the internal business logic is not fully tested.
+* 10 points - Many areas of the code are not covered by tests.
+* 0 points - No tests were written or the testing framework does not work.
 
 ### Interface
 
-* 4 - The application is pleasant, logical, and easy to use
-* 3 - The application has many strong pages/interactions, but a few holes in lesser-used functionality.
-* 2 - The application shows effort in the interface, but the result is not effective. The evaluator has some difficulty using the application when reviewing the features in the user stories.
-* 1 - The application is confusing or difficult to use.
+* 5 points - The application is pleasant, logical, and easy to use
+* 4 points - The application has many strong pages/interactions, but a few holes in lesser-used functionality.
+* 2 points - The application shows effort in the interface, but the result is not effective. The evaluator has some difficulty using the application when reviewing the features in the user stories.
+* 0 points - The application is confusing or difficult to use.
 
 ### Workflow
 
-* 4 - The developer effectively uses Git branches and many small, atomic commits that document the evolution of their application.
-* 3 - The developer makes a series of small, atomic commits that document the evolution of their application. There are no formatting issues in the code base.
-* 2 - The developer makes large commits covering multiple features that make it difficult for the evaluator to determine the evolution of the application.
-* 1 - The developer commited the code to version control in only a few commits. The evaluator cannot determine the evolution of the application.
-* 0 - The application was not checked into version control.
+* 5 points - The developer effectively uses Git branches and many small, atomic commits that document the evolution of their application.
+* 4 points - The developer makes a series of small, atomic commits that document the evolution of their application. There are no formatting issues in the code base.
+* 2 points - The developer makes large commits covering multiple features that make it difficult for the evaluator to determine the evolution of the application.
+* 0 points - The developer commited the code to version control in only a few commits. The evaluator cannot determine the evolution of the application.
+* 0 points - The application was not checked into version control.

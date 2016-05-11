@@ -16,9 +16,7 @@ Writing your own blogging engine is almost a right of passage for aspiring web d
 
 1. One team member forks the repository at https://github.com/turingschool-examples/hyde and adds the other(s) as collaborators.
 2. Everyone on the team clones the repository
-3. Create a [Waffle.io](http://waffle.io) account for project management.
-4. Setup [CodeClimate](https://codeclimate.com/) to monitor code quality along the way
-5. Setup [TravisCI](https://travis-ci.org/) to run your tests ever time you push
+3. Setup [SimpleCov](https://github.com/colszowka/simplecov) to monitor test coverage along the way
 
 ## Key Concepts
 
@@ -29,94 +27,39 @@ From a technical perspective, this project will emphasize:
 * Encapsulating Responsibilities
 * Light data / analytics
 
-#### Functionality
+## Evaluation Rubric
 
-The "application" will be run as an executable from a user's machine (gem or npm module). It needs to include several features:
+Available [here](rubric.markdown).
 
-* a "generator" to scaffold out a new site (eg `hyde new my-blog`)
-* a "build" step which processes provided markdown files into rendered HTML templates. You'll likely want to use an existing Markdown processor for this, although if you ask nicely a module 1 student might let you use their Chisel.
-* a "serve" command which boots a simple HTTP server to allow viewing the site in development.
+## Code Sanitation
 
-#### File Locations and Path Conventions
+To help give us a more automated approach to evaluating code cleanliness in the project, the template includes the [Cane](https://github.com/square/cane) and [Reek](https://github.com/troessner/reek) gems. These tools will analyze your codebase and print out warnings for common problems like:
 
-Remember that by convention, the "root" file for a static HTML site is its `index.html`. This is what will be served by, for example, github pages if you ship your site to it. We'd like to also allow arbitrary path nesting based on whatever structure a user provides with their site.
+* Long methods
+* Long lines
+* Too many branches
 
-So, for example, a file located in the source at:
+To run the sanitation checker, use this command (from the root of your project):
 
-`articles/my_article.markdown`
-
-should get built as:
-
-`articles/my_article.html`
-
-and be retrievable on the server at:
-
-`my_url.com/articles/my_article.html`
-
-### Serving static assets
-
-We'd like our users to be able to include static assets like Javascripts, Stylesheets, and Images.
-
-### Extensions
-
-* Rails-style "layouts" for extracting standard template functionality
-* Partials
-* CSS preprocessor (using sass or less)
-
-
+`$ rake sanitation:all`
 
 ## Project Iterations and Base Expectations
 
 Because the requirements for this project are lengthy and complex, we've broken
 them into Iterations in their own files:
 
-* [Iteration 0](iteration_0.markdown) - Zero
-* [Iteration 1](iteration_1.markdown) - One
+* [Iteration 0](iteration_0.markdown) - Generating a new Hyde project
+* [Iteration 1](iteration_1.markdown) - Building Hyde source files into HTML
+* [Iteration 2](iteration_2.markdown) - Generating new blog post files
+* [Iteration 3](iteration_3.markdown) - Customizing site design with layouts and CSS
+* [Iteration 4](iteration_4.markdown) - Supporting post "tags"
+* [Iteration 5](iteration_5.markdown) - Supporting features #1
+* [Iteration 6](iteration_6.markdown) - Supporting features #2
 
-## Evaluation Rubric
+### Possible Supporting Features
 
-The project will be assessed with the following guidelines:
-
-### 1. Functional Expectations
-
-* 4: Application fulfills all base expectations and two extensions
-* 3: Application fulfills all base expectations as tested by the spec harness
-* 2: Application has some missing functionality but no crashes
-* 1: Application crashes during normal usage
-
-### 2. Test-Driven Development
-
-* 4: Application is broken into components which are well tested in both isolation and integration using appropriate data
-* 3: Application is well tested but does not balance isolation and integration tests, using only the data necessary to test the functionality
-* 2: Application makes some use of tests, but the coverage is insufficient
-* 1: Application does not demonstrate strong use of TDD
-
-### 3. Encapsulation / Breaking Logic into Components
-
-* 4: Application is expertly divided into logical components each with a clear, single responsibility
-* 3: Application effectively breaks logical components apart but breaks the principle of SRP
-* 2: Application shows some effort to break logic into components, but the divisions are inconsistent or unclear
-* 1: Application logic shows poor decomposition with too much logic mashed together
-
-### 4. Fundamental Ruby & Style
-
-* 4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring
-* 3:  Application shows strong effort towards organization, content, and refactoring
-* 2:  Application runs but the code has long methods, unnecessary or poorly named variables, and needs significant refactoring
-* 1:  Application generates syntax error or crashes during execution
-
-### 5. Enumerable & Collections
-
-* 4: Application consistently makes use of the best-choice Enumerable methods
-* 3: Application demonstrates comfortable use of appropriate Enumerable methods
-* 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
-* 1: Application demonstrates deficiencies with Enumerable and struggles with collections
-
-### 6. Code Sanitation
-
-The output from `rake sanitation:all` shows...
-
-* 4: Zero complaints
-* 3: Five or fewer complaints
-* 2: Six to ten complaints
-* 1: More than ten complaints
+* Partials
+* CSS preprocessor (using sass or less)
+* Gem extraction
+* Include a dev server for serving built files
+* FS Event Watcher to rebuild automatically on file change

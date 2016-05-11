@@ -5,7 +5,7 @@ sidebar: true
 points: 150
 ---
 
-**Nota bene**: This project is the spiritual successor to [Idea Box][ib], but there is no requirement that you need to have done or even be away of Idea Box to be successful on this project.
+**Nota bene**: This project is the spiritual successor to [Idea Box][ib], but there is no requirement that you need to have done or even be aware of Idea Box to be successful on this project.
 
 [ib]: ./idea_box.markdown
 
@@ -58,7 +58,7 @@ We'll be primarily working with _Idea_ objects.
 
 On the application's root, the user should:
 
-* See a list of all existing ideas, including the title, body, and quality for each idea. (2 points, manditory for specification adherence)
+* See a list of all existing ideas, including the title, body, and quality for each idea. (2 points, mandatory for specification adherence)
 * Idea bodies longer than 100 characters should be truncated to the nearest word. (5 points)
 * Ideas should appear in descending chronological order (with the most recently created
   idea at the top). (3 points)
@@ -70,14 +70,14 @@ On the application's root, the user should:
 On the application's main page, a user should:
 
 * See two text boxes for entering the "Title" and "Body" for a new idea,
-  and a "Save" button for committing that idea. (3 points, manditory for specification adherence)
+  and a "Save" button for committing that idea. (3 points, mandatory for specification adherence)
 
 When a user clicks "Save":
 
-* A new idea with the provided title and body should appear in the idea list. (5 points, manditory for specification adherence)
+* A new idea with the provided title and body should appear in the idea list. (5 points, mandatory for specification adherence)
 * The text fields should be cleared and ready to accept a new idea. (2 points)
-* The page _should not_ reload. (3 points, manditory for specification adherence)
-* The idea should be committed to the database. It should still be present upon reloading the page. (2 points, manditory for specification adherence)
+* The page _should not_ reload. (3 points, mandatory for specification adherence)
+* The idea should be committed to the database. It should still be present upon reloading the page. (2 points, mandatory for specification adherence)
 
 #### Deleting an existing idea
 
@@ -86,9 +86,9 @@ When a user clicks "Save":
 When viewing the idea list:
 
 * Each idea in the list should have a link or button to "Delete" (or 𝗫, etc). (2 points)
-* Upon clicking "Delete", the appropriate idea should be removed from the list (5 points, manditory for specification adherence).
-* The page _should not_ reload when an idea is deleted. (5 points, manditory for specification adherence)
-* The idea should be removed from the database. It should not re-appear on next page load. (3 points, manditory for specification adherence)
+* Upon clicking "Delete", the appropriate idea should be removed from the list (5 points, mandatory for specification adherence).
+* The page _should not_ reload when an idea is deleted. (5 points, mandatory for specification adherence)
+* The idea should be removed from the database. It should not re-appear on next page load. (3 points, mandatory for specification adherence)
 
 #### Changing the quality of an idea
 
@@ -107,12 +107,11 @@ As we said above, ideas should start out as "swill." In order to change the reco
 
 (20 points total.)
 
-* Each idea on the idea list should include a link or button to edit the idea. (4 points)
+* When a user clicks the title or idea of an idea in the list, that text should become an editable text field, pre-populated with the existing idea title or body. (8 points)
 * Clicking this link should _not_ take the user to a separate "edit" page for the given
-  idea. (4 points, manditory for specification adherence)
-* After clicking on the edit link, the user should see form fields to modify the idea's title and body. (4 points)
-* The user should have the option to "Save" their edits, and clicking this should create an PUT request using AJAX. (4 points, manditory for specification adherence)
-* If the user reloads the page, their edits will be reflected. (4 points, manditory for specification adherence)
+  idea. (4 points, mandatory for specification adherence)
+*  The user should be able to "commit" their changes by pressing "Enter/Return" or by clicking outside of the text field. (4 points)
+* If the user reloads the page, their edits will be reflected. (4 points, mandatory for specification adherence)
 
 #### Idea Filtering and Searching
 
@@ -129,12 +128,6 @@ let's provide them with a filtering interface on the idea list.
 
 Extensions are a great way to earn additional points beyond the 150 available in this project. That said, awarding points for delivering a given extension is up to the instructor, who may only award partial points depending on the quality of the implementation. The points listed below represent the maximum number of points. Extensions can _not_ be done after the fact without instructor permission in advance.
 
-#### Inline idea editing
-
-(10 additional points.)
-
-When a user clicks the title or idea of an idea in the list, that text should become an editable text field, pre-populated with the existing idea title or body. The user should be able to "commit" their changes by pressing "Enter/Return" or by clicking outside of the text field.
-
 #### Tagging
 
 (20 additional points.)
@@ -146,6 +139,12 @@ Add an optional third text field upon idea creation for "Tags". Tags should be a
 (10 additional points.)
 
 When viewing the ideas list, the user should have the option to sort ideas by Quality. The default sort should be descending ("genius" → "plausible" → "swill"), and clicking the sort a second time should reverse it. The Idea list should be sorted client-side without reloading the page.
+
+#### Student Directed Extension
+
+(10 additional points.)
+
+Student chooses an additional feature or performance optimization to add to the project. The extension must be intuitive and should not detract from the user's experience in any major way (i.e. not buggy or incomplete).
 
 ## Instructor Evaluation Points
 
@@ -177,7 +176,7 @@ When viewing the ideas list, the user should have the option to sort ideas by Qu
 
 ### JavaScript Style
 
-* **10 points** - Application has exceptionally well-factored code with little or now duplication and all components separated out into logical components. There _zero_ instances where an instructor would recommend taking a different approach.
+* **10 points** - Application has exceptionally well-factored code with little or no duplication and all components separated out into logical components. There _zero_ instances where an instructor would recommend taking a different approach.
 * **8 points** - Application is thoughtfully put together with some duplication and no major bugs. Developer can speak to choices made in the code and knows what every line of code is doing.
 * **5 points** - Your application has some duplication and minor bugs. Developer can speak to most choices made in the code and knows what every line is doing. 
 * **3 points** - Your application has a significant amount of duplication and one or more major bugs. Developer cannot speak to most choices and does not know what every line of code is doing. 
@@ -189,5 +188,5 @@ When viewing the ideas list, the user should have the option to sort ideas by Qu
 * **10 points** - The developer effectively uses Git branches and many small, atomic commits that document the evolution of their application.
 * **5 points** - The developer makes a series of small, atomic commits that document the evolution of their application. There are no formatting issues in the code base.
 * **3 points** - The developer makes large commits covering multiple features that make it difficult for the evaluator to determine the evolution of the application.
-* **1 point** - The developer commited the code to version control in only a few commits. The evaluator cannot determine the evolution of the application.
+* **1 point** - The developer committed the code to version control in only a few commits. The evaluator cannot determine the evolution of the application.
 * **0 points** - The application was not checked into version control.

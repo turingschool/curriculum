@@ -3,11 +3,15 @@ layout: page
 title: Jungle Beat
 ---
 
-## Before You Begin
+# Jungle Beat
 
-We're going to do some silly things with sound and linked lists. Let's make a drum machine that's backed by a linked list.
+## Basics
 
-### Making Sound
+In this project we're going to do some silly things with sound. Specifically, we're going to make a very basic drum machine program.
+
+However to add some additional depth, let's also use this project as a chance to explore one of the fundamental data structures in computer science -- the Linked List.
+
+### Drum Machine 101 -- Making Sounds
 
 Go into your Terminal and try this:
 
@@ -50,102 +54,22 @@ The three nodes here hold the data "hello", "world", and "!". The first two node
 * Understanding how linked lists work to store and find data
 * Testing components in isolation and in combination
 
-## Base Expectations
+## Iterative Development
 
-Then we'll exercise the functionality from a Pry session:
+As we work through this project, we'll be following an _iterative_ development process. This means we'll aim to build the system out of small but complete chunks which could reasonably stand on their own to perform some required function. The iterations are outlined below. It may be worth reading through them all at first to get a sense of the scope of the entire project, but we encourage you to then forget about later iterations until you get to them.
 
-```ruby
-require "./lib/jungle_beat"
-> jb = JungleBeat.new("deep dep dep deep")
-> jb.play
-=> 4 # also plays the sounds
-> jb.append("deep bop bop deep")
-=> 4
-> jb.all
-=> "deep dep dep deep deep bop bop deep"
-> jb.prepend("tee tee tee tee")
-=> 4 # number of beats inserted
-> jb.all
-=> "tee tee tee tee deep dep dep deep deep bop bop deep"
-> jb.include?("dep")
-=> true
-> jb.pop(4)
-=> "deep bop bop deep"
-> jb.all
-=> "tee tee tee tee deep dep dep deep"
-> jb.count
-=> 8
-> jb.insert(4, "boop bop bop boop")
-=> "tee tee tee tee boop bop bop boop deep dep dep deep"
-> jb.find(8, 2)
-=> "deep dep"
-```
+The point of this process is to help us focus on small pieces at a time without getting overwhelmed by the scope of the entire project.
 
-### Internal Structure
+### Iteration Base Expectations
 
-You must use a Linked List to store your beats. Each node should contain only a single "word"/beat. You'll want to implement at least each of the following features for your list:
-
-* `append` an element to the end of the list
-* `prepend` an element at the beginning of the list
-* `insert` one or more elements at an arbitrary position in the list
-* `includes?` gives back `true` or `false` whether the supplied value is in the list
-* `pop` one or more elements from the end of the list
-* `count` the number of elements in the list
-* `find` one or more elements based on arbitrary positions in the list. The first parameter indicates the first position to return and the second parameter specifies how many elements to return.
-* `all` return all elements in the linked list in order
-
-## Extensions
-
-### 1. Validating Beats
-
-There are a lot of words which aren't going to work for beats. Like `Mississippi`.
-
-Add validation to your program such that the input beats must be members of your
-defined list. Insertion of a beat not in the list is rejected. Like this:
-
-```ruby
-> jb = JungleBeat.new("deep")
-> jb.append("Mississippi")
-=> 0
-> jb.all
-=> "deep"
-> jb.prepend("tee tee tee Mississippi")
-=> 3 # number of beats successfully inserted
-> jb.all
-=> "tee tee tee deep"
-```
-
-Here's a starter list of valid beats, but add more if you like:
-
-```
-tee dee deep bop boop la na
-```
-
-### 2. Speed & Voice
-
-Let's make it so the user can control the voice and speed of playback. Originally
-we showed you to use `say -r 500 -v Boing` where `r` is the rate and `v` is the
-voice. Let's setup a usage like this:
-
-```ruby
-> jb = JungleBeat.new("deep dop dop deep")
-> jb.play
-=> 4 # plays the four sounds normal speed with Boing voice
-> jb.rate = 100
-=> 100
-> jb.play
-=> 4 # plays the four sounds slower with Boing voice
-> jb.voice = "Alice"
-=> "Alice"
-> jb.play
-=> 4 # plays the four sounds slower with Alice voice
-> jb.reset_rate
-=> 500
-> jb.reset_voice
-=> "Boing"
-> jb.play
-=> 4 # plays the four sounds normal speed with Boing voice
-```
+* [Iteration 0](jungle_beat/iteration_0.md) - Node Basics
+* [Iteration 1](jungle_beat/iteration_1.md) - Append, All and Count (Single Node)
+* [Iteration 2](jungle_beat/iteration_2.md) - Append, All and Count (Multiple Nodes)
+* [Iteration 3](jungle_beat/iteration_3.md) - Insert and Prepend
+* [Iteration 4](jungle_beat/iteration_4.md) - Find, Pop, and Includes?
+* [Iteration 5](jungle_beat/iteration_5.md) - Creating a Linked List Wrapper
+* [Iteration 6](jungle_beat/iteration_6.md) - Playing Beats
+* [Extensions](jungle_beat/extensions.md) - Validating Beats, Speed & Voice
 
 ## Tips
 
@@ -160,7 +84,7 @@ voice. Let's setup a usage like this:
 
 ## Constraints
 
-* Make sure that your code is well tested for both *expected cases* and *edge cases*. Try popping more elements than there are in the list. Try seeing if an empty list includes anything. Try inserting elements at a position beyond the length of the list. That kind of thing.
+* Make sure that your code is well tested for both *expected cases* and *edge cases*. Try popping more elements than there are in the list. Try seeing if an empty list includes anything. Try inserting elements at a position beyond the length of the list.
 * Avoid using other ruby collections (Arrays, Hashes, etc) for the storage of your beats. That's where you're supposed to use the linked list. But having Arrays elsewhere in your code, or using methods that return arrays (like `.split`) are totally ok.
 
 ## Resources

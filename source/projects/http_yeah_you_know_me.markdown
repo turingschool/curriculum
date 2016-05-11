@@ -242,7 +242,15 @@ We use `GET` to fetch information. We typically use `POST` to send information t
 
 Changing the verb and submitting parameters in the body instead of the parameters for a `POST` request can both be done in Postman.
 
-Let's write a simple guessing game that works like this:
+Let's practice applying these techniques by building a simple guessing game that can be played via our HTTP server.
+
+The game will work like this:
+
+1. When a player starts a new game, the server picks a random number between 0 and 100.
+2. The player can make a new guess by sending a POST request containing the number they want to guess.
+3. When the player requests the game path, the server should show some information about the game including how many guesses have been made, what the most recent guess was, and whether it was too high, too low, or correct.
+
+The HTTP endpoints to support this game will look like this:
 
 #### `POST` to `/start_game`
 
@@ -258,6 +266,49 @@ A request to this verb/path combo tells us:
 #### `POST` to `/game`
 
 This is how we make a guess. The request includes a parameter named `guess`. The server stores the guess and sends the user a redirect response, causing the client to make a `GET` to `/game`.
+
+#### Handling POST Requests
+
+So far all of the requests we've dealt with have been using HTTP's GET verb. A GET request signifies _fetching_ rather than _sending_ information. POST requests, on the other hand, signify _sending_ information. In this section we'll be using post requests to allow users to send us data to interact with the simple HTTP game.
+
+So what do we need to do differently when handling POST requests vs. GETs? Fortunately, most of the other parsing we've done will remain the same -- headers, paths, parameters, etc. When reading a POST request, however, we also need to give attention to the request body.
+
+Remember that in an HTTP request the body is separated from the headers with a blank line -- in our basic parsing so far, encountering this blank line is how we know when we're done reading headers. Everything after the blank line, then, is the body. To read the body from the request, we need to look at a specific header, called `Content-Length` which is included with the request. The Content-Length header tells us the number of bytes (roughly equivalent with the number of characters) that are included in the request body.
+
+Once we find this number, we can use a special socket method `read`, to read that specific number of bytes.
+
+In short, then our process for reading the body of a post request looks like this:
+
+1. Read the request headers by reading lines until we encounter a blank one (same as before)
+2. Find the Content-Length header and see how many bytes it says are included in the request.
+3. User `Socket#read` to read that number of bytes from the socket, thus reading the request body.
+
+For this iteration you'll need to update your request handling to use this process to read the request body for any POST requests your server receives.
+
+### Sending a Redirect
+
+A [Redirect](https://en.wikipedia.org/wiki/URL_redirection) is a special kind of HTTP response. It indicates to an HTTP client that the resource they requested should be fetched from a different location. A redirect is HTTP's mechanism of telling a client (often a web browser) to "go over there." You've seen this on the web whenever you submit a web form and your browser automatically loads a new page. Redirects are often used in response to POST requests.
+
+To respond with a redirect, you need to send 2 things:
+
+1. A `3xx` status code -- in our case `302` will be the standard status code for redirecting
+2. A special header called `Location` -- the `Location` header indicates the new URL the browser should visit. For example the header `Location: http://google.com` would tell a web browser to navigate to google's homepage.
+
+Here's what the headers for an example redirect response would look like:
+
+```
+$ curl -I google.com
+HTTP/1.1 301 Moved Permanently
+Location: http://www.google.com/
+Content-Type: text/html; charset=UTF-8
+Date: Fri, 26 Feb 2016 01:55:24 GMT
+Expires: Sun, 27 Mar 2016 01:55:24 GMT
+Cache-Control: public, max-age=2592000
+Server: gws
+Content-Length: 219
+X-XSS-Protection: 1; mode=block
+X-Frame-Options: SAMEORIGIN
+```
 
 ### Iteration 5 - Response Codes
 
@@ -298,7 +349,39 @@ A search for `pizz` returns JSON with possible matches like this:
 
 ### 2. Threading
 
-What happens if your web server gets more than one request at a time? Let's experiment with Threads. *to be continued*
+A [Thread](http://ruby-doc.org/core-2.2.0/Thread.html) represents an independent flow (thread) of execution. Threads allow us to model concurrent processes that need to occur at the same time, independent of one another.
+
+You can read more about threads in the ruby docs, but the basic usage looks like this:
+
+```ruby
+t = Thread.new do
+  puts "hi from the other thread"
+end
+hi from other thread
+=> #<Thread:0x007f81d3bddd08@(pry):65 sleep>
+```
+
+If a thread returns a value, we can capture it by calling `#value`:
+
+```ruby
+pry(main)> t = Thread.new { 1 + 1 }
+=> #<Thread:0x007f81d4398070@(pry):66 dead>
+pry(main)> t.value
+=> 2
+
+pry(main)> t = Thread.new { sleep(3); 1 + 1 }
+=> #<Thread:0x007f81d42ec770@(pry):68 sleep>
+pry(main)> t.value #hangs
+=> 2
+```
+
+Note that if the thread is busy doing some work, calling `#value` will hang until that
+thread is finished.
+
+
+With these tools at your disposal, enhance your server handler so that each request/response gets handled in its own thread. If done correctly, this will allow you to handle multiple requests at a time.
+
+To demonstrate this functionality, additionally add a new GET endpoint `/sleepy` which sleeps for 3 seconds and then returns a 200 OK response with the body `"yawn..."`. You should be able to handle multiple `/sleepy` requests in a row without the second one waiting for the first one to complete.
 
 ## Evaluation Rubric
 
@@ -310,6 +393,8 @@ The project will be assessed with the following rubric:
 * 3: Application implements iterations 0 - 4
 * 2: Application implements iterations 0 - 3
 * 1: Application implements through interation 2 or less
+
+**Echo/Foxtrot Note:** Requirements listed are for *Foxtrot* pairs -- Echo requirements are shifted by 1 additional iteration -- So a 3 for Echo requires completing Iterations 0-5
 
 ### 2. Fundamental Ruby & Style
 

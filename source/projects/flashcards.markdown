@@ -23,6 +23,8 @@ guess.response
 => "Juneau"
 guess.correct?
 => true
+guess.feedback
+=> "Correct!"
 ```
 
 ```ruby
@@ -34,6 +36,8 @@ guess.response
 => "Saturn"
 guess.correct?
 => false
+guess.feedback
+=> "Incorrect."
 ```
 
 # Iteration 3: Storing Cards in a Deck

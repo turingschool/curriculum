@@ -90,21 +90,31 @@ round.percent_correct
 
 # Iteration 4: Building out the runner
 
-We are going to skip TDD for this bit. First, we'll create a runner file which is what we'll run from the command line:
+So far we've focused on modelling the data, classes, and methods that make up our game. However we haven't done much to put any kind of useable **interface** onto the game. In this iteration, let's remedy this by adding a simple Command-Line-Interface to the game.
+
+A few key points to keep in mind as you work on this iteration:
+
+* We'll abandon TDD for this bit -- the techniques for testing this kind of input/output behavior are somewhat involved and are beyond the scope of this project
+* Use `puts` to display a line of text output to the user
+* Use `gets` to read a line of text input from the user (this will be important to allow users to enter guesses)
+* In this iteration we'll introduce a new file called a "runner" -- its job is to serve as the main entry point to our program by starting up a new game
+
+**First**, create your runner file:
 
 ```
 touch flashcard_runner.rb
 ```
 
-Inside of this file:
+Inside of this file, write the code to do the following:
 
-```ruby
-# write necessary code in order to be able to call:
+* Create some Cards
+* Put those card into a Deck
+* Create a new Round using the Deck you created
+* **Start** the round using a new method called `start` (`round.start`)
 
-round.start
-```
+When we start the round by running `ruby flashcard_runner.rb`, it should produce the following interaction from the command line:
 
-...which produces the following interaction from the command line when running `ruby flashcard_runner.rb`: 
+**Keep in mind** that your existing objects should already contain, more or less, the data and methods needed to manage this process. Your challenge in this iteration is to build out the input/output messaging to support the user's card experience *using your existing pieces to store and manage all the necessary data*.
 
 ```
 Welcome! You're playing with 4 cards.

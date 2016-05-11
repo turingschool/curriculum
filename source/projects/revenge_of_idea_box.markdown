@@ -107,7 +107,7 @@ As we said above, ideas should start out as "swill." In order to change the reco
 
 (20 points total.)
 
-* When a user clicks the title or idea of an idea in the list, that text should become an editable text field, pre-populated with the existing idea title or body. (8 points)
+* When a user clicks the title or body of an idea in the list, that text should become an editable text field, pre-populated with the existing idea title or body. (8 points)
 * Clicking this link should _not_ take the user to a separate "edit" page for the given
   idea. (4 points, mandatory for specification adherence)
 *  The user should be able to "commit" their changes by pressing "Enter/Return" or by clicking outside of the text field. (4 points)

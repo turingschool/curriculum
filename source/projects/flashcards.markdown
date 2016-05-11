@@ -10,29 +10,29 @@ card.answer
 => "Juneau"
 ```
 
-# Iteration 2: Checking Answers
+# Iteration 2: Checking Guesses
 
-Users will enter an answer, and we need to know if the answer is correct. Let's use TDD to create this interaction pattern:
+Users will enter an guess, and we need to know if the guess is correct. Let's use TDD to create this interaction pattern:
 
 ```ruby
 card = Card.new("What is the capital of Alaska?", "Juneau")
-answer = Answer.new("Juneau", card)
-answer.card
+guess = Guess.new("Juneau", card)
+guess.card
 => #<Card:0x007ffdf1820a90 @answer="Juneau", @question="What is the capital of Alaska?">
-answer.response
+guess.response
 => "Juneau"
-answer.correct?
+guess.correct?
 => true
 ```
 
 ```ruby
 card = Card.new("Which planet is closest to the sun?", "Mercury")
-answer = Answer.new("Saturn", card)
-answer.card
+guess = Guess.new("Saturn", card)
+guess.card
 => #<Card:0x007ffdf1820a90 @answer="Mercury", @question="Which planet is closest to the sun?">
-answer.response
+guess.response
 => "Saturn"
-answer.correct?
+guess.correct?
 => false
 ```
 
@@ -53,7 +53,7 @@ deck.count
 
 # Iteration 4: The Round
 
-A round will be the object that processes responses and records answers. Use TDD to drive out this behavior: 
+A round will be the object that processes responses and records guesses. Use TDD to drive out this behavior: 
 
 ```ruby
 card_1 = Card.new("What is the capital of Alaska?", "Juneau")
@@ -62,21 +62,21 @@ deck = Deck.new([card_1, card_2])
 round = Round.new(deck)
 round.deck
 => #<Deck:0x007ffdf181b9c8 @cards=[...]>
-round.answers
+round.guesses
 => []
-answer_1 = round.record_answer("Juneau", card_1)
-=> #<Answer:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @answer="Juneau", @question="What is the capital of Alaska?">, @response="Juneau">
-round.answers
-=> [answer_1]
-round.give_feedback(answer_1)
+guess_1 = round.record_guess("Juneau", card_1)
+=> #<Guess:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @answer="Juneau", @question="What is the capital of Alaska?">, @response="Juneau">
+round.guesses
+=> [guess_1]
+round.give_feedback(guess_1)
 => "Correct!"
 round.number_correct
 => 1
-answer_2 = round.record_answer("2", card_2)
-=> #<Answer:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @answer="93,000,000", @question="Approximately how many miles are in one astronomical unit?">, @response="2">
-round.answers
-=> [answer_1, answer_2]
-round.give_feedback(answer_2)
+guess_2 = round.record_guess("2", card_2)
+=> #<Guess:0x007ffdf19c8a00 @card=#<Card:0x007ffdf1820a90 @answer="93,000,000", @question="Approximately how many miles are in one astronomical unit?">, @response="2">
+round.guesses
+=> [guess_1, guess_2]
+round.give_feedback(guess_2)
 => "Incorrect."
 round.number_correct
 => 1
@@ -122,7 +122,7 @@ Question: What cardboard cutout lives at Turing?
 Justin Bieber
 Correct!
 ****** Game over! ******
-You had 3 correct answers out of 4 for a score of 75%.
+You had 3 correct guesses out of 4 for a score of 75%.
 ```
 
 # Iteration 5: Loading Text Files
@@ -167,8 +167,8 @@ At the end of the round, save the results to another text file. The results shou
 
 ### Extra Practice
 
-Put incorrectly answered cards back into the iteration to be asked again until the user answers correctly. 
+Put incorrectly guessed cards back into the iteration to be asked again until the user guesses correctly. 
 
 ### Hints
 
-Build in hint functionality. If a user enters "hint" when it's time to answer, the game should display a hint. In order to make this functional, you'll need to modify the text file you take in to include a hint.
+Build in hint functionality. If a user enters "hint" when it's time to guess, the game should display a hint. In order to make this functional, you'll need to modify the text file you take in to include a hint.

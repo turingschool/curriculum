@@ -127,17 +127,7 @@ Now that we have our basic database design in place, we can see that it isn't qu
 
 Hopefully our database design is looking better. Now, let's start to manipulate some of that data we're storing.
 
-We want to analyze all the payload requests for the following stats. Some methods will be built directly on the PayloadRequest model, while other methods will be built __in the most appropriate class__. For example:
-
-```ruby
-class Url  < ActiveRecord::Base
-  has_many :payload_requests
-
-  def self.most_to_least_requested
-    #implement this method :)
-  end
-end
-```
+We want to analyze all the payload requests for the following stats. Some methods will be built directly on the PayloadRequest model, while other methods will be built __in the most appropriate class__.
 
 * Average Response time for our clients app across all requests
 * Max Response time across all requests

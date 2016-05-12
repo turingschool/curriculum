@@ -298,8 +298,6 @@ When the IDENTIFIER exists and a Client goes to their endpoint they should be ab
 * OS breakdown across all requests
 * Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
 
-Keep in mind the difference between instance methods and class methods in ActiveRecord. A class method will be looking at all of the records in your database, and an instance method is already referring to a particular instance/row of data. If we know a particular instance we can easily use ActiveRecord to find any of the related objects. 
-
 When an identifier does not exist return a page that displays the following:
 
 * Message that the identifier does not exist
@@ -307,6 +305,8 @@ When an identifier does not exist return a page that displays the following:
 When an identifier does exist, but no payload data has been submitted for the source.
 
 * Message that no payload data has been received for this source
+
+__Keep in mind the difference between instance methods and class methods in ActiveRecord. A class method will be looking at all of the records in your database, and an instance method is already referring to a particular instance/row of data. If we know a particular instance we can easily use ActiveRecord to find any of the related objects.__
 
 ### Populate/Seed data
 

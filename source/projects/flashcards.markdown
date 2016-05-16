@@ -205,16 +205,16 @@ The project will be assessed with the following guidelines:
 
 ### 1. Functional Expectations
 
-* 4: Application fulfills all expectations of Iterations 1 - 5 *as well as* two extensions.
-* 3: Application fulfills expectations of Iterations 1 - 5.
-* 2: Application has some missing functionality but no crashes.
-* 1: Application crashes during normal usage.
+* 4: Application fulfills all expectations of iterations 1 - 5 with no bugs, crashes, or missing functionality *as well as* two extensions. 
+* 3: Application fulfills expectations of iterations 1 - 5 with no bugs, crashes, or missing functionality.
+* 2: Application is usable but has some missing functionality. 
+* 1: Application crashes during normal usage. 
 
 ### 2. Test-Driven Development
 
 * 4: Application is broken into components which are well tested in both isolation and integration using appropriate data. 
 * 3: Application is well tested but does not balance isolation and integration tests, using only the data necessary to test the functionality. 
-* 2: Application makes some use of tests, but the coverage is insufficient. 
+* 2: Application makes some use of tests, but the coverage is insufficient given projet requirements. 
 * 1: Application does not demonstrate strong use of TDD. 
 
 ### 3. Encapsulation / Breaking Logic into Components

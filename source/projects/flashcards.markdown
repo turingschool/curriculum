@@ -100,7 +100,7 @@ round.percent_correct
 => 50
 ```
 
-# Iteration 4: Building out the runner
+# Iteration 5: Building out the runner
 
 So far we've focused on modelling the data, classes, and methods that make up our game. However we haven't done much to put any kind of useable **interface** onto the game. In this iteration, let's remedy this by adding a simple Command-Line-Interface to the game.
 
@@ -151,7 +151,7 @@ Correct!
 You had 3 correct guesses out of 4 for a score of 75%.
 ```
 
-# Iteration 5: Loading Text Files
+# Iteration 6: Loading Text Files
 
 Right now, we're hardcoding the flashcards into our runner. Wouldn't it be nice to have a whole text file of questions and answers to use? 
 
@@ -205,8 +205,8 @@ The project will be assessed with the following guidelines:
 
 ### 1. Functional Expectations
 
-* 4: Application fulfills all expectations of iterations 1 - 5 with no bugs, crashes, or missing functionality *as well as* two extensions. 
-* 3: Application fulfills expectations of iterations 1 - 5 with no bugs, crashes, or missing functionality.
+* 4: Application fulfills all expectations of iterations 1 - 6 with no bugs, crashes, or missing functionality *as well as* two extensions. 
+* 3: Application fulfills expectations of iterations 1 - 6 with no bugs, crashes, or missing functionality.
 * 2: Application is usable but has some missing functionality. 
 * 1: Application crashes during normal usage. 
 

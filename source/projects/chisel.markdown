@@ -32,8 +32,16 @@ and is highly readable even when not converted to HTML. Here's an example:
 **Food & Wine** this place has been packed every night."
 ```
 
-A typical user writes a *markdown document*, but here your challenge is to
-write a *markdown parser*.
+Using a *markdown parser*, we could convert that example *markdown document* into the following
+chunk of HTML:
+
+```html
+<h1>My Life in Desserts</h1>
+
+<h2>Chapter 1: The Beginning</h2>
+
+<p>"You just <em>have</em> to try the cheesecake," he said. "Ever since it appeared in <strong>Food & Wine</strong> this place has been packed every night."</p>
+```
 
 ### Experimenting with Markdown
 
@@ -54,42 +62,14 @@ $ irb
 > require 'redcarpet'
 ```
 
-Many rendering engines are...over engineered. They are built to support multiple "rendering engines" with the
-idea that you might want to output things other than HTML. So with RedCarpet you need to initialize a *renderer*:
+Now we can use redcarpet from a pry session to render the snippet of markdown we looked at before:
 
 ```ruby
 renderer = Redcarpet::Render::HTML.new
-```
-
-Then we take that renderer and connect it with the Markdown engine:
-
-```ruby
 engine = Redcarpet::Markdown.new(renderer)
-```
-
-Now we finally have a `Markdown` instance stored in the `engine` variable. Now you're ready to render markdown into
-HTML:
-
-```ruby
-> engine.render("*hello* world")
- => "<p><em>hello</em> world</p>\n"
-```
-
-Why did we get that result? We called the `render` method. It's expecting to take in markdown. How does it interpret that
-input?
-
-* The string has no new lines, so it's one "block"
-* The block doesn't start with `#`, so it's a paragraph (`<p>`) not a header. The whole output will be wrapped in
-`<p>` and `</p>`
-* Part of the input, `*hello*`, is wrapped in asterisks. That's the Markdown marker for emphasis. So that fragment `hello`
-will be wrapped in `<em>` and `</em>`
-
-Let's consider a more complex example. A way, way more complex example. Parse this document:
-
-```ruby
-> document = 1 # Fetch the document over http
-> document[0..100]  # Get a sense of the content
-> engine.render(document)[0..150]  # See some of the rendered output
+markdown_source = "# My Life in Desserts\n\n## Chapter 1: The Beginning\n\n\"You just *have* to try the cheesecake,\" he said. \"Ever since it appeared in **Food & Wine** this place has been packed every night.\""
+engine.render(markdown_source)
+=> "<h1>My Life in Desserts</h1>\n\n<h2>Chapter 1: The Beginning</h2>\n\n<p>&quot;You just <em>have</em> to try the cheesecake,&quot; he said. &quot;Ever since it appeared in <strong>Food &amp; Wine</strong> this place has been packed every night.&quot;</p>\n"
 ```
 
 Can you build up a parser like that? Let's find out!

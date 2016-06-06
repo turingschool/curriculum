@@ -72,7 +72,10 @@ engine.render(markdown_source)
 => "<h1>My Life in Desserts</h1>\n\n<h2>Chapter 1: The Beginning</h2>\n\n<p>&quot;You just <em>have</em> to try the cheesecake,&quot; he said. &quot;Ever since it appeared in <strong>Food &amp; Wine</strong> this place has been packed every night.&quot;</p>\n"
 ```
 
-Can you build up a parser like that? Let's find out!
+During this project, we'll be building a simple markdown parser that performs some of the functions of Redcarpet!
+
+As you work, it will sometimes be useful to use Redcarpet to check your work by validating that your code handles a chunk
+of markdown the same way it does.
 
 ## Learning Goals / Areas of Focus
 

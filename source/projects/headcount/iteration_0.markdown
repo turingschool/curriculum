@@ -77,7 +77,7 @@ enrollment = er.find_by_name("ACADEMY 20")
 An `Enrollment` instance holds the enrollment data for a single district. We create an instance like this:
 
 ```ruby
-e = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677})
+e = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
 ```
 
 An instance of this class offers the following methods:

@@ -18,19 +18,19 @@ useful technique while working toward a solution).
 
 We'll use the traditional board layout/style. A puzzle is made up of:
 
-* a *spot* holds a single number 1-9
+* a *square* or *cell* holds a single number 1-9
 * a *board* is a 9x9 grid of spots. Boards are then subdivided into
   smaller units.
-* a *square* is a 3x3 group of spots
+* a *block* is a 3x3 group of spots
 * a *row* spans nine squares in a straight line left-to-right across the board
 * a *column* spans nine squares in a straight line top-to-bottom across the board
-* a *unit* is any collection of 9 squares grouped as either a *square*,
+* a *unit* is any collection of 9 squares grouped as either a *block*,
   *column*, or *row*.
 * the *peers* of a *spot* are all the other spots with which it shares a
-  *unit* (square, row, or column). Thus each spot has 20 peers.
+  *unit* (block, row, or column). Thus each spot has 20 peers.
 * at puzzle-start, one or more spots are blank
 
-For the puzzle to be solved, each *unit* (square, row, or column) must
+For the puzzle to be solved, each *unit* (block, row, or column) must
 contain exactly all the digits 1–9.
 
 ## Algorithmic Approach

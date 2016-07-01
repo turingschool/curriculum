@@ -1,4 +1,4 @@
-# Ruby Mini Project: Flashcards
+# Flashcards
 
 In this project, you'll write a flashcard program that is used through the command line. A user will be able to see the questions, take guesses, and see a final score at the end of the round. 
 

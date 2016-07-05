@@ -7,13 +7,8 @@ title: Rush Hour
 
 In this project you'll use Ruby, Sinatra, and ActiveRecord to build a web traffic tracking and analysis tool.
 
-Your application will receive data over HTTP from a simulation engine. The simulator will construct and transmit HTTP requests which include tracking data.
+RushHour will be an application that aggregates and analyzes visitor data from another website. A RushHour customer/client will embed JavaScript in their website that will gather and send their visitor data to our site. It is important to note that we will not be creating this JavaScript. Instead we will simulate the process of gathering and receiving data, which we will call a payload. Our job is to build the application that can accept the submission of these payloads, analyze the data submitted, and display it through a HTML interface.
 
-Imagine that I run a commercial website and embed JavaScript code which gets activated each time a page is viewed on my site. That JavaScript captures information about the visitor and the page they're viewing then, in the background, submits that data to __*your*__ RushHour application.
-
-Your application parses and stores that data.
-
-Later, I visit your site and can view data about my website traffic through a HTML interface you built.
 
 ## Learning Goals
 

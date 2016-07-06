@@ -12,7 +12,7 @@ RushHour will be an application that aggregates and analyzes visitor data from a
 We will use pre built payloads to simulate the gathered data from a customer/client's website. They will look like this:
 
 ```
-payload = {
+payload = '{
   "url":"http://jumpstartlab.com/blog",
   "requestedAt":"2013-02-16 21:38:28 -0700",
   "respondedIn":37,
@@ -22,7 +22,7 @@ payload = {
   "resolutionWidth":"1920",
   "resolutionHeight":"1280",
   "ip":"63.29.38.211"
-}
+}'
 ```
 
 The payloads are in a hash-like format called JSON. You will need to learn how to interact with JSON in ruby. Find the Ruby JSON docs [here](http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html).

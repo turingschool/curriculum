@@ -92,7 +92,7 @@ To store data with ActiveRecord/Postgresql we need to create migrations and a mo
 Our payload looks like this:
 
 ```
-payload = {
+payload = '{
   "url":"http://jumpstartlab.com/blog",
   "requestedAt":"2013-02-16 21:38:28 -0700",
   "respondedIn":37,
@@ -102,7 +102,7 @@ payload = {
   "resolutionWidth":"1920",
   "resolutionHeight":"1280",
   "ip":"63.29.38.211"
-}
+}'
 ```
 
 * Create a migration that creates a ```PayloadRequest``` table that has a column for each of the attributes.

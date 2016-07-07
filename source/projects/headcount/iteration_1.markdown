@@ -17,7 +17,7 @@ district = dr.find_by_name("ACADEMY 20")
 And when a `DistrictRepository` is created in this way then it *automatically* creates the `EnrollmentRepository` as described previously and allows us to access the enrollment data for a district like this:
 
 ```ruby
-district.enrollment.kindergarten_participation_in_year(2010) # => 0.391
+district.enrollment.kindergarten_participation_in_year(2010) # => 0.436
 ```
 
 ## Starting the Analysis Layer: Kindergarten Analysis
@@ -53,17 +53,17 @@ Where `0.766` is the result of the district average divided by state average. (i
 Let's next compare this variance against another district:
 
 ```ruby
-ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'YUMA SCHOOL DISTRICT 1') # => 1.234
+ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'YUMA SCHOOL DISTRICT 1') # => 0.447
 ```
 
-Where `1.234` is the result of the district average divided by 'against' district's average. (i.e. find the district's average participation across all years and didvide it by the average of the 'against' district's participation data across all years.) A value less than 1 implies that the district performs lower than the against district's average, and a value greater than 1 implies that the district performs better than the against district's average.
+Where `0.447` is the result of the district average divided by 'against' district's average. (i.e. find the district's average participation across all years and didvide it by the average of the 'against' district's participation data across all years.) A value less than 1 implies that the district performs lower than the against district's average, and a value greater than 1 implies that the district performs better than the against district's average.
 
 ### How does a district's kindergarten participation rate trend against the the state average?
 
 Then, how are the numbers changing each year?
 
 ```ruby
-ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO') # => {2009 => 0.652, 2010 => 0.681, 2011 => 0.728 }
+ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO') # => {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661 }
 ```
 
 With the similar calculation as above now broken down by year.

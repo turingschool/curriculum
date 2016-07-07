@@ -1,5 +1,5 @@
 ---
-layout: page
+layout:
 title: Rush Hour
 ---
 
@@ -7,13 +7,28 @@ title: Rush Hour
 
 In this project you'll use Ruby, Sinatra, and ActiveRecord to build a web traffic tracking and analysis tool.
 
-Your application will receive data over HTTP from a simulation engine. The simulator will construct and transmit HTTP requests which include tracking data.
+RushHour will be an application that aggregates and analyzes visitor data from another website. A RushHour customer/client will embed JavaScript in their website that will gather and send their visitor data to our site. It is important to note that we will not be creating this JavaScript. Instead we will simulate the process of gathering and receiving data, which we will call a payload. Our job is to build the application that can accept the submission of these payloads, analyze the data submitted, and display it through a HTML interface.
 
-Imagine that I run a commercial website and embed JavaScript code which gets activated each time a page is viewed on my site. That JavaScript captures information about the visitor and the page they're viewing then, in the background, submits that data to __*your*__ RushHour application.
+We will use pre built payloads to simulate the gathered data from a customer/client's website. They will look like this:
 
-Your application parses and stores that data.
+```
+payload = '{
+  "url":"http://jumpstartlab.com/blog",
+  "requestedAt":"2013-02-16 21:38:28 -0700",
+  "respondedIn":37,
+  "referredBy":"http://jumpstartlab.com",
+  "requestType":"GET",
+  "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
+  "resolutionWidth":"1920",
+  "resolutionHeight":"1280",
+  "ip":"63.29.38.211"
+}'
+```
 
-Later, I visit your site and can view data about my website traffic through a HTML interface you built.
+The payloads are in a hash-like format called JSON. You will need to learn how to interact with JSON in ruby. Find the Ruby JSON docs [here](http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html).
+
+RushHour will simulate sending these requests using a cURL command. This is a command we can run in our terminal that sends an HTTP request. You can checkout the details of the cURL command by running `curl --manual` in your terminal.
+
 
 ## Learning Goals
 
@@ -31,6 +46,7 @@ Later, I visit your site and can view data about my website traffic through a HT
 
 1. One team member forks the skeleton repository at [https://github.com/turingschool-examples/rush-hour-skeleton](https://github.com/turingschool-examples/rush-hour-skeleton)
 2. Add the other team members as collaborators
+3. Add instructors as collaborators
 
 ### Requirements
 
@@ -43,12 +59,10 @@ The project must use:
 You'll want to set up the [DatabaseCleaner](https://github.com/DatabaseCleaner/database_cleaner) gem in order to have a clean database each time you run tests. Follow the instructions for setting up the gem. Due to a bug in the most recent version of the gem, you'll need to use this line when you set the strategy in your test helper file:
 
 ```ruby
-  DatabaseCleaner.strategy = :truncation, {except: %w[public.schema_migrations]}
+  DatabaseCleaner.strategy = :truncation
 ```
 
-Want to read more about the bug? Click [here](https://github.com/DatabaseCleaner/database_cleaner/issues/317).
-
-You will also probably want to set up a [rake task to run your tests](http://ruby-doc.org/stdlib-2.0/libdoc/rake/rdoc/Rake/TestTask.html).
+__You will also probably want to set up a [rake task to run your tests](http://ruby-doc.org/stdlib-2.0/libdoc/rake/rdoc/Rake/TestTask.html).__
 
 See the "Resources" section at the bottom of this page for additional helpful documentation.
 
@@ -78,19 +92,17 @@ To store data with ActiveRecord/Postgresql we need to create migrations and a mo
 Our payload looks like this:
 
 ```
-payload = {
+payload = '{
   "url":"http://jumpstartlab.com/blog",
   "requestedAt":"2013-02-16 21:38:28 -0700",
   "respondedIn":37,
   "referredBy":"http://jumpstartlab.com",
   "requestType":"GET",
-  "parameters":[],
-  "eventName": "socialLogin",
   "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
   "resolutionWidth":"1920",
   "resolutionHeight":"1280",
   "ip":"63.29.38.211"
-}
+}'
 ```
 
 * Create a migration that creates a ```PayloadRequest``` table that has a column for each of the attributes.
@@ -148,7 +160,6 @@ end
 * Web browser breakdown across all requests(userAgent)
 * OS breakdown across all requests(userAgent)
 * Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
-* Events listed from most received to least.
 
 Our client also finds it valuable to have stats on specific URLs. For a specific URL, let's find the following Stats:
 
@@ -260,7 +271,7 @@ Everything sent over HTTP by nature is a string. That makes JSON structure perfe
 Here is an example of sending a payload to our application:
 
 ```
-curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","parameters":[],"eventName":"socialLogin","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
+curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
 ```
 
 Find the Ruby JSON docs [here](http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html).
@@ -305,6 +316,8 @@ When an identifier does not exist return a page that displays the following:
 When an identifier does exist, but no payload data has been submitted for the source.
 
 * Message that no payload data has been received for this source
+
+__Keep in mind the difference between instance methods and class methods in ActiveRecord. A class method will be looking at all of the records in your database, and an instance method is already referring to a particular instance/row of data. If we know a particular instance we can easily use ActiveRecord to find any of the related objects.__
 
 ### Populate/Seed data
 

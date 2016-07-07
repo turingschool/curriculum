@@ -32,8 +32,16 @@ and is highly readable even when not converted to HTML. Here's an example:
 **Food & Wine** this place has been packed every night."
 ```
 
-A typical user writes a *markdown document*, but here your challenge is to
-write a *markdown parser*.
+Using a *markdown parser*, we could convert that example *markdown document* into the following
+chunk of HTML:
+
+```html
+<h1>My Life in Desserts</h1>
+
+<h2>Chapter 1: The Beginning</h2>
+
+<p>"You just <em>have</em> to try the cheesecake," he said. "Ever since it appeared in <strong>Food & Wine</strong> this place has been packed every night."</p>
+```
 
 ### Experimenting with Markdown
 
@@ -54,45 +62,20 @@ $ irb
 > require 'redcarpet'
 ```
 
-Many rendering engines are...over engineered. They are built to support multiple "rendering engines" with the
-idea that you might want to output things other than HTML. So with RedCarpet you need to initialize a *renderer*:
+Now we can use redcarpet from a pry session to render the snippet of markdown we looked at before:
 
 ```ruby
 renderer = Redcarpet::Render::HTML.new
-```
-
-Then we take that renderer and connect it with the Markdown engine:
-
-```ruby
 engine = Redcarpet::Markdown.new(renderer)
+markdown_source = "# My Life in Desserts\n\n## Chapter 1: The Beginning\n\n\"You just *have* to try the cheesecake,\" he said. \"Ever since it appeared in **Food & Wine** this place has been packed every night.\""
+engine.render(markdown_source)
+=> "<h1>My Life in Desserts</h1>\n\n<h2>Chapter 1: The Beginning</h2>\n\n<p>&quot;You just <em>have</em> to try the cheesecake,&quot; he said. &quot;Ever since it appeared in <strong>Food &amp; Wine</strong> this place has been packed every night.&quot;</p>\n"
 ```
 
-Now we finally have a `Markdown` instance stored in the `engine` variable. Now you're ready to render markdown into
-HTML:
+During this project, we'll be building a simple markdown parser that performs some of the functions of Redcarpet!
 
-```ruby
-> engine.render("*hello* world")
- => "<p><em>hello</em> world</p>\n"
-```
-
-Why did we get that result? We called the `render` method. It's expecting to take in markdown. How does it interpret that
-input?
-
-* The string has no new lines, so it's one "block"
-* The block doesn't start with `#`, so it's a paragraph (`<p>`) not a header. The whole output will be wrapped in
-`<p>` and `</p>`
-* Part of the input, `*hello*`, is wrapped in asterisks. That's the Markdown marker for emphasis. So that fragment `hello`
-will be wrapped in `<em>` and `</em>`
-
-Let's consider a more complex example. A way, way more complex example. Parse this document:
-
-```ruby
-> document = 1 # Fetch the document over http
-> document[0..100]  # Get a sense of the content
-> engine.render(document)[0..150]  # See some of the rendered output
-```
-
-Can you build up a parser like that? Let's find out!
+As you work, it will sometimes be useful to use Redcarpet to check your work by validating that your code handles a chunk
+of markdown the same way it does.
 
 ## Learning Goals / Areas of Focus
 
@@ -155,18 +138,99 @@ levels should be completed in order to earn full marks.
 A chunk of text is defined as one or more lines of content which does not
 contain any blank lines. For example, this is one chunk of text:
 
+##### Paragraphs
+
+By default, a free-standing line of text in a markdown document will go into a `<p>` tag.
+For example, this text:
+
+```markdown
+This is the first line of the paragraph.
+```
+
+Would be rendered as:
+
+```html
+<p>This is the first line of the paragraph.</p>
+```
+
+Additionally, lines separated by a **single line break** remain part of the same paragraph.
+For example this markdown:
+
 ```markdown
 This is the first line of the paragraph.
 This is the second line of the same paragraph.
 ```
 
-While these are two chunks of text:
+Becomes:
+
+```html
+<p>This is the first line of the paragraph. This is the second line of the same paragraph.</p>
+```
+
+If we want to create multiple paragraphs, we need to insert 2 line breaks to separate the lines:
 
 ```markdown
 This is the first line of the first paragraph.
 
 This is the first line of the second paragraph.
 ```
+
+Becomes:
+
+```html
+<p>This is the first line of the first paragraph.</p>
+<p>This is the first line of the second paragraph.</p>
+```
+
+##### Headers
+
+The other basic text entity we'll support is the **header**. Headers are used in documents to indicate
+a headline in large text. HTML supports different levels of header tags: `<h1>`, `<h2>`, `<h3>`, etc.
+
+In markdown, we create a header with some number of `#` signs (corresponding to the header level) followed
+by the text for the header.
+
+For example:
+
+```markdown
+## Here's an H2
+```
+
+Becomes
+
+```html
+<h2>Here's an H2</h2>
+```
+
+Note that unlike paragraphs, markdown headers only contain one line. So this:
+
+```
+# Header
+followed by text
+```
+
+Becomes:
+
+```html
+<h1>Header</h1>
+<p>followed by text</p>
+```
+
+And:
+
+```
+## Header 1
+## Header 2
+```
+
+Becomes:
+
+```html
+<h2>Header 1</h2>
+<h2>Header 2</h2>
+```
+
+##### Requirements
 
 Build up your Chisel so it supports:
 

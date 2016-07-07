@@ -1,6 +1,6 @@
 # ParaMorse
 
-      Morse code is a method of transmitting text information as a series of on-off tones, lights, or clicks that can be directly understood by a skilled listener or observer without special equipment.
+> Morse code is a method of transmitting text information as a series of on-off tones, lights, or clicks that can be directly understood by a skilled listener or observer without special equipment.
 
 Let's build a system to generate Morse code from plain text and decode Morse to
 plain text.
@@ -31,12 +31,12 @@ decoder.decode("11101100101010101010100010101010")
 
 Before you begin, understand the following:
 
-### What is Morse?
+### What is Morse Code?
 
 First, you should read the at least the opening section of the [Morse Code page
 on wikipedia](https://en.wikipedia.org/wiki/Morse_code).
 
-Note that the [graphic outlining Morse codes](https://en.wikipedia.org/wiki/Morse_code#/media/File:International_Morse_Code.svg) should be your official reference.
+Note that the [graphic defining Morse codes](https://en.wikipedia.org/wiki/Morse_code#/media/File:International_Morse_Code.svg) should be your official reference.
 
 ### Dots, Dashes, and Timing
 
@@ -92,7 +92,27 @@ decoder.decode("11101100101010101010100010101010")
 
 ### Iteration 4: Multiple Words
 
-### Iteration 5: Stacks & Streaming
+### Iteration 5: Streaming & Stacks
+
+```ruby
+stream = ParaMorse::StreamDecoder.new
+stream.receive("1")
+stream.receive("0")
+stream.receive("1")
+stream.receive("0")
+stream.receive("1")
+stream.receive("0")
+stream.receive("1")
+stream.receive("0")
+stream.receive("0")
+stream.receive("0")
+stream.receive("1")
+stream.receive("0")
+stream.receive("1")
+stream.receive("0")
+stream.decode
+# => "hi"
+```
 
 ### Iteration 6: Parallelization
 

@@ -21,9 +21,9 @@ When your project is complete it will perform the following:
 ```ruby
 encoder = ParaMorse::Encoder.new
 encoder.encode("This is my message")
-# => 11101100101010101010100010101010 (to be filled in later)
+# => 111011000101010101010100010101010 (to be filled in later)
 decoder = ParaMorse::Decoder.new
-decoder.decode("11101100101010101010100010101010")
+decoder.decode("111011000101010101010100010101010")
 # => "This is my message"
 # More expectations to be added
 ```

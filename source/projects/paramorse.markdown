@@ -25,6 +25,7 @@ encoder.encode("This is my message")
 decoder = ParaMorse::Decoder.new
 decoder.decode("11101100101010101010100010101010")
 # => "This is my message"
+# More expectations to be added
 ```
 
 ## Background Understandings
@@ -51,6 +52,39 @@ For our representation of Morse:
 
 ## Building in Iterations
 
+### Iteration 0: Queues
+
+Your implementation should use a "First-In-First-Out Queue".
+
+* Read [this article about Queues](https://en.wikipedia.org/wiki/Queue_(abstract_data_type))
+* Implement a queue that fulfills the following
+
+```ruby
+q = ParaMorse::Queue.new
+q.push('1')
+q.push('0')
+q.push('0')
+q.push('1')
+q.push('1')
+q.count
+# => 5
+q.peek
+# => 1
+q.peek(3)
+# => ['1', '0', '0']
+q.count
+# => 5
+q.pop
+# => '1'
+q.pop(3)
+# => ['0', '0', '1']
+q.count
+# => 1
+q.clear
+q.count
+# => 0
+```
+
 ### Iteration 1: Encoding Plain Letters
 
 Build a small "machine" capable of turning a letter into a series of dots and
@@ -66,7 +100,7 @@ letter_encoder.encode("q")
 
 ### Iteration 2: Decoding a Known Letter
 
-Before we start encoding big message we'd better prove that we can decode letters
+Before we start encoding big messages we'd better prove that we can decode single letters
 correctly.
 
 ```ruby
@@ -84,15 +118,17 @@ Now start to stitch it together to work with words:
 ```ruby
 encoder = ParaMorse::Encoder.new
 encoder.encode("Word")
-# => 11101100101010101010100010101010 (to be filled in later)
+# => "1011101110001110111011100010111010001110101"
 decoder = ParaMorse::Decoder.new
-decoder.decode("11101100101010101010100010101010")
-# => "Word"
+decoder.decode("1011101110001110111011100010111010001110101")
+# => "word"
 ```
 
 ### Iteration 4: Multiple Words
 
-### Iteration 5: Streaming & Stacks
+### Iteration 5: Streaming
+
+Messages aren't going to come in all at once. Let's build support for streaming the message in:
 
 ```ruby
 stream = ParaMorse::StreamDecoder.new
@@ -116,4 +152,16 @@ stream.decode
 
 ### Iteration 6: Parallelization
 
+Let's put the "Para" in "ParaMorse" by implementing parallel encoding and decoding.
+
+```ruby
+
+```
+
 ### Iteration 7: External Streaming
+
+Let's hook into a broadcast stream and decode data in real-time.
+
+```ruby
+
+```

@@ -1,10 +1,10 @@
 # Flashcards
 
-In this project, you'll write a flashcard program that is used through the command line. A user will be able to see the questions, take guesses, and see a final score at the end of the round. 
+In this project, you'll write a flashcard program that is used through the command line. A user will be able to see the questions, take guesses, and see a final score at the end of the round.
 
-In order to build good habits, we've broken the project up into small classes to demonstrate objects that have a single responsibility. As you work through each iteration, use TDD to drive out the desired behavior. 
+In order to build good habits, we've broken the project up into small classes to demonstrate objects that have a single responsibility. As you work through each iteration, use TDD to drive out the desired behavior.
 
-The rubric for this project is included at the bottom of this file. 
+The rubric for this project is included at the bottom of this file.
 
 # Iteration 1: Card Basics
 
@@ -65,7 +65,7 @@ deck.count
 
 # Iteration 4: The Round
 
-A round will be the object that processes responses and records guesses. Use TDD to drive out this behavior: 
+A round will be the object that processes responses and records guesses. Use TDD to drive out this behavior:
 
 ```ruby
 card_1 = Card.new("What is the capital of Alaska?", "Juneau")
@@ -153,9 +153,9 @@ You had 3 correct guesses out of 4 for a score of 75%.
 
 # Iteration 6: Loading Text Files
 
-Right now, we're hardcoding the flashcards into our runner. Wouldn't it be nice to have a whole text file of questions and answers to use? 
+Right now, we're hardcoding the flashcards into our runner. Wouldn't it be nice to have a whole text file of questions and answers to use?
 
-Let's build an object that will read in a text file and generate cards. Go back to using TDD for this iteration. 
+Let's build an object that will read in a text file and generate cards. Go back to using TDD for this iteration.
 
 Assuming we have a text file `cards.txt` that looks like this:
 
@@ -166,7 +166,7 @@ What is Mike's middle name?,nobody knows
 What cardboard cutout lives at Turing?,Justin bieber
 ```
 
-Then we should be able to do this: 
+Then we should be able to do this:
 
 ```ruby
 filename = "cards.txt"
@@ -177,7 +177,7 @@ cards = CardGenerator.new(filename).cards
  #<Card:0x007f9f14137da0 @answer="Justin bieber", @question="What cardboard cutout lives at Turing?">]
 ```
 
-Modify your program so that when you run `ruby flashcard_runner.rb`, it uses cards from `cards.txt` instead of hardcoded cards. 
+Modify your program so that when you run `ruby flashcard_runner.rb`, it uses cards from `cards.txt` instead of hardcoded cards.
 
 # Extensions
 
@@ -185,7 +185,7 @@ Modify your program so that when you run `ruby flashcard_runner.rb`, it uses car
 
 Prompt the user to enter a filename for the cards to use. Check whether or not the text file exists. If it does not, prompt the user to enter a new filename.
 
-Additionally, allow the user to enter a filename as a command line argument (ie `$ ruby flashcards.rb cards.txt`). Again, if the file does not exist, return a message and prompt for a new filename. 
+Additionally, allow the user to enter a filename as a command line argument (ie `$ ruby flashcards.rb cards.txt`). Again, if the file does not exist, return a message and prompt for a new filename.
 
 ### Saving Results
 
@@ -193,7 +193,7 @@ At the end of the round, save the results to another text file. The results shou
 
 ### Extra Practice
 
-Put incorrectly guessed cards back into the iteration to be asked again until the user guesses correctly. 
+Put incorrectly guessed cards back into the iteration to be asked again until the user guesses correctly.
 
 ### Hints
 
@@ -205,22 +205,35 @@ The project will be assessed with the following guidelines:
 
 ### 1. Functional Expectations
 
-* 2: Application is usable but has some missing functionality. 
+* 4: Application fulfills all expectations of iterations 1 - 6 with no bugs, crashes, or missing functionality *as well as* two extensions.
+* 3: Application fulfills expectations of iterations 1 - 6 with no bugs, crashes, or missing functionality.
+* 2: Application is usable but has some missing functionality.
+* 1: Application crashes during normal usage.
 
 ### 2. Test-Driven Development
 
-- 13 Assertions
-
-* 3: Application is well tested but does not balance isolation and integration tests, using only the data necessary to test the functionality. 
+* 4: Application is broken into components which are well tested in both isolation and integration using appropriate data.
+* 3: Application is well tested but does not balance isolation and integration tests, using only the data necessary to test the functionality.
+* 2: Application makes some use of tests, but the coverage is insufficient given projet requirements.
+* 1: Application does not demonstrate strong use of TDD.
 
 ### 3. Encapsulation / Breaking Logic into Components
 
-* 3: Application effectively breaks logical components apart but breaks the principle of SRP. 
+* 4: Application is expertly divided into logical components each with a clear, single responsibility. 
+* 3: Application effectively breaks logical components apart but breaks the principle of SRP.
+* 2: Application shows some effort to break logic into components, but the divisions are inconsistent or unclear.
+* 1: Application logic shows poor decomposition with too much logic mashed together.
 
 ### 4. Fundamental Ruby & Style
 
-* 3:  Application shows strong effort towards organization, content, and refactoring. 
+* 4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring.
+* 3:  Application shows strong effort towards organization, content, and refactoring.
+* 2:  Application runs but the code has long methods, unnecessary or poorly named variables, and needs significant refactoring.
+* 1:  Application generates syntax error or crashes during execution.
 
 ### 5. Enumerable & Collections
 
 * 4: Application consistently makes use of the best-choice Enumerable methods
+* 3: Application demonstrates comfortable use of appropriate Enumerable methods
+* 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
+* 1: Application demonstrates deficiencies with Enumerable and struggles with collections

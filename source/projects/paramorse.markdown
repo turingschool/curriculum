@@ -21,9 +21,9 @@ When your project is complete it will perform the following:
 ```ruby
 encoder = ParaMorse::Encoder.new
 encoder.encode("This is my message")
-# => 11101100101010101010100010101010 (to be filled in later)
+# => 111011000101010101010100010101010 (to be filled in later)
 decoder = ParaMorse::Decoder.new
-decoder.decode("11101100101010101010100010101010")
+decoder.decode("111011000101010101010100010101010")
 # => "This is my message"
 # More expectations to be added
 ```
@@ -48,7 +48,7 @@ For our representation of Morse:
 * a "dot" is represented by `10` (one moment of signal, one of silence)
 * a "dash" is represented by `1110` (three moments of signal, one of silence)
 * a letter is separated from the next letter by `000`
-* words are separated by a space equal to seven dots `0000000`
+* words are separated by a space equal to six dots `000000`
 
 ## Building in Iterations
 
@@ -68,6 +68,10 @@ q.push('1')
 q.push('1')
 q.count
 # => 5
+q.tail
+# => 1
+q.tail(3)
+# => ['1', '1', '0']
 q.peek
 # => '1'
 q.peek_multiple(3)

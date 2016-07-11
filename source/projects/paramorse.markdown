@@ -1,7 +1,7 @@
 # ParaMorse
 
 > Morse code is a method of transmitting text information as a series of on-off tones, lights, or clicks that can be directly understood by a skilled listener or observer without special equipment.
-
+s
 Let's build a system to generate Morse code from plain text and decode Morse to
 plain text.
 
@@ -48,7 +48,7 @@ For our representation of Morse:
 * a "dot" is represented by `10` (one moment of signal, one of silence)
 * a "dash" is represented by `1110` (three moments of signal, one of silence)
 * a letter is separated from the next letter by `000`
-* words are separated by a space equal to six dots `000000`
+* words are separated by a space equal to seven dots `0000000`
 
 ## Building in Iterations
 

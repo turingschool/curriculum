@@ -69,14 +69,14 @@ q.push('1')
 q.count
 # => 5
 q.peek
-# => 1
-q.peek(3)
+# => '1'
+q.peek_multiple(3)
 # => ['1', '0', '0']
 q.count
 # => 5
 q.pop
 # => '1'
-q.pop(3)
+q.pop_multiple(3)
 # => ['0', '0', '1']
 q.count
 # => 1

@@ -130,6 +130,17 @@ decoder.decode("1011101110001110111011100010111010001110101")
 
 ### Iteration 4: Multiple Words
 
+Then take what is probably a small step: encode and decode whole words.
+
+```ruby
+encoder = ParaMorse::Encoder.new
+encoder.encode("what light through yonder window breaks")
+# => some binary digits (PR me)
+decoder = ParaMorse::Decoder.new
+decoder.decode(some binary digits (PR me))
+# => "what light through yonder window breaks"
+```
+
 ### Iteration 5: Streaming
 
 Messages aren't going to come in all at once. Let's build support for streaming the message in:
@@ -154,7 +165,22 @@ stream.decode
 # => "hi"
 ```
 
-### Iteration 6: Parallelization
+### Iteration 6: File I/O
+
+We're going to start working with some big chunks of text. Let's add the capability to read and write files:
+
+```ruby
+file_enc = ParaMorse::FileEncoder.new
+file_enc.encode("plain.txt", "encoded.txt")
+# => (output the length of the written file)
+# open the 'encoded.txt' file and verify that it's in morse
+file_dec = ParaMorse::FileDecoder.new
+file_dec.decode("encoded.txt", "plain_output.txt")
+# => (output the length of the written file)
+# open the "plain_output.txt" file and verify that it's in morse
+```
+
+### Iteration 7: Parallelization
 
 Let's put the "Para" in "ParaMorse" by implementing parallel encoding and decoding.
 
@@ -162,7 +188,7 @@ Let's put the "Para" in "ParaMorse" by implementing parallel encoding and decodi
 
 ```
 
-### Iteration 7: External Streaming
+### Iteration 8: External Streaming
 
 Let's hook into a broadcast stream and decode data in real-time.
 

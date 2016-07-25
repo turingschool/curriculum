@@ -276,3 +276,10 @@ The project will be assessed with the following rubric:
 * 3: Application effectively breaks logical components apart with clear intent and usage
 * 2: Application shows some effort to break logic into components, but the divisions are inconsistent or unclear
 * 1: Application logic shows poor decomposition with too much logic mashed together
+
+### 6. Functional Expectations
+
+* 4: Application meets all requirements, and implements one extension properly.
+* 3: Application meets all requirements as laid out per the specification.
+* 2: Application runs, but does not work properly, or does not meet specifications.
+* 1: Application does not run, crashes on start.

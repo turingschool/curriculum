@@ -19,7 +19,7 @@ instances. It offers the following methods:
 The data can be found in `data/invoice_items.csv` so the instance is created and used like this:
 
 ```ruby
-ir = InvoiceItemRepository.new
+ir = InvoiceItemRepository
 ir.from_csv("./data/invoice_items.csv")
 invoice = ir.find_by_id(6)
 # => <invoice_item>
@@ -71,7 +71,7 @@ instances. It offers the following methods:
 The data can be found in `data/transactions.csv` so the instance is created and used like this:
 
 ```ruby
-tr = TransactionRepository.new
+tr = TransactionRepository
 tr.from_csv("./data/transactions.csv")
 transaction = tr.find_by_id(6)
 # => <transaction>
@@ -118,7 +118,7 @@ instances. It offers the following methods:
 The data can be found in `data/customers.csv` so the instance is created and used like this:
 
 ```ruby
-cr = CustomerRepository.new
+cr = CustomerRepository
 cr.from_csv("./data/customers.csv")
 customer = cr.find_by_id(6)
 # => <customer>

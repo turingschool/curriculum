@@ -46,12 +46,12 @@ sa = SalesAnalyst.new
 sa.one_time_buyers #=> [customer, customer, customer]
 ```
 
-Find which item most `one_time_buyers` bought:
+Find the item (or items if there are multiple) that was purchased most frequently by `one_time_buyers`:
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.one_time_buyers_item #=> [item]
+sa.one_time_buyers_items #=> [item]
 ```
 
 Find which items a given customer bought in given year (by the `created_at` on the related invoice):

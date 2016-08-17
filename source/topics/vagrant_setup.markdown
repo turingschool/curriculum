@@ -42,7 +42,7 @@ The easiest way to get going is to use an Ubuntu image preconfigured and vetted 
 Then, from that directory:
 
 {% terminal %}
-$ vagrant init hashicorp/precise32
+$ vagrant init ubuntu/trusty64
 {% endterminal %}
 
 That'll generate a `Vagrantfile`. Before starting the virtual machine, we want to setup a bridged port so we can later access a web server running in Vagrant from our host operating system.
@@ -133,7 +133,7 @@ Once installed, we need to create the database instance. Within the SSH session:
 $ sudo mkdir -p /usr/local/pgsql/data
 $ sudo chown postgres:postgres /usr/local/pgsql/data
 $ sudo su postgres
-$ /usr/lib/postgresql/9.1/bin/initdb -D /usr/local/pgsql/data
+$ /usr/lib/postgresql/9.3/bin/initdb -D /usr/local/pgsql/data
 $ createuser vagrant
 {% endterminal %}
 
@@ -147,6 +147,7 @@ Now you're back to your Vagrant user session.
 
 #### Add privilege for Vagrant to create database.
 
+{% terminal %}
 vagrant@vagrant-ubuntu-trusty-64:~$ psql  postgres
 psql (9.3.5)
 Type "help" for help.
@@ -154,6 +155,7 @@ Type "help" for help.
 postgres=> ALTER ROLE vagrant  CREATEDB;
 postgres-> \q
 vagrant@vagrant-ubuntu-trusty-64:~$
+{% endterminal %}
 
 #### Verifying Install and Permissions
 
@@ -307,7 +309,7 @@ Maximum connections set to 1024
 Listening on 0.0.0.0:3000, CTRL+C to stop
 {% endterminal %}
 
-Then, in your host operating system, open http://localhost:3000 in a browser. You should see the *Welcome abord* page -- you're done!
+Then, in your host operating system, open http://localhost:3000 in a browser. You should see the *Welcome aboard* page -- you're done!
 
 ## Cloning
 

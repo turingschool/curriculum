@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Suggested for You
+title: Date Night
 ---
 
 ## Overview

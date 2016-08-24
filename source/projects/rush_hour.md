@@ -304,7 +304,7 @@ When the IDENTIFIER exists and a Client goes to their endpoint they should be ab
 * Min Response time across all requests
 * Most frequent request type
 * List of all HTTP verbs used
-* List of URLs listed form most requested to least requested
+* List of URLs listed from most requested to least requested
 * Web browser breakdown across all requests
 * OS breakdown across all requests
 * Screen Resolutions across all requests (resolutionWidth x resolutionHeight)

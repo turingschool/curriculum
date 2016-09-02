@@ -18,7 +18,12 @@ and [MicroBlogger]({% page_url microblogger %}) to focus on fundamental Ruby sty
 
 ### Abstract
 
-Let's take [EventManager]({% page_url /projects/eventmanager %}) to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. Re-use data cleaning procedures from the original `EventManager` to handle dirty input and generate beautiful output.
+Let's take [EventManager]({% page_url /projects/eventmanager %}) to the next
+level. Based on the same data file, build an interactive query and reporting
+tool which fulfills the expectations below. Re-use data cleaning procedures
+from the original `EventManager` to handle dirty input and generate beautiful
+output. We are also going to explore creating our own HTML files and
+using an API.
 
 ### Data Supplied
 
@@ -61,12 +66,18 @@ Output how many records are in the current queue
 
 Empty the queue
 
+#### `queue district`
+
+If there are less than 10 entries in the queue, this command will use
+the Sunlight API to get Congressional District information for each entry.
+
+
 #### `queue print`
 
 Print out a tab-delimited data table with a header row following this format:
 
 ```
-  LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS  PHONE
+  LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS  PHONE  DISTRICT
 ```
 
 #### `queue print by <attribute>`
@@ -75,7 +86,14 @@ Print the data table sorted by the specified `attribute` like `zipcode`.
 
 #### `queue save to <filename.csv>`
 
-Export the current queue to the specified filename as a CSV. The file should should include data and headers for last name, first name, email, zipcode, city, state, address, and phone number.
+Export the current queue to the specified filename as a CSV. The file should
+should include data and headers for last name, first name, email, zipcode, city,
+state, address, and phone number.
+
+#### `queue export html <filename.csv>`
+
+Export the current queue to the specified filename as a valid HTML file. The
+file should use tables and include the data for all of the expected information.
 
 #### `find <attribute> <criteria>`
 
@@ -130,6 +148,8 @@ Your program must handle the following scenarios correctly:
 7. `queue print by last_name` should print them alphabetically by last name
 8. `queue save to state_sample.csv`
 9. Open the CSV and inspect that it has the headers, the data from step 7, but not the data previously found in step 2.
+10. `queue clear`
+11. Repeat steps 2 through 8, except with HTML.
 
 #### D. Reading Your Data
 
@@ -315,7 +335,7 @@ The project will be assessed with the following rubric:
 
 ### 1. Functional Expectations
 
-* 4: Application fulfills all base expectations and two extensions
+* 4: Application fulfills all base expectations and two extensions, or a custom extension to be approved by an instructor.
 * 3: Application fulfills all base expectations
 * 2: Application has some missing functionality but no crashes
 * 1: Application crashes during normal usage

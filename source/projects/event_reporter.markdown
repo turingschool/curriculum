@@ -4,7 +4,7 @@ title: EventReporter
 ---
 
 This project builds on the lessons learned in [EventManager]({% page_url /projects/eventmanager %})
-and [MicroBlogger]({% page_url microblogger %}) to focus on fundamental Ruby style/concepts.
+to focus on fundamental Ruby style/concepts.
 
 ## Project Overview
 

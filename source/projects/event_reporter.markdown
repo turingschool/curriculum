@@ -374,3 +374,10 @@ The project will be assessed with the following rubric:
 * 3: Application demonstrates comfortable use of several Enumerable techniques
 * 2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques
 * 1: Application demonstrates deficiencies with Enumerable and struggles with collections
+
+### 7. HTML and Style
+
+* 4: Usses CSS and is aesthetically pleasing, using of images, colors and metadata.
+* 3: HTML is valid and has all correct data.
+* 2: HTML structure is in place with some bugs.
+* 1: Does not print valid HTML.

@@ -1,5 +1,5 @@
 source "http://rubygems.org"
-ruby '2.0.0'
+ruby "2.0.0"
 
 gem 'redcarpet', '1.17.2'
 gem 'nokogiri'

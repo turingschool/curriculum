@@ -31,16 +31,6 @@ On your class blog, write an article that explores one or more of the following 
 * What did you learn from "Street Signs & Breadcrumbs" (Chapter 6)?
 * How did/will lessons from the book influence your current project?
 
-### Group Session
-
-Split up into groups...
-
-* Geoffrey Schorkopf, Kareem Grant, Jennifer Eliuk, Paul Blackwell
-* Raphael Weiner, Shane Rogers, Christopher Knight, Daniel Mee
-* Jorge Tellez, Logan Sears, Chelsea Komlo, James Denman
-* Kyle Suss, Josh Mejia, Aimee Maher, Phil Battos
-* Danny Garcia, Laura Steadman, John Maddux, Bradley Sheehan
-* Erin Drummond, Blair Anderson, Elaine Tai
 
 #### Protocol
 
@@ -88,16 +78,16 @@ What do they hope to gain? Why aren't they using your competitors?
 
 #### _WHAT_ is the essential information you need?
 
-You want to minimize the amount of data they have to give you before they are active on the site. 
+You want to minimize the amount of data they have to give you before they are active on the site.
 
-* How little data can you collect? 
-* What elements are required? 
-* What things should be optional? 
+* How little data can you collect?
+* What elements are required?
+* What things should be optional?
 * What data elements need to be validated? What are the validation criteria?
 
 #### _HOW_ will the store creation process flow?
 
-* How many screens do you need? What goes on each? 
+* How many screens do you need? What goes on each?
 * Will/can you validate the information on each page, or do you need to build more of a "wizard" that validates everything at once?
 * Where will the error message go? How can you make the corrective actions clear to the user?
 * How many clicks will the whole process take? Any way to trim that?
@@ -105,4 +95,3 @@ You want to minimize the amount of data they have to give you before they are ac
 #### Aggregate Results
 
 Put together a useful, actionable archive of your ideas and thinking that you can actually use for your SoSE project. Take pictures of your drawings or papers and share them among your group.
-

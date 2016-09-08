@@ -562,7 +562,7 @@ $ touch test/fixtures/things.csv
 
 We want at least two fields. Keeping it simple, let's go with `id` and `name`.
 
-```csv
+```plain
 id,name
 1,popsicle
 2,tire
@@ -1270,7 +1270,7 @@ files.
 For the `test/fixtures/people.csv` file, we need at least two people with the
 same last name, and one person with a different last name:
 
-```csv
+```plain
 id,last_name,first_name
 1,Smith,Alice
 2,Smith,Bob
@@ -1282,7 +1282,7 @@ all the data correctly. The other user only needs 1 number.
 
 Add this to the `test/fixtures/phone_numbers.csv` file:
 
-```csv
+```plain
 person_id,phone_number
 1,111-000-1234
 2,222.000.1234
@@ -1329,7 +1329,7 @@ we'll use the Joneses to test this new feature.
 
 Update the fixture to look like this:
 
-```csv
+```plain
 id,last_name,first_name
 1,Smith,Alice
 2,Smith,Bob
@@ -1340,7 +1340,7 @@ id,last_name,first_name
 
 The jonses will need phone numbers:
 
-```csv
+```plain
 person_id,phone_number
 1,111-000-1234
 2,222.000.1234

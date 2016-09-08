@@ -31,6 +31,8 @@ module HighlightCode
     rescue Exception => e
      puts "An exception was raised:"
      puts e.inspect
+     puts e.backtrace
+     puts str.inspect
     end
     tableize_code(str, lang)
   end

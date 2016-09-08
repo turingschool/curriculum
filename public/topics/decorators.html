@@ -1,0 +1,657 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Experimenting with Draper - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Experimenting with Draper                              Let&#8217;s play around with the concept of decorators and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/decorators.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Experimenting with Draper
+        </h1>
+        
+      </header>
+    
+    <p>Let&#8217;s play around with the concept of decorators and check out some of the features offered by the <a href="http://rubygems.org/gems/draper">Draper gem</a>.</p>
+
+<div class="note">
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/decorators.markdown">the markdown source on GitHub.</a></p>
+</div>
+
+<h3>Setup</h3>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger_advanced.git
+</span><span class='line'>cd blogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<h3>Install Draper</h3>
+
+<p>Next, open the <code>Gemfile</code> and add a dependency on <code>'draper'</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;draper&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>bundle</code>, then start up your server.</p>
+
+<h3>Generate a Decorator</h3>
+
+<p>We&#8217;ll create a decorator to wrap the <code>Article</code> model. Draper gives you a handy generator:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rails generate decorator article</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It will create the folders <code>app/decorators/</code>, <code>spec/decorators/</code>and the files <code>app/decorators/article_decorator.rb</code>, <code>spec/decorators/article_decorator_spec.rb</code>. Open the file and you&#8217;ll find the frame of a <code>ArticleDecorator</code> class.</p>
+
+<p><em>Restart</em> your server so the new folder is added to the load path.</p>
+
+<h3>First Usage</h3>
+
+<p>Without adding anything to the decorator, let&#8217;s see the simplest usage. Open the <code>articles_controller</code> and look at the <code>show</code> action. It currently has:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To make use of the decorator, call the <code>.new</code> method and pass in the Article from the database:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="n">source</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Test it by displaying a single article in your browser and making sure things work
+as expected. The tests should also pass.</p>
+
+<h4>Using <code>decorates_finders</code></h4>
+
+<p>The pattern of finding an object then immediately decorating it is a common one.
+In the decorator you can use <code>decorates_finders</code> method like the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">class</span> <span class="nc">ArticleDecorator</span> <span class="o">&lt;</span> <span class="no">Draper</span><span class="o">::</span><span class="no">Decorator</span>
+</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>    <span class="n">decorates_finders</span>
+</span><span class='line'>    <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then the decorator will delegate the <code>find</code> method to the wrapped class, allowing us to write this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then go and view the show page for a single Article by clicking on its name on the index.</p>
+
+<h3>Adding Methods</h3>
+
+<p>Now let&#8217;s add some useful functionality to our decorator.</p>
+
+<h4>Article Published On</h4>
+
+<p>Currently the show page just displays the raw <code>created_at</code> data in the &quot;Published&quot; line.
+Often we want to standardize date formatting across our application, and the decorator makes this easy.</p>
+
+<p>Let&#8217;s create a formatter method for <code>created_at</code> method in our decorator:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">formatted_created_at</span>
+</span><span class='line'>  <span class="n">object</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m/%d/%Y - %H:%M&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>object</code> method here refers to the instance of <code>Article</code> that the decorator wraps.</p>
+
+<h4>Using <code>article</code></h4>
+
+<p>For better semantics, the <code>ArticleDecorator</code> creates an alias for <code>object</code> named <code>article</code>.
+So we can replace <code>object</code> with <code>article</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">formatted_created_at</span>
+</span><span class='line'>  <span class="n">article</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m/%d/%Y - %H:%M&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Modifying the View Template</h4>
+
+<p>Now in the <code>show.html.erb</code> for Article you need to change the following line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="no">Published</span> <span class="o">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">created_at</span> <span class="sx">%&gt;&lt;/h4&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="no">Published</span> <span class="o">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">formatted_created_at</span> <span class="sx">%&gt;&lt;/h4&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and the &quot;Published&quot; line will use the new formatting.</p>
+
+<h4>Overriding Existing Methods</h4>
+
+<p>You aren&#8217;t limited to defining new methods in the decorator. If the decorator
+defines a method then that method will be found first, even if the wrapped
+model has an identical method. This means you can effectively override methods
+of the wrapped object like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">created_at</span>
+</span><span class='line'>  <span class="n">article</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%m/%d/%Y - %H:%M&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then return the view template to just:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="no">Published</span> <span class="o">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">created_at</span> <span class="sx">%&gt;&lt;/h4&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Comment Counter</h4>
+
+<p>Currently the show page uses the <code>pluralize</code> helper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="o">&lt;</span><span class="n">h3</span><span class="o">&gt;&lt;%=</span> <span class="n">pluralize</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span><span class="p">,</span> <span class="s2">&quot;Comment&quot;</span> <span class="sx">%&gt;&lt;/h3&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s a bit of logic we can rip out of the view template. Let&#8217;s add a method
+to the <code>ArticleDecorator</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">comments_count</span>
+</span><span class='line'>  <span class="n">h</span><span class="o">.</span><span class="n">pluralize</span> <span class="n">article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span><span class="p">,</span> <span class="s2">&quot;Comment&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then in the view template:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h3&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments_count</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice how the <code>comments_count</code> method used <code>h</code>? That&#8217;s the method Draper offers
+to access all the built in Rails view helpers. Without it you&#8217;d be calling
+<code>pluralize</code> on the decorator which isn&#8217;t defined. With it, you get the same effect
+as calling <code>pluralize</code> in your view template.</p>
+
+<h4>Dealing with a Collection</h4>
+
+<p>If you look in the <code>index.html.erb</code>, you&#8217;ll see a similar <code>pluralize</code> line.
+Can you just reuse the decorator method? Try calling the <code>.comments_count</code> method
+and you won&#8217;t get anywhere.</p>
+
+<p>We need the article objects to be decorated in the <code>index</code> action of the controller.
+Currently the <code>index</code> has:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@articles</span><span class="p">,</span> <span class="vi">@tag</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search_by_tag_name</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tag</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s tweak it a bit to decorate the collection:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="n">articles</span><span class="p">,</span> <span class="vi">@tag</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search_by_tag_name</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tag</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">ArticleDecorator</span><span class="o">.</span><span class="n">decorate_collection</span><span class="p">(</span><span class="n">articles</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now all elements of the collection are decorated and our index should display properly.</p>
+
+<h3>Links</h3>
+
+<p>Delete links are a pain to write. Want your delete link to actually be an image? Double pain.</p>
+
+<p>The <code>show.html.erb</code> is currently using a custom helper to generate the link with icon:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">delete_icon</span><span class="p">(</span><span class="vi">@article</span><span class="p">,</span> <span class="s2">&quot;Delete&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which calls this helper in <code>IconsHelper</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
+</span><span class='line'>    <span class="n">link_to</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">polymorphic_path</span><span class="p">(</span><span class="n">object</span><span class="p">),</span>
+</span><span class='line'>            <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">confirm</span><span class="p">:</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">object</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It works fine and wraps up some of the ugliness, but using the helper is a
+procedural approach. The decorator allows us to be object-oriented.</p>
+
+<h4>Writing <code>ArticleDecorator#delete_icon</code></h4>
+
+<p>To rework this helper, let&#8217;s start by just copying &amp; pasting the helper method into our decorator class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticleDecorator</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">object</span><span class="p">,</span> <span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
+</span><span class='line'>    <span class="n">link_to</span> <span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">polymorphic_path</span><span class="p">(</span><span class="n">object</span><span class="p">),</span>
+</span><span class='line'>            <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>            <span class="n">confirm</span><span class="p">:</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">object</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It won&#8217;t work as-is. We need to make some changes.</p>
+
+<p>First, looking at the arguments, we don&#8217;t need to pass in <code>object</code> anymore because
+the decorator will already have the <code>article</code>.</p>
+
+<p>Then all the Rails helpers (like <code>link_to</code> and <code>image_tag</code>) need to rely on the
+<code>h</code> helper. The result looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticleDecorator</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">article</span><span class="p">),</span>
+</span><span class='line'>              <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">confirm</span><span class="p">:</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">article</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note how <code>object</code> became <code>article</code> in the call to <code>polymorphic_path</code>.</p>
+
+<h4>In the Show Template</h4>
+
+<p>Originally, we used a normal helper method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">delete_icon</span><span class="p">(</span><span class="vi">@article</span><span class="p">,</span> <span class="s2">&quot;Delete&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we can use the decorator method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">delete_icon</span><span class="p">(</span><span class="s2">&quot;Delete&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Keeping it object-oriented is the Ruby way.</p>
+
+<h3>Abstracting Decorators</h3>
+
+<p>In the conversion from Helper to Decorator in the last section, something was lost. The helper method worked on any object passed in, the decorator method belonged to the <code>ArticleDecorator</code>. We definitely don&#8217;t want to re-implement this code in multiple decorators, so how can we make it shareable?</p>
+
+<h4><code>ApplicationDecorator.rb</code></h4>
+
+<p>A first approach is to make an <code>app/decorators/application_decorator.rb</code> and move the method in there:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationDecorator</span> <span class="o">&lt;</span> <span class="no">Draper</span><span class="o">::</span><span class="no">Decorator</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">article</span><span class="p">),</span>
+</span><span class='line'>              <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">confirm</span><span class="p">:</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">article</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then have the &#8216;ArticleDecorator&#8217; inherit from &#8216;ApplicationDecorator&#8217; (like <code>class ArticleDecorator &lt; ApplicationDecorator</code>)
+instead of <code>Draper::Decorator</code>.</p>
+
+<p>It&#8217;ll work for what we have so far, but if we try and use this from a <code>CommentDecorator</code>, it&#8217;s going to blow up because of the call to <code>polymorphic_path(article)</code>.</p>
+
+<p>Draper provides generic ways to access the wrapped object &#8211; the <code>object</code> or <code>model</code> methods. Change <code>article</code> to <code>object</code> or <code>model</code> (they&#8217;re aliases for one another) and we&#8217;re good to go:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ApplicationDecorator</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+</span><span class='line'>              <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">confirm</span><span class="p">:</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The downside to this inheritance approach is that every decorator in the system is going to have this method.
+What if some decorators need a different style of delete icon?</p>
+
+<h4>The Module Approach</h4>
+
+<p>One of the limitations of normal custom helpers is that they all live in the same global name space. You can&#8217;t have two different implementations of a <code>delete_icon</code> helper in <code>articles_helper</code> and <code>comments_helper</code>. But since decorators are objects, that&#8217;s not an issue. We can use modules and mix them into the decorator classes.</p>
+
+<p>For instance, we can create <code>app/decorators/icon_link_decorations.rb</code> and define this module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">IconLinkDecorations</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">delete_icon</span><span class="p">(</span><span class="n">link_text</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">delete_icon_filename</span> <span class="o">=</span> <span class="s1">&#39;cancel.png&#39;</span>
+</span><span class='line'>    <span class="n">h</span><span class="o">.</span><span class="n">link_to</span> <span class="n">h</span><span class="o">.</span><span class="n">image_tag</span><span class="p">(</span><span class="n">delete_icon_filename</span><span class="p">)</span> <span class="o">+</span> <span class="n">link_text</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">h</span><span class="o">.</span><span class="n">polymorphic_path</span><span class="p">(</span><span class="n">model</span><span class="p">),</span>
+</span><span class='line'>              <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span>
+</span><span class='line'>              <span class="n">confirm</span><span class="p">:</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="n">model</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Remove the similar code from the <code>ApplicationDecorator</code>, and <code>include</code> the module from the <code>ArticleDecorator</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticleDecorator</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">IconLinkDecorations</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Any other decorators that want to use that method can similarly include the module.</p>
+
+<h2>Experiments</h2>
+
+<p>Now that you&#8217;ve got the basics down, try the following experiments on your own:</p>
+
+<ul>
+<li>Can you relocate <code>IconsHelper#edit_icon</code> like you did the <code>delete_icon</code>?</li>
+<li>In the <code>articles/show.html.erb</code> there&#8217;s <code>&lt;%= link_to article.title, article_path(article) %&gt;</code>. Could you rework this into <code>&lt;%= article.link %&gt;</code>?</li>
+<li>Check out the <code>TagsHelper</code>. Can you rewrite any/all of these by creating a <code>TagDecorator</code>?</li>
+</ul>
+
+<h2>Generating XML and JSON with Decorators</h2>
+
+<p>We usually need <code>to_json</code> and <code>to_xml</code> operations to present an API. They&#8217;re often implemented in the model, but they really belong in the view layer because they&#8217;re presentation concerns. The decorator pattern can help us clean up responsibilities.</p>
+
+<h3>Proxying <code>to_json</code></h3>
+
+<p>As a first step, implement a <code>to_json</code> method in the <code>ArticleDecorator</code> that just calls the <code>ActiveRecord</code> method. Add support in the controller to render this JSON out to the browser.</p>
+
+<h3>Per-User Scoping</h3>
+
+<p>It would be great to scope the JSON based on the current user. We&#8217;d want admin users to see all the article attributes in the JSON, but public users would just get a subset.</p>
+
+<p>This Blogger doesn&#8217;t have authentication/authorization setup, so we&#8217;ll fake it using a request parameter.</p>
+
+<ul>
+<li>Define two constants in the decorator:
+
+<ul>
+<li><code>PUBLIC_ATTRIBUTES</code> as an array containing symbols for the <code>title</code>, <code>body</code>, and <code>created_at</code></li>
+<li><code>ADMIN_ATTRIBUTES</code> as an array containing everything from <code>PUBLIC_ATTRIBUTES</code>, plus <code>updated_at</code></li>
+</ul></li>
+<li>Manually add a parameter to your request URL with <code>admin=true</code></li>
+<li>Write a <code>current_user_is_admin?</code> method in your <code>ApplicationHelper</code> which returns true if that parameter is set to <code>&quot;true&quot;</code></li>
+<li>Call that helper method (using <code>h.current_user_is_admin?</code>) in your decorator.
+
+<ul>
+<li>When the user is an admin, show them the values specified by <code>ADMIN_ATTRIBUTES</code></li>
+<li>When the user is not an admin, show them only the values specified by <code>PUBLIC_ATTRIBUTES</code></li>
+</ul></li>
+</ul>
+
+<p>If you want to play more with marshalling, what would it be like to create descendents of your <code>ArticleDecorator</code> like <code>ArticleDecoratorXML</code> and <code>ArticleDecoratorJSON</code>? What functionality could you add which would allow the user to stay in the &quot;duck typing&quot; mindset, calling the same method on an instance of any of the three decorators but getting back HTML, XML, or JSON?</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

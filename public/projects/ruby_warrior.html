@@ -1,0 +1,949 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby Warrior Strategy Guide - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Ruby Warrior Strategy Guide                              Computer programming can control the power grid, mobile &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/ruby_warrior.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Ruby Warrior Strategy Guide
+        </h1>
+        
+      </header>
+    
+    <p>Computer programming can control the power grid, mobile phones, and maybe intergallactic satellites. But that&#8217;s not how you learn to love programming.</p>
+
+<p>Many programmers got into programming because of games. Let&#8217;s experiment with the <a href="https://github.com/ryanb/ruby-warrior">Ruby Warrior tutorial</a> by Ryan Bates to refresh and refine your Ruby programming skills.</p>
+
+<h2>Setup</h2>
+
+<p>There are just a few short steps to get rolling.</p>
+
+<h3>Install the Gem</h3>
+
+<p>To begin, you need the gem. Recall that a gem is a package of Ruby code that&#8217;s been published to the <a href="http://rubygems.org">http://rubygems.org</a> website.</p>
+
+<p>To fetch the gem, go to your Command Prompt and type:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>> gem install rubywarrior</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That should fetch the gem from RubyGems and make it available in your system.</p>
+
+<h3>Generate Your Project</h3>
+
+<p>After that installation completes you need to create a Ruby Warrior project directory. At your command prompt let&#8217;s create a general projects directory then use Ruby Warrior to generate its own subfolder:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>> mkdir projects</span><span class='line output'>> cd projects</span><span class='line output'>> rubywarrior</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then Ruby Warrior will ask you a few questions. Let&#8217;s being with the <code>beginner</code> tower and decide on your own name for your hero:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>Welcome to Ruby Warrior</span><span class='line output'>No rubywarrior directory found, would you like to create one? [yn] y</span><span class='line output'>[1] beginner</span><span class='line output'>[2] intermediate</span><span class='line output'>Choose tower by typing the number: 1</span><span class='line output'>Enter a name for your warrior: Me</span><span class='line output'>First level has been generated. See the rubywarrior/me-beginner/README for instructions.</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Open the Project</h3>
+
+<p>Now, open your text editor (like SublimeText or Notepad++) and open the <code>rubywarrior</code> so you can see and edit all the files.</p>
+
+<p>Within that directory, open the <code>README</code> file.</p>
+
+<h2>Level 1</h2>
+
+<p>The <code>README</code> file explains that on level one your character is facing down a hallway with no obstructions. In the diagram, <code>@</code> represents your character and <code>&gt;</code> represents the stairs to the next level.</p>
+
+<p>It also shows you that you can use the <code>warrior.walk!</code> instruction to move your character forward.</p>
+
+<h3>Write the Code</h3>
+
+<p>Go over to the <code>player.rb</code> file and tell your player to walk forward:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Player</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">play_turn</span><span class="p">(</span><span class="n">warrior</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">warrior</span><span class="o">.</span><span class="n">walk!</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Run the Code</h3>
+
+<p>Go back to your terminal and run the code:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>> cd me-beginner</span><span class='line output'>> rubywarrior</span><span class='line output'>Welcome to Ruby Warrior</span><span class='line output'>Starting Level 1</span><span class='line output'>- turn 1 -</span><span class='line output'>--------</span><span class='line output'>|@      >|</span><span class='line output'>--------</span><span class='line output'>me walks forward</span><span class='line output'>- turn 2 -</span><span class='line output'>--------</span><span class='line output'>| @     >|</span><span class='line output'>--------</span><span class='line output'>me walks forward</span><span class='line output'>- turn 3 -</span><span class='line output'>--------</span><span class='line output'>|  @    >|</span><span class='line output'>--------</span><span class='line output'>me walks forward</span><span class='line output'>- turn 4 -</span><span class='line output'>--------</span><span class='line output'>|   @   >|</span><span class='line output'>--------</span><span class='line output'>me walks forward</span><span class='line output'>- turn 5 -</span><span class='line output'>--------</span><span class='line output'>|    @  >|</span><span class='line output'>--------</span><span class='line output'>me walks forward</span><span class='line output'>- turn 6 -</span><span class='line output'>--------</span><span class='line output'>|     @ >|</span><span class='line output'>--------</span><span class='line output'>me walks forward</span><span class='line output'>- turn 7 -</span><span class='line output'>--------</span><span class='line output'>|      @>|</span><span class='line output'>--------</span><span class='line output'>me walks forward</span><span class='line output'>Success! You have found the stairs.</span><span class='line output'>Level Score: 0</span><span class='line output'>Time Bonus: 8</span><span class='line output'>Clear Bonus: 2</span><span class='line output'>Total Score: 10</span><span class='line output'>Would you like to continue on to the next level? [yn] y</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Ok, it&#8217;s no Call of Duty, but we&#8217;ve made it through the first level!</p>
+
+<h3>What You Learned</h3>
+
+<ul>
+<li>The <code>README</code> file will explain our challenges and abilities for each level</li>
+<li>The <code>play_turn</code> method is run by Ruby Warrior to run our instructions</li>
+<li>The <code>warrior</code> that&#8217;s passed into <code>play_turn</code> has a method named <code>walk!</code> that moves it forward</li>
+<li>We execute our code by running <code>rubywarrior</code> from the command prompt</li>
+</ul>
+
+<h2>Level 2</h2>
+
+<p>You survived the first level, now return to the <code>README</code> file and you&#8217;ll see new instructions.</p>
+
+<h3>The <code>README</code></h3>
+
+<p>Sludge? Ick. If you look at the level diagram you&#8217;ll see the <code>s</code> marker for sludge and the description says it has 12 HP which is short for hit points.</p>
+
+<p>The level itself is still a straight hallway with stairs at the end.</p>
+
+<p>At least we get some new abilities:</p>
+
+<ul>
+<li><code>.feel</code> gives us back a <code>Space</code> &#8211; but what&#8217;s a <code>Space</code>?</li>
+<li>A <code>Space</code> has an <code>.empty?</code> method that will be true if the space in front of us is empty and false if there&#8217;s something there (like <strong>Sludge</strong>!)</li>
+<li><code>.attack!</code> attacks one space forward</li>
+<li><code>.walk!</code> moves one step forward &#8211; we already knew that</li>
+</ul>
+
+<h3>The Plan</h3>
+
+<p>We should probably:</p>
+
+<ul>
+<li>Step forward until we can reach the sludge</li>
+<li>Attack it until it&#8217;s dead</li>
+<li>Walk forward to the stairs</li>
+</ul>
+
+<h3>Write the Code</h3>
+
+<p>Now you&#8217;ll have to start tapping into your Ruby knowledge. Some pieces that will help you out:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">condition</span>
+</span><span class='line'>  <span class="c1"># do something when the condition is true</span>
+</span><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="c1"># do something when the condition is false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Run the Code</h3>
+
+<p>Go back to your terminal and run <code>rubywarrior</code> and see if you can pass the level.</p>
+
+<p>Here&#8217;s the results I got:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Success</span><span class="o">!</span> <span class="no">You</span> <span class="n">have</span> <span class="n">found</span> <span class="n">the</span> <span class="n">stairs</span><span class="o">.</span>
+</span><span class='line'><span class="no">Level</span> <span class="no">Score</span><span class="p">:</span> <span class="mi">12</span>
+</span><span class='line'><span class="no">Time</span> <span class="no">Bonus</span><span class="p">:</span> <span class="mi">10</span>
+</span><span class='line'><span class="no">Clear</span> <span class="no">Bonus</span><span class="p">:</span> <span class="mi">4</span>
+</span><span class='line'><span class="no">Total</span> <span class="no">Score</span><span class="p">:</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">26</span> <span class="o">=</span> <span class="mi">36</span>
+</span><span class='line'><span class="no">Would</span> <span class="n">you</span> <span class="n">like</span> <span class="n">to</span> <span class="n">continue</span> <span class="n">on</span> <span class="n">to</span> <span class="n">the</span> <span class="k">next</span> <span class="n">level?</span> <span class="o">[</span><span class="n">yn</span><span class="o">]</span> <span class="n">y</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>What You Learned</h3>
+
+<ul>
+<li>New warrior methods <code>.feel</code> and <code>.attack!</code></li>
+<li>New space method <code>.empty?</code></li>
+<li>How to use an <code>if</code>/<code>else</code> statement to control your warrior</li>
+</ul>
+
+<h2>Level 3</h2>
+
+<p>Return to the <code>README</code> to see the next level. </p>
+
+<h3>The <code>README</code></h3>
+
+<p>Four spots of sludge to defeat. You might not have noticed, but on the last level you probably lost some HPs while battling the sludge. With these four enemies on level 3, we might need to be more careful.</p>
+
+<p>The <code>README</code> teaches us a few new methods:</p>
+
+<ul>
+<li><code>.health</code> with our current HPs</li>
+<li><code>.rest!</code> to stop and regain some HPs</li>
+</ul>
+
+<h3>Plan #1</h3>
+
+<p>Let&#8217;s try and just storm through and slaughter that sludge. If it doesn&#8217;t work, then we&#8217;ll have to go back and add in some <code>rest!</code> instructions.</p>
+
+<h3>Code #1</h3>
+
+<p>Let&#8217;s just leave it the same as level 2 and see what happens!</p>
+
+<h3>Run #1</h3>
+
+<p>I made it through the first three sludge puddles then&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Sludge attacks forward and hits me
+</span><span class='line'>me takes 3 damage, -1 health power left
+</span><span class='line'>me dies
+</span><span class='line'>Sorry, you failed level 3. Change your script and try again.</span></code></pre></td></tr></table></div></figure>
+
+<p>Nooooooooooooooo!</p>
+
+<h3>Plan #2</h3>
+
+<p>The sludge probably doesn&#8217;t respect &quot;time out&quot;. So I&#8217;m guessing that I can&#8217;t rest when I&#8217;m in the middle of fighting.</p>
+
+<p>Here&#8217;s <em>pseudocode</em> for a plan:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if I have more than 10 HPs left
+</span><span class='line'>  if there's an empty spot in front of me
+</span><span class='line'>    move forward
+</span><span class='line'>  else
+</span><span class='line'>    attack that sludge!
+</span><span class='line'>  end
+</span><span class='line'>else
+</span><span class='line'>  rest up
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<p>That should help me only start attacking when I have a decent number of HPs left. Maybe we&#8217;ll find out that 10 isn&#8217;t enough and we need to bump it up, but let&#8217;s give it a try.</p>
+
+<h3>Code #2</h3>
+
+<p>You&#8217;re going to use nested <code>if</code> statements like the plan above. Nested <code>if</code>s can get messy and hard to read, but it&#8217;s a good place to start.</p>
+
+<h3>Run #2</h3>
+
+<p>I implemented the pseudocode, ran it, and&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Sludge</span> <span class="n">attacks</span> <span class="n">forward</span> <span class="ow">and</span> <span class="n">hits</span> <span class="n">me</span>
+</span><span class='line'><span class="n">me</span> <span class="n">takes</span> <span class="mi">3</span> <span class="n">damage</span><span class="p">,</span> <span class="mi">0</span> <span class="n">health</span> <span class="n">power</span> <span class="n">left</span>
+</span><span class='line'><span class="n">me</span> <span class="n">dies</span>
+</span><span class='line'><span class="no">Sorry</span><span class="p">,</span> <span class="n">you</span> <span class="n">failed</span> <span class="n">level</span> <span class="mi">3</span><span class="o">.</span> <span class="no">Change</span> <span class="n">your</span> <span class="n">script</span> <span class="ow">and</span> <span class="n">try</span> <span class="n">again</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Dang! If I look back through the moves I see that the sludge was attacking me while I was trying to rest! Why?</p>
+
+<p>The way I charted the logic had a flaw. If I drop below 10 HPs mid-fight, I&#8217;d stop attacking and instead start resting. That&#8217;s not going to work!</p>
+
+<p>Can you figure out a way to rearrange or change the logic so we can survive the level?</p>
+
+<p>Here were my results, see if you can beat me on the time bonus:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Success! You have found the stairs.
+</span><span class='line'>Level Score: 48
+</span><span class='line'>Time Bonus: 7
+</span><span class='line'>Clear Bonus: 11
+</span><span class='line'>Total Score: 36 + 66 = 102</span></code></pre></td></tr></table></div></figure>
+
+<h2>Level 4</h2>
+
+<h3><code>README</code></h3>
+
+<p>Archers shooting arrows? I wonder how far they can shoot?</p>
+
+<p>The suggestion about a <code>@health</code> variable is interesting. If we store our current health into an instance variable, then the next time the <code>play_turn</code> method is called we could compare the current health to the <code>@health</code> and figure out whether we&#8217;ve been attacked. How will that help us?</p>
+
+<h3>Plan #1</h3>
+
+<p>It didn&#8217;t work out on the last level, but let&#8217;s just run our existing walk/rest/attack code and see what happens.</p>
+
+<h3>Run #1</h3>
+
+<p>Uh-oh.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>me receives 2 health from resting, up to 3 health
+</span><span class='line'>Archer shoots forward and hits me
+</span><span class='line'>me takes 3 damage, 0 health power left
+</span><span class='line'>me dies
+</span><span class='line'>Sorry, you failed level 4. Change your script and try again.</span></code></pre></td></tr></table></div></figure>
+
+<p>After killing the big sludge, the archer started shooting me. I was resting, but it wasn&#8217;t enough to keep up with his arrows hurting me. We&#8217;ll need a new plan.</p>
+
+<h3>Plan #2</h3>
+
+<p>We should go kill that thick sludge and keep charging for the archer. Once the archer is dead then we could rest up before hitting the last thick sludge.</p>
+
+<p>How would that look in code? I&#8217;m thinking&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if I'm being attacked
+</span><span class='line'>  attack back at them!
+</span><span class='line'>else
+</span><span class='line'>  if the next space is empty
+</span><span class='line'>    if my health is low
+</span><span class='line'>      rest
+</span><span class='line'>    else
+</span><span class='line'>      move forward
+</span><span class='line'>    end
+</span><span class='line'>  else
+</span><span class='line'>    attack
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<h3>Run #2</h3>
+
+<p>I ran the code, but that archer still shot me dead. Looking back through the moves, I see that when I finished killing the first thick sludge I only had 8 HPs left.</p>
+
+<p>My code realized that I was being attacked and started attacking back &#8211; but there was still one space between me and the archer so I was attacking the air! His arrows worked, my attacks didn&#8217;t.</p>
+
+<h3>Plan #3</h3>
+
+<p>Go back to the logic. If we&#8217;re being attacked we can&#8217;t just attack back, we need to make sure we can reach the attacker. How does that change your code?</p>
+
+<h3>Run #3</h3>
+
+<p>Mine didn&#8217;t work! There was an error in my logic and it took me awhile to figure out what the problem was. Here are a few techniques you might use to find your own issues:</p>
+
+<h4>Use <code>puts</code></h4>
+
+<p>You can use the <code>puts</code> instruction to output your own text during your turn. To help me figure out what was going wrong I used this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;   Not being attacked, health: </span><span class="si">#{</span><span class="n">warrior</span><span class="o">.</span><span class="n">health</span><span class="si">}</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Remember that the <code>#{}</code> will insert the value into the output, so in my turns I saw output like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-- Not being attacked, health: 13</span></code></pre></td></tr></table></div></figure>
+
+<h4>Breaking Out <code>being_attacked?</code></h4>
+
+<p>There were so many <code>if</code> statements nested together I was getting confused about what matched up with what.</p>
+
+<p>I decided to break some functionality into its own method. Specifically, I wanted to write a method named <code>being_attacked?</code> that would return <code>true</code> if I was being attacked and <code>false</code> if I wasn&#8217;t. It would also be responsible for updating the <code>@health</code> variable I was tracking.</p>
+
+<p>Here&#8217;s the <em>pseudocode</em> for that method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def being_attacked?(warrior)
+</span><span class='line'>  if @health is nil OR warrior health is greater than or equal to @health
+</span><span class='line'>    update @health with the current health
+</span><span class='line'>    return false
+</span><span class='line'>  else
+</span><span class='line'>    update @health with the current health
+</span><span class='line'>    return true
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<h4>Breaking Out <code>charge</code></h4>
+
+<p>I felt that pulling out that <code>being_attacked?</code> method made things easier to read and wanted to try pulling out another method. Going back to my <code>play_turn</code> method, it starts like this&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">play_turn</span><span class="p">(</span><span class="n">warrior</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">being_attacked?</span><span class="p">(</span><span class="n">warrior</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">warrior</span><span class="o">.</span><span class="n">feel</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>      <span class="n">warrior</span><span class="o">.</span><span class="n">walk!</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">warrior</span><span class="o">.</span><span class="n">attack!</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="c1"># ... other code</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If I&#8217;m being attacked I should charge and attack the bad guy. I remove the nested <code>if</code> and pull it out to a <code>charge</code> method like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">play_turn</span><span class="p">(</span><span class="n">warrior</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">being_attacked?</span><span class="p">(</span><span class="n">warrior</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">charge</span><span class="p">(</span><span class="n">warrior</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="c1"># ... other code</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">charge</span><span class="p">(</span><span class="n">warrior</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">warrior</span><span class="o">.</span><span class="n">feel</span><span class="o">.</span><span class="n">empty?</span>
+</span><span class='line'>    <span class="n">warrior</span><span class="o">.</span><span class="n">walk!</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">warrior</span><span class="o">.</span><span class="n">attack!</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>I run the level again and it still passes.</p>
+
+<h4>Breaking Out <code>rest_or_walk</code></h4>
+
+<p>That <code>play_turn</code> method is a little more readable now, but let&#8217;s break out <em>one</em> more method named <code>rest_or_walk</code>.</p>
+
+<p>Do you have an <code>if</code> statement that looks at the current health and, if it&#8217;s below some threshold, rests. But if it&#8217;s above the threshold, tells the warrior to <code>walk!</code>? Pull that out to a method and use it in <code>play_turn</code>.</p>
+
+<h4>Final Results</h4>
+
+<p>With all those methods extracted, here are the results from my run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Success! You have found the stairs.
+</span><span class='line'>Level Score: 55
+</span><span class='line'>Time Bonus: 14
+</span><span class='line'>Clear Bonus: 14
+</span><span class='line'>Total Score: 102 + 83 = 185</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s finally step up to the next level!</p>
+
+<h3>What You Learned</h3>
+
+<ul>
+<li>Nested <code>if</code> statements can be hard to write, read, and debug</li>
+<li>Extracting methods can help us understand and simplify our logic</li>
+</ul>
+
+<h2>Level 5</h2>
+
+<p>I&#8217;m assuming that you extracted all the methods described above to help understand the <code>play_turn</code> method for this level.</p>
+
+<h3><code>README</code></h3>
+
+<p>Captives sound cool, we have to be a bit more conservative about who we attack. </p>
+
+<ul>
+<li>We can now call the <code>.captive?</code> method on a <code>Space</code> to see if it&#8217;s a captive.<br></li>
+<li>We can use the <code>.rescue!</code> method to save a captive.</li>
+<li>We shouldn&#8217;t kill the captives</li>
+</ul>
+
+<h3>The Plan</h3>
+
+<p>Returning to my <code>play_turn</code> method, I think the change is actually small. </p>
+
+<ul>
+<li>If I&#8217;m being attacked, I still want to charge and attack</li>
+<li>If the space in front of me is empty, I want to either rest or walk</li>
+</ul>
+
+<p>The last possibility is when the space in front of me is <em>NOT</em> empty. I now need to check&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if the next space is a captive
+</span><span class='line'>  rescue them
+</span><span class='line'>else
+</span><span class='line'>  attack that critter!
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<h3>The Code</h3>
+
+<p>First, I&#8217;m going to add that new nested if statement right in <code>play_turn</code> and see if I can pass the level.</p>
+
+<p>If that works, then I want to extract it to a <code>rescue_or_attack</code> method.</p>
+
+<h3>The Run</h3>
+
+<p>Hooray, it worked on the first try! I then extracted the <code>rescue_or_attack</code> method, ran it again, and got these results:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Success! You have found the stairs.
+</span><span class='line'>Level Score: 78
+</span><span class='line'>Time Bonus: 19
+</span><span class='line'>Clear Bonus: 19
+</span><span class='line'>Total Score: 185 + 116 = 301</span></code></pre></td></tr></table></div></figure>
+
+<h2>Level 6</h2>
+
+<h3><code>README</code></h3>
+
+<p>Look closely at the level diagram and you&#8217;ll see there&#8217;s a captive behind us. That&#8217;s interesting.</p>
+
+<p>It notes that we can pass <code>:backward</code> as an argument to <code>walk!</code>, <code>feel</code>, <code>rescue!</code> and <code>attack!</code> which would look like <code>walk!(:backward)</code>.</p>
+
+<h3>Plan #1</h3>
+
+<p>For this level, I want to:</p>
+
+<ul>
+<li>Walk backward until I see a captive, then rescue them</li>
+<li>Go forward and attack/rest as I have before</li>
+</ul>
+
+<p>Doesn&#8217;t sound too hard, right? There&#8217;s a little wrinkle here. I need to manage some <strong>state</strong>. The state of a program is how you keep track of what things have already happened.</p>
+
+<p>In this level, I need to go backwards and try to rescue a captive until I rescue one. Then I can go forward and kill. </p>
+
+<p>My first idea is to track a <code>@captives_rescued</code> instance variable that I&#8217;ll start at <code>0</code> and increase when I rescue someone. If the value is <code>0</code>, I know I need to be working backwards. If it&#8217;s greater than <code>0</code>, it&#8217;s killing time.</p>
+
+<h3>Code #1</h3>
+
+<p>Here&#8217;s ruby code for a <code>captives_rescued?</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">captives_rescued?</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@captives_rescued</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>    <span class="vi">@captives_rescued</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@captives_rescued</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><strong>NOTE:</strong> That method can be shortened to just two lines of code if you&#8217;re slick :)</p>
+
+<p>Now, back in the <code>play_turn</code>, I&#8217;m going to implement something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if no captives have been rescued
+</span><span class='line'>  if feeling backwards finds a captive
+</span><span class='line'>    rescue them
+</span><span class='line'>    increase the number of captives I've rescued
+</span><span class='line'>  else
+</span><span class='line'>    move backwards
+</span><span class='line'>  end
+</span><span class='line'>else
+</span><span class='line'>  all the other code about being attacked, charging, etc
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<h3>Run #1</h3>
+
+<p>The part about rescuing the captive then moving forward went fine, but I still died. I read through the turns and see that, when I kill the thick sludge, I have only 8 HPs left.</p>
+
+<p>I then take a rest before charging, but the archers start shooting me. I can&#8217;t kill them fast enough while they&#8217;re shooting me, and I die.</p>
+
+<h3>Plan #2</h3>
+
+<p>I can see that the archers only start attacking once the giant sludge is dead. If there&#8217;s no obstruction, I&#8217;m not sure if they can attack across the whole level or only across two spaces.</p>
+
+<p>I&#8217;m thinking that I need to change my <code>being_attacked?</code>/<code>charge</code> logic. Maybe if I&#8217;m being attacked and my health is below some threshold, I should retreat and rest up. Here&#8217;s my idea in pseudocode:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if I'm being_attacked? 
+</span><span class='line'>  if my health is low
+</span><span class='line'>    move backwards
+</span><span class='line'>  else
+</span><span class='line'>    charge
+</span><span class='line'>  end
+</span><span class='line'>else
+</span><span class='line'>  rest, walk, rescue or attack
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<p>I really only have to add the nested <code>if</code> statement for the <code>if my health is low</code>, the rest is already there.</p>
+
+<h3>Run #2</h3>
+
+<p>I implemented the logic and ran it, but got to a problem. Once the sludge was dead, the archers attacked me. I backed up, rested for a turn, then charged. They attacked, my health got low, so I retreated and rested again.</p>
+
+<p>I was in an infinite loop because my threshold of &quot;how low do I need to be to rest&quot; and &quot;when should I stop resting&quot; were the same.</p>
+
+<p>I stopped the program by pressing <code>Control-c</code> and changed the thresholds so that I&#8217;d get to a higher health before moving forward and lowered the retreat threshold.</p>
+
+<p>By tweaking those values a few times I ended up with these results:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Success! You have found the stairs.
+</span><span class='line'>Level Score: 58
+</span><span class='line'>Time Bonus: 14
+</span><span class='line'>Clear Bonus: 14
+</span><span class='line'>Total Score: 301 + 86 = 387</span></code></pre></td></tr></table></div></figure>
+
+<p>FYI, I had to retreat after killing the sludge, then again after killing the first archer.</p>
+
+<h2>Level 7</h2>
+
+<h3><code>README</code></h3>
+
+<p>The level itself looks simple, except that we need to turn around first.</p>
+
+<h3>The Plan</h3>
+
+<p>Let&#8217;s check for a wall first, and if it&#8217;s found, turn around. We can remove (or maybe comment-out) the bits about <code>captives_rescued</code>.</p>
+
+<p>Then just run our existing strategy.</p>
+
+<h3>The Code</h3>
+
+<p>This one is up to you!</p>
+
+<h3>The Run</h3>
+
+<p>Mine passed on the first try:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Success! You have found the stairs.
+</span><span class='line'>Level Score: 31
+</span><span class='line'>Time Bonus: 4
+</span><span class='line'>Clear Bonus: 7
+</span><span class='line'>Total Score: 387 + 42 = 429</span></code></pre></td></tr></table></div></figure>
+
+<h3>Refactorings</h3>
+
+<p>That <code>play_turn</code> method is getting big again. Let&#8217;s extract a few methods.</p>
+
+<h3><code>charge_or_retreat</code></h3>
+
+<p>I extracted a method that gets run when the warrior is being attacked which causes him to either retreat or charge.</p>
+
+<h3><code>move_or_interact</code></h3>
+
+<p>I extracted a method that is run when the warrior is NOT being attacked which checks whether the next space is empty and either rests, walks, rescues, or attacks.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

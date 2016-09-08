@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Heroku + Java + Salesforce - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Salesforce Elevate                                      Heroku + Java + Salesforce                              Schedule8:00 - &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/paths/elevate/salesforce_java_and_heroku.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Salesforce Elevate</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Heroku + Java + Salesforce
+        </h1>
+        
+      </header>
+    
+    <h2>Schedule</h2>
+
+<ul>
+<li>8:00 - Doors Open &amp; Systems Setup</li>
+<li>9:00 - Intros &amp; Opening</li>
+<li>9:10 - Why Heroku?</li>
+<li>9:45 - How Heroku Works</li>
+<li>10:30 - Deploying Java Applications to Heroku</li>
+<li>12:00 - Lunch</li>
+<li>1:00 - Maximizing Heroku’s Platform</li>
+<li>2:15 - Measuring Application Performance</li>
+<li>3:00 - Integrating Salesforce with Heroku Connect</li>
+<li>3:45 - Q&amp;A</li>
+<li>4:00 - Class Ends</li>
+</ul>
+
+<h2>Systems Setup</h2>
+
+<p>To get the most out of the workshop you should be working along with us. Before we get going, please go through the <a href="/paths/elevate/systems_setup.html">Systems Setup</a> tutorial.</p>
+
+<h2>Why Heroku?</h2>
+
+<p>Before we get into the technical details, let&#8217;s talk about why you should care by exploring a few use cases.</p>
+
+<p>Click over to <a href="/paths/elevate/why_heroku.html">Why Heroku</a>.</p>
+
+<h2>How Heroku Works</h2>
+
+<p>Heroku is a cloud hosting platform designed and built for developers. Before you can get your application up and running we should explore how the platform works.</p>
+
+<p>Jump over to the <a href="/paths/elevate/how_heroku_works.html">How Heroku Works</a> tutorial.</p>
+
+<h2>Deploying Java Applications on Heroku</h2>
+
+<p>Now that you understand the basics of how Heroku works, let&#8217;s actually deploy an application. Head over to the <a href="/paths/elevate/deploying_java_applications.html">Deploying a Java</a> tutorial.</p>
+
+<h2>Maximizing Heroku&#8217;s Platform</h2>
+
+<p>You&#8217;ve gotten an application up and running, but how do you make sure it stays up and highly responsive?</p>
+
+<p>Let&#8217;s look at <a href="/paths/elevate/maximizing_heroku.html">How to Maximize Heroku</a>.</p>
+
+<h2>Measuring Application Performance with NewRelic</h2>
+
+<p>Let&#8217;s dig deeper into performance and experiment with the New Relic performance monitoring integration.</p>
+
+<p>Work along with the <a href="/paths/elevate/measuring_application_performance.html">Measuring Application Performance with NewRelic</a> tutorial.</p>
+
+<h2>Integrating Salesforce with Heroku Connect</h2>
+
+<p>There are many ways that Java applications can interact with Salesforce data. Let&#8217;s use the REST API to move data back and forth in the <a href="/paths/elevate/integrating_salesforce">Integrating Salesforce</a> tutorial.</p>
+
+<h2>For Future Reference</h2>
+
+<ul>
+<li>The best resource for detailed Heroku knowledge is the <a href="https://Dev Center.heroku.com/">Dev Center</a>.</li>
+<li>These tutorials are accessible <a href="http://jumpstartlab.com/elevate">here</a>.</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

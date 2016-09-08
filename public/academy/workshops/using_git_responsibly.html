@@ -1,0 +1,362 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using Git Responsibly - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Using Git Responsibly                              IntroWatch the lightning talk Do Your Commit Messages Suck? by &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/workshops/using_git_responsibly.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Using Git Responsibly
+        </h1>
+        
+      </header>
+    
+    <h2>Intro</h2>
+
+<p>Watch the lightning talk <a href="http://www.confreaks.com/videos/744-rockymtnruby2011-lightning-talk-do-your-commit-messages-suck">Do Your Commit Messages Suck?</a> by <a href="https://twitter.com/rmm5t">Ryan McGeary</a> from Rocky Mountain Ruby Conference 2011</p>
+
+<h2>Exercise 1</h2>
+
+<p>Check out the <a href="https://github.com/bundler/bundler">bundler</a> source code. Katrina Owen has exactly one commit.</p>
+
+<p>Go through the log to find Katrina&#8217;s commit.</p>
+
+<ul>
+<li>What is it?</li>
+<li>Why does it matter?</li>
+</ul>
+
+<p>Read the article linked to in the commit message.</p>
+
+<h3>Hints</h3>
+
+<p>Use the man page for git-log to figure out how to get the commit hash and author name / email to output in a single line.</p>
+
+<p>Once you have the correct commit hash, use the man page for git-log to figure out how to look at</p>
+
+<ul>
+<li>the actual change that was committed, also known as the &#8216;patch&#8217;</li>
+<li>the full commit message for a given commit hash</li>
+</ul>
+
+<h2>Exercise 2</h2>
+
+<p>Check out your individual project, and look through all the commit messages.</p>
+
+<ul>
+<li>What is the best commit message? Why does it qualify?</li>
+<li>What are the worst 3 to 5 commit messages? Why?</li>
+</ul>
+
+<h4>Fixing the commit messages</h4>
+
+<p>Do a <code>git rebase -i</code> back to the beginning of your project and compose commit messages that follow Tim Pope&#8217;s recommendations regarding git commit messages.</p>
+
+<ul>
+<li>Is this difficult? If so, why?</li>
+<li>Should you do this on a project that you are collaborating with other developers on? Why or why not?</li>
+</ul>
+
+<h3>Stats</h3>
+
+<h4><code>git log</code></h4>
+
+<p>Use the man page for git-log and some unix commands to show you how many git commits you have per day.</p>
+
+<ul>
+<li>How many commits did you typically have per day?</li>
+<li>How far apart are they?</li>
+</ul>
+
+<p><strong>hint</strong>: you can use the unix commands <code>sort</code> and <code>uniq</code> to help you out. Both <code>sort</code> and <code>uniq</code> have command line switches that you will need to complete this task. Use the man pages to find them.</p>
+
+<h4><code>git diff</code></h4>
+
+<p>In the bundler project, I picked two commits at random:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a7031aa thor thor thor
+</span><span class='line'>7411b80 heeyyy list CAN do exit status</span></code></pre></td></tr></table></div></figure>
+
+<p>What are the stats for the change between those two commits?</p>
+
+<p>Now try the same thing with <code>git diff --shortstat</code>.</p>
+
+<p><code>git diff HEAD..HEAD~1</code> will show you the stats for the most recent commit.</p>
+
+<h4><code>git rev-list</code></h4>
+
+<p>Use the man page to figure out what rev-list does, and how to use it.</p>
+
+<p>Write a shell script that gives you the shortstat diff for each commit in your history.</p>
+
+<p>Here&#8217;s a small bash script that might be helpful getting you started:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="c">#/bin/bash</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;abc&quot;</span> &gt; data.txt
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;123&quot;</span> &gt;&gt; data.txt
+</span><span class='line'><span class="nb">echo</span> <span class="s2">&quot;xyz&quot;</span> &gt;&gt; data.txt
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>main<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  lines | <span class="k">while </span><span class="nb">read </span>line
+</span><span class='line'>  <span class="k">do</span>
+</span><span class='line'><span class="k">    </span><span class="nb">echo</span> <span class="s2">&quot;OMG IT IS $line&quot;</span>
+</span><span class='line'>  <span class="k">done</span>
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">function </span>lines<span class="o">()</span> <span class="o">{</span>
+</span><span class='line'>  cat data.txt
+</span><span class='line'><span class="o">}</span>
+</span><span class='line'>
+</span><span class='line'>main
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Make sure that when the script is done it resets the repository to a reasonable state.</p>
+
+<h2>Exercise 3</h2>
+
+<p>Check out the <a href="https://github.com/JumpstartLab/snifficult">snifficult</a> repo from github.</p>
+
+<h3>Foul Language</h3>
+
+<p>Unfortunately a couple of the commits added data to the <code>data/stuff.txt</code> log file that contains swearing.</p>
+
+<p>Use your mad git skillz to figure out exactly which commits added the bad data, and then use <code>git rebase -i</code> to make those commits disappear from the history forever.</p>
+
+<h4>Hint</h4>
+
+<p>Since we know that the swear words are in <code>data/stuff.txt</code>, we can simply <code>git blame</code> that file and find the offending line in the output (try <code>grep</code>). The commit hash is on the start of that line of output.</p>
+
+<h3>When did the slowness happen?</h3>
+
+<p>At one point in time the tests slowed down significantly.</p>
+
+<p>Check the time it takes for the test to finish at HEAD, and then check out commit <code>c4dea03</code> and run the tests.</p>
+
+<p>Now say <code>git reset --hard origin/master</code> to get back to the tip of the master branch.</p>
+
+<p>Use <code>git-bisect</code> to find the commit that introduced the slowness.</p>
+
+<p>To start</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>git bisect start</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We need to tell git bisect that the current commit is slow:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>git bisect bad</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Next we need to tell git which commit is the last known commit with fast tests. Find the commit hash for the commit called &quot;Implement basic work algorithm&quot;</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>git bisect good THE_COMMIT_HASH</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now, run rake. If the tests are fast, say <code>git bisect good</code> and if they&#8217;re slow, say <code>git bisect bad</code>. Continue doing this until the output tells you what the first bad commit was.</p>
+
+<p>Remember to check out master again, since your repository will have checked out the bad commit at this point.</p>
+
+<h3>Fixing the bad commit</h3>
+
+<p>When you&#8217;ve found it, use git rebase -i to edit the commit so you get rid of the slowness without losing any of the other changes that were added in the same commit.</p>
+
+<h2>Squashing Commits</h2>
+
+<p>The last two commits should really be a single change. Use <code>rebase -i</code> to squash the two commits together.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

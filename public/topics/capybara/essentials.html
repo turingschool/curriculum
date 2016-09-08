@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Capybara Essentials - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Testing with Capybara                                      Capybara Essentials                              Let&#8217;s take a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/capybara/essentials.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Testing with Capybara</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Capybara Essentials
+        </h1>
+        
+      </header>
+    
+    <p>Let&#8217;s take a look at the essential tools and understandings you need to begin working with Capybara.</p>
+
+<h2>Setup</h2>
+
+<h3>Install the Gem</h3>
+
+<p>To use the library, first add it to the <code>:test</code> and <code>:development</code> groups in your <code>Gemfile</code>. While you&#8217;re in there, add the <code>launchy</code> gem which lets you save and open screenshots of what the browser sees:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then run <code>bundle</code> from the command line to install the gems.</p>
+
+<h3>Load the Gem</h3>
+
+<p>For a Rails application, the setup is simple. Before your tests run you need to require the gem. You should typically add the following to your <code>test_helper.rb</code> or similar file run before the test suite (this will allow us to use Capybara&#8217;s methods, as well as use Rails&#8217; routing helpers in our tests):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rails/test_help&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/rails&#39;</span>  <span class="c1">## add this line</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span><span class="o">.</span><span class="n">check_pending!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Capybara</span><span class="o">::</span><span class="no">DSL</span> <span class="c1">## add this line</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">url_helpers</span> <span class="c1">## add this line</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.</span>
+</span><span class='line'>  <span class="c1">#</span>
+</span><span class='line'>  <span class="c1"># Note: You&#39;ll currently still have to declare fixtures explicitly in integration tests</span>
+</span><span class='line'>  <span class="c1"># -- they do not yet inherit this setting</span>
+</span><span class='line'>  <span class="n">fixtures</span> <span class="ss">:all</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Add more helper methods to be used by all tests here...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Reference</h3>
+
+<p>While this tutorial is geared towards just the pieces you need to get going, you should refer to the <a href="http://rubydoc.info/github/jnicklas/capybara/master">official Capybara documentation</a> to understand all the features and tools available to you.</p>
+
+<h2>Writing a Test</h2>
+
+<p>Let&#8217;s walk through how you write a Capybara test.</p>
+
+<h3>Using the <code>features</code> Folder</h3>
+
+<p>By default, any tests in the <code>features</code> subfolder will run with Capybara enabled. Presuming you&#8217;re using Minitest rather than RSpec, you&#8217;d create a folder:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">test</span><span class="o">/</span><span class="n">features</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then create a test file. Let&#8217;s base our example on the <a href="/projects/blogger.html">Blogger</a> project. Say we&#8217;re going to explore the article creation process, and create a file <code>article_creation_test.rb</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ArticleCreationTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Interaction Pattern</h3>
+
+<p>Good feature and acceptance tests are about the <strong>interactions</strong> not the <strong>content</strong>. We&#8217;re testing how a user is going to <em>use</em> the application. In general, Capybara tests follow this outline</p>
+
+<ul>
+<li>1) Login as a certain user (if necessary)</li>
+<li>2) Go to a specific page</li>
+<li>3) Click a link to take some action</li>
+<li>4) Fill out a form or do the &quot;action&quot; step</li>
+<li>5) Submit the form data</li>
+<li>6) Verify that the data you submitted appears</li>
+</ul>
+
+<p>In code, this looks like this for a Blogger application which does not implement authentication.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">ArticleCreationTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_creates_an_article_with_a_title_and_body</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'>    <span class="n">click_on</span> <span class="s1">&#39;new-article&#39;</span>
+</span><span class='line'>    <span class="n">fill_in</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;My Capybara Article&quot;</span>
+</span><span class='line'>    <span class="n">fill_in</span> <span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;This is a great article.&quot;</span>
+</span><span class='line'>    <span class="n">click_on</span> <span class="s1">&#39;save-article&#39;</span>
+</span><span class='line'>    <span class="n">within</span><span class="p">(</span><span class="s1">&#39;#title&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;My Capybara Article&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">within</span><span class="p">(</span><span class="s1">&#39;#content&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;This is a great article.&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>API</h2>
+
+<h3>Navigating the Session</h3>
+
+<p>The session methods allow us to set and query the current state of our headless &quot;browser.&quot; The Capybara::Session class is documented here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session"><a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Session</a></a></p>
+
+<h3>Visit</h3>
+
+<p>The <code>visit</code> method takes an address parameter and will fetch the page. Example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="s2">&quot;/articles&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But when we are running tests against a Rails application, we have access to the <em>named routes</em> directly in our examples like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Using the named routes is the <strong>preferred</strong> option. This allows your routes to change without unnecessarily breaking the test.</p>
+
+<h3>Current Path</h3>
+
+<p>The <code>current_path</code> method returns the path without the protocol, server, and port. This is useful for checking that you arrive on a certain page after a previous action took place. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">current_path</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That would return <code>&quot;/articles&quot;</code> when you&#8217;re on the articles index page. You can make use of the named routes here by doing something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">assert_equal</span> <span class="n">articles_path</span><span class="p">,</span> <span class="n">current_path</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Driving Interaction</h3>
+
+<p>The most interesting integration tests involve page actions: click here, fill in that text box, click submit, and see what happens.</p>
+
+<p>You can check out all the actions available here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Actions</a></p>
+
+<h4><code>click_on</code></h4>
+
+<p>You can click on any link or button by using <code>click_on</code> and a CSS-style locator.</p>
+
+<p><code>click_on(locator)</code> for links or buttons</p>
+
+<h4><code>fill_in</code></h4>
+
+<p><code>fill_in(locator, with: &quot;My Data&quot;)</code> for text boxes or areas</p>
+
+<p>You can fill in text fields or areas by using <code>fill_in</code> with a CSS selector and the <code>with:</code> option to send in the data.</p>
+
+<h4><code>choose</code> and <code>check</code></h4>
+
+<ul>
+<li><code>choose</code> for radio buttons</li>
+<li><code>check</code> for checkboxes</li>
+</ul>
+
+<h3>Examining the Response</h3>
+
+<p>It all leads up to this. You&#8217;ve forced the virtual browser to follow some path of interactions, now you want to verify the results. Let&#8217;s look at how to examine the response.</p>
+
+<p>We&#8217;ll stick to the most important methods for this tutorial, but you can check out the <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers">full matchers documentation</a> for more.</p>
+
+<h4>Seeing What You&#8217;ve Got</h4>
+
+<p>Sometimes you can&#8217;t tell why a test is passing when it should be failing or <em>vice versa</em>. At any point in a capybara test you can write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">save_and_open_page</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It will store the current page to a file and open it in your default web browser. This is why we included the <code>launchy</code> gem up above.</p>
+
+<p>Whenever a test is doing something mysterious, this should be your first debugging step. Usually you&#8217;ll see that sample data is different than expected or the browser is on a totally different page than intended.</p>
+
+<p>Note that Capybara is saving a static page of HTML&#8211;it&#8217;s not clickable and you can&#8217;t <em>do</em> much of anything other than look at the page and inspect the DOM. Relative paths to assets like CSS and images won&#8217;t work, either.</p>
+
+<h4>HTTP Status Code</h4>
+
+<p>An easy thing to check is the HTTP status code. Recall that <code>200</code> means everything is OK, <code>30*</code> are redirects, <code>40*</code> are user errors, and <code>50*</code> are system errors.</p>
+
+<p>To get the status code of the current response you&#8217;d call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">status_code</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the context of a test you might write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">assert_equal</span> <span class="mi">200</span><span class="p">,</span> <span class="n">page</span><span class="o">.</span><span class="n">status_code</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But you might want to allow a little flexbility and just check that it&#8217;s some form of <code>20*</code> code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">assert_includes</span> <span class="mi">200</span><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="mi">300</span><span class="p">,</span> <span class="n">page</span><span class="o">.</span><span class="n">status_code</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4><code>within</code></h4>
+
+<p>Now we want to start looking at page content. As an application grows, the HTML for any given page likely gets quite large. You need to be careful that your Capybara tests don&#8217;t pass for the <em>wrong</em> reasons.</p>
+
+<p>One common mistake is to look for certain content on the page intending to find it in the main content body. But, if the content appears in your navigation or maybe in a flash error message, your test could pass.</p>
+
+<p>The <code>within</code> method allows you to scope all your actions down to a certain section of the page. For instance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">within</span><span class="p">(</span><span class="s2">&quot;#articles&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_link?</span><span class="p">(</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">href</span><span class="p">:</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">))</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This will <em>only</em> look for the link inside the DOM node with ID <code>&quot;articles&quot;</code>, ignoring everything else on the page.</p>
+
+<p>Note that the parameter to <code>within</code> is a CSS selector, so it can use HTML elements, classes, and IDs. If you can, use an ID to ensure you&#8217;re looking at a specific component.</p>
+
+<h4><code>has_content?</code></h4>
+
+<p><code>has_content?</code> is defined as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Checks if the page or current node has the given text content,
+</span><span class='line'>ignoring any HTML tags and normalizing whitespace.</span></code></pre></td></tr></table></div></figure>
+
+<p>For example, within an example we might have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;All Articles&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><em>Ignoring</em> HTML tags means that if our page has HTML like <code>&quot;My Super &lt;span&gt;Title&lt;/span&gt;&quot;</code> and we ask if it has content <code>&quot;My Super Title&quot;</code> the matcher will return <code>true</code>.</p>
+
+<p>This matcher is extremely broad, basically asking &quot;Does this string appear <em>anywhere</em> on the page?&quot; It might be in the page title as you&#8217;re thinking, but it could be in a link that says &quot;Back to All Articles,&quot; something text on the sidebar, or anywhere on the page.</p>
+
+<p>Hesitate before writing tests using <code>have_content</code> unless you&#8217;re at least scoping down to a component of the page using <code>within</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">within</span><span class="p">(</span><span class="s1">&#39;#title&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;All Articles&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This combination gives some reasonable specificity to the match &#8211;it&#8217;ll have to appear within a DOM object with ID <code>title</code>.</p>
+
+<h4><code>has_link?</code></h4>
+
+<p>This matcher checks if the page or current node has a link with the given text or id. It&#8217;s impartial whether we pass in the actual text of the link or the DOM ID of the link.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_link?</span><span class="p">(</span><span class="s2">&quot;Create a New Article&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>However, we recommend that you use a CSS ID, even if that means adding one to the view template. Over time, the chance that the text of the link needs to change is very high. While the likelihood of the CSS ID needing to change is low. Using the ID will thus make your test more robust. The above matcher might be rewritten like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_link?</span><span class="p">(</span><span class="s2">&quot;new-article&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note that the <code>#</code> marking it as a CSS ID is omitted.</p>
+
+<p>There&#8217;s an additional option, the <code>:href</code>, which specifies where the link points. This option can only be used in conjunction with the &quot;locator&quot; (text contents or CSS id of the link), you can&#8217;t use it on it&#8217;s own.</p>
+
+<p>You could then assert that the page has a link with the CSS ID <code>new-article</code> <em>and</em> that the link points to the <code>new_article_path</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_link?</span><span class="p">(</span><span class="s2">&quot;new-article&quot;</span><span class="p">,</span> <span class="n">href</span><span class="p">:</span> <span class="n">new_article_path</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4><code>has_css?</code></h4>
+
+<p>The <code>has_css?</code> method is documented here: <a href="http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_css%3F-instance_method">http://rubydoc.info/github/jnicklas/capybara/master/Capybara/Node/Matchers#has_css%3F-instance_method</a></p>
+
+<p><code>has_css?</code> is a general purpose search of the page that will find elements using CSS expressions. It&#8217;s basically a more targeted version of <code>has_content?</code>, useful for verifying the existence of DOM elements. For instance, we might write something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s2">&quot;h2#article-title&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That matcher validates that there is an H2 tag with the ID <code>&quot;article-title&quot;</code>. We could get more specific and also check the contents of the element:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s2">&quot;h2#article-title&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Be cautious when you&#8217;re using <code>has_css?</code>, though. It&#8217;s easy to write tests that become brittle by tying them too closely to the details of the HTML design. Think about &quot;Should this test break if X tag is changed?&quot; If your SEO expert decides to change the article title to an H1, should that break your tests? There&#8217;s no blanket answer, you have to decide what makes sense for your application.</p>
+
+<p>In this scenario, it&#8217;d probably be smarter to leave the <code>h2</code> tag out and just look for an element with the ID of <code>article-title</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s2">&quot;#article-title&quot;</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

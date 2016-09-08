@@ -1,0 +1,473 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Templating with ERB & HAML - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Better Views                                      Templating with ERB & HAML                              The default templating &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/better_views/erb_and_haml.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Better Views</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Templating with ERB & HAML
+        </h1>
+        
+      </header>
+    
+    <p>The default templating language in Rails is <em>Embedded Ruby</em> or ERB. The template files live in <code>/app/views/</code> and are named after the controller and action they&#8217;re attached to. Everything you need to use ERB is already set up for you within Rails.</p>
+
+<h3>Reviewing ERB</h3>
+
+<p>In ERB we have three main markup elements:</p>
+
+<ul>
+<li>HTML and text use no markers and appear plainly on the page</li>
+<li><code>&lt;%=</code> and <code>%&gt;</code> wrap Ruby code whose return value will be output in place of the marker</li>
+<li><code>&lt;%</code> and <code>%&gt;</code> wrap Ruby code whose return value will <em>NOT</em> be output</li>
+<li><code>&lt;%-</code> and <code>%&gt;</code> wrap Ruby code whose return value will <em>NOT</em> be output and no blank lines will be generated</li>
+</ul>
+
+<p>The last of those, using <code>&lt;%-</code>, has become much less significant as modern browsers restructure the DOM into a browseable tree where whitespace doesn&#8217;t matter.</p>
+
+<h3>Why Hate ERB?</h3>
+
+<p>The upside of the ERB system is that it works with any text format. In Rails applications, we use the ERB system to create HTML files. There&#8217;s no reason that we couldn&#8217;t use ERB to output JavaScript, configuration files, form letters, or any other type of document. ERB doesn&#8217;t know anything about the surrounding text. It just injects printing or non-printing Ruby fragments into plaintext.</p>
+
+<p>But those aspects of ERB are the downside, too. ERB is very general, and a more specialized solution can help reduce our workload.</p>
+
+<h2>Enter HAML</h2>
+
+<p>ERB vs. HAML has the fervor of a religious debate in the Rails community. According to surveys, about 46% of the community prefers HAML. </p>
+
+<div class="opinion">
+<p>We love HAML and use it on every project. It encourages stringent formatting of your view templates, lightens the content significantly, and draws clear lines between markup and code.</p>
+</div>
+
+<h3>History Lesson</h3>
+
+<p>HAML was developed by Hampton Caitlin as pushback against the &quot;heavy&quot; nature of HTML and, by extension, ERB. He started HAML by taking an ERB template and making one assumption: <em>white space will be significant</em>. With that assumption, he started deleting all the characters that could possibly be inferred by the template processor engine.</p>
+
+<h3>Developing HAML</h3>
+
+<p>In a typical template we&#8217;d have plain HTML like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>All Articles<span class="nt">&lt;/h1&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Using whitespace to reflect the nested structure, we could reformat it like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>
+</span><span class='line'>  All Articles
+</span><span class='line'><span class="nt">&lt;/h1&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And, if we assume that whitespace is significant, the close tag would become unnecessary here. The parser could know that the H1 ends when there&#8217;s an element at the <em>same</em> indentation level as the opening H1 tag. Cut the closing tag and we have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>
+</span><span class='line'>  All Articles
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The H1 tag itself is heave with both open and close brackets. Leaving just <code>&lt;h1</code> as the HTML marker could have worked, but Hampton decided that HTML elements would be created with <code>%</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>%h1
+</span><span class='line'>  All Articles
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Lastly, when an HTML element just has one line of content, we will conventionally put it on a single line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>%h1 All Articles
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>%</code> followed by the tag name will output any HTML tag. The content of that tag can be on the same line or indented on the following lines. Note that content can&#8217;t <em>both</em> be inline with the tag <em>and</em> on the following lines.</p>
+
+<h3>Outputting Ruby in HAML</h3>
+
+<p>So how do we embed Ruby in our HAML? In ERB we might have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&#39;flash&#39;</span><span class="nt">&gt;</span><span class="err">&lt;</span>%= flash[:notice] %&gt;<span class="nt">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Given what you&#8217;ve seen from the H1, you would imagine the <code>&lt;p&gt;&lt;/p&gt;</code> becomes <code>%p</code>. But what about the Ruby injection?</p>
+
+<h4>Ruby Injections</h4>
+
+<p>HAML&#8217;s approach is to reduce <code>&lt;%= %&gt;</code> to just <code>=</code>. The HAML engine assumes that if the content starts with an <code>=</code>, that the entire rest of the line is Ruby. For example, the flash paragraph above would be rewritten like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>%p= flash[:notice]
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note that the <code>=</code> must be flush against the <code>%p</code> tag.</p>
+
+<h4>Adding a CSS Class</h4>
+
+<p>But what about the class? There are two options. The verbose syntax uses a hash-like format:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>%p{class: &#39;flash&#39;}= flash[:notice]
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But we can also use a CSS-like shorthand syntax:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>%p.flash= flash[:notice]
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The latter is easier and more commonly used.</p>
+
+<h3>Mixing Plain Text and Ruby</h3>
+
+<p>Consider a chunk of content that has both plain text and Ruby like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;sidebar&quot;</span><span class="o">&gt;</span>
+</span><span class='line'><span class="no">Filter</span> <span class="n">by</span> <span class="no">Tag</span><span class="p">:</span> <span class="o">&lt;%=</span> <span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Given what we&#8217;ve seen so far, you might imagine it goes like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span> Filter by Tag: = tag_links(Tag.all)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But HAML won&#8217;t recognize the Ruby code there. Since the element&#8217;s content <em>starts</em> with plain text, it will assume the whole line is plain text. </p>
+
+<h4>Breaking Ruby and Text into Separate Lines</h4>
+
+<p>One solution in HAML is to put the plain text and the Ruby on their own lines, each indented under the DIV:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span>
+</span><span class='line'>  Filter by Tag:
+</span><span class='line'>  <span class="p">=</span> <span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Since version 3, HAML supports an interpolation syntax for mixing plain text and Ruby: </p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span>
+</span><span class='line'>  Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And it can be pushed back up to one line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nt">%div</span><span class="nf">#sidebar</span> Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Implicit <code>DIV</code> Tags</h4>
+
+<p>DIV is considered the &quot;default&quot; HTML tag. If you just use a CSS-style ID or Class with no explicit HTML element, HAML will assume a DIV:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'><span class="nf">#sidebar</span> Filter by Tag: <span class="si">#{</span><span class="n">tag_links</span><span class="p">(</span><span class="no">Tag</span><span class="o">.</span><span class="n">all</span><span class="p">)</span><span class="si">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Non-Printing Ruby</h3>
+
+<p>We&#8217;ve seen plain text, HTML elements, and printing Ruby. Now let&#8217;s focus on non-printing Ruby.</p>
+
+<p>One of the most common uses of non-printing Ruby in a view template is iterating through a collection. In ERB we might have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='haml'><span class='line'>&lt;ul id=&#39;articles&#39;&gt;
+</span><span class='line'>  &lt;% @articles.each do |article| %&gt;
+</span><span class='line'>    &lt;li&gt;&lt;%= article.title %&gt;&lt;/li&gt;
+</span><span class='line'>  &lt;% end %&gt;
+</span><span class='line'>&lt;/ul&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The second and fourth lines are non-printing because they omit the equals sign. HAML&#8217;s done away with the <code>&lt;%</code>. So you might be tempted to write this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">%</span><span class="n">ul</span><span class="c1">#articles</span>
+</span><span class='line'>  <span class="vi">@articles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
+</span><span class='line'>    <span class="o">%</span><span class="n">li</span><span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Content with no marker is interpreted as plain text, so the <code>@articles</code> line will be output as plain text and the third line would <em>cause a parse error</em>. </p>
+
+<h4>Marking Non-Printing Lines</h4>
+
+<p>We need a new symbol to mark non-printing lines. In HAML these lines begin with a hyphen (<code>-</code>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">%</span><span class="n">ul</span><span class="c1">#articles</span>
+</span><span class='line'>  <span class="o">-</span> <span class="vi">@articles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
+</span><span class='line'>    <span class="o">%</span><span class="n">li</span><span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>The <code>end</code></h4>
+
+<p>Wait a minute, what about the <code>end</code>? HAML uses that significant whitespace to reduce the syntax of HTML <em>and</em> Ruby. The <code>end</code> for the <code>do</code> is not only unnecessary, it will raise an exception if you try to use it!</p>
+
+<h2>Review</h2>
+
+<p>The key ideas of HAML include:</p>
+
+<ul>
+<li>Whitespace is significant, indent using two spaces</li>
+<li>HTML elements are created with <code>%</code> and the tag name, <em>ex:</em> <code>%p</code></li>
+<li>HTML elements can specify a CSS class (<code>%p.my_class</code>) or ID (<code>%p#my_id</code>) using a short-hand syntax</li>
+<li>Content starting with an <code>=</code> is interpreted as printing Ruby, <em>ex:</em> <code>%p= article.title</code></li>
+<li>Content starting with a <code>-</code> is interpreted as non-printing Ruby, <em>ex:</em> <code>- @articles.each do |article|</code></li>
+<li>Content can contain interpolation-style injections like <code>%p Articles Available:#{@articles.count}</code></li>
+</ul>
+
+<h2>Exercises</h2>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger_advanced.git
+</span><span class='line'>cd blogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<ol>
+<li>Open the project&#8217;s <code>Gemfile</code>, add a dependency on <code>haml</code> and run <code>bundle</code>. Restart your server.</li>
+<li><p><em>Basic Refactorings</em>: Following the examples above, complete each of these steps:</p>
+
+<ul>
+<li>Open the view template in <code>app/views/articles/index.html.erb</code></li>
+<li>Rename the template to <code>index.html.haml</code> to trigger HAML parsing</li>
+<li>Cut everything except the H1 to a temporary file so that you can bring back one chunk at a time and rewrite each of them in HAML</li>
+<li>Rewrite the H1 using HAML syntax for plain text</li>
+<li>Rewrite the flash using HAML syntax for printing Ruby</li>
+<li>Output the New Article link without a containing HTML element</li>
+<li>Rebuild the Sidebar using the HAML interpolation syntax to mix plain text and Ruby on one line</li>
+</ul></li>
+<li><p><em>Deep Nesting</em>: You&#8217;ve worked through the basics. Now, combine the techniques to rebuild the Articles UL:</p>
+
+<ul>
+<li>Convert the UL to HAML and indent child elements two spaces</li>
+<li>Rewrite the loop to use HAML&#8217;s non-printing Ruby syntax</li>
+<li>Change the LI to use a HAML content tag</li>
+<li>Rewrite the child elements using printing Ruby and interpolation as you see fit</li>
+<li>Review the generated HTML to make sure that the nesting relationships are preserved</li>
+</ul></li>
+<li><p><em>Further Practice</em>: Rebuild the <code>show.html.erb</code> into <code>show.html.haml</code>. When you are struggling to represent the structure, try separating the parts into their own lines, and then reduce them down as you see fit.</p></li>
+</ol>
+
+<h3>Solution for <code>index.html.haml</code></h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">%</span><span class="n">h1</span> <span class="no">All</span> <span class="no">Articles</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">%</span><span class="nb">p</span><span class="o">.</span><span class="n">flash</span><span class="o">=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">=</span> <span class="n">link_to</span> <span class="s2">&quot;New Article&quot;</span><span class="p">,</span> <span class="n">new_article_path</span><span class="p">,</span> <span class="n">class</span><span class="p">:</span> <span class="s1">&#39;new_article&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#sidebar Filter by Tag: #{tag_links(Tag.all)}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">%</span><span class="n">ul</span><span class="c1">#articles</span>
+</span><span class='line'>  <span class="o">-</span> <span class="vi">@articles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
+</span><span class='line'>    <span class="o">%</span><span class="n">li</span>
+</span><span class='line'>      <span class="o">=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'>      <span class="o">%</span><span class="n">span</span><span class="o">.</span><span class="n">tag_list</span><span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">tag_list</span>
+</span><span class='line'>      <span class="o">%</span><span class="n">span</span><span class="o">.</span><span class="n">actions</span>
+</span><span class='line'>        <span class="o">=</span> <span class="n">edit_icon</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'>        <span class="o">=</span> <span class="n">delete_icon</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

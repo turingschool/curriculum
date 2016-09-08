@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Encoding and Filtering Data - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Web Services                                      Encoding and Filtering Data                              You are building an &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/web_services/encoding_and_filtering.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Web Services</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Encoding and Filtering Data
+        </h1>
+        
+      </header>
+    
+    <p>You are building an API and are rolling with <code>respond_to</code> and <code>respond_with</code>. They are automatically rendering your objects as XML and JSON.</p>
+
+<p>Wait, they are automatically rendering your objects? <strong>Everything</strong>? Yes! If your models have any sensitive data in them, and they probably do, you&#8217;ll need to do some filtering.</p>
+
+<h2><code>as_xml</code> and <code>as_json</code> in the Model</h2>
+
+<p>Your easiest option is to override <code>as_xml</code> and <code>as_json</code> in the model. This works in scenarios where you have attributes that should <em>always</em> be hidden.</p>
+
+<p>Let&#8217;s look at an <code>Article</code> object, for example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; a = Article.last</span>
+</span><span class='line'><span class="go"># =&gt; #&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt; </span>
+</span><span class='line'><span class="go">&gt; puts a.as_json</span>
+</span><span class='line'><span class="go">{&quot;article&quot;:{&quot;author_name&quot;:&quot;Stan&quot;,&quot;body&quot;:&quot;asdf&quot;,&quot;created_at&quot;:&quot;2011-09-11T16:46:52Z&quot;,&quot;editor_id&quot;:5,&quot;id&quot;:15,&quot;title&quot;:&quot;asdfasdf&quot;,&quot;updated_at&quot;:&quot;2011-09-12T20:34:42Z&quot;}}</span>
+</span><span class='line'><span class="go"># =&gt; nil </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In this case, the <code>editor_id</code> attribute is sensitive information. We do not want to expose it to our JSON api.</p>
+
+<h3>Overriding <code>as_json</code> / <code>as_xml</code></h3>
+
+<p>We open the <code>article.rb</code> model and add this method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="n">except</span><span class="p">:</span> <span class="ss">:editor_id</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This method relies on the <code>ActiveRecord::Base</code> implementation of <code>as_json</code> which accepts an <code>:except</code> blacklist of attributes. It can also accept an array of keys:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="n">except</span><span class="p">:</span> <span class="o">[</span><span class="ss">:editor_id</span><span class="p">,</span> <span class="ss">:updated_at</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>All of the listed keys will be removed. The exact same syntax can be used for <code>as_xml</code></p>
+
+<h4>Using a Whitelist</h4>
+
+<p>Using a whitelist is more secure but takes more maintenance. Create a <code>as_json</code> method that uses the <code>:only</code> parameter:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="n">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:created_at</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And, again, you can use the same syntax for <code>as_xml</code>.</p>
+
+<h4>Reducing Redundancy</h4>
+
+<p>Using either approach you should not list the visible/invisible attributes in <em>both</em> <code>as_xml</code> and <code>as_json</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">WHITELIST_ATTRIBUTES</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:created_at</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="n">only</span><span class="p">:</span> <span class="no">WHITELIST_ATTRIBUTES</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">as_xml</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">super</span><span class="p">(</span><span class="n">only</span><span class="p">:</span> <span class="no">WHITELIST_ATTRIBUTES</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Checking Authorization</h2>
+
+<p>More often you want to filter based on authorization rules. For instance, if the current user is an administrator then show them everything. If the current user is just a regular user then show them the filtered list. This is much harder.</p>
+
+<p>You are working with data, which means the logic belongs in the model. But you&#8217;re dealing with authorization, which really belongs in the controller. And, at the core, you&#8217;re dealing with presentation which goes in the view. It&#8217;s tricky!</p>
+
+<h3>Using a Decorator</h3>
+
+<p>The best way to handle this situation is to use a decorator with the Draper gem.</p>
+
+<div class="note">
+<p>For this approach to work properly, comment out any work done to override or filter <em>as_json</em> at the model level.</p>
+</div>
+
+<h4>Setup</h4>
+
+<p>Add the <code>draper</code> gem to your <code>Gemfile</code> and run <code>bundle</code>.</p>
+
+<h4>Generate the Decorator</h4>
+
+<p>Then generate the decorator object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rails</span> <span class="n">generate</span> <span class="n">decorator</span> <span class="no">Article</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which will create <code>app/decorators/article_decorator.rb</code></p>
+
+<h4>Use the Decorator</h4>
+
+<p>Before we look at implementing the actual decorator, let&#8217;s set it up for use in <code>ArticlesController</code>. Presume we&#8217;re interested in converting a single <code>Article</code> into JSON using the <code>show</code> action.</p>
+
+<p>It should, so far, look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="ss">:json</span><span class="p">,</span> <span class="ss">:html</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@comment</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">respond_with</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Using the decorator is just a one-line change:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="c1">#becomes</span>
+</span><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">decorate</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The decorator class will handle the lookup with the <code>Article</code> class and wrap the result.</p>
+
+<h4>Decorator with Context</h4>
+
+<p>But our purpose was to handle the authentication status in the decorator. In Draper, this is called the context. Since we don&#8217;t have an authentication system, let&#8217;s pass in a symbol representing the current user&#8217;s &quot;role&quot;, <code>:admin</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">decorate</span><span class="p">(</span><span class="n">context</span><span class="p">:</span> <span class="p">{</span><span class="n">role</span><span class="p">:</span> <span class="ss">:admin</span><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Within the decorator, that <code>:admin</code> will be stored under the <code>:role</code> key in the <code>context</code>.</p>
+
+<h4>Implement the <code>as_json</code> Method</h4>
+
+<p>Now we&#8217;re ready to actually implement the <code>as_json</code> in the decorator. We open <code>app/decorators/article_decorator.rb</code> and find this frame:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticleDecorator</span> <span class="o">&lt;</span> <span class="no">Draper</span><span class="o">::</span><span class="no">Decorator</span>
+</span><span class='line'>  <span class="n">delegate_all</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we add a <code>as_json</code> method which proxies the call to the wrapped <code>model</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticleDecorator</span> <span class="o">&lt;</span> <span class="no">Draper</span><span class="o">::</span><span class="no">Decorator</span>
+</span><span class='line'>  <span class="n">delegate_all</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">object</span><span class="o">.</span><span class="n">as_json</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You could test that it works in your console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; a = Article.find(15).decorate</span>
+</span><span class='line'><span class="go"># =&gt; #&lt;ArticleDecorator:0x007fa2ca1b6a10 @object=#&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt;, @context=nil&gt; </span>
+</span><span class='line'><span class="go">&gt; a.as_json</span>
+</span><span class='line'><span class="go"># =&gt; &quot;{\&quot;article\&quot;:{\&quot;author_name\&quot;:\&quot;Stan\&quot;,\&quot;body\&quot;:\&quot;asdf\&quot;,\&quot;created_at\&quot;:\&quot;2011-09-11T16:46:52Z\&quot;,\&quot;editor_id\&quot;:5,\&quot;id\&quot;:15,\&quot;title\&quot;:\&quot;asdfasdf\&quot;,\&quot;updated_at\&quot;:\&quot;2011-09-12T20:34:42Z\&quot;}}&quot; </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, in the <code>as_json</code>, handle the switching based on <code>context</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">as_json</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">context</span><span class="o">[</span><span class="ss">:role</span><span class="o">]</span> <span class="o">==</span> <span class="ss">:admin</span>
+</span><span class='line'>    <span class="n">object</span><span class="o">.</span><span class="n">as_json</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">object</span><span class="o">.</span><span class="n">as_json</span><span class="p">(</span><span class="n">only</span><span class="p">:</span> <span class="ss">:title</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And test it in console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">&gt; a = Article.find(15).decorate</span>
+</span><span class='line'><span class="go"># =&gt; #&lt;ArticleDecorator:0x007fe8f5361f60 @object=#&lt;Article id: 15, title: &quot;asdfasdf&quot;, body: &quot;asdf&quot;, created_at: &quot;2011-09-11 16:46:52&quot;, updated_at: &quot;2011-09-12 20:34:42&quot;, author_name: &quot;Stan&quot;, editor_id: 5&gt;, @context=nil&gt; </span>
+</span><span class='line'><span class="go">&gt; a.as_json</span>
+</span><span class='line'><span class="go"># =&gt; &quot;{\&quot;article\&quot;:{\&quot;title\&quot;:\&quot;asdfasdf\&quot;}}&quot; </span>
+</span><span class='line'><span class="go">&gt; a.context = {:role =&gt; :admin}</span>
+</span><span class='line'><span class="go"># =&gt; {:role =&gt; :admin}</span>
+</span><span class='line'><span class="go">&gt; a.as_json</span>
+</span><span class='line'><span class="go"># =&gt; &quot;{\&quot;article\&quot;:{\&quot;author_name\&quot;:\&quot;Stan\&quot;,\&quot;body\&quot;:\&quot;asdf\&quot;,\&quot;created_at\&quot;:\&quot;2011-09-11T16:46:52Z\&quot;,\&quot;editor_id\&quot;:5,\&quot;id\&quot;:15,\&quot;title\&quot;:\&quot;asdfasdf\&quot;,\&quot;updated_at\&quot;:\&quot;2011-09-12T20:34:42Z\&quot;}}&quot; </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Success! When context is blank you see the filtered output. When the context is setup for an admin, you get the full output.</p>
+
+<h2>Exercises</h2>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<ol>
+<li>Implement a filtering <code>as_json</code> method in the <code>Article</code> model so only the <code>title</code> is returned.</li>
+<li>Use a blacklist constant to generate <code>as_json</code> and <code>as_xml</code> methods in <code>Article</code> so they do <em>not</em> display the timestamps.</li>
+<li>Setup the Draper gem, create an <code>ArticleDecorator</code>, and use it in the controller. Verify it works from the console.</li>
+<li>Implement a <code>as_xml</code> method in the decorator which outputs only the <code>title</code> and <code>body</code> attributes.</li>
+<li>Add switching to your <code>as_xml</code> so:
+
+<ul>
+<li>when the <code>context</code> is <code>:admin</code>, all attributes are output</li>
+<li>when the context is <code>:trusted</code>, everything <em>except</em> the timestamps are output</li>
+<li>when the context is empty, only the <code>title</code> and <code>body</code> are output.</li>
+</ul></li>
+</ol>
+
+<h2>References</h2>
+
+<ul>
+<li>Rails Serialization: <a href="http://api.rubyonrails.org/classes/ActiveRecord/Serialization.html">http://api.rubyonrails.org/classes/ActiveRecord/Serialization.html</a></li>
+<li>Rails <code>as_json</code> API: <a href="http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html">http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html</a></li>
+<li>Draper decorators: <a href="https://github.com/jcasimir/draper">https://github.com/jcasimir/draper</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

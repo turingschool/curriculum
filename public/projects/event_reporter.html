@@ -1,0 +1,595 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>EventReporter - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="EventReporter                              This project builds on the lessons learned in EventManagerand &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/event_reporter.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          EventReporter
+        </h1>
+        
+      </header>
+    
+    <p>This project builds on the lessons learned in <a href="/projects/eventmanager.html">EventManager</a>
+and <a href="/projects/microblogger.html">MicroBlogger</a> to focus on fundamental Ruby style/concepts.</p>
+
+<h2>Project Overview</h2>
+
+<h3>Learning &amp; Practice Goals</h3>
+
+<ul>
+<li>Become comfortable with implementing basic classes and methods</li>
+<li>Demonstrate understanding of variable scope and lifecycle</li>
+<li>Create multiple coordinating methods and objects</li>
+<li>Use default and named parameters</li>
+<li>Utilize effective debugging techniques</li>
+</ul>
+
+<h3>Abstract</h3>
+
+<p>Let&#8217;s take <a href="/projects/eventmanager.html">EventManager</a> to the next level. Based on the same data file, build an interactive query and reporting tool which fulfills the expectations below. Re-use data cleaning procedures from the original <code>EventManager</code> to handle dirty input and generate beautiful output.</p>
+
+<h3>Data Supplied</h3>
+
+<ul>
+<li>Source data file: <a href="/assets/eventmanager/event_attendees.csv">event_attendees.csv</a></li>
+</ul>
+
+<h2>Base Expectations</h2>
+
+<p>As a user launching the program, I&#8217;m provided a REPL where I can issue one of several commands, described below. After each command completes, the prompt returns, waiting for another instruction.</p>
+
+<h3>The Queue</h3>
+
+<p>The program has a concept called the &quot;queue&quot;. The queue holds the stored results from a previous search. As a user, I issue a search command to find records, then later issue another command to do work with those results. The queue is <em>not</em> cleared until the user runs the command <code>queue clear</code> or a new <code>find</code> command.</p>
+
+<h3>The REPL</h3>
+
+<p>The program must respond to the following commands:</p>
+
+<h4><code>load &lt;filename&gt;</code></h4>
+
+<p>Erase any loaded data and parse the specified file. If no filename is given, default to <code>event_attendees.csv</code>.</p>
+
+<h4><code>help</code></h4>
+
+<p>Output a listing of the available individual commands</p>
+
+<h4><code>help &lt;command&gt;</code></h4>
+
+<p>Output a description of how to use the specific command. For example:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>help queue clear
+</span><span class='line'>help find</span></code></pre></td></tr></table></div></figure>
+
+<h4><code>queue count</code></h4>
+
+<p>Output how many records are in the current queue</p>
+
+<h4><code>queue clear</code></h4>
+
+<p>Empty the queue</p>
+
+<h4><code>queue print</code></h4>
+
+<p>Print out a tab-delimited data table with a header row following this format:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  LAST NAME  FIRST NAME  EMAIL  ZIPCODE  CITY  STATE  ADDRESS  PHONE</span></code></pre></td></tr></table></div></figure>
+
+<h4><code>queue print by &lt;attribute&gt;</code></h4>
+
+<p>Print the data table sorted by the specified <code>attribute</code> like <code>zipcode</code>.</p>
+
+<h4><code>queue save to &lt;filename.csv&gt;</code></h4>
+
+<p>Export the current queue to the specified filename as a CSV. The file should should include data and headers for last name, first name, email, zipcode, city, state, address, and phone number.</p>
+
+<h4><code>find &lt;attribute&gt; &lt;criteria&gt;</code></h4>
+
+<p>Load the queue with all records matching the criteria for the given attribute. Example usages:</p>
+
+<ul>
+<li><code>find zipcode 20011</code></li>
+<li><code>find last_name Johnson</code></li>
+<li><code>find state VA</code></li>
+</ul>
+
+<p>The comparison should:</p>
+
+<ul>
+<li>Be case insensitive, so <code>&quot;Mary&quot;</code> and <code>&quot;mary&quot;</code> would be found in the same search</li>
+<li>Be insensitive to internal whitespace, but not external:
+
+<ul>
+<li><code>&quot;John&quot;</code> and <code>&quot;John &quot;</code> are considered matches</li>
+<li><code>&quot;John Paul&quot;</code> and <code>&quot;Johnpaul&quot;</code> are not matches</li>
+</ul></li>
+<li>Not do substring matches, so a <code>find first_name Mary</code> does not find a record with first name <code>&quot;marybeth&quot;</code></li>
+</ul>
+
+<h3>Test Cases for Base Expectations</h3>
+
+<p>Your program must handle the following scenarios correctly:</p>
+
+<h4>A. Happy Path</h4>
+
+<ol>
+<li><code>load event_attendees.csv</code></li>
+<li><code>queue count</code> should return <code>0</code></li>
+<li><code>find first_name John</code></li>
+<li><code>queue count</code> should return <code>63</code></li>
+<li><code>queue clear</code></li>
+<li><code>queue count</code> should return <code>0</code></li>
+<li><code>help</code> should list the commands</li>
+<li><code>help queue count</code> should explain the queue count function</li>
+<li><code>help queue print</code> should explain the printing function</li>
+</ol>
+
+<h4>B. Let&#8217;s Try Printing</h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>queue count</code> should return <code>0</code></li>
+<li><code>find first_name John</code></li>
+<li><code>find first_name Mary</code></li>
+<li><code>queue print</code> should print out the 16 attendees</li>
+<li><code>queue print by last_name</code> should print the same attendees sorted alphabetically by last name</li>
+<li><code>queue count</code> should return <code>16</code></li>
+</ol>
+
+<h4>C. Saving</h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find city Salt Lake City</code></li>
+<li><code>queue print</code> should display 13 attendees</li>
+<li><code>queue save to city_sample.csv</code></li>
+<li>Open the CSV and inspect that it has correct headers and the data rows from step 3.</li>
+<li><code>find state DC</code></li>
+<li><code>queue print by last_name</code> should print them alphabetically by last name</li>
+<li><code>queue save to state_sample.csv</code></li>
+<li>Open the CSV and inspect that it has the headers, the data from step 7, but not the data previously found in step 2.</li>
+</ol>
+
+<h4>D. Reading Your Data</h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find state MD</code></li>
+<li><code>queue save to state_sample.csv</code></li>
+<li><code>quit</code></li>
+</ol>
+
+<p><em>Restart the program and continue&#8230;</em></p>
+
+<ol>
+<li><code>load state_sample.csv</code></li>
+<li><code>find first_name John</code></li>
+<li><code>queue count</code> should return <code>4</code></li>
+</ol>
+
+<h4>E. Emptiness</h4>
+
+<p>Note that this set intentionally has no call to <code>load</code>:</p>
+
+<ol>
+<li><code>find last_name Johnson</code></li>
+<li><code>queue count</code> should return <code>0</code></li>
+<li><code>queue print</code> should not print any attendee data</li>
+<li><code>queue clear</code> should not return an error</li>
+<li><code>queue print by last_name</code> should not print any data</li>
+<li><code>queue save to empty.csv</code> should output a file with only headers</li>
+<li><code>queue count</code> should return <code>0</code></li>
+</ol>
+
+<h2>Extensions</h2>
+
+<h3>Improving <code>queue print</code></h3>
+
+<ul>
+<li>Modify your <code>queue print</code> command so it prints in left-aligned columns where the size of each column is determined by the longest entry in the column.</li>
+<li>If the queue is more than 10 lines, pause after ten until the user hits either the spacebar or enter keys.</li>
+<li>Add a status line that reads like &quot;Showing Matches 20-30 of 80&quot;</li>
+</ul>
+
+<h3>Improving <code>find</code></h3>
+
+<ul>
+<li>Modify your <code>find</code> instruction so all searches are case insensitive</li>
+<li>Modify your <code>find</code> instruction to allow compound searches using a single <code>and</code> such as:</li>
+</ul>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode 20011 and last_name Johnson</span></code></pre></td></tr></table></div></figure>
+
+<h3>Improving <code>queue save to</code></h3>
+
+<ul>
+<li>Modify the instruction to respect the filename extension so that:
+
+<ul>
+<li><code>csv</code> generates comma-separated values</li>
+<li><code>txt</code> generates tab-delimited values</li>
+<li><code>json</code> generates valid, parsable JSON</li>
+<li><code>xml</code> generates valid, parsable XML</li>
+<li><code>yml</code> generates valid YAML</li>
+</ul></li>
+</ul>
+
+<h3>Implementing Queue Math</h3>
+
+<p>Assuming I have results currently in the queue, implement queue math like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find state DC
+</span><span class='line'>subtract zipcode 20011</span></code></pre></td></tr></table></div></figure>
+
+<p>That would find me all entries for DC that are <em>not</em> in <code>20011</code>. Similarly:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find state DC
+</span><span class='line'>add zipcode 22182</span></code></pre></td></tr></table></div></figure>
+
+<p>Would load the queue with all entries from DC or the <code>22182</code> zipcode.</p>
+
+<h3>Nightmare-Mode <code>find</code></h3>
+
+<p>Modify your <code>find</code> method to allow multiple attribute values in parentheses like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode (20011, 22182) and last_name (Johnson, Patrick, Smith)</span></code></pre></td></tr></table></div></figure>
+
+<p>Support an <code>or</code> operation:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode (20011, 22182) or last_name (Johnson, Patrick, Smith)</span></code></pre></td></tr></table></div></figure>
+
+<p>And support <code>find</code> only within the queue:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>find zipcode (20011, 22182)
+</span><span class='line'>queue find last_name Johnson</span></code></pre></td></tr></table></div></figure>
+
+<p>Which would find only the Johnsons in 20011 or 22182.</p>
+
+<h3>Test Cases for Extensions</h3>
+
+<p>For the extensions to pass the evaluation, it must handle the following scenarios correctly.</p>
+
+<h4>A. Improved <code>queue print</code></h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find first_name sarah</code></li>
+<li><code>queue print</code></li>
+</ol>
+
+<p>Observe the first two screens of output similar to this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+</span><span class='line'>LAST NAME       FIRST NAME  EMAIL                                  ZIPCODE     CITY                    STATE  ADDRESS                              PHONE
+</span><span class='line'>------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+</span><span class='line'>Hankins         SArah       pinalevitsky@jumpstartlab.com          20009       Washington              DC     2022 15th Street NW                  4145205000
+</span><span class='line'>Xx              Sarah       lqrm4462@jumpstartlab.com              33703       Saint Petersburg        FL     4175 3rd Street North                9419792000
+</span><span class='line'>Cordova         Sarah       tmai.202@jumpstartlab.com              21044       Columbia                MD     5430 Hesperus Drive                  4109639000
+</span><span class='line'>Irvine          Sarah       wwoodruf@jumpstartlab.com              30127       Powder Springs          GA     6184 Windflower Drive                7704249000
+</span><span class='line'>Hough           Sarah       gi@jumpstartlab.com                    06614       stratford               CT     42c powder mill drive                2036506000
+</span><span class='line'>Geretz          Sarah       ovdawaaa@jumpstartlab.com              01002       Amherst                 MA     72 Triangle St. appt. 2              8572311000
+</span><span class='line'>Sample          Sarah       nqiza@jumpstartlab.com                 94619       Oakland                 CA     270 Rishell Drive                    5107086000
+</span><span class='line'>Gerow           Sarah       xnb77@jumpstartlab.com                 33559       Lutz                    FL     2501 Black Horse Loop Apt 301C       8137359000
+</span><span class='line'>Eden            Sarah       cetephenson@jumpstartlab.com           33559       Lutz                    FL     2501 Black Horse Loop Apt 301C       8136798000
+</span><span class='line'>Riordan         Sarah       ctuhspugha@jumpstartlab.com            80212       Denver                  CO     2814 Tennyson St.                    7202058000
+</span><span class='line'>Displaying records 0 - 10 of 78
+</span><span class='line'>press space bar or the enter key to show the next set of records
+</span><span class='line'>
+</span><span class='line'>Gordon          Sarah       cxcahdprice@jumpstartlab.com           43554       Pioneer                 OH     18476 County Road 15                 4197373000
+</span><span class='line'>Johnston        Sarah       gylaki@jumpstartlab.com                94104       San Francisco           CA     221 Pine St                          4157863000
+</span><span class='line'>Oddie           Sarah       blhhhhhhhh@jumpstartlab.com            94101       san francisco           CA     221 pine st                          4157863000
+</span><span class='line'>Catlin          Sarah       tlacyjamesrossi3@jumpstartlab.com      40206       Louisville              KY     114 N Galt Ave                       5029386000
+</span><span class='line'>Clatterbuck     Sarah       dhchleith@jumpstartlab.com             05401       Burlington              VT     37 D Conger Ave                      8025401000
+</span><span class='line'>Dernoga         Sarah       gkpaldin@jumpstartlab.com              49461       Whitehall               MI     7473 Easy Street                     2316707000
+</span><span class='line'>Ojeh            Sarah       bfkelly@jumpstartlab.com               20742       College Park            MD     8000 Boteler Lane Appt 248A          4104743000
+</span><span class='line'>Sparrow         Sarah       jw9@jumpstartlab.com                   13346       Hamilton                NY                                          9084187000
+</span><span class='line'>Deutschmann     Sarah       pooneil@jumpstartlab.com               03435       Keene, NH               NH     229 Main St.                         6032752000
+</span><span class='line'>Alilionis       Sarah       jhagamininj4@jumpstartlab.com          03431       Keene                   NH     21 Coolidge Street                   2032783000
+</span><span class='line'>Displaying records 10 - 20 of 78
+</span><span class='line'>press space bar or the enter key to show the next set of records</span></code></pre></td></tr></table></div></figure>
+
+<p>Noting that it has&#8230;</p>
+
+<ol>
+<li>Aligned columns</li>
+<li>10 entries per screen</li>
+<li>A status bar displaying total records</li>
+</ol>
+
+<p><em>But</em>, the exact number of records may differ if the program does not implement the &quot;improved find&quot; with case-insensitive search.</p>
+
+<h4>B. Improved <code>find</code></h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find first_name sarah and state CA</code></li>
+<li>Observe that there should only be four records in the queue</li>
+</ol>
+
+<h4>C. Improved <code>queue save to</code></h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find first_name Sarah</code></li>
+<li><code>queue save to sarah.xml</code></li>
+<li><code>queue save to sarah.json</code></li>
+<li><code>queue save to sarah.txt</code></li>
+<li><code>queue save to sarah.yml</code></li>
+<li>Inspect the four output files for completeness and structure.</li>
+</ol>
+
+<h4>D. Queue Math</h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find zipcode 20011</code></li>
+<li><code>subtract first_name william</code></li>
+<li><code>add zipcode 20010</code></li>
+<li>Observe that there are 8 records in the queue.</li>
+</ol>
+
+<h4>E. Nightmare-Mode Find</h4>
+
+<ol>
+<li><code>load</code></li>
+<li><code>find state (DC, VA, MD) and last_name johnson</code></li>
+<li>Observe that there are three records in the queue.</li>
+<li><code>load</code></li>
+<li><code>find state dc or last_name smith</code></li>
+<li>Observe that there are 270 records in the queue</li>
+<li><code>queue find first_name alicia</code></li>
+<li>Observe that only 3 records remain in the queue</li>
+</ol>
+
+<h2>Evaluation Rubric</h2>
+
+<p>The project will be assessed with the following rubric:</p>
+
+<h3>1. Functional Expectations</h3>
+
+<ul>
+<li>4: Application fulfills all base expectations and two extensions</li>
+<li>3: Application fulfills all base expectations</li>
+<li>2: Application has some missing functionality but no crashes</li>
+<li>1: Application crashes during normal usage</li>
+</ul>
+
+<h3>2. REPL Interface</h3>
+
+<ul>
+<li>4: Application&#8217;s REPL goes above and beyond expectations to improve the interface</li>
+<li>3: Application&#8217;s REPL is clear and pleasant to use</li>
+<li>2: Application&#8217;s REPL has some inconsistencies or rough edges</li>
+<li>1: Application&#8217;s REPL has enough problems as to make play difficult</li>
+</ul>
+
+<h3>3. Test-Driven Development</h3>
+
+<ul>
+<li>4: Application is broken into components which are well tested in both isolation and integration</li>
+<li>3: Application is well tested but does not balance isolation and integration tests</li>
+<li>2: Application makes some use of tests, but the coverage is insufficient</li>
+<li>1: Application does not demonstrate strong use of TDD</li>
+</ul>
+
+<h3>4. Breaking Logic into Components</h3>
+
+<ul>
+<li>4: Application is expertly divided into logical components such that individual pieces could be reused or replaced without difficulty</li>
+<li>3: Application effectively breaks logical components apart with clear intent and usage</li>
+<li>2: Application shows some effort to break logic into components, but the divisions are inconsistent or unclear</li>
+<li>1: Application logic shows poor decomposition with too much logic mashed together</li>
+</ul>
+
+<h3>5. Fundamental Ruby &amp; Style</h3>
+
+<ul>
+<li>4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring</li>
+<li>3:  Application shows strong effort towards organization, content, and refactoring</li>
+<li>2:  Application runs but the code has many long methods (&gt;8 lines) and needs significant refactoring</li>
+<li>1:  Application generates syntax error or crashes during execution</li>
+</ul>
+
+<h3>6. Enumerable &amp; Collections</h3>
+
+<ul>
+<li>4: Application consistently makes use of the best-choice Enumerable methods</li>
+<li>3: Application demonstrates comfortable use of several Enumerable techniques</li>
+<li>2: Application demonstrates functional knowledge of Enumerable but only uses the most basic techniques</li>
+<li>1: Application demonstrates deficiencies with Enumerable and struggles with collections</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

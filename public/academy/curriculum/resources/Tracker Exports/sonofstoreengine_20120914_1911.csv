@@ -1,0 +1,370 @@
+Id,Story,Labels,Iteration,Iteration Start,Iteration End,Story Type,Estimate,Current State,Created at,Accepted at,Deadline,Requested By,Owned By,Description,URL,Comment,Comment,Comment,Comment,Task,Task Status,Task,Task Status,Task,Task Status
+28485883,Visitor checking out signs up while purchasing,"checkout, evaluation, first time user",1,"Apr 23, 2012","May 6, 2012",feature,1,accepted,"Apr 23, 2012","Apr 25, 2012",,Matt Yoho,Matt Yoho,"Background:
+  Given I am a visitor to the store ""Cool Sunglasses""
+  And I have added items to my cart
+  
+Scenario: Visitor signs up during checkout
+  Given I don't have a StoreEngine account
+  When I checkout
+  Then I can sign up for an account
+  And I can sign in to my existing account
+  And I can provide my email, billing, shipping, and credit card info to purchase directly
+
+  When I choose to sign up
+  Then I am asked for my account information
+  
+  When I create my account
+  Then I should be logged in
+  And I am returned to my checkout process
+  And I can make my purchase normally
+  And I should receive a confirmation email for signing up",http://www.pivotaltracker.com/story/show/28485883,"Does this mean we need multiple stores to be done first? (Matt Yoho - Apr 25, 2012)","No, just assume existing functionality. (Matt Yoho - Apr 25, 2012)","This exists in branch origin/sign_up_from_checkout (Matt Yoho - Apr 25, 2012)","Does not merge cleanly, please update from master and resend the pull request (Matt Yoho - Apr 25, 2012)",Allow account creation from checkout page,completed,Return to checkout process after account created,completed,Send confirmation email,completed
+28485975,Visitor checking out signs in while purchasing,"checkout, evaluation, first time user",11,"Sep 10, 2012","Sep 23, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a visitor to the store ""Cool Sunglasses""
+  And I have added items to my cart
+
+Scenario: Visitor signs in during checkout
+  Given I have a StoreEngine account
+  When I checkout
+  Then I can sign up for an account
+  And I can sign in to my existing account
+  And I can provide my email, billing, shipping, and credit card info to purchase directly
+
+  When I choose to sign in
+  Then I should be logged in
+  And I am returned to my checkout process
+  And I can make my purchase normally",http://www.pivotaltracker.com/story/show/28485975
+28485423,Visitor checking out purchases without signing up,"checkout, evaluation, first time user",11,"Sep 10, 2012","Sep 23, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a visitor to the store ""Cool Sunglasses""
+  And I have added items to my cart
+  
+Scenario: Visitor checks out without signing up
+  When I checkout
+  Then I can sign up for an account
+  And I can sign in to my existing account
+  And I can provide my email, billing, shipping, and credit card info to purchase directly
+
+  When I provide my info directly
+  And I purchase my order
+  Then Ibe shown a confirmation page with a unique, hashed URL that displays my order details
+  And I receive an email with my order details and the unique URL for later viewing",http://www.pivotaltracker.com/story/show/28485423
+28463311,StoreEngine user creates new store,"evaluation, stores, user",11,"Sep 10, 2012","Sep 23, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a logged in StoreEngine user
+  And I visit ""http://storeengine.com/profile""
+  Then I should be able to click to create a new store
+
+Scenario: Creating with duplicate store name
+  Given there is already a store called ""Best Sunglasses""
+  When I am creating a new store
+  And I enter a store name, store URL identifier, and store description as ""Best Sunglasses"", ""best-sunglasses"", and ""Buy our sunglasses!""
+  And I create the store
+  Then I should see an error about the duplicate name
+  And I should be able to correct the error
+
+Scenario: Creating with duplicate URL id
+  Given there is already a store with URL id ""best-sunglasses""
+  When I am creating a new store
+  And I enter a store name, store URL identifier, and store description as ""Best Sunglasses"", ""best-sunglasses"", and ""Buy our sunglasses!""
+  And I create the store
+  Then I should see an error about the duplicate URL id
+  And I should be able to correct the error
+
+Scenario: Creating successfully with an admin
+When I am creating a new store
+  And I enter a store name, store URL identifier, and store description as ""Cool Sunglasses"", ""cool-sunglasses"", and ""Buy our cool sunglasses!""
+  And I create the store
+  Then I should see a confirmation of my store details
+  And I should my new store is pending approval
+  
+  When I visit ""http://storeengine.com/cool-sunglasses""
+  Then I should see a not found error
+",http://www.pivotaltracker.com/story/show/28463311
+28467727,StoreEngine administrator views list of all stores,"evaluation, storeengine admin, stores",11,"Sep 10, 2012","Sep 23, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Scenario: StoreEngine administrator views list of stores
+  Given I am a StoreEngine administrator
+  And I visit ""http://storeengine.com/admin/stores""
+  Then I should see a listing of all stores in the system
+  And each store should display its name, URL id, the first 32 characters of its   description, and links to administer, approve, decline, disable, or enable the store
+
+Details:
+
+* Approve and decline should only show if the store is pending, and then no other links should show.
+* Enable/disable are mutually exclusive links.",http://www.pivotaltracker.com/story/show/28467727
+28599361,Beef up order integration testing,"",11,"Sep 10, 2012","Sep 23, 2012",chore,,unstarted,"Apr 25, 2012",,,Matt Yoho,,,http://www.pivotaltracker.com/story/show/28599361
+28480043,StoreEngine administrator approves a new store,"approval, evaluation, storeengine admin, stores",11,"Sep 10, 2012","Sep 23, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a StoreEngine administrator
+  And a store ""Cool Runnings"" has been created and is pending approval
+  And I visit ""http://storeengine.com/admin/stores"";
+
+Scenario: StoreEngine admin approves a new store
+  When I click ""approve"" for ""Cool Runnings""
+  Then I should see a confirmation flash message
+  And I should see the ""Cool Runnings"" in the list of stores
+  And I should not see the option to ""approve"" or ""decline"" it
+  And the user who requested approval is notified of the acceptance",http://www.pivotaltracker.com/story/show/28480043
+28480153,StoreEngine administrator declines a new store,"approval, evaluation, storeengine admin, stores",11,"Sep 10, 2012","Sep 23, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a StoreEngine administrator
+  And a store ""Cool Runnings"" has been created and is pending approval
+  And I visit ""http://storeengine.com/admin/stores"";
+
+Scenario: StoreEngine admin declines a new store
+  When I click ""decline"" for ""Cool Runnings""
+  Then I should see a confirmation flash message
+  And I should not see the ""Cool Runnings"" in the list of stores
+  And the user who requested approval is notified of the decline",http://www.pivotaltracker.com/story/show/28480153
+28461099,Show and Tell,"",11,"Sep 10, 2012","Sep 23, 2012",release,,unstarted,"Apr 23, 2012",,"Apr 26, 2012",Matt Yoho,,Meeting with stakeholders to demonstrate progress,http://www.pivotaltracker.com/story/show/28461099
+28484627,Sanity check: Send email in using background worker,"",11,"Sep 10, 2012","Sep 23, 2012",chore,,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Note: There is no use acceptance for this story. Presume it passes, and the points are awarded, unless a code reviewer says otherwise.
+
+Use a background worker solution of your choice.",http://www.pivotaltracker.com/story/show/28484627
+28463199,Shopper visits an individual store at its unique URL,"evaluation, shopper, stores",11,"Sep 10, 2012","Sep 23, 2012",feature,3,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Scenario: 
+  Given a store named ""Speedy Bikes"" with URL id ""speedy-bikes""
+  And the store has a product named ""Schwinn 10 Speed""
+  And the store does not have a product ""Hello Kitty Lunchbox""
+
+  When I visit ""http://storeengine.com/speedy-bikes""
+  And I browse its products
+  Then I should see the product ""Schwinn 10 Speed""
+
+  When I visit ""http://storeengine.com/speedy-bikes""
+  And I browse its products
+  Then I should not see the product ""Hello Kitty Lunchbox""
+",http://www.pivotaltracker.com/story/show/28463199
+28484241,StoreEngine visitor creates new account,"account, evaluation, visitor",11,"Sep 10, 2012","Sep 23, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am not logged in
+  And I am on a page for a particular
+
+Scenario: Visitor signs up successfully
+  Given I have not created a StoreEngine account with my email address before
+  And I follow the sign up link
+  Then I should be on a top-level page, ""http://storeengine.com/users/new""
+
+  When I enter my email address, full name, and display name
+  When I click to create
+  Then I am returned to the page I was on
+  And I should see a confirmation flash message with a link to change my account
+  And I should receive an email confirmation
+
+Scenario: Visitor uses duplicate address
+  Given I or someone else has created a StoreEngine account with my email address before
+  And I follow the sign up link
+  And I enter my email address, full name, and display name
+  When I click to create
+  Then I should see an error about duplicate email and a link to sign in
+  And I should be able to correct it and resubmit
+
+Scenario: Visitor omits full name
+  Given I have not created a StoreEngine account with my email address before 
+  And I follow the sign up link
+  And I enter my email address and display name
+  When I click to create
+  Then I should see an error telling me I need to specify a full name
+  And I should be able to correct it and resubmit
+
+Scenario: Visitor omits display name
+  Given I have not created a StoreEngine account with my email address before 
+  And I follow the sign up link
+  And I enter my email address and full name
+  When I click to create
+  Then I am returned to the page I was on
+  And I should see a confirmation flash message with a link to change my account
+  And I should receive an email confirmation",http://www.pivotaltracker.com/story/show/28484241
+28484435,Logged in user visits multiple stores,"account, evaluation, stores, user",11,"Sep 10, 2012","Sep 23, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Scenario: Logged in user visits multiple stores
+  Given I am logged in with my StoreEngine single sign-on account
+  When I view the store at ""http://storeengine.com/cool-sunglasses""
+  Then I am signed in
+  When I visit ""http://storeengine.com/cool-runnings""
+  Then I am signed in",http://www.pivotaltracker.com/story/show/28484435
+28468461,Store administrator edits and updates a store's details,"evaluation, store admin, stores",12,"Sep 24, 2012","Oct 7, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Scenario:
+  Given I am a Store administrator for ""http://storeengine.com/cool-sunglasses""
+  And I visit ""http://storeengine.com/cool-sunglasses/admin""
+  Then I should be able to click to edit the store details
+
+  When I am editing the store
+  And I change the store name
+  And I update the store
+  And I should see a confirmation flash message
+  And I should be able to find the new store name
+  And I should not be able to find the old store name
+
+  When I am editing the store
+  And I change the store URL id
+  And I update the store
+  Then I should be asked to confirm I want to change the URL id
+  And I should be warned about breaking existing links
+  And I should have the option to cancel or confirm my action
+  
+  When I am being asked about confirming the change to a store URL id
+  And I choose to cancel
+  Then I should be viewing the edit store page
+  And the previous store URL id should be shown
+
+  When I am being asked about confirming the change to a store URL id
+  And I choose to confirm
+  Then I should see a confirmation flash message
+  And I should see my store admin section
+  And the new store URL id should be displayed",http://www.pivotaltracker.com/story/show/28468461
+28487641,"Sanity check: Cache views, data","",12,"Sep 24, 2012","Oct 7, 2012",chore,,unstarted,"Apr 23, 2012",,,Matt Yoho,,Are you caching views? How about data? How are your response times?,http://www.pivotaltracker.com/story/show/28487641
+28481743,Store administrator works with products as in StoreEngine,"evaluation, products, store admin, stores",12,"Sep 24, 2012","Oct 7, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am an admin for the store ""Cool Sunglasses""
+  And there are products in stock for my store
+  And I am viewing ""http://storeengine.com/cool-sunglasses/admin/products""
+
+Scenario: Admin views admin listing of products
+  Then I should see the list of products for my store
+
+Scenario: Admin adds a product
+  When I click ""New Product""
+  Then I am able to add a new product like I could in StoreEngine v1
+
+  Then I am viewing the list of products
+  And I see a confirmation flash message
+
+Scenario: Admin edits a product
+  When I click ""edit"" for an existing product
+  Then I am able to change the details (name, description, price, photo URL) like I could in StoreEngine v1
+  When I save my changes
+  Then I am viewing the list of products
+  And I see a confirmation flash message
+
+Scenario: Stocker retires a product
+  When I click ""retire"" for an existing product
+  Then that product is retired, as in StoreEngine v1
+  And I am viewing the list of products
+  And I see a confirmation flash message
+
+",http://www.pivotaltracker.com/story/show/28481743
+28472973,Store administrator adds new store admin,"evaluation, store admin",12,"Sep 24, 2012","Oct 7, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a store administrator of ""http://storeengine.com/cool-sunglasses""
+  And I visit ""http://storeengine.com/cool-sunglasses/admin""
+  And I to click to add a new store admin
+
+Scenario: Adding an admin with a StoreEngine user account
+  When I add the admin ""foo@bar.com""
+  And ""foo@bar.com"" has a StoreEngine user account
+  Then an email is sent to ""foo@bar.com"" to notify them they are an admin for ""Cool Sunglasses"" and can access the admin page at """"http://storeengine.com/cool-sunglasses/admin""
+
+Scenario: Adding an admin without a StoreEngine user account
+  When I add the admin ""foo@bar.com""
+  And ""foo@bar.com"" does not have a StoreEngine user account
+  Then an email is sent to ""foo@bar.com"" inviting them to sign up for a StoreEngine account with a sign up link
+",http://www.pivotaltracker.com/story/show/28472973,"But what happens when the user does foo? (Matt Yoho - Apr 23, 2012)","Oh, in that case, make sure the system does bar. (Matt Yoho - Apr 23, 2012)"
+28482417,Store admin removes another admin,"evaluation, store admin",12,"Sep 24, 2012","Oct 7, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a store administrator of ""http://storeengine.com/cool-sunglasses""
+  And I visit ""http://storeengine.com/cool-sunglasses/admin""
+  And there is another admin with email ""foo@bar.com""
+
+Scenario: Removing an admin
+  When I click ""remove"" for the admin ""foo@bar.com""
+  Then I am asked to confirm the removal
+
+  When I confirm it
+  Then I am viewing the admin page
+  And I see a confirmation flash message
+  And ""foo@bar.com"" does not show as an admin
+  And ""foo@bar.com"" is sent an email notification
+
+Scenario: Changing one's mind about removing an admin
+  When I click ""remove"" for the admin ""foo@bar.com""
+  Then I am asked to confirm the removal
+
+  When I cancel it
+  Then I am viewing the admin page
+  And ""foo@bar.com"" shows as an admin",http://www.pivotaltracker.com/story/show/28482417
+28480471,StoreEngine administrator acts as a store admin,"evaluation, store admin, storeengine admin",12,"Sep 24, 2012","Oct 7, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Scenario: StoreEngine admin acts as store admin
+  Given I am a StoreEngine administrator
+  And I visit ""http://storeengine.com/admin/stores""
+  When I click ""administer"" for the store ""Cool Sunglasses""
+  Then I am viewing the admin section for ""Cool Runnings""
+  And I can take any action an admin for ""Cool Runnings"" could take
+",http://www.pivotaltracker.com/story/show/28480471
+28482947,Store administrator adds new stocker,"evaluation, stocker, store admin",12,"Sep 24, 2012","Oct 7, 2012",feature,3,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a store administrator of ""http://storeengine.com/cool-sunglasses"";
+  And I visit ""http://storeengine.com/cool-sunglasses/admin"";
+  And I to click to add a new stocker
+
+Scenario: Adding stocker with a StoreEngine user account
+  When I add the stocker ""bar@bar.com""
+  And ""bar@bar.com"" has a StoreEngine user account
+  Then an email is sent to ""bar@bar.com"" to notify them they are a stocker for ""Cool Sunglasses"" and can access the admin page at """"http://storeengine.com/cool-sunglasses/stock/products""
+
+Scenario: Adding a stocker without a StoreEngine user account
+  When I add the stocker ""bar@bar.com""
+  And ""bar@bar.com"" does not have a StoreEngine user account
+  Then an email is sent to ""bar@bar.com"" inviting them to sign up for a StoreEngine account with a sign up link",http://www.pivotaltracker.com/story/show/28482947
+28481523,Store Stocker works with products like a store admin,"evaluation, products, stocker, stores",12,"Sep 24, 2012","Oct 7, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a Stocker for the store ""Cool Sunglasses""
+  And there are products in stock for my store
+  And I am viewing ""http://storeengine.com/cool-sunglasses/stock/products""
+
+Scenario: Stocker views admin listing of products
+  Then I should see the list of products for my store
+
+Scenario: Stocker adds a product
+  When I click ""New Product""
+  Then I am able to add a new product like a store admin
+  When I save the product
+   
+  Then I am viewing the list of products
+  And I see a confirmation flash message
+
+Scenario: Stocker edits a product
+  When I click ""edit"" for an existing product
+  Then I am able to change the details (name, description, price, photo URL) like a store admin
+  Then I am viewing the list of products
+  And I see a confirmation flash message
+
+Scenario: Stocker retires a product
+  When I click ""retire"" for an existing product
+  Then that product is retired, as in the original StoreEngine requirements
+  And I am viewing the list of products
+  And I see a confirmation flash message
+",http://www.pivotaltracker.com/story/show/28481523
+28483155,Store admin removes stocker,"evaluation, stocker, store admin",12,"Sep 24, 2012","Oct 7, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Background:
+  Given I am a store administrator of ""http://storeengine.com/cool-sunglasses"";
+  And I visit ""http://storeengine.com/cool-sunglasses/admin"";
+  And there is stocker with email ""bar@bar.com""
+
+Scenario: Removing a stocker
+  When I click ""remove"" for the stocker ""bar@bar.com""
+  Then I am asked to confirm the removal
+
+  When I confirm it
+  Then I am viewing the admin page
+  And I see a confirmation flash message
+  And ""bar@bar.com"" does not show as a stocker
+  And ""bar@bar.com"" is sent an email notification
+
+Scenario: Changing one's mind about removing a stocker
+  When I click ""remove"" for the stocker ""bar@bar.com""
+  Then I am asked to confirm the removal
+
+  When I cancel it
+  Then I am viewing the admin page
+  And ""bar@bar.com"" shows as a stocker",http://www.pivotaltracker.com/story/show/28483155
+28488315,StoreEngine administrator disables store,"evaluation, storeengine admin, stores",12,"Sep 24, 2012","Oct 7, 2012",feature,2,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Scenario: StoreEngine admin disables store
+  Given I am a StoreEngine administrator
+  And a store ""Cool Runnings"" has been approved and is enabled
+  And I visit ""http://storeengine.com/admin/stores""
+  When I click ""disable"" for the store ""Cool Runnings""
+  Then I am viewing the admin list of stores
+  And I see a confirmation message
+  And I can see an option to ""enable"" the store ""Cool Runnings""
+
+  When I visit the page ""http://storeengine.com/cool-runnings""
+  Then I should see a page informing me the site is currently down for maintenance",http://www.pivotaltracker.com/story/show/28488315
+28488433,StoreEngine administrator enables store,"evaluation, storeengine admin, stores",12,"Sep 24, 2012","Oct 7, 2012",feature,1,unstarted,"Apr 23, 2012",,,Matt Yoho,,"Scenario: StoreEngine admin enables store
+  Given I am a StoreEngine administrator
+  And a store ""Cool Runnings"" has been approved but is disabled
+  And I visit ""http://storeengine.com/admin/stores""
+  When I click ""enable"" for the store ""Cool Runnings""
+  Then I am viewing the admin list of stores
+  And I see a confirmation message
+  And I can see an option to ""disable"" the store ""Cool Runnings""
+
+  When I visit the page ""http://storeengine.com/cool-runnings""
+  Then I should see products for the store ""Cool Runnings""",http://www.pivotaltracker.com/story/show/28488433
+28482689,Sanity check: Make sure no store admin functionality is lost from StoreEngine v1,"",12,"Sep 24, 2012","Oct 7, 2012",chore,,unstarted,"Apr 23, 2012",,,Matt Yoho,,This is just here as a sanity check reminder.,http://www.pivotaltracker.com/story/show/28482689
+28461237,Basic requirements,"",12,"Sep 24, 2012","Oct 7, 2012",release,,unstarted,"Apr 23, 2012",,"May 2, 2012",Matt Yoho,,,http://www.pivotaltracker.com/story/show/28461237
+28599301,Forgot to validate format of image URL for products,"",,,,bug,,unscheduled,"Apr 25, 2012",,,Matt Yoho,,Things are blowin' up.,http://www.pivotaltracker.com/story/show/28599301
+28487473,Custom CSS Per store,"evaluation, extension",,,,feature,,unscheduled,"Apr 23, 2012",,,Matt Yoho,,,http://www.pivotaltracker.com/story/show/28487473
+28487503,Use sub-domains to distinguish stores,"evaluation, extension",,,,feature,,unscheduled,"Apr 23, 2012",,,Matt Yoho,,,http://www.pivotaltracker.com/story/show/28487503
+28487537,Separate sign-in per store,"evaluation, extension",,,,feature,,unscheduled,"Apr 23, 2012",,,Matt Yoho,,,http://www.pivotaltracker.com/story/show/28487537
+28487763,Extensions,"",,,,release,,unscheduled,"Apr 23, 2012",,"May 2, 2012",Matt Yoho,,,http://www.pivotaltracker.com/story/show/28487763

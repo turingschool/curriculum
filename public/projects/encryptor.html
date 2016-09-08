@@ -1,0 +1,1727 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Encryptor - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Encryptor                              Have you ever wanted to send a secret message?The PlanToday we use computers &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/encryptor.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Encryptor
+        </h1>
+        
+      </header>
+    
+    <p>Have you ever wanted to send a secret message?</p>
+
+<h3>The Plan</h3>
+
+<p>Today we use computers to mask messages every day. When you connect to a website that uses &quot;https&quot; in the address, it is running a special encoding on your transmissions that makes it very difficult for anyone to listen in between you and the server.</p>
+
+<p>The science of masking and unmasking data is called <em>cryptography</em>. When you take readable data and mask it, we say that you&#8217;re &quot;encrypting&quot; the data. When you turn it back into readable text, you&#8217;re &quot;decrypting&quot; the data.</p>
+
+<p>Let&#8217;s build a tool named &quot;Encryptor&quot; that can take in our messages, encrypt them for transmission, then decrypt messages we get from others.</p>
+
+<h4>Encryption Algorithms</h4>
+
+<p>An <em>algorithm</em> is a series of steps used to create an outcome. For instance, a recipe is a kind of algorithm &#8211; you follow steps and, hopefully, create some food.</p>
+
+<p>There are many algorithms used in cryptography. One of the easiest goes back to the days of Ancient Rome.</p>
+
+<p>Julius Caesar needed to send written instructions from his base in Rome to his soldiers thousands of miles away. What if the messenger was captured or killed? The enemy could read his plans!</p>
+
+<p>Caesar&#8217;s army used an algorithm called &quot;ROT-13&quot;.</p>
+
+<h4>Building a Cipher</h4>
+
+<p>&quot;ROT-13&quot; is an algorithm that uses a cipher. A cipher is a tool which translates one piece of data to another. If you&#8217;ve ever used a &quot;decoder ring&quot;, that&#8217;s a cipher. The cipher has an input and an output.</p>
+
+<p>Let&#8217;s make a cipher for &quot;ROT-13&quot;:</p>
+
+<ol>
+<li>Take a piece of lined paper</li>
+<li>In a column, write the letters A through Z in order down the left side.</li>
+<li>On the first line, start a second column by writing the letter N next to your A</li>
+<li>Continue down the alphabet, so you now write &quot;O&quot; to the right of &quot;B&quot;</li>
+<li>When your second column gets to &quot;Z&quot;, start over again with &quot;A&quot;</li>
+</ol>
+
+<p>The left side of your cipher is the input, the right side is the output.</p>
+
+<h4>Using the Cipher</h4>
+
+<p>You take each letter of your secret data, find it in the left column, and write down the letter on the right. Now you have an encrypted message.</p>
+
+<p>To decrypt a secret message, find the letter on the right side and write down the letter on the left.</p>
+
+<div class='exercise'>
+        <h4>Exercises</h4>
+
+<ol>
+<li>What is the result when you encrypt the phrase &quot;Hello, World&quot;?</li>
+<li>What is the decrypted version of a message &quot;anqn&quot;?</li>
+</ol>
+
+       </div>
+
+<h3>Starting Encryptor</h3>
+
+<h4>The Big Picture</h4>
+
+<p>We need an object which will perform the encryption and decryption operations. We will define a class then write methods in that class. From IRB we can load that class, create an instance of it, then tell it to do the work with our messages.</p>
+
+<h4>Setting up the Class</h4>
+
+<p>We&#8217;ll create a class which does both the encrypting and decrypting. Let&#8217;s start it off like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Encryptor</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And save it in a file named <code>encryptor.rb</code></p>
+
+<h4>Checking File Location</h4>
+
+<p>Go to your Command Prompt window and make sure it&#8217;s currently in the same directory as your <code>encryptor.rb</code> file.</p>
+
+<h5>On Windows</h5>
+
+<p>From the command prompt, run this instruction:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>dir</span><span class='line output'>Volume in drive C has no label</span><span class='line output'>Volume Serial Number is 3C53-24A5</span><span class='line output'></span><span class='line output'>Directory of C:\Users\YOURUSERNAME</span><span class='line output'></span><span class='line output'>11/06/2012 12:00 &lt;DIR&gt; .</span><span class='line output'>11/06/2012 12:00 &lt;DIR&gt; ..</span><span class='line output'>11/08/2012 12:00 &lt;DIR&gt; encryptor.rb</span><span class='line output'>...</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>And it will output the files in the current directory. In that list you should see <code>encryptor.rb</code>.</p>
+
+<p>If you <em>don&#8217;t</em> see it, first make sure you saved the file in your editor. Then use <code>cd</code> to change to the correct directory.</p>
+
+<h5>On MacOS</h5>
+
+<p>From the command prompt, run this instruction:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ls</span><span class='line output'>Desktop Downloads Movies Pictures encryptor.rb</span><span class='line output'>Documents Library Music Public</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>And it will output the files in the current directory. In that list you should see <code>encryptor.rb</code>.</p>
+
+<p>If you <em>don&#8217;t</em> see it, first make sure you saved the file in your editor. Then use <code>cd</code> to change to the correct directory.</p>
+
+<h4>Loading it in IRB</h4>
+
+<p>Now that you know you&#8217;re in the right directory, run IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>irb</span><span class='line output'>1.9.3p194 :001 ></span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then, at the IRB prompt, tell it to load your file:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h5>Creating an Instance</h5>
+
+<p>Now that IRB has loaded your code, you can create an instance of the <code>Encryptor</code> class like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>e = Encryptor.new</span><span class='line output'>=&gt; #&lt;Encryptor:0x007f7f39060440&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The second line there is the output you&#8217;ll see in IRB. The numbers/letters at the end will be different.</p>
+
+<h3>Writing an <code>encrypt</code> Method</h3>
+
+<p>We made a class, that&#8217;s a start &#8211; but it doesn&#8217;t <strong>do</strong> anything!</p>
+
+<p>We need to write an <code>encrypt</code> method.</p>
+
+<h4>The Simplest Thing That Could Work</h4>
+
+<p>In computer programming, you want to first do the simplest thing that could possibly work. Often this is a solution that&#8217;s difficult to maintain as requirements change or somehow &quot;cheating.&quot; But the idea is that you get it <em>working</em> first, then you make it <em>better</em>.</p>
+
+<p>Let&#8217;s build a really simple implementation of <code>encrypt</code> using a lookup cipher like you made on paper.</p>
+
+<h4>Lookup Tables</h4>
+
+<p>When you created the cipher on paper you made what&#8217;s called a &quot;lookup table&quot;. It&#8217;s a tool which you use by having some value, finding it in the list, and getting out some related value.</p>
+
+<p>For instance, when the <em>input</em> to your lookup table is <code>&quot;A&quot;</code>, then the output is <code>&quot;N&quot;</code>. Let&#8217;s build a lookup table in Ruby.</p>
+
+<p>The easiest way to build a lookup table is to use a Ruby <em>hash</em>.</p>
+
+<h5>A Quick Reminder about Hashes</h5>
+
+<p>If you recall, a hash is a collection of <em>key-value pairs</em>. When you want to find data in a hash, you give it the <em>key</em> and it gives you back the matching <em>value</em>.</p>
+
+<p>Try this in IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sample = {"name" =&gt; "Jeff", "age" =&gt; 12}</span><span class='line output'>=&gt; {"name"=&gt;"Jeff", "age"=&gt;12}</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>On the right side I&#8217;ve created a hash by using the <code>{</code> and <code>}</code>. Inside those curly brackets, I created two key-value pairs. The first one has the key <code>&quot;name&quot;</code> which points to a value <code>&quot;Jeff&quot;</code>. Then a comma separates the first pair from the second pair, then the key <code>&quot;age&quot;</code> points to the value <code>12</code>.</p>
+
+<p>I can lookup values in that hash like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sample["age"]</span><span class='line output'>=&gt; 12</span><span class='line command'>sample["name"]</span><span class='line output'>=&gt; "Jeff"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Building the Cipher / Lookup Table</h4>
+
+<p>This part is going to be boring. That&#8217;s common when we&#8217;re building &quot;the simplest thing that could possibly work&quot;!</p>
+
+<p>We need to write out a hash which has every letter of the alphabet and which letter it corresponds to in the cipher. Use your paper cipher as a guide. Here&#8217;s how it starts within your <code>encryptor.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Encryptor</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">cipher</span>
+</span><span class='line'>    <span class="p">{</span><span class="s1">&#39;a&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;q&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="s1">&#39;e&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;t&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;u&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="s1">&#39;i&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;j&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="s1">&#39;m&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="s1">&#39;q&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;t&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="s1">&#39;u&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;j&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span>
+</span><span class='line'>     <span class="s1">&#39;y&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;m&#39;</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Make sure you use all <em>lowercase letters</em>. If you neatly line up your rows like I did, it will make it a lot easier to find any typos, missing quotes, or missing commas.</p>
+
+<h4>Encrypting One Letter</h4>
+
+<p>Whew, that was tiring! Let&#8217;s see if it actually worked.</p>
+
+<p>We&#8217;ll need to write an <code>encrypt</code> method. It&#8217;ll take in just one letter and give us back the corresponding letter from the cipher.</p>
+
+<p>Add this <strong>inside</strong> your <code>Encryptor</code> class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cipher</span><span class="o">[</span><span class="n">letter</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Try It Out</h5>
+
+<p>In your IRB window, run these instructions:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span><span class='line command'>e = Encryptor.new</span><span class='line output'>=&gt; #&lt;Encryptor:0x007f7f39060440&gt;</span><span class='line command'>e.encrypt('m')</span><span class='line output'>=&gt; 'z'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Did it give you back <code>'z'</code>? If not, look for typos in your code or lookup table.</p>
+
+<h5>A Little Issue</h5>
+
+<p>In the same IRB window, try this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>e.encrypt('M')</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Did you get back <code>nil</code>? Ugh! Remember that <code>nil</code> means &quot;nothing&quot; in Ruby. Our <code>encrypt</code> method is looking in the <code>cipher</code> for a key <code>&quot;M&quot;</code>, but it isn&#8217;t finding it. As far as Ruby is concerned, <code>&quot;M&quot;</code> and <code>&quot;m&quot;</code> are totally different things.</p>
+
+<p>What should we do? Add all the capital letters to our cipher? That&#8217;ll take us another 10 minutes!!!</p>
+
+<h5>A Hack to Deal with Uppercase/Lowercase</h5>
+
+<p>Let&#8217;s implement a hack (or a &quot;cheat&quot;) and say that no matter whether the incoming letter is uppercase or lowercase, we&#8217;re going to output lowercase. Spies who are using our advanced cryptography system can fix the letters to uppercase on their own!</p>
+
+<p>What we&#8217;ll do here is modify the <code>encrypt</code> method so it turns <em>every</em> input into lowercase <em>before</em> looking it up in the cipher. If you pass in <code>&quot;a&quot;</code> it will just stay as <code>&quot;a&quot;</code> and be found in the cipher. If you pass in <code>&quot;A&quot;</code> it will be changed to <code>&quot;a&quot;</code> and found in the cipher.</p>
+
+<p>Let&#8217;s change our <code>encrypt</code> method to use the <code>.downcase</code> method. This method turns any string into all lowercase letters.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">lowercase_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>  <span class="n">cipher</span><span class="o">[</span><span class="n">lowercase_letter</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then go to IRB and try it again:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span><span class='line command'>e = Encryptor.new</span><span class='line output'>=&gt; #&lt;Encryptor:0x007f7f39060440&gt;</span><span class='line command'>e.encrypt('M')</span><span class='line output'>=&gt; 'z'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If it gives you back <code>&quot;z&quot;</code>, then everything is on track!</p>
+
+<h3>Encrypting a Whole String</h3>
+
+<p>Our program is really sweet, as long as your message is only one letter and you don&#8217;t need to ever decrypt it. Hmmmm&#8230;.</p>
+
+<h4>An Experiment</h4>
+
+<p>Maybe it will magically work! Let&#8217;s try this in IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>e.encrypt("Hello")</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>What did you get? Ugh. There&#8217;s no magic in programming. We&#8217;ll need to write more instructions.</p>
+
+<h4>A Theory</h4>
+
+<p>I know, let&#8217;s just make a lookup table that has all the words in the English language and points to their encrypted version! Come back in 20 years when you&#8217;re done typing that up.</p>
+
+<p>Instead, let&#8217;s encrypt one letter at a time. The <em>algorithm</em> will go like this:</p>
+
+<ol>
+<li>Cut the input string into letters</li>
+<li>Encrypt those letters one at a time, gathering the results</li>
+<li>Join the results back together in one string</li>
+</ol>
+
+<p>Let&#8217;s do it!</p>
+
+<h4>Remember <code>.split</code>?</h4>
+
+<p>We looked at the <code>.split</code> method on Strings before. It can cut up strings like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sample = "Hello World"</span><span class='line output'>=&gt; "Hello World"</span><span class='line command'>sample.split</span><span class='line output'>=&gt; ["Hello", "World"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>When we don&#8217;t pass in any parameters, <code>split</code> will cut the string wherever it sees a space.</p>
+
+<p>What if we pass in a parameter? Try this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sample.split("o")</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The output was pretty different. It cut the string wherever it found an <code>&quot;o&quot;</code>.</p>
+
+<h4>Splitting Into Letters</h4>
+
+<p>So how does this help our <code>Encryptor</code>? We can actually pass the parameter <code>&quot;&quot;</code> to <code>split</code>. Try this out:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sample.split("")</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You should see an array of all the letters chopped into their own strings.</p>
+
+<h4>One Letter at a Time</h4>
+
+<p>Our existing <code>encrypt</code> method really just encrypts one letter. Let&#8217;s <em>change its name</em> to <code>encrypt_letter</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt_letter</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">lowercase_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>  <span class="n">cipher</span><span class="o">[</span><span class="n">lowercase_letter</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>A New <code>encrypt</code></h4>
+
+<p>Then let&#8217;s start a new, blank <code>encrypt</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When I&#8217;m writing a program that&#8217;s a little complicated, it helps me to first write <strong>pseudocode</strong>. Pseudocode is English that&#8217;s &quot;shaped&quot; like code. It&#8217;s a way to chart out the idea of what you want the code to do before you write it.</p>
+
+<p>Taking the ideas from above, we can write pseudocode in our <code>encrypt</code> method using comments. In Ruby, any line that starts with a <code>#</code> is ignored. So here&#8217;s our &quot;blank&quot; <code>encrypt</code> with some pseudocode:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># 1. Cut the input string into letters</span>
+</span><span class='line'>  <span class="c1"># 2. Encrypt those letters one at a time, gathering the results</span>
+</span><span class='line'>  <span class="c1"># 3. Join the results back together in one string</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s tackle those one by one.</p>
+
+<h4>Cut the Input String</h4>
+
+<p>This part we know already. We can use split like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">letters</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we&#8217;ve got an Array of letters.</p>
+
+<h4>Encrypt Those Letters</h4>
+
+<p>This is the tricky part. Let me show you the simplest way first, then the best way second.</p>
+
+<h5>Gathering Results with an Array</h5>
+
+<p>Imagine you had a bunch of math problems to solve and needed to turn in a list of the solution. What would you do?</p>
+
+<p>Probably grab a piece of paper, do the problems one by one, and write down each answer on the paper as you finish the calculation. Right?</p>
+
+<p>We can do that in Ruby, too. Let&#8217;s experiment in IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>results = []</span><span class='line command'>results.push(6)</span><span class='line command'>results.push(2)</span><span class='line command'>results.push(9)</span><span class='line command'>results</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The first line creates a blank array named <code>results</code>. The next three lines <code>push</code> a value on to the end of that array. It&#8217;s like adding a value to the end of your piece of paper. Then the last line is just there to show us the values in results.</p>
+
+<p>Let&#8217;s use this technique in <code>encrypt</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># 1. Cut the input string into letters</span>
+</span><span class='line'>  <span class="n">letters</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 2. Encrypt those letters one at a time, gathering the results</span>
+</span><span class='line'>  <span class="n">results</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">letters</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">letter</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">encrypted_letter</span> <span class="o">=</span> <span class="n">encrypt_letter</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">results</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">encrypted_letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 3. Join the results back together in one string</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Joining the Results</h4>
+
+<p><code>results</code> holds an array of letters, but we want to finish with a single string. Remember how to mash all the elements of an array together into a string?</p>
+
+<p>We need the <code>.join</code> method. Call <code>.join</code> on the results array as the last line of <code>.encrypt</code>.</p>
+
+<h4>Testing</h4>
+
+<p>Try this in IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span><span class='line command'>e = Encryptor.new</span><span class='line output'>=&gt; #&lt;Encryptor:0x007f7f3913a3e8&gt;</span><span class='line command'>e.encrypt("Hello")</span><span class='line output'>=&gt; "uryyb"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Did yours work? If you didn&#8217;t get the exact same output <code>&quot;uryyb&quot;</code> go back and figure out what&#8217;s going wrong.</p>
+
+<h4>Refactoring</h4>
+
+<p>Whenever we program we want to do the simplest thing that could possibly work. But then once it works, we try to make the code better. We can make it better by making it shorter, easier to understand, or faster to run.</p>
+
+<p>This process is called <strong>refactoring</strong>.</p>
+
+<p>My <code>encrypt</code> method currently looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># 1. Cut the input string into letters</span>
+</span><span class='line'>  <span class="n">letters</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 2. Encrypt those letters one at a time, gathering the results</span>
+</span><span class='line'>  <span class="n">results</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">letters</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">letter</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">encrypted_letter</span> <span class="o">=</span> <span class="n">encrypt_letter</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">results</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">encrypted_letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># 3. Join the results back together in one string</span>
+</span><span class='line'>  <span class="n">results</span><span class="o">.</span><span class="n">join</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>I&#8217;d first remove all the comments. The code works, so I don&#8217;t need the English words telling me what it does.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">letters</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">results</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">letters</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">letter</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">encrypted_letter</span> <span class="o">=</span> <span class="n">encrypt_letter</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">results</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="n">encrypted_letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">results</span><span class="o">.</span><span class="n">join</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>The <code>.collect</code> method</h5>
+
+<p>The next piece I&#8217;m interested in is the middle section. Arrays in Ruby have a method named <code>.collect</code>.</p>
+
+<p>The <code>.each</code> method that we&#8217;re already using goes through the elements in the array and runs the block once for each element.</p>
+
+<p>The <code>.collect</code> method does the same thing, <em>but</em> it also gathers the results of running the block into an array and gives you back that array.</p>
+
+<p>Let&#8217;s try an example in IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+<span class='line-number'>2.1.1 :006&gt;</span>
+<span class='line-number'>2.1.1 :007&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sample = ["a", "b", "c"]</span><span class='line output'>=&gt; ["a", "b", "c"]</span><span class='line command'>sample.each do |letter|</span><span class='line command'>letter.upcase</span><span class='line command'>end</span><span class='line output'>=&gt; ["a", "b", "c"]</span><span class='line command'>sample.collect do |letter|</span><span class='line command'>letter.upcase</span><span class='line command'>end</span><span class='line output'>=&gt; ["A", "B", "C"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Do you see the difference in the outputs? When we use <code>.each</code>, we get back the original sample lettters. It&#8217;s as though the <code>.upcase</code> never happened.</p>
+
+<p>When we use <code>.collect</code> though, we get back the three letters capitalized. This array is the result of running the <code>.upcase</code> method and gathering the results.</p>
+
+<p>To take it a step further, we could save the capitalized letters into a new array like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>capitals = sample.collect do |letter|</span><span class='line command'>letter.upcase</span><span class='line command'>end</span><span class='line output'>=&gt; ["A", "B", "C"]</span><span class='line command'>capitals</span><span class='line output'>=&gt; ["A", "B", "C"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now we have an array named <code>capitals</code> which holds the same results.</p>
+
+<h5>Challenge: Using <code>.collect</code> in <code>.encrypt</code></h5>
+
+<p>Now look at your code for <code>encrypt</code>. How can you use <code>.collect</code> instead of <code>.each</code> and get rid of <em>two</em> lines of code?</p>
+
+<p>Make sure that your <code>encrypt</code> method still works by testing it in IRB after you make the changes.</p>
+
+<h4>Decrypting</h4>
+
+<p>Encrypting is cool, but only if you can eventually decrypt the message.</p>
+
+<p>There&#8217;s this funny thing about decrypting ROT-13. There are 26 letters in the alphabet. Moving forward 13 letters is the same as moving backward 13 letters.</p>
+
+<p>Write your own &#8217;<code>.decrypt</code>&#8217; method so that when tested you get output like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span><span class='line command'>e.encrypt("Secrets")</span><span class='line output'>=&gt; "frpergf"</span><span class='line command'>e.decrypt("frpergf")</span><span class='line output'>=&gt; "secrets"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now you have a proper encryption/decryption tool.</p>
+
+<h3>Supporting More Ciphers</h3>
+
+<p>What if the enemy figures out the cipher?</p>
+
+<p>We could change the cipher at any time. For instance, we could decide to use a &quot;ROT-8&quot; and only rotate eight letters.</p>
+
+<p>How would you do this given the current implementation? You&#8217;d have to retype the entire cipher - yuk.</p>
+
+<p>Worse, what if you want your one encryption engine to support both ROT-13 and ROT-8? What about ROT-4? ROT-20? You might need to write 26 different ciphers.</p>
+
+<p>That&#8217;s ridiculous. Instead, let&#8217;s figure out how to do our encryption and decryption automatically allowing us to get rid of the original cipher all together.</p>
+
+<h4>Ranges</h4>
+
+<p>Ruby has the ability to specify ranges of letters and numbers. Ranges specify a starting letter or number and a finishing letter or number. Ranges are a shorthand way of stating you want all the values in between the start position and the end position.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># A range of numbers from 1 to 9</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="mi">9</span>
+</span><span class='line'><span class="c1"># A range of characters from &#39;a&#39; to &#39;z&#39;</span>
+</span><span class='line'><span class="s1">&#39;a&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;z&#39;</span>
+</span><span class='line'><span class="c1"># A range of characters from &#39;A&#39; to &#39;Z&#39;</span>
+</span><span class='line'><span class="s1">&#39;A&#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;Z&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first three examples are probably familiar to you. When you are writing out a long list of known things we often times abbreviate the list with a series of dots (called an Ellipsis and is usually stated with three dots &#8216;&#8230;&#8217;). In ruby this abbreviation is done with two dots.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>1..9</span><span class='line output'>=&gt; 1..9</span><span class='line command'>(1..9).to_a</span><span class='line output'>=&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>A range is similar to an Array and can stand in for an array if you convert the range to an array with the <code>to_a</code> method. The first example shows the range we described. In the second example we convert the range into an array. This will show us every value in between.</p>
+
+<p>Two of our ranges represented characters in the alphabet. We wanted a range of all the lower case letters and a separate range of all the upper case letters. We can also define a range which is both the upper case and the lower case letters.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><br><br></pre></td><td class='code'><pre><code><span class='line command'>'A'..'z'</span><span class='line output'>=&gt; "A".."z"</span><span class='line command'>('A'..'z').to_a</span><span class='line output'>["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "\\", "]", "^", "_", "`", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We define a range from an upper case &#8216;A&#8217; to a lower case &#8216;z&#8217;. That seemed to work correctly. When we converted to an array it seems to have included a bunch of extra characters. Why did that happen?</p>
+
+<p>All of the characters you can possibly type are stored somewhere in a big, long list. What we are seeing above is a subset of that big list. Someone decided awhile ago to store a few extra characters between the upper case letters and the lower case letters.</p>
+
+<p>We can see an even bigger list if we create a range between the space character &#8217; &#8217; and a lower case &#8216;z&#8217;.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><br><br><br><br></pre></td><td class='code'><pre><code><span class='line command'>' '..'z'</span><span class='line output'>=&gt; " ".."z"</span><span class='line command'>(' '..'z').to_a</span><span class='line output'>[" ", "!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ":", ";", "&lt;", "=", "&gt;", "?", "@", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "[", "\\", "]", "^", "_", "`", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Wow. That is a long list of characters. The best part about the list is that it contains nearly all the possible characters we could write in a message. This is something that we can use to our advantage when creating our cipher. This will save us many keystrokes by using Ranges that we convert to Arrays.</p>
+
+<div class='exercise'>
+        <h3>Exercise</h3>
+
+<p>Create an array from the range &#8216;A&#8217;..&#8217;Z&#8217;</p>
+
+<p>Create an array from the range &#8216;a&#8217;..&#8217;z&#8217;</p>
+
+<p>Create an array from the range &#8216;0&#8217;..&#8217;9&#8217;</p>
+
+<p>Create an array from the range &#8217; &#8216;..&#8217;z&#8217;</p>
+
+       </div>
+
+<h4>Array Rotate</h4>
+
+<p>Array has a special method called <code>rotate</code> which accepts a number of places to rotate the entire list. This is exactly what we did manually when we wrote out all the letters on a piece of paper.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line command'>('a'..'z').to_a</span><span class='line output'>=&gt; ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]</span><span class='line command'>('a'..'z').to_a.rotate(13)</span><span class='line output'>=&gt; ["n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="o">[</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Array&#8217;s <code>rotate</code> method will allow you to easily create a cipher with any possible rotation.</p>
+
+<div class='exercise'>
+        <h3>Exercise</h3>
+
+<p>Create an array from the range &#8216;A&#8217;..&#8217;Z&#8217;</p>
+
+<p>Create an array from the range &#8216;A&#8217;..&#8217;Z&#8217; that is rotated by 1</p>
+
+<p>Create an array from the range &#8216;0&#8217;..&#8217;9&#8217; that is rotated by 5</p>
+
+       </div>
+
+<h4>Creating our cipher</h4>
+
+<ol>
+<li>Define the amount to rotate</li>
+<li>Create an array of our list of characters.</li>
+<li>Create a second array that is a list of characters rotated by the amount to rotate.</li>
+<li>Create a Hash with the first list as the keys and the second list as the values.</li>
+</ol>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><br><br><span class='line-number'>2.1.1 :005&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><br></pre></td><td class='code'><pre><code><span class='line command'>rotation = 13</span><span class='line output'>=&gt; 13</span><span class='line command'>characters = ('a'..'z').to_a</span><span class='line output'>=&gt; ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]</span><span class='line command'>rotated_characters = characters.rotate(rotation)</span><span class='line output'>=&gt; ["n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"]</span><span class='line command'>pairs = characters.zip(rotated_characters)</span><span class='line output'>=&gt; [["a", "n"], ["b", "o"], ["c", "p"], ["d", "q"], ["e", "r"], ["f", "s"], ["g", "t"], ["h", "u"], ["i", "v"], ["j", "w"], ["k", "x"], ["l", "y"], ["m", "z"], ["n", "a"], ["o", "b"], ["p", "c"], ["q", "d"], ["r", "e"], ["s", "f"], ["t", "g"], ["u", "h"], ["v", "i"], ["w", "j"], ["x", "k"], ["y", "l"], ["z", "m"]]</span><span class='line command'>Hash[pairs]</span><span class='line output'>{"a"=&gt;"n", "b"=&gt;"o", "c"=&gt;"p", "d"=&gt;"q", "e"=&gt;"r", "f"=&gt;"s", "g"=&gt;"t", "h"=&gt;"u", "i"=&gt;"v", "j"=&gt;"w", "k"=&gt;"x", "l"=&gt;"y", "m"=&gt;"z", "n"=&gt;"a", "o"=&gt;"b", "p"=&gt;"c", "q"=&gt;"d", "r"=&gt;"e", "s"=&gt;"f", "t"=&gt;"g", "u"=&gt;"h", "v"=&gt;"i", "w"=&gt;"j", "x"=&gt;"k", "y"=&gt;"l", "z"=&gt;"m"}</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Everything up to the last two step were concepts that we have introduced.</p>
+
+<p>We defined our amount of rotation as 13. We created an array of characters from the range &#8216;a&#8217; to &#8216;z&#8217;. We created a new array of characters rotated by 13.</p>
+
+<p>We combine the two lists together with a special Array method called <code>zip</code>. Zip works like a clothing zipper by merging the two lists together like the teeth of a zipper. One after the other.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">characters</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="p">,</span> <span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">rotated_characters</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="p">,</span> <span class="s2">&quot;q&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;u&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;z&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;e&quot;</span><span class="p">,</span> <span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">,</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;m&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">characters</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">rotated_characters</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># [[&quot;a&quot;, &quot;n&quot;], [&quot;b&quot;, &quot;o&quot;], [&quot;c&quot;, &quot;p&quot;], [&quot;d&quot;, &quot;q&quot;], [&quot;e&quot;, &quot;r&quot;], [&quot;f&quot;, &quot;s&quot;], [&quot;g&quot;, &quot;t&quot;], [&quot;h&quot;, &quot;u&quot;],</span>
+</span><span class='line'>  <span class="c1">#  [&quot;i&quot;, &quot;v&quot;], [&quot;j&quot;, &quot;w&quot;], [&quot;k&quot;, &quot;x&quot;], [&quot;l&quot;, &quot;y&quot;], [&quot;m&quot;, &quot;z&quot;], [&quot;n&quot;, &quot;a&quot;], [&quot;o&quot;, &quot;b&quot;], [&quot;p&quot;, &quot;c&quot;],</span>
+</span><span class='line'>  <span class="c1">#  [&quot;q&quot;, &quot;d&quot;], [&quot;r&quot;, &quot;e&quot;], [&quot;s&quot;, &quot;f&quot;], [&quot;t&quot;, &quot;g&quot;], [&quot;u&quot;, &quot;h&quot;], [&quot;v&quot;, &quot;i&quot;], [&quot;w&quot;, &quot;j&quot;], [&quot;x&quot;, &quot;k&quot;],</span>
+</span><span class='line'>  <span class="c1">#  [&quot;y&quot;, &quot;l&quot;], [&quot;z&quot;, &quot;m&quot;]]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The reason that we zipped the two arrays together is because Hash has a special creation syntax where if you provide with pairs it will create keys and values from it. The four lines of code that you just wrote is equivalent to all the time and energy you spent building your first cipher.</p>
+
+<p>From this point forward we will use the character range <code>' '..'z'</code>. This will give us all upper case letters, numbers, lower case letters, and a bunch of common punctuation symbols.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rotation</span> <span class="o">=</span> <span class="mi">13</span>
+</span><span class='line'><span class="n">characters</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'><span class="n">rotated_characters</span> <span class="o">=</span> <span class="n">characters</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+</span><span class='line'><span class="no">Hash</span><span class="o">[</span><span class="n">characters</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">rotated_characters</span><span class="p">)</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<div class='exercise'>
+        <h3>Exercise</h3>
+
+<p>Create a new hash with the range &#8216;A&#8217;..&#8217;Z&#8217;</p>
+
+<p>Create a new hash with the rotation 25</p>
+
+<p>Create a new hash with the range &#8217; &#8216;..&#8217;z&#8217; with a rotation of 14</p>
+
+       </div>
+
+<h4>Creating a new cipher method</h4>
+
+<p>We now want to update our cipher method to take the amount of rotation as a parameter.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">cipher</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">characters</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>  <span class="n">rotated_characters</span> <span class="o">=</span> <span class="n">characters</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Hash</span><span class="o">[</span><span class="n">characters</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">rotated_characters</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When we do this we have changed the <em>signature</em> of our cipher method. In programming we say that methods have a <em>signature</em>.</p>
+
+<p>Previously the signature of <code>cipher</code> had no parameters. It looked like the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">cipher</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We have now changed the <em>signature</em> to have a single parameter. It looks like the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">cipher</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We now need to update all the places we previously used <code>cipher</code> to use <code>cipher(value)</code>. We will need to update <code>encrypt_letter</code>.</p>
+
+<h4>Updating our <code>encrypt_letter</code> method</h4>
+
+<p>Let us revisit our <code>encrypt_letter</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt_letter</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">lowercase_letter</span> <span class="o">=</span> <span class="n">letter</span><span class="o">.</span><span class="n">downcase</span>
+</span><span class='line'>  <span class="n">cipher</span><span class="o">[</span><span class="n">lowercase_letter</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Our <code>encrypt_letter</code> method no longer needs to <code>downcase</code> our character because our updated <code>cipher</code> method supports upper case characters. We also need to change how the <code>cipher</code> method is called as it now requires a parameter (the rotation amount).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt_letter</span><span class="p">(</span><span class="n">letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rotation</span> <span class="o">=</span> <span class="mi">13</span>
+</span><span class='line'>  <span class="n">cipher_for_rotation</span> <span class="o">=</span> <span class="n">cipher</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cipher_for_rotation</span><span class="o">[</span><span class="n">letter</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With that change it is a good time to check to ensure that everything still works.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span><span class='line command'>e = Encryptor.new</span><span class='line output'>=&gt; #&lt;Encryptor:0x007f7f391613f8&gt;</span><span class='line command'>e.encrypt_letter("a")</span><span class='line output'>=&gt; "n"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Everything should be exactly the same. That is great to know. However, we now want to make sure that we can change the rotation every time we encrypt a character. So we are going to need to update the signature of the <code>encrypt_letter</code> method to accept a new parameter. The amount of rotation.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt_letter</span><span class="p">(</span><span class="n">letter</span><span class="p">,</span><span class="n">rotation</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cipher_for_rotation</span> <span class="o">=</span> <span class="n">cipher</span><span class="p">(</span><span class="n">rotation</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cipher_for_rotation</span><span class="o">[</span><span class="n">letter</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now when we attempt to encrypt a letter we are going to need to specify the rotation.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span><span class='line command'>e = Encryptor.new</span><span class='line output'>=&gt; #&lt;Encryptor:0x007f7f391613f8&gt;</span><span class='line command'>e.encrypt_letter("a",13)</span><span class='line output'>=&gt; "n"</span><span class='line command'>e.encrypt_letter("a",1)</span><span class='line output'>=&gt; "b"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Updating our <code>encrypt</code> method</h4>
+
+<p>Now that the <code>encrypt_letter</code> expects two arguments, we need to rework <code>encrypt</code> to send it two arguments.</p>
+
+<p>Currently the signature of <code>encrypt</code> looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Change the method so it:</p>
+
+<ol>
+<li>takes a second argument named <code>rotation</code></li>
+<li>passes that <code>rotation</code> into the call to <code>encrypt_letter</code></li>
+</ol>
+
+<h5>Testing</h5>
+
+<p>When I test my method, here&#8217;s the output:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>e.encrypt("Hello", 13)</span><span class='line output'>=&gt; "Uryy!"</span><span class='line command'>e.encrypt("Hello World", 13)</span><span class='line output'>=&gt; "Uryy!-d!$yq"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Wow. That is great. No one will know what we are saying to each other!</p>
+
+<h3>Writing <code>decrypt</code></h3>
+
+<p>Speaking of which, we need to rework our <code>decrypt</code> method.</p>
+
+<p>Depending on how you wrote the method originally, this might be easy or it might be hard. Consider this:</p>
+
+<p>Decrypting is the opposite of encrypting. In our current process encrypting means moving forward <code>rotation</code> number of spots in the character map. Decrypting is then moving backwards the same number of spots.</p>
+
+<p>Implement your own version of <code>decrypt</code> that can successfully match these results:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :006&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span><span class='line command'>e = Encryptor.new</span><span class='line output'>=&gt; #&lt;Encryptor:0x00000108090b10&gt;</span><span class='line command'>encrypted = e.encrypt("Hello, World!", 10)</span><span class='line output'>=&gt; "Rovvy6*ay!vn+"</span><span class='line command'>e.decrypt(encrypted, 10)</span><span class='line output'>=&gt; "Hello, World!"</span><span class='line command'>encrypted = e.encrypt("Hello, World!", 16)</span><span class='line output'>=&gt; "Xu!!$&lt;0g$'!t1"</span><span class='line command'>e.decrypt(encrypted, 16)</span><span class='line output'>=&gt; "Hello, World!"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now our encryption engine can flexibly use any rotation number!</p>
+
+<h3>Working with Files</h3>
+
+<p>Your encryption engine is cool for encrypting a few words, but what about a whole file? Using what we&#8217;ve already built, it&#8217;s not too hard.</p>
+
+<h4>Experimenting with File I/O</h4>
+
+<p>Let&#8217;s first play with &quot;File I/O&quot; in IRB. When we say &quot;I/O&quot; we mean &quot;Input / Output&quot;.</p>
+
+<p>We&#8217;ll load a plain message in as input, then encrypt it, and output a new file with the encrypted message. We could then transmit that encrypted file, maybe as an email attachment, then our trusted correspondent can decrypt it back to a plain file.</p>
+
+<p>File I/O in Ruby is much easier than many other programming languages. Let&#8217;s do I/O backwards and output a file first.</p>
+
+<h5>File Handles</h5>
+
+<p>Whenever we work with files we create a <em>file handle</em>. You can think of this as a connection between the program and the file system which holds the files.</p>
+
+<p>It wouldn&#8217;t be accurate to say that a program holds or contains a file. Instead, we have this connection to the file system and can ask that connection to read in data from the file or write data out to it.</p>
+
+<h5>Outputting to a File</h5>
+
+<p>Let&#8217;s start by outputting some text to a file. Try this in IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>out = File.open("sample.txt", "w")</span><span class='line command'>out.write("Hello, World!")</span><span class='line command'>out.write("This is a file, hooray.")</span><span class='line command'>out.close</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>When you run that then change back to SublimeText, you may see the <code>sample.txt</code> file pop up on the left side. If not, go to the FILE menu, click OPEN, and find <code>sample.txt</code></p>
+
+<p>What do you notice about this file? There&#8217;s something that isn&#8217;t quite right about how it writes out the text &#8211; the two lines of text are on the same line of the output file.</p>
+
+<p>Try the instructions above, but add a <code>\n</code> to the end of the strings that you write out. This is a special marker to create a &quot;new line&quot;.</p>
+
+<h5>Reading a File</h5>
+
+<p>The first line of the previous example was this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">out</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;sample.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>See that <code>&quot;w&quot;</code>? What was that for? When we create a file handle, a connection to the file system, we have to tell Ruby what kind of connection we want. Are we going to <em>w</em>rite to the file (<code>&quot;w&quot;</code>), <em>r</em>ead from it (<code>&quot;r&quot;</code>), or both (<code>&quot;rw&quot;</code>)?</p>
+
+<p>Previously we wanted to write to the file, so we used the mode <code>&quot;w&quot;</code>. Now we want to read from the file, so we&#8217;ll use <code>&quot;r&quot;</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">input</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;sample.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">input</span><span class="o">.</span><span class="n">read</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You&#8217;ll see that the content of the file has been read back in, but it looks weird with the <code>&quot;\n&quot;</code> newlines in there. To see it printed with the lines broken apart, try this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">input</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;sample.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">input</span><span class="o">.</span><span class="n">read</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>File Cursor</h5>
+
+<p>Now for something strange. Assuming you just did the previous example, try running just this instruction again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="n">input</span><span class="o">.</span><span class="n">read</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What do you get out? Is that what you expected?</p>
+
+<p>Probably not. When you open a file for reading you start with a &quot;cursor&quot;.</p>
+
+<p>Imagine you had a piece of paper with words on it. When you first look at the paper, you could put your finger on the first word on the page. This is your cursor.</p>
+
+<p>If someone told you to read the page, you&#8217;d move the cursor along word by word, line by line, until you got to the end. When the cursor was on the last word, you&#8217;d stop.</p>
+
+<p>File handles work the same way. When we first opened the file the cursor was on the first letter of the file. When we said <code>.read</code> it read back all the contents of the file.</p>
+
+<p>But then the cursor was at the end of the file. If we call <code>.read</code> again we&#8217;ll just get back <code>nil</code> because there&#8217;s nothing left in the file.</p>
+
+<p>If you wanted to read the file from the beginning again, you could do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">input</span><span class="o">.</span><span class="n">rewind</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">input</span><span class="o">.</span><span class="n">read</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Creating a Secret Message</h4>
+
+<p>Now we need a message to encrypt.</p>
+
+<p>Using SublimeText, create a new file by going to the FILE menu and clicking NEW FILE.</p>
+
+<p>In this file, create a short secret message that is at least three lines long.</p>
+
+<p>Once you have the content, save it with the name <code>secret.txt</code> in the same directory as your <code>encryptor.rb</code> program.</p>
+
+<h4>Writing an <code>encrypt_file</code> Method</h4>
+
+<p>Let&#8217;s start a new method in <code>encryptor.rb</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">encrypt_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">rotation</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This method will take in two parameters, the filename of the file to be encrypted and the number of letters to rotate.</p>
+
+<h5>Pseudocode</h5>
+
+<p>Add this pseudocode into the method as comments:</p>
+
+<ol>
+<li>Create the file handle to the input file</li>
+<li>Read the text of the input file</li>
+<li>Encrypt the text</li>
+<li>Create a name for the output file</li>
+<li>Create an output file handle</li>
+<li>Write out the text</li>
+<li>Close the file</li>
+</ol>
+
+<h5>Implement It</h5>
+
+<p>You&#8217;ve seen all the components that you need here. Figure out how to implement this method on your own. Here are a few notes to help you:</p>
+
+<ol>
+<li>Use the filename variable from the parameter with the <code>File.open</code> call. Remember to specify the right read/write mode.</li>
+<li>Just call the same method you did before to read the contents. You&#8217;ll need to save this into a variable.</li>
+<li>Call your <code>.encrypt</code> method passing in the text from step 2 and the rotation parameter</li>
+<li>Name the output file the same as the input file, but with <code>&quot;.encrypted&quot;</code> on the end. So an input file named <code>&quot;sample.txt&quot;</code> would generate a file named <code>&quot;sample.txt.encrypted&quot;</code>. Store the name in a variable.</li>
+<li>Create a new file handle with the name from step 4 and remember the correct read/write mode.</li>
+<li>Use the <code>.write</code> method like before.</li>
+<li>Call <code>.close</code> on the output file handle</li>
+</ol>
+
+<h5>Test It</h5>
+
+<p>Run your code from IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line output'>=&gt; true</span><span class='line command'>e = Encryptor.new</span><span class='line output'>=&gt; #&lt;Encryptor:0x007f7f3916be98&gt;</span><span class='line command'>e.encrypt_file("sample.txt", 5)</span><span class='line output'>=&gt; nil</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You get back <code>nil</code> because the <code>.close</code> method you called on the output file returns <code>nil</code>.</p>
+
+<p>Open the <code>sample.txt.encrypted</code> in SublimeText. Does it look like a bunch of junk? Hopefully so! No one is going to be able to read your secret message.</p>
+
+<h4>Writing a <code>decrypt_file</code> Method</h4>
+
+<p>But did it really work? We can&#8217;t know until we write a <code>decrypt_file</code> method.</p>
+
+<h5>Method Signature</h5>
+
+<p>The method should look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">decrypt_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">rotation</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Pseudocode</h5>
+
+<p>The pseudocode is almost the same:</p>
+
+<ol>
+<li>Create the file handle to the encrypted file</li>
+<li>Read the encrypted text</li>
+<li>Decrypt the text by passing in the text and rotation</li>
+<li>Create a name for the decrypted file</li>
+<li>Create an output file handle</li>
+<li>Write out the text</li>
+<li>Close the file</li>
+</ol>
+
+<p>You know how to do most of this. Here are two tricky parts:</p>
+
+<h5>Step 1. Read File Handle</h5>
+
+<p>For the very first step, where you create the file handle, Ruby will fail to detect which language the file is written in because of all the strange characters. You need to put a little more information in the read/write mode declaration like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">input</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Step 4. Output Filename</h5>
+
+<p>For the output filename, it&#8217;d be nice if we could call it something like <code>&quot;sample.txt.decrypted&quot;</code>. You could create that string using the <code>.gsub</code> method like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">output_filename</span> <span class="o">=</span> <span class="n">filename</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;encrypted&quot;</span><span class="p">,</span> <span class="s2">&quot;decrypted&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Other than that, you&#8217;re on your own!</p>
+
+<h4>Testing the Whole Process</h4>
+
+<p>Let&#8217;s see the whole thing work together:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line command'>e = Encryptor.new</span><span class='line command'>e.encrypt_file("sample.txt", 11)</span><span class='line command'>e.decrypt_file("sample.txt.encrypted", 11)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then open <code>&quot;sample.txt.decrypted&quot;</code> and see how it looks.</p>
+
+<p>If it matches your input file, then your encryption engine is complete!</p>
+
+<h2>Cracking Encryption</h2>
+
+<p>Sending encrypted messages to your friends has made others envious. Other people have started to encrypt the messages they send to each other. You intercept one of these messages.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;f w)0/6X0// -6C6` &#39;&#39;46j$( &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You know that the message is using a rotation encryption scheme (the person that sent it finished the same tutorial as you). However, what you do not know is the rotational number. What rotation number are they using?</p>
+
+<h3>Finding which rotation</h3>
+
+<p>To understand the encrypted message you need to figure out the rotation number they used. Knowing that number will allow you to change your decryption tools to get the original message. How do you find the rotation?</p>
+
+<h4>Ask the writer or receiver of the message to tell you what rotational number they are using.</h4>
+
+<p>Ask the writer or receiver of the message to tell you what rotational number they are using. Decrypt the message and look at the output and see if the message looks correct.</p>
+
+<p>The solution involves very little programming. It instead relies on your ability to get people to give you information. Surprisingly people will volunteer this information. Especially if you are able to convince them you are on their team. Of course, the person telling you the rotation value may not be telling the truth.</p>
+
+<h4>Guess a rotational number based on something you may know about the writer or receiver of the message.</h4>
+
+<p>Guess a rotational number based on something you may know about the writer or receiver of the message. Decrypt the message and Look at the output and see if the message looks correct.</p>
+
+<p>This solution involves you trying to understand what number a person might choose. Does the writer of this use the same rotational value when sending you encrypted messages? Does the writer or receiver have a favorite number? Finding the solution requires you to make a guess, change your decryption code, run it, and then review the message.</p>
+
+<p>Like a game of hangman, the number of possible choices grows smaller with each choice. However, making several wrong guesses can be time consuming.</p>
+
+<h4>Decrypt the message using every rotational number. Looking at all the output and see which message looks correct.</h4>
+
+<p>Decrypt the message using every rotational number. Looking at all the output and see which message looks correct.</p>
+
+<p>This solution is the one that we can best solve with code. Our current decryption method allows us to specify a single rotational number. We need to create a new method that will generate all possible outputs for all possible rotational numbers.</p>
+
+<h4>Step 1. Solving this problem using decrypt</h4>
+
+<p>We can solve this problem by using our existing <code>decrypt</code> method. We can call it for every possible rotational number. Looking at the results each time.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :006&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line command'>e = Encryptor.new</span><span class='line command'>e.decrypt('f w)0/6X0// -6C6` ''46j$( ',1)</span><span class='line output'>=&gt; 'ezv(/.5W/..z,5B5_z&&35i#'z'</span><span class='line command'>e.decrypt('f w)0/6X0// -6C6` ''46j$( ',2)</span><span class='line output'>=&gt; 'dyu'.-4V.--y+4A4^y%%24h\"&y'</span><span class='line command'>e.decrypt('f w)0/6X0// -6C6` ''46j$( ',3)</span><span class='line output'>=&gt; 'cxt&-,3U-,,x*3@3]x$$13g!%x'</span><span class='line command'>e.decrypt('f w)0/6X0// -6C6` ''46j$( ',4)</span><span class='line output'>=&gt; 'bws%,+2T,++w)2?2\\w##02f $w'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Trying to crack the encrypted this way is very tedious. We would need to keep doing this until we found the right one. This could result in a lot of attempts. More importantly, if we wanted to crack another message in the future we would have to do this again. This is another situation where we can use looping to simplify our job.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line command'>e = Encryptor.new</span><span class='line command'>(' '..'z').to_a.size.times do |attempt|</span><span class='line command'>puts e.decrypt('ENCRYPTED',attempt)</span><span class='line command'>end</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>To figure out all the possible combinations we need to consider all the possible characters. That is why we needed to use the same range of characters again and figure out how many of them we support. The decrypted message should appear in a list alongside 90 other garbled messages. Take your time to find the message.</p>
+
+<p>Congratulations you have cracked the code!</p>
+
+<h4>Step 2:  Define a method named <code>crack</code> which accepts our encrypted message.</h4>
+
+<p>We cracked the code. You have intercepted a new message. It is time to crack this one.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;</span><span class="se">\\</span><span class="s2">qmz&amp;%,N&amp;%%q#,9,Vqxx*,`uyq&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can solve this problem again using the code we wrote above:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">attempt</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">e</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="s1">&#39;ENCRYPTED&#39;</span><span class="p">,</span><span class="n">attempt</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>However, writing that out every single time would be tedious and time-consuming. We should instead make it a standard part of our Encryptor class. That way we can call it again when we have new messages in the future to crack.</p>
+
+<p>Let&#8217;s add a new <code>crack</code> method to our Encryptor. The <code>crack</code> method should accept an encrypted message. However, we want to change it slightly. Instead of outputting the messages immediately with the <code>puts</code> method we want to collect them all and send return them. This will allow us to save them to a file if needed.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Encryptor</span>
+</span><span class='line'>  <span class="c1"># ... other Encryptor methods ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">supported_characters</span>
+</span><span class='line'>    <span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">.</span><span class="s1">&#39;z&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to_a</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">crack</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">supported_characters</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">times</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">attempt</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">decrypt</span><span class="p">(</span><span class="n">message</span><span class="p">,</span><span class="n">attempt</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now let&#8217;s try our new <code>crack</code> method:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './encryptor.rb'</span><span class='line command'>e = Encryptor.new</span><span class='line command'>e.crack "ENCRYPTED MESSAGE 2"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Congratulations. You now have a way to thwart your enemies and spy on your friends. Most importantly, it should show you that using this form of encryption (ROT-#) is not safe for very long.</p>
+
+<div class='exercise'>
+        <h2>Further Exercise</h2>
+
+<h3>Real-Time Encryption</h3>
+
+<p>You want to start using your encryption in more of your communication. Writing your original message to a file, encrypting it, and opening the file requires a lot of effort. It is not well suited for small amounts of text like a chat message or text messages.</p>
+
+<ul>
+<li><p>Create a system that will allow you to type a unencrypted message and have the encrypted version appear</p></li>
+<li><p>Create a system that will allow you to type an encrypted message and have the unencrypted message appear</p></li>
+</ul>
+
+<h3>Password Protecting Your Encryptor</h3>
+
+<p>The encryptor program does a fair job at protecting your correspondence. The messages you send to and from your friends are safe from prying eyes. However, your security would be compromised if your encryptor code fell into the wrong hands.</p>
+
+<ul>
+<li><p>Add a simple password prompt when running encryptor</p></li>
+<li><p>Protect your simple password by using your encryption</p></li>
+<li><p>Use Ruby&#8217;s MD5 Hash of the password and store that in the file</p></li>
+<li><p>Use Ruby&#8217;s MD5 Hash to compare incoming password attempts to see if they match</p></li>
+</ul>
+
+<h3>Building Better a ROT</h3>
+
+<p>We saw how easy it was to break the encryption when we used a single rotation value. We could build better encryption if we used multiple rotations within the same document.</p>
+
+<ul>
+<li>Pick three different numbers</li>
+</ul>
+
+<p>Select three numbers that you can remember. These three numbers will be the three encryption rotations that we will cycle through as we encrypt each letter.</p>
+
+<ul>
+<li>When encrypting each character, continue to cycle through the three numbers you selected as your encryption ROT value.</li>
+</ul>
+
+<p>Encrypting each letter with a different rotation will make it hard for for someone to crack your messages. Even if they were able to figure out that you were using three different rotations they would still need to generate all possible outputs to see which one looked correct.</p>
+
+<p>Assuming you are rotating through the same 91 characters, choosing three numbers would require a cracker to look through <strong>753571</strong> possible combinations to figure out what you wrote. Each number you add would make that amount increase even more!</p>
+
+       </div>
+
+<h3>Dpohsbuvmbujpot\&quot;</h3>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

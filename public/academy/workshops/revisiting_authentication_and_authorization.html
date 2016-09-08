@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Revisiting Authentication and Authorization - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Revisiting Authentication and Authorization                              You&#8217;ve worked through the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/workshops/revisiting_authentication_and_authorization.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Revisiting Authentication and Authorization
+        </h1>
+        
+      </header>
+    
+    <p>You&#8217;ve worked through the fundamentals of Authentication and Authorization before, but let&#8217;s do it all again.</p>
+
+<h2>Setup</h2>
+
+<p>Let&#8217;s start with the basic Storedom project. You might have it locally already. If so, make sure you pull down the most recent version using <code>git pull</code>, but if not clone it and get it ready to go. We&#8217;ll be working from the <code>authorization-revisited</code> branch which includes some basic setup for Deviese and CanCan.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git clone git@github.com:turingschool-examples/storedom.git</span><span class='line command'>cd storedom</span><span class='line command'>git checkout authorization-revisited</span><span class='line command'>bundle</span><span class='line command'>rake db:create db:migrate db:seed</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Starting Point: Building Authentication and Authorization (Code-along)</h2>
+
+<p>We&#8217;ve used <code>has_secure_password</code> and OmniAuth in the past. Now, let&#8217;s try Devise. We&#8217;ve set up the basics for you, but if you&#8217;re curious on how to get started with Devise, you can read the <a href="https://github.com/plataformatec/devise#getting-started">Getting Started guide</a>.</p>
+
+<p>The following has already been done for you:</p>
+
+<ul>
+<li><code>devise</code> and <code>cancancan</code> have been installed</li>
+<li>A password of &quot;password&quot; has been set for each user</li>
+<li>A guest or logged-in user can view all items on <code>/items</code></li>
+<li>A guest attempting to access <code>/orders</code> is redirected to login</li>
+<li><p>A guest attempting to access <code>/users</code> is redirected to login</p></li>
+<li><p>A logged-in user can view all orders on <code>/orders</code></p></li>
+<li><p>A logged-in user can view all users on <code>/users</code></p></li>
+</ul>
+
+<h2>Part 1: User Order Permissions (Using CanCanCan)</h2>
+
+<p>Obviously allowing every user to view all orders in the system is not
+ideal. Let&#8217;s tighten this up to allow users to only view their own
+orders on <code>/orders</code>. (Hint: the CanCanCan controller method <code>load_and_authorize_resource</code> is very helpful for this purpose; We&#8217;ll also need to fill in the empty <code>ability.rb</code> file with some permissions.)</p>
+
+<p>Objectives:</p>
+
+<ul>
+<li><p>A logged-in user accessing <code>/orders</code> sees only orders tied to their account</p></li>
+<li><p>A logged-in user accessing <code>/orders/&lt;order_id&gt;</code> can only see an order
+they own.</p></li>
+<li><p>A logged-in user attempting to view an order they don&#8217;t own should be
+redirected to the items index.</p></li>
+</ul>
+
+<h2>Part 2: Restricting User Access by Adding Managers</h2>
+
+<p>Similarly, allowing any user to view a list of all users seems a bit too
+permissive. Let&#8217;s tighten things up by adding a &quot;manager&quot; concept to
+Storedom. We&#8217;ll need to update the schema and then add some additional
+CanCanCan permissions to restrict access.</p>
+
+<p>Objectives:</p>
+
+<ul>
+<li><p>Add a <code>manager_id</code> column to the users table (for testing purposes it
+will also be useful to give yourself a few &quot;reports&quot; by setting their
+<code>manager_id</code> to the id of your user in the DB</p></li>
+<li><p>A logged-in user accessing <code>/users</code> sees only users for whom they are
+the manager (&quot;reports&quot;)</p></li>
+<li><p>A logged-in user accessing <code>/users/&lt;user_id&gt;</code> can only see user
+information for: a) their own account and b) accounts they manage</p></li>
+<li><p>A logged-in user attempting to view another user whom they don&#8217;t manage should be
+redirected to the items index.</p></li>
+</ul>
+
+<h2>Part 3: Managers Viewing Manag-ees&#8217; Orders (Pair Practice)</h2>
+
+<p>In addition to being able to view the basic info of a report, we&#8217;d
+like managers to have access to the orders of their reports on the
+Order#index page. This permission structure will be a bit more
+sophisticated, but let&#8217;s see if we can accomplish it using CanCanCan.</p>
+
+<p>Objectives:</p>
+
+<ul>
+<li><p>Add a <code>#reports</code> association to User which returns all the other users
+of whom the user is a manager (Hint: check out the ActiveRecord
+Association docs for tips on setting up more custom relationships like
+this one)</p></li>
+<li><p>Add a <code>#manager</code> association to User which returns a User&#8217;s manager</p></li>
+<li><p>A User should be able to view Orders#show for an order whose user they
+manage</p></li>
+<li><p>When viewing Orders#index (<code>/orders</code>), a user should see their own
+orders as well as those orders for which the <code>user_id</code> matches a user
+of whom they are a manager. <strong>Hint:</strong> more complicated DB relationships
+like this can be a pain with CanCanCan; you can use a custom <code>before_action</code>
+in your controller to pre-load the resource before CanCanCan gets to it. So
+if you have a filter which sets an <code>@orders</code> instance variable, CanCanCan will use this
+instead of trying to load its own.</p></li>
+</ul>
+
+<h2>Part 4: Changing Content with Authorization (Extension)</h2>
+
+<p>Now that we can browse content, let&#8217;s look at changing content. Logged-in users can put together orders, but a manager must approve the order before it gets charged to the company credit card.</p>
+
+<ul>
+<li><p>Add a <code>status</code> column to <code>Order</code> that defaults to <code>&quot;pending&quot;</code></p></li>
+<li><p>When an admin visits <code>/orders</code>, add a button <code>Complete</code> which changes the <code>status</code> to <code>&quot;complete&quot;</code></p></li>
+<li><p>Ensure that a non-admin cannot mark an order as <code>&quot;complete&quot;</code></p></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

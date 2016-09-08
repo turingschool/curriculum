@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tuesday, May 7th - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Tuesday, May 7th                              Daily OutlineWarm-upIntegration StrategyIntegrating with &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/sessions/gschool0/130507.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Tuesday, May 7th
+        </h1>
+        
+      </header>
+    
+    <h2>Daily Outline</h2>
+
+<ul>
+<li>Warm-up</li>
+<li>Integration Strategy</li>
+<li>Integrating with Instagram</li>
+</ul>
+
+<h2>Integration Strategy</h2>
+
+<ul>
+<li>Integrations are a virus</li>
+<li>Contain naming and interaction</li>
+<li>Testing an external service</li>
+<li>VCR is a stub</li>
+<li>Offline tests</li>
+</ul>
+
+<h2>Integrating with Instagram</h2>
+
+<p>For this exercise you should:</p>
+
+<ul>
+<li>Get together with your pair listed below</li>
+<li>Build a small Rails application from scratch</li>
+<li>Follow a normal TDD/BDD process including acceptance tests</li>
+<li>Use VCR to stub out the remote service</li>
+</ul>
+
+<h3>Pairs</h3>
+
+<ul>
+<li>Kareem Grant &amp; Erin Drummond</li>
+<li>Geoffrey Schorkopf &amp; Christopher Knight</li>
+<li>Paul Blackwell &amp; Jorge Tellez</li>
+<li>Shane Rogers &amp; Logan Sears</li>
+<li>Jennifer Eliuk &amp; Bradley Sheehan</li>
+<li>Aimee Maher &amp; Daniel Mee</li>
+<li>Chelsea Komlo &amp; Kyle Suss</li>
+<li>John Maddux &amp; Elaine Tai</li>
+<li>James Denman &amp; Josh Mejia</li>
+<li>Raphael Weiner &amp; Phil Battos</li>
+<li>Danny Garcia &amp; Blair Anderson &amp; Laura Steadman</li>
+</ul>
+
+<h3>User Stories</h3>
+
+<p>Here&#8217;s what we&#8217;re looking for in the application:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>As a public, non-authenticated user
+</span><span class='line'>When I visit '/'
+</span><span class='line'>And I enter a valid username like "johnkeatley"
+</span><span class='line'>Then I see the most recent Instagram photo from that user</span></code></pre></td></tr></table></div></figure>
+
+<h3>References</h3>
+
+<ul>
+<li><a href="https://github.com/Instagram/instagram-ruby-gem">Instagram gem on GitHub</a></li>
+<li><a href="https://dl.dropboxusercontent.com/u/69001/291-testing-with-vcr.mp4">RailsCast on VCR</a></li>
+<li><a href="https://github.com/vcr/vcr">VCR on GitHub</a></li>
+</ul>
+
+<h2>Customer Meetings</h2>
+
+<p><a href="http://tutorials.jumpstartlab.com/projects/feed_engine_concepts.html">Project concepts</a></p>
+
+<p>Let&#8217;s meet in the little Work/TV area near the secondary classroom.</p>
+
+<ul>
+<li>12:00 &#8211; Traveline: Raphael Weiner, Kyle Suss, Phil Battos, Erin Drummond</li>
+<li>12:30 &#8211; Tuneline: Shane Rogers, Christopher Knight, Aimee Maher, Josh Mejia</li>
+<li>2:00 &#8211; Sportsline: Kareem Grant, John Maddux, Bradley Sheehan, Elaine Tai</li>
+<li>2:30 &#8211; Photoline: Laura Steadman, Danny Garcia, Paul Blackwell, Jennifer Eliuk</li>
+<li>3:00 &#8211; Jorge Tellez, James Denman, Blair Anderson, Geoffrey Schorkopf</li>
+<li>3:30 &#8211; Daniel Mee, Logan Sears, Chelsea Komlo</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

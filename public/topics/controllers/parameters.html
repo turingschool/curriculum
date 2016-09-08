@@ -1,0 +1,443 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Handling Parameters - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Controllers                                      Handling Parameters                              The controller&#8217;s jobs &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/controllers/parameters.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Controllers</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Handling Parameters
+        </h1>
+        
+      </header>
+    
+    <p>The controller&#8217;s jobs include:</p>
+
+<ul>
+<li>work with the request parameters</li>
+<li>determine how to activate the domain logic and data</li>
+<li>respond to requests</li>
+</ul>
+
+<p>The parameters give the controller the information it needs.</p>
+
+<p>At the same time, parameters are often the cause of confusion and complication in a controller. A controller method should be about eight lines of Ruby. But many actions spiral out of control with all kinds of switching based on the input parameters.</p>
+
+<h2><code>params</code> Helper</h2>
+
+<p>Developers commonly refer to <code>params</code> as a variable, but it isn&#8217;t &#8211; it is a helper method provided by <code>ActionController</code> which returns a hash containing the request parameters.</p>
+
+<h3>Hash Structure</h3>
+
+<p>Developers new to Rails often struggle with the nested hashes inside <code>params</code>. When processing a form, <code>params</code> might look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span><span class="s2">&quot;utf8&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;✓&quot;</span><span class="p">,</span> <span class="s2">&quot;authenticity_token&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;id7z1vIP1N2e0I8QtXQjflsNwcWdBwcyUuOrywEV52c=&quot;</span><span class="p">,</span>
+</span><span class='line'><span class="s2">&quot;article&quot;</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Hello&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;World&quot;</span><span class="p">},</span> <span class="s2">&quot;commit&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Create Article&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s a little easier to understand the structure by converting to YAML (using <code>.to_yaml</code>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="n">utf8</span><span class="p">:</span> <span class="s2">&quot;✓&quot;</span>
+</span><span class='line'><span class="n">authenticity_token</span><span class="p">:</span> <span class="n">id7z1vIP1N2e0I8QtXQjflsNwcWdBwcyUuOrywEV52c</span><span class="o">=</span>
+</span><span class='line'><span class="n">article</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">title</span><span class="p">:</span> <span class="no">Hello</span>
+</span><span class='line'>  <span class="n">body</span><span class="p">:</span> <span class="no">World</span>
+</span><span class='line'><span class="n">commit</span><span class="p">:</span> <span class="no">Create</span> <span class="no">Article</span>
+</span><span class='line'><span class="n">action</span><span class="p">:</span> <span class="n">create</span>
+</span><span class='line'><span class="n">controller</span><span class="p">:</span> <span class="n">articles</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The outer hash has these keys:</p>
+
+<ul>
+<li><code>utf8</code> - this marker is in all form submissions to force Internet Explorer to properly encode UTF-8 data</li>
+<li><code>authenticity_token</code> - a security mechanism used by the <code>protect_from_forgery</code> method called in <code>ApplicationController</code></li>
+<li><code>article</code> - the sub-hash containing the data from our HTML form</li>
+<li><code>commit</code> - the label text of the button that was clicked</li>
+<li><code>action</code> - which action is being executed</li>
+<li><code>controller</code> - which controller is being executed</li>
+</ul>
+
+<h2>Implementation Patterns</h2>
+
+<p>Given those parameters, asking for <code>params[:article]</code> will return the nested hash:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Hello&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;World&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>create</code> action can use those values to build the <code>Article</code></p>
+
+<h3><code>ActiveSupport::HashWithIndifferentAccess</code></h3>
+
+<p>The original hash had a key <code>&quot;article&quot;</code>, but the example accessed it by calling <code>params[:article]</code> with a symbol. How?</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>params1 = {"article" =&gt; {"title"=&gt;"Hello", "body"=&gt;"World"}}</span><span class='line output'>=&gt; {"article"=&gt;{"title"=&gt;"Hello", "body"=&gt;"World"}}</span><span class='line command'>params1.class</span><span class='line output'>=&gt; Hash</span><span class='line command'>params1["article"]</span><span class='line output'>=&gt; {"title"=&gt;"Hello"}</span><span class='line command'>params1[:article]</span><span class='line output'>=&gt; nil</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>A Ruby <code>Hash</code> with key <code>&quot;article&quot;</code> will not respond to <code>:article</code>.</p>
+
+<p>Within the Rails internals there are almost no hashes. Instead, what look like hashes are actually instances of <code>ActiveSupport::HashWithIndifferentAccess</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>params2 = ActiveSupport::HashWithIndifferentAccess.new({"article" =&gt; {"title"=&gt;"Hello", "body"=&gt;"World"}})</span><span class='line output'>=&gt; {"article"=&gt;{"title"=&gt;"Hello"}}</span><span class='line command'>params2.class</span><span class='line output'>=&gt; ActiveSupport::HashWithIndifferentAccess</span><span class='line command'>params2["article"]</span><span class='line output'>=&gt; {"title"=&gt;"Hello"}</span><span class='line command'>params2[:article]</span><span class='line output'>=&gt; {"title"=&gt;"Hello"}</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It&#8217;s named <em>IndifferentAccess</em> because it allows us to do lookups with either string or symbol versions of the keys. Most often we&#8217;ll access them using the symbol version.</p>
+
+<h4>Symbols vs. Strings</h4>
+
+<p>If we can use either symbols or strings, why prefer symbols?</p>
+
+<ul>
+<li>It&#8217;s one fewer character to type</li>
+<li>Strings are for <em>users</em>. They&#8217;re things we take in from the form, data we store in the database, output we show in the view.</li>
+<li>Symbols are for <em>programs</em>. They&#8217;re used for internal messaging and data structures like traversing a hash</li>
+<li>Symbols use significantly less memory, saving Garbage Collection cycles </li>
+</ul>
+
+<p>Use symbols when you can, strings when you have to.</p>
+
+<h3><code>params</code> in a Simple Action</h3>
+
+<p>The most straightforward usage of <code>params</code> is to lookup a single key and do something with the retrieved value:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3><code>params</code> with Mass Assignment</h3>
+
+<p>Typically in a <code>create</code> action we&#8217;ll make use of mass-assignment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That is equivalent, given our example <code>params</code>, to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">][</span><span class="ss">:title</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>                       <span class="n">body</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">][</span><span class="ss">:body</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In this long form, we&#8217;re building up a hash with keys <code>:title</code> and <code>:body</code>, but it&#8217;s pointless! When we query for <code>params[:article]</code> we get back the nested hash. That hash has keys <code>:title</code>, <code>:body</code> &#8211; exactly as we&#8217;re building up here. So when we use this form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re passing in a hash of data. This method is preferred because it is shorter to read/write and, more importantly, it doesn&#8217;t need alteration if we add new attributes to the model and form.</p>
+
+<h3><code>params</code> Gone Wrong</h3>
+
+<p>Here&#8217;s one of the common ways that developers abuse parameters and controller actions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:order_by</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;title&#39;</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">params</span><span class="o">[</span><span class="ss">:order_by</span><span class="o">]</span> <span class="o">==</span> <span class="s1">&#39;published&#39;</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;created_at DESC&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure> 
+
+<p>We&#8217;re anticipating a parameter named <code>:order_by</code> and want to sort based on that. Here&#8217;s a cleanup of just the Ruby syntax to use a <code>case</code> statement:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="k">case</span> <span class="n">params</span><span class="o">[</span><span class="ss">:order_by</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s1">&#39;title&#39;</span>     <span class="k">then</span> <span class="no">Article</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s1">&#39;published&#39;</span> <span class="k">then</span> <span class="no">Article</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;created_at DESC&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>                  <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Whenever you&#8217;re tempted to write <code>variable = case #...</code> or <code>variable = if #...</code>, you should really encapsulate the right side into a method. In the &quot;Mass Assignment&quot; section, we said that sending the parameters down to the model in bulk was a maintenance win because the controller won&#8217;t have to change when the model adds attributes.</p>
+
+<p>If changes to one component of the system necessitate changes in another then those objects are <em>coupled</em>. By having this logic for sorting in the controller, we increase the coupling between controller and model which, in the long run, hurts. What if we emulated the idea of proxying to the model?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">ordered_by</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:order_by</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Imagine we have a class method on <code>Article</code> named <code>ordered_by</code>. We send the parameter down to the model and let it figure out what that string means in the context of our domain and data &#8211; which is exactly the job of the model. The implementation there looks familiar:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ordered_by</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">param</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s1">&#39;title&#39;</span>     <span class="k">then</span> <span class="no">Article</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s1">&#39;published&#39;</span> <span class="k">then</span> <span class="no">Article</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="s1">&#39;created_at DESC&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>                  <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This isn&#8217;t about writing less code, it&#8217;s about writing code in the right place. The model is responsible for logic and working with data. Don&#8217;t let it leak up into your controllers!</p>
+
+<h2>Exercises</h2>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<ol>
+<li>Open the <code>ArticlesController</code> in Blogger and find the <code>create</code> action. As an experiment, rewrite it setting each form value individually rather than using mass-assignment.</li>
+<li>In the <code>index</code> action, implement handling for an <code>order_by</code> parameter as modeled in the text. Add an option to sort by <code>&quot;word_count&quot;</code></li>
+<li>Add links to the index page which, when clicked, change the sorting to <code>&quot;title&quot;</code>, <code>&quot;word count&quot;</code>, or <code>&quot;published&quot;</code>. <em>CHALLENGE</em>: Add links and handling so each of these can be <em>inverted</em>.</li>
+<li>In the <code>index</code> action of <code>ArticlesController</code>, handle a parameter named <code>&quot;limit&quot;</code> which will limit how many articles are displayed. If there is no <code>&quot;limit&quot;</code>, display all the articles.</li>
+<li>Push the logic from exercise 4 down to the model, creating a method named <code>only</code> in <code>Article</code>.</li>
+</ol>
+
+<h2>References</h2>
+
+<ul>
+<li>Rails Guide on Parameters: <a href="http://guides.rubyonrails.org/action_controller_overview.html#parameters">http://guides.rubyonrails.org/action_controller_overview.html#parameters</a></li>
+<li><code>ActiveSupport::HashWithIndifferentAccess</code>: <a href="http://as.rubyonrails.org/classes/HashWithIndifferentAccess.html">http://as.rubyonrails.org/classes/HashWithIndifferentAccess.html</a></li>
+<li>UTF-8 Hacks for Internet Explorer: <a href="http://stackoverflow.com/questions/3222013/what-is-the-snowman-param-in-rails-3-forms-for/3348524#3348524">http://stackoverflow.com/questions/3222013/what-is-the-snowman-param-in-rails-3-forms-for/3348524#3348524</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

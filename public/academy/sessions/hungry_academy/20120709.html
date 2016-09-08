@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Monday, July 9th - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Monday, July 9th                              PreviewThis WeekStarting the ProjectJavaScriptDesign &amp; &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/sessions/hungry_academy/20120709.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Monday, July 9th
+        </h1>
+        
+      </header>
+    
+    <h3>Preview</h3>
+
+<h4>This Week</h4>
+
+<ul>
+<li>Starting the Project</li>
+<li>JavaScript</li>
+<li>Design &amp; Process</li>
+<li>Guests
+
+<ul>
+<li>John Athayde</li>
+<li>Security Team</li>
+<li>Richard Schneeman</li>
+</ul></li>
+<li>Lightning Talks</li>
+</ul>
+
+<h4>Today</h4>
+
+<ul>
+<li>9:00 &#8211;  Kickoff</li>
+<li>9:20-11:00 &#8211; Idea Generation</li>
+<li>11:00-12:00 &#8211; Idea Presentation &amp; Selection</li>
+<li>1:00-4:00 &#8211; JavaScript Object Model &amp; Patterns</li>
+<li>4:00-4:30 &#8211; Reading &amp; Lightning Talk Plans</li>
+</ul>
+
+<h3>Project Kickoff</h3>
+
+<p>For your final project we&#8217;ll adopt DonorsChoose as the core of our work. Each group of four will spend 2.5 weeks building a project which tries to answer a business need of the organization.</p>
+
+<h4>Project Timeline</h4>
+
+<ul>
+<li>7/9 - Project Start</li>
+<li>7/11 - Plans Approved</li>
+<li>7/17 - Technical Check-In</li>
+<li>7/19 - Direction &amp; UX Check-In</li>
+<li>7/23 - Final Check-In</li>
+<li>7/25 - Projects Due, Detailed Review</li>
+<li>7/26 - Final Presentations</li>
+</ul>
+
+<h4>Project Process</h4>
+
+<ul>
+<li>Teams are generated (below)</li>
+<li>Teams will&#8230;
+
+<ul>
+<li>choose a business need</li>
+<li>draft three ideas</li>
+<li>pitch them to the class</li>
+</ul></li>
+<li>Final idea will be selected by votes from your peers and Jeff/Matt</li>
+<li>Teams will create goals, stories, iterations, and have them approved Tuesday afternoon</li>
+</ul>
+
+<h4>Business Needs</h4>
+
+<p>DonorsChoose wants to increase the total funding delivered to classrooms. Here are a few vectors of attack:</p>
+
+<h5>Donors Funding Projects</h5>
+
+<ol>
+<li>Donors are very proud of their donations. It would be great for them to get some extra recognition within their social and/or professional circles. How could we recognize their past giving through Facebook, LinkedIn, etc? Anything beyond just a straight history? Total impact?</li>
+<li>There are a significant number of donors who joined to donate to a specific project &#8211; they had a personal connection to it. How do we build on that connection to get them interested in other projects?</li>
+<li>For repeat donors, how do we streamline the process? How little work could we make it?</li>
+<li>People come to the front page, say from something a friend told them or some media exposure, and they have a &quot;cold start.&quot; How do we help them find the projects they&#8217;re interested in? Some way it could be fun? What are their passions/interests?</li>
+<li>How can we help advocate donors to leverage their social and personal networks to generate more donations?</li>
+</ol>
+
+<h5>Teachers Posting Projects</h5>
+
+<ol>
+<li>Amazon will likely become an important source for most of our projects. How can we make the &quot;shopping&quot; process super easy for our teachers?</li>
+<li>How can we leverage historical data to help teachers write better proposals? For example, can we predict how likely a proposal is to be funded based on content, size, and location?</li>
+<li>Many times teachers don&#8217;t realize that their friends and colleagues have posted projects on DonorsChoose, now or in the past. How can we help them connect, share tips, etc?</li>
+</ol>
+
+<h4>Teams</h4>
+
+<ul>
+<li>Group 1: Christopher Maddox &amp; Mark Tabler &amp; Chris Anderson &amp; Travis Valentine</li>
+<li>Group 2: Austen Ito &amp; Jonan Scheffler &amp; Jacqueline Chenault &amp; Charles Strahan</li>
+<li>Group 3: Andrew Glass &amp; Mary Cutrali &amp; Mike Silvis &amp; Andrew Thal</li>
+<li>Group 4: Michael Chlipala &amp; Jan Koszewski &amp; Elise Worthy &amp; Melanie Gilman</li>
+<li>Group 5: Conan Rimmer &amp; Edward Weng &amp; Nisarg Shah &amp; Tom Kiefhaber</li>
+<li>Group 6: Michael Verdi &amp; Darrell Rivera &amp; Horace Williams &amp; Daniel Kaufman</li>
+</ul>
+
+<h4>Idea Evaluations</h4>
+
+<p>Let&#8217;s do quick presentations:</p>
+
+<ul>
+<li>Less than 6 minutes for your three pitches</li>
+<li>2 minutes Q&amp;A</li>
+<li>2 minutes eval &amp; transition</li>
+</ul>
+
+<p>For each team presenting, please fill out the following form:</p>
+
+<p><a href="https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&formkey=dHBLZkZOcmRUZXVOTE83WG15bGJUZlE6MQ">https://docs.google.com/a/hungrymachine.com/spreadsheet/viewform?fromEmail=true&amp;formkey=dHBLZkZOcmRUZXVOTE83WG15bGJUZlE6MQ</a></p>
+
+<h3>JavaScript Object Model</h3>
+
+<ul>
+<li>numbers, strings, arrays, object literals, functions
+
+<ul>
+<li>for-loop iteration for arrays</li>
+<li>for..in / hasOwnProperty</li>
+<li>[].length optimization</li>
+<li>typeof and its lies</li>
+</ul></li>
+<li>untruthy: undefined, null, 0, false, &quot;&quot;</li>
+<li>==/===</li>
+<li>prototypes, constructors, this, apply</li>
+<li>closures, function patterns</li>
+<li>namespacing</li>
+<li>JSON</li>
+<li>JSLint</li>
+</ul>
+
+<h3>JavaScript Patterns &amp; CoffeeScript</h3>
+
+<ul>
+<li>modeling OO</li>
+<li>binding</li>
+<li>closures + functions == private methods</li>
+<li>CoffeeScript
+
+<ul>
+<li>basic syntax</li>
+<li>mapping to JS OO patterns</li>
+<li>generated JS</li>
+</ul></li>
+</ul>
+
+<h3>Reading Plan</h3>
+
+<p>Let&#8217;s go through a one-week reading cycle, selecting a book today and finishing it for next Monday.</p>
+
+<h4>Selection</h4>
+
+<p>While you may select your book, please pick something tied to one of the following areas (in order of my preference):</p>
+
+<ol>
+<li>Design (UX, UI, etc)</li>
+<li>Business / Product Development</li>
+<li>Code Design</li>
+</ol>
+
+<p>Ideas:</p>
+
+<ul>
+<li>Design List: <a href="http://amzn.com/w/248IA5JJO0OSM">http://amzn.com/w/248IA5JJO0OSM</a></li>
+<li>Business (not all apply): <a href="http://amzn.com/w/352340EAXDDSF">http://amzn.com/w/352340EAXDDSF</a></li>
+<li>Programming: <a href="http://amzn.com/w/K7D6CDDMZG6S">http://amzn.com/w/K7D6CDDMZG6S</a></li>
+</ul>
+
+<p><em>Please keep in mind that a technical book will be very difficult to digest in a week!</em></p>
+
+<h4>Deliverable</h4>
+
+<p>Next Monday, you&#8217;ll give a 3-5 minute lightning talk about your book, reflections, and learnings.</p>
+
+<h4>Selections</h4>
+
+<p>Please edit this document and add the title <em>and</em> link to your book below:</p>
+
+<ul>
+<li>Chris Anderson: Made to Stick <a href="http://www.amazon.com/Made-Stick-Ideas-Survive-Others/dp/1400064287/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3B7ZJ9L72O25V&colid=352340EAXDDSF">http://www.amazon.com/Made-Stick-Ideas-Survive-Others/dp/1400064287/ref=wl_it_dp_v_nS_nC?ie=UTF8&amp;coliid=I3B7ZJ9L72O25V&amp;colid=352340EAXDDSF</a></li>
+<li>Jacqueline Chenault: Don&#8217;t Make Me Think <a href="http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758">http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758</a></li>
+<li>Mary Cutrali: Designing for People <a href="http://www.amazon.com/Designing-People-Henry-Dreyfuss/dp/1581153120/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I1PISI3XBN265J&colid=248IA5JJO0OSM">http://www.amazon.com/Designing-People-Henry-Dreyfuss/dp/1581153120/ref=wl_it_dp_v_S_nC?ie=UTF8&amp;coliid=I1PISI3XBN265J&amp;colid=248IA5JJO0OSM</a></li>
+<li>Michael Chlipala: The Book of CSS3 <a href="http://www.amazon.com/dp/B005011IU0">http://www.amazon.com/dp/B005011IU0</a></li>
+<li>Andrew Glass: Founders at Work: Stories of Startups&#8217; Early Days</li>
+<li>Melanie Gilman: Hackers: Heroes of the Computer Revolution <a href="http://www.amazon.com/Hackers-Computer-Revolution-Anniversary-Edition/dp/1449388396/">http://www.amazon.com/Hackers-Computer-Revolution-Anniversary-Edition/dp/1449388396/</a></li>
+<li>Austen Ito:Metaprogramming Ruby: Program Like the Ruby Pros <a href="http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Pros/dp/1934356476/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I3DE83DSRE2WES&colid=K7D6CDDMZG6S">http://www.amazon.com/Metaprogramming-Ruby-Program-Like-Pros/dp/1934356476/ref=wl_it_dp_v_S_nC?ie=UTF8&amp;coliid=I3DE83DSRE2WES&amp;colid=K7D6CDDMZG6S</a></li>
+<li>Tom Kiefhaber: Web Form Design Filling Blanks: <a href="http://www.amazon.com/Web-Form-Design-Filling-Blanks/dp/1933820241/ref=wl_it_dp_v_S_nC?ie=UTF8&colid=248IA5JJO0OSM&coliid=I336P2EOO9LGHN">http://www.amazon.com/Web-Form-Design-Filling-Blanks/dp/1933820241/ref=wl_it_dp_v_S_nC?ie=UTF8&amp;colid=248IA5JJO0OSM&amp;coliid=I336P2EOO9LGHN</a></li>
+<li>Jan Koszewski: Code <a href="http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319">http://www.amazon.com/Code-Language-Computer-Hardware-Software/dp/0735611319</a></li>
+<li>Daniel Kaufman: Don&#8217;t Make Me Think <a href="http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758">http://www.amazon.com/Dont-Make-Me-Think-Usability/dp/0321344758</a></li>
+<li>Christopher Maddox: QED <a href="http://www.amazon.com/gp/product/0691083886/ref=as_li_ss_tl?ie=UTF8&tag=associalize-20&linkCode=as2&camp=1789&creative=390957&creativeASIN=0691083886">http://www.amazon.com/gp/product/0691083886/ref=as_li_ss_tl?ie=UTF8&amp;tag=associalize-20&amp;linkCode=as2&amp;camp=1789&amp;creative=390957&amp;creativeASIN=0691083886</a></li>
+<li>Conan Rimmer: The Book of CSS3 <a href="http://www.amazon.com/dp/B005011IU0">http://www.amazon.com/dp/B005011IU0</a></li>
+<li>Darrell Rivera: Non-Designer&#8217;s Design Book &#8211; <a href="http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3N9OIDBX444QD&colid=248IA5JJO0OSM">http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&amp;coliid=I3N9OIDBX444QD&amp;colid=248IA5JJO0OSM</a></li>
+<li>Nisarg Shah: Rework &#8211; <a href="http://www.amazon.com/Rework-Jason-Fried/dp/0307463745/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I33JMOD4OY9D85&colid=352340EAXDDSF">http://www.amazon.com/Rework-Jason-Fried/dp/0307463745/ref=wl_it_dp_v_nS_nC?ie=UTF8&amp;coliid=I33JMOD4OY9D85&amp;colid=352340EAXDDSF</a></li>
+<li>Mike Silvis: The Art of the Start - <a href="http://www.amazon.com/Art-Start-Time-Tested-Battle-Hardened-Starting/dp/1591840562/ref=sr_1_1?s=books&ie=UTF8&qid=1341855634&sr=1-1&keywords=art+of+the+start">http://www.amazon.com/Art-Start-Time-Tested-Battle-Hardened-Starting/dp/1591840562/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1341855634&amp;sr=1-1&amp;keywords=art+of+the+start</a></li>
+<li>Jonan Scheffler: Good to Great - <a href="http://www.amazon.com/Good-Great-Companies-Leap-Others/dp/0066620996/ref=wl_it_dp_o_piT1_nS_nC?ie=UTF8&colid=ZQK2XAZVH8H2&coliid=I2ORNQB71V41B4">http://www.amazon.com/Good-Great-Companies-Leap-Others/dp/0066620996/ref=wl_it_dp_o_piT1_nS_nC?ie=UTF8&amp;colid=ZQK2XAZVH8H2&amp;coliid=I2ORNQB71V41B4</a></li>
+<li>Charles Strahan: Kestrels, Quirky Birds, and Hopeless Egocentricity <a href="http://leanpub.com/combinators">http://leanpub.com/combinators</a></li>
+<li>Mark Tabler: New Programmers&#8217; Survival Manual <a href="http://pragprog.com/book/jcdeg/new-programmer-s-survival-manual">http://pragprog.com/book/jcdeg/new-programmer-s-survival-manual</a></li>
+<li>Andrew Thal: The Thank You Economy: <a href="http://www.amazon.com/The-Thank-Economy-Gary-Vaynerchuk/dp/0061914185/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=352340EAXDDSF&coliid=IME2TBXNL9AR5">http://www.amazon.com/The-Thank-Economy-Gary-Vaynerchuk/dp/0061914185/ref=wl_it_dp_v_nS_nC?ie=UTF8&amp;colid=352340EAXDDSF&amp;coliid=IME2TBXNL9AR5</a></li>
+<li>Travis Valentine: <a href="http://www.amazon.com/Crafting-Rails-Applications-Development-Programmers/dp/1934356735/ref=wl_it_dp_v_S_nC?ie=UTF8&coliid=I9J4XAYHBBMGA&colid=K7D6CDDMZG6S">Crafting Rails Applications: Expert Practices for Everyday Rails Development</a></li>
+<li>Michael Verdi: Non-Designer&#8217;s Design Book: <a href="http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&colid=248IA5JJO0OSM&coliid=I3N9OIDBX444QD">http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&amp;colid=248IA5JJO0OSM&amp;coliid=I3N9OIDBX444QD</a></li>
+<li>Edward Weng: Non-Designer&#8217;s Design Book &#8211; <a href="http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&coliid=I3N9OIDBX444QD&colid=248IA5JJO0OSM">http://www.amazon.com/Non-Designers-Design-Book-The-Edition/dp/0321534042/ref=wl_it_dp_v_nS_nC?ie=UTF8&amp;coliid=I3N9OIDBX444QD&amp;colid=248IA5JJO0OSM</a></li>
+<li>Elise Worthy: The Mythical Man Month: <a href="http://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959/ref=sr_1_1?s=books&ie=UTF8&qid=1341855533&sr=1-1&keywords=mythical+man+month">http://www.amazon.com/Mythical-Man-Month-Software-Engineering-Anniversary/dp/0201835959/ref=sr_1_1?s=books&amp;ie=UTF8&amp;qid=1341855533&amp;sr=1-1&amp;keywords=mythical+man+month</a></li>
+<li>Horace Williams: Mythical Man Month: <a href="http://amzn.to/NfpcMR">http://amzn.to/NfpcMR</a></li>
+</ul>
+
+<h2>Project Idea Feedback</h2>
+
+<h3>Christopher Maddox &amp; Mark Tabler &amp; Chris Anderson &amp; Travis Valentine</h3>
+
+<p>Idea 1: 50 (*)</p>
+
+<p>Idea 2: 50 (*)</p>
+
+<p>Idea 3: 48</p>
+
+<h4>Comments</h4>
+
+<p>I like Idea 4 the best.</p>
+
+<p>I like the idea of analyzing teacher&#8217;s posts to see what makes it successful. </p>
+
+<p>2 might be HARD, would love to see it though</p>
+
+<p>like the outside creation of projects</p>
+
+<p>1 - Sharing widget &amp; Badging / Gamification
+2 - What makes a great project? From Data
+3 - Third-party project creator</p>
+
+<p>Widget idea seems cool.  Our group also debated the game-ification of donations</p>
+
+<p>idea 1: embed a widget from a given site; sharing - badge system to enhance awareness
+idea 2: analyzing data from teachers perspective, what makes a successful project; copy, pictures; surfacing example projects to teachers
+idea 3: ls adventures for projects (3rd party helps put together field trips for teachers; possibly proposes project)</p>
+
+<p>1 Embeddable widget / badge system
+2 Analytics for surfacing project quality
+3 Third party project proposals</p>
+
+<h3>Austen Ito &amp; Jonan Scheffler &amp; Jacqueline Chenault &amp; Charles Strahan</h3>
+
+<p>Idea 1: 53 (*)</p>
+
+<p>Idea 2: 32</p>
+
+<p>Idea 3: 47</p>
+
+<h4>Comments</h4>
+
+<p>I like the first option; it&#8217;s like a pyramid scheme for the forces of good. :)  The third option feels very antithetical to the fundamental spirit of the organization, it&#8217;s almost like &quot;donors-could-choose-except-this-time-they-dont.org&quot;</p>
+
+<p>The concept of graph of impact is very interesting. I am not sure how this will work - but it would be very cool to see. </p>
+
+<p>giving tree looks awesome.</p>
+
+<p>idea 1: giving tree - see impact beyond myself; site where you can donate $X + add&#8217;l pledge of $Y
+idea 2: book recommendation engine - build a site with SEO content to draw in users; buttons to buy book + &quot;+1&quot; button to buy add&#8217;l book
+idea 3: donorbot - removes choice of which project to donate to; set up bot to make recurring donations using a user-defined filter</p>
+
+<p>this group had really good ideas.  I think givingtree is pretty cool.  Donorbot seems contrary to the concept of donors choose, as Charles hyped being able to donate to a project relating to your passions</p>
+
+<p>Many of these projects remove the one-on-one interaction between the donation and the classroom that I think is the hallmark of DonorsChoose. The monthly donation especially - if you just donate monthly without knowing to whom you are donating, you lose that personal connection and may not choose to continue  donations once you remember you are donating every month.</p>
+
+<p>1 I really like this idea, giving with friends is cool. my only concern is that you are potentially giving less than you would
+2 has already been done in the form of a chrome extension, doubtful it will be searched or found frequently on google, not a huge value prop
+3 Love this idea, I frequently will not donate because I forget or don&#8217;t take the time, subscriptions are awesome</p>
+
+<p>1 - Giving Tree
+2 - Book Recommendation Engine (SEO, Amazon, Affiliate links)
+3 - DonorBot (removes choice, recurring payments, donate based on filters/keywords)</p>
+
+<p>1 The Giving Tree
+2 Top 5 Books
+3 DonorBot</p>
+
+<h3>Andrew Glass &amp; Mary Cutrali &amp; Mike Silvis &amp; Andrew Thal</h3>
+
+<p>Idea 1: 34</p>
+
+<p>Idea 2: 56 (*)</p>
+
+<p>Idea 3: 42</p>
+
+<h4>Comments</h4>
+
+<p>1 DonorsChoose for Puppies
+2 TaskRabbits for DonorsChoose
+3 Students give back</p>
+
+<p>1 - navigation tool to help you drill down, uses URL parameters
+2 - TaskRabbit powered donation
+3 - Student feedback site, cyclical funding</p>
+
+<p>I love the third idea, but I don&#8217;t see where it requires much in the way of programming support.</p>
+
+<p>idea 1: donors choose for puppies - breadth of projects is daunting; navigation not so good; create a visualization for navigating projects
+idea 2: mech. turk | task rabbit for charity - do tasks for charity
+idea 3: students give back to donors choose - gift cards for completed projects where those classes get to choose a project</p>
+
+<h3>Michael Chlipala &amp; Jan Koszewski &amp; Elise Worthy &amp; Melanie Gilman</h3>
+
+<p>Idea 1: 36</p>
+
+<p>Idea 2: 38</p>
+
+<p>Idea 3: 65 (*)</p>
+
+<h4>Comments</h4>
+
+<p>idea 1: sister schools project - affluent schools choose sister schools to help fund projects
+idea 2: teacher project creation tool - mine successful projects for data that helped make these projects stand out/perform well
+idea 3: 2 million voters - filter donors by name, state, and occupations; do the same thing for projects, be able to filter by several criteria in a highly interactive interface</p>
+
+<p>Idea 2 is similar to what one of the other groups also had. </p>
+
+<p>1 - Sister Schools
+2 - Teacher proposal creation tool
+3 - Quick/live filtering tool for product discovery</p>
+
+<p>1 Sister schools
+2 Project Analysis to determine future success
+3 Project Discovery page with js</p>
+
+<p>I like the idea of sister schools but would need to see more of how it would actually be implemented. A fun way of filtering projects would be great.</p>
+
+<p>I liked the sample Melanie showed</p>
+
+<p>I love the sister-school is baller!</p>
+
+<h3>Conan Rimmer &amp; Edward Weng &amp; Nisarg Shah &amp; Tom Kiefhaber</h3>
+
+<p>Idea 1: 44 (*)</p>
+
+<p>Idea 2: 38</p>
+
+<p>Idea 3: 32</p>
+
+<h4>Comments</h4>
+
+<p>I like the principle of the third option, but implementing it would be very difficult - it feels like it would be hard to maintain the line between &quot;volunteering&quot; and &quot;child labor.&quot;</p>
+
+<p>Don&#8217;t break the chain is very cool.</p>
+
+<p>1 - Don&#8217;t Break the Chain, stop smoking, etc
+2 - Personality Quiz
+3 - Community service tie-in, pay it forward</p>
+
+<p>I like the quiz idea!  thanks for the shoutout:)</p>
+
+<p>I&#8217;m confused with a bunch of the logistics around give money/give time and with the first idea, I don&#8217;t know how useful it would be to be harangued with a daily email.</p>
+
+<p>1 Swear Box | Don&#8217;t Break the Chain
+2 Personality Quiz
+3 Give Money | Give Time</p>
+
+<h3>Michael Verdi &amp; Darrell Rivera &amp; Horace Williams &amp; Daniel Kaufman</h3>
+
+<p>Idea 1: 40</p>
+
+<p>Idea 2: 36</p>
+
+<p>Idea 3: 45 (*)</p>
+
+<h4>Comments</h4>
+
+<p>I want one team to make #3, but 3 have proposed it so i didn&#8217;t vote it as best here</p>
+
+<p>Idea 1 - what about projects that need pencils or something? Sometimes those are the most important and not the ones that are about a subject. Your recommendation tool would miss that.</p>
+
+<p>Idea 2 - too complicated for many of these projects which are very small.</p>
+
+<p>1 Recommendation Engine
+2 Donor Team 6
+3 Proposal Analytics Tool</p>
+
+<p>idea 1: recommendation engine - hunch.com - quiz to filter down to potential projects
+idea 2: teams for projects - set up command center &amp; assign roles to team members; goal is to fully fund a project
+idea 3: proposal crafting engine - feedback/data to improve getting teacher proposals funded</p>
+
+<p>1 - Hunch.com for projects
+2 - Donors Team 6 - Command center for team coordination
+3 - Proposal crafting engine</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

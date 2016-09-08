@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Utilizing View Partials - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Better Views                                      Utilizing View Partials                              When writing Ruby we break &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/better_views/view_partials.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Better Views</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Utilizing View Partials
+        </h1>
+        
+      </header>
+    
+    <p>When writing Ruby we break up complex methods into multiple, smaller methods. When writing view templates, partials are the means of encapsulating view components.</p>
+
+<h3>Setup</h3>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger_advanced.git
+</span><span class='line'>cd blogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<h2>Simple Partials</h2>
+
+<p>Open <code>views/articles/show.html.erb</code> and look for the H3 that starts the comments section. The H3 line and everything below it are about comments. They are related to the article, but are not intrinsic to <em>showing</em> an article. They are a perfect candidate for a simple partial extraction.</p>
+
+<p>We create partials by adding a file to the views folder and beginning the filename with an underscore.</p>
+
+<p>As an example, create <code>views/articles/_comments.html.erb</code> and move the H3 and everything below it into that file. Save both files and look at an article&#8217;s <code>show</code> in the browser. The comments should vanish.</p>
+
+<p>Now, to render the partial we utilize the <code>render</code> method. At the bottom of <code>show.html.erb</code>, add:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;comments&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and <em>you&#8217;ll notice an error</em>.</p>
+
+<p>The issue is because of the <code>form_for</code> method being called just above the <code>render</code> we&#8217;ve just added.</p>
+
+<p>As you can see, it is creating a new comment in memory with <code>@article.comments.new</code>. This creates a new comment for our current article, but since that comment is not being saved there are certain attributes on that comment that haven&#8217;t been set yet (<code>id</code>, <code>created_at</code>, and <code>updated_at</code>).</p>
+
+<p>If we look at our partial, it is looping through each of the article&#8217;s comments (this new one included) and using their <code>created_at</code> attribute to find the <code>distance_of_time_in_words</code> for each comment compared to the time in which the article was created.</p>
+
+<p>Because the new comment created by the <code>form_for</code> hasn&#8217;t been saved to the database - and as such doesn&#8217;t have a value for <code>created_at</code>, our application is breaking.</p>
+
+<p>In order to fix this, in the partial you&#8217;ll need to check each comment to make sure that it has indeed been saved to the database.</p>
+
+<p>You can do this by wrapping the <code>&lt;div class='comment'&gt;</code> block with an conditional statement like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">unless</span> <span class="n">comment</span><span class="o">.</span><span class="n">new_record?</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;div class=&#39;comment&#39;&gt;</span>
+</span><span class='line'><span class="x">    ... the rest of the code ...</span>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>new_record?</code> method will ask Rails if the object is a new record that hasn&#8217;t been saved to the database. This will then allow us to skip over that new comment created by the <code>form_for</code> helper.</p>
+
+<h2>Relocating Partials</h2>
+
+<p><code>render</code>, by default, looks for the partial in the same directory as the current view template. In this case, that means <code>app/views/articles</code>.</p>
+
+<p>As this application grows, we might want to reuse the comment partial on other pages. Maybe our user can post images that are not articles. We would like readers to be able to comment on them, too! We can build in that flexibility now.</p>
+
+<p>Create a directory <code>app/views/common</code> and move the <code>_comments.html.erb</code> into it.</p>
+
+<p>Go to an article&#8217;s <code>show</code> page in your browser, and it will crash because it cannot find the partial <code>app/views/articles/_comments.html.erb</code></p>
+
+<p>Open <code>app/views/articles/show.html.erb</code> and change this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;comments&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;common/comments&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When <code>render</code> sees a <code>/</code> in the partial name, it interprets the first part as the folder name and the second as the file name.</p>
+
+<h3>Passing In a Variable</h3>
+
+<p>Sending variables into a partial is a little tricky.</p>
+
+<p>To see how it works, first go into your partial and change all references from <code>@article</code> to the local variable <code>article</code>. The rendering will now break because it doesn&#8217;t have a local variable named <code>article</code>.</p>
+
+<p>Then, in the <code>show</code> template, modify the <code>render</code> call to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;common/comments&#39;</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span><span class="n">article</span><span class="p">:</span> <span class="vi">@article</span><span class="p">}</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>locals</code> option takes a hash. Each key will be setup as a local variable and the value stored into the variable. So, in the context of the partial, we&#8217;ll now have an <code>article</code> variable holding <code>@article</code>.</p>
+
+<p>Refresh the <code>show</code> page in your browser and it should render correctly.</p>
+
+<p>To make the partial truly reusable, we should edit it to refer to a local variable named <code>subject</code> then, when rendering it, pass in <code>subject: @article</code>.</p>
+
+<h2>Rendering Collections</h2>
+
+<p>The <code>render</code> method is incredibly overloaded. Let&#8217;s see how it can work with collections of objects. Open <code>views/articles/index.html.erb</code>.</p>
+
+<p>See the <code>@article.each</code> line? Whenever we have an iteration loop in a view template, it is a candidate for extraction to a collection partial.</p>
+
+<p>To see how it works:</p>
+
+<ul>
+<li>Cut the <code>li</code> and everything beneath it to your clipboard</li>
+<li>Delete the <code>&lt;% @articles.each do |article| %&gt;</code> line</li>
+<li>Create a file <code>app/views/articles/_article_item.html.erb</code> and paste it in</li>
+</ul>
+
+<p>Refresh your index page in the browser and the articles will disappear.</p>
+
+<p>We want to render the LIs inside the <code>ul</code> with ID <code>articles</code>. Let&#8217;s try it in one line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;ul id=&#39;articles&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;article_item&#39;</span><span class="cp">%&gt;</span><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s a good start, but we don&#8217;t want to render it <em>once</em>, we need to render it <em>once for each article</em>. Add the <code>:collection</code> parameter like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;ul id=&#39;articles&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;article_item&#39;</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="vi">@articles</span> <span class="cp">%&gt;</span><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and it still crashes. The partial is looking for a variable named <code>article</code> but can&#8217;t find one.</p>
+
+<p>When you call <code>render</code> using a collection, it will process the partial once for each element of the collection. While the partial is being rendered, Rails will provide the element being rendered and store it into a local variable <em>based on the filename of the partial</em>.</p>
+
+<p>So in this case, our <code>_article_item.html.erb</code> partial will have a local variable named <code>article_item</code>.</p>
+
+<p>To make our view work, we have two options.</p>
+
+<ol>
+<li>Open the partial and change all references from <code>article</code> to <code>article_item</code> to match the filename.</li>
+<li>Rename the partial to <code>_article.html.erb</code> so it&#8217;ll have a local <code>article</code> variable.</li>
+</ol>
+
+<p>Implement the second option, renaming the file. Then update the <code>render</code> call like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;ul id=&#39;articles&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;article&#39;</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="vi">@articles</span> <span class="cp">%&gt;</span><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and the view should display correctly.</p>
+
+<h2>Magical Partial Selection</h2>
+
+<p>When we first rendered the comments partial, you might have known that instead of:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;comments&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We could have just written this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;comments&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you give <code>render</code> a string, it will attempt to render a partial with that name. But, due to implementation details of the <code>render</code> method, you <em>cannot</em> leave off the <code>:partial</code> and still use <code>:locals</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;comments&#39;</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span><span class="n">article</span><span class="p">:</span> <span class="vi">@article</span><span class="p">}</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Nor can you leave off <code>:partial</code> when rendering a collection. This <em>will not work</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;ul id=&#39;articles&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="s1">&#39;article&#39;</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="vi">@articles</span> <span class="cp">%&gt;</span><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>There is a shortened syntax that <em>will</em> work. You can do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;ul id=&#39;articles&#39;&gt;</span><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="vi">@articles</span> <span class="cp">%&gt;</span><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>render</code> accepts an object or a collection of objects. <code>render</code> will iterate through the objects and call the <code>.class_name</code> method on each one, convert the class name to <code>snake_case</code>, and will render a partial with that name. The individual object sent will still be named after the partial.</p>
+
+<p><code>render @articles</code> will thus render the <code>_article.html.erb</code> partial once for each article in <code>@articles</code>, assigning each one to the local variable <code>article</code>.</p>
+
+<h2>Closing Words on View Partials</h2>
+
+<p>A few last thoughts on view partials:</p>
+
+<ul>
+<li>For consistency, use the syntax <code>render partial: x</code> and <code>render partial: x, collection: y</code></li>
+<li>An <code>app/views/common</code> folder is helpful on most projects to hold reusable partials</li>
+<li>Generally, don&#8217;t nest partials more than two levels deep. For example:
+
+<ul>
+<li><code>show.html.erb</code> can render a <code>_comments.html.erb</code></li>
+<li><code>_comments.html.erb</code> can render <code>_comment_form.html.erb</code></li>
+<li>Don&#8217;t make <code>_comment_form.html.erb</code> render <code>_comment_form_elements.html.erb</code>, otherwise it gets too difficult to understand the template structure</li>
+</ul></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

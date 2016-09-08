@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Capybara Workflow - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Testing with Capybara                                      Capybara Workflow                              Capybara is a great &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/capybara/workflow.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Testing with Capybara</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Capybara Workflow
+        </h1>
+        
+      </header>
+    
+    <p>Capybara is a great tool, but what do you actually <em>do</em> with it?</p>
+
+<h2>Acceptance &amp; Feature Tests</h2>
+
+<p>We use the terms &quot;acceptance tests&quot; and &quot;feature tests&quot; to mean almost the same thing &#8211; with a nuanced difference.</p>
+
+<h3>Acceptance Tests are for End Users</h3>
+
+<p>Acceptance tests exercise your application just like a real user. They therefore depend on the full stack from your models up through your controllers, helpers, view templates, web server, database, and middleware. </p>
+
+<p>Acceptance tests are typically a translation of a user story:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>As a [user]
+</span><span class='line'>When I [do action] 
+</span><span class='line'>  and [do other action]
+</span><span class='line'>Then I observe [result 1]
+</span><span class='line'>  and observe [result 2]</span></code></pre></td></tr></table></div></figure>
+
+<p>Proper acceptance tests use your application as a <em>black box</em>. They know nothing about what happens under the hood, they just interact with the interface and observe the results.</p>
+
+<p>Acceptance tests are the 30,000-foot view of your application. They&#8217;re focused on the happy-path, the business value driving the creation of the application.</p>
+
+<p>When your user stories have been translated to acceptance tests and those tests pass, then your application is finished! Until they write more stories&#8230;</p>
+
+<h3>Feature Tests are for Clients &amp; Developers</h3>
+
+<p>But there are often a lot of details a little bit under the surface. What about when things go wrong? What happens when a user tries to save an article without a title? Or a title that&#8217;s too short?</p>
+
+<p>While we might write just a small number of acceptance tests or even just one for a user story, we can use several feature tests to drive more of the development.</p>
+
+<h3>Breaking Down an Example</h3>
+
+<p>Let&#8217;s talk about creating an article on our blog.</p>
+
+<h4>Acceptance Test</h4>
+
+<p>The acceptance test might go like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>As an authenticated user
+</span><span class='line'>  and I'm on the articles index
+</span><span class='line'>When I click the new article link
+</span><span class='line'>  and I enter a title
+</span><span class='line'>  and I enter a body
+</span><span class='line'>  and I click the submit button
+</span><span class='line'>Then I observe the title I entered
+</span><span class='line'>  and I observe the body I entered</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s the happy path. Translated to Minitest and Capybara, that might go like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_an_authenticated_user_creates_an_article</span>
+</span><span class='line'>  <span class="n">login_as_user</span> <span class="c1"># you&#39;d write this method elsewhere</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">article_path</span>
+</span><span class='line'>  <span class="n">click_on</span><span class="p">(</span><span class="s1">&#39;new-article&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;My Tester Title&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;My Tester Body&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">click_on</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s2">&quot;#title&quot;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;My Tester Title&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s2">&quot;#body&quot;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;My Tester Body&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Feature Tests</h4>
+
+<p>The feature tests drill down just a bit deeper:</p>
+
+<h5>Create and Redirect</h5>
+
+<p>The concept:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>As an authenticated user
+</span><span class='line'>  and I'm on the new article page
+</span><span class='line'>When I enter a title
+</span><span class='line'>  and I enter a body
+</span><span class='line'>  and I click the submit button
+</span><span class='line'>Then I am redirected to the article page</span></code></pre></td></tr></table></div></figure>
+
+<p>Implemented in Capybara:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_an_authenticated_user_creates_an_article</span>
+</span><span class='line'>  <span class="n">login_as_user</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">new_article_path</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello, World&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;My Tester Body&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">click_on</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">id_from_path</span> <span class="o">=</span> <span class="n">current_path</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/\d+$/</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="n">assert_match</span> <span class="n">article_path</span><span class="p">(</span><span class="n">id_from_path</span><span class="p">),</span> <span class="n">current_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Body is Required</h5>
+
+<p>Conceptually&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>As an authenticated user
+</span><span class='line'>  and I'm on the new article page
+</span><span class='line'>When I enter a title
+</span><span class='line'>  but I do not enter a body
+</span><span class='line'>  and I click the submit button
+</span><span class='line'>Then I am returned to the form
+</span><span class='line'>  and I see an error message that a body is required</span></code></pre></td></tr></table></div></figure>
+
+<p>Implemented with Capybara:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_an_authenticated_user_creates_an_article</span>
+</span><span class='line'>  <span class="n">login_as_user</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">new_article_path</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello, World&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">click_on</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="n">new_article_path</span><span class="p">,</span> <span class="n">current_path</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s2">&quot;#error&quot;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;body&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Titles Are Unique</h5>
+
+<p>Conceptually:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>As an authenticated user
+</span><span class='line'>  and I'm on the new article page
+</span><span class='line'>  and there's an article in the system with the title "Hello, World"
+</span><span class='line'>When I enter a title of "Hello, World"
+</span><span class='line'>  and I enter a body
+</span><span class='line'>  and I click the submit button
+</span><span class='line'>Then I am returned to the form
+</span><span class='line'>  and I see an error message that the title has already been used</span></code></pre></td></tr></table></div></figure>
+
+<p>Implemented with Capybara:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_an_authenticated_user_creates_an_article</span>
+</span><span class='line'>  <span class="n">login_as_user</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">new_article_path</span>
+</span><span class='line'>  <span class="n">create_article</span><span class="p">(</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello, World&quot;</span><span class="p">)</span> <span class="c1"># write this method elsewhere</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello, World&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;My Tester Body&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">click_on</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="n">new_article_path</span><span class="p">,</span> <span class="n">current_path</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_css?</span><span class="p">(</span><span class="s2">&quot;#error&quot;</span><span class="p">,</span> <span class="ss">:text</span> <span class="o">=&gt;</span> <span class="s2">&quot;title&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Maintaining the Veil</h3>
+
+<p>The goal of both acceptance and feature tests is to know very little about your application. If they need some data to be in the app, the test needs to create that data first.</p>
+
+<p>But that can be a real pain, not to mention slow. Imagine you&#8217;re writing a suite of tests focused on the admin functionality in your appliction. If you keep your suite conceptually pure, then <strong>every test</strong> needs to:</p>
+
+<ul>
+<li>Register a new user</li>
+<li>Confirm a user</li>
+<li>Upgrade the user to an administrator (how does this even happen?)</li>
+</ul>
+
+<p>Each of those happens <em>before</em> you get to the meat of the test. You could easily wait a long time for all that to complete, end up with a slow test suite, and either (A) waste development time or (B) stop running the tests. Both are bad.</p>
+
+<h4>Making Compromises</h4>
+
+<p>When you do these kinds of tests you&#8217;ll have to make compromises. But you want to <em>encapsulate</em> those cheats so you can pull them out later.</p>
+
+<p>In the examples above, we used this method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">login_as_user</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You can assume what that method does, but how does it do it? From the test, <em>you don&#8217;t care</em>. By abstracting the steps for that method, the test can maintain a consistent level of abstraction from the application&#8217;s implementation.</p>
+
+<p><em>Inside</em> the method, it very well might do something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">login_as_user</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">new_user_path</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;Sample User&quot;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;password_confirmation&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span>
+</span><span class='line'>  <span class="n">click_on</span> <span class="s2">&quot;save&quot;</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">login_path</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;Sample User&quot;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span>
+</span><span class='line'>  <span class="n">click_on</span> <span class="s2">&quot;login&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But that&#8217;s slow, right? You could also implement it in a way that reaches directly into the application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">login_as_user</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Sample User&quot;</span><span class="p">,</span> <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">login_path</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Sample User&quot;</span><span class="p">,</span> <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then you&#8217;d setup the controller who responds to <code>login_path</code> to allow the username and password to be passed in as URL parameters. You should <strong>only</strong> allow this in non-production environments because it&#8217;s a potential security hole.</p>
+
+<p>Do you really know that user registration is working properly? You should have tests elsewhere that examine <em>just</em> that functionality. But you have the continuous integration server who&#8217;s time doesn&#8217;t matter. Implement the method to use the slow approach on CI:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">login_as_user</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">ci?</span>
+</span><span class='line'>    <span class="n">login_as_user_through_interface</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">login_as_user_directly</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">login_as_user_through_interface</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">new_user_path</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;Sample User&quot;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;password_confirmation&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span>
+</span><span class='line'>  <span class="n">click_on</span> <span class="s2">&quot;save&quot;</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">login_path</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;Sample User&quot;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s2">&quot;password&quot;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span>
+</span><span class='line'>  <span class="n">click_on</span> <span class="s2">&quot;login&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">login_as_user_directly</span>
+</span><span class='line'>  <span class="no">User</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Sample User&quot;</span><span class="p">,</span> <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">login_path</span><span class="p">(</span><span class="ss">:name</span> <span class="o">=&gt;</span> <span class="s2">&quot;Sample User&quot;</span><span class="p">,</span> <span class="ss">:password</span> <span class="o">=&gt;</span> <span class="s2">&quot;samplepass&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Outside-In Testing</h2>
+
+<p>Let&#8217;s continue the example from above where you&#8217;ve implemented an acceptance test about posting an article. You run it and it fails.</p>
+
+<h3>A Feature Test</h3>
+
+<p>You drop down a level to the feature tests and write this test (from above):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_an_authenticated_user_creates_an_article</span>
+</span><span class='line'>  <span class="n">login_as_user</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="n">new_article_path</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;Hello, World&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">fill_in</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s2">&quot;My Tester Body&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">click_on</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">id_from_path</span> <span class="o">=</span> <span class="n">current_path</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/\d+$/</span><span class="p">)</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="n">assert_match</span> <span class="n">article_path</span><span class="p">(</span><span class="n">id_from_path</span><span class="p">),</span> <span class="n">current_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You run it and it fails, too. To focus, you go back to the acceptance test and mark it as <code>skip</code>, then re-run your suite and see just this feature test failing.</p>
+
+<h3>Dive Inside the App</h3>
+
+<p>Now you change gears and step <em>inside</em> the application. How do you pass the test? You need:</p>
+
+<ul>
+<li>a <code>new_article_path</code> that displays a form</li>
+<li>that form to have <code>title</code> and <code>body</code> text fields and a <code>save</code> button</li>
+<li>a redirect to the <code>show</code> action for that article</li>
+</ul>
+
+<p>What <strong>don&#8217;t</strong> you need? This feature test doesn&#8217;t actually compel you to store the data from the form!</p>
+
+<p>Let&#8217;s dive down to the controller tests.</p>
+
+<h4>Testing the Controller</h4>
+
+<p>We don&#8217;t believe in controller tests specifying much about content, but to focus instead on functionality.</p>
+
+<p>You could, for instance, write a controller test that specifies the <code>new</code> action renders a <code>form</code> partial. But why? What does it really help you learn about the design of the application? Nothing.</p>
+
+<p>Your feature test is failing because the controller doesn&#8217;t exist or doesn&#8217;t have a <code>new</code> action. You go ahead and implement it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then the test fails because the view template is missing. Go ahead and implement that template with a form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="vi">@article</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">&#39;title&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_area</span> <span class="ss">:body</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">&#39;body&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Save Article&quot;</span><span class="p">,</span> <span class="ss">:id</span> <span class="o">=&gt;</span> <span class="s1">&#39;save&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And now, finally, the feature test fails because the <code>create</code> action doesn&#8217;t exist to receive the form data. </p>
+
+<p>It&#8217;s time for a controller test. In <code>test/controller/articles_controller_test.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">class ArticlesControllerTest &lt; ActionController::TestCase</span>
+</span><span class='line'><span class="x">  def test_create_redirects_to_the_new_article</span>
+</span><span class='line'><span class="x">    post(:create, {&#39;title&#39; =&gt; &quot;Hello, World&quot;, &#39;body&#39; =&gt; &quot;The Body&quot;})</span>
+</span><span class='line'><span class="x">    assert_redirected_to article_path(assigns(:article))</span>
+</span><span class='line'><span class="x">  end</span>
+</span><span class='line'><span class="x">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Check out the <a href="http://guides.rubyonrails.org/testing.html#functional-tests-for-your-controllers">Rails Testing Documentation</a> for more details on what you can do in a controller test. This one submits a post request with some parameters, then checks that it gets redirected. The <code>assigns(:article)</code> checks that the action defines a variable <code>article</code> and fetches it in order to build the URL.</p>
+
+<h4>Write a Unit/Model Test</h4>
+
+<h4>Repeat and Bubble-Up</h4>
+
+<h3>Write the Next Feature Test</h3>
+
+<p>Repeat.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

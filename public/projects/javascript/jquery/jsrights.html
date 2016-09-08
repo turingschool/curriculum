@@ -1,0 +1,833 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JSRights - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="JSRights                              In this short project we&#8217;ll work with the United States Bill of Rights &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/javascript/jquery/jsrights.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          JSRights
+        </h1>
+        
+      </header>
+    
+    <p>In this short project we&#8217;ll work with the United States Bill of Rights.  Starting with some simple markup and the body content, we&#8217;ll use jQuery to generate a table of contents and some simple user interface features.</p>
+
+<h3>1. The Plain Old Thing</h3>
+
+<p>Let&#8217;s start with this very basic HTML:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+<span class='line-number'>78</span>
+<span class='line-number'>79</span>
+<span class='line-number'>80</span>
+<span class='line-number'>81</span>
+<span class='line-number'>82</span>
+<span class='line-number'>83</span>
+<span class='line-number'>84</span>
+<span class='line-number'>85</span>
+<span class='line-number'>86</span>
+<span class='line-number'>87</span>
+<span class='line-number'>88</span>
+<span class='line-number'>89</span>
+<span class='line-number'>90</span>
+<span class='line-number'>91</span>
+<span class='line-number'>92</span>
+<span class='line-number'>93</span>
+<span class='line-number'>94</span>
+<span class='line-number'>95</span>
+<span class='line-number'>96</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!doctype html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;</span>The Bill of Rights<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">href=</span><span class="s">&quot;styles.css&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">media=</span><span class="s">&quot;screen&quot;</span> <span class="na">charset=</span><span class="s">&quot;utf-8&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;h1&gt;</span>The Bill of Rights<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span> Article I<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        After the first enumeration required by the first article of the Constitution, there shall be one representative for every thirty thousand, until the number shall amount to one hundred, after which the proportion shall be so regulated by Congress, that there shall be not less than one hundred representatives, nor less than one representative for every forty thousand persons, until the number of representatives shall amount to two hundred; after which the proportion shall be so regulated by Congress, that there shall be not less than two hundred representatives, nor more than one representative for every fifty thousand persons.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span> Article II<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        No law varying the compensation for the services of the Senators and Representatives, shall take effect, until an election of Representatives shall have intervened.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article III<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        Congress shall make no law respecting an establishment of religion, or prohibiting the free exercise thereof; or abridging the freedom of speech, or of the press; or the right of the people peaceably to assemble, and to petition the Government for a redress of grievances.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article IV<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        A well regulated Militia, being necessary to the security of a free State, the right of the people to keep and bear Arms, shall not be infringed.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article V<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        No Soldier shall, in time of peace be quartered in any house, without the consent of the Owner, nor in time of war, but in a manner to be prescribed by law.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article VI<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        The right of the people to be secure in their persons, houses, papers, and effects, against unreasonable searches and seizures, shall not be violated, and no Warrants shall issue, but upon probable cause, supported by Oath or affirmation, and particularly describing the place to be searched, and the persons or things to be seized.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article VII<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        No person shall be held to answer for a capital, or otherwise infamous crime, unless on a presentment or indictment of a Grand Jury, except in cases arising in the land or naval forces, or in the Militia, when in actual service in time of War or public danger; nor shall any person be subject for the same offence to be twice put in jeopardy of life or limb; nor shall be compelled in any criminal case to be a witness against himself, nor be deprived of life, liberty, or property, without due process of law; nor shall private property be taken for public use, without just compensation.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article VIII<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        In all criminal prosecutions, the accused shall enjoy the right to a speedy and public trial, by an impartial jury of the State and district wherein the crime shall have been committed, which district shall have been previously ascertained by law, and to be informed of the nature and cause of the accusation; to be confronted with the witnesses against him; to have compulsory process for obtaining witnesses in his favor, and to have the Assistance of Counsel for his defence.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article IX<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        In Suits at common law, where the value in controversy shall exceed twenty dollars, the right of trial by jury shall be preserved, and no fact tried by a jury, shall be otherwise re-examined in any Court of the United States, than according to the rules of the common law.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article X<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        Excessive bail shall not be required, nor excessive fines imposed, nor cruel and unusual punishments inflicted.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article XI<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        The enumeration in the Constitution, of certain rights, shall not be construed to deny or disparage others retained by the people.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Article XII<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        The powers not delegated to the United States by the Constitution, nor prohibited by it to the States, are reserved to the States respectively, or to the people.
+</span><span class='line'>      <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Also, you&#8217;ll want to make a file called <code>styles.css</code> in the same folder containing these styles:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">html</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">background-color</span><span class="o">:</span> <span class="m">#CCC</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">body</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">50px</span> <span class="k">auto</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">font-family</span><span class="o">:</span> <span class="n">Garamond</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">width</span><span class="o">:</span> <span class="m">620px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">background-color</span><span class="o">:</span> <span class="m">#FFF</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">h1</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">background-color</span><span class="o">:</span> <span class="m">#E0E0E0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">h1</span><span class="o">,</span> <span class="nc">.article</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">h2</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">font-size</span><span class="o">:</span> <span class="m">24px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">p</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">5px</span> <span class="m">0px</span> <span class="m">5px</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">ul</span><span class="nf">#toc_list</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">margin-left</span><span class="o">:</span> <span class="m">-30px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">list-style</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What you should notice about this document is that each Article starts with an <code>h2</code> heading then the text of the article is in a paragraph following it.  Looking at the document&#8217;s <code>head</code> section you&#8217;ll see that it include a CSS stylesheet but nothing else.  Open this page in your browser to get a sense of the text.</p>
+
+<h3>2. Loading jQuery and Your Javascript</h3>
+
+<p>With that baseline setup we can start integrating our Javascript.  First, include the jQuery library from Google:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we want to include our own Javascript file which we&#8217;ll create in a second:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;application.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next create a second file in your project directory named <code>application.js</code> and open it.</p>
+
+<p>Refresh your browser and there will be no change.  We&#8217;re loading these Javascript files but we&#8217;re not actually doing anything.  Now in your <code>application.js</code> add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>alert(&quot;I loaded application.js!&quot;);
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and you should see an alert box indicating that the <code>application.js</code> file was loaded.  Check the RESOURCES tab in Chrome and make sure jQuery is downloading properly.  Then you&#8217;re good to go for some real development!</p>
+
+<h3>3. Back to Top</h3>
+
+<p>The first feature we&#8217;ll add is a &quot;Back to Top&quot; link under each article.  Why do this in Javascript when we could just change the HTML? For one thing, we can keep our text more pure by handling it in Javascript.  More importantly, our Javascript approach is flexible and repurposable. If we were dealing with thousands of documents it would work great, where modifying the HTML might take weeks.</p>
+
+<p>We want to insert new content.  The process goes something like this:</p>
+
+<ol>
+<li>Find the places you want the content</li>
+<li>Create the content</li>
+<li>Stick it in that spot</li>
+</ol>
+
+<p>So where do we want the link? It&#8217;d be tempting to put the link after every paragraph since each article is just one, but that seems a little sloppy.  If there were introductory paragraphs or something they might get links too.  Each article is wrapped in a DIV tag with the class name <code>article</code> so let&#8217;s find those DIVs and stick the link just inside the closing DIV tag.</p>
+
+<p>We need a jQuery selector.  If you&#8217;re familiar with CSS then writing selector statements is super easy.  In this case we want DIV tags with the class name <code>article</code> so we just write <code>&quot;div.article&quot;</code>.  We&#8217;ll also need to wrap our jQuery in the document ready lines, so start with this in your <code>application.js</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div.article&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and you&#8217;ll see&#8230;no change.  We might have selected all the article DIVs, but we didn&#8217;t do anything with them.  When I&#8217;m not sure about a selector I like to first add some CSS attributes to the matched objects.  That gives me a visual confirmation that jQuery is finding the things I want it to find.  Modify your middle line in <code>application.js</code> so it&#8217;s like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div.article&quot;</span><span class="p">).</span><span class="nx">css</span><span class="p">(</span><span class="s1">&#39;border&#39;</span><span class="p">,</span><span class="s1">&#39;3px solid #FCC&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and pink borders should pop around each article.  The CSS method sets a CSS property on each element that the selector matched.  One thing I love about Chrome is how you can now do &quot;Inspect Element&quot; on those article <code>div</code>s and it&#8217;ll show you, right in the souce code, the CSS that has been dynamically applied.  We know our selector is working!</p>
+
+<p>We found the places we want the content, now to create the content.  I don&#8217;t like to have a whole lot of HTML in my Javascript.  In this case we&#8217;ll need it, but we can at least abstract it into a variable.  Add this line just above your selector line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>var backToTop = &quot;<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&#39;#top&#39;</span><span class="nt">&gt;</span>Back to Top<span class="nt">&lt;/a&gt;</span>&quot;;
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We know where the content goes, we&#8217;ve got the content, now let&#8217;s put it in there.  There are several methods for inserting content in jQuery that each have a slightly different purpose.  We want to stick content &quot;inside but at the end of&quot; the matched elements.  This is an append operation which we can accomplish like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div.article&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">backToTop</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Replace the <code>.css</code> line with that one, refresh your browser, and your Back to Top links should appear.  You&#8217;ve dynamically created content within the HTML page!</p>
+
+<h4>On Your Own: The #top Anchor</h4>
+
+<p>These links are great, and when you click on the link from the last article, it will most certainly send you to the top. The problem however, is that it is only the &#8216;#&#8217; notation that is making this work in the browser currently. <code>&lt;a href='#'&gt;</code> by itself will get you the same behavior in this example as <code>&lt;a href='#top'&gt;</code>. But <code>&lt;a href='#'&gt;</code> is not very explicit, and the default on click with <code>&lt;a href='#'&gt;</code> is to take you to the top of the current page. So what happens when you a) want to be explicit, as all good developers should, and b) want to target a different article/link? You need an anchor. Insert a named anchor like <code>&lt;a id='top'&gt;</code> within that <code>h1</code> at the top of the page and check that your links still work. Now experiment with moving your anchor around in other tags and checking the results.</p>
+
+<h3>4. Table of Contents</h3>
+
+<p>Jumping back to the top is great and all, but what most users are going to want is to jump from the top to the article they&#8217;re interested in.  We need to build a table of contents on the fly.  How&#8217;s that possible?</p>
+
+<ol>
+<li>Create a ToC heading and unordered list near the top of the page</li>
+<li>Find all the <code>h2</code>s, they are the names of the articles</li>
+<li>Insert the article names as list items into the UL</li>
+<li>Insert <code>id</code> anchors into each of the <code>h2</code>s</li>
+<li>Link the Table of Contents item to the <code>h2</code></li>
+</ol>
+
+<h4>Create a ToC Heading and Unordered List</h4>
+
+<p>We&#8217;ve already practiced creating a variable to hold HTML then inserting that HTML.  Store <code>&quot;&lt;h2 id='toc_header'&gt;Table of Contents&lt;/h2&gt;&quot;</code> into a variable and insert it into the markup just below the existing H1.  Instead of using <code>append</code> like we did before, here you need <code>after</code> so it goes outside the closing H1 tag.</p>
+
+<p>Then, just under that heading, insert an unordered list (UL) with the id attribute set to <code>'toc_list'</code>.  The tricky thing here is that you probably want to use a selector to find the ToC <code>h2</code>, but how can we do that without getting all the <code>h2</code>s? Use the CSS-style virtual attribute <code>:first</code> like <code>h2:first</code>.</p>
+
+<h5>About <code>id</code>s</h5>
+
+<p>The id attribute provides a unique identifier for an element within the document. 
+The most important aspect of the id attribute is that it must be absolutely unique. Unlike the class attribute, which may apply the same value to many elements in a page, an id that’s applied to an element must not match an id used anywhere else on the same page.
+Note that the id attribute cannot be applied to the following elements:
+<code>base</code>
+<code>head</code>
+<code>html</code>
+<code>meta</code>
+<code>script</code>
+<code>style</code>
+<code>title</code></p>
+
+<p>Refresh the page in your browser, use the Inspect Element tool, and make sure your new HTML is getting injected properly.</p>
+
+<h4>Finding the Titles and Inserting them into the ToC</h4>
+
+<p>First, <em>on your own</em>, write a selector which finds all the article <code>h2</code>s and sets their background color to #CCF.  Make sure it&#8217;s not selecting the heading ToC heading.</p>
+
+<p>Now that you&#8217;ve found the <code>h2</code>s, we need to grab their content and create the list items.  Our selector is finding the collection of <code>h2</code>s, then we can use the <code>each</code> method to run instructions on each element of the collection.  Here&#8217;s how it&#8217;ll look:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div.article h2&quot;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We pass a <code>function</code> into <code>each</code> holding the instructions we want run on each element.  Remember that we bundle it into a function so the instructions don&#8217;t get executed when the script is first read, they wait until the function is called.</p>
+
+<p>We want to pull the text out of the object.  How do we get to the one object we&#8217;re looking at within the collection? We can try using the special variable <code>this</code> like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div.article h2&quot;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">title</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">text</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="nx">title</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and you won&#8217;t see any alert boxes popping up.  Look at your developer pane and you&#8217;ll see an error like <code>Object #&lt;an HTMLHeadingElement&gt; has no method 'text'</code>.  You get this error because within the <code>each</code> method, the <code>this</code> variable refers to the plain DOM object.  It isn&#8217;t a jQuery object, so we can&#8217;t call a jQuery method like <code>.text</code> or else we see this error.</p>
+
+<p>But it allows us to show another usage style for the <code>$</code> jQuery reference.  Modify your code block to pass <code>this</code> into <code>$</code> like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div.article h2&quot;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">title</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="nx">title</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now refresh your page and you should see a bunch of popups with the individual article titles.  It works! Now, what were we trying to do again?  We wanted to insert these titles into the ToC list.  Instead of alerting the title, let&#8217;s build it into an <code>li</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">listItem</span> <span class="o">=</span> <span class="s2">&quot;&lt;li&gt;&quot;</span> <span class="o">+</span> <span class="nx">title</span> <span class="o">+</span> <span class="s2">&quot;&lt;/li&gt;&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, on your own, write a selector to find the ToC UL and <code>append</code> the <code>listItem</code>.  Refresh your browser and you should see a plain text Table of Contents.</p>
+
+<h4>Linking</h4>
+
+<p>Our ToC is nice for reading and printing, but it should be linked.  We want to click on an article title in the ToC and jump to the article further down the page.  To accomplish this interaction we need to:</p>
+
+<ol>
+<li>Take the title and convert it to a &quot;slug&quot; usable in a URL</li>
+<li>Insert anchors in the individual article <code>h2</code>s which have the <code>id</code> set to that slug</li>
+<li>Link the list items in the ToC to that slug</li>
+</ol>
+
+<h5>Creating a Slug</h5>
+
+<p>We already have the <code>title</code> variable which holds name of the article like &quot;Article X&quot;.  We need to create a slug version of that, conventionally all lowercase and spaces replaced by underscores like <code>article_x</code>.  We&#8217;ll use a mix of jQuery methods and normal Javascript methods to accomplish this translation.</p>
+
+<p>It&#8217;s a great application of method chaining, but we need to be aware of what object type we&#8217;re expecting back.  The jQuery methods should give jQuery objects back, while the Javascript methods are going to give Javascript objects.  A jQuery object knows the Javascript methods too, but a Javascript object does <em>not</em> know the jQuery methods &#8211; so our ordering will be important.  Let&#8217;s start with these lines just under your current <code>title =</code> line.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">slug</span> <span class="o">=</span> <span class="nx">title</span><span class="p">;</span>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">slug</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and you&#8217;ll just see the normal titles in alert boxes.  As a first step I want to use the jQuery method <code>.trim()</code> which cuts any whitespace off the frontend or backend of our string.  Now those lines will look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">slug</span> <span class="o">=</span> <span class="nx">title</span><span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">slug</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Remember that in Javascript we have to put the method&#8217;s parentheses even if there are no parameters.  Now we&#8217;ll use some normal Javascript methods to manipulate the string further.</p>
+
+<p>Right after your <code>trim()</code> call, add on a call to <code>.toLowerCase()</code> to convert it to lower case.  Then we need the <code>.replace()</code> method which takes two parameters: the string to find and the string to replace it with.  Use it to replace a space with an underscore.  Combining them all gives me this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">slug</span> <span class="o">=</span> <span class="nx">title</span><span class="p">.</span><span class="nx">trim</span><span class="p">().</span><span class="nx">toLowerCase</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser to check that the slugs look good and we can move on.</p>
+
+<h5>Insert the Target Anchors</h5>
+
+<p>Now that we have the slug we can setup the target anchors.  Within the <code>each</code> block that we&#8217;ve been working in, remember that <code>this</code> is referring to the <code>h2</code>.  We want to inject the anchor inside that <code>h2</code>.  Let&#8217;s create the anchor and insert it in one step. We&#8217;ll use a handy jQuery method called <code>attr</code>. We&#8217;ll call <code>attr</code> on the jQuery version of <code>this</code>, which remember represents each of our <code>h2</code>s. And then we&#8217;ll pass two arguments to <code>attr</code>, the first of which declares the attribute we want to add: <code>id</code>, the second argument is the value of that attribute, which in our case is the previously defined variable slug.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="nx">slug</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Link to the Targets</h5>
+
+<p>We need to add links into the <code>listItem</code>.  On your own, work with the <code>var list_item=</code> line to include a link tag where the <code>href</code> points to <code>#article_x</code> where <code>article_x</code> is the current slug.</p>
+
+<p>Remove any <code>alert</code> lines you have and refresh your browser.  Your ToC should be fully functional!</p>
+
+<h3>5. Hiding Content</h3>
+
+<p>There&#8217;s one more feature I want in our document.  Underneath the title of each article I want a <code>(hide)</code> link which, when clicked, hides the body of the article and changes the link to say <code>(show)</code>.  Here&#8217;s what we need to do:</p>
+
+<ol>
+<li>Create the hide link</li>
+<li>Attach a <code>click</code> event handler that&#8230;
+
+<ol>
+<li>Hides the article content</li>
+<li>Changes the link text</li>
+</ol></li>
+</ol>
+
+<p>Creating the link itself is the easy part.  You already have the selector for all article <code>h2</code>s and the <code>each</code> block of instructions, so we&#8217;ll continue to work within that <code>each</code> block.  Add these two lines to create a simple link and insert it after the <code>h2</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">toggleLink</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;a href=&#39;#&#39;&gt;(hide)&lt;/a&gt;&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">after</span><span class="p">(</span><span class="nx">toggleLink</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You&#8217;ll notice that <code>toggleLink</code> is a jQuery object, not just a normal Javascript string, because I put it inside <code>$()</code>.  We&#8217;ll need that jQuery functionality soon.  The second line inserts the link object after the <code>h2</code>.  Refresh your browser and you&#8217;ll see the links appear, but when you click them nothing meaningful happens.</p>
+
+<h4>Working with the Click Event</h4>
+
+<p>We need to add behavior that will be executed when that link is clicked.  In between the two lines you just wrote, add this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">toggleLink</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">siblings</span><span class="p">().</span><span class="nx">hide</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What is that?  The <code>on</code> method binds the given event to the given function.  In this case, the event we&#8217;re listening for is <code>click</code>, which is fired when there is a mouse click on that element.  <code>on</code> takes a <code>function</code> parameter which holds the code that will be executed when the click happens.  Here our function takes a parameter <code>event</code> which effectively creates a local variable named <code>event</code> that contains a bunch of information about when and where the click happened.  So far we&#8217;re not using that variable for anything.  Then inside the function we get the link with <code>this</code>, turn it into a jQuery object with <code>$()</code>, and call the <code>siblings</code> method.  This method returns the set of all &quot;sibling&quot; objects in the DOM, the objects that share the same parent/wrapper object as this one.  In our case that will be all DOM objects inside the article DIV.  Once those siblings are found it calls <code>hide</code> on them to hide them from view.</p>
+
+<p>Now that the <code>click</code> listener is attached to <code>toggleLink</code> we need to insert the link into the DOM.  Use this line outside of the <code>click</code> block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">after</span><span class="p">(</span><span class="nx">toggleLink</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try it in your browser.  It kinda works, right?  What&#8217;s the main issue?</p>
+
+<p>We can fix that by filtering the <code>siblings</code> matcher.  Change <code>siblings()</code> to <code>siblings('p')</code> so it&#8217;ll only match siblings which are paragraphs and retry it.  Now your article titles won&#8217;t disappear.</p>
+
+<h5>Revealing the Text</h5>
+
+<p>Hiding is cool and all, but how about revealing?  If we click the link again it should reveal the hidden text.  In jQuery there&#8217;s the <code>hide</code> method we just used and there&#8217;s <code>show</code> which works exactly the same.  We could use an if/else block to say &quot;when this link is clicked, if the text is visible then hide it, otherwise reveal it.&quot;  That&#8217;d work, but it&#8217;s a common enough use case that jQuery makes it easier on us.</p>
+
+<p>Several methods come in pairs like <code>hide</code> and <code>show</code>.  Many such pairs have a third instruction that toggles between them, looking at the element and figuring out which one should be done.  In this case, the toggle method is called <code>toggle</code>.  All we need to do is change our method call from <code>hide()</code> to <code>toggle()</code>.</p>
+
+<p>Try that out in your browser.</p>
+
+<h5>Changing the Link Text</h5>
+
+<p>It works great but it looks stupid.  When the text is hidden the link still says &quot;hide&quot; &#8211; it should switch to saying &quot;show.&quot;  It&#8217;d be nice if there were some toggle-like function to change text and there is discussion about it existing in the future.  For now, though, we have to toggle the link text manually.</p>
+
+<p>We&#8217;ll do it in two steps:</p>
+
+<ol>
+<li>Figure out what the text should be</li>
+<li>Set the link to that text</li>
+</ol>
+
+<p>Here&#8217;s the logic to figure out the text: &quot;If the link currently says <code>'(hide)'</code> then the text should be <code>'(show)'</code>, otherwise it should be <code>'(hide)'</code>.  We could use a Javascript if/else construction to get this accomplished, but when there is just one step in the &quot;then&quot; clause we can use the ternary operator.</p>
+
+<p>Present in several languages, the ternary operator is one of those things that looks crazy but is really handy.  Here&#8217;s how it&#8217;s constructed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">result</span> <span class="o">=</span> <span class="nx">condition</span> <span class="o">?</span> <span class="nx">what_to_do_if_true</span> <span class="o">:</span> <span class="nx">what_to_do_if_false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The condition is evaluated to true or false.  If it&#8217;s true then the <code>what_to_do_if_true</code> instruction will be executed and the result stored into <code>result</code>.  If the condition was not true the <code>what_to_do_if_false</code> is executed and it&#8217;s result put into <code>result</code>.</p>
+
+<p>In our case, here&#8217;s how we&#8217;ll use it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">oldText</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">text</span><span class="p">();</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">newText</span> <span class="o">=</span> <span class="p">(</span><span class="nx">oldText</span> <span class="o">===</span> <span class="s1">&#39;(hide)&#39;</span><span class="p">)</span> <span class="o">?</span> <span class="s1">&#39;(show)&#39;</span> <span class="o">:</span> <span class="s1">&#39;(hide)&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Setting the Link Text</h5>
+
+<p>Now <code>newText</code> will hold the value of what we want the link to say after this click.  Figure out how to use the <code>text</code> method to set the text of the link to <code>new_text</code>.</p>
+
+<p>Try it out in your browser and it&#8217;s functionally good, but there&#8217;s a usability issue.</p>
+
+<h5>Stop Jumping Around, Browser!</h5>
+
+<p>When you click show or hide links the browser is jumping to the top of the page, right?  That&#8217;s because in addition to executing our Javascript listening for the <code>click</code> event, it&#8217;s also doing the normal things it does when you click a link &#8211; trying to load the page or anchor.  Our actual link tag points to <code>#</code>, a blank anchor, which is the conventional pointer for &quot;do some Javascript but don&#8217;t actually load any HTML.&quot;  But the browser is looking for an anchor tag with a blank name and, not finding it, jumps you to the beginning of the page. Annoying.</p>
+
+<p>The fix is simple.  We want the browser to not react to the link click itself, just run our Javascript.  jQuery has a method for doing this which encapsulates the differences between browsers.  It&#8217;s acutally a method of the event object itself which is why we put <code>event</code> into the <code>click</code> method signature.  All you need to do is add this as the first line inside your <code>click</code> block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and try it out; there should be no more jumping around.  Our hide/show functionality is complete!</p>
+
+<h3>6. Refactoring to a plugin</h3>
+
+<p>Plugins make jQuery an excellent language for sharing re-usable pieces of code.  As we saw in this example, we created a script that goes through a page featuring <code>div.article</code> sections with <code>h2</code> tags and built up a table of contents to place under the <code>h1</code>.  We also using lots of jQuery functions that operated on selected tags, for example, <code>$('div.article').each(...</code>.  We&#8217;re going to create our own method that can operate on tags using jQuery&#8217;s plugin architecture.</p>
+
+<p>Here&#8217;s how we&#8217;re going to setup our plugin and call it when the document loads:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">fn</span><span class="p">.</span><span class="nx">tableOfContents</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">header</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="cm">/* our code will go here */</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;div.article&quot;</span><span class="p">).</span><span class="nx">tableOfContents</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">));</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>By adding a function to <code>$.fn</code> we can access it when selecting tags.  In our case we select all of our <code>div.article</code> tags and call our function. We also pass in the header to the plugin function so it will know where to put our ToC.</p>
+
+<p>Only a few changes need to be made to our code in order to use it inside the plugin:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">// $(&#39;div.article&#39;) =&gt; this</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">back_to_top</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// $(&#39;h1&#39;) =&gt; header</span>
+</span><span class='line'><span class="nx">header</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="nx">top_anchor</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// $(&#39;h1&#39;) =&gt; header</span>
+</span><span class='line'><span class="nx">header</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span><span class="nx">toc_header</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// $(&#39;h2:first&#39;) =&gt; toc_header</span>
+</span><span class='line'><span class="nx">toc_header</span><span class="p">.</span><span class="nx">after</span><span class="p">(</span><span class="nx">toc_list</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// $(&#39;div.article&#39;) =&gt; this</span>
+</span><span class='line'><span class="k">this</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;h2&#39;</span><span class="p">).</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>  <span class="c1">// all the same, since it&#39;s encapsultated in the loop</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we are free to distribute this plugin among our team or publicly for the world to use to build tables of contents for their article lists.</p>
+
+<h3>Wrapup</h3>
+
+<p>In this short project we took relatively plain HTML text and augmented it with navigation, a table of contents, and show/hide functionality.  While much of this would be possible by editing the HTML itself, our Javascript technique keeps the content more &quot;pure&quot; and brings the &quot;function&quot; all into one place.  This approach would also scale to multiple pages, where editing the HTML would be time consuming.</p>
+
+<p>In practicing our jQuery and pure Javascript we&#8230;</p>
+
+<ul>
+<li>Created and worked with variables</li>
+<li>Used text manipulation methods like <code>toLowerCase</code> and <code>text</code></li>
+<li>Used the ternary operator</li>
+<li>Responded to a click event</li>
+<li>Inserted, hid, and displayed content</li>
+<li>Used a variety of selectors with IDs, Classes, and Virtual Attributes</li>
+<li>Refactored our script into a reusable plugin</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

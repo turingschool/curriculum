@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Pivot - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="The Pivot                              Your Dinner Dash application was almost great, but it turns out that we &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/the_pivot.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          The Pivot
+        </h1>
+        
+      </header>
+    
+    <p>Your Dinner Dash application was <em>almost</em> great, but it turns out that we need
+to <em>pivot</em> the business model.</p>
+
+<p>In this project you&#8217;ll build upon an existing implementation of
+<a href="/projects/dinner_dash.html">Dinner Dash</a>, turning it from a
+restaurant ordering site to something much bigger.</p>
+
+<h3>Learning Goals</h3>
+
+<h4>Modeling</h4>
+
+<ul>
+<li>Adapt the existing restaurant models to belong to individual businesses</li>
+<li>Mind security permissions such that each business does <strong>not</strong> have any knowledge of other businesses&#8217; data</li>
+<li>Push <em>all</em> logic down to the model layer so controllers and views remain simple</li>
+</ul>
+
+<h4>Interface &amp; Views</h4>
+
+<ul>
+<li>Use and switch between multiple view templates to reduce view-layer logic</li>
+<li>Implement a clean, logical order flow that minimizes customer frustration</li>
+</ul>
+
+<h4>Process</h4>
+
+<ul>
+<li>Practice working with a &quot;legacy&quot; codebase to add substantial functionality</li>
+<li>Use outside-in TDD/BDD to drive all layers of Rails development</li>
+<li>Use a professional project management tool to pace and track progress</li>
+</ul>
+
+<h3>Teams</h3>
+
+<p>The project will be completed by teams of three to four developers over the span of eighteen days.</p>
+
+<p>Like all projects, individual team members are expected to:</p>
+
+<ul>
+<li>Seek out features and responsibilities that are uncomfortable. The time to learn is <em>now</em>.</li>
+<li>Support your teammates so that everyone can collaborate and contribute.</li>
+</ul>
+
+<h3>Project Starting Point</h3>
+
+<p>You&#8217;ll build upon an existing code base assigned by the instructors. You need to
+work on adapting and improving this codebase, not building your own thing from
+scratch. This is sometimes called &quot;brownfield&quot; development, and you&#8217;ll soon know
+why.</p>
+
+<h4>Exploring the Dinner Dash App</h4>
+
+<p>As a group, dig into the code base and pay particular attention to:</p>
+
+<ul>
+<li>Test coverage and quality</li>
+<li>Architectural concerns</li>
+<li>Components that are particularly strong or weak</li>
+<li>General strengths and weaknesses</li>
+</ul>
+
+<h4>Beginning The Pivot</h4>
+
+<p>Once you&#8217;ve explored the base project:</p>
+
+<ul>
+<li>Select one member of the group who will host the canonical repository for the project</li>
+<li>Create a new, blank repository on GitHub named <code>the_pivot</code></li>
+<li>Clone the Dinner Dash project that you&#8217;ll be working with to your local machine</li>
+<li>Go into that project directory and <code>git remote rm origin</code></li>
+<li>Add the new repository as a remote <code>git remote add origin git://new_repo_url</code></li>
+<li>Push the code <code>git push origin master</code></li>
+<li>In GitHub, add the other team members as collaborators</li>
+<li>The other team members can then fork the new repo</li>
+</ul>
+
+<h4>Tagging the Start Point</h4>
+
+<p>We want to be able to easily compare the change between the start of the project and the end. For that purpose, create a tag in the repo and push it to GitHub:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git tag -a dinner_dash_v1</span><span class='line command'>git push --tags</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Restrictions &amp; Outside Code</h3>
+
+<p>Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redundant, broken, or obsolete code. However, you should <strong>not</strong> throw out the previous work wholesale.</p>
+
+<p>Furthermore, there should be <em>no reduction in functionality</em> except when explicitly called for by new requirements.</p>
+
+<h3>Setup the Project Management Tool</h3>
+
+<p>There are many popular project management tools out there. For this project
+we&#8217;ll use a lightweight tool that wraps GitHub issues: <a href="https://waffle.io/">Waffle.io</a></p>
+
+<p>Setup a Waffle project for your new repo. Your team members and instructors should
+be added to the project so they can create, edit, and comment on issues.</p>
+
+<h2>Managing Requirements</h2>
+
+<p>The stories as written and prioritized in your project management tool will be
+the authoritative project requirements. They may go against and likely go beyond
+the general requirements in this project description.</p>
+
+<h3>Workflow</h3>
+
+<p>Generally speaking, work for your project should go through this process:</p>
+
+<ul>
+<li>A story is written in the project management tool</li>
+<li>A developer comments on the story that they&#8217;re beginning work</li>
+<li>They create a feature branch</li>
+<li>They develop and test the feature</li>
+<li>They push the <em>feature</em> branch to the repository</li>
+<li>They submit a pull request asking to merge the branch into <em>master</em></li>
+<li>A teammate reviews the code for quality and functionality</li>
+<li>The teammate merges the pull request and closes the story/issue</li>
+<li>Later, the customer will review the delivered features by browsing closed
+pull requests</li>
+</ul>
+
+<h2>Pivots</h2>
+
+<p>Your group will be assigned one of the following problem domains to pivot Dinner Dash:</p>
+
+<h3>Keevahh</h3>
+
+<p>Micro-lending is a powerful tool for social progress. Let&#8217;s rework Dinner Dash
+into a micro-lending platform.</p>
+
+<ul>
+<li>Users register on the site as either a borrower (<em>the business</em>) or a lender
+(<em>the customer</em>)</li>
+<li>Borrowers automatically have a borrower page (<em>the store</em>)</li>
+<li>Within that borrower page, they post one or more loan requests (<em>the products</em>)</li>
+<li>A loan request has a title, description, categories, photos, borrowing amount, requested-by
+date, a repayments-begin date, and a repayment rate</li>
+<li>A lender can browse the site and view all open loan requests</li>
+<li>They can add multiple loans from multiple borrowers to their cart</li>
+<li>They can then checkout and the funds are allocated to the borrowers</li>
+<li>The borrowers are notified that funding has come through and their loan request
+page is updated</li>
+</ul>
+
+<p>Lending like this is more fun together &#8211; it&#8217;d be great if lenders could band
+together into lending groups that make loans together on a weekly or monthly basis.</p>
+
+<h3>EmployMe</h3>
+
+<p>Employment is key to quality of life. Let&#8217;s rework our Dinner Dash into a platform
+to help people find great jobs.</p>
+
+<ul>
+<li>Users register on the site as either a job poster (<em>the business</em>) or a job seeker (<em>the customer</em>)</li>
+<li>A business has a listings page with all their job listings</li>
+<li>The business can create one or more job listing</li>
+<li>A listing has a title, description, categories, full-time/part-time indicator,
+wage/salary range, number of positions open, and a closing date</li>
+<li>A job seeker can browse the site and view all open job listings</li>
+<li>They can add one or more job listings to their cart</li>
+<li>They can upload a PDF resume that&#8217;s attached to their user account</li>
+<li>During the &quot;checkout&quot; process, they can add a brief introduction note to each job they&#8217;re
+applying for</li>
+<li>The job posters are notified that a new application has come in</li>
+</ul>
+
+<p>The job posters will need a great dashboard where they can review the applicants
+and either send them rejections or schedule interviews.</p>
+
+<h3>Airlift</h3>
+
+<p>Technology has a huge role to play in disaster relief and recovery. Let&#8217;s rework
+Dinner Dash to help get relief supplies to the people and places that need them.</p>
+
+<ul>
+<li>Users register on the site as either suppliers (<em>the business</em>) or service
+providers (<em>the customer</em>)</li>
+<li>A supplier has a listings page with all their available supplies</li>
+<li>A listing has a title, description, categories, quantity available, unit size,
+current location, shippable indicator, unit weight</li>
+<li>A service provider can browse the site and view all available supplies</li>
+<li>They can add one or more supplies to their cart</li>
+<li>During checkout they can choose to (a) pickup the supplies and request a
+pickup day/time or (b) request delivery and set their current location using GPS coordinates</li>
+<li>The suppliers are notifed that a new request has come in</li>
+</ul>
+
+<p>Disaster areas probably don&#8217;t have desktops, electricity, and internet
+access. This project needs to be built targeting <em>mobile web</em> and <em>SMS</em> where
+appropriate.</p>
+
+<h3>TravelHome</h3>
+
+<p>Experiencing other cultures is one of the strongest ways to build our understanding
+of humanity. Let&#8217;s make it easier for people to open their homes to travelers.</p>
+
+<ul>
+<li>Users register on the site and can be both hosts (<em>the business</em>) and travelers
+(<em>the customer</em>)</li>
+<li>A host has a listings page where they list available accommodations and they
+have a profile with their photo, name, and description</li>
+<li>A listing has a title, description, categories, quantity available, people-per-unit,
+daily rate, photos, location, shared/private bathroom indicator, and available dates</li>
+<li>A traveler can browse the site and view all available listings</li>
+<li>They can add one or more listings along with requested dates to their cart</li>
+<li>Their profile has their name, photo, and previous bookings</li>
+<li>When they checkout, the hosts are notified of the requests</li>
+<li>The hosts can either confirm or deny the requests</li>
+<li>The traveler is notified when request status changes</li>
+</ul>
+
+<p>A traveler will need a good way to roll up all their bookings into
+an itinerary that helps them get from place to place with a map and pushes data
+to their Google Calendar.</p>
+
+<h3>FreshThreads</h3>
+
+<p>Off-the-rack clothes are so blah. Let&#8217;s build a marketplace for buying custom clothing.</p>
+
+<ul>
+<li>Users register on the site as either sellers or buyers</li>
+<li>Sellers have a &quot;store&quot; page where they can post one or more items</li>
+<li>An item has a title, photos, a detailed description, and a time-to-produce</li>
+<li>Each item can also have one or more &quot;options&quot; defined by the seller such as: waist size,
+color, fabric, sleeve length, etc. These must be chosen by the seller when creating/editing
+the item and allow them to set specific values (like &quot;S&quot;, &quot;M&quot;, &quot;L&quot;, etc or &quot;Short&quot;, &quot;Regular&quot;, &quot;Long&quot;)</li>
+<li>Customers can browse all itemson the platform or browse a specific seller&#8217;s store</li>
+<li>When a customer adds an item to their cart they need to specify each of the options</li>
+<li>When the order is submitted the customer is emailed a receipt and the seller
+is notified to begin production.</li>
+</ul>
+
+<p>It&#8217;s a pain to enter my options for EVERY purchase. Allow a user to store
+their options in their account, so when they purchase an item the right values
+are pre-selected (but can still be changed).</p>
+
+<h3>Gallery</h3>
+
+<p>People hated our restaurant, but they loved our product photos. Let&#8217;s pivot
+the platform to sell photography, providing our customers a &quot;whitelabel&quot; experience:</p>
+
+<ul>
+<li>A photographer registers on the platform to create a new store</li>
+<li>A photographer posts photos for sale</li>
+<li>A photo has an image, dimensions, title, description,
+shooting date, and photographed by attributes.</li>
+<li>A customer visits a store at a URL like example.com/stores/store_name</li>
+<li>The customer sees only the photos for this store</li>
+<li>The customer can browse photos and add them to the cart</li>
+<li>There is no aggregated shopping experience across stores, so a customer who
+visits Store A and adds something to their cart, then visits Store B, will not
+see the Store A item in the Store B cart</li>
+<li>The customer can checkout and receives an email receipt</li>
+<li>A photograph which is purchased is marked as purchased, can still be browsed,
+but cannot be ordered by other users</li>
+<li>The photographer is notified via email about the purchase.</li>
+</ul>
+
+<p>And, one more thing: it takes awhile to save up for these amazing photographs.
+It&#8217;d be awesome if a user could &quot;favorite&quot; photos to come back and easily
+find/purchase them later.</p>
+
+<h3>HubStub</h3>
+
+<p>Who wants to stand in line for tickets the day they come out? Nobody. Instead you
+can just pay 50-500% more to buy them from someone else. HubStub helps you do
+just that!</p>
+
+<ul>
+<li>Users register on the site and can both sell tickets (<em>the business</em>) or buy tickets
+(<em>the customer</em>)</li>
+<li>Sellers automatically have a tickets-for-sale page (<em>the store</em>)</li>
+<li>Within that seller page, they post one or more available items (<em>the products</em>)</li>
+<li>An item has an event title, date, time, section, seat number(s), categories, photos, and a delivery method (download or mail)</li>
+<li>A buyer can browse the site and view all available tickets or browse them
+grouped by event or seller</li>
+<li>They can add multiple tickets from multiple sellers to their cart</li>
+<li>They can then checkout and the tickets are either downloaded or the seller is
+notified that they need to mail them</li>
+</ul>
+
+<p>Shows and events are more fun together. Can you create a way to invite my friends
+and have them RSVP?</p>
+
+<h2>Base Expectations</h2>
+
+<p>You are to extend Dinner Dash so that it can handle multiple, simultaneous businesses. Each business has their own name, unique URL pattern, items, orders, and administrators.</p>
+
+<div class='note'>
+<p>The requirements reference an <b>example.com</b>, but your URL will differ.</p>
+</div>
+
+<h2>Functional Requirements</h2>
+
+<p>Individual restaurants can be accessed by specifying their restaurant name as the path prefix.</p>
+
+<ul>
+<li>Given a business named <em>Billy&#8217;s BBQ</em></li>
+<li>When I visit <code>http://example.com/billys-bbq</code></li>
+<li>Then I expect to see all items defined for <em>Billy&#8217;s BBQ</em></li>
+<li>And I expect to see branding defined for <em>Billy&#8217;s BBQ</em></li>
+<li>When I visit <code>http://example.com/billys-bbq/categories</code></li>
+<li>Then I expect to see all categories defined for <em>Billy&#8217;s BBQ</em></li>
+</ul>
+
+<h3>Public Visitor</h3>
+
+<p>As a public, unauthenticated visitor to a business I can:</p>
+
+<ul>
+<li>Maintain a <strong>shared</strong> shopping cart across all businesses I browse</li>
+<li>Add items to a shopping cart</li>
+<li>Log in to or create an account before completing checkout
+
+<ul>
+<li>When I create an account, then I expect to receive a welcome email</li>
+<li>After login or creating an account, I will <strong>immediately</strong> resume the checkout process</li>
+</ul></li>
+<li>Request that my account become a business owner</li>
+</ul>
+
+<h3>Authenticated Customer</h3>
+
+<p>As an authenticated customer I can:</p>
+
+<ul>
+<li>Make purchases on any business I am browsing
+
+<ul>
+<li>Receive an email confirmation of my order with basic order details and a link to the order detail page</li>
+</ul></li>
+<li>Manage my account information shared by all businesses centrally on my account page
+
+<ul>
+<li>Shipping addresses</li>
+<li>Billing addresses</li>
+<li>Credit cards associated with my account</li>
+<li>Basic account info like name and password, as managed previously in Dinner Dash v1</li>
+</ul></li>
+<li>View and manage my purchase history across all businesses</li>
+</ul>
+
+<h3>Creating a Business</h3>
+
+<ul>
+<li>An account can request to create a new business that includes a name,
+URL identifier (&quot;slug&quot;), and description</li>
+<li>The platform administrators are notified of the pending request</li>
+<li>If approved&#8230;
+
+<ul>
+<li>the requester is notified by email</li>
+<li>the requester automatically becomes a business administrator for the business</li>
+</ul></li>
+<li>If denied&#8230;
+
+<ul>
+<li>the requester is notified by email</li>
+</ul></li>
+</ul>
+
+<h3>Authenticated Business Administrator</h3>
+
+<p>As an authenticated business admin, by using a dedicated admin area, I can:</p>
+
+<ul>
+<li>Add items, edit items, and retire listings in my business only</li>
+<li>Update the details of my business such as the: name, URL identifier, and description</li>
+<li>Add or remove other admins for the business
+
+<ul>
+<li>There can never be fewer than 1 admin for a business</li>
+</ul></li>
+<li>Perform the admin actions available to administrators in Dinner Dash as appropriate</li>
+</ul>
+
+<h3>Authenticated Platform Administrator</h3>
+
+<p>As an authenticated Platform Administrator, I can:</p>
+
+<ul>
+<li>Approve or decline the creation of new businesses</li>
+<li>Take a restaurant &quot;offline&quot; temporarily so that attempting to browse it redirects its root and displays a maintenance message
+
+<ul>
+<li>Bring an offline restaurant back online</li>
+</ul></li>
+<li>Override/assist restaurant admins in any functionality available to them via the admin portion of their restaurant pages</li>
+</ul>
+
+<h3>Validation and Error Messages</h3>
+
+<p>Any form in the application must:</p>
+
+<ul>
+<li>validate the submitted data appropriately</li>
+<li>reject invalid input</li>
+<li>display clear and helpful errors and corrective instructions</li>
+<li>allow the user to quickly fix and resubmit</li>
+</ul>
+
+<h2>Non-Functional Requirements</h2>
+
+<h3>Background Workers</h3>
+
+<p>Use background workers for any job that doesn&#8217;t <strong>have to</strong> be completed before the response is sent to the user (ex: sending email, updating statistics, etc).</p>
+
+<p>Use Resque or a similar library to support this functionality.</p>
+
+<h3>Security</h3>
+
+<p>Your app needs to be secure enough that a malicious user with complete knowledge
+of the source code cannot exploit the system (ie: change other users&#8217; data, view
+other users&#8217; data, elevate their own privledge level, etc).</p>
+
+<h2>Base Data</h2>
+
+<p>Before final delivery, and ideally before customer check-ins, you should have the following data pre-loaded in your marketplace:</p>
+
+<ul>
+<li>At least 10 total businesses</li>
+<li>At least 20 listings per business</li>
+<li>At least 5 listing categories</li>
+<li>100 known customers</li>
+<li>2 business admins per business</li>
+<li>2 platform administrators</li>
+</ul>
+
+<p>It creates a much stronger impression of your site if the data is plausible. We recommend creating a few &quot;template&quot; businesses that have real listings, then replicating those as needed. It&#8217;s better to have &quot;Taste of India 26&quot; and &quot;Taste of India 27&quot; than &quot;Lorem Ipsum&quot; and &quot;Tellus Domit&quot;.</p>
+
+<h2>Extensions</h2>
+
+<p>In this project you as developers are expected to take a more active role in shaping the project. Although there are a few potential extensions proposed at the outset, you are encouraged to propose additional extensions, in the form of new features and user stories describing them, to your project manager.</p>
+
+<p>If you have an idea for a killer feature for your application, pitch it to your stakeholders for refinement. If they are convinced of its value, they&#8217;ll work with your team to create one or more user stories in your project management software and prioritize those stories in the context of the rest of the requirements. You may be able to convince them to prioritize your feature ahead of current base requirements if it is sufficiently compelling or necessary.</p>
+
+<p><strong>However</strong>, your application should not implement features which have not been approved
+by your customer.</p>
+
+<h3>Custom CSS per Business</h3>
+
+<p>Provide a mechanism so that business administrators may provide custom a CSS sheet to change the appearance of their listing page. This custom styling should not affect any other business&#8217;s appearance.</p>
+
+<p>Have four pre-built themes they can select from and the ability to upload their own.</p>
+
+<h3>Use Sub-Domains To Distinguish Businesses</h3>
+
+<p>In order to give greater precedence and more SEO-juice to each individual business, as well as pave the way for businesses to use custom domains, change your application so that, instead of using a path prefix per request to identify individual businesses in the system, use unique sub-domains instead.</p>
+
+<p>So instead of <code>http://www.example.com/billys-bbq/items</code> pointing to the items belonging to the business <em>Billy&#8217;s BBQ</em>, allow <code>http://billys-bbq.example.com/items</code> to be used instead.</p>
+
+<h2>Feedback/Evaluation Schedule</h2>
+
+<p>Rapid and frequent feedback about the work we produce is a central tenet of
+agile software development. As such, we&#8217;ll have frequent meetings to discuss the
+state of your project and correct course as necessary.</p>
+
+<p>These meetings are intended to model interactions with a <em>real customer</em>, they
+are not support sessions. As the stories clearly define the customer&#8217;s expectations, your application needs to <strong>exactly</strong> follow the stories as they&#8217;ve been developed with
+your customer. A 95% implementation is wrong. If you want to deviate from the story as it&#8217;s written, you need to discuss that with your customer and get approval to change the story <em>first</em>.</p>
+
+<p>Your project feedback/evaluation process will take place in five parts:</p>
+
+<h3>Kickoff</h3>
+
+<p>On the day you begin the project you&#8217;ll meet with an instructor who will act as
+your client for the project. In this brief session you will:</p>
+
+<ul>
+<li>Lay out a general iteration plan for the entire project</li>
+<li>Draft expectations for the features to be delivered by Checkpoint 1</li>
+<li>Sketch expectations for the features to be delivered by Checkpoint 2</li>
+</ul>
+
+<p>After your meeting your team will work to translate these expectations into
+organized, detailed stories in your project tracker and notify your customer
+when they&#8217;re ready. The customer will provide feedback/approval by the end of
+the following day.</p>
+
+<h3>Checkpoint 1</h3>
+
+<p>The Checkpoint 1 meeting will take place on the first Thursday of the project
+cycle. The first half of the meeting will be used to assess your progress, the
+second half will set the expectations for Checkpoint 2.</p>
+
+<h3>Checkpoint 2</h3>
+
+<p>The Checkpoint 2 meeting will take place on the second Thursday of the project
+cycle. The first half of the meeting will be used to assess your progress, the
+second half will set the expectations for Checkpoint 3.</p>
+
+<h3>Checkpoint 3</h3>
+
+<p>The last Checkpoint meeting will take place on Tuesday before the project is
+delivered. It&#8217;ll again be split 50/50 between evaluation and next
+steps. But the project is expected to be in a <em>ready-to-deliver</em> state by this
+meeting. The next steps set in the meeting should be minor polish, UX improvements,
+and extension features.</p>
+
+<h3>Final Evaluations</h3>
+
+<p>The final evaluations will use the rubric below on the day the project is due.</p>
+
+<h2>Evaluation Rubric</h2>
+
+<p>The following criteria will be used for each evaluation:</p>
+
+<h3>Feature Delivery</h3>
+
+<p>You&#8217;ll be graded on each of the criteria below with a score of (1) well below
+expectations, (2) below expectations, (3) as expected, (4) better than expected.</p>
+
+<ul>
+<li>Completion: did you deliver what you committed to build?</li>
+<li>Organization: did you use your project management tool to keep the project organized?</li>
+<li>Progress: are you on track to finish the project on time? Will/does the end
+product realize the vision of the concept?</li>
+</ul>
+
+<h3>Technical Quality</h3>
+
+<ul>
+<li>Test-Driven Development: (1) disregard for testing, (2) gaps in test
+usage/coverage/design, (3) adequate testing, (4) exceptional use of testing</li>
+<li>Code Quality: (1) poor factoring and understanding of MVC, (2) some gaps in
+code quality / application of MVC, (3) solid code quality and pushing logic down
+the stack, (4) exceptionally well factored code</li>
+<li>User Experience: (1) inattention to the user experience, (2) some gaps in the
+UX, (3) a production-ready user experience, (4) a polished UX</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

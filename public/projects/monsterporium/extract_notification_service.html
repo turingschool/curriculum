@@ -1,0 +1,1686 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Extract Notification Service - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Extract Notification Service                              IntroductionWe&#8217;ll take an existing project, the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/monsterporium/extract_notification_service.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Extract Notification Service
+        </h1>
+        
+      </header>
+    
+    <h2>Introduction</h2>
+
+<p>We&#8217;ll take an existing project, the Monsterporium store, and extract the notification system to an external, asyncronous service.</p>
+
+<h3>Goals</h3>
+
+<p>Through this extraction process you&#8217;ll learn:</p>
+
+<ul>
+<li>How Pub/Sub messaging is used to communicate across applications</li>
+<li>A model for writing a service in plain Ruby</li>
+<li>How to semi-automatically test emails with Mailcatcher</li>
+<li>How to refactor and build while keeping the tests green</li>
+</ul>
+
+<h3>Setup</h3>
+
+<p>If you don&#8217;t already have the Monsterporium and Redis installed, hop over to <a href="/projects/monsterporium/setup.html">the installation instructions</a>.</p>
+
+<h2>Getting Started with The Monsterporium</h2>
+
+<p>The Monsterporium is a student project written for their StoreEngine project assignment, which you probably know as <a href="http://tutorials.jumpstartlab.com/projects/dinner_dash.html">Dinner Dash</a>. It&#8217;s an online store that supports listing products and placing orders. Along the way it sends a few emails.</p>
+
+<h3>Where Emails Come From</h3>
+
+<p>There are two emails that get sent to customers, both defined in
+<code>app/mailers/mailer.rb</code>. They&#8217;re called from:</p>
+
+<ul>
+<li><code>UsersController#create</code></li>
+<li><code>OrdersController#create</code></li>
+<li><code>OrdersController#buy_now</code></li>
+</ul>
+
+<p>When creating a <code>User</code> or <code>Order</code> resource&#8230;</p>
+
+<ul>
+<li>The request comes in from the client with the necessary data in the request parameters</li>
+<li>The <code>User</code> or <code>Order</code> is created</li>
+<li>The email is sent</li>
+<li>The HTTP response is sent back to the user</li>
+</ul>
+
+<p>The problem here is that sending the email is unnecessarily slowing down the request/response cycle. Instead, the app should post a <strong>message</strong> telling the email service that an email needs to be sent.</p>
+
+<h3>Where We&#8217;re Going</h3>
+
+<p>When we we finish the extraction the system will work like this:</p>
+
+<h4>In the Primary Application</h4>
+
+<ul>
+<li>The request comes in from the user</li>
+<li>The resource is created</li>
+<li>A message is posted to the message channel (Redis)</li>
+<li>The creation-successful response is sent back to the user</li>
+</ul>
+
+<h4>In the Secondary Application</h4>
+
+<ul>
+<li>The listener waits until it sees a message on the channel</li>
+<li>When a message is found, it
+
+<ul>
+<li>pulls in and parses the data</li>
+<li>dispatches the email</li>
+</ul></li>
+</ul>
+
+<h2>Characterizing Functionality</h2>
+
+<p>We&#8217;ll use a semi-automated test harness to check that emails are actually
+sent, and that they have the right contents.</p>
+
+<h3>Introducing Mailcatcher</h3>
+
+<p>Mailcatcher is a great little app that acts as an SMTP host, the protocol used to send email. It offers a web app that makes it easy to see what emails were &quot;sent&quot; (and really caught) by our tests.</p>
+
+<p>We don&#8217;t need to put it in the Gemfile, just install the gem from the terminal and start it up:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install mailcatcher</span><span class='line command'>mailcatcher</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Configuring Action Mailer</h3>
+
+<p>Action Mailer is the component of Rails that handles email. We need to configure it to use mailcatcher as the SMTP server.</p>
+
+<p>In <em>both</em> <code>config/environments/development.rb</code> and <code>config/environments/test.rb</code>, add the following lines inside the <code>do</code>/<code>end</code> block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_mailer</span><span class="o">.</span><span class="n">delivery_method</span> <span class="o">=</span> <span class="ss">:smtp</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_mailer</span><span class="o">.</span><span class="n">smtp_settings</span> <span class="o">=</span> <span class="p">{</span> <span class="ss">:address</span> <span class="o">=&gt;</span> <span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">1025</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That <em>should</em> work, but unfortunately when running the test suite Action Mailer overrides the <code>delivery_method</code>, despite it being defined in the test environment file.</p>
+
+<p>We need to override the override.</p>
+
+<h3><code>mailer_spec.rb</code></h3>
+
+<h4>Overriding the <code>delivery_method</code></h4>
+
+<p>Open <code>spec/mailers/mailer_spec.rb</code> and add this before block after the <code>describe Mailer do</code> line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">ActionMailer</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">delivery_method</span> <span class="o">=</span> <span class="ss">:smtp</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Expectations</h4>
+
+<p>Since we&#8217;re going to manually inspect the emails, the specs in this file should not have any expectations &#8211; they&#8217;ll never fail.</p>
+
+<p>Delete the <code>expect</code> line from both specs.</p>
+
+<h3>Tests &amp; Results</h3>
+
+<p>Now everything is in place.</p>
+
+<ul>
+<li>Run the tests from the terminal</li>
+<li>Open the <a href="http://localhost:1080">mailcatcher web interface at http://localhost:1080</a></li>
+<li>Clear the messages in mailcatcher (button in the top right of the web interface)</li>
+<li>Run the specs again</li>
+</ul>
+
+<h3>Testing the Welcome Email</h3>
+
+<p>There are currently no controller tests that create a user and trigger the welcome email. In general, running feature specs is very slow. So instead of changing
+<code>spec/features/anon_user_creates_account_spec.rb</code> to deliver to mailcatcher,
+let&#8217;s create a controller spec that triggers the email.</p>
+
+<p>In <code>spec/controllers/users_controller_spec.rb</code> add this spec:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;#create&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;sends an email&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">full_name</span><span class="p">:</span> <span class="s1">&#39;Billie Holiday&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">email</span><span class="p">:</span> <span class="s1">&#39;billie@example.com&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">display_name</span><span class="p">:</span> <span class="s1">&#39;billie&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">password</span><span class="p">:</span> <span class="s1">&#39;poet&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">password_confirmation</span><span class="p">:</span> <span class="s1">&#39;poet&#39;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">post</span> <span class="ss">:create</span><span class="p">,</span> <span class="n">user</span><span class="p">:</span> <span class="n">data</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Confusingly, we don&#8217;t need to override <code>ActionMailer::Base.delivery_method</code> here. In controller specs, Rails respects the settings in the environment file.</p>
+
+<h3>Putting It All Together</h3>
+
+<p>Now re-run the whole test suite, pop open mailcatcher, and you should see ten emails appear. Verify their contents.</p>
+
+<p>We&#8217;ve successfully &quot;characterized&quot; the existing functionality and can begin refactoring.</p>
+
+<h2>Pushing Logic Down the Stack</h2>
+
+<p>To get ready to extract the service we need to improve the structure of the code itself. When MVC is well implemented, it&#8217;s easy. But the current app has some issues that are common in Rails applications:</p>
+
+<h3>Simplifying <code>Mailer#order_confirmation</code></h3>
+
+<p>Open <code>mailer.rb</code> and look at the <code>order_confirmation</code> method. Right now it takes two distinct parameters: <code>user</code> and <code>order</code>. But <code>order</code> is related to <code>user</code> through an ActiveRecord relationship.</p>
+
+<ul>
+<li>Change the mailer to access the user through the order</li>
+<li>Remove the user parameter</li>
+<li>Remove <code>current_user</code> from the mailer calls on <code>OrdersController</code> lines 23 and 37</li>
+<li>Remove <code>user</code> from <code>mailer_spec</code> line 17</li>
+<li>Change <code>user</code> to <code>@user</code> on line 12 in <code>mailer.rb</code> we no longer have a <code>user</code> local variable</li>
+</ul>
+
+<p>Run the specs and confirm that things are still passing and the emails show up in mailcatcher.</p>
+
+<h3>Decoupling the Controllers and Mailers</h3>
+
+<p>Currently the controllers communicate with the mailers by sending rich objects.</p>
+
+<p>In general, software components should send and receive as little data as possible to get their jobs done. This is especially true as we move towards services which will use JSON to serialize and deserialize data.</p>
+
+<p>But <em>where</em> in the application will we pull out the relevant pieces of data from the objects? In the middle of a controller? That&#8217;s no good as controller methods often grow out of control. In the mailer? That&#8217;s too late, the big object has already been passed in.</p>
+
+<p>We need a layer between the controller and mailer which is responsible for pulling the necessary data and sending it into the mailer. Think of it as a proxy or shim. Let&#8217;s build those new objects into the system.</p>
+
+<h4>Creating <code>PurchaseConfirmation</code></h4>
+
+<p>Let&#8217;s create a new class in <code>app/models/purchase_confirmation.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PurchaseConfirmation</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">Mailer</span><span class="o">.</span><span class="n">order_confirmation</span><span class="p">(</span><span class="n">order</span><span class="p">)</span><span class="o">.</span><span class="n">deliver</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Using <code>PurchaseConfirmation</code> in <code>OrdersController</code></h4>
+
+<p>Change <code>OrdersController</code> to use <code>PurchaseConfirmation.create</code> instead of talking to <code>Mailer</code> directly.</p>
+
+<h4>Verify</h4>
+
+<p>Run the specs to confirm that you implemented this change correctly.</p>
+
+<h4>Creating <code>SignupConfirmation</code></h4>
+
+<p>Create a new class in <code>app/models/signup_confirmation.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SignupConfirmation</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">Mailer</span><span class="o">.</span><span class="n">welcome_email</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">deliver</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Using <code>SignupConfirmation</code> in <code>UsersController</code></h4>
+
+<p>Change <code>UsersController</code> to use <code>SignupConfirmation.create</code>.</p>
+
+<h4>Verify</h4>
+
+<p>Clear mailcatcher, then run the specs and make sure everything still works.</p>
+
+<h3>Refactoring the Welcome Email</h3>
+
+<p>Look at <code>Mailer#welcome_email</code>. It takes in a user object, but what data does it actually <em>use</em>? Look both in the method body and the associated <code>welcome_email.html.erb</code>.</p>
+
+<p>Rather than send in the whole object, the method could work just as well with a hash that contains the two key/value pairs.</p>
+
+<h4>Changing the Spec</h4>
+
+<p>The first step is to open <code>mailer_spec</code> and change the <code>sends a welcome email</code> spec. We can still create a user with the factory, but instead of passing that object into <code>welcome_email</code>, send a hash with the data that the mailer needs.</p>
+
+<p>Open up the view template for the welcome email. What data does the template need? Then take a look at the <code>Mailer</code> itself. What does the mailer require?</p>
+
+<p>The hash might look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span><span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;John Doe&quot;</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="s2">&quot;john@example.com&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run just that spec and see it fail:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rspec spec/mailers/mailer_spec.rb</span><span class='line output'>Run options: exclude {:acceptance=>true, :performance=>true}</span><span class='line output'></span><span class='line output'>Mailer</span><span class='line output'>sends a welcome email (FAILED - 1)</span><span class='line output'>sends an order confirmation email</span><span class='line output'></span><span class='line output'>Failures:</span><span class='line output'></span><span class='line output'>1) Mailer sends a welcome email</span><span class='line output'>Failure/Error: email = Mailer.welcome_email(params).deliver</span><span class='line output'>NoMethodError:</span><span class='line output'>undefined method `email' for {:name=>"John Doe", :email=>"john@example.com"}:Hash</span><span class='line output'># ./app/mailers/mailer.rb:6:in `welcome_email'</span><span class='line output'># ./spec/mailers/mailer_spec.rb:12:in `block (2 levels) in <top (required)>'</span><span class='line output'></span><span class='line output'>Finished in 0.91668 seconds</span><span class='line output'>2 examples, 1 failure</span><span class='line output'></span><span class='line output'>Failed examples:</span><span class='line output'></span><span class='line output'>rspec ./spec/mailers/mailer_spec.rb:9 # Mailer sends a welcome email</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Changing <code>Mailer#welcome_email</code></h4>
+
+<p>Now go to the <code>welcome_email</code> method and rewrite it to expect a hash coming in with keys <code>&quot;name&quot;</code> and <code>&quot;email&quot;</code>. Remember to rework the view template, too.</p>
+
+<p><strong>Note</strong>: Pretty soon that hash is going to be going through a JSON parsing. When it comes back from the JSON library, the keys will all be strings. So we might as well use strings for the keys now to avoid surprises later.</p>
+
+<p>Run the spec, but it should still be failing.</p>
+
+<h4>Changing <code>SignupConfirmation</code></h4>
+
+<p>We don&#8217;t need to change anything about <code>UsersController</code>, which is the point of having the layer of abstraction between the mailer and the controller.</p>
+
+<p>Instead, we just need to make a change to <code>SignupConfirmation</code>. Within the <code>create</code> method, construct a hash with the <code>&quot;name&quot;</code> and <code>&quot;email&quot;</code> keys. Then pass that hash into the mailer.</p>
+
+<p>Run the spec and make sure it&#8217;s back to passing. Run the whole suite and it should be passing, too.</p>
+
+<p><strong>Tip:</strong> If you&#8217;re running into failures because of calling <code>titleize</code> on <code>nil</code>, your name is not getting through to the view template. Make sure that you used the string hash keys everywhere, including the spec.</p>
+
+<h3>Refactoring the Purchase Confirmation Email</h3>
+
+<p>Go through nearly the same process to rework the email sent when a purchase is confirmed.</p>
+
+<ul>
+<li>Revise the spec in <code>mailer_spec.rb</code> to create a hash and pass it into the mailer. Here&#8217;s one option for building the hash:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Alice Smith&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;email&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;alice@example.com&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;items&quot;</span> <span class="o">=&gt;</span> <span class="o">[</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s2">&quot;title&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Li Hing Mui Lollypops&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;quantity&quot;</span> <span class="o">=&gt;</span> <span class="mi">3</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;total&quot;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="o">.</span><span class="mo">00</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run the spec and see it fail</li>
+<li>Rework <code>Mailer#order_confirmation</code> and the view template</li>
+<li>Run the mailer spec and see it pass</li>
+<li>Run the full suite and it should fail:
+
+<ul>
+<li><code>OrdersController create fails to create an order without a stripeToken</code></li>
+<li><code>OrdersController buy_now fails to create an order without a stripeToken</code></li>
+</ul></li>
+<li>Run that <code>orders_controller_spec.rb</code> and it&#8217;ll still fail</li>
+<li>Build the data hash in <code>PurchaseConfirmation.create</code> and pass it in to the mailer</li>
+<li>Run the controller spec and it should pass</li>
+<li>Clear mailcatcher&#8217;s queue</li>
+<li>Run the full suite and it should pass</li>
+<li>Check the emails in mailcatcher and see that they&#8217;re ok</li>
+</ul>
+
+<h2>Working with the Pub/Sub Channel</h2>
+
+<h3>Configuring Redis</h3>
+
+<p>We want to run separate Redis databases for development, test, and production.</p>
+
+<p>Create a directory <code>config/redis</code>. We&#8217;ll add two configuration files for Redis itself:</p>
+
+<p>For the development environment add the following to <code>config/redis/development.conf</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># config/redis/development.conf
+</span><span class='line'>daemonize yes
+</span><span class='line'>port 6382
+</span><span class='line'>logfile ./log/redis_development.log
+</span><span class='line'>dbfilename ./db/development.rdb</span></code></pre></td></tr></table></div></figure>
+
+<p>For the test environment add the following to <code>config/redis/test.conf</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>daemonize yes
+</span><span class='line'>port 6383
+</span><span class='line'>logfile ./log/redis_test.log
+</span><span class='line'>dbfilename ./db/test.rdb</span></code></pre></td></tr></table></div></figure>
+
+<h3>Redis within Rails</h3>
+
+<p>Include the <code>redis</code> gem in the <code>Gemfile</code>, and bundle install.</p>
+
+<p>We need to get Rails to start redis. Create an initializer file in <code>config/initializers/redis.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$redis</span> <span class="o">=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Checking It Out</h3>
+
+<p>First, start a rails console, and call <code>$redis.inspect</code>. It should give you back a reference to the Redis instance.</p>
+
+<p>Then, open IRB in a second terminal window and subscribe to a test channel:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>require 'redis'</span><span class='line command'>redis = Redis.new</span><span class='line command'>redis.subscribe("test_channel") do |event|</span><span class='line output'>event.message do |channel, body|</span><span class='line output'>puts "I heard [#{body}] on channel [#{channel}]"</span><span class='line output'>end</span><span class='line output'>end</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>In the Rails console, publish a message:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>$redis.publish("test_channel", "the message")</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Publish the Email Message</h3>
+
+<p>The actual messaging will take place in the <code>PurchaseConfirmation</code> and <code>SignupConfirmation</code> objects. We&#8217;ll set it up so that:</p>
+
+<ul>
+<li>When an email needs to be sent, publish a message to Redis</li>
+<li>The existing <code>Mailer</code> functionality remains</li>
+</ul>
+
+<p>We&#8217;ll use a channel named <code>&quot;email_notifications&quot;</code>. </p>
+
+<h3>A Temporary Listener</h3>
+
+<p>Open up IRB and subscribe to the channel on the port we configured for the test environment:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>require 'redis'</span><span class='line command'>redis = Redis.new</span><span class='line command'>redis.subscribe("email_notifications") do |event|</span><span class='line output'>event.message do |channel, body|</span><span class='line output'>puts "[#{channel}] #{body}"</span><span class='line output'>end</span><span class='line output'>end</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Sending a Message</h3>
+
+<p>Publish the email data to the notification channel in <code>PurchaseConfirmation.create</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">message</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;purchase_confirmation&quot;</span><span class="p">,</span> <span class="s2">&quot;data&quot;</span> <span class="o">=&gt;</span> <span class="n">data</span><span class="p">}</span>
+</span><span class='line'><span class="vg">$redis</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;email_notifications&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">.</span><span class="n">to_json</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>orders_controller_spec.rb</code> and make sure that:</p>
+
+<ol>
+<li>mailcatcher receives all the emails</li>
+<li>the subscriber in IRB receives the messages</li>
+</ol>
+
+<h4>Messages from <code>SignupConfirmation</code></h4>
+
+<p>Now implement the message posting in the <code>SignupConfirmation</code> object, then run the tests and confirm both the messages are posted and the emails delivered.</p>
+
+<h3>In-App Listener</h3>
+
+<p>Now let&#8217;s build a <code>lib/notifications.rb</code> with that same listener code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;redis&#39;</span>
+</span><span class='line'><span class="n">redis</span> <span class="o">=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">redis</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;email_notifications&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">event</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">event</span><span class="o">.</span><span class="n">message</span> <span class="k">do</span> <span class="o">|</span><span class="n">channel</span><span class="p">,</span> <span class="n">body</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;[</span><span class="si">#{</span><span class="n">channel</span><span class="si">}</span><span class="s2">] </span><span class="si">#{</span><span class="n">body</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then start the file with <code>rails runner lib/notifications.rb</code>. We&#8217;ll use the <code>runner</code> command for now to load all the dependencies for us.</p>
+
+<p>Run the controller tests and verify both the output of the listener and the emails in mailcatcher.</p>
+
+<h3>Sending Emails from the Listener</h3>
+
+<p>In that listener, instead of a meaningless <code>puts</code> statement, it&#8217;s time to actually send the emails.</p>
+
+<ul>
+<li>Fetch the body of the message</li>
+<li>Parse the body from JSON into a Ruby hash</li>
+<li>Determine what kind of email needs to be sent</li>
+<li>Call the appropriate <code>Mailer</code> method and send in the data</li>
+</ul>
+
+<h4>Double-Sending Email</h4>
+
+<p>Our Rails application is still sending the emails, but our listener should also be sending the emails. As a result, we should be getting duplicate emails.</p>
+
+<p>Run <code>rspec spec/controllers/orders_controller_spec.rb</code></p>
+
+<p>Did you get <strong>four emails</strong> in mailcatcher? If so, that&#8217;s working.</p>
+
+<p>Run <code>rspec spec/controllers/users_controller_spec.rb</code></p>
+
+<p>Did you get <strong>two more emails</strong>? Then you&#8217;re ready to move on.</p>
+
+<h4>Removing the Direct Email</h4>
+
+<p>Comment out the line in <code>PurchaseConfirmation</code> and <code>SignupConfirmation</code> that triggers the email delivery. </p>
+
+<p>Run <code>rspec spec/controllers</code> and verify that they all pass and a total of only <em>three</em> emails are delivered.</p>
+
+<p>Then delete the commented out lines in the <code>Confirmation</code> classes.</p>
+
+<h2>Writing a Stand-Alone Notification Service</h2>
+
+<p>We don&#8217;t need all of Rails to send emails. We can create a small, stand-alone
+Ruby project that listens to the Redis channel and sends emails when events
+arrive.</p>
+
+<h3>Project Structure</h3>
+
+<p>We&#8217;ll call this project <code>notifications</code>, but in real life we
+would probably be named by going to <a href="http://wordoid.com">wordoid.com</a> and
+finding something clever-sounding.</p>
+
+<p>We&#8217;ll start with an idiomatic Ruby project
+structure where any real library code will end up namespaced under
+<code>Notifications</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>tree notifications</span><span class='line output'>notifications/</span><span class='line output'>├── Gemfile</span><span class='line output'>├── README.md</span><span class='line output'>├── Rakefile</span><span class='line output'>├── lib</span><span class='line output'>│   ├── notifications</span><span class='line output'>│   └── notifications.rb</span><span class='line output'>└── test</span><span class='line output'>.   ├── notifications</span><span class='line output'>.   └── test_helper.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Dependencies</h3>
+
+<p>We&#8217;re going to use&#8230;</p>
+
+<ul>
+<li><code>pony</code> to send emails</li>
+<li><code>redis</code> to subscribe to the messages from the primary application</li>
+<li><code>minitest</code> for testing</li>
+</ul>
+
+<h4>Creating a Gemfile</h4>
+
+<p>The <code>Gemfile</code> looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;pony&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;redis&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With that in place, run <code>bundle</code>.</p>
+
+<h3>Setup for Testing</h3>
+
+<p>Let&#8217;s create a rake task that will run all our tests. In the <code>Rakefile</code> in the project root:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rake/testtask&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Rake</span><span class="o">::</span><span class="no">TestTask</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'>  <span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;test/**/*_test.rb&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">task</span> <span class="n">default</span><span class="p">:</span> <span class="ss">:test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Getting Everything Wired Together</h3>
+
+<p>Create a <code>test/notifications_test.rb</code> and add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">NotificationsTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_wired_together</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">42</span><span class="p">,</span> <span class="no">Notifications</span><span class="o">.</span><span class="n">answer</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>First Try</h4>
+
+<p>Run the test with <code>rake</code>.</p>
+
+<p>You&#8217;ll probably get a NameError <code>uninitialized constant</code>.</p>
+
+<p>Open up <code>test/test_helper.rb</code> and add:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span> <span class="c1"># optional, but makes everything better</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>gem 'minitest'</code> line tells the code to use the minitest gem rather than
+the minitest that is in the Ruby standard library. The gem version is newer and better.</p>
+
+<h4>Second Try</h4>
+
+<p>Run <code>rake</code> again, and you&#8217;ll get another NameError: <code>uninitialized constant
+NotificationsTest::Notifications</code>.</p>
+
+<p>Open up <code>lib/notifications.rb</code> and create a <code>module</code> named <code>Notifications</code>.</p>
+
+<h4>Third Try</h4>
+
+<p>Run <code>rake</code> again.</p>
+
+<p>We&#8217;ve forgotten to require the file we need in the test.
+Let&#8217;s just require the whole <code>notifications</code> library. It&#8217;s going to be tiny.</p>
+
+<p>Add the following to the <code>test/test_helper.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;notifications&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Fourth Try</h4>
+
+<p>Run <code>rake</code>.</p>
+
+<p>It complains that it can&#8217;t find the file. Put the following line at
+the top of the test helper to put <code>lib</code> on the load path:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Fifth Try</h4>
+
+<p>Run <code>rake</code> again, and finally we get the correct error: <em>undefined method
+&#8216;answer&#8217;</em>.</p>
+
+<p>Make the test pass.</p>
+
+<p>We&#8217;ll delete it later, when we have some real code and tests.</p>
+
+<h3>Creating Emails</h3>
+
+<p>Let&#8217;s start by creating a very simple email class that takes the data
+that we will be getting from redis, and sends an email using Pony. Pony is a lightweight alternative to ActionMailer that&#8217;s great for sending mail from non-Rails applications.</p>
+
+<h4>Test-Driving Email</h4>
+
+<p>For the moment, we will not worry about sending production emails, we&#8217;ll
+configure the entire project to send to mailcatcher.</p>
+
+<p>Add this to <code>lib/notifications.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Pony</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="ss">:from</span> <span class="o">=&gt;</span> <span class="s1">&#39;noreply@example.com&#39;</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:via</span> <span class="o">=&gt;</span> <span class="ss">:smtp</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:via_options</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:address</span> <span class="o">=&gt;</span> <span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">1025</span><span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>First we&#8217;ll create a light wrapper around Pony called <code>Email</code>.</p>
+
+<p>Here&#8217;s <code>test/notifications/email_test.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EmailTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">data</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Alice Smith&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;email&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;alice@example.com&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_recipient</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;alice@example.com&quot;</span><span class="p">,</span> <span class="no">Notifications</span><span class="o">::</span><span class="no">Email</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">to</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_subject</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Fake Subject&quot;</span><span class="p">,</span> <span class="no">Notifications</span><span class="o">::</span><span class="no">Email</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">subject</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_body</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Fake Body&quot;</span><span class="p">,</span> <span class="no">Notifications</span><span class="o">::</span><span class="no">Email</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_ship_it</span>
+</span><span class='line'>    <span class="no">Notifications</span><span class="o">::</span><span class="no">Email</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ship</span> <span class="c1"># verify in mailcatcher</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In order to get it to pass, you&#8217;ll need to create a <code>lib/notifications/email.rb</code> file, and add some require statements to <code>lib/notifications.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;pony&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;notifications/email&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then fill in Email until the tests pass. The <code>ship</code> method is what actually
+delegates to <code>Pony</code>. It looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">ship</span>
+</span><span class='line'>  <span class="no">Pony</span><span class="o">.</span><span class="n">mail</span><span class="p">(</span><span class="n">to</span><span class="p">:</span> <span class="n">to</span><span class="p">,</span> <span class="n">subject</span><span class="p">:</span> <span class="n">subject</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="n">body</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Once a proper email arrives in <code>mailcatcher</code>, it&#8217;s time to flesh out the
+actual emails.</p>
+
+<h4>A Model for Mail</h4>
+
+<p>All emails are going to have different subjects and different bodies. Right
+now we&#8217;ve hard-coded &quot;Fake Subject&quot; and &quot;Fake Body&quot; into the Email class,
+which isn&#8217;t a very helpful solution.</p>
+
+<p>We want all the common behavior to be defined in Email, and we want to
+override this behavior in each of the specific emails.</p>
+
+<p>We&#8217;ll use inheritance for this.</p>
+
+<h4>Inheriting Common Behavior</h4>
+
+<p>The common behavior is currently:</p>
+
+<ul>
+<li>the email address that the email will be shipped to</li>
+<li>the <code>ship</code> method that actually dispatches the email</li>
+</ul>
+
+<p>We&#8217;re going to need a <code>FakeEmail</code> class that inherits from Email. Stick it at
+the top of the test file, since no other code in the project needs it.</p>
+
+<p>At the top of the test file, add this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">FakeEmail</span> <span class="o">&lt;</span> <span class="no">Notifications</span><span class="o">::</span><span class="no">Email</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now change the assertion for the <code>to</code> method to look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">assert_equal</span> <span class="s2">&quot;alice@example.com&quot;</span><span class="p">,</span> <span class="no">FakeEmail</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">to</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test should pass.</p>
+
+<p>Change the test that sends an email to mailcatcher to also use this new
+FakeEmail:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">FakeEmail</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">ship</span> <span class="c1"># verify in mailcatcher</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It should still work.</p>
+
+<h4>The Email Subject</h4>
+
+<p>Rather than hard-coding fake behavior into Email, let&#8217;s change the test to
+expect an exception to be raised if someone calls <code>subject</code> without first
+overriding the behavior:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_subject_must_be_overridden</span>
+</span><span class='line'>  <span class="n">assert_raises</span> <span class="no">Notifications</span><span class="o">::</span><span class="no">SubclassMustOverride</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Notifications</span><span class="o">::</span><span class="no">Email</span><span class="o">.</span><span class="n">new</span><span class="p">({})</span><span class="o">.</span><span class="n">subject</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Define a custom Error in <code>lib/notifications/email.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Notifications</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">SubclassMustOverride</span> <span class="o">&lt;</span> <span class="no">StandardError</span><span class="p">;</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Email</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, to get the test to pass, replace the hard-coded subject with an
+exception:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Notifications</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Email</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">subject</span>
+</span><span class='line'>      <span class="k">raise</span> <span class="no">SubclassMustOverride</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Implement `subject` in the subclass, please.&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Create a new test for the subject of the FakeEmail:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_subject</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Fake stuff&quot;</span><span class="p">,</span> <span class="no">FakeEmail</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">subject</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test, and you&#8217;ll get an error asking you to implement <code>subject</code>.</p>
+
+<p>Do so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">FakeEmail</span> <span class="o">&lt;</span> <span class="no">Notifications</span><span class="o">::</span><span class="no">Email</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">subject</span>
+</span><span class='line'>    <span class="s2">&quot;Fake stuff&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>The Email Body</h4>
+
+<p>The body is more complicated. We don&#8217;t want a hard-coded string, we want to
+evaluate an ERB template.</p>
+
+<p>Create a fake template in <code>test/fixtures/fake.erb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">Oh, look: KITTENS!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now change the <code>test_body</code> to call the <code>FakeEmail</code> rather than the
+<code>Notifications::Email</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_body</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Oh, look: KITTENS!&quot;</span><span class="p">,</span> <span class="no">FakeEmail</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And now, here&#8217;s the code that will make this work:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">FakeEmail</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">body</span>
+</span><span class='line'>    <span class="no">ERB</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">result</span> <span class="nb">binding</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">template_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template_path</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;./test/fixtures/fake.erb&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is <strong>almost</strong> passing. The whitespace at the end of the template
+doesn&#8217;t matter, let&#8217;s just get rid of it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_body</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Oh, look: KITTENS!&quot;</span><span class="o">.</span><span class="n">chomp</span><span class="p">,</span> <span class="no">FakeEmail</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And with that, the email should pass.</p>
+
+<h4>Moving the common behavior into <code>Email</code></h4>
+
+<p>We don&#8217;t want to have to implement all the ERB rendering for every email that
+we implement.</p>
+
+<p>What is custom to the Fake email?</p>
+
+<ul>
+<li>the template name <code>fake.erb</code>
+&#8230; or at least the <code>fake</code> part.</li>
+<li>the template location <code>./test/fixtures</code>
+production emails will be in some default location</li>
+</ul>
+
+<p>So let&#8217;s separate out those pieces of information:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">FakeEmail</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">body</span>
+</span><span class='line'>    <span class="no">ERB</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">result</span> <span class="nb">binding</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">template_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template_path</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">template_dir</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">template_name</span><span class="si">}</span><span class="s2">.erb&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template_dir</span>
+</span><span class='line'>    <span class="s2">&quot;./test/fixtures&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template_name</span>
+</span><span class='line'>    <span class="s2">&quot;fake&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test should still be passing. Now we can move the common behavior into the
+Email class itself.</p>
+
+<p>The FakeEmail keeps the <code>template_dir</code> and the <code>template_name</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">FakeEmail</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template_dir</span>
+</span><span class='line'>    <span class="s2">&quot;./test/fixtures&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template_name</span>
+</span><span class='line'>    <span class="s2">&quot;fake&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The Email class gets <code>body</code>, <code>template</code>, and <code>template_path</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Email</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">body</span>
+</span><span class='line'>    <span class="no">ERB</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">template</span><span class="p">)</span><span class="o">.</span><span class="n">result</span> <span class="nb">binding</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">template_path</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">template_path</span>
+</span><span class='line'>    <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">template_dir</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">template_name</span><span class="si">}</span><span class="s2">.erb&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now FakeEmail has two methods that Email doesn&#8217;t have:</p>
+
+<ul>
+<li>template_name</li>
+<li>template_dir</li>
+</ul>
+
+<h4>Overriding Template Name</h4>
+
+<p>All emails need a custom template name, but if we subclass Email and forget to
+implement <code>template_name</code> the error message that we&#8217;ll get is not very
+helpful: a <code>NoMethodError</code>.</p>
+
+<p>It would be more helpful if the Email class raised an exception saying that
+the subclass has to implement it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_template_name_must_be_overridden</span>
+</span><span class='line'>  <span class="n">assert_raises</span> <span class="no">Notifications</span><span class="o">::</span><span class="no">SubclassMustOverride</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Notifications</span><span class="o">::</span><span class="no">Email</span><span class="o">.</span><span class="n">new</span><span class="p">({})</span><span class="o">.</span><span class="n">template_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The code to get this to pass is similar to the one for <code>subject</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">template_name</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="no">SubclassMustOverride</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Implement `template_name` in the subclass, please.&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Providing a default <code>template_dir</code></h4>
+
+<p>We don&#8217;t yet know what the production directory for templates is.</p>
+
+<p>Add an empty <code>template_dir</code> in the <code>Email</code> class for now, and we&#8217;ll get back
+to it.</p>
+
+<h4>Custom Data in the Templates</h4>
+
+<p>We can&#8217;t just have hard-coded templates, we want to be able to interpolate
+things like the customer&#8217;s name and the things that they&#8217;ve purchased.</p>
+
+<p>Change the <code>test/fixtures/fake.erb</code> to send the message <code>stuff</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">Oh, look: </span><span class="cp">&lt;%=</span> <span class="n">stuff</span> <span class="cp">%&gt;</span><span class="x">!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The value for <code>stuff</code> will need to come from the <code>data</code> hash that the email
+gets initialized with. Add a key <code>&quot;stuff&quot;</code> to the <code>data</code> hash in the tests:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">data</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>    <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Alice Smith&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;email&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;alice@example.com&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s2">&quot;stuff&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;KITTENS&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Only the <code>FakeEmail</code> class knows about this custom data. Create a method that
+reads it from the data hash:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">FakeEmail</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">stuff</span>
+</span><span class='line'>    <span class="n">data</span><span class="o">[</span><span class="s2">&quot;stuff&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We are assuming that the original hash gets stored in the initialize method of
+<code>Email</code> as <code>@data</code> and is exposed with an <code>attr_reader</code>.</p>
+
+<p>The test should still pass.</p>
+
+<h2>Implementing the Purchase Confirmation Email</h2>
+
+<p>Now that <code>Email</code> has all of the common setup, creating the Purchase
+Confirmation email will be a lot more straight-forward.</p>
+
+<h3>Writing the Tests</h3>
+
+<p>Create a new test, <code>test/notifications/email/purchase_confirmation.rb</code>, and repeat some of the same patterns as above:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">PurchaseConfirmationTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">data</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>      <span class="s2">&quot;name&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Alice Smith&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;email&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;alice@example.com&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;items&quot;</span> <span class="o">=&gt;</span> <span class="o">[</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;title&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;Li Hing Mui Lollypop&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;quantity&quot;</span> <span class="o">=&gt;</span> <span class="mi">3</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="o">]</span><span class="p">,</span>
+</span><span class='line'>      <span class="s2">&quot;total&quot;</span> <span class="o">=&gt;</span> <span class="mi">12</span><span class="o">.</span><span class="mo">00</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:email</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">setup</span>
+</span><span class='line'>    <span class="vi">@email</span> <span class="o">=</span> <span class="no">Notifications</span><span class="o">::</span><span class="no">PurchaseConfirmation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_subject</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Thanks for your purchase!&quot;</span><span class="p">,</span> <span class="n">email</span><span class="o">.</span><span class="n">subject</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_body</span>
+</span><span class='line'>    <span class="n">body</span> <span class="o">=</span> <span class="o">&lt;&lt;-</span><span class="no">BODY</span>
+</span><span class='line'><span class="sh">Dear Alice Smith,</span>
+</span><span class='line'>
+</span><span class='line'><span class="sh">Thanks so much for your purchase of:</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="sh">  3 x Li Hing Mui Lollypop</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="sh">We&#39;ve processed your payment for $12.00.</span>
+</span><span class='line'>
+</span><span class='line'><span class="sh">We hope you stop by again!</span>
+</span><span class='line'><span class="sh">Frank&#39;s Monsterporium</span>
+</span><span class='line'><span class="no">    BODY</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="n">body</span><span class="o">.</span><span class="n">chomp</span><span class="p">,</span> <span class="n">email</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>.chomp</code> helps us ignore a bit of whitespace sensitivity between the rendered view template and the &quot;heredoc&quot; in the tests.</p>
+
+<h3>Building the Template</h3>
+
+<p>First, make a directory <code>lib/notifications/email/templates</code>.</p>
+
+<p>Then copy <code>app/views/mailer/order_confirmation.html.erb</code> from the <em>primary project</em>
+to <code>lib/notifications/email/templates/purchase_confirmation.erb</code>. Strip out the HTML from the template so we&#8217;re just dealing with plain text for now.</p>
+
+<p>In <code>lib/notifications/email.rb</code> file, define a <code>template_dir</code> method as well as a <code>require</code> statement to load the <code>PurchaseConfirmation</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Notifications</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">SubclassMustOverride</span> <span class="o">&lt;</span> <span class="no">StandardError</span><span class="p">;</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Email</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">template_dir</span>
+</span><span class='line'>      <span class="s1">&#39;./lib/notifications/email/templates&#39;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;notifications/email/purchase_confirmation&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Implementing <code>PuchaseConfirmation</code> Model</h3>
+
+<p>With all the wiring in place, open create a <code>PurchaseConfirmation</code> that passes all the tests.</p>
+
+<h2>Building the Signup Confirmation Email</h2>
+
+<p>Go through the same process for the signup confirmation email:</p>
+
+<ul>
+<li>Write tests to define your expectations</li>
+<li>Build the email template</li>
+<li>Implement the model</li>
+</ul>
+
+<p>This time around, consider definining the expected email in an external text file rather that in the test directly. Figure out how to load the body of the file from the test and compare it with the template&#8217;s output.</p>
+
+<h2>Listening to Redis</h2>
+
+<p>Our email system is built, now we need to watch the message channel.</p>
+
+<h3>A Stub Listener</h3>
+
+<p>Create a new file <code>lib/listener.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;redis&#39;</span>
+</span><span class='line'><span class="n">redis</span> <span class="o">=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">redis</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;email_notifications&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">event</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">event</span><span class="o">.</span><span class="n">message</span> <span class="k">do</span> <span class="o">|</span><span class="n">channel</span><span class="p">,</span> <span class="n">body</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;[</span><span class="si">#{</span><span class="n">channel</span><span class="si">}</span><span class="s2">] </span><span class="si">#{</span><span class="n">body</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run it with <code>ruby lib/listener.rb</code></p>
+
+<p>For the moment we&#8217;re hard-coding the port. Later we would want to be able to
+pass the port when we start the file.</p>
+
+<p><code>ruby lib/listener.rb -p 6382</code></p>
+
+<p>Run the order controller tests and the user controller tests in the <em>primary
+app</em>. You should see the Redis messages in the output from your listener.</p>
+
+<h3>Listener Sends Emails</h3>
+
+<p>In the <code>listener.rb</code>, we need to implement JSON parsing and a bit of switching depending on what kind of email is being sent:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;notifications&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;json&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;redis&#39;</span>
+</span><span class='line'><span class="n">redis</span> <span class="o">=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">redis</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;email_notifications&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">event</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">event</span><span class="o">.</span><span class="n">message</span> <span class="k">do</span> <span class="o">|</span><span class="n">channel</span><span class="p">,</span> <span class="n">body</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">body</span>
+</span><span class='line'>    <span class="n">body</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">body</span><span class="o">[</span><span class="s2">&quot;type&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;purchase_confirmation&quot;</span>
+</span><span class='line'>      <span class="no">Notifications</span><span class="o">::</span><span class="no">PurchaseConfirmation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">body</span><span class="o">[</span><span class="s2">&quot;data&quot;</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">ship</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;signup_confirmation&quot;</span>
+</span><span class='line'>      <span class="no">Notifications</span><span class="o">::</span><span class="no">SignupConfirmation</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">body</span><span class="o">[</span><span class="s2">&quot;data&quot;</span><span class="o">]</span><span class="p">)</span><span class="o">.</span><span class="n">ship</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Double-check that the listeners in the <em>primary app</em> are <strong>not</strong> running anymore. Then fire this one up with <code>ruby lib/listener.rb</code>.</li>
+<li>Run the orders controller / users controller tests in the primary app</li>
+<li>Check mailcatcher for the emails and, if they show up, you&#8217;re in business!</li>
+</ul>
+
+<h2>Deleting Code!</h2>
+
+<p>Perhaps the most fun part of the whole exercise, in the primary app you can now delete:</p>
+
+<ul>
+<li><code>lib/notifications.rb</code></li>
+<li><code>app/mailers/mailer.rb</code></li>
+<li><code>app/views/mailers/order_confirmation.html.erb</code></li>
+<li><code>app/views/mailers/welcome_email.html.erb</code></li>
+</ul>
+
+<p>In the end we have a more focused external application with significantly better test coverage and depth, fewer dependencies, and a more focused scope.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

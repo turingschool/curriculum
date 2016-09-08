@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Enigma - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Enigma                              In this project you&#8217;ll use Ruby to build a tool for cracking an &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/enigma.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Enigma
+        </h1>
+        
+      </header>
+    
+    <p>In this project you&#8217;ll use Ruby to build a tool for cracking an encryption algorithm.</p>
+
+<h2>Introduction</h2>
+
+<h3>Learning Goals / Areas of Focus</h3>
+
+<ul>
+<li>Practice breaking a program into logical components</li>
+<li>Testing components in isolation and in combination</li>
+<li>Applying Enumerable techniques in a real context</li>
+<li>Reading text from and writing text to files</li>
+</ul>
+
+<h2>Base Expectations</h2>
+
+<p>You are to build an encryption engine for encrypting, decrypting, and cracking
+messages.</p>
+
+<h3>Encryption Notes</h3>
+
+<p>The encryption is based on rotation. The character map is made up of all the
+lowercase letters, then the numbers, then space, then period, then comma. New
+lines will not appear in the message nor character map.</p>
+
+<h4>The Key</h4>
+
+<ul>
+<li>Each message uses a unique encryption key</li>
+<li>The key is five digits, like 41521</li>
+<li>The first two digits of the key are the &quot;A&quot; rotation (41)</li>
+<li>The second and third digits of the key are the &quot;B&quot; rotation (15)</li>
+<li>The third and fourth digits of the key are the &quot;C&quot; rotation (52)</li>
+<li>The fourth and fifth digits of the key are the &quot;D&quot; rotation (21)</li>
+</ul>
+
+<h4>The Offsets</h4>
+
+<ul>
+<li>The date of message transmission is also factored into the encryption</li>
+<li>Consider the date in the format DDMMYY, like 020315</li>
+<li>Square the numeric form (412699225) and find the last four digits (9225)</li>
+<li>The first digit is the &quot;A offset&quot; (9)</li>
+<li>The second digit is the &quot;B offset&quot; (2)</li>
+<li>The third digit is the &quot;C offset&quot; (2)</li>
+<li>The fourth digit is the &quot;D offset&quot; (5)</li>
+</ul>
+
+<h4>Encrypting a Message</h4>
+
+<ul>
+<li>Four characters are encrypted at a time.</li>
+<li>The first character is rotated forward by the &quot;A&quot; rotation plus the &quot;A offset&quot;</li>
+<li>The second character is rotated forward by the &quot;B&quot; rotation plus the &quot;B offset&quot;</li>
+<li>The third character is rotated forward by the &quot;C&quot; rotation plus the &quot;C offset&quot;</li>
+<li>The fourth character is rotated forward by the &quot;D&quot; rotation plus the &quot;D offset&quot;</li>
+</ul>
+
+<h4>Decrypting a Message</h4>
+
+<p>The offsets and keys can be calculated by the same methods above. Then each character
+is rotated backwards instead of forwards.</p>
+
+<h4>Cracking a Key</h4>
+
+<p>When the key is not known, the offsets can still be calculated from the message
+date. We believe that each enemy message ends with the characters <code>&quot;..end..&quot;</code>. Use
+that to determine when you&#8217;ve correctly guessed the key.</p>
+
+<h3>Usage</h3>
+
+<p>The tool is used from the command line like so:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby ./lib/encrypt.rb message.txt encrypted.txt</span><span class='line output'>Created 'encrypted.txt' with the key 82648 and date 030415</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That will take the plaintext file <code>message.txt</code> and create an encrypted file <code>encrypted.txt</code>.</p>
+
+<p>Then, if we know the key, we can decrypt:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby ./lib/decrypt.rb encrypted.txt decrypted.txt 82648 030415</span><span class='line output'>Created 'decrypted.txt' with the key 82648 and date 030415</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>But if we don&#8217;t know the key, we can try to crack it with just the date:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby ./lib/crack.rb encrypted.txt cracked.txt 030415</span><span class='line output'>Created 'cracked.txt' with the cracked key 82648 and date 030415</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Evaluation Rubric</h2>
+
+<p>The project will be assessed with the following rubric:</p>
+
+<h3>1. Fundamental Ruby &amp; Style</h3>
+
+<ul>
+<li>4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring</li>
+<li>3:  Application shows some effort toward organization but still has 6 or fewer long methods (&gt; 8 lines) and needs some refactoring.</li>
+<li>2:  Application runs but the code has many long methods (&gt;8 lines) and needs significant refactoring</li>
+<li>1:  Application generates syntax error or crashes during execution</li>
+</ul>
+
+<h3>2. Test-Driven Development</h3>
+
+<ul>
+<li>4: Application is broken into components which are well tested in both isolation and integration</li>
+<li>3: Application uses tests to exercise core functionality, but has some gaps in coverage or leaves edge cases untested.</li>
+<li>2: Application tests some components but has many gaps in coverage.</li>
+<li>1: Application does not demonstrate strong use of TDD</li>
+</ul>
+
+<h3>3. File I/O</h3>
+
+<ul>
+<li>4: Application warns the user when the output file exists and allows them to cancel the operation or overwrite the file</li>
+<li>3: Application reads and writes files as described</li>
+<li>2: Application can only specify either the input or output file name</li>
+<li>1: Application uses only static filenames</li>
+</ul>
+
+<h3>4. Breaking Logic into Components</h3>
+
+<ul>
+<li>4: Application effectively breaks logical components apart with clear intent and usage</li>
+<li>3: Application has multiple components with defined responsibilities but there is some leaking of responsibilities</li>
+<li>2: Application has some logical components but divisions of responsibility are inconsistent or unclear and/or there is a &quot;God&quot; object taking too much responsibility</li>
+<li>1: Application logic shows poor decomposition with too much logic mashed together</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

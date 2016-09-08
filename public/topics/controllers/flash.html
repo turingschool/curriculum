@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Flash - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Controllers                                      Flash                              HTTP is a stateless protocol. The server, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/controllers/flash.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Controllers</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Flash
+        </h1>
+        
+      </header>
+    
+    <p>HTTP is a stateless protocol. The server, generally speaking, has no idea if request number 243 came from the same user as request number 236. That&#8217;s beautiful and, at the same time, annoying.</p>
+
+<p>Web applications frequently need to persist state between requests. That might mean a shopping cart that follows a user through the online store, but it can be as simple as a status message.</p>
+
+<p>In modern applications users expect feedback. After clicking a delete link, a user expects not just to see the item disappear, but also some &quot;Item Deleted&quot; message. In Rails we handle these messages using the <code>flash</code>.</p>
+
+<h2>Flash as a Hash</h2>
+
+<p>Developers often refer to the flash as a hash. Is it? As an experiment, within a controller action, you could try this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="n">flash</span><span class="o">.</span><span class="n">class</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Trigger that method from a browser and you&#8217;ll find that the flash is an instance of <code>ActionDispatch::Flash::FlashHash</code>. When you use <code>flash</code>, you&#8217;re calling a helper method which returns this ActiveDispatch object to you. It acts a lot like a Ruby <code>Hash</code>, yes, but adds more functionality under the hood.</p>
+
+<p>For our purposes, though, we can think of it as a hash-like object.</p>
+
+<h2>Flash Messages</h2>
+
+<p>The flash will be our message storage object. Let&#8217;s look at how, where, and when to set messages.</p>
+
+<h3>The Normal Way</h3>
+
+<p>The easiest and most common way to set a message explicitly is in the controller. For instance, in a <code>destroy</code> action:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
+</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Common Keys</h3>
+
+<p>In this example we used the <code>:notice</code> key, but you can use any key you want within the flash to hold your messages. It&#8217;s just a matter of matching up the setting in the controller with the display in the view template. But a few keys are commonly used based on their implications for the user:</p>
+
+<ul>
+<li><code>:notice</code>: <em>&quot;Everything is cool, just letting you know.&quot;</em></li>
+<li><code>:alert</code>: <em>&quot;Something is wrong, but it can probably be fixed.&quot;</em></li>
+<li><code>:error</code>: <em>&quot;Something is really wrong and is probably irrecoverable&quot;</em></li>
+</ul>
+
+<p>If those don&#8217;t feel like a good fit for your application you can make up your own</p>
+
+<h3>In the Redirect</h3>
+
+<p>The actions where we want to set a flash message are often the same ones that necessitate a redirect. In Rails 3 the <code>redirect_to</code> helper added options to specify the flash message in the redirect call itself.</p>
+
+<p>Instead of this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
+</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can pass a <code>notice:</code> argument to <code>redirect_to</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
+</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>redirect_to</code> will accept <code>:notice</code> and/or <code>:alert</code> keys. If you want to set a custom key, like <code>:error</code>, you could do it like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">destroy</span>
+</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">articles_path</span><span class="p">,</span> <span class="n">flash</span><span class="p">:</span> <span class="p">{</span><span class="n">error</span><span class="p">:</span> <span class="s2">&quot;Article &#39;</span><span class="si">#{</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39; was deleted.&quot;</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But, then, what&#8217;s really the point? If you&#8217;re using custom keys, it&#8217;s easier to just set the flash in its own line.</p>
+
+<h2>Displaying the Flash</h2>
+
+<p>You <em>set</em> the flash message in the controller then you have to <em>display</em> it in the view layer. </p>
+
+<p>It&#8217;s generally a good idea to display the flash in your application layout. That way it&#8217;s available on every page and you don&#8217;t have to remember it in individual view templates.</p>
+
+<h3>Specific Keys</h3>
+
+<p>The <code>flash</code> helper method is available in the view just like it was in the controller. A simple ERB injection and hash-style lookup will fetch the data:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;p class=&#39;flash notice&#39;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That will display a message stored under the <code>:notice</code> key.</p>
+
+<h4>Adding Conditions</h4>
+
+<p>But what about when there is no <code>flash[:notice]</code>? You&#8217;ll get a set of empty <code>&lt;p&gt;</code> tags, which could look strange in your layout.</p>
+
+<p>In Ruby, if you ask a hash for a key that doesn&#8217;t exist you&#8217;ll get back <code>nil</code>. Since Ruby considers <code>nil</code> to be &quot;falsey&quot;, we can write a condition like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;p class=&#39;flash notice&#39;&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/p&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>5 lines to display one message? We can refactor it by using the <code>content_tag</code> helper and an inline condition:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span><span class="p">,</span> <span class="n">class</span><span class="p">:</span> <span class="s2">&quot;flash notice&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Iterating</h3>
+
+<p>If our application uses multiple keys, like <code>:notice</code>, <code>:alert</code>, and <code>:error</code>, then we&#8217;d need to do that three times:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span><span class="p">,</span> <span class="n">class</span><span class="p">:</span> <span class="s2">&quot;flash notice&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span><span class="p">,</span> <span class="n">class</span><span class="p">:</span> <span class="s2">&quot;flash alert&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:alert</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:error</span><span class="o">]</span><span class="p">,</span> <span class="n">class</span><span class="p">:</span> <span class="s2">&quot;flash error&quot;</span> <span class="k">if</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:error</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Iteration allows us to reduce the redundancy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">flash</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="p">,</span> <span class="n">message</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="n">content_tag</span> <span class="ss">:p</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">class</span><span class="p">:</span> <span class="s2">&quot;flash </span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The condition is no longer necessary because if there aren&#8217;t keys in the flash, the iteration will just never run.</p>
+
+<h2>Exercises</h2>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<p>The Blogger project already uses flash messages, but we can try a few experiments with <code>ArticlesController</code>:</p>
+
+<ol>
+<li>Refactor <code>update</code>, <code>destroy</code>, and <code>create</code> to set the <code>:notice</code> message in the <code>redirect_to</code></li>
+<li>Add a message under the <code>:validation</code> key when an article fails to validate, then display this key in a dedicated paragraph within the form partial.</li>
+<li>Refactor the flash display in the application layout to iterate through all keys.
+
+<ul>
+<li>CHALLENGE: make it so the <code>:validation</code> key is skipped in the top display, allowing it to only show up in the form.</li>
+</ul></li>
+<li>Move the body of your flash messages into the <code>en.yml</code> locale file and load them using the <code>t</code> helper</li>
+</ol>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Scrabble - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Scrabble                              ExpectationsWork on the exercise defined below for 30 minutes with your &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/assessments/scrabble.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Scrabble
+        </h1>
+        
+      </header>
+    
+    <h2>Expectations</h2>
+
+<ul>
+<li>Work on the exercise defined below for 30 minutes with your facilitator</li>
+<li>The facilitator will assign you a challenge similar but not identical to those
+in the test suite. The facilitator may change the expectations or ask additional
+questions to assess your understandings/skills</li>
+<li>As you work, you may:
+
+<ul>
+<li>Ask questions of your facilitator</li>
+<li>Reference external public resources (ie: Google, Ruby API, etc)</li>
+<li>Use the tooling most comfortable to you (Editor/IDE, testing framework, support tools like Guard, etc)</li>
+</ul></li>
+<li>As you work, you should not:
+
+<ul>
+<li>Copy code snippets other than those present in this description</li>
+<li>Seek live support from individuals other than your facilitator</li>
+</ul></li>
+</ul>
+
+<h2>Getting Started</h2>
+
+<p>Because of the compressed timeline, we&#8217;ve created a starter repo with some of the grunt work taken care of. Begin by cloning the repo from GitHub and running <code>bundle</code> to install dependencies:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git clone https://github.com/turingschool/scrabble</span><span class='line command'>cd scrabble</span><span class='line command'>bundle</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Sample Exercise</h2>
+
+<p>During the assessment, you&#8217;ll be assigned an exercise similar to the one below.</p>
+
+<h3>Word Scoring</h3>
+
+<p>Let&#8217;s use test-driven development to build pieces of a Scrabble-like game.</p>
+
+<p>Create functionality to score words based on the following letter values:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Letter                           Value
+</span><span class='line'>A, E, I, O, U, L, N, R, S, T       1
+</span><span class='line'>D, G                               2
+</span><span class='line'>B, C, M, P                         3
+</span><span class='line'>F, H, V, W, Y                      4
+</span><span class='line'>K                                  5
+</span><span class='line'>J, X                               8
+</span><span class='line'>Q, Z                               10</span></code></pre></td></tr></table></div></figure>
+
+<p>Or, represented by a Ruby hash:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;A&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="o">=&gt;</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="o">=&gt;</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;E&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="o">=&gt;</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;H&quot;</span><span class="o">=&gt;</span><span class="mi">4</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;I&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;J&quot;</span><span class="o">=&gt;</span><span class="mi">8</span><span class="p">,</span> <span class="s2">&quot;K&quot;</span><span class="o">=&gt;</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;M&quot;</span><span class="o">=&gt;</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="o">=&gt;</span><span class="mi">3</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;Q&quot;</span><span class="o">=&gt;</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;U&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="o">=&gt;</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="o">=&gt;</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;X&quot;</span><span class="o">=&gt;</span><span class="mi">8</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;Y&quot;</span><span class="o">=&gt;</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="o">=&gt;</span><span class="mi">10</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Create your solution:</p>
+
+<ul>
+<li>using Test-Driven Development with MiniTest or RSpec</li>
+<li>insensitive to case</li>
+<li>such that an empty word or <code>nil</code> scores <code>0</code></li>
+<li>using this interaction model:</li>
+</ul>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; game = Scrabble.new</span><span class='line output'>=&gt; ...</span><span class='line output'>&gt; game.score("hello")</span><span class='line output'>=&gt; 8</span><span class='line output'>&gt; game.score("")</span><span class='line output'>=&gt; 0</span><span class='line output'>&gt; game.score(nil)</span><span class='line output'>=&gt; 0</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Evaluation</h2>
+
+<p>Subjective evaluation will be made on your work/process according to the following criteria:</p>
+
+<h3>1. Ruby Syntax &amp; API</h3>
+
+<ul>
+<li>4: Developer is able to comfortably implement solutions using the best-choice tools Ruby has to offer</li>
+<li>3: Developer is able to comfortably implement solutions in Ruby</li>
+<li>2: Developer is generally able to write Ruby, but gets stuck on or needs help with fundamental concepts</li>
+<li>1: Developer spends significant time debugging elementary syntax or concepts</li>
+</ul>
+
+<h3>2. Ruby Style</h3>
+
+<ul>
+<li>4: Developer solves problems with a balance between conciseness and clarity</li>
+<li>3: Developer writes code that is easy to follow</li>
+<li>2: Developer writes code that has unnecessary variables, operations, or steps which do not increase clarity</li>
+<li>1: Developer writes code that is difficult to understand</li>
+</ul>
+
+<h3>3. Blocks &amp; Enumerations</h3>
+
+<ul>
+<li>4: Developer is able to consistently select and implement the best-choice enumerator methods with blocks</li>
+<li>3: Developer demonstrates understanding of blocks and can effectively use enumerable methods</li>
+<li>2: Developer can use enumerator methods, but struggles to choose the right one for the job or demonstrates weak understanding of blocks</li>
+<li>1: Developer is not able to use enumerator methods or blocks to solve the problem at hand</li>
+</ul>
+
+<h3>4. Testing</h3>
+
+<ul>
+<li>4: Developer consistently takes small steps, using the tests for <em>both</em> design and verification</li>
+<li>3: Developer uses tests to guide development in small chunks</li>
+<li>2: Developer uses tests to guide development, but does not break features down into small problems</li>
+<li>1: Developer does not integrate testing throughout their development process</li>
+</ul>
+
+<h3>5. Workflow</h3>
+
+<ul>
+<li>4: Developer is a master of their tools, efficiently moving between phases of development</li>
+<li>3: Developer demonstrates comfort with their tools and makes some use of keyboard shortcuts</li>
+<li>2: Developer smoothly moves between tools, but is dependent entirely on mouse-driven interaction</li>
+<li>1: Developer gets work done, but wastes significant time or screen real estate</li>
+</ul>
+
+<h3>6. Collaboration</h3>
+
+<ul>
+<li>4: Developer <em>actively seeks</em> collaboration both before implementing, while in motion, and when stuck</li>
+<li>3: Developer lays out their thinking <em>before</em> attacking a problem and integrates feedback through the process</li>
+<li>2: Developer asks detailed questions when progress slows or stops</li>
+<li>1: Developer is able to integrate unsolicited feedback but does not really collaborate</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

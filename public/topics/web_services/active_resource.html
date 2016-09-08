@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Consuming REST with ActiveResource - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Web Services                                      Consuming REST with ActiveResource                              ActiveResource &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/web_services/active_resource.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Web Services</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Consuming REST with ActiveResource
+        </h1>
+        
+      </header>
+    
+    <p><code>ActiveResource</code> is a library that aims to provide an <code>ActiveRecord</code> (or <code>ActiveModel</code>) style interface to remote resources or objects. It is almost strictly RESTful and works optimally with other Rails applications that are using resource routing. Although not all RESTful APIs use Rails style routing, <code>ActiveResource</code> is built to expect it.</p>
+
+<h2>Creating a Resource</h2>
+
+<p>Setting up <code>ActiveResource</code> is simple. It is included with Rails and all configuration happens in the model itself.</p>
+
+<h3>Define the Class</h3>
+
+<p>Remote resource classes defined by ActiveResource are meant to be treated as models by your application and live in the <code>app/models</code> directory.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Instead of inheriting from <code>ActiveRecord::Base</code>, they inherit from <code>ActiveResource::Base</code>.</p>
+
+<h3>Specify the Remote Address</h3>
+
+<p>The only configuration that is necessary is to specify the remote server which will be called. </p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;http://api.people.com:3000&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>HTTP Basic Authentication</h4>
+
+<p>If the remote resource requires security, the ideal situation is to use HTTP Basic Authentication, embedding the username/password in the URL string, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># app/models/person.rb</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;http://username:password@api.people.com:3000&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Certificate Authentication</h4>
+
+<p>Alternatively, you can use SSL certificates to ensure trust between the servers:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveResource</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="s2">&quot;https://secure.api.people.com/&quot;</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">ssl_options</span> <span class="o">=</span> <span class="p">{</span><span class="n">cert</span><span class="p">:</span>        <span class="no">OpenSSL</span><span class="o">::</span><span class="no">X509</span><span class="o">::</span><span class="no">Certificate</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pem_file</span><span class="p">))</span>
+</span><span class='line'>                      <span class="n">key</span><span class="p">:</span>         <span class="no">OpenSSL</span><span class="o">::</span><span class="no">PKey</span><span class="o">::</span><span class="no">RSA</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">pem_file</span><span class="p">)),</span>
+</span><span class='line'>                      <span class="n">ca_path</span><span class="p">:</span>     <span class="s2">&quot;/path/to/OpenSSL/formatted/CA_Certs&quot;</span><span class="p">,</span>
+</span><span class='line'>                      <span class="n">verify_mode</span><span class="p">:</span> <span class="no">OpenSSL</span><span class="o">::</span><span class="no">SSL</span><span class="o">::</span><span class="no">VERIFY_PEER</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Interacting with the Resource</h2>
+
+<p>The functionality available to your <code>ActiveResource</code> class is ultimately decided by what is implemented in the remote API. In general though, the following standard methods should be available.</p>
+
+<h3><code>find</code></h3>
+
+<p>The <code>find</code> method will issue a <code>GET</code> request to what would normally be the <code>show</code> route in a resourceful Rails controller. If it receives a 404 response, an exception will be thrown.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Creating New Records with <code>new</code> or <code>create</code></h3>
+
+<p>New objects are created as usual and fields are defined automatically upon instantiation using the data hash passed in. The <code>save</code> and <code>create</code> calls both issue <code>POST</code> requests to the remote resource.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Create a new person inline</span>
+</span><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">create</span> <span class="n">first_name</span><span class="p">:</span> <span class="s2">&quot;John&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s2">&quot;Doe&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Create a new person then save them</span>
+</span><span class='line'><span class="nb">p</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">new</span> <span class="n">first_name</span><span class="p">:</span> <span class="s2">&quot;Jane&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s2">&quot;Doe&quot;</span>
+</span><span class='line'><span class="nb">p</span><span class="o">.</span><span class="n">save</span>
+</span></code></pre></td></tr></table></div></figure>
+### Updating with `save`
+
+Changing fields on an object and saving it will issue a `PUT` request with the updated data.
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Joe&quot;</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">save</span>
+</span></code></pre></td></tr></table></div></figure>
+### Using `delete` and `destroy`
+
+Both the `delete` and `destroy` methods can be used to remotely delete records. `delete` is used at the class level, while `destroy` is used on instances. These will issue `DELETE` requests and expect an empty body 20X response.
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Delete the person record with an id of 1</span>
+</span><span class='line'><span class="n">person</span> <span class="o">=</span> <span class="no">Person</span><span class="o">.</span><span class="n">find</span> <span class="mi">1</span>
+</span><span class='line'><span class="n">person</span><span class="o">.</span><span class="n">destroy</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Delete the person record with an id of 2</span>
+</span><span class='line'><span class="no">Person</span><span class="o">.</span><span class="n">delete</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Exercises</h2>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<ol>
+<li>If you haven&#8217;t already, follow the instructions/exercises from the &quot;Exposing an API&quot; section to make <code>ArticlesController</code> work with XML for all actions.</li>
+<li>Generate a second Rails application and write a <code>RemoteArticle</code> model that inherits from <code>ActiveResource</code></li>
+<li>Start a console for this second application and try finding, creating, updating, and destroying articles in the remote application.</li>
+<li>Experiment with fetching the comments attached to an <code>Article</code>. What does the data look like? How would this affect your implementation?</li>
+</ol>
+
+<h2>References</h2>
+
+<ul>
+<li><code>ActiveResource</code> README: <a href="http://api.rubyonrails.org/files/activeresource/README_rdoc.html">http://api.rubyonrails.org/files/activeresource/README_rdoc.html</a></li>
+<li><code>ActiveResource</code> API: <a href="http://api.rubyonrails.org/classes/ActiveResource/Base.html">http://api.rubyonrails.org/classes/ActiveResource/Base.html</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

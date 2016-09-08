@@ -1,0 +1,518 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Friendly-URLs - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Controllers                                      Friendly-URLs                              By default, Rails applications build &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/controllers/friendly-urls.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Controllers</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Friendly-URLs
+        </h1>
+        
+      </header>
+    
+    <p>By default, Rails applications build URLs based on the primary key &#8211; the <code>id</code> column from the database. Imagine we have a <code>Person</code> model and associated controller. We have a person record for <code>Bob Martin</code> that has <code>id</code> number <code>6</code>. The URL for his show page would be:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/people/6</span></code></pre></td></tr></table></div></figure>
+
+<p>But, for aesthetic or SEO purposes, we want Bob&#8217;s name in the URL. The last segment, the <code>6</code> here, is called the &quot;slug&quot;. Let&#8217;s look at a few ways to implement better slugs.</p>
+
+<h2>Simple Approach</h2>
+
+<p>The simplest approach is to override the <code>to_param</code> method in the <code>Person</code> model. Whenever we call a route helper like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>person_path(@person)</span></code></pre></td></tr></table></div></figure>
+
+<p>Rails will call <code>to_param</code> to convert the object to a slug for the URL. If your model does not define the <code>to_param</code> method then Rails will use the implementation in <code>ActiveRecord::Base</code>, which just returns the <code>id</code>.</p>
+
+<p>For the <code>to_param</code> method to succeed, it is critical that all links use the <code>ActiveRecord</code> object rather than calling <code>id</code>. <em>Don&#8217;t do this</em>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>person_path(@person.id) # Bad!</span></code></pre></td></tr></table></div></figure>
+
+<p>Instead, always pass the <em>object</em>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>person_path(@person)</span></code></pre></td></tr></table></div></figure>
+
+<h3>Slug Generation with <code>to_param</code></h3>
+
+<p>In the model, we can override <code>to_param</code> to include a parameterized version of the person&#8217;s name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_param</span>
+</span><span class='line'>    <span class="o">[</span><span class="nb">id</span><span class="p">,</span> <span class="nb">name</span><span class="o">.</span><span class="n">parameterize</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>parameterize</code> method from <code>ActiveSupport</code> will turn any string into characters valid for in a URL.</p>
+
+<p>For our user <code>Bob Martin</code> with <code>id</code> number <code>6</code>, the <code>to_param</code> will generate a slug <code>6-bob_martin</code>. The full path would be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="sr">/people/</span><span class="mi">6</span><span class="o">-</span><span class="n">bob</span><span class="o">-</span><span class="n">martin</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Object Lookup</h3>
+
+<p>What do we need to change about our finders? Nothing! </p>
+
+<p>When we call <code>Person.find(x)</code>, the parameter <code>x</code> is converted to an integer to perform the SQL lookup. Check out how <code>to_i</code> deals with strings which have a mix of letters and numbers:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>"1".to_i</span><span class='line output'># =&gt; 1</span><span class='line command'>"1-with-words".to_i</span><span class='line output'># =&gt; 1</span><span class='line command'>"1-2345".to_i</span><span class='line output'># =&gt; 1</span><span class='line command'>"6-bob-martin".to_i</span><span class='line output'># =&gt; 6</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <code>to_i</code> method will stop interpreting the string as soon as it hits a non-digit. Since our implementation of <code>to_param</code> always has the <code>id</code> at the front followed by a hyphen, it will always do lookups based on just the <code>id</code> and discard the rest of the slug.</p>
+
+<h3>Benefits / Limitations</h3>
+
+<p>We&#8217;ve added content to the slug which will improve SEO and make our URLs more readable.</p>
+
+<p>One limitation is that the users cannot manipulate the URL in any meaningful way. Knowing the url <code>6-bob-martin</code> doesn&#8217;t allow you to guess the url <code>7-russ-olsen</code>, you still need to know the ID.</p>
+
+<p>Another limitation is that the numeric ID is still in the URL. If the ID is something you want to obfuscate, simple slug generation by overriding <code>to_param</code> doesn&#8217;t help.</p>
+
+<h2>Using a Non-ID Field</h2>
+
+<p>Sometimes you want to get away from the ID all together and use another attribute in the database for lookups. Imagine we have a <code>Tag</code> object that has a <code>name</code> column. The name would be something like <code>ruby</code> or <code>rails</code>.</p>
+
+<h3>Link Generation</h3>
+
+<p>We can again override <code>to_param</code> for creating the links:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">validates_uniqueness_of</span> <span class="ss">:name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_param</span>
+</span><span class='line'>    <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now when we call <code>tag_path(@tag)</code> we&#8217;d get a path like <code>/tags/ruby</code>.</p>
+
+<h3>Object Lookup</h3>
+
+<p>The lookup is harder, though. When a request comes in to <code>/tags/ruby</code> the <code>ruby</code> will be stored in <code>params[:id]</code> by the router.</p>
+
+<p>A typical controller will call <code>Tag.find(params[:id])</code>, essentially <code>Tag.find(&quot;ruby&quot;)</code>, and it will fail.</p>
+
+<h4>Option 1: Query Name from Controller</h4>
+
+<p>Instead, we can modify the controller to use <code>Tag.find_by_name(params[:id])</code>. It will <em>work</em>, but it is bad object-oriented design. We&#8217;re breaking the encapsulation of the <code>Tag</code> class. </p>
+
+<p>The <em>DRY Principle</em> says that a piece of knowledge should have a single representation in a system. In this implementation of tags, the idea of &quot;A tag can be found by its name&quot; has now been represented in the <code>to_param</code> of the model <em>and</em> the controller lookup. That&#8217;s a maintenance headache.</p>
+
+<h4>Option 2: Custom Finder</h4>
+
+<p>In our model we could define a custom finder:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">validates_uniqueness_of</span> <span class="ss">:name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">to_param</span>
+</span><span class='line'>    <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_by_param</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then in the controller call <code>Tag.find_by_param(params[:id])</code>. This layer of abstraction means that only the model knows exactly how a <code>Tag</code> is converted to and from a parameter. The encapsulation is restored.</p>
+
+<p>But we have to remember to use <code>Tag.find_by_param</code> instead of <code>Tag.find</code> everywhere. Especially if you&#8217;re retrofitting the friendly ID onto an existing system, this can be a significant effort.</p>
+
+<h4>Option 3: Overriding Find</h4>
+
+<p>Instead of implementing the custom finder, we could override the <code>find</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It will work when you pass in a name slug, but will break when a numeric ID is passed in. How could we handle both?</p>
+
+<p>The first temptation is to do some type switching:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">input</span><span class="o">.</span><span class="n">is_a?</span><span class="p">(</span><span class="nb">Integer</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">super</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That will work, but checking type is <em>very</em> against the Ruby ethos. Writing <code>is_a?</code> should always make you ask &quot;Is there a better way?&quot;</p>
+
+<p>And there is a better way, based on these two facts:</p>
+
+<ul>
+<li>Databases give the <code>id</code> of <code>1</code> to the first record</li>
+<li>Ruby converts strings starting with a letter to <code>0</code></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">input</span><span class="o">.</span><span class="n">to_i</span> <span class="o">!=</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="k">super</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Or, condensed down with a ternary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">input</span><span class="o">.</span><span class="n">to_i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span> <span class="p">:</span> <span class="k">super</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Our goal is achieved, but we have introduced a possible bug: if a name starts with a digit it will look like an ID. Let&#8217;s add a validation that names cannot start with a digit:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'>  <span class="n">validates_format_of</span> <span class="ss">:name</span><span class="p">,</span> <span class="n">without</span><span class="p">:</span><span class="sr"> /^\d/</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">input</span><span class="o">.</span><span class="n">to_i</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">?</span> <span class="n">find_by_name</span><span class="p">(</span><span class="n">input</span><span class="p">)</span> <span class="p">:</span> <span class="k">super</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now everything should work great!</p>
+
+<h2>Using the FriendlyID Gem</h2>
+
+<p>Does implementing two additional methods seem like a pain? Or, more seriously, are you going to implement this kind of functionality in multiple models of your application? If so, it may be worth checking out the FriendlyID gem: <a href="https://github.com/norman/friendly_id">https://github.com/norman/friendly_id</a></p>
+
+<h3>Setup</h3>
+
+<p>Add the gem to your <code>Gemfile</code>:</p>
+
+<figure class='code'><figcaption><span>Gemfile</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;friendly_id&quot;</span><span class="p">,</span> <span class="s2">&quot;~&gt; 4.0.0&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then run <code>bundle</code> from the command line.</p>
+
+<h4>Simple Usage</h4>
+
+<p>The minimum configuration required in your model is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">FriendlyId</span>
+</span><span class='line'>  <span class="n">friendly_id</span> <span class="ss">:name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This will allow you to use the <code>name</code> column or the <code>id</code> for lookups using <code>find</code>, just like we did before.</p>
+
+<h4>Dedicated Slug</h4>
+
+<p>The library does a great job of maintaining a dedicated slug column for you. If we were dealing with articles, for instance, we don&#8217;t want to generate the slug every request. More importantly, we&#8217;ll want to store the slug in the database to be queried directly.</p>
+
+<p>The library defaults to a <code>String</code> column named <code>slug</code>. If you have that column, you can use the <code>:slugged</code> option to automatically generate and store the slug:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Tag</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">FriendlyId</span>
+</span><span class='line'>  <span class="n">friendly_id</span> <span class="ss">:name</span><span class="p">,</span> <span class="n">use</span><span class="p">:</span> <span class="ss">:slugged</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Usage</h3>
+
+<p>You can see it in action here:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>t = Tag.create(name: "Ruby on Rails")</span><span class='line output'>=&gt; #&lt;Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"&gt;</span><span class='line command'>Tag.find 16</span><span class='line output'>=&gt; #&lt;Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"&gt;</span><span class='line command'>Tag.find "ruby-on-rails"</span><span class='line output'>=&gt; #&lt;Tag id: 16, name: "Ruby on Rails", created_at: "2011-09-11 15:42:53", updated_at: "2011-09-11 15:42:53", slug: "ruby-on-rails"&gt;</span><span class='line command'>t.to_param</span><span class='line output'>=&gt; "ruby-on-rails"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We can use <code>.find</code> with an ID or the slug transparently. When the object is converted to a parameter for links, we&#8217;ll get the slug with no ID number. We get good encapsulation, easy usage, improved SEO, and easy to read URLs.</p>
+
+<h2>Exercises</h2>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<ol>
+<li>Implement a <code>to_param</code> method in <code>Article</code> so URLs include the <code>id</code> and article title like <code>4-hello-world</code> </li>
+<li>Change the <code>to_param</code> in <code>Article</code> so the output does not include the <code>id</code></li>
+<li>Try to modify the <code>show</code> action of <code>ArticlesController</code> so the lookup with work with the no-<code>id</code>-having slug from exercise 2. Why is this impossible to implement efficiently?</li>
+<li>Implement FriendlyID, as described above, so tags use only their name in URLs.</li>
+<li>Implement FriendlyID so article URLs no longer use the <code>id</code>, only the article&#8217;s parameterized <code>title</code>.</li>
+</ol>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

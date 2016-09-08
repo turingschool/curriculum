@@ -1,0 +1,1932 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Sinatra with Active Record - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Sinatra with Active Record                              Working with Active Record outside of Rails is not &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/sinatra/sinatra_with_active_record.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Sinatra with Active Record
+        </h1>
+        
+      </header>
+    
+    <p>Working with Active Record outside of Rails is not difficult, but it requires
+you to jump through a few hoops that Rails generally takes care of for you.</p>
+
+<p>We will for the most part stick with conventions that people are used to,
+because there&#8217;s no reason to surprise people unless you have a good reason.</p>
+
+<p>We&#8217;ll start with plain Ruby, add in Active Record to manipulate the database,
+then mix in Sinatra for HTTP interaction.</p>
+
+<p>At every step we will write tests before adding any code.</p>
+
+<h2>Dependencies</h2>
+
+<ul>
+<li>Sinatra</li>
+<li>Active Record</li>
+<li>SQLite3</li>
+</ul>
+
+<p>For testing:</p>
+
+<ul>
+<li>Minitest</li>
+<li>Rack Test</li>
+</ul>
+
+<p>Other dependencies</p>
+
+<ul>
+<li>git</li>
+</ul>
+
+<h2>Creating a Stand-Alone Project</h2>
+
+<p>Create a project directory, and go to it in your terminal.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>mkdir ideabox</span><span class='line output'>cd ideabox</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Starting the Project</h3>
+
+<p>We&#8217;ll start with a test. Create an empty test directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>mkdir test</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>And create a file called <code>test/ideabox_test.rb</code>.</p>
+
+<p>Our first goal is simply to wire up the project so that our tests connect to
+the rest of our code.</p>
+
+<p>Create a simple test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaboxTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_works</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">42</span><span class="p">,</span> <span class="no">Ideabox</span><span class="o">.</span><span class="n">answer</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run it:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>ruby test/ideabox_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You&#8217;ll get an error in the vein of:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>test/ideabox_test.rb:1:in `&lt;main&gt;': uninitialized constant MiniTest (NameError)</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gives us a new error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IdeaboxTest#test_it_works:
+</span><span class='line'>NameError: uninitialized constant IdeaboxTest::Ideabox
+</span><span class='line'>    test/ideabox_test.rb:6:in `test_it_works'</span></code></pre></td></tr></table></div></figure>
+
+<p>The Ideabox constant could refer to a class or a module. We don&#8217;t know what we
+need yet, but using a module to namespace projects is a very common and
+idiomatic approach. Let&#8217;s start there and change it if we see that we need to.</p>
+
+<p>Add an empty module above the test suite inside the test file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Ideabox</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gives us a new error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IdeaboxTest#test_it_works:
+</span><span class='line'>NoMethodError: undefined method `answer' for Ideabox:Module
+</span><span class='line'>    test/ideabox_test.rb:9:in `test_it_works'</span></code></pre></td></tr></table></div></figure>
+
+<p>We can define the method in Ideabox to change the error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Ideabox</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">answer</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Up until now we&#8217;ve been getting errors, now we get our first failure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IdeaboxTest#test_it_works [test/ideabox_test.rb:11]:
+</span><span class='line'>Expected: 42
+</span><span class='line'>  Actual: nil</span></code></pre></td></tr></table></div></figure>
+
+<p>Hard-code 42 into the method to get it to pass.</p>
+
+<h3>Putting Things Where They Belong</h3>
+
+<p>For the moment all of our code lives in a single file. We need to move the
+project code out of our test file.</p>
+
+<h4>Separating out Library Code</h4>
+
+<p>Create a directory <code>lib/</code> in the root of your project and create a file
+<code>lib/ideabox.rb</code>.</p>
+
+<p>Move the <code>Ideabox</code> module from the test into the <code>lib/ideabox.rb</code> file, and
+run your test.</p>
+
+<p>We&#8217;re back to an error that says we don&#8217;t know anything about an Ideabox
+constant.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>IdeaboxTest#test_it_works:
+</span><span class='line'>NameError: uninitialized constant IdeaboxTest::Ideabox
+</span><span class='line'>    test/ideabox_test.rb:6:in `test_it_works'</span></code></pre></td></tr></table></div></figure>
+
+<p>Require the <code>ideabox</code> file in the test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_works</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">42</span><span class="p">,</span> <span class="no">Ideabox</span><span class="o">.</span><span class="n">answer</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can manipulate the load path in order to get rid of the <code>./lib/</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;ideabox&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_works</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">42</span><span class="p">,</span> <span class="no">Ideabox</span><span class="o">.</span><span class="n">answer</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Our project now looks like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>.</span><span class='line output'>├── lib</span><span class='line output'>│   └── ideabox.rb</span><span class='line output'>└── test</span><span class='line output'>└── ideabox_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>This is a good start, but we&#8217;re missing a couple of essential pieces before we
+have a full-fledged ruby project.</p>
+
+<h3>Adding a README</h3>
+
+<p>First, there&#8217;s no README. We&#8217;ll add a simple markdown file called <code>README.md</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Ideabox
+</span><span class='line'>
+</span><span class='line'>A small Ruby application that demonstrates how to use Active Record with
+</span><span class='line'>Sinatra.</span></code></pre></td></tr></table></div></figure>
+
+<h3>Running the Tests with Rake</h3>
+
+<p>Next, we&#8217;ll add a default rake task to run the test suite. Even though
+there&#8217;s only one file, it&#8217;s nice to have this from the start. It&#8217;s a lot
+faster to type <code>rake</code> than <code>ruby test/ideabox_test.rb</code>.</p>
+
+<p>Create a file in the root of the project named <code>Rakefile</code>, and add this to it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rake/testtask&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Rake</span><span class="o">::</span><span class="no">TestTask</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;test/**/*_test.rb&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">task</span> <span class="n">default</span><span class="p">:</span> <span class="ss">:test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Creating a Test Helper</h3>
+
+<p>Now, move the require statements out of the test file and put it in
+<code>test/test_helper.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;ideabox&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to require the test helper in the <code>ideabox_test.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test should pass.</p>
+
+<h4>Creating a Savepoint</h4>
+
+<p>The project looks like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>.</span><span class='line output'>├── README.md</span><span class='line output'>├── Rakefile</span><span class='line output'>├── lib</span><span class='line output'>│   └── ideabox.rb</span><span class='line output'>└── test</span><span class='line output'>├── ideabox_test.rb</span><span class='line output'>└── test_helper.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Initialize a git repository, and add and commit the files:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>git init</span><span class='line output'>git add .</span><span class='line output'>git commit -m "Create a stand-alone Ruby project tested with minitest"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Wiring up Active Record</h2>
+
+<p>We&#8217;re going to store ideas in the database. The ideas will be very simple,
+containing a single field: <code>description</code>.</p>
+
+<p>A simple file store such as PStore or YAML::Store would probably be good
+enough for our needs, but we&#8217;ll go ahead and point the big guns at it.</p>
+
+<p>Enter Active Record.</p>
+
+<h3>Asserting that Idea Exists</h3>
+
+<p>If you look at most gems, they have the following structure:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>.</span><span class='line output'>└── lib</span><span class='line output'>.   └── gemname</span><span class='line output'>.   │  └── domain_object_1.rb</span><span class='line output'>.   │  └── domain_object_2.rb</span><span class='line output'>.   └── gemname.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Often <code>lib/gemname.rb</code> will only have the code that requires the rest of the
+project, but sometimes it will contain a little bit of code as well.</p>
+
+<p>One way to structure test files is to have the same path as to the library
+file, but replacing <code>lib</code> with <code>test</code>. For example:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>lib/ideabox/idea.rb</span><span class='line output'>test/ideabox/idea.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It isn&#8217;t always necessarily a great idea to have exactly one test file per
+library file, but it&#8217;s a reasonable place to start.</p>
+
+<p>Since we&#8217;re going to put domain objects within <code>lib/ideabox/*</code> we need an
+<code>ideabox</code> directory under test:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>mkdir test/ideabox</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Create file named <code>test/ideabox/idea_test.rb</code> where we can start
+developing the Idea model.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_exists</span>
+</span><span class='line'>    <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:description</span> <span class="o">=&gt;</span> <span class="s1">&#39;A wonderful idea!&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s1">&#39;A wonderful idea!&#39;</span><span class="p">,</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re informed that we have no Idea.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NameError: uninitialized constant IdeaTest::Idea</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s define the class within the test file, as before:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ArgumentError: wrong number of arguments(1 for 0) in `initialize'</span></code></pre></td></tr></table></div></figure>
+
+<p>Rather than do the stupidest thing that could possibly work, let&#8217;s go ahead
+and make Idea an Active Record model.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That blows up:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>test/ideabox/idea_test.rb:3:in `&lt;main&gt;': uninitialized constant ActiveRecord (NameError)</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to require Active Record:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Idea</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="c1"># ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You may get a complaint that it can&#8217;t find Active Record. If that&#8217;s the case,
+install it with <code>gem install activerecord</code> and try again.</p>
+
+<p>We now get an <code>ActiveRecord::ConnectionNotEstablished:
+ActiveRecord::ConnectionNotEstablished</code> error.</p>
+
+<p>Add the command to connect to the database:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;active_record&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">db_options</span> <span class="o">=</span> <span class="p">{</span><span class="n">adapter</span><span class="p">:</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span> <span class="n">database</span><span class="p">:</span> <span class="s1">&#39;ideabox_test&#39;</span><span class="p">}</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">db_options</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Idea</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we&#8217;re getting somewhere:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ActiveRecord::StatementInvalid: Could not find table 'ideas'</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re going to need a migration. Again, let&#8217;s create the migration in the test
+file, and instantiate and run the migration when we run the tests:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># ...</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">db_options</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">CreateIdeas</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
+</span><span class='line'>    <span class="n">create_table</span> <span class="ss">:ideas</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:description</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">CreateIdeas</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">change</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Idea</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="c1"># ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests, and they should pass.</p>
+
+<p>Run them one more time, and they should fail with an
+<code>ActiveRecord::StatementInvalid</code> error because the table already exists, and
+we&#8217;re trying to create it again.</p>
+
+<p>Rescue the error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">begin</span>
+</span><span class='line'>  <span class="no">CreateIdeas</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">change</span>
+</span><span class='line'><span class="k">rescue</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">StatementInvalid</span>
+</span><span class='line'>  <span class="c1"># it&#39;s probably OK</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You should now be able to run the tests as many times as you like, and they
+should pass.</p>
+
+<p>We&#8217;ve got Active Record wired together, and it didn&#8217;t take very much code.</p>
+
+<p>It&#8217;s a bit of a mess with everything in the same file.</p>
+
+<p>Eventually we&#8217;ll need to configure the environment to have a different
+database for test, development, and production. Also, the database connection
+options should probably include things like a connection pool and timeouts.</p>
+
+<h3>Putting Things Where They Belong</h3>
+
+<p>The test file contains:</p>
+
+<ul>
+<li>dependency management</li>
+<li>database configuration</li>
+<li>migration</li>
+<li>database connection management</li>
+<li>production code</li>
+</ul>
+
+<p>Oh, yeah. And tests.</p>
+
+<p>All of these things belong in separate places.</p>
+
+<h4>Creating a Gemfile</h4>
+
+<p>Our dependencies are implicit at the moment. Let&#8217;s make them explicit by
+adding a Gemfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;activerecord&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="s1">&#39;active_record&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>bundle install</code>.</p>
+
+<p>In the test helper add the following code right after manipulating the load
+path:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Delete the <code>require 'active_record'</code> line from <code>idea_test.rb</code>.</p>
+
+<h4>Moving Database Configuration into <code>config/</code></h4>
+
+<p>The convention for database configuration from Rails is to have a config
+directory which contains configuration files like <code>database.yml</code> and code to
+start the project for the correct environment.</p>
+
+<p>There&#8217;s no good reason to do anything else.</p>
+
+<p>First, we need a <code>config</code> directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>mkdir config</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then we need a <code>database.yml</code> file. First let&#8217;s just use the exact same
+configuration that we already have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sqlite3</span>
+</span><span class='line'><span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">ideabox_test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Change the code in your test file to get the configuration from the YAML file
+rather than from a hard-coded options hash:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">db_options</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./config/database.yml&#39;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The tests should still be passing.</p>
+
+<p>If you look at your project, you&#8217;ll see that the database (<code>ideabox_test</code>)
+lives in the root directory of your project. This should probably go in a
+subdirectory called <code>db/</code>.</p>
+
+<p>Create the directory, and then update the <code>database.yml</code> file to match:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sqlite3</span>
+</span><span class='line'><span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">db/ideabox_test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Delete the database file from your project directory and run the tests.</p>
+
+<p>They should pass, and a new database file should be created in the <code>db/</code>
+directory.</p>
+
+<h4>Configuring the Environment</h4>
+
+<p>In Rails the config directory contains 4 environment files:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>config</span><span class='line output'>├── environment.rb</span><span class='line output'>└── environments</span><span class='line output'>.   ├── development.rb</span><span class='line output'>.   ├── production.rb</span><span class='line output'>.   └── test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We don&#8217;t have a configurable environment yet, so let&#8217;s just start with a
+single <code>config/environment.rb</code> file that we&#8217;ll require directly:</p>
+
+<p>Move the code that connects to the database from the test file into <code>config/environment.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">db_options</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./config/database.yml&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">db_options</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Replace those two lines in the test file with a single line that requires the
+environment file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./config/environment&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This doesn&#8217;t feel quite right. It seems like that require statement should go
+in the test helper. That gives us the following test helper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./config/environment&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;ideabox&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Looking at it, though, it would make more sense to have the bundler stuff in
+the environment file.</p>
+
+<p>Requiring the project with <code>ideabox</code> can probably go there as well.</p>
+
+<p>The environment file now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">db_options</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./config/database.yml&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">db_options</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;ideabox&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And the test helper has been reduced to the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./config/environment&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Moving Database Migrations</h4>
+
+<p>Rails puts database migrations in <code>db/migrate</code>, and again, we&#8217;ll follow the
+convention since there&#8217;s no compelling reason not to. Create a migrate
+subdirectory in db named <code>migrate</code>, and create an empty file
+<code>0_create_ideas.rb</code> within the <code>db/migrate</code> directory.</p>
+
+<p>The 0 stands in for the timestamp, which is basically just a version number.
+It doesn&#8217;t matter when the migration was generated or what the version is,
+since we&#8217;re only ever going to have the one migration.</p>
+
+<p>Move the database migration class from the test suite into the migration file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">CreateIdeas</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
+</span><span class='line'>    <span class="n">create_table</span> <span class="ss">:ideas</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:description</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that we&#8217;re not moving the code that actually runs the migration, just
+the class definition.</p>
+
+<p>We&#8217;re going to need a way to run the migrations. Following Rails standards,
+how about a Rake task called <code>db:migrate</code>?</p>
+
+<p>Within the Rakefile, add the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:db</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">desc</span> <span class="s2">&quot;migrate your database&quot;</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:migrate</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'>    <span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>    <span class="nb">require</span> <span class="s1">&#39;./config/environment&#39;</span>
+</span><span class='line'>    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migrator</span><span class="o">.</span><span class="n">migrate</span><span class="p">(</span><span class="s1">&#39;db/migrate&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This will not allow us to roll back versions, but it will work for running all
+the migrations that get placed in the <code>db/migrate</code> directory.</p>
+
+<p>Delete your database file and run <code>rake db:migrate</code>.</p>
+
+<h4>Moving the production code into <code>lib/</code>.</h4>
+
+<p>Our test suite is looking a lot more like a test suite. We just have one last
+thing to move out of there: the class definition for Idea.</p>
+
+<p>Create a directory <code>lib/ideabox</code> and put the class definition of Idea in
+<code>lib/ideabox/idea.rb</code>.</p>
+
+<p>The tests will fail at this point, because the test suite no longer knows
+about Idea.</p>
+
+<p>Put the require statement in <code>lib/ideabox.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;ideabox/idea&#39;</span>
+</span><span class='line'><span class="k">module</span> <span class="nn">Ideabox</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">answer</span>
+</span><span class='line'>    <span class="mi">42</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Cleaning Up</h4>
+
+<p>Now that we have a real test, we can delete the initial wiring test.</p>
+
+<p>Delete <code>test/ideabox_test.rb</code>, and the <code>answer</code> method in <code>lib/ideabox.rb</code>.</p>
+
+<h4>Creating a Savepoint</h4>
+
+<p>The project now looks like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>.</span><span class='line output'>├── Gemfile</span><span class='line output'>├── Gemfile.lock</span><span class='line output'>├── README.md</span><span class='line output'>├── Rakefile</span><span class='line output'>├── config</span><span class='line output'>│   ├── database.yml</span><span class='line output'>│   └── environment.rb</span><span class='line output'>├── db</span><span class='line output'>│   ├── ideabox_test</span><span class='line output'>│   └── migrate</span><span class='line output'>│       └── 0_create_ideas.rb</span><span class='line output'>├── lib</span><span class='line output'>│   ├── ideabox</span><span class='line output'>│   │   └── idea.rb</span><span class='line output'>│   └── ideabox.rb</span><span class='line output'>└── test</span><span class='line output'>├── ideabox</span><span class='line output'>│   └── idea_test.rb</span><span class='line output'>└── test_helper.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Make sure your test is passing, and commit your changes.</p>
+
+<h3>Testing Writes to the Database</h3>
+
+<p>Our test helped us drive the migration and configuration, but we haven&#8217;t
+actually used the database yet.</p>
+
+<p>Let&#8217;s change the wiring test to save the idea, and assert that once it has
+been saved, we have an idea in the database:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_exists</span>
+</span><span class='line'>  <span class="no">Idea</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:description</span> <span class="o">=&gt;</span> <span class="s1">&#39;A wonderful idea!&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">Idea</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test, and it should pass. Run it again, and it will fail.</p>
+
+<p>We&#8217;re saving to the database, but nothing is making sure that each test starts
+in a clean state.</p>
+
+<p>We could use a gem like <code>database_cleaner</code>, but that seems like a big solution
+to a small problem. We can wrap a transaction around the test and then cause
+it to be rolled back after the assertion has completed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Idea</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Idea</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:description</span> <span class="o">=&gt;</span> <span class="s1">&#39;A wonderful idea!&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">Idea</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Delete the database file <code>db/ideabox_test</code> and re-run the migrations, making
+sure that they&#8217;re running for the test environment:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>RACK_ENV=test rake db:migrate</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Rerun the test. It should pass.
+Run it again. It should pass again.</p>
+
+<p>It seems a bit unweildy to have to run the tests twice to prove that it&#8217;s
+working, so let&#8217;s add some assertions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_exists</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Idea</span><span class="o">.</span><span class="n">count</span> <span class="c1"># guard clause</span>
+</span><span class='line'>  <span class="no">Idea</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Idea</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:description</span> <span class="o">=&gt;</span> <span class="s1">&#39;A wonderful idea!&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">Idea</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Idea</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The guard clause at the beginning ensures that we&#8217;re starting out with a clean
+database table. The second assertion proves that we&#8217;ve wired everything up so
+that the Idea can be saved. The third assertion proves that we&#8217;re not going to
+influence later tests by accidentally leaving things in the database.</p>
+
+<h4>Extracting an &#8216;Around&#8217; Method</h4>
+
+<p>Writing the transaction and raising the Rollback error is a bit tedious if you
+need to do it over and over again. In RSpec we could configure an around hook
+to take care of it for us:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RSpec</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">example</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">example</span><span class="o">.</span><span class="n">run</span>
+</span><span class='line'>      <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In Minitest it&#8217;s not immediately obvious how to do this. We can write a method
+that will take care of the details for us, though:</p>
+
+<p>In the test helper, add this module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">WithRollback</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">temporarily</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">block</span><span class="o">.</span><span class="n">call</span>
+</span><span class='line'>      <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Include the module in the test class and replace the call to <code>transaction</code>
+with the <code>temporarily</code> call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">WithRollback</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_exists</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Idea</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="n">temporarily</span> <span class="k">do</span>
+</span><span class='line'>      <span class="no">Idea</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:description</span> <span class="o">=&gt;</span> <span class="s1">&#39;A wonderful idea!&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">Idea</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Idea</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Creating a Savepoint</h4>
+
+<p>If your tests are passing, commit your changes.</p>
+
+<h3>Configuring the Environment</h3>
+
+<p>There are two parts to configuring the environment:</p>
+
+<ul>
+<li>detecting the correct environment, and</li>
+<li>fetching the correct options for that environment</li>
+</ul>
+
+<p>We could do it the quick-and-dirty way, by just sticking the following in the
+<code>config/environment.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># the quick-and-dirty way</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="no">YAML</span><span class="o">::</span><span class="nb">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;./config/database.yml&quot;</span><span class="p">))</span><span class="o">[</span><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;RACK_ENV&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="s1">&#39;development&#39;</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We could, but it seems like such a shame to make so many untested assumptions
+on a single line.</p>
+
+<p>We don&#8217;t have to do it on one line, of course. The current environment file
+looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">db_options</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./config/database.yml&#39;</span><span class="p">))</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">db_options</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;ideabox&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We could just add another piece to get the environment.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># the quick-and-dirty way, part deux</span>
+</span><span class='line'><span class="n">environment</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;RACK_ENV&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="s1">&#39;development&#39;</span> <span class="p">}</span>
+</span><span class='line'><span class="n">db_options</span> <span class="o">=</span> <span class="no">YAML</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;./config/database.yml&#39;</span><span class="p">)</span><span class="o">[</span><span class="n">environment</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">db_options</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That still doesn&#8217;t help us test it, though.</p>
+
+<p>Let&#8217;s be systematic about it, and create a DBConfig class and prove that it
+does what we want.</p>
+
+<h4>Testing the Database Configuration</h4>
+
+<p>In <code>test/ideabox/db_config_test.rb</code> add the following test suite:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">DBConfigTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_default_file</span>
+</span><span class='line'>    <span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;./config/database.yml&#39;</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="n">file</span><span class="p">,</span> <span class="no">DBConfig</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;env&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">file</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Require <code>lib/ideabox/db_config</code> in the test file and make the test pass by
+implementing as little code as possible in the DBConfig class.</p>
+
+<p>Let&#8217;s force it to make the filename configurable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_override_file</span>
+</span><span class='line'>  <span class="n">file</span> <span class="o">=</span> <span class="s1">&#39;./test/fixtures/database.yml&#39;</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="n">file</span><span class="p">,</span> <span class="no">DBConfig</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;env&#39;</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">file</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we&#8217;ll make sure we can read environment-specific values. Create a fixture
+file in <code>test/fixtures/database.yml</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">fake</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sqlite3</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">db/ideabox_fake</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The environment we&#8217;re configuring is called &#8216;fake&#8217;. In the real config file,
+we&#8217;ll have &#8216;test&#8217;, &#8216;development&#8217;, and eventually &#8216;production&#8217;.</p>
+
+<p>Add a test for reading the configuration options:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_read_environment_specific_values</span>
+</span><span class='line'>  <span class="n">config</span> <span class="o">=</span> <span class="no">DBConfig</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;fake&#39;</span><span class="p">,</span> <span class="s1">&#39;./test/fixtures/database.yml&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="s1">&#39;adapter&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;sqlite3&#39;</span><span class="p">,</span>
+</span><span class='line'>    <span class="s1">&#39;database&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;db/ideabox_fake&#39;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="n">options</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">options</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>For good measure, let&#8217;s also make sure that we&#8217;re notified if we&#8217;re trying to
+connect without having configured the correct environment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_blow_up_for_unknown_environment</span>
+</span><span class='line'>  <span class="n">config</span> <span class="o">=</span> <span class="no">DBConfig</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;real&#39;</span><span class="p">,</span> <span class="s1">&#39;./test/fixtures/database.yml&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_raises</span> <span class="no">DBConfig</span><span class="o">::</span><span class="no">UnconfiguredEnvironment</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">config</span><span class="o">.</span><span class="n">options</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You can make this pass in any number of ways. Here&#8217;s one of them:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;yaml/store&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">DBConfig</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">UnconfiguredEnvironment</span> <span class="o">&lt;</span> <span class="no">StandardError</span><span class="p">;</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:file</span><span class="p">,</span> <span class="ss">:environment</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">environment</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s1">&#39;./config/database.yml&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@environment</span> <span class="o">=</span> <span class="n">environment</span>
+</span><span class='line'>    <span class="vi">@file</span> <span class="o">=</span> <span class="n">file</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">options</span>
+</span><span class='line'>    <span class="n">read_only</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="n">result</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">transaction</span><span class="p">(</span><span class="n">read_only</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">store</span><span class="o">[</span><span class="n">environment</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="k">unless</span> <span class="n">result</span>
+</span><span class='line'>      <span class="n">error</span> <span class="o">=</span> <span class="s2">&quot;No environment &#39;</span><span class="si">#{</span><span class="n">environment</span><span class="si">}</span><span class="s2">&#39; configured in </span><span class="si">#{</span><span class="n">file</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="k">raise</span> <span class="no">UnconfiguredEnvironment</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">result</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">store</span>
+</span><span class='line'>    <span class="vi">@store</span> <span class="o">||=</span> <span class="no">YAML</span><span class="o">::</span><span class="no">Store</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Putting it all together</h4>
+
+<p>The tests are passing, but the integration test that connects to the database
+is not using the new DBConfig class.</p>
+
+<p>First, change the <code>environment.rb</code> file to use the DBConfig class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;ideabox/db_config&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">environment</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;RACK_ENV&#39;</span><span class="p">)</span> <span class="p">{</span> <span class="s1">&#39;development&#39;</span> <span class="p">}</span>
+</span><span class='line'><span class="n">config</span> <span class="o">=</span> <span class="no">DBConfig</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">environment</span><span class="p">)</span><span class="o">.</span><span class="n">options</span>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;ideabox&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you run the tests, they fail with a NameError:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>uninitialized constant DBConfig (NameError)</span></code></pre></td></tr></table></div></figure>
+
+<p>Require <code>'ideabox/db_config'</code> below the <code>Bundler.require</code>.</p>
+
+<p>The next error is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>No environment 'development' configured in ./config/database.yml (DBConfig::UnconfiguredEnvironment)</span></code></pre></td></tr></table></div></figure>
+
+<p>Development? Really? We&#8217;re running the tests, so we should not be looking for
+development configuration options at all.</p>
+
+<p>Change the <code>test/test_helper.rb</code> to add a line that sets the environment
+before the environment gets required:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;RACK_ENV&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This changes the error message:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>No environment 'test' configured in ./config/database.yml (DBConfig::UnconfiguredEnvironment)</span></code></pre></td></tr></table></div></figure>
+
+<p>Better.</p>
+
+<p>We do have configuration options for test in the <code>database.yml</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sqlite3</span>
+</span><span class='line'><span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">db/ideabox_test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to specify that this is relevant to the test environment only:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="nn">---</span>
+</span><span class='line'><span class="l-Scalar-Plain">test</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">adapter</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">sqlite3</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">database</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">db/ideabox_test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests.</p>
+
+<h4>Adding a Savepoint</h4>
+
+<p>If your tests are passing, commit your changes.</p>
+
+<p>At this point we have a stand-alone ruby project that is successfully using
+Active Record. We could easily add a command line interface on it, or we could
+make it consumed queued up jobs, or we could wrap it in a web application.</p>
+
+<p>In other words, this tutorial could have been named &quot;Using Active Record
+outside of Rails&quot;.</p>
+
+<h3>Adding Sinatra to the Mix</h3>
+
+<p>Once again, let&#8217;s start with a wiring test:</p>
+
+<h3>Wiring up Sinatra</h3>
+
+<p>As before, we&#8217;re going to write a very simple test to make sure that
+everything is wired together correctly.</p>
+
+<h4>Dependencies</h4>
+
+<p>To do this we need a gem called <code>rack-test</code>, as well as Sinatra itself. Add
+them to the Gemfile and run <code>bundle install</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;activerecord&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="s1">&#39;active_record&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rack-test&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Both Sinatra and Rack Test are only going to be used by a small portion of the
+application.</p>
+
+<p>Sinatra will only be used for the API, Rack Test will only be used for the API
+tests. If we decide to run a command line interface for the application, that
+code will not need Sinatra. Rather it will probably use <code>main</code> or <code>thor</code> or
+some other gem that helps manage command line applications.</p>
+
+<p>Both of these endpoints would need to load the main part of the application,
+however &#8211; the part under <code>lib/ideabox</code>, which gets loaded in
+<code>config/environment.rb</code>.</p>
+
+<p>Create a file <code>test/api_test.rb</code>, and add this code to it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;api&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">APITest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Test</span><span class="o">::</span><span class="no">Methods</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">app</span>
+</span><span class='line'>    <span class="no">IdeaboxAPI</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_hello_world</span>
+</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Hello, World!&quot;</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Once everything is wired up correctly, that test will pass. But first you&#8217;ll
+have to follow and fix a series of errors:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cannot load such file -- api (LoadError)</span></code></pre></td></tr></table></div></figure>
+
+<p>Create an empty file <code>lib/api.rb</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NameError: uninitialized constant APITest::IdeaboxAPI</span></code></pre></td></tr></table></div></figure>
+
+<p>Add a class to the <code>lib/api.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaboxAPI</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we get a rather cryptic error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `call' for IdeaboxAPI:Class</span></code></pre></td></tr></table></div></figure>
+
+<p>Apparently, the IdeaboxAPI doesn&#8217;t know how to respond to web requests.
+If it inherits from Sinatra::Base, it will gain those capabilities.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaboxAPI</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Finally, we get a failure, rather than an error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Failure:
+</span><span class='line'>APITest#test_hello_world [/Users/you/project/ideabox/test/api_test.rb:15]:
+</span><span class='line'>--- expected
+</span><span class='line'>+++ actual
+</span><span class='line'>@@ -1,2 +1 @@
+</span><span class='line'>-"Hello, World!
+</span><span class='line'>-"
+</span><span class='line'>+"&lt;h1&gt;Not Found&lt;/h1&gt;"</span></code></pre></td></tr></table></div></figure>
+
+<p>Define a method that responds to <code>GET /</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaboxAPI</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And with this, the test should pass.</p>
+
+<h4>Running the Web Server</h4>
+
+<p>We also want to be able to run the server so that we can hit the API over
+HTTP using Rack.</p>
+
+<h4>Adding a Web Server</h4>
+
+<p>Rather than using the default web server, WEBrick, we&#8217;ll use Puma. Again, add
+it to the Gemfile, but don&#8217;t let it get required automatically:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;puma&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Creating a Rackup file</h4>
+
+<p>Create a file at the root of the directory named <code>config.ru</code> (ru stands for <strong>r</strong>ack<strong>u</strong>p).</p>
+
+<p>This file needs to do a bunch of things for us.</p>
+
+<p>Put <code>lib</code> on the load path:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Require all the default dependencies using Bundler:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Load up the main configuration and the Ideabox application itself:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./config/environment&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Load up the requirements for running the web application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;puma&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Load up the actual web application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;api&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Add middleware so that our connections don&#8217;t stay open when requests are finished:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">use</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ConnectionAdapters</span><span class="o">::</span><span class="no">ConnectionManagement</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And, finally, run the Sinatra application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">run</span> <span class="no">IdeaboxAPI</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Start the Server</h4>
+
+<p>Start the server with:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rackup -p 4567 -s puma</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Test It Out</h4>
+
+<p>And now you can hit the site at <a href="http://localhost:4567">localhost:4567</a> either
+in your browser or from the command line:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>curl http://localhost:4567</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That&#8217;s it! We have a working, tested Sinatra application.</p>
+
+<p>&#8230; but it doesn&#8217;t yet use Active Record.</p>
+
+<p>We can change the <em>hello world</em> test to put something in the database, which
+we can then ask for from the API. Remember to include the WithRollback module,
+and to wrap the body of the test in a <code>temporarily</code> block.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">APITest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Test</span><span class="o">::</span><span class="no">Methods</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">WithRollback</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">app</span>
+</span><span class='line'>    <span class="no">IdeaboxAPI</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_hello_world</span>
+</span><span class='line'>    <span class="n">temporarily</span> <span class="k">do</span>
+</span><span class='line'>      <span class="no">Idea</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="ss">:description</span> <span class="o">=&gt;</span> <span class="s1">&#39;A wonderful idea!&#39;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>      <span class="n">expected</span> <span class="o">=</span> <span class="s2">&quot;[{</span><span class="se">\&quot;</span><span class="s2">id</span><span class="se">\&quot;</span><span class="s2">:1,</span><span class="se">\&quot;</span><span class="s2">description</span><span class="se">\&quot;</span><span class="s2">:</span><span class="se">\&quot;</span><span class="s2">A wonderful idea!</span><span class="se">\&quot;</span><span class="s2">}]&quot;</span>
+</span><span class='line'>      <span class="n">assert_equal</span> <span class="n">expected</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Get the test passing by changing the Sinatra endpoint:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaboxAPI</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Idea</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">to_json</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests, commit your changes, and pat yourself on the back, because
+here, finally, all of the pieces come together: A pure ruby application that
+integrates with Active Record, and which has a thin layer of a web application
+wrapping it.</p>
+
+<p>The final project tree looks like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>.</span><span class='line output'>├── Gemfile</span><span class='line output'>├── Gemfile.lock</span><span class='line output'>├── README.md</span><span class='line output'>├── Rakefile</span><span class='line output'>├── config</span><span class='line output'>│   ├── database.yml</span><span class='line output'>│   └── environment.rb</span><span class='line output'>├── db</span><span class='line output'>│   ├── ideabox_test</span><span class='line output'>│   └── migrate</span><span class='line output'>│       └── 0_create_ideas.rb</span><span class='line output'>├── lib</span><span class='line output'>│   ├── api.rb</span><span class='line output'>│   ├── ideabox</span><span class='line output'>│   │   ├── db_config.rb</span><span class='line output'>│   │   └── idea.rb</span><span class='line output'>│   └── ideabox.rb</span><span class='line output'>└── test</span><span class='line output'>.   ├── api_test.rb</span><span class='line output'>.   ├── fixtures</span><span class='line output'>.   │   └── database.yml</span><span class='line output'>.   ├── ideabox</span><span class='line output'>.   │   ├── db_config_test.rb</span><span class='line output'>.   │   └── idea_test.rb</span><span class='line output'>.   └── test_helper.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

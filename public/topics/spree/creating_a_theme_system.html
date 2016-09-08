@@ -1,0 +1,878 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Creating a Theme System - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Building Applications with Spree                                      Creating a Theme System                              The &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/spree/creating_a_theme_system.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Building Applications with Spree</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Creating a Theme System
+        </h1>
+        
+      </header>
+    
+    <p>The first spree extension that we created added very little to the current
+experience. We relied on the existing infrastructure with very few changes.
+Now we want to create an extension that will require us to add additional
+database migrations, models, controllers, and views.</p>
+
+<p>The goal of this exercise is to allow admins to provide some creative control
+over their ecommerce platform through the admin panel. An admin would be able
+to login, view the admin section, select the theme menu, and be able to choose
+and set various colors.</p>
+
+<h3>Adding a New Menu Item</h3>
+
+<p>Lets start by adding the &quot;Theme&quot; as a menu item as one of the sub-sections of
+the &quot;Configuration&quot; section. First we need to find how that menu is rendered
+so that we know how we can insert our new menu item.</p>
+
+<ul>
+<li>Open <code>http://localhost:3000/admin</code> and select the &quot;Configuration&quot; tab.</li>
+</ul>
+
+<p>The initial page of the configuration section is &quot;General Settings&quot;. The url,
+&quot;http://localhost:3000/admin/general_settings/edit&quot;, tells us that we are in
+fact editing the general settings.</p>
+
+<p>If we review the logs we we see that the following:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Started GET "/admin/general_settings/edit" for 127.0.0.1 at 2013-08-12 14:26:56 -0500
+</span><span class='line'>Processing by Spree::Admin::GeneralSettingsController#edit as HTML</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Open the <strong>spree_backend</strong> gem and find the controller and associated view.</li>
+</ul>
+
+<p>In the file <code>app/views/spree/admin/general_settings/edit.html.erb</code> the first
+line renders the configuration menu.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">:partial</span> <span class="o">=&gt;</span> <span class="s1">&#39;spree/admin/shared/configuration_menu&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Within that template,
+<code>app/views/spree/admin/shared/_configuration_menu.html.erb</code>, we see entries for
+each menu listed.</p>
+
+<ul>
+<li><p>Within our Spree application create a partial template that mirrors the
+configuration menu within the <strong>spree_backend</strong> gem and copy in the contents.</p></li>
+<li><p>Add a new entry for our theme page.</p></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">configurations_sidebar_menu_item</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:theme_settings</span><span class="p">),</span> <span class="n">edit_admin_theme_settings_path</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When we refresh the page we will see an error that we have not defined the
+helper method <code>edit_admin_theme_settings_path</code>.</p>
+
+<ul>
+<li><p>Open the <strong>spree_backend</strong> gem&#8217;s <code>config/routes.rb</code> file.</p></li>
+<li><p>Within our Spree application create a new resource to support our theme
+settings.</p></li>
+</ul>
+
+<p>Traditionally in a Rails application we can simply would create a route that
+mirrors the one that we found as an example within the <strong>spree_backend</strong> gem.
+However, when you refresh the page you will see the same error again.</p>
+
+<p>That is because the url is routed within the <code>Spree::Core::Engine.routes</code>
+because it is mounted at the base &quot;/&quot; of our application. Any routes we define
+within our application, <code>Jslstore::Application.routes</code>, will not be detected
+within our Spree Application.</p>
+
+<p>To successfully add our new route and our route helper we need to define our
+route within the <code>Spree::Core::Engine.routes</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Jslstore</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">mount</span> <span class="no">Spree</span><span class="o">::</span><span class="no">Core</span><span class="o">::</span><span class="no">Engine</span><span class="p">,</span> <span class="ss">:at</span> <span class="o">=&gt;</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">Spree</span><span class="o">::</span><span class="no">Core</span><span class="o">::</span><span class="no">Engine</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">namespace</span> <span class="ss">:admin</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">resource</span>  <span class="ss">:theme_settings</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is not an ideal solution but it is one that we will remedy when we
+extract our work into an extension.</p>
+
+<ul>
+<li>Refresh the Page</li>
+</ul>
+
+<p>We should now successfully have the &quot;Theme Settings&quot; appear within our
+configurations sub menu.</p>
+
+<ul>
+<li>Visit <code>http://localhost:3000/admin/theme_settings/edit</code></li>
+</ul>
+
+<p>We should receive an entirely new error which states we do have the controller
+required to handle this request defined.</p>
+
+<h3>Adding the Theme Page</h3>
+
+<p>Now we have our working link to the destination we need to define the
+controller and associated views.</p>
+
+<ul>
+<li>Create <code>app/controllers/spree/admin/theme_settings_controller.rb</code></li>
+</ul>
+
+<p>We will model our controller on the GeneralSettingsController,
+<code>app/controllers/spree/admin/general_settings_controller.rb</code> defined within
+the <strong>spree_backend</strong> gem.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Spree</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Admin</span>
+</span><span class='line'>    <span class="k">class</span> <span class="nc">ThemeSettingsController</span> <span class="o">&lt;</span> <span class="no">Spree</span><span class="o">::</span><span class="no">Admin</span><span class="o">::</span><span class="no">BaseController</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">edit</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>        <span class="n">redirect_to</span> <span class="n">edit_admin_theme_settings_path</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We want our <code>ThemeSettingsController</code> to have both an <em>edit</em> and the
+corresponding <em>update</em> action. And we have already gone ahead and made it so
+when the <em>update</em> action completes it simply redirects back to the edit page
+again.</p>
+
+<ul>
+<li>View <code>http://localhost:3000/admin/theme_settings/edit</code></li>
+</ul>
+
+<p>We now receive an error message that we have a missing template. It is time
+to create the edit template.</p>
+
+<ul>
+<li>Create <code>app/views/spree/admin/theme_settings/edit.html.erb</code></li>
+</ul>
+
+<p>We again want to base the edit template on the existing general settings edit
+template, <code>app/views/spree/admin/general_settings/edit.html.erb</code>, defined
+within the <strong>spree_backend</strong> gem.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="ss">:partial</span> <span class="o">=&gt;</span> <span class="s1">&#39;spree/admin/shared/configuration_menu&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="n">content_for</span> <span class="ss">:page_title</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:theme_settings</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_tag</span> <span class="n">admin_theme_settings_path</span><span class="p">,</span> <span class="ss">:method</span> <span class="o">=&gt;</span> <span class="ss">:put</span> <span class="k">do</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;div id=&quot;preferences&quot; data-hook&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    &lt;fieldset class=&quot;general no-border-top&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      &lt;div class=&quot;row&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">        &lt;div class=&quot;alpha twelve columns&quot;&gt;</span>
+</span><span class='line'><span class="x">          &lt;fieldset class=&quot;security no-border-bottom&quot;&gt;</span>
+</span><span class='line'><span class="x">            &lt;legend align=&quot;center&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:theme_settings</span><span class="p">)</span><span class="cp">%&gt;</span><span class="x">&lt;/legend&gt;</span>
+</span><span class='line'><span class="x">          &lt;/fieldset&gt;</span>
+</span><span class='line'><span class="x">        &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">      &lt;div class=&quot;form-buttons filter-actions actions&quot; data-hook=&quot;buttons&quot;&gt;</span>
+</span><span class='line'><span class="x">        </span><span class="cp">&lt;%=</span> <span class="n">button</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s1">&#39;actions.update&#39;</span><span class="p">),</span> <span class="s1">&#39;icon-refresh&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;span class=&quot;or&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:or</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;</span>
+</span><span class='line'><span class="x">        </span><span class="cp">&lt;%=</span> <span class="n">link_to_with_icon</span> <span class="s1">&#39;icon-remove&#39;</span><span class="p">,</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="s1">&#39;actions.cancel&#39;</span><span class="p">),</span> <span class="n">edit_admin_theme_settings_url</span><span class="p">,</span> <span class="ss">:class</span> <span class="o">=&gt;</span> <span class="s1">&#39;button&#39;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    &lt;/fieldset&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Our template is a fair bit simplier at the moment because we have no fields
+we need to represent.</p>
+
+<h3>Which Elements Should an Admin Control</h3>
+
+<p>We want to allow an admin to configure and control most of their website. With
+that in mind, we could simply allow an admin to copy-and-paste an entirely new
+set of css overrides into an text area and call it done.</p>
+
+<p>However, we might also want to only them to configure a small subset of the
+features (e.g. background colors, font colors, font sizes) through a variety of
+smaller textfields or controls to ensure that the stores have a sane look and
+feel and possibly have a similar branding across multiple sites.</p>
+
+<p>For this exercise lets start with providing the admin with the ability to
+configure a small set of features. We could always later implement a system
+that allows the admin to provide complete overrides with what we learn with the
+more restrictive system.</p>
+
+<h3>How to Control the Themes</h3>
+
+<p>Starting with the background color we want to allow the admin to specify a color
+value within a text field. When the admin is done specifying the color they
+will press the submit button and the details will be saved in a controller
+action.</p>
+
+<ul>
+<li>Open <code>app/views/spree/admin/theme_settings/edit.html.erb</code> and define a label
+and text field that will allow the background color to be specified.</li>
+</ul>
+
+<h3>Storing the Details in the Spree Preferences</h3>
+
+<p>Our controller action receives the setting changes and it is our job to save
+them. At the moment our most readily available data store is the database
+that contains all the other information about our platform.</p>
+
+<p>Spree maintains a list of preferences. This is something we saw in the <strong>edit</strong>
+template for the <code>GeneralSettingsController</code>. Throughout the template the
+<code>Spree::Config</code> was being accessed and being rendered. The <code>Spree::Config</code> seems
+like a good place to store our theme settings.</p>
+
+<ul>
+<li>Run <code>rails console</code> and type in <code>Spree::Config</code></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">1.9.3p429 :005 &gt; Spree::Config</span>
+</span><span class='line'><span class="x"> =&gt; #&lt;Spree::AppConfiguration:0x007ffa6dfbb750&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To find out more about the <code>Spree::Config</code> we need to find
+<code>Spree::AppConfiguration</code>.</p>
+
+<ul>
+<li>Run <code>bundle open spree_core</code> and search for <strong>app_configuration.rb</strong></li>
+</ul>
+
+<p>Within this file are a number of application preferences defined.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">module Spree</span>
+</span><span class='line'><span class="x">  class AppConfiguration &lt; Preferences::Configuration</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    preference :address_requires_state, :boolean, default: true # should state/state_name be required</span>
+</span><span class='line'><span class="x">    # ... other preferences ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  end</span>
+</span><span class='line'><span class="x">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We want to add a similar preference for our background color. The <code>Spree::AppConfiguration</code> class defines a class method <code>preference</code> which is
+being used here to set up the preference. Ruby will use class methods, often
+referred to as class macros, to define configuration. This is similar to
+the functionality within Rails models and controllers.</p>
+
+<ul>
+<li>Open, within our Spree project, <code>config/initializers/spree.rb</code> and add the
+following preference:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Spree</span><span class="o">::</span><span class="no">AppConfiguration</span><span class="o">.</span><span class="n">preference</span> <span class="ss">:theme_background_color</span><span class="p">,</span> <span class="ss">:string</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="s2">&quot;#FFFFFF&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rails console</code> and type <code>Spree::Config.theme_background_color</code> or
+<code>Spree::Config[:theme_background_color]</code>.</li>
+</ul>
+
+<p>Our new preference should output correctly. We can even now even set our new
+preference:</p>
+
+<ul>
+<li>Type <code>Spree::Config.theme_background_color = &quot;#CF0CF0&quot;</code></li>
+</ul>
+
+<p>This should persist our new setting.</p>
+
+<h3>Specifying the Background Color Property in the Edit View</h3>
+
+<p>We can set and retrieve our background property programmatically. Now it is
+time to add it to view.</p>
+
+<ul>
+<li>Open <code>app/views/spree/admin/theme_settings/edit.html.erb</code> and update the form
+to specify the new property:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;fieldset class=&quot;security no-border-bottom&quot;&gt;</span>
+</span><span class='line'><span class="x">  &lt;legend align=&quot;center&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:theme_settings</span><span class="p">)</span><span class="cp">%&gt;</span><span class="x">&lt;/legend&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="o">[</span> <span class="ss">:theme_background_color</span> <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">key</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">type</span> <span class="o">=</span> <span class="no">Spree</span><span class="o">::</span><span class="no">Config</span><span class="o">.</span><span class="n">preference_type</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;div class=&quot;field&quot;&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">label_tag</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;: &#39;</span><span class="p">)</span> <span class="o">+</span> <span class="n">tag</span><span class="p">(</span><span class="ss">:br</span><span class="p">)</span> <span class="k">if</span> <span class="n">type</span> <span class="o">!=</span> <span class="ss">:boolean</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">preference_field_tag</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="no">Spree</span><span class="o">::</span><span class="no">Config</span><span class="o">[</span><span class="n">key</span><span class="o">]</span><span class="p">,</span> <span class="ss">:type</span> <span class="o">=&gt;</span> <span class="n">type</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">label_tag</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="n">key</span><span class="p">))</span> <span class="o">+</span> <span class="n">tag</span><span class="p">(</span><span class="ss">:br</span><span class="p">)</span> <span class="k">if</span> <span class="n">type</span> <span class="o">==</span> <span class="ss">:boolean</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/fieldset&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Again we start by copying the format of the view we found for the General
+Settings. Here we have an array of one element, our property, that we iterate
+over and display based on the type of the property.</p>
+
+<ul>
+<li>Open <code>http://localhost:3000/admin/theme_settings/edit</code></li>
+</ul>
+
+<p>There is our new property. We can edit the value but any changes we make will
+not be saved. Before we address the saving part, first we need to make one
+minor adjustment.</p>
+
+<p>Storing data, like <code>[ :theme_background_color ]</code>, in the view is a bad practice.
+Later when we want to add more properties to this list we will have to find them
+in the view. It is a better practice to assign this list of properties as an
+instance variable in the controller and use it in the view.</p>
+
+<ul>
+<li>Open <code>app/controllers/spree/admin/theme_settings_controller.rb</code> and add a
+update the <strong>edit</strong> action to set up an instance variable to store the theme
+settings:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">edit</span>
+</span><span class='line'>  <span class="vi">@theme_settings</span> <span class="o">=</span> <span class="o">[</span> <span class="ss">:theme_background_color</span> <span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Open <code>app/views/spree/admin/theme_settings/edit.html.erb</code> and replace the
+array with the instance variable.</li>
+</ul>
+
+<h3>Setting the Background Color Property</h3>
+
+<p>Now lets store the changes to the color property. First, we need to know how the
+data is being sent back to the server.</p>
+
+<ul>
+<li><p>Visit <code>http://localhost:3000/admin/theme_settings/edit</code></p></li>
+<li><p>Specify a new background color</p></li>
+<li><p>Press the <strong>Update</strong> button to submit the data.</p></li>
+<li><p>View the logs to see the parameters that have been submitted.</p></li>
+</ul>
+
+<p>The first way to figure out what content is being sent back to the server is
+through the logs.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Started</span> <span class="no">PUT</span> <span class="s2">&quot;/admin/theme_settings&quot;</span> <span class="k">for</span> <span class="mi">127</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">1</span> <span class="n">at</span> <span class="mi">2013</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">12</span> <span class="mi">19</span><span class="p">:</span><span class="mi">48</span><span class="p">:</span><span class="mi">55</span> <span class="o">-</span><span class="mo">0500</span>
+</span><span class='line'><span class="no">Processing</span> <span class="n">by</span> <span class="no">Spree</span><span class="o">::</span><span class="no">Admin</span><span class="o">::</span><span class="no">ThemeSettingsController</span><span class="c1">#update as HTML</span>
+</span><span class='line'>  <span class="no">Parameters</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;utf8&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;✓&quot;</span><span class="p">,</span> <span class="s2">&quot;authenticity_token&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;LB2SLxgG8yovqFp3yeX+c7/YTUnuwIFmjI9UUva2StE=&quot;</span><span class="p">,</span> <span class="s2">&quot;theme_background_color&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;#000000&quot;</span><span class="p">,</span> <span class="s2">&quot;button&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Within the <code>params</code> hash we have a number of parameters. The important one, of
+course, is our <code>theme_background_color</code> which has our new value that we are
+wanting to have set.</p>
+
+<ul>
+<li>Open <code>app/controllers/spree/admin/theme_settings_controller.rb</code> and update
+the <strong>update</strong> action to <code>fail</code>.</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="nb">fail</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">edit_admin_theme_settings_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Another strategy that quite a few developers use is to set to have the request
+fail and to review the parameters that are displayed on the error page.</p>
+
+<ul>
+<li>Open <code>app/controllers/spree/admin/theme_settings_controller.rb</code> and update
+the <strong>update</strong> action to set the background property.</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="nb">name</span><span class="p">,</span> <span class="n">value</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">next</span> <span class="k">unless</span> <span class="no">Spree</span><span class="o">::</span><span class="no">Config</span><span class="o">.</span><span class="n">has_preference?</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="no">Spree</span><span class="o">::</span><span class="no">Config</span><span class="o">[</span><span class="nb">name</span><span class="o">]</span> <span class="o">=</span> <span class="n">value</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:success</span><span class="o">]</span> <span class="o">=</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:successfully_updated</span><span class="p">,</span> <span class="ss">:resource</span> <span class="o">=&gt;</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:theme_settings</span><span class="p">))</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">edit_admin_theme_settings_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Again we are borrowing from the <code>Spree::Admin::GeneralSettingsController</code> logic
+that we saw before. Within the huge list of parameters we are finding only the
+ones that we have a preference for, <code>has_preference?</code>, and setting those values.</p>
+
+<p>We finally do some nice things like display a success flash message and again
+redirect back to the edit page.</p>
+
+<p>Now if we attempt to set the background property it will be saved successfully.</p>
+
+<h3>Overriding the Base Theme with a Style Tag</h3>
+
+<p>With our overrides defined we now need to add our style overrides to the page.
+The simpliest method would require us to define a style tag and add our custom
+styles to the page.</p>
+
+<p>The style tag that we define would need to be present on every page of the
+customer facing front end of our application. This means we need to override the
+core application layout that is defined in the <strong>spree_frontend</strong> gem.</p>
+
+<ul>
+<li>Run <code>bundle open spree_frontend</code> and find <code>app/views/spree/layouts/spree_application.html.erb</code>.</li>
+</ul>
+
+<p>This is the core layout file that all of the front end view templates use. We
+need to copy the contents of this file into our projet and make the
+modifications to include our style tag.</p>
+
+<ul>
+<li>Create, within our Spree application,
+<code>app/views/spree/layouts/spree_application.html.erb</code> and copy the contents
+of the original template file.</li>
+</ul>
+
+<p>Now we have a copy that will override the one defined within the gem. We can
+make changes to this one to include our special theme requirements. Lets add
+a partial, to the end of the body tag within the template, that will contain
+all of our style overrides.</p>
+
+<ul>
+<li>Open <code>app/views/spree/layouts/spree_application.html.erb</code> and update the
+template to add the following to the partial:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;!-- all the tags and content prior to the this point --&gt;</span>
+</span><span class='line'><span class="x">&lt;script&gt;</span>
+</span><span class='line'><span class="x">  Spree.api_key = </span><span class="cp">&lt;%=</span> <span class="n">raw</span><span class="p">(</span><span class="n">try_spree_current_user</span><span class="o">.</span><span class="n">try</span><span class="p">(</span><span class="ss">:spree_api_key</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">inspect</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">;</span>
+</span><span class='line'><span class="x">&lt;/script&gt;</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s2">&quot;spree/layouts/theme&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/body&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Create <code>app/views/spree/layouts/_theme.html.erb</code> and our style tag:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;style&gt;</span>
+</span><span class='line'><span class="x">  body {</span>
+</span><span class='line'><span class="x">    background-color: </span><span class="cp">&lt;%=</span> <span class="no">Spree</span><span class="o">::</span><span class="no">Config</span><span class="o">.</span><span class="n">theme_background_color</span> <span class="cp">%&gt;</span><span class="x">;</span>
+</span><span class='line'><span class="x">  }</span>
+</span><span class='line'><span class="x">&lt;/style&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Visit <code>http://localhost:3000/</code></li>
+</ul>
+
+<p>The new background settings is applied.</p>
+
+<p>If you return to the admin panel, make adjustments to the background and revisit
+the root path you should see the background color change appropriately.</p>
+
+<p>This solution does raise some concerns. To provide the theme support we require
+we had to override a fundamental template to the Spree Store. While we did not
+augment the contents of the template all that greatly we would need to be aware
+of changes of this core template as future versions of Spree are released.</p>
+
+<p>In the next two sections we explore some possible alternatives to this very
+brutal approach. Unfortunately none of them will produce the results we are
+after.</p>
+
+<h3>Overriding the Base Theme with Deface</h3>
+
+<p>An alternative would be to use Deface to find the body tag and append a style
+tag with our data.</p>
+<blockquote>
+<p>This path to override style ultimately does not work, however, it may be
+useful in seeing for yourself that this path does not work in this instance.</p>
+</blockquote>
+<ul>
+<li>Create <code>app/overrides/theme.rb</code> and add the following:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Deface</span><span class="o">::</span><span class="no">Override</span><span class="o">.</span><span class="n">new</span> <span class="n">virtual_path</span><span class="p">:</span> <span class="s2">&quot;spree/layouts/spree_application&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;theme&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">insert_bottom</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">text</span><span class="p">:</span> <span class="sx">%{</span>
+</span><span class='line'><span class="sx">&lt;style&gt;</span>
+</span><span class='line'><span class="sx">  body {</span>
+</span><span class='line'><span class="sx">    background-color: </span><span class="si">#{</span><span class="no">Spree</span><span class="o">::</span><span class="no">Config</span><span class="o">.</span><span class="n">theme_background_color</span><span class="si">}</span><span class="sx">;</span>
+</span><span class='line'><span class="sx">  }</span>
+</span><span class='line'><span class="sx">&lt;/style&gt;</span>
+</span><span class='line'><span class="sx">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The new background setting is applied.</p>
+
+<p>However, if you change the value again and reload the page your new settings
+will not take effect. It seems that the deface overrides do not recompile if
+the data creating those templates is modified.</p>
+
+<p>While this is a very minimal invasive tactic of implmenting an override, it
+appears it is one that will not work unless we plan on restarting the server
+every time the styles are changed.</p>
+
+<h3>Overriding the Base Theme with a Stylesheet</h3>
+
+<p>An alternative would be to render a stylesheet and allow for our settings to
+be applied in-line to the stylesheet.</p>
+<blockquote>
+<p>This path to override style ultimately has problems but provides some useful
+instruction on how you can apply <strong>erb</strong> templating to even stylesheets.</p>
+</blockquote>
+<p>Stylesheets within the asset pipeline can have the <strong>erb</strong> extension applied
+similar to how we defined templates. Rails will process these stylesheets first
+as <strong>erb</strong>, processing any of our escape tags which we will use to apply our
+settings.</p>
+
+<ul>
+<li>Create <code>app/assets/stylesheets/theme.css.erb</code> and add the following:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">body</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">background-color</span><span class="o">:</span> <span class="o">&lt;%=</span> <span class="n">Spree</span><span class="o">::</span><span class="n">Config</span><span class="o">.</span><span class="n">theme</span><span class="err">_</span><span class="n">background</span><span class="err">_</span><span class="k">color</span> <span class="o">%&gt;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>View <code>http://localhost:3000/admin/theme_settings/edit</code></li>
+</ul>
+
+<p>The new background setting is applied.</p>
+
+<p>However, if you change the value again and reload the page your new settings
+will not take effect. This is because Rails only recompiles the assets based on
+changes to stylesheet. So if that file changes, if the content of the file is
+modified, then the new value will be loaded.</p>
+
+<p>This unfortunately barely works in development mode and will not work in
+production mode where the assets are precompiled. So this method of providing
+theme overrides unfortunately would not work in the long term. But it is an
+interesting example of being able to use erb templating within stylesheets.</p>
+
+<h3>Adding Another Theme Property</h3>
+
+<p>Select another property that you would like to theme within your Spree
+application and implement it.</p>
+<blockquote>
+<p>This section is for exploration and allows you the opportunity to reinforce
+the concepts we have finished demonstrating.</p>
+</blockquote>
+<h3>Adding Yet Another Theme Property</h3>
+
+<p>Our overly simple property field does not immediately provide a great
+interface for interacting with all the possible fields that we may want to
+provide support to customize. Every time we add/remove a setting we need
+to add or create a property. Instead we could store all the properties
+within one field and build a plain old Ruby object to wrap the results.</p>
+<blockquote>
+<p>This section is for exploration and allows you the opportunity to explore
+object-orient programming concepts.</p>
+</blockquote>
+<h3>Extracting Into An Extension</h3>
+
+<p>Now that we are done with our theming it is time to extract all the contents
+of the theme out of our current Spree project and move it into an extension.</p>
+<blockquote>
+<p>This section is for exploration and allows you the opportunity to reinforce
+the concepts of creating an extension.</p>
+</blockquote>
+<ul>
+<li>While creating the extension remember that we have additional routing
+information that needs to be transfered into the extension along with all
+the source code.</li>
+</ul>
+
+<h3>Conclusion</h3>
+
+<p>We were able to add an entirely new configuration menu with its new route,
+controller and associated actions. We leveraged the existing preferences
+data structure to allow us the ability to generate a theme system which would
+now allow an admin to configure the look of the site through their admin
+interface.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

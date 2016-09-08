@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Facade Pattern with POROs - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Models                                      Facade Pattern with POROs                              As projects grow in size the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/models/facade_pattern.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Models</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Facade Pattern with POROs
+        </h1>
+        
+      </header>
+    
+    <p>As projects grow in size the models tend to grow in complexity. Let&#8217;s look at a few strategies for managing the situation.</p>
+
+<h3>Background</h3>
+
+<p>The core issue is that <code>ActiveRecord</code> classes mix two roles: persistence and business logic. This is convenient, especially when first starting an application, but it violates the &quot;Single Responsibility Principle.&quot;</p>
+
+<div class="note">
+  <p>
+    <i>From Wikipedia:</i><br/>
+    In object-oriented programming, the single responsibility principle states that every object should have a single responsibility, and that responsibility should be entirely encapsulated by the class. All its services should be narrowly aligned with that responsibility. A class or module should have one, and only one, reason to change. 
+  </p>
+</div>
+
+<p>As a project matures there becomes a clearer division between these roles, and breaking them up into distinct domain objects is often a good idea.</p>
+
+<h3>Creating a Facade Object</h3>
+
+<p>A facade is concerned only with manipulating the data from other objects, it has no persistence itself. <a href="http://en.wikipedia.org/wiki/Facade_pattern">See the Facade Pattern on Wikipedia</a>.</p>
+
+<p>Writing a facade is very easy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyFacade</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s just a &quot;PORO&quot; or &quot;Plain Old Ruby Object&quot;.</p>
+
+<h4>Where Does It Live?</h4>
+
+<p>You can store your facade objects into <code>app/models</code>. Some developers prefer more separation and store them in <code>app/lib</code>. Any folder added under <code>app/</code> will be added to the automatic load path when the server starts, so create folders whenever they make sense for the organization of your project. </p>
+
+<h3>Practical Techniques</h3>
+
+<p>A facade object will primarily use the same Ruby techniques you&#8217;re accustomed to, but here are a few methods that will make life easier:</p>
+
+<h4><code>attr_reader</code></h4>
+
+<p><code>attr_reader</code>, short for &quot;Attribute Reader&quot;, creates an instance variable and accessor method for you:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyClass</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:my_attribute</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># That&#39;s the same as doing this...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@my_attribute</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">my_attribute</span>
+</span><span class='line'>    <span class="vi">@my_attribute</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You&#8217;re creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you&#8217;d use <code>attr_accessor</code>, though that&#8217;s probably violating the encapsulation of the child objects.</p>
+
+<p>If you are creating multiple attributes you can combine them in one call to <code>attr_reader</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">attr_reader</span> <span class="ss">:first_attribute</span><span class="p">,</span> <span class="ss">:second_attribute</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4><code>delegate</code> &amp; Law of Demeter</h4>
+
+<p>The <code>delegate</code> method helps us deal with Law of Demeter violations.</p>
+
+<p>The <a href="http://en.wikipedia.org/wiki/Law_of_Demeter">Law of Demeter</a> says, generally speaking, that we can talk to an object but shouldn&#8217;t talk directly to the object&#8217;s children. </p>
+
+<p>For instance, imagine we have a <code>Plane</code> instance in <code>@plane</code>. We want the engines started. The temptation is to write something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@plane</span><span class="o">.</span><span class="n">engines</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">start</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But that assumes knowledge of how <code>@plane</code> relates to its engines. What if there&#8217;s only a single engine? Will there still be an <code>engines</code> method that returns a collection, or will there only be <code>engine</code>? We&#8217;re breaking the encapsulation of the plane class. </p>
+
+<p>Instead, proper object oriented design would be to <em>tell</em> the plane what to do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@plane</span><span class="o">.</span><span class="n">start</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That leaves it up to the <code>@plane</code> to decide what it means to start the engines.</p>
+
+<h4>Demeter in your Facade</h4>
+
+<p>How does this relate to facade objects? When you create a facade, you&#8217;ll often want to act on attributes and methods of the child objects. Don&#8217;t do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@my_object</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">the_method</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@my_object</span><span class="o">.</span><span class="n">the_method</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s why it&#8217;s called a facade, we present a unified face to the outside world, hiding the components underneath.</p>
+
+<h4>Using <code>delegate</code></h4>
+
+<p>How do you make that work? Here&#8217;s the simplistic approach:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">the_method</span>
+</span><span class='line'>    <span class="n">child</span><span class="o">.</span><span class="n">the_method</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use <code>delegate</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:child</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This has the exact same effect as the wrapper above. You can delegate many methods at once:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:second_method</span><span class="p">,</span> <span class="ss">:third_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:child</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But sometimes the child method names don&#8217;t make sense when called on the parent. Or they could conflict with identically named methods in the parent. In those cases, you can use the <code>:prefix</code> option:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:second_method</span><span class="p">,</span> <span class="ss">:third_method</span><span class="p">,</span> <span class="ss">:to</span> <span class="o">=&gt;</span> <span class="ss">:child</span><span class="p">,</span> <span class="ss">:prefix</span> <span class="o">=&gt;</span> <span class="ss">:child</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then method calls would look like <code>my_obj_instance.child_second_method</code> as a proxy to <code>my_obj_instance.child.second_method</code>. If you want to prefix with the name of the receiver, you can use <code>:prefix =&gt; true</code> instead of repeating the receiver name.</p>
+
+<p>Now you can preserve encapsulation but have easily maintained facade.</p>
+
+<h3>Trying it Out</h3>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger_advanced.git
+</span><span class='line'>cd blogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<p>Start the server, and visit the root page. This is the <code>DashboardController#index</code> which we&#8217;ll use to illustrate a facade.</p>
+
+<h4>Why Use a Facade</h4>
+
+<p>The dashboard is going to mix instances of <code>Article</code> and <code>Comment</code>. Check out the <code>show</code> action in <code>DashboardsController</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@comment_word_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Even though we&#8217;re using scopes and model methods, there&#8217;s a lot going on here. There are seven different instance variables that we have to juggle in the view template.</p>
+
+<p>The intent of the dashboard is to display three things:</p>
+
+<ul>
+<li>Recent articles</li>
+<li>Recent comments</li>
+<li>Metrics about the total articles and comments</li>
+</ul>
+
+<p>Three concepts should be three objects, maybe even one, but definitely not seven. Let&#8217;s create a domain concept which supports the third intent.</p>
+
+<h4>Starting the Facade</h4>
+
+<p>Create a file <code>app/models/dashboard.rb</code> and add this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Dashboard</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then let&#8217;s start picking off functionality from the existing implementation.</p>
+
+<h4>Total Word Counts</h4>
+
+<p>Add a method to the facade to count the words in all the articles:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">total_article_word_count</span>
+</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then do the same for comments.</p>
+
+<h4>Use the Facade</h4>
+
+<p>In the controller action, instead of this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@comment_word_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can now do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Dashboard</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">total_article_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@comment_word_count</span> <span class="o">=</span> <span class="no">Dashboard</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">total_comment_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>No improvement yet. Condense those into one object creation instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@dashboard</span> <span class="o">=</span> <span class="no">Dashboard</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then modify the view template to use <code>@dashboard.total_article_word_count</code> and <code>@dashboard.total_comment_word_count</code> instead of the former instance variables.</p>
+
+<h4>And Your Point Is?</h4>
+
+<p>One surface win is that we have one fewer instance variable.</p>
+
+<p>The <em>real</em> win is encapsulating the concept of word counts. Now our controller doesn&#8217;t care where the <code>Dashboard</code> gets the counts from. Our current implementation is to calculate them on the fly, but there&#8217;s no reason it couldn&#8217;t fetch that from the database, Redis, or elsewhere. We can make that decision later when the performance really matters.</p>
+
+<p>And by getting the responsibility out of the controller we can, more cleanly, test the functionality in our unit tests.</p>
+
+<h4>Continue the Process</h4>
+
+<p>Write wrapper methods in the <code>dashboard.rb</code> and refactor your controller/view until your controller is just this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DashboardController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@dashboard</span> <span class="o">=</span> <span class="no">Dashboard</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Calculation in the Facade</h4>
+
+<p>After that refactoring, I still have this in the view template:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;li id=&#39;total_words&#39;&gt;</span>
+</span><span class='line'><span class="x">  Total Words: </span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%=</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_article_word_count</span> <span class="o">+</span>
+</span><span class='line'>  <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_comment_word_count</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/li&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s logic in the view template, which is never good. Instead, take care of the calculation down in the facade so the view template can look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;li id=&#39;total_words&#39;&gt;Total Words: </span><span class="cp">&lt;%=</span> <span class="vi">@dashboard</span><span class="o">.</span><span class="n">total_word_count</span> <span class="cp">%&gt;</span><span class="x">&lt;/li&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>By pushing that down into the model layer, it&#8217;s easier to refactor and test. Without the facade, where would the method have lived? It wouldn&#8217;t have a logical home, since it belongs to neither <code>Article</code> nor <code>Comment</code>. The <code>Dashboard</code> works as a domain concept.</p>
+
+<h4>Pulling Up From the Children</h4>
+
+<p>The <code>Article</code> class has this method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">for_dashboard</span>
+</span><span class='line'>    <span class="n">order</span><span class="p">(</span><span class="s1">&#39;created_at DESC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What does that method have to do with <code>Article</code>? Little. It is conceptually a part of the <code>Dashboard</code>. Move it there, then do the same for <code>Comment</code>.</p>
+
+<p>Even though the page works, some specs are now breaking due to the refactoring. Create a <code>dashboard_spec.rb</code>, move the problem specs over there, and rework them to match the new structures.</p>
+
+<h3>Going Further</h3>
+
+<p>Now that you have a facade encapsulating all the logic, some things you might try:</p>
+
+<ul>
+<li>Create a decorator for the facade and reduce complexity in your view template</li>
+<li>Cache the calculated data into a key-value store like Redis</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

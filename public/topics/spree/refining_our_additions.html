@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Refining our Extension - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Building Applications with Spree                                      Refining our Extension                              To &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/spree/refining_our_additions.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Building Applications with Spree</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Refining our Extension
+        </h1>
+        
+      </header>
+    
+    <p>To finish our admin experience we used a fairly brute force approach to getting
+the job done. Similar to stubbing our admin flag data this approach allows us
+to quickly complete our work without worrying about too much else.</p>
+
+<p>The Spree admin experience is improved with the addition that we have made.
+Now it is time to refine the experience to use a less aggressive approach
+and eventually extract it into an extension.</p>
+
+<h3>Replacing an Entire View</h3>
+
+<p>To create our users&#8217; index view we replaced the <em>entire</em> existing index view.
+This solution works but could cause us problems in the future if the
+<code>spree_auth_devise</code> gem decides to change its layout. We would no longer be
+able to leverage any additions that they made.</p>
+
+<ul>
+<li>Open <code>app/views/spree/admin/users/index.html.erb</code></li>
+</ul>
+
+<p>The sum total of our changes are two lines within the table. The remainder of
+the code within the template was copied from the original view template. We
+were not interested in any of the rest of the code, however, we needed to copy them
+over because there is no way to easily replace a single part of the template.</p>
+
+<p>If we had created more substantial changes to the original template then it
+would make more sense to leave our override in place. However, this is an
+instance where it makes sense to leverage other methods to replace content.</p>
+
+<h3>Using Deface</h3>
+
+<p>The most common way to manipulate a view without over-writing it in the
+traditional way is to use the gem <a href="https://github.com/spree/deface">deface</a>. The gem allows you to define
+append, remove, and replace code or content within the views.</p>
+
+<h4>Removing the Old Table</h4>
+
+<p>Let&#8217;s experiment upon the app as it stands right now. We&#8217;ll try to remove the users table from our overriden template using Deface.</p>
+
+<ul>
+<li>Create <code>app/overrides/spree/admin/users/index.rb</code> and add the following source
+code:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Deface</span><span class="o">::</span><span class="no">Override</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">virtual_path</span><span class="p">:</span> <span class="s2">&quot;spree/admin/users/index&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;new table&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">replace</span><span class="p">:</span> <span class="s2">&quot;table#listing_users&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">text</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When you refresh the page the entire table should be missing from the admin
+users&#8217; index. If nothing appears different, try stopping and restarting your development server, then revisit the page.</p>
+
+<h4>Adding the Table in a Partial Template</h4>
+
+<ul>
+<li>Open <code>app/overrides/spree/admin/users/index.rb</code> and change it to use a partial instead of text:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Deface</span><span class="o">::</span><span class="no">Override</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">virtual_path</span><span class="p">:</span> <span class="s2">&quot;spree/admin/users/index&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nb">name</span><span class="p">:</span> <span class="s2">&quot;new table&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">replace</span><span class="p">:</span> <span class="s2">&quot;table#listing_users&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">partial</span><span class="p">:</span> <span class="s2">&quot;spree/admin/users/table&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We are mimicing the path of the template with our overriding template (<code>spree/admin/users/table</code>). This is not a requirement for our override as Deface uses the <code>virtual_path</code> to
+know which file to replace. However, it is a good convention to parrot the
+view directory for our own organization and maintainability.</p>
+
+<ul>
+<li>Open <code>app/views/spree/admin/users/index.html.erb</code> and copy the contents of
+the table to your clipboard.</li>
+</ul>
+
+<p>We do not want to remove our current table because we are using deface to
+<em>replace</em> the existing table. If we were to remove the table in our replacement template, then Deface would not find the DOM element we want it to replace.</p>
+
+<ul>
+<li>Create <code>app/views/spree/admin/users/_table.html.erb</code> and copy the table
+contents into the new partial we created.</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;table class=&quot;index&quot; id=&quot;listing_users&quot; data-hook&gt;</span>
+</span><span class='line'><span class="x">  &lt;colgroup&gt;</span>
+</span><span class='line'><span class="x">    &lt;col style=&quot;width: 85%&quot;&gt;</span>
+</span><span class='line'><span class="x">    &lt;col style=&quot;width: 15%&quot;&gt;</span>
+</span><span class='line'><span class="x">  &lt;/colgroup&gt;</span>
+</span><span class='line'><span class="x">  &lt;thead&gt;</span>
+</span><span class='line'><span class="x">    &lt;tr data-hook=&quot;admin_users_index_headers&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;</span><span class="cp">&lt;%=</span> <span class="n">sort_link</span> <span class="vi">@search</span><span class="p">,</span><span class="ss">:email</span><span class="p">,</span> <span class="no">Spree</span><span class="o">.</span><span class="n">t</span><span class="p">(</span><span class="ss">:user</span><span class="p">),</span> <span class="p">{},</span> <span class="p">{</span><span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s1">&#39;users_email_title&#39;</span><span class="p">}</span> <span class="cp">%&gt;</span><span class="x">&lt;/th&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;Admin?&lt;/th&gt;</span>
+</span><span class='line'><span class="x">      &lt;th data-hook=&quot;admin_users_index_header_actions&quot; class=&quot;actions&quot;&gt;&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">  &lt;/thead&gt;</span>
+</span><span class='line'><span class="x">  &lt;tbody&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="vi">@users</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span><span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;tr id=&quot;</span><span class="cp">&lt;%=</span> <span class="n">spree_dom_id</span> <span class="n">user</span> <span class="cp">%&gt;</span><span class="x">&quot; data-hook=&quot;admin_users_index_rows&quot; class=&quot;</span><span class="cp">&lt;%=</span> <span class="n">cycle</span><span class="p">(</span><span class="s1">&#39;odd&#39;</span><span class="p">,</span> <span class="s1">&#39;even&#39;</span><span class="p">)</span><span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;td class=&#39;user_email&#39;&gt;</span><span class="cp">&lt;%=</span><span class="n">link_to</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span> <span class="n">object_url</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">user</span><span class="o">.</span><span class="n">admin?</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td data-hook=&quot;admin_users_index_row_actions&quot; class=&quot;actions&quot;&gt;</span>
+</span><span class='line'><span class="x">          </span><span class="cp">&lt;%=</span> <span class="n">link_to_edit</span> <span class="n">user</span><span class="p">,</span> <span class="ss">:no_text</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">          </span><span class="cp">&lt;%=</span> <span class="n">link_to_delete</span> <span class="n">user</span><span class="p">,</span> <span class="ss">:no_text</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">        &lt;/td&gt;</span>
+</span><span class='line'><span class="x">      &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/tbody&gt;</span>
+</span><span class='line'><span class="x">&lt;/table&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Using the Original Template</h4>
+
+<p>We want to fallback to using the original template as defined in the the
+<code>spree_auth_devise</code> gem.</p>
+
+<ul>
+<li>Delete <code>app/views/spree/admin/users/index.html.erb</code></li>
+</ul>
+
+<p>With that file removed when we refresh the page our custom table should still
+be present.</p>
+
+<h4>Reducing the Replacement</h4>
+
+<p>We&#8217;re replacing less of the view template, but still replacing the whole table.</p>
+
+<p>Instead, let&#8217;s rework our Deface usage to:</p>
+
+<ol>
+<li>Insert the <code>&lt;th&gt;</code> table heading</li>
+<li>Insert the <code>&lt;td&gt;</code> with the actual admin check</li>
+</ol>
+
+<p>Hints:</p>
+
+<ul>
+<li>Target the <code>&lt;th&gt;</code> and <code>&lt;td&gt;</code> with class <code>actions</code></li>
+<li>For each replacement use Deface&#8217;s <code>insert_before</code></li>
+</ul>
+
+<h3>Conclusions</h3>
+
+<p>From the outset we could have used the Deface option. But overriding the entire view template made the process a bit more transparent.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

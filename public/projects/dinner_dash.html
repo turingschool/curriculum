@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Dinner Dash - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Dinner Dash                              In this project you&#8217;ll use Ruby on Rails to build an online commerce &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/dinner_dash.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Dinner Dash
+        </h1>
+        
+      </header>
+    
+    <p>In this project you&#8217;ll use Ruby on Rails to build an online commerce platform for a restaurant to facilitate online ordering.</p>
+
+<h2>Introduction</h2>
+
+<h3>Learning Goals</h3>
+
+<ul>
+<li>Use TDD to drive all layers of Rails development including unit, integration, and user acceptance tests</li>
+<li>Design a system of models which use one-to-one, one-to-many, and many-to-many relationships</li>
+<li>Practice mixing HTML, CSS, and Rails templates to create an inviting and usable User Interface</li>
+<li>Differentiate responsibilities between components of the Rails stack</li>
+<li>Build a logical user-flow that moves across multiple controllers and models</li>
+</ul>
+
+<h3>Understandings</h3>
+
+<p>Please consider the requirements below <em>non-exhaustive</em> guidelines for building a great customer experience. If you know something should be done but it isn&#8217;t listed below, do it.</p>
+
+<h3>Restrictions</h3>
+
+<p>Project implementation may <strong>not</strong> use:</p>
+
+<ul>
+<li>Any external library for authentication except <code>bcrypt</code></li>
+<li>A pre-existing, externally created CSS/HTML design/template (however, you may use <a href="http://getbootstrap.com/">Bootstrap</a>, <a href="http://foundation.zurb.com/">Zurb Foundation</a>, etc. )</li>
+</ul>
+
+<h3>Getting Started</h3>
+
+<ol>
+<li>One team member creates a repository named &quot;dinner_dash&quot;</li>
+<li>Add the other team members as collaborators</li>
+<li>Add your project to Waffle.io </li>
+<li>Configure <a href="https://houndci.com/">Hound</a> for style guide violations</li>
+<li>Configure <a href="http://docs.skylight.io/getting-started/">Skylight</a> to monitor your app&#8217;s performance</li>
+<li>Create issues for user stories</li>
+<li>Work on branches and use pull requests to review and merge code</li>
+</ol>
+
+<h2>Base Expectations</h2>
+
+<p>You are to build an online ordering system for a restaurant which offers the complete
+functionality for restaurant customers to order food and restaurant administrators
+to process and complete those orders.</p>
+
+<h3>Unauthenticated Users</h3>
+
+<p>As an unauthenticated user, I can:</p>
+
+<ul>
+<li>Browse all items</li>
+<li>Browse items by category</li>
+<li>Add an item to my cart</li>
+<li>View my cart</li>
+<li>Remove an item from my cart</li>
+<li>Increase the quantity of a item in my cart</li>
+<li>Log in, which does <em>not</em> clear the cart</li>
+</ul>
+
+<p>Unauthenticated users are <em>NOT</em> allowed to:</p>
+
+<ul>
+<li>View another user&#8217;s private data (such as current order, etc.)</li>
+<li>Checkout (until they log in)</li>
+<li>View the administrator screens or use administrator functionality</li>
+<li>Make themselves an administrator</li>
+</ul>
+
+<h3>Authenticated Users (Non-Administrators)</h3>
+
+<p>Allowed To:</p>
+
+<ul>
+<li>do everything Unauthenticated Users can do except &quot;log in&quot;</li>
+<li>log out</li>
+<li>view their past orders with links to display each order</li>
+<li>on that order display page there are:
+
+<ul>
+<li>items with quantity ordered and line-item subtotals</li>
+<li>links to each item description page</li>
+<li>the current status of the order</li>
+<li>order total price</li>
+<li>date/time order was submitted</li>
+<li>if completed or cancelled, display a timestamp when that action took place</li>
+<li>if any item is retired from the menu:
+
+<ul>
+<li>they can still access the item page</li>
+<li>they cannot add it to a new cart</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<p><em>NOT</em> allowed to:</p>
+
+<ul>
+<li>view another user&#8217;s private data (such as current order, etc.)</li>
+<li>view the administrator screens or use administrator functionality</li>
+<li>make themselves an administrator</li>
+</ul>
+
+<h3>Administrators</h3>
+
+<p>As an authenticated Administrator, I can:</p>
+
+<ul>
+<li>Create item listings including a name, description, price, and upload a photo</li>
+<li>Modify existing items&#8217; name, description, price, and photo</li>
+<li>Create named categories for items (eg: &quot;Small Plates&quot;)</li>
+<li>Assign items to categories or remove them from categories. Products can belong to more than one category.</li>
+<li>Retire a item from being sold, which hides it from browsing by any non-administrator</li>
+</ul>
+
+<p>As an Administrator, I can also view an order &quot;dashboard&quot; where I can:</p>
+
+<ul>
+<li>See a listing of all orders with:
+
+<ul>
+<li>the total number of orders by status</li>
+<li>links for each individual order</li>
+<li>filter orders to display by status type (for statuses &quot;ordered&quot;, &quot;paid&quot;, &quot;cancelled&quot;, &quot;completed&quot;)</li>
+<li>link to transition to a different status:
+
+<ul>
+<li>link to &quot;cancel&quot; individual orders which are currently &quot;ordered&quot; or &quot;paid&quot;</li>
+<li>link to &quot;mark as paid&quot; orders which are &quot;ordered&quot;</li>
+<li>link to &quot;mark as completed&quot; individual orders which are currently &quot;paid&quot;</li>
+</ul></li>
+</ul></li>
+<li>Access details of an individual order, including:
+
+<ul>
+<li>Order date and time</li>
+<li>Purchaser full name and email address</li>
+<li>For each item on the order:
+
+<ul>
+<li>Name linked to the item page</li>
+<li>Quantity</li>
+<li>Price</li>
+<li>Line item subtotal</li>
+</ul></li>
+<li>Total for the order</li>
+<li>Status of the order</li>
+</ul></li>
+</ul>
+
+<p><em>NOT</em> allowed to:</p>
+
+<ul>
+<li>Modify any personal data aside from their own</li>
+</ul>
+
+<h2>Data Validity</h2>
+
+<p>There are several types of entities in the system, each with certain required data. Any attempt to create or modify a record with invalid attributes should return the user to the input form with a validation error indicating the problem along with suggestions how to fix it.</p>
+
+<h3>Item</h3>
+
+<ul>
+<li>An item must have a title, description, and price.</li>
+<li>An item must belong to at least one category.</li>
+<li>The title and description cannot be empty strings.</li>
+<li>The title must be unique for all items in the system.</li>
+<li>The price must be a valid decimal numeric value and greater than zero.</li>
+<li>The photo is optional. If not present, a stand-in photo is used.</li>
+</ul>
+
+<h3>User</h3>
+
+<ul>
+<li>A user must have a plausibly valid email address that is unique across all users</li>
+<li>A user must have a full name that is not blank</li>
+<li>A user may optionally provide a display name that must be no less than 2 characters long and no more than 32</li>
+</ul>
+
+<h3>Order</h3>
+
+<ul>
+<li>An order must belong to a user</li>
+<li>An order must be for one or more items currently being sold</li>
+</ul>
+
+<h2>Example Data</h2>
+
+<p>To support the evaluation process, please make the following available via the <code>rake db:seed</code> task in your application:</p>
+
+<ul>
+<li>Items
+
+<ul>
+<li>At least 20 items of varying prices</li>
+<li>Some of the items should be attached to multiple categories</li>
+</ul></li>
+<li>Categories
+
+<ul>
+<li>At least 5 categories with a varying number of member items</li>
+</ul></li>
+<li>Orders
+
+<ul>
+<li>At least 10 sample orders, with at least two at each stage of fulfillment (<code>ordered</code>, <code>completed</code>, <code>cancelled</code>)</li>
+</ul></li>
+<li>Users
+
+<ul>
+<li>Normal user with full name &quot;Rachel Warbelow&quot;, email address &quot;<a href="mailto:demo+rachel@jumpstartlab.com">demo+rachel@jumpstartlab.com</a>&quot;, password of &quot;password&quot; and no display name</li>
+<li>Normal user with full name &quot;Jeff Casimir&quot;, email address &quot;<a href="mailto:demo+jeff@jumpstartlab.com">demo+jeff@jumpstartlab.com</a>&quot;, password of &quot;password&quot; and display name &quot;j3&quot;</li>
+<li>Normal user with full name &quot;Jorge Tellez&quot;, email address &quot;<a href="mailto:demo+jorge@jumpstartlab.com">demo+jorge@jumpstartlab.com</a>&quot;, password of &quot;password&quot; and display name &quot;novohispano&quot;</li>
+<li>User with admin priviliges with full name &quot;Josh Cheek&quot;, email address &quot;<a href="mailto:demo+josh@jumpstartlab.com">demo+josh@jumpstartlab.com</a>&quot;, password of &quot;password&quot;, and display name &quot;josh&quot;</li>
+</ul></li>
+</ul>
+
+<h2>Submission Guidelines</h2>
+
+<ul>
+<li>Your project must be live on Heroku for your evaluation </li>
+<li>Your <code>README</code> file on GitHub should contain a link to your live site</li>
+</ul>
+
+<h2>Extensions</h2>
+
+<h3>Is My Order Ready?</h3>
+
+<h4>Magic 8-ball</h4>
+
+<p>You can&#8217;t place a pickup order and expect it ready immediately. Predict the pickup time when an order is submitted:</p>
+
+<ul>
+<li>Each item in the store has a preparation time, defaulting to 12 minutes. Items can be edited to take longer.</li>
+<li>If an order has more than six items, add 10 minutes for every additional six items.</li>
+<li>Each already &quot;paid&quot; order in the system which is not &quot;complete&quot; delays the production start of this new order by 4 minutes.</li>
+</ul>
+
+<h3>SAVINGS! SAVINGS! SAVINGS!</h3>
+
+<p>Administrators may put items or entire categories of items on sale. They can:</p>
+
+<ul>
+<li>Create a &quot;sale&quot; and connect it with individual items or entire categories</li>
+<li>Sales are created as a percentage off the normal price</li>
+<li>View a list of all active sales</li>
+<li>End a sale</li>
+</ul>
+
+<p>On the order &quot;dashboard&quot; they can:</p>
+
+<ul>
+<li>View details of an individual order, including:
+
+<ul>
+<li>If purchased on sale, original price, sale percentage and adjusted price</li>
+<li>Subtotal for the order</li>
+<li>Discount for the order</li>
+<li>Total for the order reflecting any discounts from applicable sales</li>
+</ul></li>
+</ul>
+
+<p>As an Unauthenticated User:</p>
+
+<ul>
+<li>Sale prices are displayed in item listings alongside normal price and percentage savings</li>
+</ul>
+
+<h3>What&#8217;s Good Here?</h3>
+
+<p>On any item I can, as an Unauthenticated User:</p>
+
+<ul>
+<li>See the posted reviews including:
+
+<ul>
+<li>title, body, and a star rating 0-5</li>
+<li>the display name of the reviewer</li>
+</ul></li>
+<li>See an average of the ratings broken down to half-stars</li>
+</ul>
+
+<p>On items I&#8217;ve purchased, as an Authenticated User I can:</p>
+
+<ul>
+<li>Add a rating including:
+
+<ul>
+<li>Star rating 0-5</li>
+<li>Title</li>
+<li>Body text</li>
+</ul></li>
+<li>Edit a review I&#8217;ve previously submitted until 15 minutes after I first submitted it</li>
+</ul>
+
+<h3>The Machine Knows What You Like</h3>
+
+<p>Implement simple recommendations including:</p>
+
+<ul>
+<li>The ability to easily see your last order and add the same items to the current order</li>
+<li>After an item is added to and order, recommend three items other customers have ordered with this item. If there aren&#8217;t three other things that&#8217;ve been ordered, fill in with the most popular overall items</li>
+<li>Combinations of several items (ex: an appetizer, main dish, and dessert) with a small discount over ordering them individually</li>
+</ul>
+
+<h3>Where Is It?</h3>
+
+<p>Implement full-text search for both the consumer and administrator:</p>
+
+<h4>Consumer</h4>
+
+<ul>
+<li>Search for items in the whole site</li>
+<li>Search through &quot;My Orders&quot; for matches in the item name or description</li>
+</ul>
+
+<h4>Administrator</h4>
+
+<p>Search orders using a builder-style interface (like Google&#8217;s &quot;Advanced Search&quot;) allowing them to specify any of these:</p>
+
+<ul>
+<li>Status (drop-down)</li>
+<li>Order total (drop-down for <code>&gt;</code>, <code>&lt;</code>, <code>=</code> and a text field for dollar-with-cents)</li>
+<li>Order date  (drop-down for <code>&gt;</code>, <code>&lt;</code>, <code>=</code> and a text field for a date)</li>
+<li>Email address of purchaser</li>
+</ul>
+
+<h3>Transaction Processor</h3>
+
+<p>Implement a &quot;checkout&quot; procedure using Stripe, Paypal or another service to handle credit card transactions in a &quot;sandboxed&quot; developer environment.</p>
+
+<p>When the card is processed, update the order to &quot;paid&quot; and send a confirmation email to the user. Emails should <em>only</em> be sent when the app is in <code>production</code> mode. Don&#8217;t spam people while you&#8217;re getting it working.</p>
+
+<h3>Phone Confirmation</h3>
+
+<p>As a restaurant I have a registered contact phone number. When an order is placed online the system calls me with an interaction like this:</p>
+
+<ul>
+<li>&quot;Hi, this is DinnerDash calling with an online order. Press 1 to accept, 3 to reject&quot;. They press &quot;1&quot;</li>
+<li>&quot;The customer name is John Schmoe.&quot;</li>
+<li>&quot;The customer will pickup the order at 5:45PM&quot;</li>
+<li>&quot;The order includes: shrimp wontons, chicken pad thai large, and green tea ice cream small. There are a total of 3 items.&quot;</li>
+<li>&quot;Press 1 to confirm the order, 2 to repeat, or 3 to cancel.&quot;</li>
+<li>The result of the call updates the order in the database and sends an email to the customer.</li>
+</ul>
+
+<h2>Evaluation Process</h2>
+
+<p>For the evaluation we&#8217;ll work through the expectations above and look at the
+following criteria:</p>
+
+<h3>1. Feature Completeness</h3>
+
+<ul>
+<li>4: All features are correctly implemented along with two extensions</li>
+<li>3: All features defined in the assignment are correctly implemented</li>
+<li>2: There are one or two features missing or incorrectly implemented</li>
+<li>1: There are bugs/crashes in the features present</li>
+</ul>
+
+<h3>2. Views</h3>
+
+<ul>
+<li>4: Views show logical refactoring into layout(s), partials and helpers, with no logic present</li>
+<li>3: Views make use of layout(s), partials and helpers, but some logic leaks through</li>
+<li>2: Views don&#8217;t make use of partials or show weak understanding of <code>render</code></li>
+<li>1: Views are poorly organized</li>
+</ul>
+
+<h3>3. Controllers</h3>
+
+<ul>
+<li>4: Controllers show significant effort to push logic down the stack</li>
+<li>3: Controllers are generally well organized with three or fewer particularly ugly parts</li>
+<li>2: There are four to seven ugly controller methods that should have been refactored</li>
+<li>1: There are more than seven unsatisfactory controller methods</li>
+</ul>
+
+<h3>4. Models</h3>
+
+<ul>
+<li>4: Models show excellent organization, refactoring, and appropriate use of Rails features</li>
+<li>3: Models show an effort to push logic down the stack, but need more internal refactoring</li>
+<li>2: Models are somewhat messy and/or make poor use of Rails features</li>
+<li>1: Models show weak use of Ruby and weak structure</li>
+</ul>
+
+<h3>5. Testing</h3>
+
+<ul>
+<li>4: Project has a running test suite that exercises the application at multiple levels</li>
+<li>3: Project has a running test suite that tests and multiple levels but fails to cover some features</li>
+<li>2: Project has sporadic use of tests and multiple levels</li>
+<li>1: Project did not really attempt to use TDD</li>
+</ul>
+
+<h3>6. Usability</h3>
+
+<ul>
+<li>4: Project is highly usable and ready to deploy to customers</li>
+<li>3: Project is highly usable, but needs more polish before it&#8217;d be customer-ready</li>
+<li>2: Project needs significantly more attention to the User Experience, but works</li>
+<li>1: Project is difficult or unpleasant to use</li>
+</ul>
+
+<h3>7. Workflow</h3>
+
+<ul>
+<li>4: Excellent use of branches, pull requests, and a project management tool.</li>
+<li>3: Good use of branches, pull requests, and a project-management tool. </li>
+<li>2: Sporadic use of branches, pull requests, and/or project-management tool. </li>
+<li>1: Little use of branches, pull requests, and/or a project-management tool.</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,444 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Backing Up and Restoring a Database - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="DevOps                                      Backing Up and Restoring a Database                              You made it! You&# &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/devops/backing_up_and_restoring_a_database.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">DevOps</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Backing Up and Restoring a Database
+        </h1>
+        
+      </header>
+    
+    <p>You made it! You&#8217;ve launched your e-commerce platform and now you have millions of users accessing it every day. Your site is flooded with users&#8217; information, orders, items, promotions. </p>
+
+<p>That data is tremendously valuable. Lose it and your business is in serious trouble. You have to backup your database.</p>
+
+<h2>A Sample Application</h2>
+
+<p>We will be using the <a href="https://github.com/JumpstartLab/storedom">storedom</a> Rails application for these exercises. Start by cloning this repository:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git clone git@github.com:JumpstartLab/storedom.git</span><span class='line command'>cd storedom</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Once you cloned the repo, make sure that you install all the gems.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle</span><span class='line output'>Using rake (10.1.0)</span><span class='line output'>Using i18n (0.6.9)</span><span class='line output'>...</span><span class='line output'>Your bundle is complete!</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Creating Some Data</h2>
+
+<p>We are going to create the dabase, run the migrations and seed it with fake information. We have prepared a seed file to do that for you. To setup the database, just run <code>rake db:setup</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rake db:setup</span><span class='line output'>rake db:setup</span><span class='line output'>-- enable_extension("plpgsql")</span><span class='line output'>-> 0.0242s</span><span class='line output'>-- create_table("items", {:force=>true})</span><span class='line output'>-> 0.0100s</span><span class='line output'>-- create_table("order_items", {:force=>true})</span><span class='line output'>-> 0.0037s</span><span class='line output'>-- create_table("orders", {:force=>true})</span><span class='line output'>-> 0.0048s</span><span class='line output'>-- create_table("users", {:force=>true})</span><span class='line output'>-> 0.0051s</span><span class='line output'>-- initialize_schema_migrations_table()</span><span class='line output'>-> 0.0070s</span><span class='line output'>User 0: Wilbert Zieme - jannie_balistreri@weimann.org created!</span><span class='line output'>User 1: Jerel Reilly - darrel@dietrich.info created!</span><span class='line output'>User 2: Wayne Abbott - serenity.auer@kiehn.biz created!</span><span class='line output'>User 3: Jeremie Thiel - burdette_hills@sporer.biz created!</span><span class='line output'>User 4: Jules Volkman V - deie@goodwin.biz created!</span><span class='line output'>User 5: Margarete Wolff - cary_bartell@beatty.name created!</span><span class='line output'>User 6: Jessica Gibson - cali@hills.biz created!</span><span class='line output'>User 7: Hilda Rutherford III - donny_emmerich@kemmer.com created!</span><span class='line output'>User 8: Rudy Bayer - tristin_erdman@lubowitzhammes.org created!</span><span class='line output'>User 9: Jaylen Hessel - hailey@grady.org created!</span><span class='line output'>User 10: Mrs. Jerrod Davis - anjali.walker@braunmayert.org created!</span><span class='line output'>...</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Once it finishes, you&#8217;ll have 50 users, 100 orders and 500 items in your database.</p>
+
+<p>If you want to see the data, just start your rails server and visit <code>localhost:3000</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rails s</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2><code>pg_dump</code></h2>
+
+<p>PostgreSQL gives you a handy utility to do that called <code>pg_dump</code>. This utility makes consistent backups even if the database is being used while the backup is being run. <code>pg_dump</code> does not block other users accessing the database (readers or writers).</p>
+
+<p>Dumps can be output in script or archive file formats. Script dumps are plain-text files containing the SQL commands required to reconstruct the database at the time it was saved.</p>
+
+<p>Script files can be used to reconstruct the database even on other machines and other architectures, and in some cases, even on other SQL databases.</p>
+
+<h2>Dumping the Data</h2>
+
+<p>Let&#8217;s use <code>pg_dump</code> to get all your database data into a file.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>pg_dump -F t storedom_development > development_backup.tar</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<ul>
+<li><code>-F</code> configures the file format of the dump file. It can be a tar (t), plain (p) or custom (c).</li>
+<li><code>-U</code> configures the username. In this case, our database doesn&#8217;t have any.</li>
+<li><code>-h</code> specifies the host name of the machine on which the server is running. When not specified, it connects to localhost.</li>
+<li><code>-p</code> specifies the TCP port or local socket file extension on which the server is listening for connections. If not specified, it will use the default, which for most purposes will work.</li>
+</ul>
+
+<p>After the options, we need to specify which database we want to back up. In this case, it is <code>db/development</code>. The <code>&gt;</code> means pipe the output into the specified file. If you don&#8217;t do that it will output to <code>STDOUT</code>, which usually isn&#8217;t what you want.</p>
+
+<p>After you run the command, you will be able to see a <code>development_backup.tar</code> file in your directory. This file contains your database data.</p>
+
+<h2>Dropping the database</h2>
+
+<p>Now, we are going to drop your existing database to check that we actually restored the data from our backup.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rake db:drop</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Restart the server, and visit <code>localhost:3000</code>. You should see an error message that says <code>FATAL: database &quot;db/development&quot; does not exist</code>.</p>
+
+<p>Your data is gone.</p>
+
+<h2>Restoring the Database</h2>
+
+<p>Fortunately, we have your information backed-up. Let&#8217;s restore the database by using <code>pg_restore</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>pg_restore -C -d storedom_development development_backup.tar</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<ul>
+<li><code>-C</code> Create the database before restoring into it. If &#8211;clean is also specified, drops and recreate the target database before connecting to it.</li>
+<li><code>-d &lt;dbname&gt;</code> Connect to database <code>dbname</code> and restore directly into the database.</li>
+</ul>
+
+<p>Now, start your rails server. Visit <code>localhost:3000</code>&#8230; and your information is back.</p>
+
+<h2>In the Wild</h2>
+
+<p>Manipulating real data is a very delicate affair. Before attempting any of these steps, you should backup your information. Also, be sure that your database backups are stored in a secured place. Otherwise, your users&#8217; information might be exposed.</p>
+
+<h2>Heroku Postgres Backups</h2>
+
+<p>Let&#8217;s say that you have an application running on Heroku. You can create a backup by running <code>PG Backups</code>. First, let&#8217;s install the addon first.</p>
+
+<p>From your application folder, run the following command:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:add pgbackups</span><span class='line output'>Adding pgbackups on storedom... done, v45 (free)</span><span class='line output'>You can now use "pgbackups" to backup your databases or import an external backup.</span><span class='line output'>Use `heroku addons:docs pgbackups` to view documentation.</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Once that you have the addon, create a copy of your database information by running the following command:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku pgbackups:capture</span><span class='line output'></span><span class='line output'>HEROKU_POSTGRESQL_IVORY_URL (DATABASE_URL)  ----backup--->  b001</span><span class='line output'></span><span class='line output'>Capturing... done</span><span class='line output'>Storing... done</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>PG Backups uses pg_dump to create its backup files, making it trivial to export to other PostgreSQL installations.</p>
+
+<p>Now that you have created the backup, let&#8217;s get your backup locally via <code>curl</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>curl -o latest.dump `heroku pgbackups:url`</span><span class='line output'>32m  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><span class='line output'>Dload  Upload   Total   Spent    Left  Speed</span><span class='line output'>100 22590  100 22590    0     0  15805      0  0:00:01  0:00:01 --:--:-- 15797</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If you run <code>ls</code> on your terminal, you&#8217;ll see a <code>latest.dump</code> file listed. That is the local copy of your database.</p>
+
+<h2>Restoring your Database on Heroku</h2>
+
+<p>To restore your database, you will need to upload your dump file to a remote host such as Amazon Web Services. You will need to access that link when running <code>pg_restore</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>heroku pgbackups:restore HEROKU_POSTGRESQL_IVORY_URL https://s3-us-west-2.amazonaws.com/jumpstartlab/latest.dump</span><span class='line output'></span><span class='line output'>HEROKU_POSTGRESQL_IVORY_URL (DATABASE_URL)  <---restore---  latest.dump</span><span class='line output'></span><span class='line output'>!    WARNING: Destructive Action</span><span class='line output'>!    This command will affect the app: storedom</span><span class='line output'>!    To proceed, type "storedom" or re-run this command with --confirm storedom</span><span class='line output'></span><span class='line output'>> storedom</span><span class='line output'></span><span class='line output'>Retrieving... done</span><span class='line output'>Restoring... done</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>In this example, <code>HEROKU_POSTGRESQL_IVORY_URL</code> is the database name given to us by Heroku. Make sure that you change that name to your existing database.</p>
+
+<p>Now, if you visit your app, you&#8217;ll see all the data restored.</p>
+
+<h2>For Further Reading</h2>
+
+<ul>
+<li><a href="http://www.postgresql.org/docs/8.4/static/app-pgdump.html">pg_dump</a>: check more advanced options for dumping your PostgreSQL database into a file.</li>
+<li><a href="http://www.postgresql.org/docs/9.2/static/app-pgrestore.html">pg_restore</a>: check more advanced options for restoring your PostgreSQL database.</li>
+<li><a href="https://devcenter.heroku.com/articles/heroku-postgres-import-export">Heroku Dev Center</a>: contains documentation about importing and exporting databases on Heroku.</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

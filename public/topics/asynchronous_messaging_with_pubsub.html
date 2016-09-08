@@ -1,0 +1,368 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Asynchronous Messaging with Redis and PubSub - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Asynchronous Messaging with Redis and PubSub                              Getting Started with Redis PubSubHow &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/asynchronous_messaging_with_pubsub.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Asynchronous Messaging with Redis and PubSub
+        </h1>
+        
+      </header>
+    
+    <h2>Getting Started with Redis PubSub</h2>
+
+<ul>
+<li>How messaging works</li>
+<li>Request-Response Pattern</li>
+<li>Asynchronous Messaging</li>
+<li>PubSub Messaging Pattern</li>
+</ul>
+
+<h3>How Messaging Works</h3>
+
+<p>A message pattern is a network-oriented architecture that describes how two different parts of a system connect and communicate with each other.</p>
+
+<h3>Request-Response Pattern</h3>
+
+<p>When you are browsing the Internet, the most common messaging pattern is the request-reply pattern.</p>
+
+<p>When you visit a website, for example, your browser sends a request to a server, and the server responds with the data that your browser will render on your screen. Since this happens at the moment the user sends the request, this is a synchronous request.</p>
+
+<h3>Asynchronous Messaging</h3>
+
+<p>This works well when the user is the one who starts the request, but what if something happened in the server, like receiving an email, and you don&#8217;t know anything about it? Using the request-reply pattern synchronously will mean that unless the user sends a new request, like hitting a &quot;refresh&quot; button, he won&#8217;t be able the get his email.</p>
+
+<p>The asynchronous request-response messaging pattern provides a potential solution. This type of pattern lets us to put the request in a queue allowing us to say how often we would like to send a request to the server. Therefore, we can check the server every once in a while to see whether there is new data, like a new email, and get it from the server.</p>
+
+<h3>PubSub Messaging Pattern</h3>
+
+<p>But what if you have are in a chatroom and several users are talking to each other at the same time? If you use the asynchronous request-response pattern, your users will only get the new messages once in a while, derailing the entire conversation.</p>
+
+<p>The PubSub messaging pattern solves this by having one publisher (i.e. the chat service) and many subscribers (i.e. the chatroom participants). This pattern lets the publisher to send one message to one or more clients that are subscribed to that publisher.</p>
+
+<p>This means that everytime something changes in the chat service, the server will send a message to all the participants at once allowing real-time conversations.</p>
+
+<h2>Experiments</h2>
+
+<p>With that base understanding in place, let&#8217;s do some experiments with Redis and PubSub.</p>
+
+<h3>Getting Started</h3>
+
+<p>Before jumping ahead, make sure you have Redis installed. Redis is a key-value store that allow us entry and retrieve data very fast. If you don&#8217;t have it, you can install it using homebrew:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>brew install redis</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Also, don&#8217;t forget to install the Redis gem. This will let us talk to the Redis database using Ruby. You can install the gem by doing this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install redis</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Start Redis-CLI</h3>
+
+<p>In one terminal window, start the Redis Command Line Interface (CLI) and being monitoring interactions:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>redis-cli</span><span class='line output'>redis 127.0.0.1:6379> MONITOR</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Start IRB Session &quot;A&quot;</h3>
+
+<p>In another terminal window, start an IRB session:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>require 'redis'</span><span class='line command'>redis = Redis.new</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Start IRB Session &quot;B&quot;</h3>
+
+<p>Open a third tab in Terminal, start another IRB session, and subscribe to the channel named <code>my_channel</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>require 'redis'</span><span class='line command'>redis = Redis.new</span><span class='line command'>redis.subscribe("my_channel") do |event|</span><span class='line output'>event.message do |channel, body|</span><span class='line output'>puts "I heard [#{body}] on channel [#{channel}]"</span><span class='line output'>end</span><span class='line output'>end</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Observe that in the redis-CLI terminal window, you see a subscriber added.</p>
+
+<h3>Publish in IRB Session A</h3>
+
+<p>Back in the first IRB session, publish a message:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>redis.publish("my_channel", "the message")</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Observe that&#8230;</p>
+
+<ul>
+<li>In the redis-CLI window you see that a message was posted</li>
+<li>In IRB Session B you get the output <code>I heard [the message] on [my_channel]</code></li>
+</ul>
+
+<h3>Start IRB Session &quot;C&quot;</h3>
+
+<p>Now, leaving all the existing windows open, open a third IRB session in a final terminal window:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>require 'redis'</span><span class='line command'>redis = Redis.new</span><span class='line command'>redis.subscribe("my_channel") do |event|</span><span class='line output'>event.message do |channel, body|</span><span class='line output'>puts "I think [#{body}] sounds great!"</span><span class='line output'>end</span><span class='line output'>end</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Make sure that you see the second subscriber in the redis-cli terminal window.</p>
+
+<h3>Broadcast to the Channel</h3>
+
+<p>Again, back in the first IRB session, publish another message:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>redis.publish("my_channel", "Is this thing on?")</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Observe that&#8230;</p>
+
+<ul>
+<li>The second IRB window outputs <code>I heard...</code></li>
+<li>The third IRB window outputs <code>I think...</code></li>
+</ul>
+
+<h2>Pub/Sub Take Aways</h2>
+
+<ul>
+<li>Asynchronous, or async, means the sender is done almost instantly when it sends the message by putting it in a queue.</li>
+<li>PubSub subscribing is &quot;cheap&quot;. You can have one sender and numerous subscribers without affecting the publisher.</li>
+<li>Published messages should be simple &#8211; like strings or JSON, not complex serialized objects.</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

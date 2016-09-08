@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Common Git Practices - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Environment & Source Control                                      Common Git Practices                              The Git &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/environment/git_strategy.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Environment & Source Control</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Common Git Practices
+        </h1>
+        
+      </header>
+    
+    <p>The Git Version Control System has taken over most of the Ruby world. Simply put, if you&#8217;re going to develop with Ruby you have to learn Git.</p>
+
+<h3>Getting Started</h3>
+
+<p>A full Git tutorial is beyond scope here, but there are many great resources out there:</p>
+
+<ul>
+<li>ProGit by Scott Chacon is available free online: <a href="http://progit.org/book/">http://progit.org/book/</a></li>
+<li>Help.GitHub: <a href="http://help.github.com/">http://help.github.com/</a></li>
+<li>PeepCode&#8217;s Git Video: <a href="http://peepcode.com/products/git">http://peepcode.com/products/git</a></li>
+</ul>
+
+<h3>Why Git Is Great</h3>
+
+<p>If you aren&#8217;t used to version control then the whole concept of merging can feel like magic.  If you are used to tools like Subversion (SVN), then you have developed a (necessary) fear of the conflicts that can come up.  It might take a few tries to get used to the idea, but branching and merging with Git is amazing!  Here&#8217;s the basic idea:</p>
+
+<ol>
+<li>Start with an existing repository</li>
+<li>Create and checkout a branch</li>
+<li>Commit your work to that branch</li>
+<li>When the branch is ready, merge it back into the known version you started with.</li>
+</ol>
+
+<p>That&#8217;s the simplest case, and it works every time.</p>
+
+<h4>Multiple Branches</h4>
+
+<p>Where it gets more complex is when there are multiple branches out at the same time:</p>
+
+<ol>
+<li>Start with an existing repository branch</li>
+<li>Create and checkout a local branch</li>
+<li>Commit your work to that local branch</li>
+<li>&quot;Jim&quot; comes along and creates his own local branch from the same original branch</li>
+<li>He commits on his branch, finishes his work before you do, and merges it back into the &quot;shared&quot; original</li>
+<li>When your branch is ready, you merge it back into the known version you started with.</li>
+<li>You commit a little bit more work to your branch and go to merge it back into <code>master</code>&#8230; but wait!  Jim&#8217;s code is in there!  What happens?!?  One of three things:
+
+<ul>
+<li>It just works.  You and Jim worked on different files, and the changes just merge together with no issue.</li>
+<li>It just works, version #2.  Even though you and Jim touched the same file, maybe even the same line of code, git was able to merge the changes.</li>
+<li>Git merges 99% of the work, but realizes it isn&#8217;t smart enough on one piece of code&#8230; maybe you changed a variable name Jim refactored away.  It alerts you.  You fix this problem, run your tests, commit the change, and continue with the merge.</li>
+</ul></li>
+</ol>
+
+<p>That last part is what causes nightmares in people that come from other version control tools, but in git there is a lot less pain associated with it.  Because Git tracks <em>changes</em>, and not <em>versions of files</em>, there is a subtle but powerful difference in the quality of information you have to help resolve the conflict.</p>
+
+<h4>More Advanced Management</h4>
+
+<p>Just about anything you can imagine is possible with git. Want to rewrite the commit history? Do it. Want to pretend you branched off Jim&#8217;s code instead of <code>master</code>? Use <code>rebase</code> and make it so. Git was written and is used to control the Linux kernel source code which involves tens of thousands of contributors &#8211; whatever you need for <em>your</em> project can happen!</p>
+
+<h3>Managing Development and Releases</h3>
+
+<p>Beyond the tool itself, you need a strategy for managing a Git repository. In general:</p>
+
+<ul>
+<li>Do not develop any code on the <code>master</code> branch, only merge in other branches</li>
+<li>Create a new local branch for every feature</li>
+<li>Merge and prune branches when the feature is done</li>
+<li>Do not check in code unless the tests are passing</li>
+</ul>
+
+<p>While those guidelines can get you started, you should consider a robust release management process outlined in extensive detail here: <a href="http://nvie.com/posts/a-successful-git-branching-model/">http://nvie.com/posts/a-successful-git-branching-model/</a></p>
+
+<p>If that sounds appealing, then you can run the process using GitFlow (<a href="https://github.com/nvie/gitflow/">https://github.com/nvie/gitflow/</a>). There is a great introduction tutorial to using GitFlow put together by Dave Bock at CodeSherpas here: <a href="http://codesherpas.com/screencasts/on_the_path_gitflow.mov">http://codesherpas.com/screencasts/on_the_path_gitflow.mov</a></p>
+
+<p>Alternatively, you can follow GitHub&#8217;s own, more streamlined, git workflow: <a href="http://scottchacon.com/2011/08/31/github-flow.html">http://scottchacon.com/2011/08/31/github-flow.html</a></p>
+
+<h3>GitHub</h3>
+
+<p>Git is great, but GitHub is totally amazing. If there is any way for you to use GitHub, do it. If you&#8217;re developing open source, then the free public repositories are fine. If you need some privacy, individual and organization accounts provide private repositories for a few dollars a month. And if you need more comprehensive security, consider GitHub:FI (<a href="http://fi.github.com/">http://fi.github.com/</a>) which you can run on your server inside your firewall. </p>
+
+<p>GitHub supports code review, collaboration, and organization tools that are completely game changing.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

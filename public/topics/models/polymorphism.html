@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Polymorphism - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Polymorphism                              Sometimes relationships need to be flexible, and that&#8217;s where we &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/models/polymorphism.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Polymorphism
+        </h1>
+        
+      </header>
+    
+    <p>Sometimes relationships need to be flexible, and that&#8217;s where we look to polymorphism. Say we want to implement:</p>
+
+<ul>
+<li>A <code>Person</code></li>
+<li>A <code>Company</code></li>
+<li>A <code>PhoneNumber</code> that can belong to a <code>Person</code> or a <code>Company</code></li>
+</ul>
+
+<h2>At the Database Level</h2>
+
+<p>A naive implementation would be to add both <code>person_id</code> and <code>company_id</code> columns to the <code>phone_numbers</code> table. Then in the model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneNumber</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:person</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:company</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is <em>wrong</em> because it implies that a single <code>PhoneNumber</code> can connect to <em>both</em> a <code>Person</code> and a <code>Company</code>. Furthermore, as you add more classes that can have phone numbers, you&#8217;ll have to keep adding columns to <code>phone_numbers</code>.</p>
+
+<h3>Setup for Polymorphism</h3>
+
+<p>Instead, Rails&#8217; implementation of polymorphism relies on a two-factor foreign key. Instead of just having a single <code>foreign_id</code> column pointing to the external record, we&#8217;ll use a <code>foreign_id</code> and <code>foreign_type</code> to record the <code>id</code> number and the class name of the foreign object.</p>
+
+<p>In this domain, <code>contact</code> would be an adequate generalization of <code>Person</code> and <code>Company</code>. Our <code>phone_numbers</code> table should have columns <code>contact_id</code> and <code>contact_type</code>. The records will then look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">-------------------------------------------</span>
+</span><span class='line'><span class="o">|</span><span class="nb">id</span><span class="o">|</span> <span class="n">number</span>       <span class="o">|</span><span class="n">contact_id</span><span class="o">|</span><span class="n">contact_type</span><span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">1</span><span class="o">|</span> <span class="s2">&quot;2223334444&quot;</span> <span class="o">|</span> <span class="mi">2</span>        <span class="o">|</span> <span class="s2">&quot;Person&quot;</span>   <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">2</span><span class="o">|</span> <span class="s2">&quot;5554443333&quot;</span> <span class="o">|</span> <span class="mi">3</span>        <span class="o">|</span> <span class="s2">&quot;Person&quot;</span>   <span class="o">|</span>
+</span><span class='line'><span class="o">|</span> <span class="mi">3</span><span class="o">|</span> <span class="s2">&quot;6667774444&quot;</span> <span class="o">|</span> <span class="mi">3</span>        <span class="o">|</span> <span class="s2">&quot;Company&quot;</span>  <span class="o">|</span>
+</span><span class='line'><span class="o">-------------------------------------------</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Since we&#8217;re now using a composite foreign key, the <code>contact_id</code> values don&#8217;t have to be unique. Phone numbers with IDs 2 and 3 can share the same <code>contact_id</code> and have different <code>contact_type</code>s, thus connecting them to different objects.</p>
+
+<h2>In the Rails Models</h2>
+
+<p>With the data tables setup, we need to tell Rails how to understand these relationships.</p>
+
+<h3>Implementation using One-to-One</h3>
+
+<p>First, let&#8217;s consider a one-to-one connection that limits a <code>Person</code> or <code>Company</code> to having just one <code>PhoneNumber</code>.</p>
+
+<p>Looking just at the <code>Person</code>, we&#8217;d normally write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But that <em>won&#8217;t work</em> because Rails will expect to find a <code>person_id</code> column in <code>phone_numbers</code>. Instead, we tell it to look for named polymorphic columns:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:phone_number</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:contact</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Rails will then anticipate <code>phone_numbers</code> to have <code>contact_id</code> and <code>contact_type</code>. The implementation in <code>Company</code> would be exactly the same.</p>
+
+<p>In <code>PhoneNumber</code>, we tell it about the relationship to contacts:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneNumber</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:contact</span><span class="p">,</span> <span class="n">polymorphic</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Usage</h4>
+
+<p>Assuming we have an instance of these classes like <code>@phone_number</code>, <code>@person</code>, or <code>@company</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@company</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="vi">@person</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="vi">@phone_number</span><span class="o">.</span><span class="n">contact</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>For the first two, there&#8217;s no apparent difference between the polymorphic usage and a normal has-one. That&#8217;s the beauty of it!</p>
+
+<p>For <code>@phone_number.contact</code>, you&#8217;ll get back the actual related object, so it could be an instance of <code>Person</code> or <code>Company</code>.</p>
+
+<h3>Implementation using One-to-Many</h3>
+
+<p>But what about when a <code>Person</code> or <code>Company</code> relates to many <code>PhoneNumber</code> objects?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Person</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:phone_numbers</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:contact</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We change <code>has_one</code> to <code>has_many</code> and pluralize the object name to <code>:phone_numbers</code>. Nothing else changes!</p>
+
+<h4>Usage</h4>
+
+<p>Usage stays just about the same:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@company</span><span class="o">.</span><span class="n">phone_numbers</span>
+</span><span class='line'><span class="vi">@person</span><span class="o">.</span><span class="n">phone_numbers</span>
+</span><span class='line'><span class="vi">@phone_number</span><span class="o">.</span><span class="n">contact</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now the <code>.phone_numbers</code> method returns an array. You can just think of it as a normal one-to-many.</p>
+
+<h2>Exercises</h2>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<p>In the Blogger sample application, you already have <code>Article</code> and <code>Comment</code> classes. As it stands, a <code>Comment</code> belongs to an <code>Article</code>. </p>
+
+<p>Now we decide that we want to implement comment threads, so that a <code>Comment</code> can belong to <em>either</em> an <code>Article</code> or another <code>Comment</code>. </p>
+
+<p>Don&#8217;t bother with the web interface, but restructure the database and relationships so that, in the console, you can:</p>
+
+<ol>
+<li><p>Create an article</p></li>
+<li><p>Create two comments on that article</p></li>
+<li><p>Create two comments on each of those comments</p></li>
+<li><p>Print out a text representation of the tree using the article title and the first 6 words of the comment, like this:
+&#8220;`yaml
+My Sample Article</p>
+
+<ul>
+<li>A First Comment
+
+<ul>
+<li>A comment on comment 1</li>
+<li>Another comment on comment 1</li>
+</ul></li>
+<li>A Second Comment
+
+<ul>
+<li>A comment on comment 2</li>
+<li>A second comment on comment 2
+&#8220;`</li>
+</ul></li>
+</ul></li>
+</ol>
+
+<h3>Challenges</h3>
+
+<ol>
+<li><p>Change the view templates to display the nested comments in the web interface.</p></li>
+<li><p>Make it so the comment form can post comments to the original article or any comment in the tree. Here are two approaches:</p>
+
+<ul>
+<li>Build an &quot;add comment&quot; link on each entity, then bounce to a new comment page</li>
+<li>Add a select box to the comment form which has the article and all comments selectable as the target</li>
+</ul></li>
+</ol>
+
+<h2>References</h2>
+
+<ul>
+<li>Rails Guide on Polymorphic Associations: <a href="http://guides.rubyonrails.org/association_basics.html#polymorphic-associations">http://guides.rubyonrails.org/association_basics.html#polymorphic-associations</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

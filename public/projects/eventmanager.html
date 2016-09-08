@@ -1,0 +1,2191 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>EventManager - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="EventManager                              Get ReadyIf you haven&#8217;t already setup Ruby, visitthe environment &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/eventmanager.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          EventManager
+        </h1>
+        
+      </header>
+    
+    <h2>Get Ready</h2>
+
+<p>If you haven&#8217;t already setup Ruby, visit
+<a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
+
+<h3>Prerequisites</h3>
+
+<p>Before starting this tutorial, you should have a basic understanding of topics
+covered in <a href="http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html">Ruby in 100 Minutes</a>.</p>
+
+<p>You should also be comfortable with:</p>
+
+<ul>
+<li>installing a gem</li>
+<li>using IRB</li>
+<li>writing methods</li>
+</ul>
+
+<h3>Learning Goals</h3>
+
+<p>After completing this tutorial, you will be able to:</p>
+
+<ul>
+<li>manipulate <a href="http://rubydoc.info/stdlib/core/File">file</a> input and output</li>
+<li>read content from a <a href="http://rubydoc.info/stdlib/csv/file/README.rdoc">CSV</a> (Comma Separated Value) file</li>
+<li>transform it into a standardized format</li>
+<li>utilize the data to contact a remote service</li>
+<li>populate a template with user data</li>
+<li>manipulate <a href="http://rubydoc.info/stdlib/core/String">strings</a></li>
+<li>access <a href="http://sunlightlabs.github.io/congress/index.html#parameters/api-key">Sunlight</a>&#8217;s Congressional API through
+the <a href="https://github.com/steveklabnik/sunlight-congress">Sunlight Congress gem</a></li>
+<li>use <a href="http://rubydoc.info/stdlib/erb/ERB">ERB</a> (Embedded Ruby) for templating</li>
+</ul>
+
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
+  please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/eventmanager.markdown">submit them to the project on GitHub</a>.</p>
+</div>
+
+<h3>What We&#8217;re Doing in This Tutorial</h3>
+
+<p>Imagine that a friend of yours runs a non-profit org around political activism.
+A number of people have registered for an upcoming event. She has asked for your help in
+engaging these future attendees.</p>
+
+<h3>Initial Setup</h3>
+
+<p>Create a folder named <code>event_manager</code> wherever you want to store your project.
+In that folder, use your text editor to create a plain text file named
+<code>event_manager.rb</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>mkdir event_manager</span><span class='line command'>cd event_manager</span><span class='line command'>mkdir lib</span><span class='line command'>touch lib/event_manager.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Creating and placing your <code>event_manager.rb</code> file in &#8216;lib&#8217; directory is entirely
+optional, however, it adheres to a common convention within most ruby applications.
+The filepaths we use in this tutorial will assume that we have put our <code>event_manager.rb</code>
+file within the &#8216;lib&#8217; directory.</p>
+
+<p>Ruby source file names are often times written all in lower-case characters and
+instead of camel-casing multiple words together they are instead separated by an
+underscore (often called <em>snake-case</em>).</p>
+
+<p>Open <code>lib/event_manager.rb</code> in your text editor and add the line:</p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager Initialized!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+Validate that ruby is installed correctly and you have created the file correctly by running it from the root of your `event_manager` directory:
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby lib/event_manager.rb</span><span class='line output'>Event Manager Initialized!</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If ruby is not installed and available on your environment path then you will be presented with the following message:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby lib/event_manager.rb</span><span class='line output'>-bash: ruby: command not found</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If the file was not created then you will be presented with the following error
+message</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby lib/event_manager.rb</span><span class='line output'>ruby: No such file or directory -- lib/event_manager.rb (LoadError)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>For this project we are going to use the following sample data:</p>
+
+<ul>
+<li><a href="event_attendees.csv">Small Sample</a></li>
+<li><a href="full_event_attendees.csv">Large Sample</a></li>
+</ul>
+
+<p>Download the <em><a href="event_attendees.csv">small sample</a></em> csv file and save it in the
+root of <code>event_manager</code> directory.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>curl -o event_attendees.csv http://tutorials.jumpstartlab.com/projects/event_attendees.csv</span><span class='line output'>% Total    % Received % Xferd  Average Speed   Time    Time     Time  Current</span><span class='line output'>Dload  Upload   Total   Spent    Left  Speed</span><span class='line output'>100  2125  100  2125    0     0   3269      0 --:--:-- --:--:-- --:--:-- 12073</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Iteration 0: Loading a File</h2>
+
+<p>A comma-separated values
+<a href="http://en.wikipedia.org/wiki/Comma-separated_values">(CSV)</a> file stores
+tabular data (numbers and text) in plain-text form. The CSV format is readable
+by a large number of applications (e.g. Excel, Numbers, Calc). Its portability
+makes it a popular option when sharing large sets of tabular data from a
+database or spreadsheet applications.</p>
+
+<p>The first few rows of the CSV file you downloaded look like this:</p>
+
+<p><code>,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode
+1,11/12/08 10:47,Allison,Nguyen,arannon@jumpstartlab.com,6154385000,3155 19th St NW,Washington,DC,20010
+2,11/12/08 13:23,SArah,Hankins,pinalevitsky@jumpstartlab.com,414-520-5000,2022 15th Street NW,Washington,DC,20009
+3,11/12/08 13:30,Sarah,Xx,lqrm4462@jumpstartlab.com,(941)979-2000,4175 3rd Street North,Saint Petersburg,FL,33703
+4,11/25/08 19:21,David,Thomas,gdlia.lepping@jumpstartlab.com,650-799-0000,9 garrison ave,Jersey City,NJ,7306</code></p>
+
+<h3>Read the File Contents</h3>
+
+<p><a href="http://rubydoc.info/stdlib/core/File">File</a> is a core ruby class that allows
+you to perform a large number of operations on files on your filesystem. The
+most straightforward being <code>File.read</code></p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span> <span class="s2">&quot;event_attendees.csv&quot;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">contents</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Whether you use Single Quotes or Double Quotes does not matter. They are
+different in many ways but are essentially the same when representing a string
+of characters in this case as the initial greeting or the name of the file.</p>
+
+<p>We are assuming the file is present here. File has the ability to check if a
+file exists at the specified filepath on the filesystem through <code>File.exist?
+&quot;event_attendees.csv&quot;</code>.</p>
+
+<h3>Read the File Line By Line</h3>
+
+<p>Reading and displaying the entire contents of the file showed us how to quickly
+access the data. Our goal is to display the first names of all the attendees.
+There are numerous <a href="http://rubydoc.info/stdlib/core/String">String</a> methods
+that would allow us to manipulate this large string.</p>
+
+<p>Files can also be read in as an array of lines.</p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">readlines</span> <span class="s2">&quot;event_attendees.csv&quot;</span>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">line</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>First we read in the entire contents of the file as an array of lines. Second
+we iterate over the entire collection of lines, one at a time, and output the
+contents of each line.</p>
+
+<h3>Display the First Name of All Attendees</h3>
+
+<p>Instead of outputing the entire contents of each line we want to show only the
+first name. That requires us to look at the current contents of our Event
+Attendees file.</p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'> <span class="p">,</span><span class="no">RegDate</span><span class="p">,</span><span class="n">first_Name</span><span class="p">,</span><span class="n">last_Name</span><span class="p">,</span><span class="no">Email_Address</span><span class="p">,</span><span class="no">HomePhone</span><span class="p">,</span><span class="no">Street</span><span class="p">,</span><span class="no">City</span><span class="p">,</span><span class="no">State</span><span class="p">,</span><span class="no">Zipcode</span>
+</span><span class='line'><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="o">/</span><span class="mi">12</span><span class="o">/</span><span class="mi">08</span> <span class="mi">10</span><span class="p">:</span><span class="mi">47</span><span class="p">,</span><span class="no">Allison</span><span class="p">,</span><span class="no">Nguyen</span><span class="p">,</span><span class="n">arannon</span><span class="vi">@jumpstartlab</span><span class="o">.</span><span class="n">com</span><span class="p">,</span><span class="mi">6154385000</span><span class="p">,</span><span class="mi">3155</span> <span class="mi">19</span><span class="n">th</span> <span class="no">St</span> <span class="no">NW</span><span class="p">,</span><span class="no">Washington</span><span class="p">,</span><span class="no">DC</span><span class="p">,</span><span class="mi">20010</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first row contains header information. This row provides descriptional text
+for each column of data. It tells us the data columns are laid out as follows
+from left-to-right:</p>
+
+<ul>
+<li><code>ID</code> - the empty column represents a unique identifier or row number of all
+the subsequent rows</li>
+<li><code>RegDate</code> - the date the user registered for the event</li>
+<li><code>first_Name</code> - their first name</li>
+<li><code>last_Name</code> - their last name</li>
+<li><code>Email_Address</code> - their email address</li>
+<li><code>HomePhone</code> - their home phone number</li>
+<li><code>Street</code> - their street address</li>
+<li><code>City</code> - their city</li>
+<li><code>State</code> - their state</li>
+<li><code>Zipcode</code> - their zipcode</li>
+</ul>
+
+<p>The lack of consistent formatting of these headers models is not ideal when
+choosing to model your own data. These column names have been our extreme
+example of a poorly formed external service. Great applications are often built
+on the backs of such services.</p>
+
+<p>We are interested in the &#8216;first_Name&#8217; column. At the moment we have a string of
+text that represents the entire row. We need to convert the string into an
+array of columns. The separation of the columns can be identified by the comma
+&#8217;,&#8217; separator. We want to split the string into pieces wherever we see a comma.</p>
+
+<p>Ruby&#8217;s
+<a href="http://rubydoc.info/stdlib/core/String#split-instance_method">String#split</a>
+allows you to convert a string of text into an Array along a particular
+character.</p>
+
+<p>By default when you send the split message to the String without a parameter it
+will break the string apart along a space &quot; &quot; character.</p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">readlines</span> <span class="s2">&quot;event_attendees.csv&quot;</span>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">columns</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">columns</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Within our array of columns we want to access our &#8216;first_Name&#8217;. This would be
+the third column or column at the array&#8217;s second element <code>columns[2]</code>.</p>
+
+<p>Arrays start counting at 0 instead of 1. To get the idea we would access the
+array&#8217;s zeroth element <code>columns[0]</code>.</p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">readlines</span> <span class="s2">&quot;event_attendees.csv&quot;</span>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">columns</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">columns</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Skipping the Header Row</h3>
+
+<p>The header row was a great help to us in understanding the contents of the CSV
+file. However, the row itself does not represent an actual attendee. To ensure
+that we only output attendees we could remove the header row from the file, but
+that would make it difficult if we later returned to the file and tried to
+understand the columns of data.</p>
+
+<p>Another option is to ignore the first row when we display the names. Currently
+we handle all the rows exactly the same which makes it difficult to understand
+which one is the header row.</p>
+
+<p>One way to solve this problem would be to skip the line when it exactly matches
+our current header row.</p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">readlines</span> <span class="s2">&quot;event_attendees.csv&quot;</span>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="n">line</span> <span class="o">==</span> <span class="s2">&quot; ,RegDate,first_Name,last_Name,Email_Address,HomePhone,Street,City,State,Zipcode</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">columns</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">columns</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>A problem with this solution is that the content of our header row could change
+in the future. Additional columns could be added or the existing columns
+updated.</p>
+
+<p>A second way to solve this problem is for us to track the index of the current
+line.</p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">readlines</span> <span class="s2">&quot;event_attendees.csv&quot;</span>
+</span><span class='line'><span class="n">row_index</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">row_index</span> <span class="o">=</span> <span class="n">row_index</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="n">row_index</span> <span class="o">==</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">columns</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">columns</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is a such a common operation that Array defines
+<a href="http://rubydoc.info/stdlib/core/Enumerable#each_with_index-instance_method">Array#each<em>with</em>index</a>.</p>
+
+<figure class='code'><figcaption><span>lib/event_manager.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">lines</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">readlines</span> <span class="s2">&quot;event_attendees.csv&quot;</span>
+</span><span class='line'><span class="n">lines</span><span class="o">.</span><span class="n">each_with_index</span> <span class="k">do</span> <span class="o">|</span><span class="n">line</span><span class="p">,</span><span class="n">index</span><span class="o">|</span>
+</span><span class='line'>  <span class="k">next</span> <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">columns</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">columns</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This solves the problem if the header row were to change in the future. It does
+now assume that the header row is first row within the file.</p>
+
+<h3>Look for a Solution before Building a Solution</h3>
+
+<p>Either of these solutions would be <em>OK</em> given our current attendees file.
+Problems may arise if we are given a new CSV file that is generated or
+manipulated by another source. This is because the CSV parser that we have
+started to create does not take into account a number of other features
+supported by the CSV file format.</p>
+
+<p>Two important ones:</p>
+
+<ul>
+<li>CSV files often contain comments which are lines that start with a pound (#) character</li>
+<li>Columns are unable to support a value which contain a comma (,) character</li>
+</ul>
+
+<p>Our goal is to get in contact with our event attendees. It is not to define a
+CSV parser. This is often a hard concept to let go of when initially solving a
+problem with programming. An important rule to abide by while building software
+is:</p>
+<blockquote>
+<p>Look for a Solution before Building a Solution</p>
+</blockquote>
+<p>Ruby actually provides a CSV parser that we will instead use throughout the
+remainder of this exercise.</p>
+
+<h2>Iteration 1: Parsing with CSV</h2>
+
+<p>It is likely the case that if you want to solve a problem, someone has likely
+done it in some capacity. They may have even been kind enough to share their
+solution or the tools that they created. This is the kind of goodwill that
+pervades the Open Source community and Ruby ecosystem.</p>
+
+<p>In this iteration we are going to convert our current CSV parser to use Ruby&#8217;s <a href="http://rubydoc.info/stdlib/csv">CSV</a>.
+We will then use this new parser to access our attendees&#8217; zip codes.</p>
+
+<h3>Switching over to use the CSV Library</h3>
+
+<p>Ruby&#8217;s core language comes with a wealth of great classes. Not all of them are
+loaded every single time ruby code is executed. This ensures unneeded
+functionality is not loaded unless required, preventing ruby from having
+slower start up times.</p>
+
+<p>You can browse the many libraries available through the <a href="http://rubydoc.info/stdlib">documentation</a>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;csv&quot;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s2">&quot;event_attendees.csv&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>First we need to tell Ruby that we want it to load the CSV library. This is done
+through the <code>require</code> method which accepts a parameter of the functionality to
+load.</p>
+
+<p>The way <a href="http://rubydoc.info/stdlib/csv">CSV</a> loads and parses data is very
+similar to what we previously defined.</p>
+
+<p>Instead of <code>read</code> or <code>readlines</code> we use CSV&#8217;s <code>open</code> method to load our file.
+The library also supports the concept of headers and so we provide some
+additional parameters which state this file has headers.</p>
+
+<p>There are pros and cons to using an external library. A &#8216;pro&#8217; is how easy this
+library makes it for us to express that our file has headers. A &#8216;con&#8217; is that
+you have to learn how the library is implemented.</p>
+
+<h3>Accessing Columns by their Names</h3>
+
+<p>CSV files with headers have an additional option which allows you to access
+the column values by their headers. Our CSV file defines several different
+formats for the column names. The CSV library provides an additional option
+which allows us to convert the header names to symbols.</p>
+
+<p>Converting the headers to symbols will make our column names more uniform and
+easier to remember. The header &#8216;first_Name&#8217; will be converted to <code>:first_name</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;csv&quot;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s2">&quot;event_attendees.csv&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Displaying the Zip Codes of All Attendees</h3>
+
+<p>Accessing the zipcode is very easy using the header name. &#8216;Zipcode&#8217; becomes
+<code>:zipcode</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;csv&quot;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s2">&quot;event_attendees.csv&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">zipcode</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We now are able to output the name of the individual and their zipcode.</p>
+
+<p>Now that we are able to visualize both pieces of data we realize that we
+have a problem&#8230;.</p>
+
+<h2>Iteration 2: Cleaning up our Zip Codes</h2>
+
+<p>The zip codes in our small sample show us:</p>
+
+<ul>
+<li>Most zip codes are correctly expressed as a five-digit number</li>
+<li>Some zip codes are represented with less than a five-digit number</li>
+<li>Some zip codes are missing</li>
+</ul>
+
+<p>Before we are able to figure out our attendees&#8217; representatives we need to
+solve the second issue and the third issue.</p>
+
+<ul>
+<li>Some zip codes are represented with less than a five-digit number</li>
+</ul>
+
+<p>If we looked at the <a href="full_event_attendees.csv">larger sample of data</a> we would
+see that the majority of the shorter zip codes are from individuals from states
+in the north-eastern part of the United States. Many zip codes there start with
+0. This data was likely stored in the database as an integer, and not as text,
+which caused the leading zeros to be removed.</p>
+
+<p>So in the case of zip codes less than five-digits we will assume that we can
+pad missing zeros to the front.</p>
+
+<ul>
+<li>Some zip codes are missing</li>
+</ul>
+
+<p>Some of our attendees are missing a zip code. It is likely that they forgot to
+enter the data when they filled out the form. The zip code data was not likely
+marked as mandatory and so our future attendees were not presented with an
+error message.</p>
+
+<p>We could try and figure out the zip code based on the rest of the address
+provided. We could be wrong with our guess so instead we will use a default,
+bad zip code of &quot;00000&quot;.</p>
+
+<h3>Pseudocode for Cleaning Zip Codes</h3>
+
+<p>Before we start to explore a solution with Ruby code it is often helpful to
+express what we are hoping to accomplish in English words.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s2">&quot;csv&quot;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s2">&quot;event_attendees.csv&quot;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># if the zip code is exactly five digits, assume that it is ok</span>
+</span><span class='line'>  <span class="c1"># if the zip code is more than 5 digits, truncate it to the first 5 digits</span>
+</span><span class='line'>  <span class="c1"># if the zip code is less than 5 digits, add zeros to the front until it becomes five digits</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">zipcode</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>if the zip code is exactly five digits, assume that it is ok</li>
+</ul>
+
+<p>In the case when the zip code is five digits in length we have it easy. We
+simply want to do nothing.</p>
+
+<ul>
+<li>if the zip code is more than 5 digits, truncate it to the first 5 digits</li>
+</ul>
+
+<p>While zip codes can be expressed with additional resolution (more digits after
+a dash) we are only interested in the first five digits.</p>
+
+<ul>
+<li>if the zip code is less than 5 digits, add zeros to the front until it
+becomes five digits</li>
+</ul>
+
+<p>There are many possible ways that we can solve this issue. These are a few
+paths:</p>
+
+<ul>
+<li>Use a <code>while</code> or <code>until</code> loop to prepend zeros until the length is five</li>
+<li>Calculate the length of the current zip code and add missing zeros to the front</li>
+<li>Add five zeros to the front of the current zip code and then trim the last five digits</li>
+<li>Use <a href="http://rubydoc.info/stdlib/core/String#rjust-instance_method">String#rjust</a> to append zeros to the front of the string.</li>
+</ul>
+
+<h3>Handling Bad and Good Zip Codes</h3>
+
+<p>The following solution employs:</p>
+
+<ul>
+<li><a href="http://rubydoc.info/stdlib/core/String#length-instance_method">String#length</a> - returns the length of the string.</li>
+<li><a href="http://rubydoc.info/stdlib/core/String#rjust-instance_method">String#rjust</a> - to pad the string with zeros.</li>
+<li><a href="http://rubydoc.info/stdlib/core/String#slice-instance_method">String#slice</a> - to create sub-strings either through
+the <code>slice</code> method or the array-like notation <code>[]</code></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s1">&#39;event_attendees.csv&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="n">zipcode</span> <span class="o">=</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">rjust</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="n">zipcode</span> <span class="o">=</span> <span class="n">zipcode</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">zipcode</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When we run our application, we see the first few output correctly and then the
+application terminates.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby lib/event_manager.rb</span><span class='line output'>EventManager initialized.</span><span class='line output'>Allison 20010</span><span class='line output'>SArah 20009</span><span class='line output'>Sarah 33703</span><span class='line output'>David 07306</span><span class='line output'>lib/event_manager.rb:11:in `block in <main>': undefined method `length' for nil:NilClass (NoMethodError)</span><span class='line output'>from /Users/burtlo/.rvm/rubies/ruby-1.9.3-p374/lib/ruby/1.9.1/csv.rb:1792:in `each'</span><span class='line output'>from lib/event_manager.rb:7:in `<main>'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<ul>
+<li>What is the error mesage &quot;undefined method `length&#8217; for nil:NilClass (NoMethodError)&quot; saying?</li>
+</ul>
+
+<p>Reviewing our CSV data we notice that the next row specifies no value. An empty
+field translates into a nil instead of an empty string. This is choice made by
+the CSV library maintainers. So we now need to handle this situation.</p>
+
+<h3>Handling Missing Zip Codes</h3>
+
+<p>Our solution above does not handle the case when the zip code has not been
+specified. CSV return a <code>nil</code> value when no value has been specified in the
+column. All objects in Ruby respond to <code>#nil?</code>. All objects will return false
+except for a <code>nil</code>.</p>
+
+<p>We can update our implementation to handle this new case by simply adding a
+check for <code>nil?</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s1">&#39;event_attendees.csv&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>    <span class="n">zipcode</span> <span class="o">=</span> <span class="s2">&quot;00000&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="n">zipcode</span> <span class="o">=</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">rjust</span> <span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;0&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="n">zipcode</span> <span class="o">=</span> <span class="n">zipcode</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">zipcode</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby lib/event_manager.rb</span><span class='line output'>EventManager initialized.</span><span class='line output'>Allison 20010</span><span class='line output'>SArah 20009</span><span class='line output'>Sarah 33703</span><span class='line output'>David 07306</span><span class='line output'>Chris 00000</span><span class='line output'>Aya 90210</span><span class='line output'>Mary Kate 21230</span><span class='line output'>Audrey 95667</span><span class='line output'>Shiyu 96734</span><span class='line output'>Eli 92037</span><span class='line output'>Colin 02703</span><span class='line output'>Megan 43201</span><span class='line output'>Meggie 94611</span><span class='line output'>Laura 00924</span><span class='line output'>Paul 14517</span><span class='line output'>Shannon 03082</span><span class='line output'>Shannon 98122</span><span class='line output'>Nash 98122</span><span class='line output'>Amanda 14841</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Moving Clean Zip Codes to a Method</h3>
+
+<p>It is important for us to take a look at our implementation. During this
+examination we should ask ourselves:</p>
+
+<ul>
+<li>Does the code clearly express what it is trying to accomplish?</li>
+</ul>
+
+<p>The implementation does a decent job at expressing what it accomplishes. The
+biggest problem is that it is expressing it near so many other concepts. To
+make this implementation clearer we should move this logic into its own method
+named <code>clean_zipcode</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">clean_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>    <span class="s2">&quot;00000&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">length</span> <span class="o">&lt;</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="n">zipcode</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s2">&quot;0&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">zipcode</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">5</span>
+</span><span class='line'>    <span class="n">zipcode</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">zipcode</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s1">&#39;event_attendees.csv&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">clean_zipcode</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">zipcode</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>While this may feel like a very small, inconsequential change. Small changes
+like these help make your code cleaner and your intent clearer.</p>
+
+<h3>Refactoring Clean Zip Codes</h3>
+
+<p>With our clean zip code logic tucked away in our <code>clean_zipcode</code> method we can
+examine it further to see if we can make it even more succinct.</p>
+
+<ul>
+<li>Coercion over Questions</li>
+</ul>
+
+<p>A good rule when developing in Ruby is to favor coercing values into similar
+values so that they will behave the same. We have a special case to deal
+specifically with a <code>nil</code> value. It would be much easier if instead of checking
+for a nil value we convert the <code>nil</code> into a string with
+<a href="http://rubydoc.info/stdlib/core/NilClass#to_s-instance_method">NilClass#to_s</a>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>nil.to_s</span><span class='line output'>=&gt; ""</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Examining
+<a href="http://rubydoc.info/stdlib/core/String#rjust-instance_method">String#rjust</a> in
+irb we can see that when we provide values greater than 5 it performs no work.
+This means we apply it in both cases as it will have the same intended effect.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>"123456".rjust 5, "0"</span><span class='line output'>=&gt; "123456"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Lastly, examining
+<a href="http://rubydoc.info/stdlib/core/String#slice-instance_method">String#slice</a> in
+irb we can see that a number that is exactly five digits in length it has no
+effect. This also means we can apply it in cases when the zip code is five
+digits or more than five digits and it will have the same effect.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>"12345"[0..4]</span><span class='line output'>=&gt; "12345"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Combining all of these steps together we can write a more succinct
+<code>clean_zipcode</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">clean_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">zipcode</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Iteration 3: Using Sunlight</h2>
+
+<p>We now have our list of attendees with their valid zip codes (at least for most
+of them). Using their zip code and the
+<a href="http://sunlightfoundation.com/">Sunlight Foundation</a>
+webservice we are able query for the representatives for a given area.</p>
+
+<p>The Sunlight Foundation exposes an API that allows registered individuals
+(registration is free) to use their service. Their goal is to provide tools to
+make government more transparent and accessible.</p>
+<blockquote>
+<p>The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used
+by various websites, and lookups between places and the politicians that represent them. The primary purpose of the
+API is to facilitate mashups involving politicians and the various other APIs that are out there.</p>
+</blockquote>
+<h3>Accessing the API</h3>
+
+<p><a href="http://congress.api.sunlightfoundation.com/legislators/locate?zip=22182&apikey=e179a6973728c4dd3fb1204283aaccb5"><a href="http://congress.api.sunlightfoundation.com/legislators/locate?zip=90201&apikey=e179a6973728c4dd3fb1204283aaccb5">http://congress.api.sunlightfoundation.com/legislators/locate?zip=90201&amp;apikey=e179a6973728c4dd3fb1204283aaccb5</a></a></p>
+
+<p>Take a close look at that address. Here&#8217;s how it breaks down:</p>
+
+<ul>
+<li><code>http://</code> : Use the HTTP protocol</li>
+<li><code>congress.api.sunlightfoundation.com</code> : The server address on the internet</li>
+<li><code>legislators.</code> : The object name</li>
+<li><code>locate.</code> : The method called on that object</li>
+<li><code>?</code> : Parameters to the method
+
+<ul>
+<li><code>&amp;</code> : The parameter separator</li>
+<li><code>zip=90201</code> : The zipcode we want to lookup</li>
+<li><code>apikey=e179a6973728c4dd3fb1204283aaccb5</code> : A registered API Key to authenticate our requests</li>
+</ul></li>
+</ul>
+
+<p>We&#8217;re accessing the <code>legislators.locate</code> method of their API, we send in an
+<code>apikey</code> which is the string that identifies JumpstartLab as the accessor of
+the API, then at the very end we have a <code>zip</code>. Try modifying the address with
+your own zipcode and load the page.</p>
+
+<p>If you&#8217;re familiar with writing HTML then this XML document probably makes some
+sense to you. You can see there is a <code>response</code> object that has a list of
+<code>legislators</code>. That list contains five <code>legislator</code> objects which each contain
+a ton of data about a legislator. Cool!</p>
+
+<p>Let&#8217;s look for a solution before we attempt to build a solution.</p>
+
+<h3>Installing the Sunlight Gem</h3>
+
+<p>Steve Klabnik, an instructor for Jumpstart, created the <strong>sunlight-congress</strong>
+<a href="https://rubygems.org/gems/sunlight-congress">gem</a>. We call this a wrapper
+library because its job is to hide complexity from us. We can interact with it
+as a regular Ruby object, then the library takes care of fetching and parsing
+data from the server.</p>
+
+<p>The <a href="https://github.com/steveklabnik/sunlight-congress">source code</a> is
+available on GitHub.</p>
+
+<p>Ruby comes packaged with the <code>gem</code> command. This tool allows you to download
+libraries simply knowing the name of the library you want to install.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install sunlight-congress</span><span class='line output'>Fetching: sunlight-congress-1.0.0.gem (100%)</span><span class='line output'>Successfully installed sunlight-congress-1.0.0</span><span class='line output'>Done installing documentation for sunlight-congress (0 sec).</span><span class='line output'>1 gem installed</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Showing All Legislators in a Zip Code</h3>
+
+<p>The gem comes equipped with example documentation. The documentation is also
+available online with their <a href="https://github.com/steveklabnik/sunlight-congress">source code</a>.</p>
+
+<p>Reading through the documentation on how to set up and use the
+sunlight-congress gem we find that we need to perform the following steps:</p>
+
+<ul>
+<li>Set the API Key</li>
+<li>Perform the <a href="https://github.com/steveklabnik/sunlight-congress#usage">query</a> with the given zip code</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight/congress&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;e179a6973728c4dd3fb1204283aaccb5&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">clean_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">zipcode</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s1">&#39;event_attendees.csv&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">clean_zipcode</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">zipcode</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">legislators</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Running our application we find our output cluttered with information.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby lib/event_manager.rb</span><span class='line output'>EventManager initialized.</span><span class='line output'>Allison 20010 [#<Sunlight::Congress::Legislator:0x007fde87d974f8 ...</span><span class='line output'>SArah 20009 [#<Sunlight::Congress::Legislator:0x007fde87d9db50 ...</span><span class='line output'>...</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <strong>legislators</strong> that we are displaying is an array. In turn, the array is
+sending the <code>to_s</code> message to each of the objects within the array, each
+legislator. The output that we are seeing is the <em>raw</em> legislator object.</p>
+
+<p>We really want to capture the first name and last name of each legislator.</p>
+
+<h3>Collecting the Names of the Legislators</h3>
+
+<p>Instead of outputting each raw legislator we want to print only their first
+name and last name. We will need to complete the following steps:</p>
+
+<ul>
+<li>Iterate over the entire collection of legislators for the particular zip code.</li>
+<li>For each legislator we want to create a new string which is composed of their first name and last name.</li>
+<li>Add the name to a new collection of names.</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">legislator_names</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">legislators</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">legislator</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">legislator_name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">legislator_names</span><span class="o">.</span><span class="n">push</span> <span class="n">legislator_name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The above operation of collecting values is a common operation. Common enough
+that Array provides a method
+<a href="http://rubydoc.info/stdlib/core/Array#collect-instance_method">Array#collect</a>.
+Collect takes the array of objects of inputs and generates a new array as the
+output. The last operation we perform in the block is added to our new
+collection. This is exactly what we performed above only stated more simply as:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">legislator_names</span> <span class="o">=</span> <span class="n">legislators</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">legislator</span><span class="o">|</span>
+</span><span class='line'>  <span class="s2">&quot;</span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Cleanly Displaying Legislators</h3>
+
+<p>If we were to replace <code>legislators</code> with <code>legislator_names</code> in our output we
+would be presented with a <em>slightly</em> better output.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby lib/event_manager.rb</span><span class='line output'>EventManager initialized.</span><span class='line output'>Allison 20010 ["Eleanor Norton"]</span><span class='line output'>SArah 20009 ["Eleanor Norton"]</span><span class='line output'>Sarah 33703 ["Marco Rubio", "Bill Nelson", "C. Young"]</span><span class='line output'>...</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The problem now is that we are still sending the <code>to_s</code> message to our new
+array of legislator names and by default an array does not know how you want to
+display the contents.</p>
+
+<p>We need to explicitly convert our array of legislator names to a string. This
+way we are sure it will output correctly. This could be tedious work except
+Array again comes to the rescue with the
+<a href="http://rubydoc.info/stdlib/core/Array#join-instance_method">Array#join</a> method.</p>
+
+<p><a href="http://rubydoc.info/stdlib/core/Array#join-instance_method">Array#join</a> allows
+the specification of a separator string. We want to create a comma-separated
+list of legislator names with <code>legislator_names.join(&quot;, &quot;)</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">clean_zipcode</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislator_names</span> <span class="o">=</span> <span class="n">legislators</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">legislator</span><span class="o">|</span>
+</span><span class='line'>    <span class="s2">&quot;</span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislators_string</span> <span class="o">=</span> <span class="n">legislator_names</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">zipcode</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">legislators_string</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Running our application this time should give us a much more pleasant looking
+output:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby lib/event_manager.rb</span><span class='line output'>EventManager initialized.</span><span class='line output'>Allison 20010 Eleanor Norton</span><span class='line output'>SArah 20009 Eleanor Norton</span><span class='line output'>Sarah 33703 Marco Rubio, Bill Nelson, C. Young</span><span class='line output'>...</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Moving Displaying Legislators to a Method</h3>
+
+<p>Similar to before, with this step complete, we want to look at our
+implementation and ask ourselves:</p>
+
+<ul>
+<li>Does the code clearly express what it is trying to accomplish?</li>
+</ul>
+
+<p>This code is fairly clear in its understanding. It is simply expressing its
+intent near so many other things. It is also expressing itself differently from
+how zip codes are handled. The dissimilarity breeds confusion when returning to
+the code.</p>
+
+<p>We want to extract our legislator names into a new method named
+<code>legislators_by_zipcode</code> which accepts a single zip code as a parameter
+and returns a comma-separated string of legislator names.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight/congress&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;e179a6973728c4dd3fb1204283aaccb5&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">clean_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">zipcode</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">legislators</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislator_names</span> <span class="o">=</span> <span class="n">legislators</span><span class="o">.</span><span class="n">collect</span> <span class="k">do</span> <span class="o">|</span><span class="n">legislator</span><span class="o">|</span>
+</span><span class='line'>    <span class="s2">&quot;</span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislator_names</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s1">&#39;event_attendees.csv&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">clean_zipcode</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislators</span> <span class="o">=</span> <span class="n">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">zipcode</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">legislators</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>An additional benefit of this implementation is that it also encapsulates how we
+actually retrieve the names of the legislators. This is a benefit later if we
+decide on an alternative to the sunlight gem or want to introduce a level of
+caching to prevent look ups for similar zip codes.</p>
+
+<h2>Iteration 4: Form Letters</h2>
+
+<p>We have our attendees and their respective representatives. We can now generate
+a personalized call to action.</p>
+
+<p>For each attendee we want to include a customized letter that thanks them for
+attending the conference and provides a list of their representatives.
+Something that looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'><span class="nt">&lt;head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&#39;utf-8&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;title&gt;</span>Thank You!<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'><span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;h1&gt;</span>Thanks FIRST_NAME!<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;p&gt;</span>Thanks for coming to our conference.  We couldn&#39;t have done it without you!<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>    Political activism is at the heart of any democracy and your voice needs to be heard.
+</span><span class='line'>    Please consider reaching out to your following representatives:
+</span><span class='line'>  <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;table&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;tr&gt;&lt;th&gt;</span>Legislators<span class="nt">&lt;/th&gt;&lt;/tr&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;tr&gt;&lt;td&gt;</span>LEGISLATORS<span class="nt">&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/table&gt;</span>
+</span><span class='line'><span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Storing our template to a file</h3>
+
+<p>We could define this template as a large string within our current application.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">form_letter</span> <span class="o">=</span> <span class="sx">%{</span>
+</span><span class='line'><span class="sx">  &lt;html&gt;</span>
+</span><span class='line'><span class="sx">  &lt;head&gt;</span>
+</span><span class='line'><span class="sx">    &lt;title&gt;Thank You!&lt;/title&gt;</span>
+</span><span class='line'><span class="sx">  &lt;/head&gt;</span>
+</span><span class='line'><span class="sx">  &lt;body&gt;</span>
+</span><span class='line'><span class="sx">    &lt;h1&gt;Thanks FIRST_NAME!&lt;/h1&gt;</span>
+</span><span class='line'><span class="sx">    &lt;p&gt;Thanks for coming to our conference.  We couldn&#39;t have done it without you!&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx">    &lt;p&gt;</span>
+</span><span class='line'><span class="sx">      Political activism is at the heart of any democracy and your voice needs to be heard.</span>
+</span><span class='line'><span class="sx">      Please consider reaching out to your following representatives:</span>
+</span><span class='line'><span class="sx">    &lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sx">    &lt;table&gt;</span>
+</span><span class='line'><span class="sx">      &lt;tr&gt;&lt;th&gt;Legislators&lt;/th&gt;&lt;/tr&gt;</span>
+</span><span class='line'><span class="sx">      &lt;tr&gt;&lt;td&gt;LEGISLATORS&lt;/td&gt;&lt;/tr&gt;</span>
+</span><span class='line'><span class="sx">    &lt;/table&gt;</span>
+</span><span class='line'><span class="sx">  &lt;/body&gt;</span>
+</span><span class='line'><span class="sx">  &lt;/html&gt;</span>
+</span><span class='line'><span class="sx">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Ruby has quite a few ways that we can define strings. This format <code>%{ String
+Contents }</code> is one choice when defining a string that spans multiple lines.</p>
+
+<p>However, placing this large blob of text, this template, within our application
+will make it much more difficult to understand the template and the application
+code and thus make it more difficult to change the template and the application
+code.</p>
+
+<p>Instead of including the template within our application, we will instead load
+the template using the same File tools we used at the beginning of the exercise.</p>
+
+<ul>
+<li>Create a file named &#8216;form_letter.html&#8217; in the root of your project directory.</li>
+<li>Copy the html template defined above into that file and save it.</li>
+</ul>
+
+<p>Within our application we will load our template:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">template_letter</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span> <span class="s2">&quot;form_letter.html&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It is important to define the <code>form_letter.html</code> file in the root of project
+directory and not in the lib directory. This is because when the application
+runs it assumes the place that you started the application is where all file
+references will be located. Later, we move the file to a new location and are
+more explicit on defining the location of the template.</p>
+
+<h3>Replacing with <code>gsub</code> and <code>gsub!</code></h3>
+
+<p>For each of our attendees we want to replace the <code>FIRST_NAME</code> and <code>LEGISLATORS</code> with their respective values.</p>
+
+<ul>
+<li>We need to find all instances of <code>FIRST_NAME</code> and replace them with the individual&#8217;s first name.</li>
+<li>We need to find all instances of <code>LEGISLATORS</code> and replace them with the individual&#8217;s representatives.</li>
+</ul>
+
+<p>Our template is a String of text which has two methods for replacing text:
+<a href="http://rubydoc.info/stdlib/core/String#gsub-instance_method">String#gsub</a> and
+<a href="http://rubydoc.info/stdlib/core/String#gsub%21-instance_method">String#gsub!</a>.</p>
+
+<p>These two methods are almost identical save for one important difference. The
+method <code>gsub</code> returns a <strong>new copy</strong> of the original string with the values
+replaced. Where <code>gsub!</code> will replace the values in the original string.</p>
+
+<p>We have our template letter which we want to use for every attendee. It is
+important that we create a new copy of this letter for each attendee. If we
+change the original template, they&#8217;d all have the same name! By making a copy
+and then changing the copy, we&#8217;re sure everyone&#8217;s name is unique.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">template_letter</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span> <span class="s2">&quot;form_letter.html&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">clean_zipcode</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislators</span> <span class="o">=</span> <span class="n">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;, &quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">personal_letter</span> <span class="o">=</span> <span class="n">template_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;FIRST_NAME&#39;</span><span class="p">,</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">personal_letter</span><span class="o">.</span><span class="n">gsub!</span><span class="p">(</span><span class="s1">&#39;LEGISLATORS&#39;</span><span class="p">,</span><span class="n">legislators</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">personal_letter</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We replace the first name in the template letter and return a new copy (Thanks
+<a href="http://rubydoc.info/stdlib/core/String#gsub-instance_method">String#gsub</a>). We
+save the new letter to a personal version of the letter <code>personal_letter</code>. We
+then replace all the legislators with our legislators information in
+<code>personal_letter</code> (Thanks
+<a href="http://rubydoc.info/stdlib/core/String#gsub%21-instance_method">String#gsub!</a>).</p>
+
+<p>Methods like <code>gsub</code> and <code>gsub!</code> can often be confusing and when to use one over
+the other may not be immediately clear. The above template manipulation could
+have been written with just <code>gsub</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">personal_letter</span> <span class="o">=</span> <span class="n">template_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;FIRST_NAME&#39;</span><span class="p">,</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'><span class="n">personal_letter</span> <span class="o">=</span> <span class="n">personal_letter</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s1">&#39;LEGISLATORS&#39;</span><span class="p">,</span><span class="n">legislators</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Our Template System has Problems</h3>
+
+<p>It is a treacherous road we start to walk defining our own templating language.
+Our current system has some flaws:</p>
+
+<ul>
+<li>Using FIRST_NAME and LEGISLATORS to find and replace might cause us problems if later somehow this text appears in
+any of our template.</li>
+</ul>
+
+<p>Though not likely, imagine if a person&#8217;s name contained the word &#8216;LEGISLATORS&#8217;.
+When we perform the second replacement operation that part of the person&#8217;s name
+would also be replaced. This is unlikely in our simple template, but as our
+template grows we may invite such disasters.</p>
+
+<ul>
+<li>We cannot represent multiple items very easily if they are surrounded by HTML.</li>
+</ul>
+
+<p>Currently we copied our legislators string into a single table column. We would
+have a hard time inserting our legislators as individual rows in the table
+without having to build parts of the HTML table ourself. This could spell
+disaster later if we decide to change the template to no longer use a table.</p>
+
+<p>So, again, instead of building our own custom solution any further we are going to
+seek a solution.</p>
+
+<h3>Ruby&#8217;s ERB</h3>
+
+<p>Ruby defines a template language named <a href="http://rubydoc.info/stdlib/erb/frames">ERB</a>.</p>
+<blockquote>
+<p>ERB provides an easy to use but powerful templating system for Ruby. Using ERB, actual Ruby code can be added to
+any plain text document for the purposes of generating document information details and/or flow control.</p>
+</blockquote>
+<p>Defining an ERB template is extremely similar to our existing template. The
+difference is that we use an escape sequence tags which allow us to insert any
+variables, methods or ruby code we want to execute.</p>
+
+<p>ERB defines several different escape sequence tags that we can use, the most
+common are:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">ruby</span> <span class="n">code</span> <span class="n">will</span> <span class="n">execute</span> <span class="ow">and</span> <span class="n">show</span> <span class="n">output</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">&lt;% ruby code will execute but not show output %&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can define our ERB escape tags within any string. The ruby defined within
+the contents of the ERB tags will not be evaluated until we ask the template to
+give us the results.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;erb&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">meaning_of_life</span> <span class="o">=</span> <span class="mi">42</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">question</span> <span class="o">=</span> <span class="s2">&quot;The Answer to the Ultimate Question of Life, the Universe, and Everything is &lt;%= meaning_of_life %&gt;&quot;</span>
+</span><span class='line'><span class="n">template</span> <span class="o">=</span> <span class="no">ERB</span><span class="o">.</span><span class="n">new</span> <span class="n">question</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">results</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="nb">binding</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">results</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The code above loads the ERB library. Creates a new ERB template with the
+<code>question</code> string. The question string contains ERB tags that will show the
+results of the variable <code>meaning_of_life</code>. We send the <code>result</code> message to the
+template with <code>binding</code> and</p>
+
+<ul>
+<li>What is <code>binding</code>?</li>
+</ul>
+
+<p>The method
+<a href="http://rubydoc.info/stdlib/core/Kernel#binding-instance_method">binding</a>
+returns a special object. This object is an instance of
+<a href="http://rubydoc.info/stdlib/core/Binding">Binding</a>. A instance of binding knows
+all about the current state of variables and methods within the given scope. In
+this case, <code>binding</code> here knows about the variable <code>meaning_of_life</code>.</p>
+
+<p>Having to explicitly specify a binding when we ask for the results of the
+template gives us the flexibility to ask for the results of a template given a
+different binding.</p>
+
+<h3>Defining an ERB Template</h3>
+
+<p>To use ERB we need to update our current template <strong>form_letter.html</strong>.</p>
+
+<ul>
+<li>Save a new template as <strong>form_letter.erb</strong></li>
+</ul>
+
+<p>The convention is to save ERB template files with the extension <strong>erb</strong>. This
+is not a requirement. It is a benefit to yourself and other users when they
+return to the application.</p>
+
+<ul>
+<li>Update our existing keywords with the ERB escape sequences</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;html&gt;</span>
+</span><span class='line'><span class="x">&lt;head&gt;</span>
+</span><span class='line'><span class="x">  &lt;meta charset=&#39;utf-8&#39;&gt;</span>
+</span><span class='line'><span class="x">  &lt;title&gt;Thank You!&lt;/title&gt;</span>
+</span><span class='line'><span class="x">&lt;/head&gt;</span>
+</span><span class='line'><span class="x">&lt;body&gt;</span>
+</span><span class='line'><span class="x">  &lt;h1&gt;Thanks </span><span class="cp">&lt;%=</span> <span class="nb">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/h1&gt;</span>
+</span><span class='line'><span class="x">  &lt;p&gt;Thanks for coming to our conference.  We couldn&#39;t have done it without you!&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;p&gt;</span>
+</span><span class='line'><span class="x">    Political activism is at the heart of any democracy and your voice needs to be heard.</span>
+</span><span class='line'><span class="x">    Please consider reaching out to your following representatives:</span>
+</span><span class='line'><span class="x">  &lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;table&gt;</span>
+</span><span class='line'><span class="x">  &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Website&lt;/th&gt;&lt;/tr&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="n">legislators</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">legislator</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;tr&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">legislator</span><span class="o">.</span><span class="n">website</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">      &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/table&gt;</span>
+</span><span class='line'><span class="x">&lt;/body&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first use of the ERB tags is familar to our previous example. The second
+use, when we display the legislators, is different. We are using the ERB tag
+that does not output the results <code>&lt;% %&gt;</code> to define the beginning of the block
+<code>&lt;% legislators.each do |legislator| %&gt;</code> and later the end of the block <code>&lt;% end
+%&gt;</code>. Inside those tags are the original tags which output the results. In
+this case, we are ouputting the first name, last name and website of each
+legislator.</p>
+
+<p>This is a departure from what we originally implemented. Before we had to build
+the names of all the representatives. We intend now to give the template direct
+access to the array of legislators. We will let the template ask and display
+what it wants from each legislator.</p>
+
+<h3>Using ERB</h3>
+
+<p>We now need to update our application to:</p>
+
+<ul>
+<li>Require the ERB library</li>
+<li>Create the ERB template from the contents of the template file</li>
+<li>Simplify our <code>legislators_by_zipcode</code> to return the the original array of legislators</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight/congress&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;erb&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;e179a6973728c4dd3fb1204283aaccb5&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">clean_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">zipcode</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s1">&#39;event_attendees.csv&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">template_letter</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span> <span class="s2">&quot;form_letter.erb&quot;</span>
+</span><span class='line'><span class="n">erb_template</span> <span class="o">=</span> <span class="no">ERB</span><span class="o">.</span><span class="n">new</span> <span class="n">template_letter</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">clean_zipcode</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislators</span> <span class="o">=</span> <span class="n">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">form_letter</span> <span class="o">=</span> <span class="n">erb_template</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="nb">binding</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">form_letter</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Require the ERB library</li>
+</ul>
+
+<p>First we need tell Ruby that we want it to load the ERB library. This is done
+through the <code>require</code> method which accepts a parameter of the functionality to
+load.</p>
+
+<ul>
+<li>Create the ERB template from the contents of the template file</li>
+</ul>
+
+<p>Creating our template from our new template file requires us to load the file
+contents as a string and provide them as a parameter when creating the new ERB
+template.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">template_letter</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span> <span class="s2">&quot;form_letter.erb&quot;</span>
+</span><span class='line'><span class="n">erb_template</span> <span class="o">=</span> <span class="no">ERB</span><span class="o">.</span><span class="n">new</span> <span class="n">template_letter</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Simplify our <code>legislators_by_zipcode</code> to return the the original array of legislators</li>
+</ul>
+
+<p>The most surprising change of using ERB is that we have actually reduced the
+size and complexity of the <code>legislators_by_zipcode</code> method to simply:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Looking at the final state of <code>legislators_by_zipcode</code>, it may be tempting to
+simply remove it. If it&#8217;s only calling one other method, why bother leaving it
+in our code? Sometimes, it&#8217;s nice to wrap unfamiliar APIs with those that are better suited to our given situation. Let&#8217;s leave it in for now.</p>
+
+<h3>Outputting form letters to a file</h3>
+
+<p>Outputting each form letter to the screen was useful for ensuring our output
+looked correct. It is time to save each form letter to a file.</p>
+
+<p>Each file should be uniquely named. Fortunately, each of our attendees has a
+unique id, the first column, or row number.</p>
+
+<ul>
+<li>Assign an ID for the attendee</li>
+<li>Create an output folder</li>
+<li>Save each form letter to a file based on the id of the attendee</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">clean_zipcode</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">legislators</span> <span class="o">=</span> <span class="n">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">form_letter</span> <span class="o">=</span> <span class="n">erb_template</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="nb">binding</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">Dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span> <span class="k">unless</span> <span class="no">Dir</span><span class="o">.</span><span class="n">exists?</span> <span class="s2">&quot;output&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">.html&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">file</span><span class="o">.</span><span class="n">puts</span> <span class="n">form_letter</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Assign an ID for the attendee</li>
+</ul>
+
+<p>The first column does not have a name, like the other columns, so we fall back
+to using the index value.</p>
+
+<ul>
+<li>Create an output folder</li>
+</ul>
+
+<p>We make a directory named &quot;output&quot; if a directory named &quot;output&quot; does not
+already exist.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span> <span class="k">unless</span> <span class="no">Dir</span><span class="o">.</span><span class="n">exists?</span> <span class="s2">&quot;output&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Save each form letter to file based on the id of the attendee</li>
+</ul>
+
+<p><a href="http://rubydoc.info/stdlib/core/File#open-class_method">File#open</a> allows us
+to open a file for reading and writing. The first parameter is the name of the
+file. The second parameter is a flag that states how we want to open the file.
+The &#8216;w&#8217; states we want to open the file for writing. If the file already exists
+it will be destroyed.</p>
+
+<p>Afterwards we actually send the entire form letter content to the file
+object. The <code>file</code> object responds to the message <code>puts</code>. The
+<a href="http://rubydoc.info/stdlib/core/IO#puts-instance_method">file#puts</a> is similar to
+the <a href="http://rubydoc.info/stdlib/core/Kernel#puts-instance_method">Kernel#puts</a>
+that we have been using up to this point.</p>
+
+<h3>Moving Form Letter Generation to a Method</h3>
+
+<p>Again, for the sake of writing clean and clear code we want to move the
+operation of saving the form letter to its own method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight/congress&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;erb&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;e179a6973728c4dd3fb1204283aaccb5&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">clean_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">zipcode</span><span class="o">.</span><span class="n">to_s</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="s2">&quot;0&quot;</span><span class="p">)</span><span class="o">[</span><span class="mi">0</span><span class="o">.</span><span class="n">.</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Sunlight</span><span class="o">::</span><span class="no">Congress</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">save_thank_you_letters</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="n">form_letter</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span> <span class="k">unless</span> <span class="no">Dir</span><span class="o">.</span><span class="n">exists?</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;output/thanks_</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">.html&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">file</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">file</span><span class="o">.</span><span class="n">puts</span> <span class="n">form_letter</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;EventManager initialized.&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span> <span class="s1">&#39;event_attendees.csv&#39;</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">template_letter</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">read</span> <span class="s2">&quot;form_letter.erb&quot;</span>
+</span><span class='line'><span class="n">erb_template</span> <span class="o">=</span> <span class="no">ERB</span><span class="o">.</span><span class="n">new</span> <span class="n">template_letter</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">contents</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>  <span class="nb">name</span> <span class="o">=</span> <span class="n">row</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">zipcode</span> <span class="o">=</span> <span class="n">clean_zipcode</span><span class="p">(</span><span class="n">row</span><span class="o">[</span><span class="ss">:zipcode</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">legislators</span> <span class="o">=</span> <span class="n">legislators_by_zipcode</span><span class="p">(</span><span class="n">zipcode</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">form_letter</span> <span class="o">=</span> <span class="n">erb_template</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="nb">binding</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">save_thank_you_letters</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span><span class="n">form_letter</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>save_thank_you_letter</code> requires the id of the attendee and the form letter
+output.</p>
+
+<div class='exercise'>
+        <h2>Iteration: Clean Phone Numbers</h2>
+
+<p>Similar to the zip codes the phone numbers suffer from multiple formats and
+inconsistencies. If we wanted to allow individuals to sign up for mobile alerts
+with the phone numbers we would need to make sure all of the numbers are valid
+and well-formed.</p>
+
+<ul>
+<li>If the phone number is less than 10 digits assume that it is a bad number</li>
+<li>If the phone number is 10 digits assume that it is good</li>
+<li>If the phone number is 11 digits and the first number is 1, trim the 1 and use the first 10 digits</li>
+<li>If the phone number is 11 digits and the first number is not 1, then it is a bad number</li>
+<li>If the phone number is more than 11 digits assume that it is a bad number</li>
+</ul>
+
+<h2>Iteration: Time Targeting</h2>
+
+<p>The boss is already thinking about the next conference: &quot;Next year I want to
+make better use of our Google and Facebook advertising. Find out which hours of
+the day the most people registered so we can run more ads during those hours.&quot;
+Interesting!</p>
+
+<p>Using the registration date and time we want to find out what are the peak
+registration hours.</p>
+
+<ul>
+<li><p>Ruby has a <a href="http://rubydoc.info/stdlib/date/frames">Date</a> library which contains classes for
+<a href="http://rubydoc.info/stdlib/date/Date">Date</a> and <a href="http://rubydoc.info/stdlib/date/DateTime">DateTime</a>.</p></li>
+<li><p><a href="http://rubydoc.info/stdlib/date/DateTime#strptime-class_method">DateTime#strptime</a> is a method that allows us to
+parse date-time strings and convert them into Ruby objects.</p></li>
+<li><p><a href="http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method">DateTime#strftime</a> is a good reference on the
+characters necessary to match the specified date-time format.</p></li>
+<li><p>Use <a href="http://rubydoc.info/stdlib/date/Date#hour-instance_method">Date#hour</a> to find out the hour of the day.</p></li>
+</ul>
+
+<h2>Iteration: Day of the Week Targeting</h2>
+
+<p>The big boss gets excited about the results from your hourly tabulations. It
+looks like there are some hours that are clearly more important than others.
+But now, tantalized, she wants to know &quot;What days of the week did most people
+register?&quot;</p>
+
+<ul>
+<li>Use <a href="http://rubydoc.info/stdlib/date/Date#wday-instance_method">Date#wday</a> to find out the day of the week.</li>
+</ul>
+
+       </div>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

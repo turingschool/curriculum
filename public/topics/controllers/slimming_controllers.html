@@ -1,0 +1,605 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Slimming Controllers - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Controllers                                      Slimming Controllers                              Controllers are supposed to be &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/controllers/slimming_controllers.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Controllers</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Slimming Controllers
+        </h1>
+        
+      </header>
+    
+    <p>Controllers are supposed to be stupid. They&#8217;re just a connector between the model and the view layers, handling information about the request and send it where it needs to go.</p>
+
+<div class="note">
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/controllers/slimming_controllers.markdown">the markdown source on GitHub.</a></p>
+</div>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger_advanced.git
+</span><span class='line'>cd blogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<h2>Pushing Responsibility Down the Stack</h2>
+
+<p>In reality, most controllers do way more than simple request dispatch. They shepherd data, they react to many failure conditions, and they represent business logic. That&#8217;s bad.</p>
+
+<p>Why is it bad? Because controllers trap logic. They&#8217;re more difficult to test than models, and the logic is almost impossible to reuse. Placing business logic inside a controller immediately violates the Single Responsibility Principlce.</p>
+
+<p>So let&#8217;s look at ways to reduce complexity in the controller. One method is to push domain logic down into the model layer.</p>
+
+<h3>Limiting Logical Switching</h3>
+
+<p>The way many controllers get crazy is through parameter switching. &quot;If this parameter is present, do one thing, otherwise, look for this other parameter, if it&#8217;s there, do another thing&quot; and so on.</p>
+
+<p>Just because Rails structures REST into seven methods doesn&#8217;t mean your controller is constrained to those. If you find an action growing beyond about 8 lines of code, use the extract method refactoring to pull it into another controller method.</p>
+
+<p>But don&#8217;t stop there. This is a sign that you have logic to push down to the model. Don&#8217;t have an appropriate model? Make one! Maybe it&#8217;s a facade, maybe it&#8217;s more of a worker. Whatever the need, push that logic down to the model layer and activate it from the controller.</p>
+
+<p>Then get rid of your custom method. As we&#8217;ve said, Rails doesn&#8217;t restrict your controllers to the seven RESTful ones. But it&#8217;s a darn good idea to strive for.</p>
+
+<h3>Looking at <code>index</code></h3>
+
+<p>In the implementation of the <code>index</code> action, we&#8217;ve pushed all the logic down to the model. In this case, we might want to further refactor the model, which might be too complex, but it&#8217;s good enough to illustrate the process we&#8217;re talking about.</p>
+
+<p>In the controller, we have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@articles</span><span class="p">,</span> <span class="vi">@tag</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">search_by_tag_name</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:tag</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Our goal here is to find the articles to list by the provided tag name. Down in the model we&#8217;ve defined:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">search_by_tag_name</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">tag_name</span><span class="o">.</span><span class="n">blank?</span>
+</span><span class='line'>      <span class="o">[</span><span class="no">Article</span><span class="o">.</span><span class="n">scoped</span><span class="p">,</span> <span class="kp">nil</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">tag</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_name</span><span class="p">(</span><span class="n">tag_name</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">tag</span> <span class="p">?</span> <span class="o">[</span><span class="n">tag</span><span class="o">.</span><span class="n">articles</span><span class="p">,</span> <span class="n">tag</span><span class="o">]</span> <span class="p">:</span> <span class="o">[[]</span><span class="p">,</span> <span class="kp">nil</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If the tag name passed is <code>nil</code> or the empty string, the method will return <code>Article.scoped</code>, which is a lazy query version of <code>Article.all</code>. If a name is provided, it will find the tag with that name and return both the tag&#8217;s articles and the tag. If the name was not found, it will return an empty array and nil.</p>
+
+<p>This isn&#8217;t the most complex logic ever, but testing it in the controller would be a bit of work. Check out <code>article_spec.rb</code> to see how easy the unit tests are.</p>
+
+<h2>Interfaces</h2>
+
+<p>Good object-oriented design relies on loose coupling &#8211; having distinct roles and responsibilities tied together with as few strings as possible.</p>
+
+<p>Rails controllers and Rails views are, according to the premise of MVC, distinct responsibilities. They should be separate objects who communicate by just a few well-defined connection points.</p>
+
+<p>But that&#8217;s not how Rails works.</p>
+
+<p>How do you get data from inside a controller action to the view template? Instance variables. Look at a familiar form of controller action inside a controller, <code>ArticlesController</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When Rails renders the view for the <code>show</code> action, it copies instance variables from the controller into the rendered view, clearly coupling together those two components.</p>
+
+<div class="opinion">
+<p>Any time you use an instance variable in Ruby, ask yourself: &#8220;Is there a better way?&#8221; The answer is almost always &#8220;yes.&#8221;</p>
+</div>
+
+<h3>Limiting Instance Variables</h3>
+
+<p>A normal controller action is going to have one instance variable. Many actions will use two or three variables, but if you&#8217;re getting up above that it&#8217;s a sign that you&#8217;re missing a domain abstraction.</p>
+
+<p>What is the essential &quot;link&quot; between these objects? Why do they all belong on the same page? Whatever the reason, that should probably be a domain object. Check out the <a href="/topics/models/facade_pattern.html">Facade pattern</a>.</p>
+
+<h3>A Better Interface</h3>
+
+<p>Can we do without instance variables all together? How do we normally get data from an object?</p>
+
+<p>Frequently we use accessor methods. How do we write accessors for a controller? It&#8217;s actually quite easy. Let&#8217;s look again at this controller and action:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>View Template Usage</h4>
+
+<p>In the view template, we access that object like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h1&gt;</span>
+</span></code></pre></td></tr></table></div></figure> 
+
+<p>If we weren&#8217;t using an instance variable, what would we <em>want</em> it to look like? How about this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h1&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>How can we make that work? Rails is going to look for a helper method named <code>article</code>. No problem.</p>
+
+<h4>Implementing a Helper Method</h4>
+
+<p>Let&#8217;s go back to the controller. We can add an <code>article</code> method like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">article</span>
+</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We don&#8217;t have to pass in <code>params</code> to our new method, since it&#8217;s still in the controller context and can access the normal <code>params</code> just as any action can.</p>
+
+<p>Load the view and it won&#8217;t work. Just defining the method on the controller isn&#8217;t enough, we have to expose it to the view as a helper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">article</span>
+</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">helper_method</span> <span class="ss">:article</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now the view will work. But what about that <code>show</code> action? If the view is accessing the <code>article</code> helper, let&#8217;s get rid of the instance variable all together:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">article</span>
+</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">helper_method</span> <span class="ss">:article</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You can even remove the <code>show</code> method, if you like. Change the references in the view template from <code>@article</code> to <code>article</code> and you&#8217;ll be good to go.</p>
+
+<h4>The <code>new</code> Action</h4>
+
+<p>The <code>show</code> was straightforward, what about the <code>new</code>?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the view template we expect <code>@article</code> to be our new, blank object. If we use the existing helper, it will try to do a lookup based on <code>params[:id]</code>.</p>
+
+<p>No problem. Just add logic that reacts to <code>params[:id]</code> in the helper method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">article</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
+</span><span class='line'>      <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">helper_method</span> <span class="ss">:article</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We eliminate the code from the <code>new</code> method and change the view template to use the helper instead of the instance variable.</p>
+
+<h4>Performance Considerations</h4>
+
+<p>Whoah, did you notice the console log when looking at the <code>show</code> view? If you haven&#8217;t, take a look. It seems we&#8217;re kicking off a bunch of queries, one for each call to our helper.</p>
+
+<p>Not a problem: we&#8217;ll use an instance variable to memoize the object after the first request.</p>
+
+<div class="note">
+<p>Memoization is an optimization technique that avoids expensive recomputation by storing the result of an operation. It is related to caching.</p>
+</div>
+
+<p>Here&#8217;s an example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">article</span>
+</span><span class='line'>    <span class="vi">@cached_article</span> <span class="o">||=</span> <span class="k">if</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span>
+</span><span class='line'>      <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Why is the variable called <code>@cached_article</code>? I don&#8217;t want to use <code>@article</code>, or <em>someone</em> will come along and start using the instance variable in the views. If you want to talk to my article, you should use the accessor method I&#8217;ve defined and I want to strongly encourage you to do that.</p>
+
+<p>But maybe you want to make the code even cleaner. You see lookup logic and you want to press it down to the model. Great idea! You could build something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_or_build</span><span class="p">(</span><span class="n">input_id</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">input_id</span><span class="o">.</span><span class="n">present?</span>
+</span><span class='line'>      <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="no">Article</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But that&#8217;s <em>unnecessary</em>. You can take advantage of the built in <code>find_or_initialize_by</code> in <code>ActiveRecord</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">article</span>
+</span><span class='line'>    <span class="vi">@cached_article</span> <span class="o">||=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find_or_initialize_by_id</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>find_or_initialize_by</code> method will return the record with the given id if it&#8217;s found and otherwise will return a new instance of the class, which in this case is <code>Article</code>.</p>
+
+<div class="opinion">
+<p>Some people will choose to wrap that finder with a method in their model to hide `ActiveRecord`, but I believe that&#8217;s silly for such a simple case.</p>
+</div>
+
+<h4>Exercises</h4>
+
+<ul>
+<li>Rewrite the <code>edit</code> action and view so they use the <code>article</code> method</li>
+<li>Rewrite the <code>destroy</code> action so it uses the method</li>
+<li>Rework <code>create</code> and <code>update</code> to minimize the code repetition and instance variables
+
+<ul>
+<li><code>update</code> is not too tricky because you can call <code>.update_attributes</code> on the return value of <code>article</code></li>
+<li>For <code>create</code>, using the same style as <code>update</code> but, instead of calling <code>.update_attributes</code>, use <code>.attributes=</code> which does not trigger the save implicitly. For example:</li>
+</ul></li>
+</ul>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>a = Article.new</span><span class='line output'>=&gt; #&lt;Article id: nil, title: nil, body: nil, created_at: nil, updated_at: nil&gt;</span><span class='line command'>a.attributes = {title: "Hello"}</span><span class='line output'>=&gt; {title:"Hello"}</span><span class='line command'>a.inspect</span><span class='line output'>=&gt; "#&lt;Article id: nil, title: \"Hello\", body: nil, created_at: nil, updated_at: nil&gt;"</span><span class='line command'>a.attributes = {body: "World"}</span><span class='line output'>=&gt; {body:"World"}</span><span class='line command'>a</span><span class='line output'>=&gt; #&lt;Article id: nil, title: "Hello", body: "World", created_at: nil, updated_at: nil&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<ul>
+<li>Try integrating this approach with the decorator pattern. It&#8217;s probably best to write a wrapper method in the <code>Article</code> model that&#8217;s similar to <code>find_or_initialize_by_id</code>, but handles the decoration.</li>
+</ul>
+
+<h4>Reflections</h4>
+
+<p>By adding just a little bit of code to your controller, you have:</p>
+
+<ul>
+<li>Eliminated a lot of duplicated logic</li>
+<li>Cut down the total code in your controller</li>
+<li>Improved the interface between controller and view template</li>
+</ul>
+
+<h4>Next Steps</h4>
+
+<p>Should you rewrite this in every controller? Probably not! What would it take to write more general forms which could be reused across controllers? You would probably define a method that&#8217;s called from each controller which generates the helper methods on the fly.</p>
+
+<p>That&#8217;s exactly what Basic Assumption (<a href="https://github.com/mattyoho/basic_assumption">https://github.com/mattyoho/basic_assumption</a>) does. It&#8217;s a very helpful but simple gem I strongly recommend you try out.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

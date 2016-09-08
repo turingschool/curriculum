@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mastermind - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Mastermind                              In this project you&#8217;ll use Ruby to build an implementation of the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/mastermind.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Mastermind
+        </h1>
+        
+      </header>
+    
+    <p>In this project you&#8217;ll use Ruby to build an implementation of the classic game Mastermind.</p>
+
+<h2>Introduction</h2>
+
+<h3>Learning Goals / Areas of Focus</h3>
+
+<ul>
+<li>Proficiently use TDD to drive development</li>
+<li>Practice breaking a program into logical components</li>
+<li>Learn to implement a REPL interface</li>
+<li>Apply previously learned Enumerable techniques in a real context</li>
+</ul>
+
+<h2>Base Expectations</h2>
+
+<p>Use <a href="https://github.com/turingschool-examples/mastermind">this repository as a template</a> for your project.</p>
+
+<p>You are to build a playable game of Mastermind that runs in a REPL interface.</p>
+
+<h3>Starting a Game</h3>
+
+<ul>
+<li>The player starts the game by running <code>ruby mastermind.rb</code></li>
+<li>Then they see:</li>
+</ul>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Welcome to MASTERMIND</span><span class='line output'></span><span class='line output'>Would you like to (p)lay, read the (i)nstructions, or (q)uit?</span><span class='line output'>&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<ul>
+<li>If they enter <code>p</code> or <code>play</code> then they enter the <em>game flow</em> described below.</li>
+<li>If they enter <code>i</code> or <code>instructions</code> they should be presented with a short explanation of how
+the game is played.</li>
+<li>If they enter <code>q</code> or <code>quit</code> then the game should exit</li>
+</ul>
+
+<h3>Game Flow</h3>
+
+<p>Once the user starts a game they should see:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>I have generated a beginner sequence with four elements made up of: (r)ed,</span><span class='line output'>(g)reen, (b)lue, and (y)ellow. Use (q)uit at any time to end the game.</span><span class='line output'>What's your guess?</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>They can then enter a guess in the form <code>rrgb</code></p>
+
+<ul>
+<li>Guesses are case insensitive</li>
+<li>If it&#8217;s <code>'q'</code> or <code>'quit'</code> then exit the game</li>
+<li>If it&#8217;s <code>'c'</code> or <code>'cheat'</code> then print out the current secret code</li>
+<li>If it&#8217;s fewer than four letters, tell them it&#8217;s too short</li>
+<li>If it&#8217;s longer than four letters, tell them it&#8217;s too long</li>
+<li>If they guess the secret sequence, enter the <em>end game</em> flow below</li>
+<li>Otherwise give them feedback on the guess like this:</li>
+</ul>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>'RRGB' has 3 of the correct elements with 2 in the correct positions</span><span class='line output'>You've taken 1 guess</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then let them guess again, repeating the game flow loop.</p>
+
+<h3>End Game</h3>
+
+<p>When the user correctly guesses the sequence, output the following:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Congratulations! You guessed the sequence 'GRRB' in 8 guesses over 4 minutes,</span><span class='line output'>22 seconds.</span><span class='line output'></span><span class='line output'>Do you want to (p)lay again or (q)uit?</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If they enter <code>'p'</code> or <code>'play'</code> then restart the game. <code>'q'</code> or <code>'quit'</code> ends
+the game.</p>
+
+<h2>Extensions</h2>
+
+<p>If you&#8217;re able to finish the base expectations, add on one or more of the
+following extensions:</p>
+
+<h3>Difficulty Levels</h3>
+
+<p>When the user is getting ready to start a game, ask them what difficulty
+level they&#8217;d like to play with the following adaptations:</p>
+
+<ul>
+<li>Beginner = 4 characters, 4 colors</li>
+<li>Intermediate = 6 characters, 5 colors</li>
+<li>Advanced = 8 characters, 6 colors</li>
+</ul>
+
+<h3>Record Tracking &amp; Top 10</h3>
+
+<p>Use a file on the file system (like CSV, JSON, etc) to track completed
+games across runs of the program. When the user wins the game, output a message like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Congratulations! You've guessed the sequence! What's your name?</span><span class='line output'></span><span class='line output'>&gt; Jeff</span><span class='line output'></span><span class='line output'>Jeff, you guessed the sequence 'GRRB' in 8 guesses over 4 minutes,</span><span class='line output'>22 seconds. That's 1 minute, 10 seconds faster and two guesses fewer than the</span><span class='line output'>average.</span><span class='line output'></span><span class='line output'>=== TOP 10 ===</span><span class='line output'>1. Jeff solved 'GRRB' in 8 guesses over 4m22s</span><span class='line output'>2. Jeff solved 'BRGG' in 11 guesses over 4m45s</span><span class='line output'>3. Jorge solved 'BBBB' in 12 guesses over 4m15s</span><span class='line output'>4. Jorge solved 'GGBB' in 12 guesses over 5m12s</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Note that they&#8217;re ranked first by number of guesses then by time.</p>
+
+<h3>Package &amp; Polish</h3>
+
+<p>Your game won&#8217;t be very popular if it&#8217;s hard to install and run.</p>
+
+<h4>Add a Command Line Wrapper</h4>
+
+<p>Create an executable script that allows the user to just run <code>mastermind</code>
+from their terminal without directly executing Ruby.</p>
+
+<h3>Other Ideas</h3>
+
+<ul>
+<li>Add a <code>history</code> instruction to the gameplay which can be called before entering a guess and it&#8217;ll display
+all previous guesses and results in a compact form</li>
+<li>Visual Interface - add colors and ASCII graphics to make a more compelling
+visual experience</li>
+<li>Two-Player Mode - Add a game mode where players alternate guesses and whoever
+gets the sequence right first wins. Consider having their guesses hidden.</li>
+</ul>
+
+<h2>Evaluation Rubric</h2>
+
+<p>The project will be assessed with the following rubric:</p>
+
+<h3>1. Fundamental Ruby &amp; Style</h3>
+
+<ul>
+<li>4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring</li>
+<li>3:  Application shows some effort toward organization but still has 6 or fewer long methods (&gt; 8 lines) and needs some refactoring.</li>
+<li>2:  Application runs but the code has many long methods (&gt;8 lines) and needs significant refactoring</li>
+<li>1:  Application generates syntax error or crashes during execution</li>
+</ul>
+
+<h3>2. Test-Driven Development</h3>
+
+<ul>
+<li>4: Application is broken into components which are well tested in both isolation and integration</li>
+<li>3: Application uses tests to exercise core functionality, but has some gaps in coverage or leaves edge cases untested.</li>
+<li>2: Application tests some components but has many gaps in coverage.</li>
+<li>1: Application does not demonstrate strong use of TDD</li>
+</ul>
+
+<h3>3. REPL Interface and Game Functionality</h3>
+
+<ul>
+<li>4: Application&#8217;s REPL goes above and beyond expectations and application includes one or more extensions</li>
+<li>3: Application&#8217;s REPL is clear and pleasant to use and application fulfills base expectations from the project spec</li>
+<li>2: Application&#8217;s REPL has inconsistencies and/or there are errors in base gameplay</li>
+<li>1: Application&#8217;s REPL has several issues or application fails to run</li>
+</ul>
+
+<h3>4. Breaking Logic into Components</h3>
+
+<ul>
+<li>4: Application effectively breaks logical components apart with clear intent and usage</li>
+<li>3: Application has multiple components with defined responsibilities but there is some leaking of responsibilities</li>
+<li>2: Application has some logical components but divisions of responsibility are inconsistent or unclear and/or there is a &quot;God&quot; object taking too much responsibility</li>
+<li>1: Application logic shows poor decomposition with too much logic mashed together</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

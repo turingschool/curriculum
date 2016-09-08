@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ideabox Project - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Ideabox Project                              Having completed Ideabox TDD andIdeaboxWWW youhave a functional, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/workshops/ideabox/project.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Ideabox Project
+        </h1>
+        
+      </header>
+    
+    <p>Having completed <a href="/academy/workshops/ideabox/tdd.html">Ideabox TDD</a> and
+<a href="http://tutorials.jumpstartlab.com/academy/workshops/ideabox/www.html">Ideabox
+WWW</a> you
+have a functional, albeit incredibly ugly, web application to capture, rank, and
+sort ideas.</p>
+
+<p>If only that were enough for you.</p>
+
+<p>Create a better design, and define additional features to make your
+application more dynamic and interesting.</p>
+
+<p>Here are some ideas to get you started.</p>
+
+<h3>Tagging</h3>
+
+<p>Besides viewing ideas in ranked order  it would be great if you could also view
+ideas that are similar to one another or share the same thing that ignited the
+idea.</p>
+
+<ul>
+<li>When you create an idea you can specify one or more tags.</li>
+<li>A tag is a single phrase, a single word or fragment sentence, that you use
+to describe an idea.</li>
+<li>Each idea can have one or more tags</li>
+<li>You are able to view all ideas for a given tag</li>
+<li>You are able to view all ideas sorted by tags</li>
+</ul>
+
+<h3>Statistics</h3>
+
+<p>After creating ideas you want to start tracking when you create your ideas.</p>
+
+<ul>
+<li>When ideas are created the time they were created is captured.</li>
+<li>You are able to view a breakdown of ideas created across the hours of the day
+(e.g. 12:00AM to 12:59AM, 1:00AM to 1:59AM)</li>
+<li>You are able to view a breakdown of ideas created acorss the days of the week
+(i.e. Mon, Tue, Wed, Thu, Fri, Sat, Sun)</li>
+</ul>
+
+<h3>Revisions</h3>
+
+<p>You start with an idea that eventually changes over time. Where you started from
+and where you ended is a very different place. Sometimes you would like to see
+the evolution of an idea.</p>
+
+<ul>
+<li>When you edit and save an idea the previous version of the idea is also saved.</li>
+<li>An idea now has a history or list of revisions</li>
+<li>You are able to view the history of an idea</li>
+</ul>
+
+<h3>Grouped Ideas</h3>
+
+<p>Tagging allows for you to view ideas that within a certian category. Sometimes
+you want to differentiate your work ideas from your personal ideas.</p>
+
+<ul>
+<li>By default all ideas are added to a default group</li>
+<li>You are to define additional groups</li>
+<li>When you create an idea you can specify the group for that idea</li>
+<li>An idea can only belong to a single group</li>
+<li>You can view only the ideas contained in a particular group</li>
+<li>When sorting ideas on rank or tags only the ideas within that group are sorted</li>
+</ul>
+
+<h3>Mobile Friendly</h3>
+
+<p>Ideas strike like lightning and it is important to be able to be able to enter
+your ideas from a small-screen device. While the original site works with a
+mobile device, it would be great to optimize the experience.</p>
+
+<ul>
+<li>You are able to add, view, and edit ideas easily through a mobile browser.</li>
+</ul>
+
+<h3>Searching for Idea</h3>
+
+<p>After creating so many ideas it becomes hard to manage all the ideas. It would
+be great if you could search for a specific idea based on a word or phrase
+contained within an idea.</p>
+
+<ul>
+<li>The main index page has a search field</li>
+<li>The search field allows you to specify a phrase.</li>
+<li>A phrase is a word or or fragment sentence</li>
+<li>When search is initiated the contents of the search field will be used to
+find only the ideas with that contain the phrase, case insensitive, provided
+within the search field.</li>
+</ul>
+
+<h3>Fuel</h3>
+
+<p>With your defined ideas it would be great to start adding more details and
+resources for each of those ideas.</p>
+
+<ul>
+<li>For each idea you can add a new resource</li>
+<li>A resource is text or link related to the idea</li>
+<li>You are not able to see the resources of an idea on the index page</li>
+<li>You are able to view all the resources for an idea when you view the details
+of an idea.</li>
+</ul>
+
+<h3>Haml</h3>
+
+<p>You have templated your application with ERB. It might be interesting to see
+what it would look like using Haml.</p>
+
+<ul>
+<li>Replace all the <em>erb</em> templates with <em>haml</em> templates.</li>
+</ul>
+
+<h3>Image Upload</h3>
+
+<p>Pictures are worth a 1000 words.</p>
+
+<ul>
+<li>When you create an idea you can specify an image</li>
+<li>When you create a resource for an idea you can specify an image</li>
+<li>You are able to upload an image that will be associated with the idea</li>
+<li>When viewing an idea the image is displayed within the idea</li>
+<li>When viewing a resource the image is displayed within that resource</li>
+</ul>
+
+<h3>Sound Upload</h3>
+
+<p>The power of the spoken word</p>
+
+<ul>
+<li>When you create an idea you can specify an sound</li>
+<li>When you create a resource for an idea you can specify an sound</li>
+<li>When viewing an idea the sound is displayed as a downloadable link</li>
+<li>When viewing a resource the sound is displayed as a downloadable link</li>
+</ul>
+
+<h3>SMS Integration</h3>
+
+<p>Faster than even a mobile website might be the ability to define ideas through
+text message.</p>
+
+<ul>
+<li>You able to text a new idea to a particular phone number</li>
+<li>The message from the text appear in your list of ideas</li>
+</ul>
+
+<h3>Users</h3>
+
+<p>Currently you can only track the ideas of one person. What would help you to
+generate ideas is if you could take idea generation socially</p>
+
+<ul>
+<li>A person is able to generate a user account</li>
+<li>A user account has a username</li>
+<li>When viewing a user&#8217;s page you are only able to the ideas for that user</li>
+<li>When viewing a user&#8217;s page you are able to add ideas as previously defined</li>
+</ul>
+<blockquote>
+<p>At the moment we are not going to discuss the policies for good password
+creation and rentention or maintaining a logged in user. The idea of a
+user in this implementation simply allows you to segment the ideas across
+users. Any person viewing a user&#8217;s page can add a new idea for that user.</p>
+</blockquote>
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

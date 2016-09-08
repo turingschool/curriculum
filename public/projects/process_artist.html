@@ -1,0 +1,536 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>ProcessArtist - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="ProcessArtist                              In this project you&#8217;ll use Ruby Processing to build a simple &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/process_artist.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          ProcessArtist
+        </h1>
+        
+      </header>
+    
+    <p>In this project you&#8217;ll use Ruby Processing to build a simple drawing program and practice object-oriented programming in Ruby.</p>
+
+<h2>Goal</h2>
+
+<p>In the end, we&#8217;ll have a Ruby Processing program which:</p>
+
+<ul>
+<li>Presents a blank canvas</li>
+<li>Sets the color of that canvas using the keyboard</li>
+<li>Offers several brushes switchable via keystroke</li>
+<li>Changes fill color via the keyboard</li>
+<li>Changes stroke color via the keyboard</li>
+<li>Changes brush size via the keyboard</li>
+<li>Paints with brushes via the mouse</li>
+<li>Erases with brushes via the keyboard + mouse</li>
+<li>Clears the canvas via the keyboard</li>
+</ul>
+
+<p>We&#8217;ll build the project in several iteration so we can get one piece working at a time.</p>
+
+<h2>Iteration 0: Background</h2>
+
+<p>For this iteration, let&#8217;s just focus on the background and not deal with drawing at all. By the end of the iteration, we want to be able to:</p>
+
+<ul>
+<li>Start the program and see the blank canvas</li>
+<li>Press the &quot;b&quot; key to activate the background feature</li>
+<li>Enter a color using three RGB values like &quot;128,0,128&quot; then enter</li>
+<li>See the background change to that color</li>
+</ul>
+
+<h3>Getting Started</h3>
+
+<p>Let&#8217;s begin with just the most basic RP sketch:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;ruby-processing&#39;</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">ProcessArtist</span> <span class="o">&lt;</span> <span class="no">Processing</span><span class="o">::</span><span class="no">App</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">setup</span>
+</span><span class='line'>    <span class="n">background</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">draw</span>
+</span><span class='line'>    <span class="c1"># Do Stuff</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ProcessArtist</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:width</span> <span class="o">=&gt;</span> <span class="mi">800</span><span class="p">,</span> <span class="ss">:height</span> <span class="o">=&gt;</span> <span class="mi">800</span><span class="p">,</span>
+</span><span class='line'>  <span class="ss">:title</span> <span class="o">=&gt;</span> <span class="s2">&quot;ProcessArtist&quot;</span><span class="p">,</span> <span class="ss">:full_screen</span> <span class="o">=&gt;</span> <span class="kp">false</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Create a folder in your projects directory named <code>process_artist</code> and save this file in that folder with the name <code>process_artist.rb</code>.</p>
+
+<p>Run it from your command prompt with <code>rp5 watch process_artist.rb</code></p>
+
+<p>Then you should see our blank black canvas.</p>
+
+<h3>Reacting to the Keyboard</h3>
+
+<p>You already know about the special methods <code>setup</code> and <code>draw</code>, but there&#8217;s another that fires when the user types keys on the keyboard. Add this method inside your sketch class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">key_pressed</span>
+</span><span class='line'>  <span class="nb">warn</span> <span class="s2">&quot;A key was pressed! </span><span class="si">#{</span><span class="n">key</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Save your file and click on the running sketch window. </li>
+<li>Type a few letters on the keyboard.</li>
+<li>Look at the command prompt where the <code>rp5</code> instruction is running and you should see lines like these:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>A key was pressed! "c"
+</span><span class='line'>A key was pressed! "d"
+</span><span class='line'>A key was pressed! "e"</span></code></pre></td></tr></table></div></figure>
+
+<p>You can see that the method is firing and the <code>key</code> is a string representing the key that was pressed.</p>
+
+<h3>Accepting a Command</h3>
+
+<p>That method get called <strong>each</strong> time a key is pressed. In our plan to change the background, we&#8217;re expecting the user to type something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>b255,0,0</span></code></pre></td></tr></table></div></figure>
+
+<p>Which means &quot;background with 255 red, 0 green, and 0 blue&quot;. Our user is going to type a bunch of keys, but our method is going to fire once for <strong>each</strong> key that&#8217;s pressed.</p>
+
+<h4>Typing into a Queue</h4>
+
+<p>Try clicking on the sketch window and clicking the ENTER key. Look at the command prompt and you should see this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>A key was pressed! "\n"</span></code></pre></td></tr></table></div></figure>
+
+<p>So the ENTER key shows up to RP as <code>&quot;\n&quot;</code>. We know the user is &quot;done&quot; typing their instruction when they hit enter. If they <strong>didn&#8217;t</strong> hit enter yet, then they must be in the middle of typing the command.</p>
+
+<p>If they&#8217;re still typing, we can add the current keystroke to a &quot;queue&quot; &#8211; a list of the letters or numbers that they&#8217;ve typed so far.</p>
+
+<p>When they <strong>do</strong> type an enter, then we can grab all the letters/numbers in the queue and figure out what to do with them.</p>
+
+<h4>An Example Queue</h4>
+
+<p>Here&#8217;s one approach to building a queue with the letters:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">key_pressed</span>
+</span><span class='line'>  <span class="nb">warn</span> <span class="s2">&quot;A key was pressed! </span><span class="si">#{</span><span class="n">key</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@queue</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>    <span class="vi">@queue</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">key</span> <span class="o">!=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="vi">@queue</span> <span class="o">=</span> <span class="vi">@queue</span> <span class="o">+</span> <span class="n">key</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">warn</span> <span class="s2">&quot;Time to run the command: </span><span class="si">#{</span><span class="vi">@queue</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="vi">@queue</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Save that, then go to the active sketch window and type the letters &quot;A&quot;, &quot;S&quot;, &quot;D&quot;, &quot;F&quot;, then ENTER. Over in the command prompt window you should see this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>A key was pressed! "a"
+</span><span class='line'>A key was pressed! "s"
+</span><span class='line'>A key was pressed! "d"
+</span><span class='line'>A key was pressed! "f"
+</span><span class='line'>A key was pressed! "\n"
+</span><span class='line'>Time to run the command: asdf</span></code></pre></td></tr></table></div></figure>
+
+<h4>Processing the Command</h4>
+
+<p>When it&#8217;s time to actually run the command, we need to figure out what the user was trying to do. Let&#8217;s go to the active sketch window and try typing in the example input for changing the background to red:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>b255,0,0</span></code></pre></td></tr></table></div></figure>
+
+<p>Followed by ENTER. In the command prompt you should see this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>A key was pressed! "b"
+</span><span class='line'>A key was pressed! "2"
+</span><span class='line'>A key was pressed! "5"
+</span><span class='line'>A key was pressed! "5"
+</span><span class='line'>A key was pressed! ","
+</span><span class='line'>A key was pressed! "0"
+</span><span class='line'>A key was pressed! ","
+</span><span class='line'>A key was pressed! "0"
+</span><span class='line'>A key was pressed! "\n"
+</span><span class='line'>Time to run the command: b255,0,0</span></code></pre></td></tr></table></div></figure>
+
+<p>In the <code>key_pressed</code> method we&#8217;re not actually doing anything with the command other than printing it out. Find this part of the code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nb">warn</span> <span class="s2">&quot;Time to run the command: </span><span class="si">#{</span><span class="vi">@queue</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="vi">@queue</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s insert a line so it goes like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">else</span>
+</span><span class='line'>  <span class="nb">warn</span> <span class="s2">&quot;Time to run the command: </span><span class="si">#{</span><span class="vi">@queue</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">run_command</span><span class="p">(</span><span class="vi">@queue</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@queue</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which assumes you have a method named <code>run_command</code> which we don&#8217;t, yet. Let&#8217;s create it like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">run_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Running Command </span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Changing the Background</h4>
+
+<p>Now you have to figure out what goes in that <code>run_command</code> method. Here are some tips:</p>
+
+<ul>
+<li>The <code>command</code> variable holds a string like `&quot;b255,0,0&quot;</li>
+<li>We can use the <code>[]</code> method to get the letter at a certain position, like <code>command[0]</code></li>
+<li>We can use <code>[]</code> with a range of positions to get back a bunch of letters</li>
+<li>We can use <code>.split</code> to break a string up into parts based on some separator</li>
+<li>The <code>.to_i</code> method can convert a string into an integer</li>
+</ul>
+
+<h4>Experiments</h4>
+
+<p>When it works, you should be able to change the background to&#8230;</p>
+
+<ul>
+<li>White with <code>b255,255,255</code></li>
+<li>Purple with <code>b128,0,128</code></li>
+<li>Gold with <code>b255,215,0</code></li>
+<li><a href="http://www.tayloredmktg.com/rgb/">Other colors whose RGB codes you can find online</a></li>
+</ul>
+
+<h2>Iteration 1: A Brush</h2>
+
+<p>Setting the background is one thing, but now let&#8217;s actually start drawing. We&#8217;d expect a brush to:</p>
+
+<ul>
+<li>draw a shape where we click the mouse</li>
+<li>have a certain shape</li>
+<li>have a color</li>
+<li>have a scalable size</li>
+</ul>
+
+<p>Let&#8217;s figure out how we can build that.</p>
+
+<h3>Mouse Movements</h3>
+
+<p>The key methods we need from RP are&#8230;</p>
+
+<ul>
+<li><code>mouse_pressed</code> - runs once when the mouse button is first pressed down</li>
+<li><code>mouse_dragged</code> - runs frequently when the mouse is moved while the button is pressed</li>
+<li><code>mouse_released</code> - runs once when the mouse button is released</li>
+<li><code>mouse_x</code> - the current x-axis position of the mouse</li>
+<li><code>mouse_y</code> - the current y-axis position of the mouse</li>
+</ul>
+
+<p>Using those methods we can draw brush shapes around our canvas.</p>
+
+<h3>An Algorithm</h3>
+
+<p>Let&#8217;s start with this:</p>
+
+<ul>
+<li>When the mouse is first depressed, pick a random color and draw the first shape</li>
+<li>When the mouse is moved, continue drawing the shape</li>
+<li>When the mouse is released, stop drawing</li>
+</ul>
+
+<p>Can you build it?</p>
+
+<h3>Tips</h3>
+
+<h4>Anchor Mode</h4>
+
+<p>By default, the shapes are drawn by anchoring the top-left corner to the specified coordinate. You can instead anchor them to the center with the following instructions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ellipse_mode</span> <span class="no">CENTER</span>
+</span><span class='line'><span class="n">rect_mode</span> <span class="no">CENTER</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Smoothing</h4>
+
+<p>Are your shapes looking a bit jagged on the edges? Run the <code>smooth</code> instruction to turn on anti-alias smoothing.</p>
+
+<h4>Clearing the Screen</h4>
+
+<p>Use your background-changing command from the previous iteration to clear the screen.</p>
+
+<h2>Iteration 2: Brush Colors, Sizes, and Shapes</h2>
+
+<p>Now that you&#8217;ve got a single brush, let&#8217;s create multiple brush shapes, sizes, and colors.</p>
+
+<h3>Changing Color</h3>
+
+<p>When your user types <code>f</code> followed by three RGB values (like <code>0,128,0</code>), change the active fill color to the color they entered.</p>
+
+<h3>Changing Size</h3>
+
+<p>When your user types <code>+</code>, increase the size of the brush by one pixel.</p>
+
+<p>When your user types <code>-</code>, decrease the size of the brush by one pixel.</p>
+
+<h3>Changing Shape</h3>
+
+<p>Let&#8217;s allow users to use five different shape brushes. They can switch brushes by typing <code>s1</code> for &quot;shape 1&quot; or <code>s2</code> for &quot;shape 2&quot;. </p>
+
+<p>Create the following brushes for them:</p>
+
+<ul>
+<li>1: A circle</li>
+<li>2: An oval which is twice as wide as it is tall</li>
+<li>3: An oval which is twice as tall as it is wide</li>
+<li>4: A square</li>
+<li>5: A rectangle which is four times as wide as it is tall</li>
+<li>6: A rectangle which is four times as tall as it is wide</li>
+<li>7: A plus sign</li>
+<li>8: A clover shape (four partially overlapping circles)</li>
+<li>9: A shape you imagine yourself</li>
+</ul>
+
+<h2>Iteration 3: Erasing</h2>
+
+<p>Let&#8217;s now work on removing content from the sketch.</p>
+
+<h3>Full-Screen Clear</h3>
+
+<p>If a user types a <code>c</code>, clear the entire screen using the current background color.</p>
+
+<h3>Erasure Brush</h3>
+
+<p>If the user types an <code>e</code>, enable the eraser. It works exactly like a brush, but instead of drawing with the current fill color, it draws with the background color.</p>
+
+<h3>Auto-Erase</h3>
+
+<p>If the user types an <code>a</code>, turn on auto-erase. When they use a brush the shapes appear only while they&#8217;re holding down the mouse. As soon as they let go of the mouse, clear the screen.</p>
+
+<p>When they type <code>a</code> again, turn auto-erase off so they can draw normally.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

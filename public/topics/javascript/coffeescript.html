@@ -1,0 +1,395 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Brief Introduction to CoffeeScript - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="JavaScript & AJAX                                      Brief Introduction to CoffeeScript                              With Rails &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/javascript/coffeescript.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">JavaScript & AJAX</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Brief Introduction to CoffeeScript
+        </h1>
+        
+      </header>
+    
+    <p>With Rails 3.1, CoffeeScript has become the preferred way of writing JavaScript. Most of the community is just starting to build familiarity with the language, and we weren&#8217;t JS experts to begin with! Let&#8217;s work through small examples and show off some of the key ideas.</p>
+
+<h2>Background</h2>
+
+<p>CoffeeScript is a light language that compiles down to JavaScript. Because it is a language that compiles to another language, some might classify it as a <em>transcompiler</em> instead of just a compiler. CoffeeScript&#8217;s syntax is heavily inspired by Python and Ruby.  For the most part, statements in CoffeeScript correspond one-to-one with their equivalent in JavaScript.</p>
+
+<p>CoffeeScript was created out of love for the JavaScript language, but also out of frustration with the JavaScript syntax.  The JavaScript syntax has a tendency to become cumbersome, verbose, and arguably, syntactically messy. The CoffeeScript syntax on the other hand, improves the readability and writabilty of equivalent code that would have otherwise been written in JavaScript.</p>
+
+<p>CoffeeScript&#8217;s succinct syntax offers developers an enjoyable experience, but it also includes other features that makes development more natural.  For example, it includes a simple syntax for object oriented programming, and it includes Python-like array and object comprehensions that make it easier to iterate and interact with lists and objects.</p>
+
+<h2>Setup</h2>
+
+<h3>Local Installation</h3>
+
+<p>Note that some of these commands may require <code>sudo</code> depending on permissions and folder access.</p>
+
+<p>First, we must install the CoffeeScript compiler.  One of the easiest ways to do this is to first install Node.js and the Node Package Manager (NPM).  The following example uses Homebrew for Mac OS X.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>brew install node</span><span class='line command'>curl http://npmjs.org/install.sh | sh</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>For other means of installing Node and the Node Package Manager, see <a href="https://github.com/joyent/node">https://github.com/joyent/node</a> and http://npmjs.org. For the best compatibility with CoffeeScript and other packages, install node version 0.4 rather than 0.5.</p>
+
+<p>After we have the Node Package Manager installed, we can use it to install the CoffeeScript compiler.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>npm install --global coffee-script</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>This will install a new executable called <code>coffee</code> that we can use to both compile CoffeeScript scripts to JavaScript or to run an interactive CoffeeScript REPL (Read Eval Print Loop).</p>
+
+<h3>Online Evaluation</h3>
+
+<p>For small experiments like those we&#8217;ll do here, you can write and evaluate your CoffeeScript directly on the project&#8217;s home page. Visit <a href="http://jashkenas.github.com/coffee-script/">http://jashkenas.github.com/coffee-script/</a> and click the <em>Try CoffeeScript</em> link up top.</p>
+
+<p>You&#8217;ll get a window where you can write CoffeeScript on the left, see the equivalent JavaScript on the right, and click <em>RUN</em> to execute the code.</p>
+
+<h2>Experiments</h2>
+
+<p>Let&#8217;s start by playing with CoffeeScript&#8217;s interactive REPL. If you&#8217;re running an interpreter locally, load it with:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>coffee</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>This will open a <code>coffee&gt;</code> prompt waiting for a line of CoffeeScript to interpret. It&#8217;s similar to using Ruby&#8217;s IRB terminal.</p>
+
+<p>If you&#8217;re using the online interpreter, open that and enter any lines we have as <code>coffee&gt;</code> on the <em>left</em> side of the interpreter window.</p>
+
+<h3>Hello</h3>
+
+<p>Let&#8217;s first create a new variable.</p>
+
+<pre><code>coffee&gt; name = &quot;John Doe&quot;
+</code></pre>
+
+<p>Upon hitting <code>Enter</code>, CoffeeScript will print the return value of the last statement.  In this case, it&#8217;s the value of the variable.</p>
+
+<pre><code>coffee&gt; name = &quot;John Doe&quot;
+John Doe
+</code></pre>
+
+<p>Next, let&#8217;s use that variable and print it along with a message.</p>
+
+<pre><code>coffee&gt; console.log &quot;Hello, #{name}!&quot;
+Hello, John Doe!
+</code></pre>
+
+<p>Here, we used the <code>name</code> variable that we created and used it inside another string that we passed to <code>console.log</code> function.  The <code>console.log</code> printed the resulting string to the screen.  This variable substitution within a string is called string interpolation, and CoffeeScript borrows this behavior from the Ruby language.</p>
+
+<h3>Compiling to JavaScript</h3>
+
+<p>When running CoffeeScript on your system, you can use the <code>coffee</code> command to compile CoffeeScript to JavaScript.</p>
+
+<p>Create a file called <code>hello.coffee</code> that contains the same commands we used above.</p>
+
+<pre><code># hello.coffee
+name = &quot;John Doe&quot;
+console.log &quot;Hello, #{name}!&quot;
+</code></pre>
+
+<p>By passing this file to the <code>coffee</code> command, we can convert this to JavaScript.</p>
+
+<pre><code>$ coffee -c hello.coffee
+</code></pre>
+
+<p>This will create a new file named <code>hello.js</code>.  Let&#8217;s take a look.</p>
+
+<pre><code>$ cat hello.js
+(function() {
+  var name;
+  name = &quot;John Doe&quot;;
+  console.log(&quot;Hello, &quot; + name + &quot;!&quot;);
+}).call(this);
+</code></pre>
+
+<p>If you&#8217;re familiar with JavaScript, you might notice that the resulting code is wrapped in an anonymous function. CoffeeScript does this to help protect the global namespace in JavaScript.  We&#8217;ll touch on this more when we talk about variables.</p>
+
+<h2>Significant Whitespace</h2>
+
+<p>Just like Python, CoffeeScript has significant whitespace.  There is no need for curly braces or semi-colons, but you do need to ensure proper <em>2-space nesting conventions</em>.</p>
+
+<pre><code>if sheepInMeadow and cowsInTheCorn
+  blowHorn()
+else
+  lookAfterSheep()
+</code></pre>
+
+<h2>Variables</h2>
+
+<p>In our first <code>hello.coffee</code> example, we saw that CoffeeScript compiled our example while wrapping everything in an anonymous function.  Variable scoping in JavaScript can sometimes be a tricky thing to master, so CoffeeScript takes some precautions to make sure our variables are only defined (or in scope) when we expect them to be.</p>
+
+<p>In JavaScript, when we want to scope a variable only to the local function block, we must prefix each local variable declaration with the <code>var</code> keyword.</p>
+
+<pre><code>// JavaScript local variable
+var local = &quot;local variable&quot;;
+</code></pre>
+
+<p>If we do not remember to do this, we instead create global variables which might accidentally clobber another global variable somewhere else.</p>
+
+<pre><code>// Whoops, a Global JavaScript variable.
+global = &quot;global variable&quot;;
+</code></pre>
+
+<p>Because global variables can lead to more confusing and buggy code, we try to <em>avoid them</em> as much as possible.  CoffeeScript avoids this problem by making all variable declarations not only local to the current function body, but even to the file itself.  This is why compiled CoffeeScript wraps each file in an anonymous function.</p>
+
+<p>Let&#8217;s define several variables in CoffeeScript and see what the resulting JavaScript looks like.</p>
+
+<pre><code># CoffeeScript
+one   = 1
+two   = 2
+three = 3
+</code></pre>
+
+<p>The resulting JavaScript automatically wraps everything in an anonymous function to prevent defining global variables and also automatically prefixes the variable definitions with the <code>var</code> keyword.</p>
+
+<pre><code>// Equivalent JavaScript
+(function() {
+  var one, three, two;
+  one = 1;
+  two = 2;
+  three = 3;
+}).call(this);
+</code></pre>
+
+<p>This variable safety is one way that CoffeeScript handles lexical scoping of variables for us.  Lexical scoping in CoffeeScript works effectively the same as Ruby’s scope for local variables.</p>
+
+<h2>Functions</h2>
+
+<p>Functions in CoffeeScript are defined by a list of parameters, an arrow, and the function body.  Let&#8217;s define a function variable that represents the area of two sides to a rectangle.</p>
+
+<pre><code>area = (x, y) -&gt; x * y
+</code></pre>
+
+<p>The function body can also exist on subsequent indented lines.</p>
+
+<pre><code>area = (x, y) -&gt;
+  x * y
+</code></pre>
+
+<p>All functions implicitly return the last value within the function body, so we could write a new <code>square</code> function the reuses the <code>area</code> function above.</p>
+
+<pre><code>square = (x) -&gt; area(x, x)
+</code></pre>
+
+<p>If a function has no parameters, you can forego the list of parameters in the function definition.</p>
+
+<pre><code>noop = -&gt;
+  console.log(&quot;I'm a function that doesn't do much.&quot;)
+</code></pre>
+
+<h3>Default Parameter Values</h3>
+
+<p>We can also specify default values for each function parameter.</p>
+
+<pre><code>hello = (name = &quot;John&quot;) -&gt;
+  console.log(&quot;Hello, #{name}!&quot;)
+
+hello()         # prints &quot;Hello, John!&quot;
+hello(&quot;Jane&quot;)   # prints &quot;Hello, Jane!&quot;
+</code></pre>
+
+<p>When we call functions with parameters, the parentheses around the parameter (or argument) list is optional.</p>
+
+<pre><code>hello &quot;Jane&quot;    # prints &quot;Hello, Jane!&quot;
+</code></pre>
+
+<p>However, when we call a function without any parameters, we must still supply the parentheses.</p>
+
+<pre><code>hello()         # The parentheses are required
+</code></pre>
+
+<h2>CoffeeScript is a Language</h2>
+
+<p>That&#8217;s just the tip of the iceberg. CoffeeScript started as an experiment in language design, and it&#8217;s quickly making major inroads among web developers. While Rails apps can exist without it, the JavaScript-driven interactive applications of tomorrow will use it extensively.</p>
+
+<h2>References</h2>
+
+<ul>
+<li>CoffeeScript Documentation: <a href="http://jashkenas.github.com/coffee-script/">http://jashkenas.github.com/coffee-script/</a></li>
+<li>Pragmatic Programmers &quot;CoffeeScript&quot;: <a href="http://pragprog.com/book/tbcoffee/coffeescript">http://pragprog.com/book/tbcoffee/coffeescript</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

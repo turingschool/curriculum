@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fundamental Rails Security - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Fundamental Rails Security                              BackgroundSecurity is hard. It just takes a single mistake &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/architecture/fundamental_security.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Fundamental Rails Security
+        </h1>
+        
+      </header>
+    
+    <h2>Background</h2>
+
+<p>Security is hard. It just takes a single mistake in one little place and your entire application can be compromised. Many major applications with teams of experienced engineers have had security problems at one time or another (GitHub, LinkedIn, Twitter, etc).</p>
+
+<p>Security is a challenge you can never completely solve, but you can avoid the easy mistakes.</p>
+
+<h3>Obscurity</h3>
+
+<p>Many of the attacks below will appear to necessitate knowledge of the code behind the application. <em>Don&#8217;t be fooled by security through obscurity</em>. Hiding your vulnerabilities might increase the time until they&#8217;re found, but it&#8217;s a delay tactic, not prevention.</p>
+
+<h4>All Source Code Will Be Public</h4>
+
+<p>Even for closed-source projects, you should <em>assume</em> that a malicious user has complete access to your source code. You must construct your systems so they can&#8217;t break in, regardless of knowledge.</p>
+
+<p>Is that far fetched? Imagine you build a successful software business. Could one of these happen?</p>
+
+<ul>
+<li>An employee loses their laptop and, oops, they had been meaning to turn on FileVault but forgot. Now your complete source code is out there.</li>
+<li>Your trusted source-control hosting service (GitHub, Beanstalk, etc) has a wide-spread security issue of their own, allowing anyone to see, pull, and change your code. <a href="https://github.com/blog/1068-public-key-security-vulnerability-and-mitigation">That won&#8217;t happen, right?</a></li>
+<li>You attend a conference, do some work while listening to presentations, and forget to use your secure VPN connection for pushing code. You just broadcast it to the entire local network, congrats.</li>
+</ul>
+
+<p>All of the attacks we&#8217;ll look at can be either prevented or mitigated, even when the attacker has perfect knowledge of your system.</p>
+
+<h2>Privilege Escalation</h2>
+
+<p>Probably the most common, easy to exploit, and dangerous security vulnerability is &quot;Privilege Escalation&quot;.</p>
+
+<h3>Theory</h3>
+
+<p>When building web applications there are a plethora of available authentication libraries. In Rails, we often rely on Devise, OmniAuth, or Sorcery.</p>
+
+<h4>Authentication</h4>
+
+<p>It&#8217;s important to remember that authentication answers the question &quot;Are you who you say you are?&quot; You&#8217;ve claimed to be user with email address <code>admin@example.com</code>, but do you know the secret which only I (the system) and that user know &#8211; their password?</p>
+
+<h4>Authorization</h4>
+
+<p>After the user is known, the more important question is that of authorization: &quot;Are you allowed to do what you&#8217;re trying to do?&quot;</p>
+
+<p>Can you see that data? Can you delete that record? After authentication has verified your identity, authorization must decide whether you are authorized to execute the desired action.</p>
+
+<p><strong>Too often, applications do not implement a robust authorization strategy</strong>. By relying on only authentication, the system has only two known roles:</p>
+
+<ul>
+<li>Unauthenticated Users</li>
+<li>Authenticated Users</li>
+</ul>
+
+<h4>Insufficient Authorization Structures</h4>
+
+<p>As development proceeds, that usually expands to include some kind of administrator:</p>
+
+<ul>
+<li>Unauthenticated Users</li>
+<li>Authenticated Users</li>
+<li>Authenticated Administrators</li>
+</ul>
+
+<p>The authentication tools often supply some <code>before_filter</code> like <code>require_login</code> that mandate the authentication process succeeds.</p>
+
+<h4>The Weakness</h4>
+
+<p>The vulnerability comes about when users are not differentiated from one another.</p>
+
+<ul>
+<li>When I log in as &quot;User 1&quot;, I can see and manipulate my own data</li>
+<li>If a &quot;User 2&quot; logs in, they can see and manipulate their data</li>
+<li>When the application is vulnerable, authenticated User 1 can often view or change data for authenticated User 2</li>
+</ul>
+
+<h3>Executing the Attack</h3>
+
+<p>Most Rails applications, in one place or another, expose URLs with a unique identifier (<code>id</code>) embedded in the URL.</p>
+
+<p>Simply access one of those URLs through the normal interface (links, nav, etc), then change the ID in the URL. Some frequent patterns include:</p>
+
+<ul>
+<li>Browse to your user profile and something like <code>http://example.com/users/6</code></li>
+<li>Change the ID to <code>http://example.com/users/5</code>, you might see the profile (profiles may or may not be intentionally public)</li>
+<li>Look in your normal screen for an edit link, probably <code>http://example.com/users/6/edit</code></li>
+<li>Try <code>http://example.com/users/5/edit</code>, which shouldn&#8217;t be allowed</li>
+<li>Try accessing your own <code>http://example.com/users/6/edit</code> and look in the HTML form to see if there&#8217;s a hidden <code>id</code> attribute. Change it to <code>5</code> and submit the form.</li>
+<li>Try using CURL or another tool to <code>PUT</code> similar data to <code>http://example.com/users/5</code> and see if you can change their information. What about <code>DELETE</code>?</li>
+</ul>
+
+<p>The same attack applies wherever you have custom records for your user, but know there are similar records for other users. Look for URLs like <code>/orders/6</code>, <code>/messages/92830</code>, <code>/dashboards/6</code> and try to exploit them.</p>
+
+<h3>Recognizing Vulnerabilities</h3>
+
+<p>There&#8217;s <strong>nothing wrong</strong> with having IDs in the URL. Attempts to obfuscate the ID (by using some kind of hashed value, text instead of a numeric ID, etc) are only delay tactics, they are not fixes. Rails, itself, bears no real blame for this issue, it&#8217;s all about your application.</p>
+
+<p>The fastest way to look for this vulnerability is to:</p>
+
+<ul>
+<li>Open each controller</li>
+<li>Look for any class methods called on models (such as <code>Article.find</code>, <code>Order.destroy</code>, etc)</li>
+</ul>
+
+<p>Most often when class methods are used in controllers they are passed data from <code>params</code>. This is usually a vulnerability.</p>
+
+<h3>Preventing the Attack</h3>
+
+<p>90% of the time, the fix is simple. You just need to scope the operation within the <code>current_user</code>. Instead of:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="n">order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">order</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Order Updated&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Validation Failed&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You eliminate the class method and find the order within the orders owned by the current user:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="n">order</span> <span class="o">=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">orders</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">order</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">order</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Order Updated&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">order</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">current_user</span><span class="o">.</span><span class="n">orders</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Order Not Found&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:notice</span> <span class="o">=&gt;</span> <span class="s2">&quot;Validation Failed&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This fix probably necessitates <em>no change</em> at the model level, assuming that a <code>User</code> expresses a <code>has_many</code> relationship with the <code>Order</code>.</p>
+
+<h4>Why It Works</h4>
+
+<p>In the first snippet, we run this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which generates SQL like this when given an ID of <code>1</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">orders</span><span class="p">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the improved version, we do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">order</span> <span class="o">=</span> <span class="k">current_user</span><span class="p">.</span><span class="n">orders</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="p">[:</span><span class="n">id</span><span class="p">])</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which generates SQL like this when given an ID of <code>1</code> and assuming a current user with ID of <code>6</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">orders</span> <span class="k">where</span> <span class="n">orders</span><span class="p">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">AND</span> <span class="n">orders</span><span class="p">.</span><span class="n">user_id</span> <span class="o">==</span> <span class="mi">6</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Since we trust the <code>current_user</code> helper to provide us a correct <code>user_id</code>, a nefarious user cannot change the right side of the <code>AND</code>. If they manipulate the URL so an order ID of an order belonging to another user is put in for the <code>orders.id</code> clause, no row will be found.</p>
+
+<p>Based on the second controller snippet, a not-found <code>order</code> will result in a safe redirect back to the current user&#8217;s orders listing.</p>
+
+<h3>Things to Remember</h3>
+
+<ul>
+<li>Be very suspicious of <em>any</em> class method in a controller.</li>
+<li>Nefarious users can access any public action and pass in any combination of parameters they want. Just because there&#8217;s no link or form doesn&#8217;t mean an action can&#8217;t be exploited.</li>
+<li>Scope all queries off of a trusted domain object, like the current user.</li>
+<li>Be careful with your order of operations &#8211; don&#8217;t change any data until you&#8217;ve successfully found the specified record.</li>
+</ul>
+
+<h3>Exercise</h3>
+
+<h4>Prepare Tooling</h4>
+
+<p>You&#8217;ll want to be able to create raw HTTP requests without the limitations of the browser. Here are some options:</p>
+
+<h5>Faraday Gem</h5>
+
+<p>If you&#8217;d like to work from IRB, consider using the <a href="https://github.com/lostisland/faraday">Faraday Gem</a> which will allow you to create and send requests, then read responses in a friendly Ruby style.</p>
+
+<h5>Postman Chrome App</h5>
+
+<p>Another option is the <a href="https://chrome.google.com/webstore/detail/postman-rest-client/fdmmgilgnpjigdojojpjoooidkmcomcm?hl=en">Postman Chrome App</a> which provides a graphical interface for sending HTTP requests.</p>
+
+<h5>OS X GUI</h5>
+
+<p>If you&#8217;d prefer a native graphical interface for tweaking and sending HTTP requests, try <a href="https://itunes.apple.com/us/app/graphicalhttpclient/id433095876?mt=12">Graphical HTTP Client</a> from the Apple App Store.</p>
+
+<h5>CURL</h5>
+
+<p><a href="http://superuser.com/questions/149329/what-is-the-curl-command-line-syntax-to-do-a-post-request">You can do everything through CURL</a>, if you really feel like it.</p>
+
+<h4>Setup the Code</h4>
+
+<p>We&#8217;ll look at a student project which exemplifies several common weaknesses. Clone the project:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git@github.com:jmejia/store_engine.git fundamental_security</span></code></pre></td></tr></table></div></figure>
+Get it setup to run locally:
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>cd fundamental_security</span><span class='line command'>bundle</span><span class='line command'>rake db:migrate && rake db:seed</span><span class='line command'>bundle exec rails server</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Setup Accounts and Data</h4>
+
+<ul>
+<li>Open three incognito browser windows</li>
+<li>In the first&#8230;
+
+<ul>
+<li>Create a user account and login (&quot;Account A&quot;)</li>
+<li>Place an order using Account A</li>
+</ul></li>
+<li>In the second&#8230;
+
+<ul>
+<li>Create a second user account and login (&quot;Account B&quot;)</li>
+</ul></li>
+<li>In the third&#8230;
+
+<ul>
+<li>Login to the site using the admin account &quot;<a href="mailto:demoXX+steve@jumpstartlab.com">demoXX+steve@jumpstartlab.com</a>&quot; and password &quot;password&quot;</li>
+<li>View the order you just placed in the admin interface</li>
+</ul></li>
+</ul>
+
+<h4>Begin the Exploit</h4>
+
+<ul>
+<li>Take a look at <a href="https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb">https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb</a></li>
+<li>Can you figure out how to change the <code>total_cost</code> of Account A&#8217;s order to $0.00 through the <code>update</code> method?</li>
+<li>From your Account B window, can you completely erase Account A&#8217;s order?</li>
+</ul>
+
+<p>Create another order from Account A, then&#8230;</p>
+
+<ul>
+<li>Take a look at <a href="https://github.com/jmejia/store_engine/blob/master/app/controllers/line_items_controller.rb">https://github.com/jmejia/store_engine/blob/master/app/controllers/line_items_controller.rb</a></li>
+<li>Without being logged in to <em>any</em> account, can you increase the quantity in the line items for Account A&#8217;s order?</li>
+<li>Can you destroy <em>all</em> <code>LineItem</code> instances in the system?</li>
+<li>Take a look at <a href="https://github.com/jmejia/store_engine/blob/master/app/controllers/carts_controller.rb">https://github.com/jmejia/store_engine/blob/master/app/controllers/carts_controller.rb</a></li>
+<li>How can you manipulate other users&#8217; carts through the <code>update</code> action?</li>
+</ul>
+
+<h2>Attribute Injection</h2>
+
+<p>Attribute Injection is the second most common security vulnerability in Rails applications. While Rails is not at fault, it is fair to say that applying common Rails patterns without understanding the ramifications causes the vulnerabilities.</p>
+
+<h3>Theory</h3>
+
+<p>You generally create forms in Rails using the <code>form_for</code> helper. Within that form you specify some attributes and the types of input fields that you want. Then, the controller action that receives the data often looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="vi">@order</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s1">&#39;Order was successfully updated.&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="s2">&quot;edit&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Mass-Assignment</h4>
+
+<p>When your controller makes use of the <code>.new</code>, <code>.create</code>, or <code>#update_attributes</code> methods, you&#8217;re using a feature named mass-assignment. It allows these methods to take in a hash of attribute/value pairs and updates each of these attributes on the model.</p>
+
+<p>This is incredibly convenient because you don&#8217;t have to go through and run a setter for every attribute. If mass-assignment didn&#8217;t exist, the above action would look something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@order</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:order</span><span class="o">][</span><span class="ss">:status</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@order</span><span class="o">.</span><span class="n">confirmation</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:order</span><span class="o">][</span><span class="ss">:confirmation</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="vi">@order</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s1">&#39;Order was successfully updated.&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="s2">&quot;edit&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If the <code>@order</code> has many attributes, this can be many stupid lines of code as well as one more piece that has to change whenever the makeup of the <code>Order</code> model changes.</p>
+
+<h4>The Problem with Mass-Assignment</h4>
+
+<p>The issue with mass-assignment is the hash that&#8217;s passed into the method might contain attributes you weren&#8217;t intending to change. Nefarious users can easily edit the HTML form to rename, change, or add input fields and values. Users sending <code>POST</code> requests using CURL or a Ruby client could send any parameter combo they can dream up.</p>
+
+<p>What if that <code>@order</code> had a <code>paid</code> attribute, a boolean, that specified whether or not the order had been paid for. If the model allows mass-assignment to any attribute, the <em>the nefarious user could mark their own item as paid without paying anything.</em></p>
+
+<h4>At the Model Layer</h4>
+
+<p>The solution in Rails versions 1-3 (but different in Rails 4), is to declare in the model which attributes are &quot;accessible&quot; to mass-assignment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">attr_accessible</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">:confirmation</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Calling the <code>attr_accessible</code> method defines a &quot;white list&quot; of attributes which may be passed in through mass-assignment. If any other attribute is passed in it will just be ignored.</p>
+
+<h4>Strong Parameters in Rails 4</h4>
+
+<p>One of the most significant changes in Rails 4 is the addition of the &quot;Strong Parameters&quot; functionality.</p>
+
+<p>The technique involves calling the <code>require</code> and/or <code>permit</code> methods on the <code>params</code> within the controller action. For instance, the <code>update</code> action from <code>OrdersController</code> starts like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:order</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="vi">@order</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s1">&#39;Order was successfully updated.&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="s2">&quot;edit&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we add a call to <code>permit</code> in the <code>update_attributes</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:order</span><span class="o">].</span><span class="n">permit</span><span class="p">(</span><span class="ss">:status</span><span class="p">,</span> <span class="ss">:confirmation</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="vi">@order</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s1">&#39;Order was successfully updated.&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="s2">&quot;edit&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now only the keys <code>:status</code> and <code>:confirmation</code> are allowed to pass through to the model&#8217;s <code>update_attributes</code> method. Often this whitelisting of allowable attributes is shared across multiple actions, so developers will pull it out to a method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">order_attributes</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="vi">@order</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s1">&#39;Order was successfully updated.&#39;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="s2">&quot;edit&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">order_attributes</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">[</span><span class="ss">:order</span><span class="o">].</span><span class="n">permit</span><span class="p">(</span><span class="ss">:status</span><span class="p">,</span> <span class="ss">:confirmation</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which has the exact same functionality. If you&#8217;re working on a Rails 3 app and would like to add the Strong Parameters functionality, you can <a href="https://github.com/rails/strong_parameters">add it through a gem</a>.</p>
+
+<h3>Executing the Attack</h3>
+
+<p>This vulnerability can often be attacked right in the browser or via a non-browser HTTP client.</p>
+
+<h4>In the Browser</h4>
+
+<p>Most modern web browsers offer some kind of &quot;Web Inspector&quot; that allows a user to look at the HTML, CSS, and JavaScript that are creating the page.</p>
+
+<p>What most users don&#8217;t realize, though, is that the document is usually modifiable. In Chrome, for instance, you can double click any element in the inspector and change it&#8217;s name, value, CSS class, etc. This functionality can be very valuable when you&#8217;re building and debugging a web application.</p>
+
+<p>But it also makes an easy way to exploit attribute injection vulnerabilities. You can browse to a normal form provided by the application, then go into the inspector to:</p>
+
+<ul>
+<li>Look for hidden fields and modify them</li>
+<li>Change the name of fields to other attributes that you think might be vulnerable</li>
+<li>Add or delete fields</li>
+</ul>
+
+<p>Then submit the form and see what happens!</p>
+
+<h4>HTTP Client</h4>
+
+<p>If you can shape your own requests then the attack is even easier.</p>
+
+<ul>
+<li>Look at the documentation or the existing web form to determine which fields are required</li>
+<li>Construct a request with those fields</li>
+<li>Add in the vulnerable fields</li>
+<li>Submit the request and observe the results</li>
+</ul>
+
+<h3>Recognizing Vulnerabilities</h3>
+
+<p>Finding these vulnerabilities can be done by dropping down to the model code and poking around, looking for <code>attr_accessible</code> lines which list attributes that shouldn&#8217;t be changeable by a user.</p>
+
+<p>For instance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">attr_accessible</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:total_cost</span><span class="p">,</span> <span class="ss">:confirmation</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>:user_id</code> on that order is a giant red flag, not to mention the <code>:total_cost</code>. These are things that a user of the app should <em>not</em> be able to alter.</p>
+
+<h3>Preventing the Attack</h3>
+
+<p>Your <code>attr_accessible</code> calls should <strong>only</strong> have attributes which you&#8217;re ok with the user changing <em>at any time</em>. Anything that&#8217;s even remotely &quot;secure&quot; or &quot;important&quot; should not be accessible through mass-assignment.</p>
+
+<p>The consequence is that you&#8217;ll have to do more explicit assignments. A few extra lines of code, though, is worth the security.</p>
+
+<h3>Things to Remember</h3>
+
+<ul>
+<li>Just because an attribute isn&#8217;t in your form <em>doesn&#8217;t</em> mean it&#8217;s safe</li>
+<li>Anything listed by your <code>attr_accessible</code> is probably changable through the <code>create</code> and <code>edit</code> actions</li>
+<li>If you want to assign attributes that need more security, use explicit assignment like this: <code>model.attribute_name = X</code></li>
+</ul>
+
+<h3>Exercise</h3>
+
+<h4>Model Research 1</h4>
+
+<ul>
+<li>Take a look at <a href="https://github.com/jmejia/store_engine/blob/master/app/models/order.rb">https://github.com/jmejia/store_engine/blob/master/app/models/order.rb</a></li>
+<li>Notice the fields in the <code>attr_accessible</code> call</li>
+<li>Look at <a href="https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb">https://github.com/jmejia/store_engine/blob/master/app/controllers/orders_controller.rb</a> to confirm that mass assignment is used for the <code>update</code> action</li>
+</ul>
+
+<h4>Data Setup 1</h4>
+
+<ul>
+<li>Create an order under Account A</li>
+</ul>
+
+<h4>Exploit 1</h4>
+
+<ul>
+<li>Submit a request to <code>update</code> that changes the <code>total_cost</code> of the order to $0.00</li>
+<li>Submit a request to <code>update</code> that moves the order from Account A to Account B</li>
+</ul>
+
+<h4>Model Research 2</h4>
+
+<ul>
+<li>Take a look at <a href="https://github.com/jmejia/store_engine/blob/master/app/models/user.rb">https://github.com/jmejia/store_engine/blob/master/app/models/user.rb</a></li>
+<li>Notice the fields in the <code>attr_accessible</code> call</li>
+<li>Look at <a href="https://github.com/jmejia/store_engine/blob/master/app/controllers/users_controller.rb">https://github.com/jmejia/store_engine/blob/master/app/controllers/users_controller.rb</a> to confirm that mass assignment is used for the <code>create</code> action</li>
+</ul>
+
+<h4>Exploit 2</h4>
+
+<ul>
+<li>Create a new user, Account C, who is automagically an Administrator in the system.</li>
+<li>Try visiting the admin tools and everything should work as expected</li>
+</ul>
+
+<h2>Cross-Site Scripting</h2>
+
+<p>Cross-Site Scripting, often abbreviated (XSS), is generally an attack that is more dangerous to your users than to you.</p>
+
+<h3>Theory</h3>
+
+<p>Any time you render HTML to the user, it could (and likely does) contain JavaScript code anywhere in the markup. If an attacker can embed JavaScript content into your page, then they can likely cause chaos for your users.</p>
+
+<p>If an attacker can execute arbitrary JavaScript on your user&#8217;s machine, some of the things they might be able to do include:</p>
+
+<ul>
+<li>Redirect them to any site on the web (phishing, porn, advertising, etc)</li>
+<li>Access other sites they are currently logged in to (Facebook, Amazon, etc)</li>
+<li>Rewrite your page to submit forms or other data to them</li>
+<li>Falsely ask them to verify their username and password, then send the results to the attacker</li>
+</ul>
+
+<h3>Executing the Attack</h3>
+
+<p>How would an attacker &quot;embed content&quot; on your site? It can happen multiple ways:</p>
+
+<ul>
+<li>Maybe you allow user comments on a blog, and they can just embed <code>&lt;script&gt;</code> tags right in the text.</li>
+<li>Maybe you allow user reviews, then they embed the tags there</li>
+<li>Maybe they exploit one of the other weaknesses in order to edit the content you think is &quot;safe&quot; (created by an trusted user, like an admin)</li>
+</ul>
+
+<h3>Preventing the Attack</h3>
+
+<p>Rails 3 made this vulnerability <em>much</em> less prevalent. You actually have to go out of your way to open the vulnerability.</p>
+
+<p>In Rails 3, all strings output in the view template are considered &quot;untrusted&quot;. Untrusted strings are run through an HTML-escaping processor.</p>
+
+<p>Say your nefarious user creates a comment on your blog with this content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>This article is stupid! &lt;script&gt;alert("BOOM!")&lt;/script&gt;</span></code></pre></td></tr></table></div></figure>
+
+<p>When it&#8217;s run through the escaping filter, before output to the user, it becomes <code>This article is stupid! &amp;lt;script&amp;gt;alert(&quot;BOOM!&quot;)&amp;lt;/script&amp;gt;</code></p>
+
+<p>The <code>&lt;</code> character is converted to a <code>&amp;lt;</code> for &quot;less than&quot; and <code>&gt;</code> becomes <code>&amp;gt;</code> for &quot;greater than&quot;. The web browser will not recognize this as JavaScript without the proper tags, so the attack is stopped.</p>
+
+<h3>Opening Vulnerabilities</h3>
+
+<p>But you can open yourself up to the vulnerability with good intentions. Perhaps you decide that commenters on your website should be able to use formatting tags (like bold and italic) and embed links. So in the view template you replace:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">comment</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With the more permissive:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">comment</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">html_safe</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Or, the same effect by using the <code>raw</code> helper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">raw</span> <span class="n">comment</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now a nefarious user can embed any JavaScript they want with just a comment.</p>
+
+<h3>Things to Remember</h3>
+
+<ul>
+<li>Only use <code>.html_safe</code> or <code>raw</code> with <strong>great caution</strong> and <strong>never</strong> on untrusted user content</li>
+<li>If you want content to have embedded HTML, you should probably use something like <a href="https://github.com/rgrove/sanitize">https://github.com/rgrove/sanitize</a> to limit it to certain tags</li>
+</ul>
+
+<h3>Exercise</h3>
+
+<p>Unfortunately, our sample application doesn&#8217;t have a vulnerability built in. Yay?</p>
+
+<h4>Creating a Vulnerability</h4>
+
+<p>In the previous section, we figured out that (as an attacker) we could create our own admin user. So with that user we can modify any of the trusted content on the site.</p>
+
+<p>It is <em>very reasonable</em> that the site authors might have considered product names to be trusted data because they&#8217;re written by the administrators.</p>
+
+<ul>
+<li>Open <code>app/views/products/_sm_product.html.erb</code></li>
+<li>Change line 8 from <code>&lt;%= p.name %&gt;</code> to <code>&lt;%= p.name.html_safe %&gt;</code></li>
+<li>Run the server and navigate to <code>http://localhost:3000/categories/2</code></li>
+<li>The page should appear normal</li>
+</ul>
+
+<h4>Embedding The Attack</h4>
+
+<p>Either using your admin account created earlier, (or the built in admin account &quot;<a href="mailto:demoXX+steve@jumpstartlab.com">demoXX+steve@jumpstartlab.com</a>&quot; / &quot;password&quot;)&#8230;</p>
+
+<ul>
+<li>Visit the admin page at <code>/admin</code></li>
+<li>In the &quot;Product Management&quot; section, go to the &quot;Grub&quot; tab and find &quot;Rations&quot;</li>
+<li>Edit the name to be <code>Rations &lt;script&gt;alert(&quot;BOOM!&quot;)&lt;/script&gt;</code></li>
+<li>Visit/refresh <code>http://localhost:3000/categories/1</code> and you should see a JavaScript alert box saying &quot;BOOM!&quot;</li>
+</ul>
+
+<p>Now your user is exploited.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://guides.rubyonrails.org/security.html">Rails Security Guide</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

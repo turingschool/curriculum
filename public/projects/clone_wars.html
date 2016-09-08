@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Clone Wars - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Clone Wars                              IntroIn this project you&#8217;ll take a client&#8217;s website and rebuild &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/clone_wars.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Clone Wars
+        </h1>
+        
+      </header>
+    
+    <h2>Intro</h2>
+
+<p>In this project you&#8217;ll take a client&#8217;s website and rebuild it as a Sinatra and SQL-database powered web application.</p>
+
+<h2>Learning Goals</h2>
+
+<p>The overarching goals are to understand how web applications&#8230;</p>
+
+<ul>
+<li>Receive requests and send responses with HTTP</li>
+<li>Store data to and fetch data from a SQL database</li>
+<li>Are built in a modular, object-oriented style</li>
+</ul>
+
+<h3>Working with HTTP</h3>
+
+<p>By the end of this project you will:</p>
+
+<ul>
+<li>understand <code>GET</code> and <code>POST</code> coming from the browser</li>
+<li>understand how and why we <em>fake</em> the <code>PUT</code> and <code>DELETE</code> verbs</li>
+<li>use paths to control which part of the application is activated</li>
+<li>use data embedded in the URL path (<code>GET</code> and <code>POST</code> requests)</li>
+<li>use parameters appended to the path (<code>GET</code> requests)</li>
+<li>use parameters embedded in the request body (<code>POST</code> requests)</li>
+</ul>
+
+<h3>Databases</h3>
+
+<p>By the end of this project you will:</p>
+
+<ul>
+<li>use the Sequel library to generate and execute SQL statements</li>
+<li>implement <code>SELECT</code>, <code>INSERT</code>, <code>DELETE</code>, and <code>UPDATE</code> SQL queries</li>
+<li>use <code>WHERE</code>, <code>LIMIT</code>, <code>INNER JOIN</code>, and <code>ORDER</code> modifiers in SQL queries</li>
+<li>use appropriate techniques to avoid SQL injection attacks</li>
+<li>design an elementary database schema with at least 2 tables and a relationship between them</li>
+<li>use separate environment-specific databases (<em>development</em>, <em>test</em>, and <em>production</em>)</li>
+</ul>
+
+<h3>Architecture</h3>
+
+<p>Throughout the project your code will:</p>
+
+<ul>
+<li>separate business logic from the Sinatra web application</li>
+<li>use layouts and partials in view templates to reduce repetition and increase clarity</li>
+<li>test at multiple levels including:
+
+<ul>
+<li>unit tests for business logic</li>
+<li>controller tests for the web application</li>
+<li>acceptance tests to imitate user interactions</li>
+</ul></li>
+</ul>
+
+<h2>The Project</h2>
+
+<p>In this project you&#8217;ll adopt a client &#8211; without their knowledge. You&#8217;ll select an existing website and:</p>
+
+<ul>
+<li>scrape the content</li>
+<li>rip the design and assets (CSS, photos, etc)</li>
+<li>implement a CMS per the specifications below</li>
+<li>deploy your new version of their website into production</li>
+<li>optionally improve the graphic/visual/interaction/information design</li>
+</ul>
+
+<h3>Client Options</h3>
+
+<p>Each group will choose a client and no two groups will have the same client. Your options include:</p>
+
+<ul>
+<li><a href="http://backcountry-deli.com/">Backcountry Deli</a> - Sandwich Shop</li>
+<li><a href="http://www.fastframeoflodo.com/blog/">FastFrame of LoDo</a> - Framing Shop</li>
+<li><a href="http://www.lodojimmys.com/">Jimmy&#8217;s Urban Bar &amp; Grill</a> - Restaurant</li>
+<li><a href="http://playersclothing.com/">Players</a> - Mens Clothing</li>
+<li><a href="http://hapasushi.com/">Hapa Sushi</a> - Sushi Restaurant</li>
+<li><a href="http://www.luxesalon.com/">Luxe Salon</a> - Salon</li>
+<li><a href="http://www.indoxservices.com/">Indox Services</a> - Print Shop</li>
+<li><a href="http://www.twofistedmarios.com/">Two-Fisted Mario&#8217;s</a> - Pizza Shop</li>
+<li><a href="http://sliceworkspizza.com/">SliceWorks</a> - More Pizza</li>
+<li><a href="http://novocoffee.com/">NovoCoffee</a> - Coffee Roaster</li>
+</ul>
+
+<h3>General Requirements</h3>
+
+<p>Your Content Management System needs to:</p>
+
+<ul>
+<li>serve the content just like the original site</li>
+<li>offer a way for content (ie: hours, menu, description) to be edited by an administrator (single user may be hard-coded)</li>
+<li>include at least one &quot;interactive element&quot; as described below</li>
+</ul>
+
+<h3>What Not To Do</h3>
+
+<ul>
+<li>Don&#8217;t use <code>ActiveRecord</code>, <code>DataMapper</code>, or <code>Sequel::Model</code> &#8211; just normal <code>Sequel</code> and SQL</li>
+<li>Don&#8217;t use any CMS gems for your project like <code>Nesta</code></li>
+<li>Don&#8217;t start into 12 features and plan for them all to come together at the last minute. Start small and iterate.</li>
+<li>Don&#8217;t try and build a more complex database schema than you need &#8211; KISS</li>
+<li>Don&#8217;t let the details of your database structure leak all over the application. Hide them with a wrapper class.</li>
+</ul>
+
+<h2>Interactive Elements</h2>
+
+<p>Depending on the domain of your client, your site should include <strong>at least one</strong> of the following:</p>
+
+<h4>Contact Us</h4>
+
+<ul>
+<li>Basic: A contact form that emails the client/administrator, asks for a name, subject, and body</li>
+<li>Medium: Building on the above, allow the user to attach a photo. Only allow files that are PNGs or JPGs.</li>
+<li>Advanced: User emails create &quot;discussions&quot; accessible to the admin through a web interface <em>and</em> email. The admin can reply to the email, which goes to the app, which adds the response to the discussion and emails the client.</li>
+</ul>
+
+<h4>Site-wide Banner</h4>
+
+<ul>
+<li>Basic: A banner message displayed on all pages (e.g. &quot;we will be closed for Thanksgiving&quot;)</li>
+<li>Medium: Schedule the banner to start and stop at certain days/times <em>or</em> after certain user activities (ex: once they&#8217;ve visited three pages, the banner displays &quot;Questions? Call us at 888-555-5555&quot;)</li>
+<li>Advanced: Display a banner to users based on membership in a group (ie: all registered users with a pending appointment/reservation)</li>
+</ul>
+
+<h4>Domain-Specific Reservations</h4>
+
+<ul>
+<li>Basic: Use a form to send an email with a request that specifies the day, time, party size, and contact information. Send to admin via email.</li>
+<li>Medium: Request the reservation using drop-down selectable dates, times, and party size. The admin can approve/deny requests through a web interface.</li>
+<li>Advanced: View a schedule which displays available slots. Requests are approved/denied through a web interface and the requester is notified over email or phone/SMS.</li>
+</ul>
+
+<h4>User-generated content</h4>
+
+<ul>
+<li>Basic: Visitor can create product reviews / images without authenticating</li>
+<li>Medium: Visitors must authenticate with an external service (twitter, facebook, etc) before creating content</li>
+<li>Hard: Visitors must authenticate before creating content and implement your own authentication system from scratch (including salted/hashed passwords, of course)</li>
+</ul>
+
+<h4>Web-Based Application System</h4>
+
+<ul>
+<li>Basic: Fill-out the web form and store the data in the database (ex: to apply for a job, apply to adopt, etc)</li>
+<li>Medium: After the user fills out the form, send email confirmation to the applicant and notification to the admin</li>
+<li>Advanced: After the form is submitted and notifications sent, add an approval/feedback workflow for the admin with notifications to the user as appropriate</li>
+</ul>
+
+<h2>Evaluation Rubric</h2>
+
+<p>The project will be assessed with the following rubric:</p>
+
+<h3>1. Functional Expectations</h3>
+
+<ul>
+<li>4: Application recreates the original site and adds three Interactive Elements</li>
+<li>3: Application recreates the original site and adds one Interactive Element</li>
+<li>2: Application has some small missing functionality</li>
+<li>1: Application is not a usable replacement of the original site</li>
+</ul>
+
+<h3>2. Test-Driven Development</h3>
+
+<ul>
+<li>4: Application is broken into components which are well tested in both isolation and integration using appropriate data</li>
+<li>3: Application is well tested but does not balance isolation and integration/feature tests</li>
+<li>2: Application makes some use of tests, but the coverage is insufficient</li>
+<li>1: Application does not demonstrate strong use of TDD</li>
+</ul>
+
+<h3>3. Encapsulation / Breaking Logic into Components</h3>
+
+<ul>
+<li>4: Application is expertly divided into logical components each with a clear, single responsibility</li>
+<li>3: Application effectively breaks logical components apart but breaks the principle of SRP</li>
+<li>2: Application shows some effort to break logic into components, but the divisions are inconsistent or unclear</li>
+<li>1: Application logic shows poor decomposition with too much logic mashed together</li>
+</ul>
+
+<h3>4. Fundamental Ruby &amp; Style</h3>
+
+<ul>
+<li>4:  Application demonstrates excellent knowledge of Ruby syntax, style, and refactoring</li>
+<li>3:  Application shows strong effort towards organization, content, and refactoring</li>
+<li>2:  Application runs but the code has long methods, unnecessary or poorly named variables, and needs significant refactoring</li>
+<li>1:  Application generates syntax error or crashes during execution</li>
+</ul>
+
+<h3>5. Sinatra / Web and Business Logic</h3>
+
+<ul>
+<li>4: Application takes advantage of all the features Sinatra has to offer and
+effectively separates the web application from the business logic.</li>
+<li>3: Application makes good use of Sinatra but has some mixing of the web and
+business logic.</li>
+<li>2: Application has web and business logic totally mixed together</li>
+<li>1: Application demonstrates a weak understanding of Sinatra and how applications
+should be built.</li>
+</ul>
+
+<h3>6. View Layer</h3>
+
+<ul>
+<li>4: Application expertly breaks components out to view partials and makes use
+of both built-in and custom-written view helpers.</li>
+<li>3: Application breaks components out to view partials but has some logic
+or complexity leaking into the view</li>
+<li>2: Application has messy views that mix logic and presentation</li>
+<li>1: Application shows a lack of understanding around view templates and how
+they should be used/constructed.</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

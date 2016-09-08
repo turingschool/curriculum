@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Configuring Heroku Features - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Small Topics                                      Configuring Heroku Features                              Earlier you learned &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/heroku.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Small Topics</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Configuring Heroku Features
+        </h1>
+        
+      </header>
+    
+    <p>Earlier you learned how to deploy your app to the <a href="http://www.heroku.com/">Heroku</a> platform. In this section
+you&#8217;ll learn how to work with various Heroku features and add-ons.</p>
+
+<h2>Core Features</h2>
+
+<h3>Setting Configuration Variables</h3>
+
+<p>As your app grows it will need various pieces of configuration data to run. Some of this data will be too sensitive or change too frequently for you to be able to store it in source control. Heroku allows you to store configuration variables so that your app can configure itself in production mode. </p>
+
+<p>All apps start out with a default set of variables, which you can view with the command <code>heroku config</code>. Pay special attention to <code>RACK_ENV</code> (which determines the environment your app boots into) and <code>DATABASE_URL</code> which points at your app&#8217;s database.</p>
+
+<p>Read more about <a href="http://devcenter.heroku.com/articles/config-vars">Heroku configuration variables</a>.</p>
+
+<h3>Setting Up Workers</h3>
+
+<p>For performance reasons, most web applications end up offloading work to worker processes that operate asynchronously, outside the context of a web request. This usually involves setting up a queueing system such as <a href="http://devcenter.heroku.com/articles/delayed-job]">delayed_job</a> or <a href="https://github.com/defunkt/resque">Resque</a>. </p>
+
+<p>delayed_job is the more documented, simpler approach since you can use your existing relational database. Follow <a href="http://devcenter.heroku.com/articles/delayed-job">Heroku&#8217;s setup instructions</a> to get this running.</p>
+
+<p>Note that if you are creating an app using Heroku&#8217;s Cedar stack, you will need to add a worker process to the app&#8217;s <a href="http://devcenter.heroku.com/articles/procfile">Procfile</a>, described below.</p>
+
+<h3>Using the <code>Procfile</code></h3>
+
+<p>Heroku&#8217;s Celadon Cedar stack affords much more flexibility about what kinds of processes can be run on Heroku. A typical
+web app configuration using <code>delayed_job</code> and <code>thin</code> is below:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>worker: bundle <span class="nb">exec </span>rake <span class="nb">jobs</span>:work
+</span><span class='line'>web: bundle <span class="nb">exec </span>thin start -p <span class="nv">$PORT</span> -e <span class="nv">$RACK_ENV</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Read more about Procfile configuration <a href="http://devcenter.heroku.com/articles/procfile">here</a>.</p>
+
+<h3>Scaling Dynos</h3>
+
+<p>As your app gets more usage you will need more processes (called dynos) to handle requests. </p>
+
+<p>Use the <code>ps:scale</code> command to increase thenumber of dynos allocated to each of the processes in your Procfile. You can specify absolute numbers like 2 for 2 total dynos, or relative numbers like +1, for one additional dyno:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku ps:scale web=2 worker+1</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The names &quot;web&quot; and &quot;worker&quot; in this case refer to the labels in your <code>Procfile</code>.</p>
+
+<h3>Configuring the Rails 3.1 Asset Pipeline</h3>
+
+<p>If your app uses the <a href="http://guides.rubyonrails.org/asset_pipeline.html">Rails asset pipeline</a>, <a href="http://devcenter.heroku.com/articles/rails31_heroku_cedar">Heroku will compile the assets for you</a> at deploy time using the <code>rake assets:precompile</code> task. Be sure to add these gems to the <code>asset</code> group in your Gemfile:</p>
+
+<div class='opinion'>
+<p>This is the simplest way to get started, but eventually you may want to serve your assets from a separate host such as <a href="http://aws.amazon.com/cloudfront/">CloudFront</a>.</p>
+
+<p>Using an asset host frees up your Heroku dynos to handle dynamic requests. You can run the precompile task yourself:</p>
+
+<code>RAILS_ENV=production rake assets:precompile</code>
+
+<p>which will add a <code>public/assets/manifest.yml</code> file to your app. If Heroku sees this file, it will not bother to compile your assets. You are then free to upload the compiled files to your CDN. You may wish to use the <a href="https://github.com/rumblelabs/asset_sync">asset_sync gem</a> to automate this process.</p>
+
+<p>You&#8217;ll also need to configure the asset host in your <code>config/environments/production.rb</code> file:</p>
+
+<code>
+config.action_controller.asset_host = "https://d2mfbgzuncgoal.cloudfront.net"
+</code>
+
+</div>
+
+<h2>Managing Data</h2>
+
+<h3>Exporting Data</h3>
+
+<p>The simplest way to export your database is the <code>pgbackups:url</code> command to get a temporarily-accessible download:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>curl -o latest.dump `heroku pgbackups:url`</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You can also transfer data between Heroku databases using the procedure explained at the end of the pgbackups documentation.</p>
+
+<h3>Importing Data</h3>
+
+<p>The <code>pgbackups:restore</code> command will pull data from a URL into your database like so:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku pgbackups:restore DATABASE 'http://example.com/location/of/your/dump'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Automating Database Backups</h3>
+
+<p>The <a href="http://addons.heroku.com/pgbackups">PG Backups</a> add-on will perform automatic daily backups, retaining the
+last 7 daily backups and 5 weekly backups. Add this to your app via:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:add pgbackups:auto-month</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If you know you&#8217;re about to try something sensitive, you can perform manual backups. Heroku will retain 10 of them with the default plan. Create an immediate backup using this command:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku pgbackups:capture</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Read more about <a href="http://devcenter.heroku.com/articles/pgbackups">Heroku backups</a>.</p>
+
+<h3>Using a Dedicated Database</h3>
+
+<p>Heroku apps start off using a shared database. The performance of a shared database is only acceptable for staging environments or &quot;low-scale production applications&quot;. Once you start to see serious usage you&#8217;ll want to switch to a dedicated database. This upgrade can only be done from Heroku&#8217;s web U/I since a significant cost increase is involved.</p>
+
+<h2>Add-Ons</h2>
+
+<h3>Setting Up Custom Domains</h3>
+
+<p>You can run your app for free at a <a href="http://devcenter.heroku.com/articles/custom-domains">custom domain</a> name by running:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:add custom_domains:basic</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Add the domain names like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku domains:add www.example.com</span><span class='line command'>heroku domains:add example.com</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You must configure a CNAME for your domains to point to Heroku in order for this to work, as explained in detail in the <a href="http://devcenter.heroku.com/articles/custom-domains">Heroku Custom Domains</a> documentation.</p>
+
+<h3>Using Cron</h3>
+
+<p>Heroku will run short-duration daily and hourly batch jobs for you using the <a href="http://addons.heroku.com/cron">Cron add-on</a>. </p>
+
+<p>You need to add a rake task named &quot;cron&quot; to your app in <code>lib/tasks/cron.rake</code>. </p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">desc</span> <span class="s2">&quot;run cron jobs&quot;</span>
+</span><span class='line'><span class="n">task</span> <span class="n">cron</span><span class="p">:</span> <span class="ss">:environment</span> <span class="k">do</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">hour</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;do something every three hours&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="o">.</span><span class="n">hour</span> <span class="o">==</span> <span class="mi">0</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;do something at midnight&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<div class="opinion">
+<p>The most modular, easily-testable way to manage recurring tasks like this is to create a separate Cron task as described by Nick
+Quaranto in <a href="http://robots.thoughtbot.com/post/7271137884/testing-cron-on-heroku">Testing Cron on Heroku</a>.</p>
+</div>
+
+<p>With this task in place, just setup the add-on:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line output'># daily cron is free</span><span class='line command'>heroku addons:add cron:daily</span><span class='line output'></span><span class='line output'># hourly cron costs $3/month</span><span class='line command'>heroku addons:add cron:hourly</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Setting Up SSL</h3>
+
+<p>If your app requires SSL your best option is to use Heroku&#8217;s <a href="http://addons.heroku.com/ssl">Hostname Based SSL</a>. </p>
+
+<p>Heroku offers other options but that one works for most cases, and is among the easiest to setup. You&#8217;ll need to purchase an SSL certificate for your domain. Follow the direction on Heroku&#8217;s <a href="http://devcenter.heroku.com/articles/ssl#customdomain_ssl_wwwyourdomaincom">SSL documentation</a> in order to add the certificate to your account.</p>
+
+<p>If your SSL certificate requires the use of an intermediate certificate, be sure to append that file to your <code>.pem</code> file as described in the Heroku SSL documentation.</p>
+
+<p>Once the certificate is added, the SSL add-on can be activated like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:add ssl:hostname</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You will receive an email from Heroku containing the hostname of your SSL endpoint. You will need to add a CNAME to your domain&#8217;s DNS settings corresponding to this endpoint. </p>
+
+<h3>Automating Deployment with Kumade</h3>
+
+<p>Although Heroku deployment is as simple as typing <code>git push heroku</code>, over time you may want more control over the 
+deployment process. Or you may wish to automate other tasks like running migrations, packaging assets, and preventing deployments when your git repository is not clean. </p>
+
+<p>Thoughtbot has created a gem called <a href="https://github.com/thoughtbot/kumade">kumade</a> which handles this for you. With it installed, instead of <code>git push heroku</code> you deploy with <code>bundle exec kumade</code>.</p>
+
+<h3>Sending Email with Sendgrid</h3>
+
+<p>The <a href="http://addons.heroku.com/sendgrid">Sendgrid add-on</a> gives you the ability to send outbound email from your app, saving you from needing to run your own SMTP server. The free version lets you send 200 emails per day. </p>
+
+<p>Add Sendgrid using this command:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:add sendgrid:free</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <a href="http://devcenter.heroku.com/articles/sendgrid">Sendgrid documentation</a> explains how to configure ActionMailer to use Sendgrid&#8217;s SMTP servers, which should be done in your <code>config/environments/production.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_mailer</span><span class="o">.</span><span class="n">smtp_settings</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">address</span><span class="p">:</span>        <span class="s2">&quot;smtp.sendgrid.net&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">port</span><span class="p">:</span>           <span class="s2">&quot;25&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">authentication</span><span class="p">:</span> <span class="ss">:plain</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">user_name</span><span class="p">:</span>      <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID_USERNAME&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">password</span><span class="p">:</span>       <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID_PASSWORD&#39;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>  <span class="n">domain</span><span class="p">:</span>         <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;SENDGRID_DOMAIN&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

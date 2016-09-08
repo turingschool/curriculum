@@ -1,0 +1,2796 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Merchant - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Merchant                              In this project you’ll build an e-commerce site for a small grocery thatwants &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/merchant.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Merchant
+        </h1>
+        
+      </header>
+    
+    <p>In this project you’ll build an e-commerce site for a small grocery that
+wants to sell products directly to customers over the web. The project
+will be built in several discreet iterations.</p>
+
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions, please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/merchant.markdown">submit them to the project on GitHub</a>.</p>
+</div>
+
+<h2>Iteration 0: Up and Running</h2>
+
+<p>Part of the reason Ruby on Rails became popular quickly is that it takes
+a lot of the hard work off your hands, and that’s especially true in
+starting up a project. Rails practices the idea of “sensible defaults”
+and tries to, with one command, create a working application ready for
+your customization.</p>
+
+<h3>Setting the Stage</h3>
+
+<p>First we need to make sure everything is setup and installed. See the
+<a href="http://tutorials.jumpstartlab.com/topics/environment/environment.html">Environment
+Setup</a>
+page for instructions on setting up and verifying your Ruby, Rails, and
+add-ons.</p>
+
+<h4>Generate the Project</h4>
+
+<p>Let’s lay the groundwork for our project. In your terminal, switch to
+the directory where you’d like your project to be stored. I’ll use
+<code>~/projects</code>.</p>
+
+<p>Run the <code>rails -v</code> command and you should see your current Rails
+version. This tutorial was written with Rails <strong>4.0.0</strong>. Let’s create a new
+Rails project:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rails new merchant</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then <code>cd</code> into your project directory and open the project in your
+editor of choice, I’ll use <a href="http://www.sublimetext.com/2">Sublime</a> .</p>
+
+<h4>Booting the Server</h4>
+
+<p>Start it up with this instruction:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails server</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then try loading the address
+<a href="http://localhost:3000">http://localhost:3000/</a>. You should see Rails’
+“Welcome Aboard” page. Click the “About your application’s environment”
+link and it’ll display the versions of all your installed components.</p>
+
+<h4>Scaffolding</h4>
+
+<p>Rails makes it really easy to begin modeling your data using
+scaffolding.</p>
+
+<p>We’ll start by thinking about a “product” in our store. What attributes
+does a product have? What type of data are each of those attributes? We
+don’t need to think of EVERYTHING up front, here’s a list to get us
+started:</p>
+
+<ul>
+<li>  <code>title</code> which should be a <code>string</code></li>
+<li>  <code>price</code> which should be an <code>decimal</code></li>
+<li>  <code>description</code> which should be <code>text</code></li>
+<li>  <code>image_url</code> which should be a <code>string</code></li>
+</ul>
+
+<p>Why make <code>price</code> an <code>decimal</code>? If you make it a regular float, you’re
+going to run into mathematic inconsistencies later on. Prices aren’t
+real floats because the number of places after the decimal don’t change
+— it’s always two.</p>
+
+<p>Ok, time to finally generate your scaffold. Enter this command:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<br></pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate scaffold Product title:string price:decimal description:text image_url:string</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Reading that line out loud would sound like “run the generator named
+<code>scaffold</code> and tell it to create an object named <code>Product</code> that
+has a <code>title</code> that is a <code>string</code>, a <code>price</code> that is a <code>decimal</code>, a
+<code>description</code> that is <code>text</code>, and a <code>image_url</code> that is a <code>string</code>”</p>
+
+<p>The generator will then create about 30 files and directories for
+you based on this information.</p>
+
+<p>We need to add extra options to our <code>price</code> column. Modify the <code>price</code>
+line in your freshly generated migration so it looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">t</span><span class="o">.</span><span class="n">decimal</span> <span class="ss">:price</span><span class="p">,</span> <span class="n">precision</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We give it two additional options: the <code>precision</code> controls how many digits the
+number can have in total. The <code>scale</code> controls how many digits come after the
+decimal. So this column will have a maximum value of 999999.99, which would be
+some expensive groceries.</p>
+
+<p>Now you need to <strong>run</strong> this migration so it actually creates the
+<code>products</code> table in the database.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rake db:migrate RAILS_ENV=development</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Technically, <code>RAILS_ENV=development</code> is redundant, because your rails environment already defaults to development.</p>
+
+<p>You should see output explaining that it created the table named
+<code>products</code>.</p>
+
+<h4>Setting Up Strong Parameters</h4>
+
+<p>Rails defaults to a “whitelist” security system to protect
+application data from being mass-assigned. Mass assignment is
+what happens any time we set more than one attribute at once (for
+example, updating a Product’s title and price at the same time). There
+are certain fields that you don’t want to be mass-assignable for
+security reasons (e.g., we wouldn’t want an “admin” privilege to be
+mass-assignable on user, otherwise we might have security bugs where a
+user can elevate their own privileges).</p>
+
+<p>The practical effect of this whitelist system is that we won’t be able
+to mass-assign any properties of any of the Products in our application
+until we remove that restriction. Since we used a generator to create the 
+Product model we don&#8217;t need to worry about setting the accessible attributes 
+ourselves, but just to confirm that they have been added, take a look at
+<code>app/controllers/products_controller.rb</code>, at the very bottom:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Never trust parameters from the scary internet, only allow the white list through.</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">product_params</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:product</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:image_url</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This tells Rails to allow all four of our Product attributes to be
+mass-assign-able.</p>
+
+<h4>Creating Sample Products</h4>
+
+<p>Now, in your browser, go to
+<a href="http://localhost:3000/products">http://localhost:3000/products</a>.</p>
+
+<p>You should get a page that says “Listing Products”, click the “New Product” link
+and it’ll bring up a very simple form. Enter the following data:</p>
+
+<ul>
+<li>  Title: Green Grapes (1 bunch)</li>
+<li>  Price: 2.00</li>
+<li>  Description: 1 bunch of approximately 80 green grapes.</li>
+<li>  Image_url: green_grapes.jpg</li>
+</ul>
+
+<p>Click <code>Create</code>. If everything looks good on the next page, click the
+<code>Back</code> link. Click the “New Product” link and enter the second product:</p>
+
+<ul>
+<li>  Title: Purple Grapes (1 bunch)</li>
+<li>  Price: 2.25</li>
+<li>  Description: 1 bunch of approximately 90 purple grapes.</li>
+<li>  Image_url: purple_grapes.jpg</li>
+</ul>
+
+<p>Create it and look at your products listing. Now you have a web store!
+(NOTE: The images will be missing for now, that’s ok!)</p>
+
+<h4>How does Rails do that?</h4>
+
+<p>Let’s take a peek at how this is all working. Browse your project files
+and look at the following files:</p>
+
+<ul>
+<li>  <code>config/routes.rb</code>
+When you request a page from the application this is the first place
+Rails goes. See the line <code>resources :products</code>? Resources are things
+that follow the RESTful web conventions. For instance, if the router
+receives a GET request for <code>/products</code> it should look in the
+<code>app/controllers/products_controller.rb</code> for a method named <code>index</code>.
+After finding the <code>products</code> entry in the Routes file, Rails knows
+to come to this file and run the <code>index</code> method. You’ll see the
+<code>index</code> method like the code below. The second line is the most
+important — it reads “Find all the Products and stick them in the
+variable <code>@products</code>”.</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@products</span> <span class="o">=</span> <span class="no">Product</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>  Now take a look at <code>app/views/products/index.html.erb</code>
+This is the view template which is responsible for creating the HTML
+sent to the browser. The template is written in a format named
+<strong>ERB</strong> which allows us to mix HTML and Ruby. The first few lines of
+this files just look like plain HTML. On line 10, though, you see
+some ERB syntax. Look at the example below. See the <code>&lt;%</code> and <code>%&gt;</code> in
+line 17? Those tags mark the beginning and end of Ruby code inside
+the ERB file. Basically they mean “evaluate whatever code is between
+these markers as though it were part of a Ruby program.” Then in
+line 19 you see a variation where the opening tag has an equals sign
+like this: <code>&lt;%=</code>. When there is <strong>no</strong> equals sign, the code between
+the markers is run <strong>silently</strong>. When the beginning marker has the
+<em>equals sign</em>, erb will <strong>output</strong> the result of the code into the
+HTML.</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;Listing products&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;table&gt;</span>
+</span><span class='line'><span class="x">  &lt;thead&gt;</span>
+</span><span class='line'><span class="x">    &lt;tr&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;Title&lt;/th&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;Price&lt;/th&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;Description&lt;/th&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;Image url&lt;/th&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;&lt;/th&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;&lt;/th&gt;</span>
+</span><span class='line'><span class="x">      &lt;th&gt;&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">  &lt;/thead&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">  &lt;tbody&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="vi">@products</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">product</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;tr&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">product</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">product</span><span class="o">.</span><span class="n">description</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">product</span><span class="o">.</span><span class="n">image_url</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Show&#39;</span><span class="p">,</span> <span class="n">product</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Edit&#39;</span><span class="p">,</span> <span class="n">edit_product_path</span><span class="p">(</span><span class="n">product</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">        &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;Destroy&#39;</span><span class="p">,</span> <span class="n">product</span><span class="p">,</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span> <span class="n">confirm</span><span class="p">:</span> <span class="s1">&#39;Are you sure?&#39;</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">      &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;/tbody&gt;</span>
+</span><span class='line'><span class="x">&lt;/table&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;br&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s1">&#39;New Product&#39;</span><span class="p">,</span> <span class="n">new_product_path</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now you’ve got a database-driven web application running and Iteration 0
+is complete.</p>
+
+<h2>Iteration 1: Basic Product Listings</h2>
+
+<p>So now you might be impressed with yourself. You’ve got a web store just
+about done, right? Real stores have a ton of <strong>information</strong> &#8230;pictures,
+data, reviews, categories not to mention the ability to actually <strong>buy</strong>
+something. We’ll get there — for now let’s make our store look a little
+more respectable.</p>
+
+<h4>Working with Layouts</h4>
+
+<p>In the first iteration I lied to you about how the view step works. When
+you’re looking at the products listing, Rails isn’t just grabbing the
+<code>index.html.erb</code>. It’s also looking in the <code>app/views/layouts/</code> folder
+for a <strong>layout</strong> file. Expand that directory in your editor and you’ll
+see that the scaffold generator created a file named
+<code>application.html.erb</code> for us.</p>
+
+<p>You can think of a layout like a wrapper that is put around each of your
+view templates. Layouts allow us to put all the common HTML in one place
+and have it used by all our view templates. For instance, it’d be a pain
+to have to write out the whole <code>&lt;head&gt;</code> section in each of our ERB
+templates. Open the layout file and you’ll see a lot of the HTML
+framework is already in the layout file.</p>
+
+<p>If you’re on Amazon each of their pages has a certain look and feel.
+They have common navigation, stylesheets, titling, etc. The layout is
+where we take care of these common elements. In the <code>&lt;head&gt;</code> section of
+the layout it currently has line with a <code>&lt;title&gt;</code> — change it so it
+reads like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;title&gt;FoodWorks - Products: </span><span class="cp">&lt;%=</span> <span class="n">controller</span><span class="o">.</span><span class="n">action_name</span> <span class="cp">%&gt;</span><span class="x">&lt;/title&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Hit save, switch back to your browser with the product listing, and hit
+refresh. The title of your browser tab should now say “FoodWorks –
+Products: index”. Then click the <code>New product</code> link. The window title
+should now say “FoodWorks – Products: new”. Even though the <code>index</code> and
+<code>new</code> actions have different view templates they share the same layout,
+so the change we made shows up in both places. Let’s add a little more
+to the layout file…</p>
+
+<ul>
+<li>  Download that stylesheet
+(<a href="http://tutorials.jumpstartlab.com/assets/merchant/styles.css">styles.css</a>)
+and put it into your project’s <code>app/assets/stylesheets/</code> folder.</li>
+<li>  Next let’s add a little structure to our pages to make CSS styling
+easier. Check out your application layout at <code>app/views/layout/application.html.erb</code> and modify everything from <code>&lt;body&gt;</code> to <code>&lt;/body&gt;</code> so it matches
+the code below:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;body&gt;</span>
+</span><span class='line'><span class="x">&lt;div class=&quot;wrapper&quot;&gt;</span>
+</span><span class='line'><span class="x">    &lt;div class=&quot;header&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;h1&gt;FoodWorks&lt;/h1&gt;</span>
+</span><span class='line'><span class="x">      &lt;p&gt;Your Online Grocery&lt;/p&gt;</span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    &lt;p style=&quot;color: green&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    &lt;div class=&quot;sidebar&quot;&gt;</span>
+</span><span class='line'><span class="x">      (sidebar)</span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    &lt;div class=&quot;main&quot;&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="k">yield</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">    &lt;div class=&quot;footer&quot;&gt;</span>
+</span><span class='line'><span class="x">      FoodWorks Online Grocery&lt;br/&gt;</span>
+</span><span class='line'><span class="x">      A Rails Jumpstart Project</span>
+</span><span class='line'><span class="x">    &lt;/div&gt;</span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">&lt;/body&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now save your layout and refresh the products listing. It should look a
+little prettier, but we haven’t changed much about the content yet.</p>
+
+<h4>Editing a View Template</h4>
+
+<p>Let’s open the <code>app/views/products/index.html.erb</code> view template so we
+can make some changes.</p>
+
+<ul>
+<li>  Change the title to H1 tags with the text “All Products”</li>
+<li>  The link at the bottom is currently “New product” — let’s change it
+to “Create a New Product” like this:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Create a New Product&quot;</span><span class="p">,</span> <span class="n">new_product_path</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;new_product&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>  Then let’s restructure the table.
+ See the line that says <code>&lt;% @products.each do |product| %&gt;</code>? That means
+“for each of the things in the variable <code>@products</code>, take them one
+at a time, call them <code>product</code>, then do everything in between this
+line and the one that reads <code>&lt;% end %&gt;</code>”
+So for each <code>product</code>, the existing template creates one TD for the
+<code>title</code>, one for the <code>price</code>, one for the <code>description</code> and so on.
+Let’s simplify the products like this:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="vi">@products</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">product</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;tr&gt;</span>
+</span><span class='line'><span class="x">    &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">image_tag</span> <span class="s2">&quot;products/</span><span class="si">#{</span><span class="n">product</span><span class="o">.</span><span class="n">image_url</span><span class="si">}</span><span class="s2">&quot;</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">    &lt;td&gt;&lt;span class=&quot;product_title&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">product</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;</span><span class="cp">&lt;%=</span> <span class="n">product</span><span class="o">.</span><span class="n">description</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">    &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">product</span><span class="o">.</span><span class="n">price</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">  &lt;/tr&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try looking at the page in your web browser. Rework the table’s THs to
+match up with the new TDs.</p>
+
+<p>Download the sample images for products here:
+<a href="http://tutorials.jumpstartlab.com/assets/merchant/products.zip">products.zip</a>.
+Move the images into <code>app/assets/images/products/</code>.</p>
+
+<p>Save that and check out your products index at
+<a href="http://localhost:3000/products">http://localhost:3000/products</a>.</p>
+
+<h4>Fixing the Price Display</h4>
+
+<p>When you look at the products index the price is a little ambiguous. It
+doesn’t have a currency marker. Let’s clean it up with a view helper.</p>
+
+<p>A helper, in Rails, is code that helps you manipulate data as part of
+the presentation. We want to make a helper where we can send in a number
+like “2.25” and it gives us back “$2.25”, the format our shoppers are
+anticipating.</p>
+
+<ul>
+<li>  Open the file <code>app/helpers/products_helper.rb</code></li>
+<li>  Between the line that starts with <code>module</code> and the <code>end</code>, add this
+method:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">print_price</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+</span><span class='line'>  <span class="s2">&quot;$</span><span class="si">#{</span><span class="n">price</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Go back to your <code>index.html.erb</code> file and change <code>&lt;%= product.price %&gt;</code>
+to <code>&lt;%= print_price(product.price) %&gt;</code>. Save it and refresh your
+products display. Notice anything?</p>
+
+<p>If you have a price that ends in a zero, like your Green Grapes at
+$2.00, you’ll see that the trailing zeros are being cutoff. That’s no
+good.</p>
+
+<p>Look at your <code>print_price</code> helper again. What’s the right fix? One
+approach is to use the <code>format</code> method in Ruby like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">print_price</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">format</span><span class="p">(</span><span class="s2">&quot;$%.2f&quot;</span><span class="p">,</span> <span class="n">price</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That works great, check it out in your browser. The only objection is
+that it doesn’t internationalize. When we want to start selling
+groceries in the EU, we’ll need to rewrite this code.</p>
+
+<p>Rails has a built-in helper method for exactly this purpose named
+<code>number_to_currency</code>. Its full description is here:
+<a href="http://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html#method-i-number_to_currency"><a href="http://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html\#method-i-number\_to\_currency">http://api.rubyonrails.org/classes/ActionView/Helpers/NumberHelper.html\#method-i-number\_to\_currency</a></a></p>
+
+<p>We can use it just like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">print_price</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">number_to_currency</span> <span class="n">price</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Check out the results in your browser; your store is starting to look
+good!</p>
+
+<h4>Linking to the Product Page</h4>
+
+<p>When you’re on the index page there’s no way to get to the “show” page
+for an individual product. Go back to the <code>index.html.erb</code> and use the
+<code>link_to</code> helper to insert links to the show page. <code>link_to</code> requires
+two parameters: what the link should <strong>say</strong> and where it should
+<strong>point</strong>. To trigger a show action, point the link towards
+<code>product_path(product)</code>.</p>
+
+<h4>Working on the New Product Page</h4>
+
+<p>Click the <code>Create a New Product</code> link on your index page. Rails will
+access your <code>products_controller</code>, find the <code>new</code> method, run that code,
+then load the <code>new.html.erb</code> view template. Open that ERB file and
+you’ll see there isn’t much there.</p>
+
+<p>Change the title to an H1 that reads “Create a New Product.” Then to
+manipulate the form itself we’ll need to jump into <code>_form.html.erb</code>.</p>
+
+<ul>
+<li>  Look at the line <code>&lt;%= f.label :price %&gt;&lt;br /&gt;</code>. This tells Rails to
+create an HTML <code>label</code> for the thing named <code>:price</code> and, by default,
+it puts the text <code>Price</code> there. We want it to say “Price (like
+2.99)” instead. We add in the desired text as a second parameter
+like this: <code>&lt;%= f.label :price, &quot;Price (like 2.99)&quot; %&gt;&lt;br /&gt;</code></li>
+<li>  Save your ERB and reload your form to make sure everything is
+looking ok</li>
+</ul>
+
+<p>Create a new product and enter in this information EXACTLY:</p>
+
+<ul>
+<li>  Title: Oranges</li>
+<li>  Price: $2.99</li>
+<li>  Description: Bag of 6 Valencia oranges.</li>
+<li>  Image_url: oranges.jpg</li>
+</ul>
+
+<p>Click <code>Create</code> then look at the page you get back.</p>
+
+<h4>Validating the Price</h4>
+
+<p>What’s up with the price? Is that what you expected?</p>
+
+<p>We tried to put “$2.99” to the database, but it’s expecting a number,
+not something with a dollar sign and a period. How does it end up with
+$0?</p>
+
+<p>The data is coming in from our form as a string, then Rails is trying to
+coerce it into a decimal. Open <code>bin/rails console</code> and try calling
+<code>&quot;$2.99&quot;.to_f</code> to convert it to a float. This is similar to the coercion
+that happens when we convert it to a decimal. We get zero!</p>
+
+<p>How can we help the user not make this mistake? Adding a validation.</p>
+
+<ul>
+<li>  Open the file <code>app/models/product.rb</code></li>
+<li>  Before the class’ <code>end</code>, add this validation:
+<code>validates_numericality_of :price</code></li>
+<li>  Get back to your product listing and <code>destroy</code> the oranges that we
+just created</li>
+<li>  Click <code>Create a New Product</code> and enter the orange information just
+as we did above and click <code>Create</code></li>
+</ul>
+
+<p>Now you should see some great things that Rails does for “free”. It
+keeps us on the product creation screen, it tells us that there was a
+problem, it tells us what the problem is, then it highlights both the
+label and the form field in red. Makes it pretty clear, right? Take off
+the dollar sign so your price just says “2.99” and click <code>Create</code> again.</p>
+
+<p>This is an opportunity to make things easier on our users. Typing a
+dollar sign in the price is perfectly reasonable from their perspective.
+We can handle it transparently on the server side.</p>
+
+<p>When the form is being processed it passed the hash of values from the
+form to <code>Product.new</code>. ActiveRecord then goes through the values in that
+hash and stores them into the new record. It doesn’t directly manipulate
+the object’s attributes, it uses setter methods kind of like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">price</span><span class="o">=</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">self</span><span class="o">.</span><span class="n">price</span> <span class="o">=</span> <span class="n">input</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We don’t see that method in our code because ActiveRecord generates it
+on the fly at load time. But we can override the method if we want to do
+something special, like delete a dollar sign:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">price</span><span class="o">=</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">input</span><span class="o">.</span><span class="n">delete!</span><span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">super</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first line does an in-place delete (<code>delete!</code> as opposed to
+<code>delete</code>), removing any dollar signs. Then, with the value changed,
+<code>super</code> invokes the original <code>price=</code> method.</p>
+
+<p>Try it out in your console and browser. Set prices like “2.99” and
+“$3.99” — they should both work as expected.</p>
+
+<p>Now, go ahead and create a few more sample products. Look at the folder
+of images that you copied over to see what’s available. Make at least 5
+products for your store.</p>
+
+<p>Iteration 1 is complete!</p>
+
+<h2>Iteration 2: Handling Stock</h2>
+
+<p>Any good store needs to manage stock. When customers are shopping they
+should be able to see the current stock. When people buy something, the
+stock goes down. Administrators should be able to arbitrarily change the
+stock count.</p>
+
+<h4>Modifying the Database</h4>
+
+<p>Anytime we’re tracking new data we’ll need to modify the database. Jump
+over to your Terminal and generate a migration with this command:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate migration add_stock_to_products</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>After it generates, open the migration (look in <code>db/migrate</code>) and in
+the <code>change</code> add the line below.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">add_column</span> <span class="ss">:products</span><span class="p">,</span> <span class="ss">:stock</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the migration with <code>bin/rake db:migrate</code> then the column exists in your
+database.</p>
+
+<h4>Adding to the Products Listing</h4>
+
+<p>Let’s open up the view for our products index
+(<code>app/views/products/index.html.erb</code>) and add in a column after <code>Price</code>
+for <code>Stock</code> in the THs. Down in the TDs, write this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">print_stock</span><span class="p">(</span><span class="n">product</span><span class="o">.</span><span class="n">stock</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So that’s expecting to use the helper method named <code>print_stock</code>. Here’s
+the logic we want to implement:</p>
+
+<ul>
+<li>  If the product is in stock, print the following where ## is the
+number in stock:
+
+<ul>
+<li>  <code>&lt;span class=&quot;in_stock&quot;&gt;In Stock (##)&lt;/span&gt;</code></li>
+</ul></li>
+<li>  If it’s out of stock, print the following:
+
+<ul>
+<li>  <code>&lt;span class=&quot;out_stock&quot;&gt;Out of Stock&lt;/span&gt;</code></li>
+</ul></li>
+</ul>
+
+<p>Go into the <code>products_helper.rb</code> and create a method named <code>print_stock</code>
+then fill in the blank lines with the stock messages:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">print_stock</span><span class="p">(</span><span class="n">stock</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">stock</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><em>Hint:</em> check out the <code>content_tag</code> method
+(<a href="http://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html#method-i-content_tag">http://api.rubyonrails.org/classes/ActionView/Helpers/TagHelper.html#method-i-content_tag</a>)</p>
+
+<p>With the helper implemented refresh your products index and you should
+see all products out of stock.</p>
+
+<h4>Making the Stock Editable</h4>
+
+<p>Hop into the show page for your first project then click the <code>Edit</code>
+link.</p>
+
+<p>This edit form only shows the original fields that were there when we
+ran the scaffold generation, but it’s easy to add in our stock. Open the
+form template at <code>app/views/products/_form.html.erb</code></p>
+
+<p>Using the title and price as examples, write a paragraph for the stock
+including the label and a text field. Refresh your web browser and you
+should see the stock field available for editing.</p>
+
+<p>Since it’s just a raw text field, let’s add some validation to the
+<code>product.rb</code> model to make sure we don’t put something crazy in for the
+stock. Check out the <a href="http://guides.rubyonrails.org/active_record_validations.html">Rails Guide on
+Validations</a>
+and figure out how to write ONE validation that makes sure:</p>
+
+<ul>
+<li>stock is a number</li>
+<li>stock is an integer</li>
+<li>stock is greater than or equal to zero</li>
+</ul>
+
+<p>Once your validation is implemented, give it a try with illegal values
+for <code>Stock</code> like <code>-50</code>, <code>hello!</code>, and <code>5.5</code>. Is it failing?</p>
+
+<h4>Dealing with Strong Parameters</h4>
+
+<p>Your validation probably isn’t working, right? Your form isn’t changing
+the value of stock, but it also isn’t showing a validation error. What’s
+up?</p>
+
+<p>Take a look in the <code>ProductsController</code> again. Unless you anticipated this
+problem and fixed it already, <code>stock</code> will not be in your
+<code>product_params</code> permitted list, and that would stop you from being able to
+submit an adjustment to <code>stock</code> via the form.</p>
+
+<p>Add <code>stock</code> to the <code>permit</code> list and retry your good and bad stock values.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">product_params</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:product</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:title</span><span class="p">,</span> <span class="ss">:price</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:image_url</span><span class="p">,</span> <span class="ss">:stock</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With those validations implemented, add stock to most of your products
+so we can do some shopping.</p>
+
+<p>Iteration 2 is complete!</p>
+
+<h2>Iteration 3: Designing Orders</h2>
+
+<p>We’ve got products, but until we have a way to create orders then our
+store isn’t going to make any money.</p>
+
+<h3>Brainstorming the Data Structure</h3>
+
+<p>Let’s think about what an “order” is:</p>
+
+<ul>
+<li>  It’s a collection of products to purchase
+
+<ul>
+<li>  Each of those has a quantity and a unit price</li>
+</ul></li>
+<li>  It has a total price</li>
+<li>  It has a customer</li>
+<li>  It has a status like “unsubmitted”, “needs_payment”,
+“needs_packing”, “needs_shipping”, and “shipped”</li>
+</ul>
+
+<p>Looking at this from the database perspective, we’ll need two objects:</p>
+
+<ul>
+<li>  <code>OrderItem</code>
+One piece of an order, this will be a single product ID and a
+quantity of how many are being ordered
+
+<ul>
+<li>  <code>product_id</code>: (integer) the <code>Product</code> that this <code>OrderItem</code> is
+referencing</li>
+<li>  <code>order_id</code>: (integer) the <code>Order</code> that this <code>OrderItem</code> is
+referencing</li>
+<li>  <code>quantity</code>: (integer) the quantity of this product desired</li>
+</ul></li>
+<li>  <code>Order</code>
+It will have many <code>OrderItem</code> objects, belong to a customer ID, and
+have a status code
+
+<ul>
+<li>  <code>user_id</code>: (integer) the user that this order belongs to</li>
+<li>  <code>status</code>: (string) the current status of the order</li>
+</ul></li>
+</ul>
+
+<p>With that in mind, go to your Terminal and generate some scaffolding and
+migrate the database:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<br><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate scaffold OrderItem product_id:integer order_id:integer quantity:integer</span><span class='line command'>bin/rails generate scaffold Order user_id:integer status:string</span><span class='line command'>bin/rake db:migrate</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>The Data Models</h3>
+
+<p>From there we need to build up our two data models and express their
+relationships.</p>
+
+<h4>The <code>OrderItem</code> Model</h4>
+
+<p>Jump into <code>app/models/order_item.rb</code> and we’ll work on relationships.
+Since the <code>OrderItem</code> holds a foreign key referencing an <code>Order</code>, we’d
+say that that it <code>belongs_to</code> the <code>Order</code>. Add the relationship to the
+model like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">OrderItem</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:order</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>There’s also a relationship between an <code>OrderItem</code> and a <code>Product</code>. A
+<code>Product</code> is going to be ordered many times, we hope, but an <code>OrderItem</code>
+is only going to connect with a single <code>Product</code>. This is a
+“One-to-Many” relationship where one <code>Product</code> is going to have many
+<code>OrderItems</code> and an <code>OrderItem</code> is going to <code>belong_to</code> a product.</p>
+
+<p>Add the second <code>belongs_to</code> relationship in <code>order_item.rb</code></p>
+
+<p>Then, add a validation to make sure that no <code>OrderItem</code> gets
+created without an <code>order_id</code> and a <code>product_id</code>.</p>
+
+<h4>The <code>Order</code> Model</h4>
+
+<p>Next, let’s turn our attention to <code>app/models/order.rb</code> . We said
+previously that an <code>OrderItem</code> would <code>belong_to</code> an <code>Order</code>. We definitely
+want people ordering as many products as they want, so an <code>Order</code> should have
+many <code>OrderItems</code>. Add it like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:order_items</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Products to Order Items</h4>
+
+<p>We won’t actually need it for our application, but as long as a
+<code>Product</code> is related to an <code>OrderItem</code>, you should go ahead and add the
+<code>has_many</code> association in <code>product.rb</code>.</p>
+
+<h3>Implementing an Order Workflow</h3>
+
+<p>That was the easy part. Now it’s going to get tricky.</p>
+
+<h4>Add to Cart Links</h4>
+
+<p>Let’s open the <code>index</code> view for our <code>products</code>
+(<code>app/views/products/index.html.erb</code>). How do we want the shopping
+process to work? Each product description should have an “Add to Cart”
+link that adds that item to the customer’s cart. Once they click that
+the customer should be taken to their order screen where they can set
+quantities and checkout.</p>
+
+<p>First we’ll create the “Add to Cart” link. In the <code>&lt;th&gt;</code> lines near the
+top of the index add <code>&lt;th&gt;Buy&lt;/th&gt;</code>. Then in the TDs, underneath the
+stock line, let’s add a new cell:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Add to Cart&quot;</span><span class="p">,</span> <span class="n">new_order_item_path</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This says &quot;create a link with the text ‘Add to Cart’ which links to the
+new <code>order_item</code> path and sends in a parameter named <code>product.id</code> with
+the value of the ID for this <code>product</code>.</p>
+
+<p>Reload the index in your browser and you new link should show up.</p>
+
+<h4>Tracking an Order</h4>
+
+<p>When you click the “Add to Cart” link you see a plain scaffolding form
+prompting the user for the product id, order id, and quantity. That’s
+not acceptable.</p>
+
+<p>When the user clicks “Add to Cart”, the system should:</p>
+
+<ul>
+<li>  Find or create a new <code>Order</code> for the current visitor</li>
+<li>  Add the item to the <code>Order</code> with a quantity 1</li>
+</ul>
+
+<p>The first part is tricky because HTTP is a stateless protocol. There
+isn’t any continuity between requests, so it’s hard to identify a user.
+But in situations like this one, we need to keep track of users across
+many page clicks.</p>
+
+<p>We’ll take advantage of Rails’ session management here. The session will
+allow us to track data about a user across multiple requests.</p>
+
+<h4>Managing Orders in a Before Filter</h4>
+
+<p>Open your <code>app/controllers/order_items_controller.rb</code> file. This
+controller is what handles the “operations” of a web request. The
+request starts at the router (the <code>config/routes.rb</code> file), gets sent to the
+correct controller, then the controller interacts with the models and
+views. Think of the controller as the “coach” — it calls all the shots.
+At the top of the controller file, just below the <code>class</code> line, add this
+code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_action</span> <span class="ss">:load_order</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:create</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We’re declaring a <code>before_action</code>. This tells Rails “before every request to
+this controller, run the method named <code>load_order</code>”. The <code>only: [:create]</code>
+part tells rails only to run this method before calls to the create action. If
+we didn&#8217;t include the <code>only: [:create]</code> parameter then the <code>load_order</code> method
+would be called before every action in the <code>order_items</code> controller.</p>
+
+<p>If you think about it, it doesn&#8217;t really make sense for us to call the
+<code>load_order</code> method before every action; we only need to call it before we add
+a new order item.</p>
+
+<p>We need to define the method named <code>load_order</code>. At the bottom of the same
+file, below the line that says <code>private</code> add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">load_order</span>
+</span><span class='line'>  <span class="k">begin</span>
+</span><span class='line'>    <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:order_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">rescue</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordNotFound</span>
+</span><span class='line'>    <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">status</span><span class="p">:</span> <span class="s2">&quot;unsubmitted&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:order_id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Rails provides us access to the user session through the <code>session</code> hash. This
+method tries to find the <code>Order</code> with the <code>:order_id</code> in the session and
+stores it into the variable named <code>@order</code>. If the <code>session</code> hash does not
+have a key named <code>:order_id</code> or the order has been destroyed, Rails will raise
+an <code>ActiveRecord::RecordNotFound</code> error. The <code>rescue</code> statement watches for
+this error and, if it occurs, creates a new <code>Order</code>, stores it into the
+variable <code>@order</code>, and saves the ID number into <code>session[:order_id]</code>.</p>
+
+<p>With that code in place refresh your Products index and&#8230; nothing looks
+different.</p>
+
+<p>That&#8217;s because nothing happened. The <code>load_order</code> method gets called when we
+hit <code>POST /products</code>, but we&#8217;ve been hitting <code>GET /products/new</code>.</p>
+
+<p>We could change the link so that it tricks Rails into accepting a POST, but
+it&#8217;s generally cleaner to just create a form. That way search spiders and
+other internet bots won&#8217;t create carts willy-nilly.</p>
+
+<p>Replace the <em>Add to Cart</em> link with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">button_to</span> <span class="s2">&quot;Add to Cart&quot;</span><span class="p">,</span> <span class="n">order_items_path</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Reload the index page, and click the <em>Add to Cart</em> button. The page blows up,
+complaining about not finding a parameter:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>param not found: order_item</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s because the form that gets created by the <code>button_to</code> helper doesn&#8217;t
+nest data in an <code>order_item</code> hash, it simply submits to the URL provided.</p>
+
+<p>We need to update the <code>create</code> action in the OrderItemsController. Change
+this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@order_item</span> <span class="o">=</span> <span class="no">OrderItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">order_item_params</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@order_item</span> <span class="o">=</span> <span class="no">OrderItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:product_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you refresh the index page and click <em>Add to Cart</em> you&#8217;ll end up on the
+<a href="http://localhost:3000/order_items/new">new page for the order item</a> with a
+complaint that you&#8217;re missing the order_id.</p>
+
+<p>We have the order stored in an instance variable. Let&#8217;s use that.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@order_item</span> <span class="o">=</span> <span class="no">OrderItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:product_id</span><span class="o">]</span><span class="p">,</span> <span class="n">order_id</span><span class="p">:</span> <span class="vi">@order</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now if you click the add to cart button, you will end up on the Order Item&#8217;s
+show page.</p>
+
+<p>It would be more helpful to go to the order page. In the <code>create</code> action
+of the order items controller change the response for HTML to redirect to the
+order:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span> <span class="n">redirect_to</span> <span class="vi">@order</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s1">&#39;Successfully added product to cart.&#39;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try adding a product to your cart again.</p>
+
+<h4>Improving <code>load_order</code></h4>
+
+<p>In general we should avoid using exceptions for control flow. Our
+implementation of <code>load_order</code> is expecting an exception to be raised
+under a somewhat normal circumstance: a new user arrives on the site. We
+should redesign this method to not rely on <code>begin</code>/<code>rescue</code>/<code>end</code>.</p>
+
+<p><code>ActiveRecord</code> provides us with dynamic finders and initializers for all
+our models. For a <code>Product</code>, we can do any of the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Product</span><span class="o">.</span><span class="n">find</span> <span class="mi">2</span>
+</span><span class='line'><span class="no">Product</span><span class="o">.</span><span class="n">find_by_title</span> <span class="s2">&quot;Green Grapes&quot;</span>
+</span><span class='line'><span class="no">Product</span><span class="o">.</span><span class="n">find_by_image_url</span> <span class="s2">&quot;purple_grapes.jpg&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can call a class method <code>find_by_</code> then give it the name of any model
+attribute to search for a match. We can also use <code>find_all_by_</code> to fetch
+an array of all matches.</p>
+
+<p>How does that help us here? Well, Rails takes it a step further:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Product</span><span class="o">.</span><span class="n">find_or_initialize_by_id</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'><span class="no">Product</span><span class="o">.</span><span class="n">find_or_initialize_by_title</span> <span class="s2">&quot;Apples&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>find_or_initialize_by_</code> method will first attempt to find a match
+in the database for the specified attribute and value. If it finds one,
+that object will be returned. If it <strong>doesn’t</strong> find a match, it will
+build one in memory and return the new object.</p>
+
+<p>This object will not yet have been saved to the database. If we wanted
+to build it and save it in one step, we could use <code>find_or_create_by</code>.
+Returning to our <code>load_order</code> method, we can implement the technique
+like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">load_order</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find_or_initialize_by_id</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:order_id</span><span class="o">]</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="s2">&quot;unsubmitted&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">new_record?</span>
+</span><span class='line'>    <span class="vi">@order</span><span class="o">.</span><span class="n">save!</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:order_id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note that the <code>status: &quot;unsubmitted&quot;</code> will only set the <code>status</code> if it
+is initializing a new object, it will not change the value of records
+found in the database.</p>
+
+<p>From there we look to see if it is a <code>new_record?</code>, which is true when
+the record has not yet been stored to the DB. If it is new, save it to
+the DB so it gets an ID, the store that ID into the user’s <code>session</code>.</p>
+
+<h4>Cleaning up</h4>
+
+<p>We don&#8217;t use the new form. Let&#8217;s get rid of the <code>new</code> action in the
+controller. While we’re cutting code, we won’t need the <code>show</code> or <code>index</code>
+actions either, so delete them.</p>
+
+<h4>Rewriting the Create Action</h4>
+
+<p>Look at the server log for the last request. You should see “Started
+POST” then look at the parameters line. See the <code>product_id</code> in there?
+We have all the information we need to rewrite the <code>create</code> action. The
+<code>create</code> currently looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@order_item</span> <span class="o">=</span> <span class="no">OrderItem</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:product_id</span><span class="o">]</span><span class="p">,</span> <span class="n">order_id</span><span class="p">:</span> <span class="vi">@order</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@order_item</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span> <span class="n">redirect_to</span> <span class="vi">@order</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s1">&#39;Successfully added product to cart.&#39;</span> <span class="p">}</span>
+</span><span class='line'>      <span class="nb">format</span><span class="o">.</span><span class="n">json</span> <span class="p">{</span> <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="s1">&#39;show&#39;</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="ss">:created</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="vi">@order_item</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span> <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="s1">&#39;new&#39;</span> <span class="p">}</span>
+</span><span class='line'>      <span class="nb">format</span><span class="o">.</span><span class="n">json</span> <span class="p">{</span> <span class="n">render</span> <span class="n">json</span><span class="p">:</span> <span class="vi">@order_item</span><span class="o">.</span><span class="n">errors</span><span class="p">,</span> <span class="n">status</span><span class="p">:</span> <span class="ss">:unprocessable_entity</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Building the <code>OrderItem</code></h4>
+
+<p>We can build the <code>order_item</code> through the relationship with the order like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@order_item</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">order_items</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">quantity</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">product_id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:product_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>order_id</code> will be set by the relationship, then we explicitly set
+the <code>quantity</code> to one and the <code>product_id</code> comes from the request
+parameters.</p>
+
+<p>Go back to your products <code>index</code> page, click an “Add to Cart” button.</p>
+
+<h3>Displaying an Order</h3>
+
+<p>You should now be redirected to
+<a href="http://localhost:3000/orders/1">http://localhost:3000/orders/1</a> which is your
+current order. You’re looking at the order, you think some products have been
+added, but we’re not doing anything to display them yet.</p>
+
+<p>Add this snippet somewhere on the page:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;p&gt;</span>
+</span><span class='line'><span class="x">  Item Count: </span><span class="cp">&lt;%=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">order_items</span><span class="o">.</span><span class="n">count</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Reload the page and you should see the <strong>Item Count</strong> display 1. Go back
+to your products listing and click “Add to Cart” to add more items. You
+should see this counter increasing each time.</p>
+
+<p>Our shopping experience has a long way to go, but it’s getting there.</p>
+
+<p>Iteration 3 is complete!</p>
+
+<h2>Iteration 4: Improving the Orders Interface</h2>
+
+<p>We’ll continue working on our <code>app/views/orders/show.html.erb</code> so open
+it in your editor and load an order in your web browser.</p>
+
+<h3>Reworking the Order’s <code>show</code> View</h3>
+
+<p>Replace the code in the <code>show.html.erb</code> with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;Your Order&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;table&gt;</span>
+</span><span class='line'><span class="x">  &lt;tr&gt;</span>
+</span><span class='line'><span class="x">    &lt;th&gt;Customer&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">user_id</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">  &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">  &lt;tr&gt;</span>
+</span><span class='line'><span class="x">    &lt;th&gt;Status:&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">status</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">  &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">  &lt;tr&gt;</span>
+</span><span class='line'><span class="x">    &lt;th&gt;Items:&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">order_items</span><span class="o">.</span><span class="n">count</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span><span class='line'><span class="x">  &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">  &lt;tr&gt;</span>
+</span><span class='line'><span class="x">    &lt;th&gt;Items&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;th&gt;Title&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;th&gt;Quantity&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;th&gt;Unit Price&lt;/th&gt;</span>
+</span><span class='line'><span class="x">    &lt;th&gt;Subtotal&lt;/th&gt;</span>
+</span><span class='line'><span class="x">  &lt;/tr&gt;</span>
+</span><span class='line'><span class="x">  &lt;!-- more code will go here --&gt;</span>
+</span><span class='line'><span class="x">&lt;/table&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Save that then refresh your order view. The basics are there, but it
+still isn’t showing what items are in the order.</p>
+
+<h4>Displaying Individual Items in an Order</h4>
+
+<p>Remember when we declared that an <code>Order</code> <code>has_many</code> <code>OrderItems</code>? We
+did that so we could easily access an order’s items. Remove the line
+that says <code>&lt;!-- more code will go here --&gt;</code> and replace it with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%</span> <span class="vi">@order</span><span class="o">.</span><span class="n">order_items</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">item</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside those lines put the HTML and data you want rendered for
+<code>each</code> item in the <code>@order</code>. Follow the headings that already exist.
+You’ll need to create a new <code>TR</code> that contains&#8230;</p>
+
+<ul>
+<li>  A blank TD</li>
+<li>  The <code>item.product.title</code> in a TD</li>
+<li>  The <code>item.quantity</code> in a TD</li>
+<li>  The <code>item.product.price</code> in a TD and use the <code>print_price</code> helper</li>
+<li>  A blank TD, temporarily, for the subtotal</li>
+</ul>
+
+<p>Refresh your view and you should see your individual <code>OrderItems</code> listed
+out.</p>
+
+<h4>Displaying Product Images</h4>
+
+<p>Integrate images of the products into your order display into the first
+TD of the row. As you did in the products listing, the image can be
+inserted by using Rails’ <code>image_tag</code> helper method along with the path
+to the image (which the <code>Product</code> model stores). Try and figure this out
+on your own, but if necessary go look at your
+<code>app/views/products/index.html.erb</code> file.</p>
+
+<h3>Order Calculations</h3>
+
+<p>We need to both calculate the subtotals for individual items and the
+total cost for the entire order.</p>
+
+<h4><code>OrderItem</code> Subtotal</h4>
+
+<p>The subtotal is the easier part because it only involves one object, the
+<code>OrderItem</code>. We can ask an <code>OrderItem</code> to output its subtotal like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">print_price</span> <span class="n">item</span><span class="o">.</span><span class="n">subtotal</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you refresh that will crash because it’s expecting <code>item</code> to have a
+method named <code>subtotal</code>. Open the <code>OrderItem</code> model and define a method
+named <code>subtotal</code> that returns the quantity times the product’s price.</p>
+
+<p>When you think you’ve got it, refresh the view and check out your
+results. It’s not very convincing since our quantities are all 1 right
+now, but it’s a start.</p>
+
+<h4>Calculating the Order Total</h4>
+
+<p>Now we’re displaying the individual items and their costs, but we don’t
+have a total for the order. Let’s open the <code>Order</code> model
+(<code>app/models/order.rb</code>) and create a method named <code>total</code>. Our
+<code>OrderItem</code> model already implements a <code>subtotal</code> method that gives us
+the total for that single item, so what we need to do is add up the
+<code>subtotal</code> from each of the <code>order_items</code> in this order.</p>
+
+<p>I’m going to leave that up to you.</p>
+
+<p>With that method written, go back to your order’s <code>show</code> view and add
+another line at the bottom with a TH that says “Order Total” and a TD
+that displays the total. Remember to use your <code>print_price</code> helper
+method to get the right formatting.</p>
+
+<h3>Manipulating the Order</h3>
+
+<p>We can add items to the order, but we can’t remove them.</p>
+
+<h4>Removing a Single Item from the Order</h4>
+
+<p>Let’s add a “remove” link for each item in the order.</p>
+
+<p>Removing a single item from the order is actually pretty easy. To get a
+hint, let’s look at some scaffolding views that we aren’t actually
+using. Open up <code>app/views/order_items/index.html.erb</code>. See how it makes
+the “Destroy” link? Let’s grab that whole line.</p>
+
+<p>Move back to your order’s <code>show</code> template go to the area where you’re
+displaying the individual order items. Modify your table to make an
+appropriate space for a “remove” link and paste in the code we got from
+the other template. You can change the word “Destroy” to “Remove” be
+less dramatic. Also change <code>order_item</code> to <code>item</code>, since that’s what we
+called it in that view’s <code>each</code> block.</p>
+
+<p>Click one of the delete links and it almost works. The <code>destroy</code> action
+in <code>OrderItemsController</code> is being triggered, but after destroying the
+object it redirects to the <code>index</code> of <code>OrderItemsController</code>. Instead,
+make it redirect to the order, then go back and try deleting another
+item.</p>
+
+<h4>Clearing All Items from an Order</h4>
+
+<p>Deleting a single item was easy, but deleting all of them? We have two
+options:</p>
+
+<ol>
+<li> Create a custom <code>empty</code> action in <code>OrdersController</code> and have it
+loop through destroying the individual <code>OrderItems</code></li>
+<li> Just destroy the Order</li>
+</ol>
+
+<p>I like easy, so let’s pick #2!</p>
+
+<p>On the <code>show</code> view for your <code>Order</code>, add a link like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Empty Cart&quot;</span><span class="p">,</span> <span class="vi">@order</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span> <span class="n">confirm</span><span class="p">:</span> <span class="s1">&#39;Are you sure?&#39;</span> <span class="p">},</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:delete</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Hop into the <code>destroy</code> action of <code>OrdersController</code> and change the
+redirect so it sends you back to <code>products_path</code>.</p>
+
+<p>Then give it a try.</p>
+
+<h4>Destroying <code>OrderItem</code> Records</h4>
+
+<p>If you go to “http://localhost:3000/order_items/” you’ll see all the
+<code>OrderItem</code> records stored in the database. Go to your console and erase
+all the existing <code>Order</code> objects:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>Order.destroy_all</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Refresh the <code>OrderItem</code> listing and&#8230; they’re all still there? If an
+<code>Order</code> gets destroyed then we want the <code>OrderItem</code> objects to go too!</p>
+
+<p>Go into <code>Order</code> model. Change the <code>has_many :order_items</code> line to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_many</span> <span class="ss">:order_items</span><span class="p">,</span> <span class="n">dependent</span><span class="p">:</span> <span class="ss">:destroy</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, when an <code>Order</code> is destroyed all the associated order items will
+get destroyed too. This does <strong>not</strong> remove the <code>OrderItem</code> objects that
+are already orphaned in the database. Kill those through the console:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>OrderItem.destroy_all</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then, through the web interface, add a few items to a new <code>Order</code>.
+Destroy that <code>Order</code>, and check that the associated items are gone too.
+When it works, Iteration 4 is complete!</p>
+
+<h2>Iteration 5: Dealing with Order Quantities</h2>
+
+<p>Our order screen is getting powerful, but there are still some features
+we should add around managing quantities.</p>
+
+<h4>No Double-Items</h4>
+
+<p>I’m sure you noticed that new order items are getting added to the cart
+each time the user click “Add to Cart”. We don’t want two listings for
+Green Grapes, we want one <code>order_item</code> with a quantity of two. No
+problem!</p>
+
+<p>This is how it should work:</p>
+
+<ul>
+<li>  When the user clicks the Add to Cart button&#8230;
+
+<ul>
+<li>  If that product is already in the order, increase the quantity
+by one</li>
+<li>  If it’s not in the order, add it to the order with quantity one</li>
+</ul></li>
+</ul>
+
+<p>Look at the <code>create</code> method in your <code>order_items_controller</code>. The first
+line is always creating a new <code>OrderItem</code>, but we want to look for one
+with the matching <code>product_id</code> first. We could do this ourselves with
+and <code>if</code> statement, but let’s take advantage of Rails’
+<code>find_or_initialize_by</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@order_item</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">order_items</span><span class="o">.</span><span class="n">find_or_initialize_by_product_id</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product_id</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can give <code>find_or_initialize_by</code> any attribute name of the object, in
+this case <code>product_id</code>, and pass in the <code>product_id</code> we’re looking for.
+If there is a matching <code>OrderItem</code> already attached to this <code>Order</code> with
+this <code>product_id</code>, it’ll find it and give it back to us. If it doesn’t
+exist, one will be created.</p>
+
+<p>Try using this in your browser. As you add products to your cart you
+should see that items to not get repeated, but the quantity is not yet
+going up when we add the same product twice.</p>
+
+<p>Empty your cart, and add a new item. Now it blows up because the item doesn&#8217;t
+have a quantity at all.</p>
+
+<h4>Incrementing Repeated Items</h4>
+
+<p>If the finder is creating a new <code>OrderItem</code>, we want to set the quantity
+to 1. If it finds an existing <code>OrderItem</code>, we want to just increment it
+by one. We can do both of these in one instruction <strong>if</strong> the default
+<code>OrderItem</code> quantity is zero.</p>
+
+<p>We set the default value in the database, and to change the database
+we’ll need a migration. From your command line:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate migration add_default_quantity_to_order_items</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then open that migration and in the <code>change</code> method add this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">change_column</span> <span class="ss">:order_items</span><span class="p">,</span> <span class="ss">:quantity</span><span class="p">,</span> <span class="ss">:integer</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="mi">0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the migration with <code>bin/rake db:migrate</code>. If you’d like to see the results,
+create a new <code>OrderItem</code> from your console and you’ll see it starts with the
+quantity 0.</p>
+
+<p>Now that the default value is set, your <code>create</code> action in
+<code>OrderItemsController</code> is easy. If it’s incrementing an existing item,
+then we add one to the existing value. If it’s a new record, we want to
+increment the counter from zero to one. Since zero is the existing value
+of a new record, we can simply add one to the quantity and not care if
+it’s a new record or an existing one.</p>
+
+<p>Add a line to your <code>create</code> action that adds one to the order item’s
+quantity before the <code>.save</code> is called.</p>
+
+<p>Try adding an item to your cart multiple times and you should see the
+quantities, subtotal, and total moving up!</p>
+
+<h3>Managing Quantities in the Order</h3>
+
+<p>We never made a way for customers to easily modify the quantity of each
+item in the order. Let’s implement that now. There are several ways we
+could do this from an interface perspective. We’ll implement an easy
+one.</p>
+
+<p>Look at the <code>show</code> template for the <code>order</code>. Find the TD where we
+currently just print out the quantity for that item. Let’s change it to
+a link like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">item</span><span class="o">.</span><span class="n">quantity</span><span class="p">,</span> <span class="n">edit_order_item_path</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That says “create a link with the text of the link displaying the item’s
+quantity and the link pointing to the <code>edit_order_item</code> action and tell
+it that we want to edit the item named <code>item</code>”.</p>
+
+<p>Save and refresh your browser. Click one of the resulting links under
+quantity.</p>
+
+<h4>Cleaning Up the Order Items Edit</h4>
+
+<p>You are back to some ugly scaffolding code and this form is way too
+flexible. We don’t want people changing the product ID or the order ID,
+just the quantity. Open the <code>form</code> partial for <code>order_item</code>
+(<code>app/views/order_items/_form.html.erb</code>) and make the following
+changes:</p>
+
+<ul>
+<li>  Remove the <code>label</code> and <code>text_field</code> for <code>product_id</code> and, instead,
+just print out the product’s title</li>
+<li>  Remove the whole section for the <code>order_id</code>. It doesn’t need to be
+displayed or editable.</li>
+</ul>
+
+<p>Refresh your page and make sure the form is displaying properly. Enter
+the quantity desired as <code>5</code> then click Update.</p>
+
+<p>It worked, kind of. It saved the new quantity, but the controller tries
+to bounce you to the <code>show</code> template for <code>order_item</code>. What we’d really
+like is to bounce back to the <code>show</code> for the <code>order</code>. Open up
+<code>app/controllers/order_items_controller.rb</code>. Scroll down to the
+<code>update</code> method, and change the <code>redirect_to</code> so it points to the order.</p>
+
+<p>Go through and try changing the quantity again and you should return to
+the order with the updated quantities.</p>
+
+<h4>Remove Items with 0 Quantity</h4>
+
+<p>Sometimes instead of clicking “remove” to remove an item from an order,
+users will set the quantity to zero. Try doing this now with one of your
+existing orders. What happens?</p>
+
+<p>To tell you the truth, I expected an error.</p>
+
+<p>We put in a validation that <code>order_item</code> couldn’t have a zero or negative
+quantity because that wouldn’t make any sense — right? Right? Nope, missed it.</p>
+
+<p>Open up your <code>app/models/order_item.rb</code> and add a validation that ensures
+<code>quantity</code> is a number, an integer, and greater than zero.</p>
+
+<p>Now go back to your order screen, edit an item’s quantity to zero, then
+click update. You should get an error message sending you back to the
+edit form saying that <code>quantity</code> must be greater than zero. This is good
+for our data integrity, but ugly for our users.</p>
+
+<p>Now look at <code>app/controllers/order_items_controller.rb</code> and
+specifically the <code>update</code> method. We want to short-circuit this process
+if the incoming <code>params[:order_item][:quantity]</code> is zero.</p>
+
+<p>Restructure the logic with a conditional statement like this:</p>
+
+<ul>
+<li>  find the <code>order_item</code> by the <code>id</code></li>
+<li><p>if <code>params[:order_item][:quantity].to_i</code> is equal to zero</p>
+
+<ul>
+<li>  destroy the <code>order_item</code></li>
+<li>  redirect to the order and set the <code>flash</code> to say that the item
+was removed</li>
+</ul></li>
+<li><p>elsif the attributes successfully update…</p>
+
+<ul>
+<li>  redirect to the <code>Order</code> with a notice
+<code>&quot;Successfully updated the order item&quot;</code></li>
+</ul></li>
+<li><p>else</p>
+
+<ul>
+<li>  display the edit form again</li>
+</ul></li>
+</ul>
+
+<p>Now that we&#8217;re finding the order item in the update action, we no longer want
+to run the <code>before_action</code>:</p>
+
+<p>Remove <code>:update</code> from the list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_action</span> <span class="ss">:set_order_item</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="o">[</span><span class="ss">:show</span><span class="p">,</span> <span class="ss">:edit</span><span class="p">,</span> <span class="ss">:destroy</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now if you update an items quantity to zero you shouldn&#8217;t get an error and
+the item will be removed.</p>
+
+<p>Test it out and confirm that setting the quantity to zero removes an
+item from the order.</p>
+
+<h3>More Intelligent Stock Checking</h3>
+
+<p>Now that we can make all these changes to the quantity being ordered it
+makes our current stock checking ineffective. If there’s at least one of
+an item in stock, our app will say it’s “in stock”. But if the customer
+is trying to order more than the current stock, we should change that
+notification.</p>
+
+<h4>Displaying Stock on the Order Page</h4>
+
+<p>Let’s start by opening the <code>app/helpers/products_helper.rb</code> file and
+finding the <code>print_stock</code> method we created earlier. We want to create
+logic like this:</p>
+
+<ul>
+<li><p>if there are none of the items in stock</p>
+
+<ul>
+<li>return the “out of stock” line</li>
+</ul></li>
+<li><p>else if there is enough stock to fulfill the requested number</p>
+
+<ul>
+<li>  return the “in stock” line</li>
+</ul></li>
+<li><p>else if there is some stock, but not enough to fulfill the requested
+number</p>
+
+<ul>
+<li>  return this:
+<code>content_tag(:span, &quot;Insufficient stock (#{stock})&quot;, class: &quot;low_stock&quot;)</code></li>
+</ul></li>
+</ul>
+
+<p>But how will the helper know what quantity the current order is
+requesting? We’ll have to add a second parameter. So change</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">print_stock</span><span class="p">(</span><span class="n">stock</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>to&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">print_stock</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="n">requested</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then use the <code>requested</code> variable to implement the logic above.</p>
+
+<p>Go back to your your <code>show</code> view template for <code>orders</code>
+(<code>app/views/orders/show.html.erb</code>). Try to add in a column to the
+display that prints out the stock status of each of the items in the
+order. Here are the steps you need to do:</p>
+
+<ul>
+<li>  Add the header for <code>Stock</code> between <code>Quantity</code> and <code>Unit Price</code></li>
+<li>  Add the TD that calls the helper method <code>print_stock</code> and passes in
+the value of this item’s product’s stock and the quantity requested
+from this <code>order_item</code></li>
+</ul>
+
+<p>Refresh your browser and confirm that it’s working. Try setting your
+quantities to trigger the “Insufficient Stock” message.</p>
+
+<h4>Displaying Stock on the Products Index</h4>
+
+<p>Now go back to your Products listing page. Problem? Your products
+listing is also trying to use that <code>print_stock</code> helper, but it’s just
+sending in one parameter. Now we’re getting the error message that the
+method is expecting two parameters. How to fix it? There are two ways.</p>
+
+<p>The ugly way would be to open the products <code>index</code> view and change our
+call to the helper, adding in a <code>0</code> for the number requested. That’d
+work, but we don’t like ugly. If we end up using the helper anywhere
+else, we’d have to remember to always put in this hack.</p>
+
+<p>Instead we’ll improve the helper, so switch back to that file. Ruby has
+a great way of implementing optional parameters. We can set it up so
+calling the helper with one parameter will print whether or not the item
+is in stock, and sending in two parameters will check if there’s
+sufficient stock. All we need to do is change&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">print_stock</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="n">requested</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>to&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">print_stock</span><span class="p">(</span><span class="n">stock</span><span class="p">,</span> <span class="n">requested</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With that change, if we send in a value for <code>requested</code> the method will
+use it. If we don’t send in a value for <code>requested</code>, and thus have only
+one parameter, it’ll just set requested to one. This will allow our
+product listing to work just like it did before and our order page to
+have the smarter sufficient-quantity check.</p>
+
+<p>Test it out and, when it works, we’re done with iteration 5!</p>
+
+<h2>Iteration 6: Establishing Identity</h2>
+
+<p>What’s the point of a web application if only one person can use it?
+Let’s make our system support multiple users. There are three pieces to
+making this happen:</p>
+
+<ul>
+<li>  <strong>Authentication</strong> – Establish identity</li>
+<li>  <strong>Ownership</strong> – Attach data records to user records</li>
+<li>  <strong>Authorization</strong> – Control who is allowed to do what</li>
+</ul>
+
+<h3>Background on Authentication</h3>
+
+<p>There have been about a dozen popular methods for authenticating Rails
+applications over the past five years.</p>
+
+<p>The most popular right now is
+<a href="https://github.com/plataformatec/devise">Devise</a> because it makes it
+very easy to get up and running quickly. The downside is that the
+implementation uses very aggressive Ruby metaprogramming techniques
+which make it very challenging to customize.</p>
+
+<p>In the past I’ve been a fan of
+<a href="https://github.com/binarylogic/authlogic">AuthLogic</a> because it takes a
+very straightforward model/view/controller approach, but it means you
+have to write a lot of code to get it up and running.</p>
+
+<p>As we learn more about constructing web applications there is a greater
+emphasis on decoupling components. It makes a lot of sense to depend on
+an external service for our authentication, then that service can serve
+this application along with many others.</p>
+
+<h3>Introducing OmniAuth</h3>
+
+<p>The best application of this concept is the
+<a href="https://github.com/intridea/omniauth">OmniAuth</a>. It’s popular because
+it allows you to use multiple third-party services to authenticate, but
+it is really a pattern for component-based authentication.</p>
+
+<p>You could let your users login with their Twitter account, but you could
+also build your own OmniAuth provider that authenticates all your
+company’s apps. Maybe you can use the existing LDAP provider to hook
+into ActiveDirectory or OpenLDAP, or make use of the Google Apps
+interface?</p>
+
+<p>Better yet, OmniAuth can handle multiple concurrent strategies, so you
+can offer users multiple ways to authenticate. Your app is just built
+against the OmniAuth interface, those external components can be changed
+later.</p>
+
+<h3>Getting Started with OmniAuth</h3>
+
+<p>The first step is to add the dependency to your <code>Gemfile</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;omniauth-twitter&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then run <code>bundle</code> from your terminal.</p>
+
+<p>OmniAuth runs as a “Rack Middleware” which means it’s not really a part
+of our app, it’s a thin layer between our app and the client. To
+instantiate and control the middleware, we need an initializer. Create a
+file <code>/config/initializers/omniauth.rb</code> and add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="no">OmniAuth</span><span class="o">::</span><span class="no">Builder</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">provider</span> <span class="ss">:twitter</span><span class="p">,</span> <span class="s2">&quot;i0KU4jLYYjWzxpTraWviw&quot;</span><span class="p">,</span> <span class="s2">&quot;djMu7QStnBK89MkfIg78tIZ4sFhmGOYjdCjDD0Wsc&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What is all that garbage? Twitter, like many API-providing services,
+wants to track who’s using it. They accomplish this by distributing API
+accounts. Specifically, they use the OAuth protocol which requires a
+“comsumer key” and a “consumer secret.” If you want to build an
+application using the Twitter API you’ll need to <a href="https://dev.twitter.com/apps">register and get your
+own credentials</a>. For this tutorial, I’ve
+registered a sample application and given you my key/secret above.</p>
+
+<h3>Trying It Out</h3>
+
+<p>You need to <strong>restart your server</strong> so the new library and initializer
+are picked up. In your browser go to
+<code>http://127.0.0.1:3000/auth/twitter</code> and, after a few seconds, you
+should see a Twitter login page. Login to Twitter using any account,
+then you should see a <strong>Routing Error</strong> from your application. If you’ve
+got that, then things are on the right track.</p>
+
+<p>If you get to this point and encounter a <strong>401 Unauthorized</strong> message
+there is more work to do. You’re probably using your own API key and
+secret. You need to go into the <a href="https://dev.twitter.com/apps/">settings on Twitter for your
+application</a>, and add <code>http://127.0.0.1</code>
+as a registered callback domain. I also add <code>http://0.0.0.0</code> and
+<code>http://localhost</code> while I’m in there. Now give it a try and you should
+get the <strong>Routing Error</strong></p>
+
+<h3>Handling the Callback</h3>
+
+<p>The way this authentication works is that your app redirects to the
+third party authenticator, the third party processes the authentication,
+then it sends the user back to your application at a “callback URL”.
+Twitter is attempting to send the data back to your application, but
+your app isn’t listening at the default OmniAuth callback address,
+<code>/auth/twitter/callback</code>. Let’s add a route to listen for those
+requests.</p>
+
+<p>Open <code>config/routes.rb</code> and add this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">match</span> <span class="s1">&#39;/auth/:provider/callback&#39;</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="s1">&#39;sessions#create&#39;</span><span class="p">,</span> <span class="n">via</span><span class="p">:</span> <span class="ss">:get</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Re-visit <code>http://localhost:3000/auth/twitter</code>, it will process your
+already-existing Twitter login, then redirect back to your application
+and give you <strong>Uninitialized Constant SessionsController</strong>. Our router
+is attempting to call the <code>create</code> action of the <code>SessionsController</code>,
+but that controller doesn’t exist yet.</p>
+
+<h3>Creating a Sessions Controller</h3>
+
+<p>Let’s use a generator to create the controller from the command line:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate controller sessions</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then open up that controller and add code so it looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">SessionsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="n">render</span> <span class="n">text</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Revisit <code>/auth/twitter</code> and, once it redirects to your application, you
+should see a bunch of information provided by Twitter about the
+authenticated user. Now we just need to figure out what to <strong>do</strong> with
+all that.</p>
+
+<h3>Creating a User Model</h3>
+
+<p>Even though we’re using an external service for authentication, we’ll
+still need to keep track of user objects within our system. Let’s create
+a model that will be responsible for that data.</p>
+
+<p>As you saw, Twitter gives us a ton of data about the user. What should
+we store in our database? The minimum expectations for an OmniAuth
+provider are three things:</p>
+
+<ul>
+<li>  <strong>provider</strong> – A string name uniquely identifying the provider
+service</li>
+<li>  <strong>uid</strong> – An identifying string uniquely identifying the user within
+that provider</li>
+<li>  <strong>name</strong> – Some kind of human-meaningful name for the user</li>
+</ul>
+
+<p>Let’s start with just those three in our model. From your terminal:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate model User provider:string uid:string name:string</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then update the database with <code>bin/rake db:migrate</code>.</p>
+
+<h3>Creating Actual Users</h3>
+
+<p>How you create users might vary depending on the application. For the
+purposes of our shopping cart, we’ll allow anyone to create an account
+automatically just by logging in with the third party service.</p>
+
+<h4>Finding or Creating User Objects</h4>
+
+<p>Hop back to the <code>SessionsController</code>. I believe strongly that the
+controller should have as little code as possible, so we’ll proxy the
+User lookup/creation from the controller down to the model like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_by_auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now the <code>User</code> model is responsible for figuring out what to do with
+that big hash of data from Twitter. We encapsulate the complexity at the
+model layer where it’s easy to test an reuse. Open the <code>User</code> model and
+add this method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_or_create_by_auth</span><span class="p">(</span><span class="n">auth_data</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">find_or_create_by_provider_and_uid_and_name</span><span class="p">(</span><span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;provider&quot;</span><span class="o">]</span><span class="p">,</span> <span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;uid&quot;</span><span class="o">]</span><span class="p">,</span> <span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;info&quot;</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Rails supports dynamic finders. The one we’ve used here is composed of:</p>
+
+<ul>
+<li>  <code>find_or_create</code>
+Attempt to find a match in the database based on the following
+parameters. If found, return it. Otherwise, initialize a new record
+with these values and save it.</li>
+<li>  <code>_by_provider_and_uid_and_name</code>
+Do the lookup and initialization using the provider (first
+parameter), the uid (second parameter), and the name (third).</li>
+</ul>
+
+<p>This will work, but it’s fragile. The UID and provider aren’t going to
+change, so those are fine. The name might change, though. On Twitter,
+for instance, the human-readable name is configurable. If they change
+their name on the external service this lookup is going to fail,
+creating a second account for them on our service.</p>
+
+<p>Instead, do the lookup with just the fields that won’t change:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_or_create_by_auth</span><span class="p">(</span><span class="n">auth_data</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">find_or_create_by_provider_and_uid</span><span class="p">(</span><span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;provider&quot;</span><span class="o">]</span><span class="p">,</span> <span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;uid&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is fault-tolerant, but it has an issue. When a user visits our site
+for the first time the user object will be created. But we’re now not
+utilizing the name at all — so new records won’t have the human name
+saved.</p>
+
+<p>Thankfully <code>find_or_create_by</code> has a solution. We can add a hash of
+parameters that will only be used when creating records, not as part of
+the lookup:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_or_create_by_auth</span><span class="p">(</span><span class="n">auth_data</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">find_or_create_by_provider_and_uid</span><span class="p">(</span><span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;provider&quot;</span><span class="o">]</span><span class="p">,</span> <span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;uid&quot;</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>                                     <span class="nb">name</span><span class="p">:</span> <span class="n">auth_data</span><span class="o">[</span><span class="s2">&quot;info&quot;</span><span class="o">][</span><span class="s2">&quot;name&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That will work great!</p>
+
+<h4>Create Action Redirection</h4>
+
+<p>Now, back to <code>SessionsController</code>, let’s add a redirect action to send
+them to the <code>products_path</code> after login:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_by_auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">products_path</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="vi">@user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now visit <code>/auth/twitter</code> and you should eventually be redirected to
+your Products listing and the flash message at the top will show a
+message saying that you’re logged in.</p>
+
+<h3>UI for Login/Logout</h3>
+
+<p>That’s exciting, but now we need links for login/logout that don’t
+require manually manipulating URLs. Anything like login/logout that you
+want visible on every page goes in the layout.</p>
+
+<p>Open <code>app/views/layouts/application.html.erb</code> and you’ll see the
+framing for all our view templates. Let’s add in the following <strong>just
+below the flash message</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;div id=&quot;account&quot;&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">if</span> <span class="n">current_user</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;span&gt;Welcome, </span><span class="cp">&lt;%=</span> <span class="n">current_user</span><span class="o">.</span><span class="n">name</span> <span class="cp">%&gt;</span><span class="x">&lt;/span&gt;</span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;logout&quot;</span><span class="p">,</span> <span class="n">logout_path</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;login&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">else</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    </span><span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;login&quot;</span><span class="p">,</span> <span class="n">login_path</span><span class="p">,</span> <span class="nb">id</span><span class="p">:</span> <span class="s2">&quot;logout&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you refresh your browser that will all crash for several reasons.</p>
+
+<h3>Accessing the Current User</h3>
+
+<p>It’s a convention that Rails authentication systems provide a
+<code>current_user</code> method to access the user. Let’s create that in our
+<code>ApplicationController</code> with these steps:</p>
+
+<ul>
+<li>  Underneath the <code>protect_from_forgery</code> line, add this:
+<code>helper_method :current_user</code></li>
+<li>  Just before the closing <code>end</code> of the class, add this:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">private</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">current_user</span>
+</span><span class='line'>    <span class="vi">@current_user</span> <span class="o">||=</span> <span class="no">User</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span><span class="p">)</span> <span class="k">if</span> <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Even though the <code>current_user</code> method is private in
+<code>ApplicationController</code>, it will be available to all our controllers
+because they inherit from <code>ApplicationController</code>. In addition, the
+<code>helper_method</code> line makes the method available to all our views. Now we
+can access <code>current_user</code> from any controller and any view!</p>
+
+<p>Refresh your page and you’ll move on to the next error,
+<code>undefined local variable or method `login_path'</code>.</p>
+
+<h3>Convenience Routes</h3>
+
+<p>Just because we’re following the REST convention doesn’t mean we can’t
+also create our own named routes. The view snippet we wrote is
+attempting to link to <code>login_path</code> and <code>logout_path</code>, but our
+application doesn’t yet know about those routes.</p>
+
+<p>Open <code>config/routes.rb</code> and add two custom routes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">match</span> <span class="s2">&quot;/login&quot;</span> <span class="o">=&gt;</span> <span class="n">redirect</span><span class="p">(</span><span class="s2">&quot;/auth/twitter&quot;</span><span class="p">),</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:login</span><span class="p">,</span> <span class="n">via</span><span class="p">:</span> <span class="ss">:get</span>
+</span><span class='line'><span class="n">match</span> <span class="s2">&quot;/logout&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;sessions#destroy&quot;</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:logout</span><span class="p">,</span> <span class="n">via</span><span class="p">:</span> <span class="ss">:get</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first line creates a path named <code>login</code> which just redirects to the
+static address <code>/auth/twitter</code> which will be intercepted by the OmniAuth
+middleware. The second line creates a <code>logout</code> path which will call the
+destroy action of our <code>SessionsController</code>.</p>
+
+<p>With those in place, refresh your browser and it should load without
+error.</p>
+
+<p>We still don&#8217;t quite get logged in when we click login, though.</p>
+
+<p>We need to set the session variable in the <code>SessionsController#create</code> action:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_by_auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">products_path</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="vi">@user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Implementing Logout</h3>
+
+<p>Our login works great, but we can’t logout. When you click the logout
+link it’s attempting to call the <code>destroy</code> action of
+<code>SessionsController</code>. Let’s implement that.</p>
+
+<ul>
+<li>  Open <code>SessionsController</code></li>
+<li>  Add a <code>destroy</code> method</li>
+<li>  In the method, erase the session marker by setting
+<code>session[:user_id] = nil</code></li>
+<li>  Redirect them to the <code>root_path</code> with the notice <code>&quot;Goodbye!&quot;</code></li>
+<li>  Define a <code>root_path</code> in your router like this:
+<code>root to: &quot;products#index&quot;</code></li>
+</ul>
+
+<p>Now try logging out and you’ll be taken to the products index page.</p>
+
+<h3>Connecting Users to Orders</h3>
+
+<p>We’ve done the hard work of creating <code>User</code> objects and logging them
+into the system. Now we need to tie orders to users.</p>
+
+<h4>Connecting the Order to a User</h4>
+
+<p>Open the <code>Order</code> model and add a new <code>belongs_to</code> line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">belongs_to</span> <span class="ss">:user</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Connecting the User to Orders</h4>
+
+<p>Then in the <code>User</code> model, just add <code>has_many :orders</code></p>
+
+<h3>User/Order Workflow</h3>
+
+<p>Now we need to figure out when in the lifecycle we can connect a <code>User</code>
+and an <code>Order</code></p>
+
+<ol>
+<li> When an order is created, connect them to the current user if one is
+logged in</li>
+<li> When they login, connect them to the current order</li>
+</ol>
+
+<h4>Displaying the User on the Order</h4>
+
+<p>Let’s output the associated <code>User</code> on the order’s <code>show</code> page. There’s
+already a TH for “Customer”, just add this into the TD:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">name</span> <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">user</span> <span class="cp">%&gt;</span><span class="x">&lt;/td&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>When an Order is Created</h4>
+
+<p>Our orders are created in the <code>load_order</code> method in
+<code>OrderItemsController</code>. Let’s modify it to associate a new order with the
+current user, if one is logged in:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">load_order</span>
+</span><span class='line'>  <span class="vi">@order</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">find_or_initialize_by_id</span><span class="p">(</span><span class="n">session</span><span class="o">[</span><span class="ss">:order_id</span><span class="o">]</span><span class="p">,</span>
+</span><span class='line'>                                            <span class="n">status</span><span class="p">:</span> <span class="s2">&quot;unsubmitted&quot;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">new_record?</span>
+</span><span class='line'>    <span class="vi">@order</span><span class="o">.</span><span class="n">save!</span>
+</span><span class='line'>    <span class="n">session</span><span class="o">[</span><span class="ss">:order_id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@order</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>When an Order Exists <strong>before</strong> They Login</h4>
+
+<p>Open up the <code>SessionsController</code>. The <code>create</code> action is what logs them
+in. Once the <code>User</code> is known we can look for an existing order and, if
+there is one, connect it to the <code>User</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_or_create_by_auth</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">env</span><span class="o">[</span><span class="s2">&quot;omniauth.auth&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@user</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>  <span class="n">load_order</span>
+</span><span class='line'>  <span class="vi">@order</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">user</span><span class="p">:</span> <span class="vi">@user</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">products_path</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s2">&quot;Logged in as </span><span class="si">#{</span><span class="vi">@user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Test it by logging out, adding a product to your cart, and then logging in.</p>
+
+<p>It blows up, because it doesn&#8217;t know about <code>load_order</code>.</p>
+
+<p>If we move <code>load_order</code> into the <code>ApplicationController</code> it will be accessible
+to both the OrderItemsController and the SessionsController.</p>
+
+<h4>Clear the Order on Logout</h4>
+
+<p>As long as we’re in the <code>SessionsController</code>, let’s clear the order from
+the session when they logout like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">destroy</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="n">session</span><span class="o">[</span><span class="ss">:order_id</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'>  <span class="n">redirect_to</span> <span class="n">root_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Test It!</h4>
+
+<p>Now you should be all set. Try creating orders when you’re not logged
+in, then login and the order is preserved. Login first, then create an
+order and it’s connected to your account.</p>
+
+<h2>Iteration 7: Checkout</h2>
+
+<p>We’ve got a decent shopping experience going — except you can’t actually
+place the order.</p>
+
+<p>Let’s build the ability to add a shipping address and “submit” the
+order. We won’t actually integrate with a payment gateway, but can point
+out along the way where that would happen.</p>
+
+<h3>Building Addresses</h3>
+
+<p>A user might ship different orders to different places, so the address
+needs to be associated with the order. But, at the same time, our
+frequent customers don’t want to enter in the same address every time.</p>
+
+<h4>Designing the Data Relationships</h4>
+
+<p>The solution? We’ll build an address model that is tied to a user. When
+the user submits the order, they’ll pick one of their addresses or add a
+new one. The order will then be connected to that address.</p>
+
+<p>From a model/database perspective:</p>
+
+<ul>
+<li>  A <code>User</code> will have many <code>Addresses</code></li>
+<li>  An <code>Address</code> will belong to a <code>User</code></li>
+<li>  An <code>Order</code> will belong to an <code>Address</code></li>
+<li>  An <code>Address</code> will have many <code>Orders</code></li>
+</ul>
+
+<p>The <code>belongs_to</code> side of a relationship holds the foreign key. So we see
+that <code>Address</code> needs a foreign key <code>user_id</code> and the <code>Order</code> needs an
+<code>address_id</code>.</p>
+
+<h4>The Address Model</h4>
+
+<p>We know that it’ll need a <code>user_id</code>, but what else goes into a US
+address?</p>
+
+<ul>
+<li>  Street Number &amp; Street Name (“Line 1”)</li>
+<li>  Apartment / Suite (“Line 2”)</li>
+<li>  City</li>
+<li>  State</li>
+<li>  Zipcode</li>
+</ul>
+
+<p>All those fields can be stored as strings. Let’s use the scaffold generator, even though we won’t use all the parts:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<br><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate scaffold Address line1:string line2:string city:string state:string zip:string user_id:integer</span><span class='line command'>bin/rake db:migrate</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Validating Addresses</h4>
+
+<p>Everything except <code>line2</code> should be required in an address. Let’s assume
+that the zipcode should be exactly 5 characters that are only digits.
+The <code>state</code> must be a two-letter uppercase abbreviation.</p>
+
+<p>Add validations that protect each of these requirements. Look here for
+tips: <a href="http://guides.rubyonrails.org/active_record_validations.html">Rails Guide on
+Validations</a></p>
+
+<h4>Modifying the Orders Table</h4>
+
+<p>We also need to add that <code>address_id</code> foreign key to the orders table.
+That means creating a migration.</p>
+
+<p>When you generate a migration to add a column to an existing database
+you can do everything from the command line if you follow the
+convention. It goes like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate migration add_[name]_to_[table] [column_name]:[column_type]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>So in this case:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bin/rails generate migration add_address_id_to_orders address_id:integer</span><span class='line command'>bin/rake db:migrate</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Our database is setup, but there is a lot more to do!</p>
+
+<h4>Setting Relationships</h4>
+
+<p>Open the <code>Order</code>, <code>User</code>, and <code>Address</code> models. Add the relationships we
+described above.</p>
+
+<h3>Checkout UI</h3>
+
+<p>Log in, go to the products page, and add something to your cart.</p>
+
+<p>When a user is on the order page they should be able to select an
+existing address from a drop-down list of their associated addresses or
+click a link to add a new address.</p>
+
+<h4>Building Addresses in the Console</h4>
+
+<p>Let’s create two sample addresses for your current user in the console.
+Here’s how you might do that:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<br><span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<br><span class='line-number'>2.1.1 :004&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>a = User.last.addresses.build(line1: "123 First Street", line2: "Suite B", city: "Washington", state: "DC", zip: "20011")</span><span class='line command'>a.save</span><span class='line command'>b = User.last.addresses.build(line1: "321 Second Street", city: "Arlington", state: "VA", zip: "22182")</span><span class='line command'>b.save</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Wrapping the Order in a Form</h4>
+
+<p>Open <code>app/views/orders/show.html.erb</code> and add another row to the end of
+the table like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;tr&gt;</span>
+</span><span class='line'><span class="x">  &lt;th&gt;Shipping To:&lt;/th&gt;</span>
+</span><span class='line'><span class="x">  &lt;td&gt;</span>
+</span><span class='line'><span class="x">    (addresses select box)</span>
+</span><span class='line'><span class="x">    (add an address link)</span>
+</span><span class='line'><span class="x">  &lt;/td&gt;</span>
+</span><span class='line'><span class="x">&lt;/tr&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To have a select box and, eventually, a “submit” button we’ll need a
+form. The best approach is probably to enclose the entire table in the
+form tags. Up above the table opening tag, add a <code>form_for</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="vi">@order</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then put a matching <code>end</code> at the bottom of the template.</p>
+
+<h4>Displaying Addresses on the Order</h4>
+
+<p>Now to figure out that select. Creating select boxes in Rails has always
+seemed unnecessarily difficult.</p>
+
+<p>We’ll use the form helper <code>select</code>. It expects as parameters the name of
+the attribute being set, here <code>address_id</code> then an array of options.
+Each of those options should be a two element array where the first
+element is the name to show on the form and the second is the value to
+submit. In this case, we want:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">select</span> <span class="ss">:address_id</span><span class="p">,</span> <span class="n">current_user</span><span class="o">.</span><span class="n">addresses</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="o">[</span><span class="n">a</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">id</span><span class="o">]</span><span class="p">}</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The options here are built by grabbing all the current user’s addresses
+and creating an array made up of arrays containing the address converted
+to a string (<code>to_s</code>) and the <code>id</code>.</p>
+
+<p>Load it in your browser and you should see something like
+<code>#&lt;Address:0x0000028394482</code> in the select box. This is actually good!</p>
+
+<h4>Implementing the <code>to_s</code></h4>
+
+<p>There are a few ways we could format the address for presentation in the
+select box, but the easiest is to define <code>to_s</code> in the model. Whenever
+you see that format like <code>#&lt;ClassName:0x00002838203</code> you’re looking at a
+model that doesn’t implement <code>to_s</code>, but <code>to_s</code> is being called on it
+anyway. This implementation of <code>to_s</code> comes from Ruby’s <code>Object</code>, the
+parent of all objects.</p>
+
+<p>Let’s implement a better <code>to_s</code> in the <code>Address</code> model. Define the
+method, build an array of the attributes you want to display, then join
+them together with a comma and a space.</p>
+
+<p>If you have sample addresses without a “Line 2”, you’ll see an extra
+comma in the output. You can remove <code>nil</code> or empty string entries with
+this method call: <code>compact</code> on the array of attributes.</p>
+
+<h4>Adding Addresses</h4>
+
+<p>Now let’s build out that “add an address” link. You can handle this on
+your own, here are the steps:</p>
+
+<ul>
+<li>  Write a <code>link_to</code> that points to the <code>new_address_path</code></li>
+<li>  In the <code>new</code> action of <code>AddressesController</code>, use <code>current_user</code> to
+build the new object</li>
+<li>  On the form, make the <code>user_id</code> field hidden</li>
+<li>  If the <code>save</code> succeeds, redirect back to the order.</li>
+</ul>
+
+<h4>Submitting the Order</h4>
+
+<p>We can pick an address, but we can’t submit the order. Add another row
+to the table that includes a submit button like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Submit Order&quot;</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>View it in your browser, click the button, and look at the log file from
+your server.</p>
+
+<p>You’ll see that it got a PATCH request to <code>&quot;/orders/1&quot;</code>, and that it gets
+processed by the OrdersController#update action.</p>
+
+<p>The action succeeds, but there&#8217;s a warning in the log file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Unpermitted parameters: address_id</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;d like to include <code>address_id</code> in the list of permitted order_params at the
+bottom of the <code>orders_controller.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">order_params</span>
+</span><span class='line'>  <span class="n">params</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:order</span><span class="p">)</span><span class="o">.</span><span class="n">permit</span><span class="p">(</span><span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">:address_id</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Changing the Order Status</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@order</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">order_params</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">status</span><span class="p">:</span> <span class="s1">&#39;submitted&#39;</span><span class="p">))</span>
+</span><span class='line'>      <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="c1"># ...</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Cleaning Up</h4>
+
+<p>After updating the order, remove order_id from the session so they can&#8217;t edit
+it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">session</span><span class="o">[</span><span class="ss">:order_id</span><span class="o">]</span> <span class="o">=</span> <span class="kp">nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Redirect to Confirmation Page</h4>
+
+<p>Lastly, we want to redirect to a thank you page with an order summary.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span> <span class="n">redirect_to</span> <span class="n">confirm_order_path</span><span class="p">(</span><span class="vi">@order</span><span class="p">)</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you submit an order, you&#8217;ll get an
+<code>undefined local variable or method `confirm_order_path'</code> error.</p>
+
+<p>Open up <code>config/routes.rb</code> and update the resources for orders:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:orders</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">member</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">get</span> <span class="ss">:confirm</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Create an empty action in <code>OrdersController</code> called <code>confirm</code>. It is going to
+need to get the order, so add <code>:confirm</code> to the <code>before_action</code> for
+<code>set_order</code> at the top of the file.</p>
+
+<p>Create a template in <code>app/views/orders/confirm.html.erb</code>.</p>
+
+<p>Go ahead and flesh that page out.</p>
+
+<h4>It Should Work!</h4>
+
+<p>You should now be able to submit and order. Iteration 7 is complete!</p>
+
+<h2>Next Steps</h2>
+
+<p>Here are some extension ideas:</p>
+
+<ul>
+<li>  Add authorization so only administrators can add or change product
+information</li>
+<li>  Create an admin interface for viewing and modifying all orders</li>
+<li>  Create a <code>/profile</code> page where a user can view/change their
+information and past orders</li>
+<li>  Let users pick a default shipping address</li>
+<li>  Add a billing address that uses the same set of user addresses</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

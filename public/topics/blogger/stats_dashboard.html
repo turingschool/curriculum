@@ -1,0 +1,607 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Stats Dashboard - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Blogger                                      Stats Dashboard                              When the hard work of composing &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/blogger/stats_dashboard.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Blogger</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Stats Dashboard
+        </h1>
+        
+      </header>
+    
+    <p>When the hard work of composing articles is done blog maintainers often want
+to start collecting statistics about their accomplishments. Gathering
+information about the total articles published, comments across all the articles,
+the most popular article and other details.</p>
+
+<p>We want to be a responsible developer so we are going to build this feature
+with tests. This will help ensure that we know that the statistics are correct
+when we display them.</p>
+
+<p>The goal of this tutorial is to add a &quot;statistics dashboard&quot; to an existing
+blog in a test-driven development way.</p>
+
+<div class="note">
+<p>This tutorial is open source. Please contribute fixes or additions to <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/blogger/stats_dashboard.markdown">the markdown source on GitHub.</a></p>
+</div>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger.git
+</span><span class='line'>cd blogger
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<h2>I0: Total Articles</h2>
+
+<p>First we want to display the total number of articles that we have written.
+This is not a hard statistic to calculate. We want to start with a simple
+statistic because we have a lot of other things to learn about testing.</p>
+
+<h3>Creating the First Test</h3>
+
+<p>It seems strange to create a test when we have not created the code we want to
+test. One suggestion that may be helpful is to imagine that the code is already
+written. What would that code look like? What would you name the class? What
+would you name the methods?</p>
+
+<p>Immediately you may become concerned about choosing the wrong names for the
+class or the methods. The secret to remember is that the choice you make is
+not wrong at this moment in time. You are making a decision with the best
+knowledge you have at the time. Perhaps also equally important to remember is
+that you can always change the names later.</p>
+
+<p>We are interested in gathering together statistics about our blog. So right
+now the best name of a class that comes to mind is <code>Statistics</code>. So let&#8217;s
+create a test file that we will use to test our <code>Statistics</code> class.</p>
+
+<p>So if the name of the class is <code>Statistics</code> the convention is to create a test
+class that matches it named <code>StatisticsTest</code>.</p>
+
+<ul>
+<li>Create <code>test/unit/statistics_test.rb</code> and add the following code to the file:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">StatisticsTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>  <span class="nb">test</span> <span class="s2">&quot;the truth&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rake db:migrate db:test:prepare</code></li>
+<li>Run <code>rake test</code></li>
+</ul>
+
+<p>We created a test class in a test file with a single test. Then we prepared
+the database in the test environment. Finally we ran the test and saw our result.</p>
+
+<p>This simple test simply tests &quot;the truth&quot;, which is to say we expect it to pass.</p>
+
+<h3>Create the First Meaningful Test</h3>
+
+<p>Our test for &quot;the truth&quot; is great way to ensure we setup everything correctly
+but we need to start testing our <code>Statistics</code> object&#8217;s ability to return to
+us the total number of articles for our blog.</p>
+
+<p>It sounds like we need a method on the <code>Statistics</code> class that returns the
+<code>total_articles</code> which is a number of articles within our blog.</p>
+
+<ul>
+<li>Open <code>test/unit/statistics_test.rb</code> and add a new test:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="nb">test</span> <span class="s2">&quot;total articles returns a count of all the articles for the blog&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">create</span> <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;First&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Body&quot;</span>
+</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">create</span> <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;Second&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Body&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">stats</span> <span class="o">=</span> <span class="no">Statistics</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">2</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">total_articles</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rake test</code></li>
+</ul>
+
+<p>The test should be failing. This is great. Now we need to create the class
+and the method to ensure the test passes.</p>
+
+<h3>Passing our Test</h3>
+
+<p>A trick that developers often use when testing is to write a simple
+implementation that does nothing except return a simple value that we think
+it should return. This is kind of like the very first test we wrote that ensures
+that even the simpliest solution is working before we try to work on a more
+complex solution.</p>
+
+<ul>
+<li>Create <code>app/models/statistics.rb</code> and add the following code:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Statistics</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">total_articles</span>
+</span><span class='line'>    <span class="mi">2</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rake test</code></li>
+</ul>
+
+<p>Our test should now be passing. This is great. Though the answer that our
+statistics class is returning is not based on reality. However, we know we
+have gotten the test definition correct and the class definition correct.</p>
+
+<p>This may feel silly but it helps ensure that we have not made any small mistakes
+while we setup both of these files.</p>
+
+<h3>Passing our Test (for real)</h3>
+
+<p>We need the true count of articles that our blog manages. That value can be
+quickly returned by asking the <code>Article</code> class for the count of articles.</p>
+
+<ul>
+<li>Open <code>app/models/statistics.rb</code> and update the <code>total_articles</code> method:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Statistics</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">total_articles</span>
+</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rake test</code></li>
+</ul>
+
+<p>Our test should still be passing. This is great. Our <code>Statistics</code> class now
+will return the correct number of articles based on the reality of how many
+currently within the blog.</p>
+
+<h2>I1: Total Comments</h2>
+
+<p>Similar to the total articles we are also interested in the total number of
+comments. So we will need to add a test, make it fail, write a simple solution,
+and then re-write a more complex solution.</p>
+
+<h3>Add a Failing Test</h3>
+
+<ul>
+<li>Open <code>test/unit/statistics_test.rb</code> and add a new test:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="nb">test</span> <span class="s2">&quot;total comments returns a count of all the comments for the blog&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">create</span> <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;First&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Body&quot;</span>
+</span><span class='line'>    <span class="n">article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">create</span> <span class="n">author_name</span><span class="p">:</span> <span class="s2">&quot;Commenter&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;New Comment&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">stats</span> <span class="o">=</span> <span class="no">Statistics</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stats</span><span class="o">.</span><span class="n">total_comments</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rake test</code></li>
+</ul>
+
+<p>The test should be failing. This is great. Now we need to create the method to
+ensure the test passes.</p>
+
+<h3>Write a Simple Solution</h3>
+
+<ul>
+<li>Open <code>app/models/statistics.rb</code> and add the <code>total_comments</code> method:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Statistics</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ... total articles ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">total_comments</span>
+</span><span class='line'>    <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rake test</code></li>
+</ul>
+
+<p>The test should be passing. This is great. Now we need to change our solution
+to be based on the real number of comments for our blog.</p>
+
+<h3>Write the Real Solution</h3>
+
+<ul>
+<li>Open <code>app/models/statistics.rb</code> and update the <code>total_comments</code> method:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Statistics</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ... total articles ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">total_comments</span>
+</span><span class='line'>    <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rake test</code></li>
+</ul>
+
+<p>The test should be passing. We now confidently can say our <code>Statistics</code> class
+returns for us the correct number of comments for our blog.</p>
+
+<h2>I2: Most Popular Article</h2>
+
+<p>The article count and comment count are useful but what would be really useful
+is the ability to tell which article within our blog has the most comments.
+That way we can write more follow up articles to entice more readers to comment.</p>
+
+<p>To find the most popular article we need to look at each article comment count
+and compare them selecting the article with the highest comment count.</p>
+
+<ul>
+<li>Add a failing test</li>
+</ul>
+
+<p>Remember to setup up at least two articles with a differing number of comments.</p>
+
+<ul>
+<li>Write a simple solution</li>
+</ul>
+
+<p>For a simple solution just return the article you know has the highest number
+of comments. So if the last article you added has the most comments you could
+use something as simple as the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">last</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Write a real solution</li>
+</ul>
+
+<p>Every article has a comments count so we need to sort the articles in that
+order. The sorted order is the article with the smallest number of comments
+to the article with the largest number of comments.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span> <span class="n">article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span> <span class="p">}</span><span class="o">.</span><span class="n">last</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>I3: Word Count</h2>
+
+<p>Now that we have the popularity of our articles and comments out of the way,
+we want to also start looking again at our hard work. This time we want to
+start to understand how many words we are using to express ourselves. Maybe
+we have a certain number of words we want to write for an upcoming
+<a href="http://nanowrimo.org/">writing event</a> or we would simply like to give ourselves
+a gold star every few hundred words we complete.</p>
+
+<ul>
+<li><p>Write a test that asks for total number of words across all articles in a method
+named <code>article_word_counts</code>.</p></li>
+<li><p>Write a test that asks for the average word count across all articles in a
+method named <code>article_average_word_count</code></p></li>
+<li><p>Write a test that asks for the greatest number of words in a single article
+in a method named <code>article_max_word_count</code></p></li>
+<li><p>Write a test that asks for the smallest number of words in a single article
+in a method named <code>article_min_word_count</code></p></li>
+</ul>
+
+<h2>I4: Building our Dashboard</h2>
+
+<p>All of these statistics are great but they have only been able to give us an
+indication of the stats in our tests. It is now time for us to get the stats
+for our real blog.</p>
+
+<p>Let&#8217;s add a single dashboard page that will show us all of the statistics for
+our blog. First we&#8217;ll need to add our route, then our controller, load our
+statistics, and finally output that data in the view.</p>
+
+<ul>
+<li>Open <code>config/routes.rb</code> and add the &quot;dashboard&quot; route to the routes:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Blogger</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ... other defined routes ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;dashboard&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;dashboard#index&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Create <code>app/controllers/dashboard_controller.rb</code> and add the following code:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DashboardController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Open <code>app/controllers/dashboard_controller.rb</code> and update the index action
+to create an assign a new instance of our statistics object:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DashboardController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@stats</span> <span class="o">=</span> <span class="no">Statistics</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li><p>Create the directory <code>app/views/dashboard</code></p></li>
+<li><p>Create <code>app/views/dashboard/index.html.erb</code> and add the following code:</p></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;Stats&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;div&gt;</span>
+</span><span class='line'><span class="x">  Total Articles: </span><span class="cp">&lt;%=</span> <span class="vi">@stats</span><span class="o">.</span><span class="n">total_articles</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span><span class='line'><span class="x">&lt;div&gt;</span>
+</span><span class='line'><span class="x">  Total Comments: </span><span class="cp">&lt;%=</span> <span class="vi">@stats</span><span class="o">.</span><span class="n">total_comments</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Add the remaining statistics that you would like to have displayed in your
+dashboard.</li>
+</ul>
+
+<p>Now our dashboard is complete. We are able to get a better understanding about
+all the hard work we have been doing in a single glance.</p>
+
+<p>It was really great that we were also able to build the <code>Statistics</code> class
+entirely in the test environment. We should be much more confident that the
+class works and will be correct even if we decide to make more changes in the
+future.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

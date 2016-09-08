@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Packaging Spree Extensions - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Building Applications with Spree                                      Packaging Spree Extensions &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/spree/packaging_extensions.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Building Applications with Spree</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Packaging Spree Extensions
+        </h1>
+        
+      </header>
+    
+    <p>With our changes refined it is time to package the entire
+experience into an extension which we can share with others and bring into our
+future Spree projects that may require it.</p>
+
+<p>Currently, if we wanted to share our simple extension with others we would need
+to have them recreate our two files in their project. While this was a great way to iterate quickly
+in our development it is not a sustainable practice when it comes to packaging
+and sharing code with others.</p>
+
+<h3>Creating Our New Extension</h3>
+
+<ul>
+<li>Move outside of our current project</li>
+</ul>
+
+<p>We want to move outside of our current project directory because we are about to
+create a new ruby project.</p>
+
+<h4>Generate the Extension</h4>
+
+<ul>
+<li>Run <code>spree extension admin_user_panel</code></li>
+</ul>
+
+<p>This will create our extension through the power of the <code>spree_cmd</code> gem. The
+extension that it creates has a lot of boilerplate code that&#8217;s necessary to successfully integrate with an application running Spree.</p>
+
+<ul>
+<li>Move into the <code>spree_admin_user_panel</code> directory</li>
+<li>Run <code>git init</code></li>
+<li>Run <code>git add .</code> and <code>git commit -m &quot;Initial Extension&quot;</code></li>
+</ul>
+
+<p>This new extension is like our original projet. We want to track the changes
+that we make here and eventually share this repository with others.</p>
+
+<h4>Modify the <code>.gemspec</code></h4>
+
+<ul>
+<li>Open <code>spree_admin_user_panel.gemspec</code></li>
+</ul>
+
+<p>Jump over to our <a href="/topics/creating_a_gem.html">Creating a Gem tutorial</a> to learn more about the <code>.gemspec</code> file.</p>
+
+<ul>
+<li>Edit the relevent fields in your <code>.gemspec</code></li>
+<li>Run <code>git add spree_admin_user_panel.gemspec</code> and
+<code>git commit -m &quot;Updated Gemspec&quot;</code></li>
+</ul>
+
+<p>Now that we are all done with the editing of our Gem specification it is time
+to save our work before moving on to the next step.</p>
+
+<ul>
+<li>Run <code>gem build spree_admin_user_panel.gemspec</code></li>
+</ul>
+
+<p>This is how you would build your gem for release. Our gem does nothing yet, we are simply using it here to test that we have defined
+everything successfully within our <code>.gemspec</code>.</p>
+
+<h3>Moving the Override and the Partial to Our New Extension</h3>
+
+<p>Now that we have our extension created it is time to move the override and
+the partial view we created in the main project into the extension.</p>
+
+<ul>
+<li>Create <code>app/overrides/spree/admin/users/index.rb</code> within our new extension</li>
+<li>Create <code>app/views/spree/admin/users/_table.html.erb</code> within our new extension</li>
+</ul>
+
+<p>Now we want to save our new files so that when we use our gem these files
+will be included.</p>
+
+<ul>
+<li>Run <code>git add app</code> and <code>git commit -m &quot;Added Override and Template&quot;</code></li>
+</ul>
+
+<h4>Stripping the Original Project</h4>
+
+<ul>
+<li>Remove the override and the partial template from our Spree project</li>
+</ul>
+
+<h3>Using Our New Extension</h3>
+
+<p>Now that our extension is ready we need to test it within our application. We
+include extensions the same way we include any gem with a Rails application.</p>
+
+<ul>
+<li>Open the <code>Gemfile</code> within the project</li>
+<li>Add our new extension as a gem:</li>
+</ul>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem 'spree_admin_user_panel', path: "../spree_admin_user_panel"</span></code></pre></td></tr></table></div></figure>
+
+<p>Bundler allows you to specify a gem version, a git path, and a local filepath.
+Using a filepath is extremely handy when you are developing or modifying a gem
+internally and not yet ready to release it.</p>
+
+<ul>
+<li>Run <code>bundle install</code></li>
+</ul>
+
+<p>Within the output you should see the following entry:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Using spree_admin_user_panel (2.0.3) from source at ../spree_admin_user_panel</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Run <code>rails server</code></li>
+<li>Visit <code>http://localhost:3000/admin/users</code></li>
+<li>See your amazing feature!</li>
+</ul>
+
+<h3>Conclusion</h3>
+
+<p>First building the extension within the app then extracting it allowed us to more quickly iterate on our design and to make changes which were picked up immediately. Changes made to the
+extension would now require us to restart the server.</p>
+
+<p>We now have an extension that we can build, package, and share with the
+community.</p>
+
+<h3>An Aside About Engines</h3>
+
+<p>A Spree Extension is an example of a Rails Engine.</p>
+
+<p>When our extension is loaded within Rails the <code>lib/spree_admin_user_panel.rb</code>
+file loads all of its requirements. One of those is the
+<code>lib/spree_admin_user_panel/engine.rb</code>.</p>
+
+<ul>
+<li>Open <code>lib/spree_admin_user_panel/engine.rb</code></li>
+</ul>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module SpreeAdminPanel
+</span><span class='line'>  class Engine &lt; Rails::Engine
+</span><span class='line'>    require 'spree/core'
+</span><span class='line'>    isolate_namespace Spree
+</span><span class='line'>    engine_name 'spree_admin_user_panel'
+</span><span class='line'>
+</span><span class='line'>    config.autoload_paths += %W(#{config.root}/lib)
+</span><span class='line'>
+</span><span class='line'>    # use rspec for tests
+</span><span class='line'>    config.generators do |g|
+</span><span class='line'>      g.test_framework :rspec
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    def self.activate
+</span><span class='line'>      Dir.glob(File.join(File.dirname(__FILE__), '../../app/**/*_decorator*.rb')) do |c|
+</span><span class='line'>        Rails.configuration.cache_classes ? require(c) : load(c)
+</span><span class='line'>      end
+</span><span class='line'>    end
+</span><span class='line'>
+</span><span class='line'>    config.to_prepare &method(:activate).to_proc
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<p>Any time your application needs to change any of the existing code of a Rails
+application (i.e. routing, controller, models, or views) you want to 
+create a Spree extension. If the code you are writing is not manipulating
+the Rails application then you likely want to make a plain old gem.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

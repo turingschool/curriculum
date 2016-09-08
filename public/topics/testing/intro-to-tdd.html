@@ -1,0 +1,3100 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Intro to TDD - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Intro to TDD                              The Ruby community is healthily obsessed with testing. Let&#8217;s look &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/testing/intro-to-tdd.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Intro to TDD
+        </h1>
+        
+      </header>
+    
+    <p>The Ruby community is healthily obsessed with testing. Let&#8217;s look at how to get started with Test Driven Development (TDD).</p>
+
+<h2>Get Ready</h2>
+
+<h3>Prerequisites</h3>
+
+<p>Before starting this tutorial, you should have a basic understanding of topics
+covered in <a href="http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html">Ruby in 100 Minutes</a>,
+including:</p>
+
+<ul>
+<li>classes</li>
+<li>objects</li>
+<li>methods and arguments</li>
+<li>string interpolation</li>
+</ul>
+
+<h3>Learning Goals</h3>
+
+<p>After completing this tutorial, you should be able to:</p>
+
+<ul>
+<li>install a Ruby gem</li>
+<li>create and run a minitest test suite</li>
+<li>write assertions using minitest</li>
+<li>read error messages</li>
+<li>fix error messages</li>
+<li>read test failures</li>
+<li>fix failing assertions</li>
+<li>explain and demonstrate the TDD workflow</li>
+</ul>
+
+<h3>What We&#8217;re Doing in This Tutorial</h3>
+
+<p>We&#8217;ll be implementing a small unicorn class using TDD. Here are the basic
+requirements:</p>
+
+<ul>
+<li>unicorns have names</li>
+<li>they are usually white (but can be any color)</li>
+<li>they say &quot;sparkly&quot; things (don&#8217;t worry, we&#8217;ll explain what this means!)</li>
+</ul>
+
+<h2>Setup</h2>
+
+<p>There are several libraries that can help us write tests, and we&#8217;re going to use
+ one of the simplest ones: minitest.</p>
+
+<p>Minitest comes with Ruby by default, but we&#8217;re going to go get the latest
+version by installing the gem manually:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install minitest</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We need a place to put our code while working. Create an empty directory, and
+change into it:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>mkdir unicorn</span><span class='line command'>cd unicorn</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Experimenting with minitest</h2>
+
+<p>Create an empty file called <code>unicorn_test.rb</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>touch unicorn_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Open this file in your text editor.</p>
+
+<h3>Configuring Minitest</h3>
+
+<p>Minitest is included with Ruby, but we want to use the gem version we installed
+instead of the one that&#8217;s built in. Stick this at the top of the
+<code>unicorn_test.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.0&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now that we&#8217;ve told our code where to find minitest, we need to tell it to
+actually load it. Add this line below what you have:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The next line is optional. It adds pretty colors in your terminal when you
+run your tests. TDD is a little more fun in color!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Starting The Test Suite</h3>
+
+<p>A test suite is a collection of tests. Each test in the collection is an
+example of using the code we write, and proves that the code works for that
+particular example.</p>
+
+<p>Still in <code>unicorn_test.rb</code>, we create a new test suite by defining a class that
+will inherit from <code>Minitest::Test</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To add a test inside the class, we add a method whose name starts with <code>test</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_something</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Running the Suite</h3>
+
+<p>Save the file and switch back to your terminal. Make sure that you&#8217;re in the
+same directory as the <code>unicorn_test.rb</code> file. Run your test suite by
+executing the following command in your terminal.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby unicorn_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'># Running:</span><span class='line output'></span><span class='line output'>.</span><span class='line output'></span><span class='line output'>Fabulous run in 0.003111s, 321.4401 runs/s, 0.0000 assertions/s.</span><span class='line output'></span><span class='line output'>1 runs, 0 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>When you run the test, you&#8217;ll get a <strong>dot</strong> for each passing test. Let&#8217;s add
+more tests:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_something</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_something_else</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_yet_another_thing</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test suite again the same way we did above. Your output should look
+like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'># Running:</span><span class='line output'></span><span class='line output'>...</span><span class='line output'></span><span class='line output'>Fabulous run in 0.001829s, 1640.2406 runs/s, 0.0000 assertions/s.</span><span class='line output'></span><span class='line output'>3 runs, 0 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Since our test suite has three tests, we see three dots.</p>
+
+<h3>Test Assertions</h3>
+
+<p>If you look at the bottom line, though, it says that it has 3 runs, but 0
+assertions.</p>
+
+<p>The dictionary defines <strong>assertion</strong> as <strong>a confident and forceful statement of
+fact or belief.</strong></p>
+
+<p>Our test suite is passing, but it&#8217;s not making any confident and forceful
+statements of fact or belief. In other words, the only reason it&#8217;s currently
+passing is because it isn&#8217;t failing. And the only reason it&#8217;s not failing, is
+because it&#8217;s not even trying anything.</p>
+
+<h4>Adding Assertions</h4>
+
+<p>Let&#8217;s give the test suite some work to do. In <code>unicorn_test.rb</code>, add the
+<code>assert_equal</code> line to your first test.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_something</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_something_else</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_yet_another_thing</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>assert_equal</code> is a method that comes with minitest. It takes two parameters:
+* the expected value (3)
+* the actual value (1+1)</p>
+
+<p>By saying <code>assert_equal 3, 1 + 1</code>, we are saying that we expect 3 to be equal to
+1+1.</p>
+
+<p>Run the test again:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby unicorn_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Unsurprisingly, the output tells you that the test is failing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.F.
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.035829s, 83.7311 runs/s, 27.9104 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_something [unicorn_test.rb:6]:
+</span><span class='line'>Expected: 3
+</span><span class='line'>  Actual: 2
+</span><span class='line'>
+</span><span class='line'>3 runs, 1 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>Two dots, one <code>F</code>.</p>
+
+<p>Try running your test suite a few more times and watch the order of the dots
+and the F change! Minitest randomizes the order that your tests get run in. This
+ensures that each test runs independently of the others.</p>
+
+<h3>Reading the Failure</h3>
+
+<p>In addition to telling you that a test is failing, the output also tells us
+quite a bit about the failure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UnicornTest#test_something [unicorn_test.rb:6]:</span></code></pre></td></tr></table></div></figure>
+Look closely at this line. It gives us four important pieces of information:
+* The test suite that contains the failure: `UnicornTest`. Since we only have
+ one test suite right now, that&#8217;s going to be the same each time we run our test
+ suite.
+
+* The name of the test that&#8217;s failing: `test_something`.
+Since we only have one test with assertions, this isn&#8217;t very surprising either.
+
+* The name of the file that contains the failing test: `unicorn_test.rb`.
+This is extremely helpful when you have a project with hundreds of files with
+tests in it.
+
+* The exact line of code that is actually blowing up: `:6`.
+
+### A Passing Test
+
+Let&#8217;s make the test pass by changing our expected value.
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_something</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.001997s, 500.7511 runs/s, 500.7511 assertions/s.
+</span><span class='line'>
+</span><span class='line'>3 runs, 1 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>Take a look at the summary. We&#8217;ve got three runs (a.k.a. tests), one assertion, and zero failures.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>3 runs, 1 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>We also have zero errors and zero skips.</p>
+
+<h3>Errors and Failures are Not the Same Thing</h3>
+
+<p>A failure means that we expected one value but got another. An error means that
+something was wrong with the code and couldn&#8217;t even run. Let&#8217;s introduce an error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_something</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_something_else</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">nil</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_yet_another_thing</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you run that, you&#8217;ll get:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.E.
+</span><span class='line'>
+</span><span class='line'>Finished in 0.001890s, 1587.3016 runs/s, 529.1005 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_something_else:
+</span><span class='line'>NoMethodError: undefined method `-' for nil:NilClass
+</span><span class='line'>    unicorn_test.rb:10:in `test_something_else'
+</span><span class='line'>
+</span><span class='line'>3 runs, 1 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>2 dots, one <code>E</code>. The summary says we have one error, and the output tells us a
+bit about it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>UnicornTest#test_something_else:</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s happening in the <code>UnicornTest</code> test suite, in a test named
+<code>test_something_else</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `-' for nil:NilClass</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s a <code>NoMethodError</code>, and it&#8217;s saying that we can&#8217;t subtract from <code>nil</code>,
+because <code>nil</code> doesn&#8217;t have a minus method.</p>
+
+<p>Then it tells us that it&#8217;s blowing up on line 10 of the test suite:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>unicorn_test.rb:10</span></code></pre></td></tr></table></div></figure>
+
+<h3>Skipping a Test</h3>
+
+<p>Now add <code>skip</code> to the top of the test with the error in it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_something_else</span>
+</span><span class='line'>  <span class="n">skip</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="kp">nil</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.S.
+</span><span class='line'>
+</span><span class='line'>Finished in 0.003375s, 888.8889 runs/s, 296.2963 assertions/s.
+</span><span class='line'>
+</span><span class='line'>3 runs, 1 assertions, 0 failures, 0 errors, 1 skips
+</span><span class='line'>
+</span><span class='line'>You have skipped tests. Run with --verbose for details.</span></code></pre></td></tr></table></div></figure>
+
+<p>Skipping a test means that it won&#8217;t be reported as an error or failure.
+This can be helpful if you have a lot of failures and want to focus on one at
+a time. Just skip the ones you want to ignore for a while, and then delete
+the <code>skip</code> in one test at a time.</p>
+
+<h4>Back to Passing</h4>
+
+<p>Now get the test passing by replacing <code>nil</code> with <code>2</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_something_else</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Unicorn Time!</h2>
+
+<p>OK, we&#8217;re ready to start our Unicorn. Delete all the <em>something</em> tests from <code>unicorn_test.rb</code>
+Your <code>unicorn_test.rb</code> should currently look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.0&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Remember that a Unicorn:</p>
+
+<ul>
+<li>has a name.</li>
+<li>has a color, though it&#8217;s normally white</li>
+<li>says sparkly things.</li>
+</ul>
+
+<h3>Our First Test: A Unicorn Has a Name</h3>
+
+<p>Now, we&#8217;ll create the first, empty test for the first requirement: Unicorns
+have names.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And now, we&#8217;re ready to make a bold statement about how unicorns are named.</p>
+
+<h3>Writing the Assertion</h3>
+
+<p>We haven&#8217;t written any code that implements unicorns, so we&#8217;re going to do some
+wishful thinking. When we make a new unicorn, we will want to create it with a
+name like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s add some code to the test with that behavior:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>  <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This test isn&#8217;t asserting anything. It&#8217;s just creating a new unicorn.</p>
+
+<p>We need to make an assertion:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>  <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="n">expected_value</span><span class="p">,</span> <span class="n">actual_value</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So what is the <code>expected_value</code> here? Well, we called the unicorn &quot;Robert&quot;, so that
+would be our expected value.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>  <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Robert&quot;</span><span class="p">,</span> <span class="n">actual_value</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, what is <code>actual_value</code>? How do we ask a unicorn about its name? Probably like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So in the test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>  <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Robert&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>But What is <code>unicorn</code>?</h4>
+
+<p>It&#8217;s looking better, but this isn&#8217;t going to work because we never defined
+<code>unicorn</code>. We have to save our new unicorn to a local variable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>  <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Robert&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Run the Test</h4>
+
+<p>Finally, we have made a forceful statement of fact about how unicorns are
+named. With all of this in place, the test suite now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.0&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Robert&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby unicorn_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>E
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.001640s, 609.7561 runs/s, 0.0000 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_it_has_a_name:
+</span><span class='line'>NameError: uninitialized constant UnicornTest::Unicorn
+</span><span class='line'>    unicorn_test.rb:7:in `test_it_has_a_name'
+</span><span class='line'>
+</span><span class='line'>1 runs, 0 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>The lonely <code>E</code> means <code>error</code>, and the actual error that we received is a
+<code>NameError</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NameError: uninitialized constant UnicornTest::Unicorn</span></code></pre></td></tr></table></div></figure>
+
+<h3>Reading the Error</h3>
+
+<p>Our test suite is trying to create a new unicorn (<code>Unicorn.new</code>), but it doesn&#8217;t
+know about any class called <code>Unicorn</code>.</p>
+
+<p>We&#8217;re going to create a <code>Unicorn</code> and put it in its own file. Let&#8217;s pretend we
+have already created that file. Below the <code>minitest/pride</code> line let&#8217;s require
+this pretend file using the following line of code.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;unicorn&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>require_relative</code> means <em>look for a file named <code>unicorn.rb</code> in the directory
+path relative to the current file that we&#8217;re in</em>. So here we&#8217;ll look for a
+file named <code>unicorn.rb</code> in the same directory as <code>unicorn_test.rb</code>.</p>
+
+<p>The test now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.0&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;unicorn&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Robert&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Did the Unicorn Magically Appear?</h4>
+
+<p>Let&#8217;s run our test suite. It blows up!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>unicorn_test.rb:4:in `require_relative': cannot load such file -- /Users/you/code/unicorn/unicorn (LoadError)
+</span><span class='line'>  from unicorn_test.rb:4:in `&lt;main&gt;'</span></code></pre></td></tr></table></div></figure>
+
+<p>The error we&#8217;re getting is <code>LoadError</code>, which is Ruby&#8217;s way of saying that
+it&#8217;s trying to load a file (<code>unicorn.rb</code>) but can&#8217;t find it.</p>
+
+<p>That&#8217;s because we haven&#8217;t created it yet.</p>
+
+<h4>Making a <code>unicorn.rb</code></h4>
+
+<p>If we create an empty file, we&#8217;ll fix the <code>LoadError</code>. From terminal:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>touch unicorn.rb
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we are back to the same error as before (<code>NameError</code>):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>E
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.001814s, 551.2679 runs/s, 0.0000 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_it_has_a_name:
+</span><span class='line'>NameError: uninitialized constant UnicornTest::Unicorn
+</span><span class='line'>    unicorn_test.rb:8:in `test_it_has_a_name'
+</span><span class='line'>
+</span><span class='line'>1 runs, 0 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h4>Defining the <code>Unicorn</code> Class</h4>
+
+<p>We can fix the name error my creating an empty class inside the new
+<code>unicorn.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>A New Error!</h3>
+
+<p>Run the tests again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>E
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.001844s, 542.2993 runs/s, 0.0000 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_it_has_a_name:
+</span><span class='line'>ArgumentError: wrong number of arguments(1 for 0)
+</span><span class='line'>    unicorn_test.rb:8:in `initialize'
+</span><span class='line'>    unicorn_test.rb:8:in `new'
+</span><span class='line'>    unicorn_test.rb:8:in `test_it_has_a_name'
+</span><span class='line'>
+</span><span class='line'>1 runs, 0 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>An argument error means that we&#8217;re calling a method incorrectly. Read the error
+closely. We see that the problem is in the <code>initialize</code> method that gets
+called when we call <code>new</code>.</p>
+
+<p>What does the <code>wrong number of arguments(1 for 0)</code> mean? Our tests are calling
+<code>initialize</code> with one argument, but it doesn&#8217;t accept any arguments.</p>
+
+<p>In other words, we&#8217;re saying <code>Unicorn.new(&quot;Robert&quot;)</code>, but right now, <code>initialize</code>
+is defined without accepting arguments like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to make it so our <code>initialize</code> method accepts the argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>What&#8217;s in a <code>.name</code>?</h3>
+
+<p>Run the tests.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>E
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.003082s, 324.4646 runs/s, 0.0000 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_it_has_a_name:
+</span><span class='line'>NoMethodError: undefined method `name' for #&lt;Unicorn:0x007f85f9bddfb8&gt;
+</span><span class='line'>    unicorn_test.rb:9:in `test_it_has_a_name'
+</span><span class='line'>
+</span><span class='line'>1 runs, 0 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>Read the error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `name'</span></code></pre></td></tr></table></div></figure>
+
+<p>A <code>NoMethodError</code> means that when we said <code>unicorn.name</code>, the unicorn tried to
+find a method named <code>name</code> to run but it didn&#8217;t exist.</p>
+
+<h4>Adding a <code>name</code> method</h4>
+
+<p>We know that the Unicorn doesn&#8217;t have a method called <code>name</code>. That&#8217;s easy enough to fix, we&#8217;ll
+create one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests again.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>F
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.026091s, 38.3274 runs/s, 38.3274 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_has_a_name [unicorn_test.rb:9]:
+</span><span class='line'>Expected: "Robert"
+</span><span class='line'>  Actual: nil
+</span><span class='line'>
+</span><span class='line'>1 runs, 1 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+So we have a failure. We expected `unicorn.name` to return &#8220;Robert&#8221;, but instead
+it returned nil.
+
+#### The Dummy Implementation: What&#8217;s the Easiest Way to Get This Test to Pass?
+
+Now, instead of an error, we get a failure. We&#8217;ll fix it, but only barely:
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="s2">&quot;Robert&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This won&#8217;t work for all unicorns, but it should be good enough to get the test
+passing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.001872s, 534.1880 runs/s, 534.1880 assertions/s.
+</span><span class='line'>
+</span><span class='line'>1 runs, 1 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h4>Maybe All Unicorns Are Named &quot;Robert&quot;</h4>
+
+<p>Fine, the test is passing, but we have a problem. All unicorns are now named
+Robert.</p>
+
+<p>Try it in IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>require './unicorn'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <code>./</code> part means &quot;Look in the current directory for a file named
+<code>unicorn.rb</code>&quot;.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Unicorn.new("Forrest").name</span><span class='line output'>=&gt; "Robert"</span><span class='line output'>Unicorn.new("Damien").name</span><span class='line output'>=&gt; "Robert"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Our test suite needs to be smarter. It needs to force us into implementing a
+more robust naming mechanism.</p>
+
+<h3>Triangulation Tests</h3>
+
+<p>We&#8217;ll create a second test to triangulate the behavior that we want.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Robert&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_can_be_named_something_else</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Joseph&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Joseph&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>As expected, it fails.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>F.
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.026494s, 75.4888 runs/s, 75.4888 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_can_be_named_something_else [unicorn_test.rb:14]:
+</span><span class='line'>Expected: "Joseph"
+</span><span class='line'>  Actual: "Robert"
+</span><span class='line'>
+</span><span class='line'>2 runs, 2 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>We are passing the name in when we call Unicorn.new, so our initialize method
+is receiving it, but we&#8217;re not saving it anywhere. Let&#8217;s make a way to save it
+from the argument into the object.</p>
+
+<h4>Storing the Passed-In Name</h4>
+
+<p>Let&#8217;s tell it to take the <code>name</code> argument that was passed in and save it to
+<code>@name</code>. Then, in the <code>name</code> method, we will return that instance variable.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That gets the test passing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>..
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.001821s, 1098.2976 runs/s, 1098.2976 assertions/s.
+</span><span class='line'>
+</span><span class='line'>2 runs, 2 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>Our tests have guided us towards an implementation.</p>
+
+<h2>Unicorns Are White</h2>
+
+<p>The next requirement says that unicorns are
+usually white, but can be any color. That sounds like more than one
+requirement, so let&#8217;s focus on the first part.</p>
+
+<h3>Testing Color</h3>
+
+<p>Let&#8217;s see that a Unicorn is white when we haven&#8217;t specified any other color:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_can_be_named_something_else</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_is_white_by_default</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Margaret&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Unicorns Have No Color?</h3>
+
+<p>Running the test gives us an error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>E..
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.002155s, 1392.1114 runs/s, 928.0742 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_it_is_white_by_default:
+</span><span class='line'>NoMethodError: undefined method `color' for #&lt;Unicorn:0x007f82ecc96cf8 @name="Margaret"&gt;
+</span><span class='line'>    unicorn_test.rb:19:in `test_it_is_white_by_default'
+</span><span class='line'>
+</span><span class='line'>3 runs, 2 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>A <code>NoMethodError</code>. We don&#8217;t have a method called <code>color</code>.</p>
+
+<h4>Splash of <code>color</code></h4>
+
+<p>That&#8217;s easy to fix, we&#8217;ll just add a method <code>color</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>See the Output Change</h4>
+
+<p>It doesn&#8217;t do anything yet, but it should be enough to change the output from
+the test, and the new output from the test should tell us what to do next:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.F.
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.025715s, 116.6634 runs/s, 116.6634 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_is_white_by_default [unicorn_test.rb:19]:
+</span><span class='line'>Expected: "white"
+</span><span class='line'>  Actual: nil
+</span><span class='line'>
+</span><span class='line'>3 runs, 3 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>This is a failed expectation, meaning that our logic in the <code>color</code> method is
+wrong. That makes sense, the <code>color</code> method is empty.</p>
+
+<h4>A Dummy Response</h4>
+
+<p>To get the test passing, we can hard-code &quot;white&quot; as the response:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="s2">&quot;white&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That gets the test passing.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>...
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.004366s, 687.1278 runs/s, 687.1278 assertions/s.
+</span><span class='line'>
+</span><span class='line'>3 runs, 3 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h3>A <code>white?</code> Method</h3>
+
+<p>In addition to asking the Unicorn what its color is, let&#8217;s also make it so we
+can ask it if it is white:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">unicorn</span><span class="o">.</span><span class="n">white?</span>
+</span><span class='line'><span class="c1"># true or false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In Ruby, a method can end with a question-mark, which typically is used as a
+signal that this the method returns true or false.</p>
+
+<p>The test looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_can_be_named_something_else</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_is_white_by_default</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_knows_if_it_is_white</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Elisabeth&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="kp">true</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">white?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So the test will pass if <code>white?</code> returns true, and it will fail if it returns
+false.</p>
+
+<h4><code>assert_equal</code> vs <code>assert</code></h4>
+
+<p>This is such a common test case that minitest has a special method to assert
+that the response should be <code>true</code>. Let&#8217;s use <code>assert</code> instead of <code>assert_equal</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_knows_if_it_is_white</span>
+</span><span class='line'>  <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Elisabeth&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">white?</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is going to blow up, of course, because we don&#8217;t have code to support
+the feature yet:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>...E
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.002220s, 1801.8018 runs/s, 1351.3514 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_it_knows_if_it_is_white:
+</span><span class='line'>NoMethodError: undefined method `white?' for #&lt;Unicorn:0x007f95749d0880 @name="Elisabeth", @color="white"&gt;
+</span><span class='line'>    unicorn_test.rb:24:in `test_it_knows_if_it_is_white'
+</span><span class='line'>
+</span><span class='line'>4 runs, 3 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h3>Implementing <code>white?</code></h3>
+
+<p>As usual, we can fix a <code>NoMethodError</code> by defining the empty method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="s2">&quot;white&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Running the test again gives us new output. A failure this time:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.F..
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.002242s, 1784.1213 runs/s, 1784.1213 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_knows_if_it_is_white [unicorn_test.rb:24]:
+</span><span class='line'>Failed assertion, no message given.
+</span><span class='line'>
+</span><span class='line'>4 runs, 4 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>When we were using <code>assert_equal</code> we got output that said:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Expected: "Robert"
+</span><span class='line'>  Actual: nil</span></code></pre></td></tr></table></div></figure>
+
+<p>Instead, it says:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Failed assertion, no message given.</span></code></pre></td></tr></table></div></figure>
+
+<h4>Defining a Message for <code>assert</code></h4>
+
+<p>The <code>Failed assertion</code> bit seems fairly straight-forward.</p>
+
+<p>When we use <code>assert</code> rather than <code>assert_equal</code> the error message is
+different. We know what the expected value is (true), and if it&#8217;s not true,
+then presumably it&#8217;s <code>false</code>.</p>
+
+<p>What about the <code>no message given</code> bit, though? What message is that?</p>
+
+<p>Let&#8217;s tweak the test a bit. We&#8217;ll add a message after our assertion to help the
+us know what went wrong. It has nothing to do with production code, it&#8217;s just
+some helpful context.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_knows_if_it_is_white</span>
+</span><span class='line'>  <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Elisabeth&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">white?</span><span class="p">,</span> <span class="s2">&quot;Elisabeth should be white, but isn&#39;t.&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test again, and you&#8217;ll see the helpful error message we added.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>F...
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.002331s, 1716.0017 runs/s, 1716.0017 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_knows_if_it_is_white [unicorn_test.rb:24]:
+</span><span class='line'>Elisabeth should be white, but isn't.
+</span><span class='line'>
+</span><span class='line'>4 runs, 4 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h4>Is <code>nil</code> the same as <code>false</code>?</h4>
+
+<p>OK, so back to the error message. The test will pass if <code>white?</code> returns true,
+but the test is failing. What is <code>white?</code> returning? What does the method look
+like?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Wait, that&#8217;s not returning <code>false</code>, it&#8217;s returning <code>nil</code>.</p>
+
+<p>In Ruby we talk about something being <strong>truthy</strong> or <strong>falsy</strong>, and there are
+exactly two objects that are falsy: <code>nil</code>, and <code>false</code>. All other objects are
+truthy. The string &quot;hello&quot;. The number 39. An instance of <code>unicorn</code>. They&#8217;re
+all truthy.</p>
+
+<p>So when we say <code>assert unicorn.white?</code> then as long as <code>white?</code> returns a
+truthy value, the test will pass.</p>
+
+<p>It&#8217;s currently returning <code>nil</code>, which is falsy, so the test is failing.</p>
+
+<h4>Always True</h4>
+
+<p>Make it pass by hard-coding <code>true</code> as the return value:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="s2">&quot;white&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>    <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and they should pass.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>....
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.006829s, 585.7373 runs/s, 585.7373 assertions/s.
+</span><span class='line'>
+</span><span class='line'>4 runs, 4 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h3>Purple Unicorns</h3>
+
+<p>OK, so we&#8217;ve got the name thing working. Unicorns are white by default (and
+they know it). Let&#8217;s make a purple unicorn:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_can_be_named_something_else</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_is_white_by_default</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_does_not_have_to_be_white</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Barbara&quot;</span><span class="p">,</span> <span class="s2">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This blows up:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>..E.
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.003224s, 1240.6948 runs/s, 1550.8685 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_it_does_not_have_to_be_white:
+</span><span class='line'>ArgumentError: wrong number of arguments (2 for 1)
+</span><span class='line'>    /Users/you/code/unicorn/unicorn.rb:2:in `initialize'
+</span><span class='line'>    unicorn_test.rb:25:in `new'
+</span><span class='line'>    unicorn_test.rb:25:in `test_it_does_not_have_to_be_white'
+</span><span class='line'>
+</span><span class='line'>4 runs, 5 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>The error is an <code>ArgumentError</code>, which means that we&#8217;re calling a method
+wrong. Which method? <code>initialize</code>. Who calls <code>initialize</code>? <code>new</code> does.</p>
+
+<p>The error says <code>2 for 1</code> meaning that we&#8217;re giving it two arguments: <strong>name AND
+color</strong>, but it only takes one: <strong>name</strong>.</p>
+
+<h4>Multiple Arguments to <code>initialize</code></h4>
+
+<p>Again, this is what we gave it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Barbara&quot;</span><span class="p">,</span> <span class="s2">&quot;purple&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What it expects:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Change the code so that the <code>initialize</code> method accepts two arguments, one for
+name and one for color:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="s2">&quot;white&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>    <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>See the Results</h4>
+
+<p>Run the tests:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>EEFEE
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.043899s, 113.8978 runs/s, 22.7796 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_it_can_be_named_something_else:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 2)
+</span><span class='line'>    /Users/kytrinyx/gschool/here-comes-the-unicorn/unicorn.rb:4:in `initialize'
+</span><span class='line'>    unicorn_test.rb:13:in `new'
+</span><span class='line'>    unicorn_test.rb:13:in `test_it_can_be_named_something_else'
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  2) Error:
+</span><span class='line'>UnicornTest#test_it_is_white_by_default:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 2)
+</span><span class='line'>    /Users/kytrinyx/gschool/here-comes-the-unicorn/unicorn.rb:4:in `initialize'
+</span><span class='line'>    unicorn_test.rb:18:in `new'
+</span><span class='line'>    unicorn_test.rb:18:in `test_it_is_white_by_default'
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  3) Failure:
+</span><span class='line'>UnicornTest#test_it_does_not_have_to_be_white [unicorn_test.rb:29]:
+</span><span class='line'>Expected: "purple"
+</span><span class='line'>  Actual: "white"
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  4) Error:
+</span><span class='line'>UnicornTest#test_it_has_a_name:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 2)
+</span><span class='line'>    /Users/kytrinyx/gschool/here-comes-the-unicorn/unicorn.rb:4:in `initialize'
+</span><span class='line'>    unicorn_test.rb:8:in `new'
+</span><span class='line'>    unicorn_test.rb:8:in `test_it_has_a_name'
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>  5) Error:
+</span><span class='line'>UnicornTest#test_it_knows_if_it_is_white:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 2)
+</span><span class='line'>    /Users/kytrinyx/gschool/here-comes-the-unicorn/unicorn.rb:4:in `initialize'
+</span><span class='line'>    unicorn_test.rb:23:in `new'
+</span><span class='line'>    unicorn_test.rb:23:in `test_it_knows_if_it_is_white'
+</span><span class='line'>
+</span><span class='line'>5 runs, 1 assertions, 1 failures, 4 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p><em>What just happened?</em> Look at the summaries:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>EEFEE</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>5 runs, 1 assertions, 1 failures, 4 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>Not a single test is passing. Let&#8217;s look at all those errors:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 2)
+</span><span class='line'>
+</span><span class='line'>  2) Error:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 2)
+</span><span class='line'>
+</span><span class='line'>  4) Error:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 2)
+</span><span class='line'>
+</span><span class='line'>  5) Error:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 2)</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s the same error four times.</p>
+
+<p>It says we&#8217;re sending one argument, but remember: we changed the method so
+that it takes two.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s look at our tests:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># test 1
+</span><span class='line'>unicorn = Unicorn.new("Robert")
+</span><span class='line'>
+</span><span class='line'># test 2
+</span><span class='line'>unicorn = Unicorn.new("Joseph")
+</span><span class='line'>
+</span><span class='line'># test 3
+</span><span class='line'>unicorn = Unicorn.new("Margaret")
+</span><span class='line'>
+</span><span class='line'># test 4
+</span><span class='line'>unicorn = Unicorn.new("Elisabeth")</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re in a bit of a bind. Most of the tests need this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But one of the tests needs this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We could change all the other tests to take &quot;white&quot;, but that would defeat the
+purpose. The unicorn is white by <em>default</em>. That means we shouldn&#8217;t have to
+specify it.</p>
+
+<h4>A Default Argument</h4>
+
+<p>Ruby gives us a way to define a default value for an argument with the syntax
+<code>argument=defaultvalue</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="s2">&quot;white&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>    <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test, and all the tests should be back to passing. We still have a
+single failure, and that&#8217;s the test we&#8217;re interested in:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>....F
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.029346s, 170.3810 runs/s, 170.3810 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_does_not_have_to_be_white [unicorn_test.rb:29]:
+</span><span class='line'>Expected: "purple"
+</span><span class='line'>  Actual: "white"
+</span><span class='line'>
+</span><span class='line'>5 runs, 5 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h4>Purple != White</h4>
+
+<p>We want Barbara to be white, but she&#8217;s purple.</p>
+
+<p>The color gets passed in to initialize, so let&#8217;s save it, the same way that we
+do with name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;default color&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@color</span> <span class="o">=</span> <span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="vi">@color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>    <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, run the tests, and we get a single failure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>F....
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.032192s, 155.3181 runs/s, 155.3181 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_is_white_by_default [unicorn_test.rb:19]:
+</span><span class='line'>Expected: "white"
+</span><span class='line'>  Actual: "default color"
+</span><span class='line'>
+</span><span class='line'>5 runs, 5 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>Which test? It&#8217;s not the Barbara test, it&#8217;s Margaret. She expects to be white,
+but she&#8217;s &quot;default color&quot;. That&#8217;s because she&#8217;s getting the default value in
+<code>initialize</code>.</p>
+
+<h4>Defaulting to White</h4>
+
+<p>Change the default to be &quot;white&quot;:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@color</span> <span class="o">=</span> <span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="vi">@name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="vi">@color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>    <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gets all the tests passing.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.....
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.002299s, 2174.8586 runs/s, 2174.8586 assertions/s.
+</span><span class='line'>
+</span><span class='line'>5 runs, 5 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h3>Returning to <code>white?</code></h3>
+
+<p>We aren&#8217;t quite done with the color requirement. The <code>white?</code> method is still
+always going to return <code>true</code>. Add a test for a unicorn that is <em>not</em> white:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class UnicornTest &lt; Minitest::Test
+</span><span class='line'>  def test_it_has_a_name
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_can_be_named_something_else
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_is_white_by_default
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_knows_if_it_is_white
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_does_not_have_to_be_white
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_knows_if_it_is_not_white
+</span><span class='line'>    unicorn = Unicorn.new("Roxanne", "green")
+</span><span class='line'>    assert_equal false, unicorn.white?
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<h4>Using <code>refute</code></h4>
+
+<p>There&#8217;s a short-hand for <code>assert_equal false, something</code>, and that&#8217;s <code>refute</code>.</p>
+
+<p>According to the dictionary, to &#8216;refute&#8217; something is to deny or contradict
+it. <code>refute</code> is the opposite of <code>assert</code>. Where a test with <code>assert</code> will pass
+if the return value is <code>true</code>, a test with <code>refute</code> will pass if the return
+value is false.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_knows_if_it_is_not_white</span>
+</span><span class='line'>  <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Roxanne&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">refute</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">white?</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests, and the last one will fail:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.F....
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.004108s, 1460.5648 runs/s, 1460.5648 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_knows_if_it_is_not_white [unicorn_test.rb:34]:
+</span><span class='line'>Failed refutation, no message given
+</span><span class='line'>
+</span><span class='line'>6 runs, 6 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h4>Adding a Message</h4>
+
+<p>If we had been using <code>assert_equal</code>, the error message would have been:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Expected: false
+</span><span class='line'>  Actual: true</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we have a message that says:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Failed refutation, no message given</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s expecting <code>white?</code> to return false, but the return value is hard-coded:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>  <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Clearly that&#8217;s not going to work.</p>
+
+<p>As with <code>assert</code>, we can also give it a message:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_knows_if_it_is_not_white</span>
+</span><span class='line'>  <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Roxanne&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">refute</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">white?</span><span class="p">,</span> <span class="s2">&quot;I guess Roxanne thinks she&#39;s white, when really she is green.&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>..F...
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.004489s, 1336.6006 runs/s, 1336.6006 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_it_knows_if_it_is_not_white [unicorn_test.rb:34]:
+</span><span class='line'>I guess Roxanne thinks she's white, when really she is green.
+</span><span class='line'>
+</span><span class='line'>6 runs, 6 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>Failed refutation, no message given</code> message has been
+replaced with the one we just wrote.</p>
+
+<h4>Real Implementation of <code>white?</code></h4>
+
+<p>We&#8217;re not going to get away with hard-coding an answer anymore. We&#8217;ll solve it
+by comparing the actual color to the string &quot;white&quot;:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@color</span> <span class="o">=</span> <span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="vi">@color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>    <span class="n">color</span> <span class="o">==</span> <span class="s2">&quot;white&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gets the test passing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>......
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.002240s, 2678.5714 runs/s, 2678.5714 assertions/s.
+</span><span class='line'>
+</span><span class='line'>6 runs, 6 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;ve now gotten the first and second requirements taken care of. Unicorns
+have names, and they&#8217;re usually white, although they may be a different color.</p>
+
+<h2>Unicorns Can Talk</h2>
+
+<p>The last requirement has to do with how unicorns speak. They say sparkly
+things.</p>
+
+<p>It&#8217;s not entirely clear from the requirements what that means. It kind
+of sounds like unicorns are very optimistic, and only say positive (&quot;sparkly&quot;)
+things. We could create a <code>speak</code> method that chooses a random response from a
+list of positive-sounding things, but that&#8217;s going to be kind of hard to test,
+and besides, it&#8217;s boring if the unicorn is restricted to only saying a handful
+of things.</p>
+
+<h3>Talking with Sparkles</h3>
+
+<p>Instead, let&#8217;s let the unicorn say anything, but make sure that whatever it is
+they say it with ASCII sparkles:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class UnicornTest &lt; Minitest::Test
+</span><span class='line'>  def test_it_has_a_name
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_can_be_named_something_else
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_is_white_by_default
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_knows_if_it_is_white
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_does_not_have_to_be_white
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_it_knows_if_it_is_not_white
+</span><span class='line'>    # ..
+</span><span class='line'>  end
+</span><span class='line'>
+</span><span class='line'>  def test_unicorn_says_sparkly_stuff
+</span><span class='line'>    unicorn = Unicorn.new("Johnny")
+</span><span class='line'>    assert_equal "**;* Wonderful! **;*", unicorn.say("Wonderful!")
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<h4>Running the Tests</h4>
+
+<p>The test blows up:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>...E...
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.002682s, 2609.9925 runs/s, 2237.1365 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_unicorn_says_sparkly_stuff:
+</span><span class='line'>NoMethodError: undefined method `say' for #&lt;Unicorn:0x007ff5fa4103a0 @name="Johnny", @color="white"&gt;
+</span><span class='line'>    unicorn_test.rb:39:in `test_unicorn_says_sparkly_stuff'
+</span><span class='line'>
+</span><span class='line'>7 runs, 6 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re missing the method <code>say</code> on unicorn.</p>
+
+<h3>Defining <code>.say</code></h3>
+
+<p>That&#8217;s easy enough to fix:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@color</span> <span class="o">=</span> <span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="vi">@color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>    <span class="n">color</span> <span class="o">==</span> <span class="s2">&quot;white&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Adding the Parameter</h4>
+
+<p>The test still isn&#8217;t happy, though:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>E......
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.002149s, 3257.3290 runs/s, 2791.9963 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Error:
+</span><span class='line'>UnicornTest#test_unicorn_says_sparkly_stuff:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 0)
+</span><span class='line'>    /Users/kytrinyx/gschool/here-comes-the-unicorn/unicorn.rb:17:in `say'
+</span><span class='line'>    unicorn_test.rb:39:in `test_unicorn_says_sparkly_stuff'
+</span><span class='line'>
+</span><span class='line'>7 runs, 6 assertions, 0 failures, 1 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re calling <code>say</code> wrong. Wrong number of arguments, <code>1 for 0</code>. That&#8217;s
+familiar. In the test we&#8217;re calling <code>say</code> with an argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">unicorn</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s2">&quot;Wonderful!&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And here&#8217;s how the <code>say</code> method is defined:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">say</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is right, the code is wrong. Let&#8217;s make the <code>say</code> method accept an
+argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This changes the message of the test, but we&#8217;re not passing yet:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>......F
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.033604s, 208.3085 runs/s, 208.3085 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_unicorn_says_sparkly_stuff [unicorn_test.rb:39]:
+</span><span class='line'>Expected: "**;* Wonderful! **;*"
+</span><span class='line'>  Actual: nil
+</span><span class='line'>
+</span><span class='line'>7 runs, 7 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h3>Returning Sparkles</h3>
+
+<p>No surprise there. The method is returning nil. Copy/paste from the error
+message in the test into the method definition:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
+</span><span class='line'>  <span class="s2">&quot;**;* Wonderful! **;*&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>.......
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.004330s, 1616.6282 runs/s, 1616.6282 assertions/s.
+</span><span class='line'>
+</span><span class='line'>7 runs, 7 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<p>The test passes, but the implementation is kind of dumb.</p>
+
+<h3>Let&#8217;s Go Deeper</h3>
+
+<p>Let&#8217;s make a test that forces us to write better code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>    <span class="c1"># ..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_can_be_named_something_else</span>
+</span><span class='line'>    <span class="c1"># ..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_is_white_by_default</span>
+</span><span class='line'>    <span class="c1"># ..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_knows_if_it_is_white</span>
+</span><span class='line'>    <span class="c1"># ..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_does_not_have_to_be_white</span>
+</span><span class='line'>    <span class="c1"># ..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_knows_if_it_is_not_white</span>
+</span><span class='line'>    <span class="c1"># ..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_unicorn_says_sparkly_stuff</span>
+</span><span class='line'>    <span class="c1"># ..</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_unicorn_says_different_sparkly_stuff</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Francis&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;**;* I don&#39;t like you very much. **;*&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s2">&quot;I don&#39;t like you very much.&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we get a failing test, thankfully:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>......F.
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.042625s, 187.6833 runs/s, 187.6833 assertions/s.
+</span><span class='line'>
+</span><span class='line'>  1) Failure:
+</span><span class='line'>UnicornTest#test_unicorn_says_different_sparkly_stuff [unicorn_test.rb:44]:
+</span><span class='line'>--- expected
+</span><span class='line'>+++ actual
+</span><span class='line'>@@ -1 +1 @@
+</span><span class='line'>-"**;* I don't like you very much. **;*"
+</span><span class='line'>+"**;* Wonderful! **;*"
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'>8 runs, 8 assertions, 1 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h3>Using String Interpolation</h3>
+
+<p>We can make it pass by interpolating the argument into the string with the ASCII
+sparkles:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
+</span><span class='line'>  <span class="s2">&quot;**;* </span><span class="si">#{</span><span class="n">something</span><span class="si">}</span><span class="s2"> **;*&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gets the final test passing.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Running:
+</span><span class='line'>
+</span><span class='line'>........
+</span><span class='line'>
+</span><span class='line'>Fabulous run in 0.003738s, 2140.1819 runs/s, 2140.1819 assertions/s.
+</span><span class='line'>
+</span><span class='line'>8 runs, 8 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></figure>
+
+<h2>Final Results</h2>
+
+<p>That&#8217;s it. We have fulfilled the original requirements.</p>
+
+<p>This is the code we ended up with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Unicorn</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="nb">name</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;white&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="nb">name</span>
+</span><span class='line'>    <span class="vi">@color</span> <span class="o">=</span> <span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">color</span>
+</span><span class='line'>    <span class="vi">@color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">white?</span>
+</span><span class='line'>    <span class="n">color</span> <span class="o">==</span> <span class="s2">&quot;white&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">say</span><span class="p">(</span><span class="n">something</span><span class="p">)</span>
+</span><span class='line'>    <span class="s2">&quot;**;* </span><span class="si">#{</span><span class="n">something</span><span class="si">}</span><span class="s2"> **;*&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And here is the full test suite that we wrote:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.0&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;unicorn&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">UnicornTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_has_a_name</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Robert&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Robert&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_can_be_named_something_else</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Joseph&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Joseph&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_is_white_by_default</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Margaret&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_knows_if_it_is_white</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Elisabeth&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">white?</span><span class="p">,</span> <span class="s2">&quot;Elisabeth should be white, but isn&#39;t.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_does_not_have_to_be_white</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Barbara&quot;</span><span class="p">,</span> <span class="s2">&quot;purple&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;purple&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">color</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_knows_if_it_is_not_white</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Roxanne&quot;</span><span class="p">,</span> <span class="s2">&quot;green&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">refute</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">white?</span><span class="p">,</span> <span class="s2">&quot;I guess Roxanne thinks she&#39;s white, when really she is green.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_unicorn_says_sparkly_stuff</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Johnny&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;**;* Wonderful! **;*&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s2">&quot;Wonderful!&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_unicorn_says_different_sparkly_stuff</span>
+</span><span class='line'>    <span class="n">unicorn</span> <span class="o">=</span> <span class="no">Unicorn</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;Francis&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;**;* I don&#39;t like you very much. **;*&quot;</span><span class="p">,</span> <span class="n">unicorn</span><span class="o">.</span><span class="n">say</span><span class="p">(</span><span class="s2">&quot;I don&#39;t like you very much.&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2205 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Driving the Domain Model Using TDD and RSpec - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Driving the Domain Model Using TDD and RSpec                              Every developer has more ideas than time &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/workshops/ideabox/tdd_rspec.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Driving the Domain Model Using TDD and RSpec
+        </h1>
+        
+      </header>
+    
+    <p>Every developer has more ideas than time. As David Allen likes to say &quot;the human brain is for creating ideas, not remembering them.&quot; Let’s build a system to record your good, bad, and awful ideas.</p>
+
+<h2>I0: Getting Started</h2>
+
+<h3>Environment Setup</h3>
+
+<p>For this project you need to have setup:</p>
+
+<ul>
+<li>Ruby 2.0.0</li>
+<li>Ruby&#8217;s Bundler gem</li>
+</ul>
+
+<h3>File/Folder Structure</h3>
+
+<p>Let&#8217;s start our project with the minimum and build up from there. We need:</p>
+
+<ul>
+<li>a project folder</li>
+<li>a <code>Gemfile</code></li>
+<li>a <code>lib/ideabox</code> directory</li>
+<li>a <code>test/ideabox</code> directory</li>
+</ul>
+
+<h3><code>Gemfile</code></h3>
+
+<p>This tutorial will show how the design can be driven using rspec.</p>
+
+<p>We&#8217;re going to depend on one external gem in our <code>Gemfile</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Save that and, from your project directory, run <code>bundle</code> to install the
+dependencies.</p>
+
+<h2>I1: Defining Ideas</h2>
+
+<p>This project will use a fairly classic style of TDD. First we will implement the core business logic using unit tests to drive the implementation and
+design.</p>
+
+<p>Once we have the business logic implemented, we can decide how we want people to access the program.</p>
+
+<p>This would make a very good command line application, so perhaps we&#8217;ll add a command line interface (CLI). Or, maybe we want to use this via a web interface using a simple framework like Sinatra. We don&#8217;t need to make that
+decision just yet.</p>
+
+<h3>Writing the First Test</h3>
+
+<p>Create a directory named <code>spec</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>mkdir spec</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We are going to use tests to drive us to create a simple ruby object that takes a title and a description.</p>
+
+<p>Within <code>spec</code> directory, create another directory named
+<code>ideabox</code>, which is where we will put the model tests:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>mkdir spec/ideabox</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Using RSpec</h4>
+
+<p>Create a file <code>spec/ideabox/idea_spec.rb</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox/idea&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Idea</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;has basic attributes&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Making the First Test Pass</h3>
+
+<p>Run the test with <code>rspec spec/ideabox/idea_spec.rb</code>.</p>
+
+<p>The error message says:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>cannot load such file -- ./lib/ideabox/idea (LoadError)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That makes sense, since we haven&#8217;t created the file.</p>
+
+<p>Do that now:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>mkdir -p lib/ideabox</span><span class='line output'>touch lib/ideabox/idea.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Run the test again.</p>
+
+<p>You should get the following message:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>ideabox/spec/ideabox/idea_spec.rb:3:in `<top (required)>': uninitialized constant Idea (NameError)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Both error messages essentially say the same thing: A constant <code>Idea</code> is being
+referenced, and the test doesn&#8217;t know about it.</p>
+
+<p>We need to create a class named <code>Idea</code> in the <code>lib/ideabox/idea.rb</code> file.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The next error says that we&#8217;re calling the <code>initialize</code> method wrong:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Failures:</span><span class='line output'></span><span class='line output'>1) Idea has basic attributes</span><span class='line output'>Failure/Error: idea = Idea.new("title", "description")</span><span class='line output'>ArgumentError:</span><span class='line output'>wrong number of arguments(2 for 0)</span><span class='line output'># ./spec/ideabox/idea_spec.rb:5:in `initialize'</span><span class='line output'># ./spec/ideabox/idea_spec.rb:5:in `new'</span><span class='line output'># ./spec/ideabox/idea_spec.rb:5:in `block (2 levels) in <top (required)>'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>rspec is complaining about an <code>ArgumentError</code>. An Idea takes two arguments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;a title&quot;</span><span class="p">,</span> <span class="s2">&quot;a detailed and riveting description&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>However, the Idea class as it is currently defined has only the default initialize method, which takes no arguments. We need to overwrite it with the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests again.</p>
+
+<p>We&#8217;re still getting an error:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Failures:</span><span class='line output'></span><span class='line output'>1) Idea has basic attributes</span><span class='line output'>Failure/Error: expect(idea.title).to eq("title")</span><span class='line output'>NoMethodError:</span><span class='line output'>undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;</span><span class='line output'># ./spec/ideabox/idea_spec.rb:6:in `block (2 levels) in <top (required)>'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The important bit is the same in both:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `title' for #&lt;Idea:0x007fec0516de80&gt;</span></code></pre></td></tr></table></div></figure>
+
+<p>We can define a method <code>:title</code> using an <code>attr_reader</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:title</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Finally, rspec is complaining about a failure rather than an error:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Failures:</span><span class='line output'></span><span class='line output'>1) Idea has basic attributes</span><span class='line output'>Failure/Error: expect(idea.title).to eq("title")</span><span class='line output'></span><span class='line output'>expected: "title"</span><span class='line output'>got: nil</span><span class='line output'></span><span class='line output'>(compared using ==)</span><span class='line output'># ./spec/ideabox/idea_spec.rb:6:in `block (2 levels) in <top (required)>'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Make the expectation pass by assigning the <code>title</code> argument to an instance
+variable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:title</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That makes the first assertion pass, which allows the test to blow up on the
+next assertion:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `description' for #&lt;Idea:0x007f89532b1900 @title="title"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Add an attribute reader for <code>:description</code>, and run the test again. We get a proper failure, and can fix it by assigning the incoming <code>description</code> to an
+instance variable.</p>
+
+<p>The Idea class now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span class='line'>    <span class="vi">@description</span> <span class="o">=</span> <span class="n">description</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is passing.</p>
+
+<h3>Implementing Rank</h3>
+
+<p>We also want to be able to rank ideas. The API for this will be to say <code>like!</code> on the idea:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;is likeable&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;diet&quot;</span><span class="p">,</span> <span class="s2">&quot;carrots and cucumbers&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test gives us an error:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `rank' for #&lt;Idea:0x007fd15b3fa460&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <code>rank</code> method doesn&#8217;t have any behavior per se, it&#8217;s just reporting a value. Let&#8217;s create it using an <code>attr_reader</code>.</p>
+
+<p>Running the tests again gives us a proper failure:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Expected: 0</span><span class='line output'>Actual: nil</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The first assertion in the test is placed before anything happens. If we only made an assertion after calling <code>like!</code> then we could have gotten the test to
+pass by assigning an instance variable in the <code>initialize</code> method that hard-coded the rank to <code>1</code>. We want to make sure that there&#8217;s a reasonable default <strong>and</strong> that calling <code>like!</code> changes the rank by the expected amount.</p>
+
+<p>To give <code>rank</code> a reasonable default, assign an instance variable in the <code>initialize</code> method with a value of 0.</p>
+
+<p>This gets the first assertion passing, and we now get an error:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `like!' for #&lt;Idea:0x007fa14bb4c7d0&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Undefined method <code>like!</code>. This needs to have behavior that changes the idea, so a simple <code>attr_reader</code> will not do. Define a method explicitly:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">like!</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Again, we get a failure:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Expected: 1</span><span class='line output'>Actual: 0</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Make it pass by setting <code>@rank = 1</code> within the new <code>like!</code> method.</p>
+
+<p>This gets the test passing.</p>
+
+<p>Our implementation isn&#8217;t bulletproof. No matter how many times we call <code>like!</code> the rank will be <code>1</code>. We could just fix the implementation, but that would mean that our test isn&#8217;t as robust as it could be.</p>
+
+<p>Let&#8217;s improve the test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;is likeable&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;diet&quot;</span><span class="p">,</span> <span class="s2">&quot;carrots and cucumbers&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We get a good failure, and can now update the implementation to be correct:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@rank</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The full <code>Idea</code> class now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:rank</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span class='line'>    <span class="vi">@description</span> <span class="o">=</span> <span class="n">description</span>
+</span><span class='line'>    <span class="vi">@rank</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">like!</span>
+</span><span class='line'>    <span class="vi">@rank</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Sorting Ideas by Rank</h3>
+
+<p>Since we&#8217;re ranking ideas, we also want to sort them by their rank.</p>
+
+<p>We&#8217;ll create a test that has multiple ideas, and gives them different ranks by
+liking them a different number of times:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;sorts by rank&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">diet</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;diet&quot;</span><span class="p">,</span> <span class="s2">&quot;cabbage soup&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">exercise</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;exercise&quot;</span><span class="p">,</span> <span class="s2">&quot;long distance running&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">drink</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;drink&quot;</span><span class="p">,</span> <span class="s2">&quot;carrot smoothy&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">exercise</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">exercise</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">drink</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">ideas</span> <span class="o">=</span> <span class="o">[</span><span class="n">drink</span><span class="p">,</span> <span class="n">exercise</span><span class="p">,</span> <span class="n">diet</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">ideas</span><span class="o">.</span><span class="n">sort</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="o">[</span><span class="n">diet</span><span class="p">,</span> <span class="n">drink</span><span class="p">,</span> <span class="n">exercise</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The error message we get for this test is a bit more cryptic than the previous
+ones:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>ArgumentError: comparison of Idea with Idea failed</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>What does <code>comparison of Idea with Idea failed</code> even mean?</p>
+
+<p>The <code>sort</code> method depends on a method known as <em>the spaceship operator</em>, which is used to compare one object to another.</p>
+
+<p>The spaceship operator looks like this: <code>&lt;=&gt;</code>, and can be defined like any other method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">&lt;=&gt;</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># comparison code here</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This method should return either <code>-1</code> (meaning the first object should be ordered <em>before</em> the other), or <code>0</code> (meaning that the objects have equivalent rank), or <code>1</code>, which means that the first object should be ordered <em>after</em> the second one.</p>
+
+<p>In code, this becomes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">&lt;=&gt;</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">rank</span> <span class="o">&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">rank</span>
+</span><span class='line'>    <span class="mi">1</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">rank</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">rank</span>
+</span><span class='line'>    <span class="mi">0</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="o">-</span><span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The argument is named <code>other</code>, which is an idiomatic choice in Ruby, as well as in many other languages.</p>
+
+<p>Since we&#8217;re comparing the idea&#8217;s <code>rank</code>s, and <code>rank</code> is a <code>Fixnum</code>, and <code>Fixnum</code> has defined the spaceship operator, we can refactor the above to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">&lt;=&gt;</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rank</span> <span class="o">&lt;=&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">rank</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Performing Conventional Comparisons</h3>
+
+<p>If we want to do more types of comparisons than just sorting, we could include the <code>Comparable</code> in the <code>Idea</code> class. That would give us all the conventional comparison operators (<code>&lt;</code>, <code>&lt;=</code>, <code>==</code>, <code>&gt;=</code>, and <code>&gt;</code>) as well as a method called <code>between?</code>.</p>
+
+<p>We don&#8217;t really need all those methods. Besides, it would be kind of odd to have the following:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>idea1 = Idea.new('dessert', 'chocolate cake')</span><span class='line output'>idea2 = Idea.new('entertainment', 'dogfight')</span><span class='line output'>idea1 == idea2</span><span class='line output'># => true</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>So we won&#8217;t include <code>Comparable</code>.</p>
+
+<h4>Checking In</h4>
+
+<p>The business logic for our <code>Idea</code> is complete, and the tests are all green.</p>
+
+<p>This is the final implementation of <code>Idea</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:rank</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span class='line'>    <span class="vi">@description</span> <span class="o">=</span> <span class="n">description</span>
+</span><span class='line'>    <span class="vi">@rank</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">like!</span>
+</span><span class='line'>    <span class="vi">@rank</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">&lt;=&gt;</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">rank</span> <span class="o">&lt;=&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">rank</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Create a README with a short description of the project, then initialize a git
+repository, and check your changes in:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>git init</span><span class='line output'>git add .</span><span class='line output'>git commit -m "Implement `Idea`"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>I2: Saving Ideas</h2>
+
+<p>We need to be able to organize ideas. We&#8217;re going to create a class that stores ideas.</p>
+
+<h3>Starting With a Test</h3>
+
+<p>Once again we&#8217;ll define what we want to happen by writing a test.</p>
+
+<p>We want to:</p>
+
+<ul>
+<li>create an idea</li>
+<li>save it</li>
+<li>get it back out of the datastore (it should be the same idea)</li>
+</ul>
+
+<p>Create an empty file <code>idea_store_spec.rb</code> in the <code>spec/ideabox</code> directory.</p>
+
+<p>Next, we want to create actual ideas, so we also need to require the <code>Idea</code> class.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox/idea&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we&#8217;re going to need the class that actually does the work of storing the ideas:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox/idea_store&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Finally, we need a test that proves that the idea gets saved:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">IdeaStore</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;saves and retrieves an idea&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;celebrate&quot;</span><span class="p">,</span> <span class="s2">&quot;with champagne&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">id</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;celebrate&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;with champagne&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>rspec spec/ideabox/idea_store_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The first failure complains that there is no <code>idea_store</code> file:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>cannot load such file -- ./lib/ideabox/idea_store (LoadError)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Create a new file called <code>idea_store.rb</code> in <code>lib/ideabox/</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>touch lib/ideabox/idea_store.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Run the test again, and you should get a complaint that there&#8217;s no constant <code>IdeaStore</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NameError:</span><span class='line output'>uninitialized constant IdeaStore</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Define an empty class in the <code>lib/ideabox/idea_store.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaStore</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The next error complains about a missing method, <code>save</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `save' for IdeaStore:Class</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Change the error message by defining an empty <code>save</code> method on the IdeaStore class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that when we call the save method in the test, it looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Previously, we&#8217;ve only sent the <code>new</code> message to a class, which gives us back a new instance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;activity&quot;</span><span class="p">,</span> <span class="s2">&quot;coloring with crayons&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And then we&#8217;d call methods on that instance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">idea</span><span class="o">.</span><span class="n">rank</span>
+</span><span class='line'><span class="c1"># =&gt; 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here we&#8217;re sending the <code>save</code> method to the <code>IdeaStore</code> <em>class</em>, not an instance of that class.</p>
+
+<p>Notice the difference between these two method definitions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">World</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">hello</span>
+</span><span class='line'>    <span class="s2">&quot;Greetings from the class </span><span class="si">#{</span><span class="nb">self</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="s2">&quot;Greetings from the instance </span><span class="si">#{</span><span class="nb">self</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You can test this in IRB by copying and pasting the code into an IRB session, and then saying:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>World.hello</span><span class='line output'>World.new.hello</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If that seems confusing, just roll with it for now, accepting that <code>def self.something</code> will let you send <code>something</code> directly to the class, whereas <code>def something</code> lets you send <code>something</code> to the instance of the class.</p>
+
+<p>So, back to our <code>IdeaStore</code>.</p>
+
+<p>We created a <code>save</code> method directly on the <code>IdeaStore</code> class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is giving us a new error:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>ArgumentError: wrong number of arguments (1 for 0)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We need to accept an argument to the <code>save</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The error message has changed again:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `count' for IdeaStore:Class</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Let&#8217;s fix that in the same way:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is now failing rather than giving us an error:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Expected: 1</span><span class='line output'>Actual: nil</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The failing line of code is this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This makes sense, of course, since we&#8217;re not doing any work in the <code>IdeaStore</code> class yet.</p>
+
+<p>Let&#8217;s just fake it for now:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">count</span>
+</span><span class='line'>  <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We get a new error message:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `find' for IdeaStore:Class</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Add an empty find method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test complains that the method signature is incorrect:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>ArgumentError: wrong number of arguments (1 for 0)</span><span class='line output'>/Users/you/ideabox/lib/ideabox/idea_store.rb:9:in `find'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Correct that by providing an argument to <code>find</code>. We&#8217;ll be finding by the ID of the idea, so use <code>id</code> as the argument name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The next error message is going to be harder to fake:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `title' for nil:NilClass</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Let&#8217;s do some real work.</p>
+
+<p>There are two important pieces. First the <code>save</code> method has to store the idea we give it, and second, the <code>find</code> method has to get it back out.</p>
+
+<p>We can ignore all the details for now, and just make that work:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@idea</span> <span class="o">=</span> <span class="n">idea</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@idea</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">count</span>
+</span><span class='line'>    <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That gets the test passing, but it&#8217;s not a very satisfactory implementation.</p>
+
+<p>Let&#8217;s make it so we can store and retrieve two different ideas. Update the test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">IdeaStore</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;saves and retrieves an idea&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;celebrate&quot;</span><span class="p">,</span> <span class="s2">&quot;with champagne&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">id1</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dream&quot;</span><span class="p">,</span> <span class="s2">&quot;of unicorns and rainbows&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">id2</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">id1</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;celebrate&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;with champagne&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">id2</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;dream&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;of unicorns and rainbows&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is failing again, because we hard-coded the <code>count</code> method to return 1:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Expected: 2</span><span class='line output'>Actual: 1</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We can&#8217;t just hard-code a return value of 2, because we now have two different assertions for the <code>count</code> method.</p>
+
+<p>We need to actually store the incoming ideas. Let&#8217;s store them in an array called <code>@all</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The tests blow up:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `<<' for nil:NilClass</span><span class='line output'>/Users/you/ideabox/lib/ideabox/idea_store.rb:7:in `save'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p><code>@all</code> is nil. We need it to be an array before we can shovel anything into it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we get a somewhat cryptic failure:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Expected: 2</span><span class='line output'>Actual: 1</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We expected to have 2 ideas, but we only have 1. Why is that?</p>
+
+<p>Well, every single time we call <code>save</code>, we reset the <code>@all</code> instance variable to be an empty array. No matter how many times we call <code>save</code> we will always end up with exactly one idea in <code>@all</code>.</p>
+
+<p>What we need is a way to only set <code>@all</code> to be an empty array if it is nil.</p>
+
+<p>For this, we&#8217;re going to co-opt the ruby <code>||</code> operator.</p>
+
+<p>The <strong>logical or</strong> operator, <code>||</code>, is used when we want to do something when <strong>either</strong> one side <strong>or</strong> the other, <strong>or both</strong> are true.</p>
+
+<p>So the expression <code>a || b</code> will evaluate to true if either <code>a</code> or <code>b</code> are true, or if they both are:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="n">a</span> <span class="o">||</span> <span class="n">b</span>
+</span><span class='line'><span class="c1"># =&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Actually, in Ruby we aren&#8217;t very picky about <code>true</code> and <code>false</code>. We are quite content to accept <em>truthy</em> and <em>falsey</em>. Only two objects are <em>falsey</em> in Ruby: <code>false</code> and <code>nil</code>. Everything else is <em>truthy</em>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="kp">nil</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'><span class="n">a</span> <span class="o">||</span> <span class="n">b</span>
+</span><span class='line'><span class="c1"># true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Since the entire expression will evaluate to <em>truthy</em> if <code>a</code> is <em>truthy</em>, the <code>||</code> operator is lazy. It won&#8217;t even bother to check <code>b</code> if <code>a</code> is true or a truthy value. It will go ahead and just return whatever <code>a</code> is, making the entire statement <em>truthy</em>.</p>
+
+<p>Now, let&#8217;s rename <code>a</code> to <code>@all</code> and let&#8217;s make <code>b</code> an empty array:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@all</span> <span class="o">||</span> <span class="o">[]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Is this statement <em>truthy</em> or <em>falsey</em>?</p>
+
+<p>Well, the result of the entire statement will <strong>always</strong> be <em>truthy</em>, because an empty array is <em>truthy</em>. But will it always be an empty array? No.</p>
+
+<p>If <code>@all</code> is nill, then the <code>||</code> operator needs to go check the second part, and it will return an empty array.</p>
+
+<p>Now imagine that <code>@all</code> contains an array of ideas: <code>@all = [idea1, idea2]</code>.</p>
+
+<p>This is <em>truthy</em>, so the <code>||</code> operator returns the value of <code>@all</code>.</p>
+
+<p>Our problem in save is that we were always setting <code>@all</code> to be an empty array:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What we really want is to use the value of <code>@all</code> if there&#8217;s something there, and then fall back to an empty array if <code>@all</code> is <code>nil</code>. We can do that using the <code>||</code> operator:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">=</span> <span class="vi">@all</span> <span class="o">||</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is something that comes up so often in Ruby that we have a shorthand for it, known as the <strong>or-equal</strong> operator:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This doesn&#8217;t quite get our tests passing. We also need to tell the <code>count</code> method to use the length of the array with the saved ideas:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">count</span>
+</span><span class='line'>  <span class="vi">@all</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re back to a failure when fetching the idea:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>1) Error:</span><span class='line output'>NoMethodError: undefined method `title' for nil:NilClass</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We&#8217;re returning the <code>@idea</code> value, which is no longer being set.</p>
+
+<p>Let&#8217;s return the first idea in the <code>@all</code> array:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That works for the first idea, but not for the second one.</p>
+
+<p>We need to find a way to get the correct idea back out.</p>
+
+<p>The information we have to go on is the <code>id</code>, but we haven&#8217;t implemented an <code>id</code> for the ideas yet.</p>
+
+<p>Several things need to happen:</p>
+
+<ul>
+<li><code>Idea</code> instances need to be able to set and get an <code>id</code> value.</li>
+<li><code>IdeaStore.save</code> needs to give the idea an <code>id</code> and return the id to the
+caller.</li>
+<li><code>IdeaStore.find</code> needs to use the provided <code>id</code> and look through the stored
+ideas to find the correct one.</li>
+</ul>
+
+<p>Let&#8217;s start by changing the <code>save</code> method to be the way we wish it were:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">next_id</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The failing test tells us where we need to go next:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>1) Error:</span><span class='line output'>NameError: undefined local variable or method `next_id' for IdeaStore:Class</span><span class='line output'>/Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We need a <code>next_id</code> method.</p>
+
+<p>For now, let&#8217;s just create an empty one.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">next_id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The next error is:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `id=' for #&lt;Idea:0x007fea5a390480&gt;</span><span class='line output'>/Users/you/ideabox/lib/ideabox/idea_store.rb:4:in `save'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>This one is <em>not</em> a complaint about the <code>IdeaStore</code> class, but a missing method on the Idea instance.</p>
+
+<p>We can&#8217;t change the <code>Idea</code> class without changing the test first, so open up the <code>idea_spec.rb</code> file and add a new test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;has an id&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dinner&quot;</span><span class="p">,</span> <span class="s2">&quot;beef stew&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the idea test suite with <code>rspec spec/ideabox/idea_spec.rb</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `id=' for #&lt;Idea:0x007fcd153214e8&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Make the test pass by adding an <code>attr_accessor</code> to the Idea class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:id</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:rank</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That gets the unit tests for <code>Idea</code> passing, and we can go back to our unit test for the <code>IdeaStore</code>.</p>
+
+<p>This is failing because it always retrieves the first idea.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Expected</span><span class="p">:</span> <span class="s2">&quot;dream&quot;</span>
+</span><span class='line'>  <span class="no">Actual</span><span class="p">:</span> <span class="s2">&quot;celebrate&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can use the <code>Enumerable#find</code> method to get the correct idea:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span><span class="o">.</span><span class="n">find</span> <span class="k">do</span> <span class="o">|</span><span class="n">idea</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is still failing with the same error message. What the heck?</p>
+
+<p>Remember back when we implemented the <code>next_id</code> method? Take another look at it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">next_id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s not going to work.</p>
+
+<p>Let&#8217;s use the <code>count</code> to determine the next id:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">next_id</span>
+</span><span class='line'>  <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This, finally, gets the test passing.</p>
+
+<p>Commit your changes.</p>
+
+<h2>I3: Running all tests</h2>
+
+<p>The <code>rspec</code> command can take a directory as an argument, and run all the test suites that are found below that directory, so this command will run everything:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rspec spec</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>I4: Editing Ideas</h2>
+
+<p>Sometimes an idea is OK but not great. We need to be able to improve our ideas.</p>
+
+<h3>Starting With a Test</h3>
+
+<p>In order to prove that we&#8217;re able to update ideas, we need to</p>
+
+<ul>
+<li>start with an idea</li>
+<li>save it</li>
+<li>get it back out of the datastore</li>
+<li>change the values</li>
+<li>save it again</li>
+<li>find it again and see that it has all the new values</li>
+</ul>
+
+<p>Another observation that is important here is that if we&#8217;ve saved a single idea and updated it, the <code>count</code> of ideas in our datastore should be exactly one.</p>
+
+<p>Here&#8217;s a test that proves all these things:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;updates an idea&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;drink&quot;</span><span class="p">,</span> <span class="s2">&quot;tomato juice&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;cocktails&quot;</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;spicy tomato juice with vodka&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;cocktails&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;spicy tomato juice with vodka&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We get a familiar error message:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`title=&#39; for #&lt;Idea:0x007fe25a2e4c28&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re trying to change a read-only value on Idea.</p>
+
+<p>Pop over to the idea test/spec file and make sure that we can set a new title and description on an idea.</p>
+
+<p>Something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;updates attributes&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;drinks&quot;</span><span class="p">,</span> <span class="s2">&quot;sparkly water&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;happy hour&quot;</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;mojitos&quot;</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;happy hour&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;mojitos&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Make it pass by using <code>attr_accessor</code> instead of <code>attr_reader</code> for <code>title</code> and
+<code>description</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:rank</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The idea test suite is passing, but the idea store one for updating an idea is not.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Expected: 1</span><span class='line output'>Actual: 4</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It seems odd that we should have 4 ideas. The test only saves twice, so at the most it should have 2 ideas.</p>
+
+<p>What&#8217;s happening is that the first test is creating two ideas in the <code>IdeaStore</code> class, and then the second test is creating two more.</p>
+
+<p>Tests that interfere with each other are not good. We need to clear out all the ideas between each test.</p>
+
+<p>We want to clean up after each test, so we&#8217;ll use an <code>after</code> block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">IdeaStore</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">after</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">IdeaStore</span><span class="o">.</span><span class="n">delete_all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That blows up, because we don&#8217;t have a <code>delete_all</code> method on the <code>IdeaStore</code>
+class.</p>
+
+<p>Within <code>IdeaStore</code>, define this method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delete_all</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With this change, our test is failing with a much more appropriate error message:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Expected</span><span class="p">:</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="no">Actual</span><span class="p">:</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we need to change the <code>save</code> method so that it doesn&#8217;t create a new <code>id</code> if the idea already has one.</p>
+
+<p>The old code looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">next_id</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We only want to set the <code>id</code> and stick the idea in the <code>@all</code> array if it&#8217;s a new idea.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@all</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">idea</span><span class="o">.</span><span class="n">new?</span>
+</span><span class='line'>    <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">next_id</span>
+</span><span class='line'>    <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That is going to fail because we don&#8217;t have a <code>new?</code> method on <code>Idea</code>.</p>
+
+<p>Open the test file for <code>Idea</code> and create a test for it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;is new&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;sleep&#39;</span><span class="p">,</span> <span class="s1">&#39;all day&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">new?</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That fails for obvious reasons. Create an empty <code>new?</code> method for Idea:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new?</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now the test fails because the <code>new?</code> method returns a falsy value.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Failures:</span><span class='line output'></span><span class='line output'>1) Idea is new</span><span class='line output'>Failure/Error: expect(idea.new?).to be_true</span><span class='line output'>expected: true value</span><span class='line output'>got: nil</span><span class='line output'># ./spec/ideabox/idea_spec.rb:49:in `block (2 levels) in <top (required)>'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Return <code>true</code> from the <code>new?</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new?</span>
+</span><span class='line'>  <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That gets the test passing, but we&#8217;re not quite there yet. Create another test to force a real implementation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;is old&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;drink&#39;</span><span class="p">,</span> <span class="s1">&#39;lots of water&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">new?</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">be_false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To get the test to pass we&#8217;ll say that an idea is <code>new?</code> if it doesn&#8217;t have an
+<code>id</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new?</span>
+</span><span class='line'>  <span class="o">!</span><span class="nb">id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That gets that test passing. Let&#8217;s pop back over to the idea store test. It turns out, all of the IdeaStore tests are passing as well.</p>
+
+<p>We&#8217;ve finished the edit feature. Commit your changes.</p>
+
+<h2>I5: Deleting Ideas</h2>
+
+<p>We can create ideas, look them up, and edit them. If we have a particularly bad idea, we&#8217;re going to want to delete it as well.</p>
+
+<p>To prove that we can delete ideas let&#8217;s create 3 ideas, and then delete one of them. Then we can verify two things: first, that the idea is no longer there, and second, that the other ideas are still around.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;deletes an idea&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">id1</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;song&quot;</span><span class="p">,</span> <span class="s2">&quot;99 bottles of beer&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">id2</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;gift&quot;</span><span class="p">,</span> <span class="s2">&quot;micky mouse belt&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">id3</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dinner&quot;</span><span class="p">,</span> <span class="s2">&quot;cheeseburger with bacon and avocado&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:title</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;dinner&quot;</span><span class="p">,</span> <span class="s2">&quot;gift&quot;</span><span class="p">,</span> <span class="s2">&quot;song&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">id2</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:title</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="o">[</span><span class="s2">&quot;dinner&quot;</span><span class="p">,</span> <span class="s2">&quot;song&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first complaint is that we don&#8217;t have an <code>all</code> method:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `all' for IdeaStore:Class</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We have an <code>@all</code> instance variable in <code>IdeaStore</code>, we simply need to expose it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">all</span>
+</span><span class='line'>    <span class="vi">@all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This changes the error message, giving us a different <code>NoMethodError</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NoMethodError: undefined method `delete' for IdeaStore:Class</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We can change the error message again by defining an empty <code>delete</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delete</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We get another familiar error message:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>ArgumentError: wrong number of arguments (1 for 0)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Fix it by adding an argument to the definition of <code>delete</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delete</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gives us a real failure:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Expected: ["dinner", "song"]</span><span class='line output'>Actual: ["dinner", "gift", "song"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We need to do actual work.</p>
+
+<p>Our data is stored in an array, and there are several ways of deleting things from arrays.</p>
+
+<ul>
+<li><code>Array#delete_if</code></li>
+<li><code>Array#delete_at</code></li>
+<li><code>Array#delete</code></li>
+</ul>
+
+<p><code>delete_if</code> is an alias for <code>reject</code>, and it will delete all the items that match a given condition:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">all</span><span class="o">.</span><span class="n">delete_if</span> <span class="k">do</span> <span class="o">|</span><span class="n">idea</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That works, but it doesn&#8217;t really communicate the fact that we only expect one particular idea to get deleted.</p>
+
+<p><code>delete_at</code> communicates this idea better: Delete just the idea that is at index <code>i</code> in the array. The only problem here is that we don&#8217;t know where the idea is located in the array, so we&#8217;d have to:</p>
+
+<ol>
+<li>find the idea</li>
+<li>figure out what the index of that idea is</li>
+<li>delete at the index</li>
+</ol>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">idea</span> <span class="o">=</span> <span class="n">all</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'><span class="n">index</span> <span class="o">=</span> <span class="n">all</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'><span class="n">all</span><span class="o">.</span><span class="n">delete_at</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That seems like a lot of work.</p>
+
+<p>Our last option is <code>Array#delete</code>, and this one will delete an object from an array. We only have the id, so we need to find the idea first, and then we can delete it directly, without going via the index:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">idea</span> <span class="o">=</span> <span class="n">all</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'><span class="n">all</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This seems like our best option, leaving the <code>Ideabox.delete</code> method looking
+like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delete</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">all</span><span class="o">.</span><span class="n">delete</span> <span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is passing. Commit your changes.</p>
+
+<h2>I6: Refactor</h2>
+
+<p>In the previous iteration we added a method <code>Ideabox.all</code>, so let&#8217;s update <code>Ideabox.count</code> and <code>Ideabox.find</code> to use the <code>all</code> method rather than the <code>@all</code> instance variable.</p>
+
+<p>The final code looks this this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Idea</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:rank</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:description</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@title</span> <span class="o">=</span> <span class="n">title</span>
+</span><span class='line'>    <span class="vi">@description</span> <span class="o">=</span> <span class="n">description</span>
+</span><span class='line'>    <span class="vi">@rank</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">like!</span>
+</span><span class='line'>    <span class="vi">@rank</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">&lt;=&gt;</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">rank</span> <span class="o">&lt;=&gt;</span> <span class="n">other</span><span class="o">.</span><span class="n">rank</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">new?</span>
+</span><span class='line'>    <span class="o">!</span><span class="nb">id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaStore</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">all</span>
+</span><span class='line'>    <span class="vi">@all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@all</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">idea</span><span class="o">.</span><span class="n">new?</span>
+</span><span class='line'>      <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">next_id</span>
+</span><span class='line'>      <span class="vi">@all</span> <span class="o">&lt;&lt;</span> <span class="n">idea</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">idea</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">find</span> <span class="k">do</span> <span class="o">|</span><span class="n">idea</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="nb">id</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delete</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">delete</span> <span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">count</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">next_id</span>
+</span><span class='line'>    <span class="n">count</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">delete_all</span>
+</span><span class='line'>    <span class="vi">@all</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Make sure that the tests are all passing, and commit your changes.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

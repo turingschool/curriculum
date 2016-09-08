@@ -1,0 +1,935 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Introducing Arduino & Dino - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Introducing Arduino & Dino                              The Arduino is a small board which features a programmable &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/arduino/introducing_arduino.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Introducing Arduino & Dino
+        </h1>
+        
+      </header>
+    
+    <p>The Arduino is a small board which features a programmable microprocessor and several pins you can use to interact with the world.</p>
+
+<p>What does that mean to you? It&#8217;s a cool way to write programs which affect the physical world. In this tutorial, we&#8217;ll play with some neat lights and see how the programming instructions affect what you observe.</p>
+
+<h2>Fundamentals</h2>
+
+<h3>LEDs</h3>
+
+<p>An LED is a small light with two wires. When one side is connected to a positive electrical source and the other to negative (or &quot;ground&quot;), the LED lights up.</p>
+
+<h4>Is It Dangerous?</h4>
+
+<p>These <em>are not dangerous</em>. The electrical voltage we&#8217;re using here is so low that even if you intentionally tried to electrocute yourself, you probably couldn&#8217;t even feel it. Don&#8217;t be concerned.</p>
+
+<h4>LED Structure</h4>
+
+<p>It looks like this:</p>
+
+<p><img src="http://www.societyofrobots.com/images/electronics_led_diagram.png" alt="LED">
+</p>
+
+<p>The led has two stiff wires that we&#8217;d prefer not to bend. The shorter one goes to the ground or negative line &#8211; this is called the &quot;cathode&quot;. The other, longer pin, goes to the positive line &#8211; this is called the &quot;anode&quot;.</p>
+
+<h3>Let There Be Light!</h3>
+
+<p>Let&#8217;s build a simple circuit that involves no programming, just wiring.</p>
+
+<h4>Find the following materials in your kit:</h4>
+
+<ul>
+<li>Arduino board, looks like a small computer</li>
+<li>USB cord</li>
+<li>Breadboard (covered in holes to plug wires into)</li>
+<li>3 long wires (1 red, 1 black, 1 green &#8211; you can change colours if necessary)</li>
+<li>1 red LED</li>
+<li>1 <a href="/images/arduino_330_ohm_resistor.jpg">330Ω resistor</a> (little brown pill with these stripes: orange, orange, brown, gold)</li>
+</ul>
+
+<h4>With those materials, build this circuit:</h4>
+
+<ul>
+<li>Connect the USB cord to your computer and the Arduino. You should see the small green &quot;ON&quot; led light up on the board.</li>
+<li>Put one end of the <em>red wire</em> into the hole on the Arduino marked <em>5V</em>.</li>
+<li>Put the other end of the <em>red wire</em> into any hole in the &quot;+&quot; column on the left side of the breadboard.</li>
+<li>Put one end of the <em>black wire</em> into the hole marked <em>GND</em> by the voltage (it will say &quot;POWER&quot; above it)</li>
+<li>Put the other end of the <em>black wire</em> into any hole in the &quot;-&quot; column on the left side of the breadboard</li>
+<li>Put the <em>green wire</em> into the hole on the Arduino labeled &quot;13&quot;</li>
+<li>Put the other end of the <em>green wire</em> into row &quot;2&quot; column &quot;e&quot; on the breadboard.</li>
+<li>Put the wire coming out of the resistor&#8217;s gold-banded side into row &quot;3&quot; column &quot;a&quot; (you may bend the wire to a 90º angle to get it to fit)</li>
+<li>Put the wire coming out of the resistor&#8217;s orange-banded side into any of the holes in the &quot;-&quot; column that the <em>black wire</em> is connected to.</li>
+<li>Put the LED&#8217;s long, positive, wire into row &quot;2&quot; column &quot;c&quot;</li>
+<li>Put the LED&#8217;s short, negative, wire into row &quot;3&quot; column &quot;c&quot;</li>
+<li>The flat side of the LED should be facing row 3.</li>
+<li>Let there be light! (&#8230;if there isn&#8217;t, move the end of the <em>green wire</em> from  hole &quot;13&quot; to any of the holes in the &quot;+&quot; column &#8211; if there is still no light, then check that everything is right. You may also want to try wiggling the wires to make sure they are connected to the boards.)</li>
+</ul>
+
+<p><img src="/images/arduino_circuit_diagram_setup.png" alt="LED">
+</p>
+
+<h3>Prepare environment</h3>
+
+<p>To be in command of this light,
+we&#8217;ll need to write a program that interacts with the Arduino.
+We&#8217;ll need some software that can talk to it.
+And we&#8217;ll write some files to tell it what to do.
+Lets set those up now.</p>
+
+<h4>Download / set up Arduino software</h4>
+
+<p>We can write programs to interact with our Arduino, controlling LEDs and reading from sensors. If you buy extra parts, you can even control motors to make things move.</p>
+
+<p>Let&#8217;s start by downloading the Arduino software that will allow your computer to push code to the Arduino. Visit <a href="http://www.arduino.cc/en/Main/software">http://www.arduino.cc/en/Main/software</a> and click on the download link for your operating system.</p>
+
+<p>Open the &quot;Arduino&quot; application.</p>
+
+<p>We need to connect the software to our Arduino. Tell it what kind of Arduino we have by going to &quot;Tools&quot; and then &quot;Board&quot; and selecting &quot;Arduino Uno&quot;.</p>
+
+<p><img src="/images/arduino_select_board.png" alt="Select the board">
+</p>
+
+<p>Now we need to tell it where to find the Arduino by going to &quot;Tools&quot; and then &quot;Serial Port&quot; and selecting &quot;/dev/tty.usbmodem####&quot; or &quot;/dev/tty.usbserial####&quot; (the &quot;#&quot;s will be a seemingly random string of numbers and possibly letters that can vary)</p>
+
+<p><img src="/images/arduino_select_port.png" alt="Select the port">
+</p>
+
+<h4>Create a directory for our files</h4>
+
+<p>We&#8217;ll make a new folder to store the files we use for this tutorial.
+This can be done in a command prompt by typing
+<code>mkdir community_night_arduino</code> and then moving into that directory with
+<code>cd community_night_arduino</code>. Where to make this folder is up to you.
+<strong>Everything we do on the command line, we&#8217;ll do in this directory.</strong></p>
+
+<h4>Install the &quot;dino&quot; gem</h4>
+
+<p>Thanks to a gem (a collection of Ruby code) written by
+<a href="https://github.com/austinbv/dino">Austin Vance</a>
+we can use Ruby to interact with our Arduino.</p>
+
+<p>Get the gem by typing this in your command prompt:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install dino</span></code></pre></td></tr></table></div></figure>
+
+<p>You&#8217;ll see something like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Successfully installed dino-0.11.2
+</span><span class='line'>1 gem installed
+</span><span class='line'>Installing ri documentation for dino-0.11.2...
+</span><span class='line'>Installing RDoc documentation for dino-0.11.2...</span></code></pre></td></tr></table></div></figure>
+
+<p>It doesn&#8217;t need to be exactly the same.
+The important thing is that you don&#8217;t see any errors.</p>
+
+<h4>Bootstrap Dino</h4>
+
+<p>We need to load a &quot;bootstrap&quot; program onto the Arduino board
+that will let us manipulate it from Ruby.</p>
+
+<p>In your command prompt window, type:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>dino generate-sketch serial</span></code></pre></td></tr></table></div></figure>
+
+<p>This will create a folder named &quot;du&quot;.</p>
+
+<ul>
+<li>If you previously moved the green wire from hole &quot;13&quot; to the &quot;+&quot; column
+to see the LED turn on, then move it back to hole &quot;13&quot; now.</li>
+<li>We need to tell the software to give us information about what it is doing.
+Go to the &quot;Preferences&quot; dialog and check the boxes for &quot;verbose&quot; output
+during &quot;compilation&quot; and &quot;uploading&quot;
+<img src="/images/arduino_settings_verbose.png" alt="settings"></li>
+<li>Open the <code>.../du/du.ino</code> file in the Arduino software.</li>
+<li>In the file window, at the top left,
+click the right-arrow-in-a-circle button for &quot;Upload&quot;</li>
+<li>If you see &quot;avrdude done.  Thank you.&quot;
+then you can skip the rest of these instructions.</li>
+<li>If instead, there is an error in the bottom window that looks like this:
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>     Using Port                    : /dev/tty.usbserial-AM01VD5Q
+</span><span class='line'>     Using Programmer              : arduino
+</span><span class='line'>     Overriding Baud Rate          : 115200
+</span><span class='line'>avrdude: Send: 0 [30]   [20]
+</span><span class='line'>avrdude: Send: 0 [30]   [20]
+</span><span class='line'>avrdude: Send: 0 [30]   [20]
+</span><span class='line'>avrdude: ser<em>recv(): programmer is not responding
+</span><span class='line'>avrdude: stk500</em>recv(): programmer is not responding</span></code></pre></td></tr></table></div></figure>
+Then when we upload code,
+it is interfering with the code that was previously loaded onto the board.</li>
+<li><p>There are two ways to fix it:</p>
+
+<ol>
+<li> We can press the &quot;RESET&quot; button on the Arduino
+as soon as we see &quot;Overriding Baud Rate&quot;.
+This will allow it to accept the program we are uploading.</li>
+</ol>
+
+<p><img src="/images/arduino_when_to_reset.png" alt="When to reset">
+
+2.  There are newer drivers that we can use to talk to it
+  which have fixed this issue.
+  * For Mac OS X, download 2.2.18
+    <a href="http://www.ftdichip.com/Drivers/VCP.htm">here</a>.
+  * Double click the dmg to mount it.
+  * right-click FTDIUSBSerialDriver<em>10</em>4<em>10</em>5<em>10</em>6<em>10</em>7 and select &quot;open&quot;
+    (note that you <em>must</em> right-click it, double-clicking won&#8217;t work)</p>
+
+<pre><code>![Opening Drivers](/images/arduino_open_drivers.png)
+</code></pre>
+
+<ul>
+<li>It will inform you that the program is from an unidentified developer,
+which basically means that Apple hasn&#8217;t vetted the software as it has
+with programs we install in the App Store.</li>
+<li>Click &quot;Open&quot; to acknowledge this and continue installing.</li>
+<li>Accept the default install settings and progress through the wizard.</li>
+<li>Restart the Arduino software to get it to use the new drivers.
+(Mine still had the same issue for a few minutes after restarting).</li>
+</ul></li>
+<li><p>You&#8217;ll see a lot more output this time, concluding in
+&quot;avrdude done.  Thank you.&quot;</p></li>
+</ul>
+
+<h4>Write our first program</h4>
+
+<p>Let&#8217;s try out a very small program and see if we can observe a reaction from the Arduino.</p>
+
+<p>Open your text editor
+(If you have never installed one, we recommend <a href="https://atom.io/">Atom</a>),
+and create a new file named &quot;blink.rb&quot;. Paste this into to the file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;dino&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">board</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Board</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Dino</span><span class="o">::</span><span class="no">TxRx</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'><span class="n">led</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">Led</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pin</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="n">board</span><span class="p">:</span> <span class="n">board</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">[</span><span class="ss">:on</span><span class="p">,</span> <span class="ss">:off</span><span class="o">].</span><span class="n">cycle</span> <span class="k">do</span> <span class="o">|</span><span class="n">switch</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">led</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">switch</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">switch</span>
+</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In your command prompt,
+making sure you&#8217;re in the folder with <code>blink.rb</code>, run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="n">blink</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In your command prompt window you should see &quot;on&quot; and &quot;off&quot;
+printing out over and over.
+Look at the Arduino board,
+and you should see a small LED next to pin 13 turning on for one second,
+then off for one second.
+Additionally, we should see the LED blinking!</p>
+
+<p>Hold down <code>Ctrl</code> and press <code>c</code> to stop the program.</p>
+
+<h3>Lets play around!</h3>
+
+<div class='exercise'>
+        <h4>Experimenting with Pins</h4>
+
+<p>Move the <em>green wire</em> from pin 13 to pin 11. What happens?</p>
+
+<p>Stop your Ruby program and go look at the source code.
+What change change to the code might get the LED blinking again?
+Try it out!</p>
+
+<h4>Faster Blinking</h4>
+
+<p>Now let&#8217;s make the LED blink faster.
+How can you make it blink on for one tenth of a second,
+then off for one tenth of a second?</p>
+
+<h4>A Second LED</h4>
+
+<p>Add a second LED to your breadboard connected to pin 10 of the Arduino.
+Make it blink at the same time as the first LED.</p>
+
+       </div>
+
+<h3>Working In Ruby</h3>
+
+<p>With the connection made to the Arduino, we can do some neat experiments on the Ruby side and see how they affect the board/LED.</p>
+
+<h4>Big Goal</h4>
+
+<p>Let&#8217;s create a number guessing game. When the program is running, you can type any of the numbers 0 through 9.</p>
+
+<ul>
+<li>If the number is too small, the lower LED will blink twice.</li>
+<li>If the number is too big, the upper LED will blink twice.</li>
+<li>If the guess is correct, both numbers blink twice.</li>
+</ul>
+
+<p>We&#8217;ll build this up piece by piece.</p>
+
+<h4>Setup the Board &amp; LEDs</h4>
+
+<p>Let&#8217;s cut down your Ruby program to just this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;dino&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">board</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Board</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Dino</span><span class="o">::</span><span class="no">TxRx</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'><span class="n">lower_led</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">Led</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pin</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="n">board</span><span class="p">:</span> <span class="n">board</span><span class="p">)</span>
+</span><span class='line'><span class="n">upper_led</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">Led</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pin</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="n">board</span><span class="p">:</span> <span class="n">board</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>The <code>require</code> line loads the Dino gem to interact with the Arduino</li>
+<li>The <code>board =</code> line sets up a connection to the Arduino board</li>
+<li>The <code>lower_led =</code> line sets up a connection to the LED on pin 11 of <code>board</code></li>
+<li>The <code>upper_led =</code> line sets up a connection to the LED on pin 10 of <code>board</code></li>
+</ul>
+
+<p>So that&#8217;s basically all setup stuff that we can leave alone. Below those four lines is where we&#8217;ll write the logic of our game.</p>
+
+<h4>A Blink Method</h4>
+
+<p>Earlier we wrote code like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="ss">:on</span><span class="p">,</span> <span class="ss">:off</span><span class="o">].</span><span class="n">cycle</span> <span class="k">do</span> <span class="o">|</span><span class="n">switch</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">lower_led</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">switch</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">switch</span>
+</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s break this down:</p>
+
+<ul>
+<li>The first line uses the <code>cycle</code> method to repeatedly run the block with each value in the array. The first time, <code>:on</code> gets put into the variable <code>switch</code>, then runds the three lines inside the block. Then it goes back up, stores <code>:off</code> into the variable <code>switch</code>, and runs the three lines again. Then this loop repeats over and over.</li>
+</ul>
+
+<p>If you were to list the resulting instructions in pseudocode, it might go like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Tell</span> <span class="n">the</span> <span class="n">lower_led</span> <span class="n">to</span> <span class="n">turn</span> <span class="n">on</span>
+</span><span class='line'><span class="nb">print</span> <span class="n">out</span> <span class="n">the</span> <span class="n">word</span> <span class="s1">&#39;on&#39;</span>
+</span><span class='line'><span class="nb">sleep</span> <span class="k">for</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span> <span class="n">seconds</span>
+</span><span class='line'><span class="n">tell</span> <span class="n">the</span> <span class="n">lower_led</span> <span class="n">to</span> <span class="n">turn</span> <span class="n">off</span>
+</span><span class='line'><span class="nb">print</span> <span class="n">out</span> <span class="n">the</span> <span class="n">work</span> <span class="s1">&#39;off&#39;</span>
+</span><span class='line'><span class="nb">sleep</span> <span class="k">for</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span> <span class="n">seconds</span>
+</span><span class='line'><span class="n">tell</span> <span class="n">the</span> <span class="n">lower_led</span> <span class="n">to</span> <span class="n">turn</span> <span class="n">on</span>
+</span><span class='line'><span class="nb">print</span> <span class="n">ut</span> <span class="n">the</span> <span class="n">word</span> <span class="s1">&#39;on&#39;</span>
+</span><span class='line'><span class="nb">sleep</span> <span class="k">for</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span> <span class="n">seconds</span>
+</span><span class='line'><span class="n">tell</span> <span class="n">the</span> <span class="n">lower_led</span> <span class="n">to</span> <span class="n">turn</span> <span class="n">off</span>
+</span><span class='line'><span class="nb">print</span> <span class="n">out</span> <span class="n">the</span> <span class="n">work</span> <span class="s1">&#39;off&#39;</span>
+</span><span class='line'><span class="nb">sleep</span> <span class="k">for</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span> <span class="n">seconds</span>
+</span><span class='line'><span class="o">.</span><span class="n">.</span><span class="o">.</span><span class="n">repeat</span> <span class="k">until</span> <span class="n">the</span> <span class="n">program</span> <span class="n">is</span> <span class="n">stopped</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In our game we want to be able to easily blink the LEDs one or two times. Let&#8217;s write a ruby <em>method</em> that can wrap those instructions up into a single instruction.</p>
+
+<p>Add this to your Ruby file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">blink</span><span class="p">(</span><span class="n">led</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">led</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:on</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span>
+</span><span class='line'>  <span class="n">led</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:off</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That method expects us to pass in an <em>argument</em> that is a LED object, then it&#8217;ll turn the LED on, wait 0.1 seconds, then turn the LED off.</p>
+
+<p>Does it work? Let&#8217;s add this code below the method to test it out:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">20</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">blink</span><span class="p">(</span><span class="n">lower_led</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Your lower LED should blink on exactly twenty times then your program should exit.</p>
+
+<div class='exercise'>
+        <h4>Blinking with Methods</h4>
+
+<p>Can you modify our Ruby script so that the blinking goes like this?</p>
+
+<ul>
+<li>Lower LED blink</li>
+<li>Lower LED blink</li>
+<li>Upper LED blink</li>
+<li>Upper LED blink</li>
+</ul>
+
+<p>And repeat that cycle five times.</p>
+
+<p>After you make it work and get it checked, delete this loop.</p>
+
+       </div>
+
+<h3>Starting the Game</h3>
+
+<p>Here&#8217;s the pseudocode structure of our game:</p>
+
+<ol>
+<li>Generate a secret number between 0 and 10</li>
+<li>Ask the user to input a guess</li>
+<li>React to their guess using the LEDs</li>
+<li>Repeat until they guess correctly</li>
+</ol>
+
+<p>I like to add these steps to my code as comments. Here&#8217;s my whole file so far:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;dino&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">board</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Board</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Dino</span><span class="o">::</span><span class="no">TxRx</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'><span class="n">lower_led</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">Led</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pin</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="n">board</span><span class="p">:</span> <span class="n">board</span><span class="p">)</span>
+</span><span class='line'><span class="n">upper_led</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">Led</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pin</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="n">board</span><span class="p">:</span> <span class="n">board</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">blink</span><span class="p">(</span><span class="n">led</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">led</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:on</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span>
+</span><span class='line'>  <span class="n">led</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="ss">:off</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># 1. Generate a secret number between 0 and 10</span>
+</span><span class='line'><span class="c1"># 2. Ask the user to input a guess</span>
+</span><span class='line'><span class="c1"># 3. React to their guess using the LEDs</span>
+</span><span class='line'><span class="c1"># 4. Repeat until they guess correctly</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Generating a Secret Number</h4>
+
+<p>Open up a <em>second</em> Command Prompt window and enter <code>irb</code> to run Interactive Ruby. At the prompt, try this instruction:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">rand(3)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Observe the output.</p>
+
+<div class='exercise'>
+        <h4>Random Numbers</h4>
+
+<p>Run the same instruction 10 more times (use your up arrow to avoid retyping it).</p>
+
+<ul>
+<li>What numbers do you get?</li>
+<li>What number do you <em>not</em> get that you might have expected?</li>
+<li>What&#8217;s the lowest number you get?</li>
+<li>How many possible numbers are there?</li>
+<li>What instruction would you use to generate all the numbers zero through ten?</li>
+</ul>
+
+       </div>
+
+<p>Write an instruction in your Ruby file to generate a secret number and store it into a variable named <code>secret</code>.</p>
+
+<h4>Guessing</h4>
+
+<p>Although we really want to use the LED, at first let&#8217;s just use text in Ruby to handle and react to the guessing.</p>
+
+<p>Here&#8217;s the pseudocode you need to implement:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">-</span> <span class="no">Get</span> <span class="n">a</span> <span class="n">guess</span> <span class="n">from</span> <span class="n">the</span> <span class="n">player</span>
+</span><span class='line'><span class="o">-</span> <span class="no">While</span> <span class="n">the</span> <span class="n">guess</span> <span class="n">is</span> <span class="ow">not</span> <span class="n">correct</span><span class="p">,</span> <span class="n">repeat</span><span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>  <span class="o">-</span> <span class="no">Tell</span> <span class="n">them</span> <span class="n">that</span> <span class="n">the</span> <span class="n">guess</span> <span class="n">is</span> <span class="n">wrong</span>
+</span><span class='line'>  <span class="o">-</span> <span class="no">Ask</span> <span class="k">for</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">guess</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Some bits of Ruby to help you:</p>
+
+<ul>
+<li>Use <code>gets.chomp</code> to allow the user to type an answer and cut off the return key</li>
+<li>Your <code>secret</code> is an integer, but <code>gets.chomp</code> is giving you a string (a piece of text in Ruby is called a string). Convert the string to an integer before comparing them (<code>some_string.to_i</code>).</li>
+<li><code>until (condition)</code>&#8230;<code>end</code> will run the block defined between <code>do</code> and a matching <code>end</code> until the condition is true.</li>
+</ul>
+
+<p>Try it out and squash bugs until this version of your game works. Run it several times to make sure it&#8217;s working!</p>
+
+<h4>How Wrong Are They?</h4>
+
+<p>Let&#8217;s add in more information about why the guess is wrong.</p>
+
+<p>After you get their guess&#8230;</p>
+
+<ul>
+<li>Calculate the difference between the guess and the secret</li>
+<li>If the guess is too low, print that it&#8217;s too low</li>
+<li>If the guess is too high, print that it&#8217;s too high</li>
+<li>Let them guess again</li>
+</ul>
+
+<p>Verify that this works and get your work checked.</p>
+
+<h4>Back to LEDs</h4>
+
+<p>If your last version worked, let&#8217;s now replace the too high or too low messages with the LED blinks.</p>
+
+<ul>
+<li>If the guess is too low, blink the lower LED two times</li>
+<li>If the guess is too high, blink the upper LED two times</li>
+<li>Ask for another guess</li>
+</ul>
+
+<p>On the computer you should see no feedback from the guessing other than the request to type in a next guess.</p>
+
+<h4>Celebrate</h4>
+
+<p>What happens when you guess correctly? So far it just exits. Let&#8217;s celbrate.</p>
+
+<p>Write a method named <code>celebrate</code> that blinks both LEDs together three times.</p>
+
+<p>Modify your game so that when they get the answer correct it&#8230;</p>
+
+<ul>
+<li>runs <code>celebrate</code> to blink the lights</li>
+<li>prints out a line like &quot;You correctly guessed the secret was 6&quot;</li>
+</ul>
+
+<p>Sound easy? The trick here is that you&#8217;ll have to pass both LEDs in as arguments to the <code>celebrate</code> method. We recommend that you:</p>
+
+<ul>
+<li>Make an array of both LEDs in the main game</li>
+<li>Pass that array into <code>celebrate</code></li>
+</ul>
+
+<p>Then, within <code>celebrate</code>&#8230;</p>
+
+<ul>
+<li>Go through <code>each</code> of the LEDs in the array</li>
+<li>Turn each of them on</li>
+<li>Sleep</li>
+<li>Turn each of them off</li>
+<li>Sleep</li>
+</ul>
+
+<p>It&#8217;ll take some experimenting. When it works, get it checked. Try an have someone else play your game!</p>
+
+<h4>How Wrong Are You?</h4>
+
+<p>Let&#8217;s step it up a little bit and give more feedback:</p>
+
+<ul>
+<li>If the guess is 3 or more numbers away from the secret, blink the LED 2 times</li>
+<li>If the guess is closer than 3, blink the right LED 1 time</li>
+</ul>
+
+<p>When it works, have someone else play and get it checked.</p>
+
+<h4>Expanding the Range</h4>
+
+<ul>
+<li>Expand the random number range from 0 to 100</li>
+<li>Expand the blink ranges so that&#8230;
+
+<ul>
+<li>Within 5 blinks once</li>
+<li>Within 15 blinks twice</li>
+<li>More than 15 blinks three times</li>
+</ul></li>
+<li>Change celebrate so it does 10 really fast blinks</li>
+</ul>
+
+<p>When it works, have someone else play and get it checked.</p>
+
+<h4>Extended Challenges</h4>
+
+<p>Try out these extensions on your own:</p>
+
+<ul>
+<li>Limit the game to only 15 guesses. If they don&#8217;t get it in 10, just quit with no blinks. If they guess the number, celebrate should blink the number of chances they had left.</li>
+<li>Add a third LED. Each time they guess, blink it with how many guesses they have left.</li>
+</ul>
+
+<h2>Experimenting with Analog Sensors</h2>
+
+<p>LEDs are pretty cool, but let&#8217;s try an experiment with an analog sensor. A digital signal, like we&#8217;ve been using so far, is either <em>on</em> or <em>off</em>. It&#8217;s like a normal light switch.</p>
+
+<p>But an analog signal can have many points inbetween. It&#8217;s like a dimmer light switch. It could be full on, full off, or anywhere in between.</p>
+
+<p>In your kit is a small analog sensor that looks like this:</p>
+
+<p><img src="/images/sensor_01_light.jpg" alt="LED">
+</p>
+
+<p>This sensor can be used to measure light.</p>
+
+<h3>Resistance</h3>
+
+<p>When electricity is flowing through a circuit it encounters resistance. The LEDs we&#8217;ve used were adding resistance to the circuit and they consumed some of the power.</p>
+
+<p>If we change the resistance in a circuit we change how quickly electricity can flow. Increasing the resistance in a circuit would cause it&#8217;s lights to be more dim.</p>
+
+<p>The light sensor works by creating resistance in response to light. When there is a lot of light, it creates a lot of resistance. When it&#8217;s dark, there&#8217;s very little resistance.</p>
+
+<p>We can measure the resistance going through the light sensor and get that data back to our Ruby program.</p>
+
+<h3>Creating a Way-Too-Complicated Night Light</h3>
+
+<p>Let&#8217;s build a nightlight using our Arduino.</p>
+
+<ul>
+<li>When there&#8217;s normal light on the circuit, the LED is off.</li>
+<li>When it gets darker, the LED turns on.</li>
+</ul>
+
+<h3>Building the Circuit</h3>
+
+<p>Understanding how/why the circuit works takes a bit more electical knowledge than we want to get into right now. Instead, let&#8217;s build it and experiment.</p>
+
+<ol>
+<li>If you&#8217;ve completed the game above, leave that circuit in place. If you didn&#8217;t, wire up the LEDs following those earlier instructions.</li>
+<li>Turn the breadboard so the LED wiring is at the bottom left of your view.</li>
+<li>Put a blue wire into the top left pin of the breadboard.</li>
+<li>Put one side of the light sensor into the pin two holes to the right of the blue wire.</li>
+<li>Put the other side of the light sensor into the pin two holes to the right and one pin down from the blue wire.</li>
+<li>Connect a white wire from the pin one row down from the blue wire on the breadboard and into the <em>A0</em> pin on the Arduino</li>
+<li>Find a resistor that is <em>brown-black-orange-gold</em> like this one:<img src="/images/resistor_01.jpg" alt="1K Resistor"></li>
+<li>Put the resistor so that one end is in the same row as the white wire, one pin to the right of the light sensor.</li>
+<li>Put the other end of the resistor in the same row but across the &quot;well&quot; &#8211; the right side of the breadboard.</li>
+<li>Put a green wire in the pin one to the right of the right side of the resistor into the <em>5V</em> pin on the Arduino.</li>
+</ol>
+
+<p>When assembled, it should look like this:</p>
+
+<p><img src="/images/circuit_02_breadboard.jpg" alt="Breadboard">
+
+<img src="/images/circuit_02_arduino.jpg" alt="Arduino">
+</p>
+
+<h4>Testing it Out</h4>
+
+<p>We need a Ruby program to see if it&#8217;s working.</p>
+
+<ol>
+<li>Make sure to save any old work</li>
+<li>Create a new, blank file</li>
+<li>Save it with the name <code>nightlight.rb</code></li>
+<li>Add the content below</li>
+</ol>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;dino&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">board</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Board</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Dino</span><span class="o">::</span><span class="no">TxRx</span><span class="o">.</span><span class="n">new</span><span class="p">)</span>
+</span><span class='line'><span class="n">sensor</span> <span class="o">=</span> <span class="no">Dino</span><span class="o">::</span><span class="no">Components</span><span class="o">::</span><span class="no">Sensor</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">pin</span><span class="p">:</span> <span class="s1">&#39;A0&#39;</span><span class="p">,</span> <span class="n">board</span><span class="p">:</span> <span class="n">board</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">on_data</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">data</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">data</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">sensor</span><span class="o">.</span><span class="n">when_data_received</span><span class="p">(</span><span class="n">on_data</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">sleep</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then go to your command prompt and run the program:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">ruby</span> <span class="n">nightlight</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You should see a bunch of numbers scrolling by, mine says 62. Cover the light sensor with your hand and the number should jump up to over 150 &#8211; mine went to 182.</p>
+
+<p>If you&#8217;re seeing numbers around 0 or 1000 there are problems with your circuit. Go up and work through the instructions again.</p>
+
+<h4>Reacting to the Light</h4>
+
+<p>Right now your nightlight has these lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">on_data</span> <span class="o">=</span> <span class="no">Proc</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">data</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">data</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The code between the <code>do</code> and <code>end</code> gets run each time the Arduino measures the sensor, several times per second. The variable <code>data</code> is the numeric reading.</p>
+
+<p>We saw that when the circuit is not covered, <code>data</code> was around <code>62</code>. When it&#8217;s covered, <code>data</code> goes up to about <code>182</code>.</p>
+
+<p>Within that <code>do</code>/<code>end</code>, write Ruby code that&#8230;</p>
+
+<ul>
+<li>Looks at the <code>data</code></li>
+<li>If it is higher than a certain number, print &quot;It&#8217;s dark&quot;</li>
+<li>If it is lower than the number, print &quot;It&#8217;s light&quot;</li>
+</ul>
+
+<p>Watch out that <code>data</code> is a string. You probably want to convert it to an integer.</p>
+
+<h4>Activating the LED</h4>
+
+<p>Look back at your first project to remember the instructions for connecting to and turning on an LED.</p>
+
+<ul>
+<li>Add one line that will connect to the LED (look for <code>upper_led =</code>)</li>
+<li>Add a line that will set the LED to <code>:off</code> when it is light</li>
+<li>Add a line that will set the LED to <code>:on</code> when it is dark</li>
+</ul>
+
+<p>See if you can make it work. When it&#8217;s working, remove the <code>puts</code> lines from your Ruby so it just runs and changes the light without any text output.</p>
+
+<p>Have someone verify your work.</p>
+
+<h4>Extensions</h4>
+
+<p>Here are some additional ideas to try:</p>
+
+<h5>Double-Bulb</h5>
+
+<p>Have you ever noticed how some cell phones actually get dimmer the darker it is outside? When it&#8217;s really dark, you don&#8217;t want a super bright light or it&#8217;s hard to see anything else!</p>
+
+<p>Make it so your nightlight:</p>
+
+<ul>
+<li>Has no LEDs on when it&#8217;s full light</li>
+<li>Turns on both LEDs when it gets a little darker</li>
+<li>Goes down to just one LED when it&#8217;s very dark</li>
+</ul>
+
+<h5>Slow-Off</h5>
+
+<p>Maybe your light shouldn&#8217;t be so quick to turn off when exposed to light. Make it so when the outside light goes down, the LED(s) turn on instantly.</p>
+
+<p>But, when the outside light increases, the LEDs <em>stay on for five seconds</em>.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

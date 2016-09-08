@@ -1,0 +1,402 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Wednesday, February 13th - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Wednesday, February 13th                              Daily OutlineWarm-upClass: Practical File/Folder &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/sessions/gschool0/130213.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Wednesday, February 13th
+        </h1>
+        
+      </header>
+    
+    <h2>Daily Outline</h2>
+
+<ul>
+<li>Warm-up</li>
+<li>Class: Practical File/Folder Organization</li>
+<li>Class: Environment, Editor, and Tooling</li>
+<li>Project: SalesEngine Work Time</li>
+</ul>
+
+<h2>Warm-Up</h2>
+
+<p>At 8:50 we will release today&#8217;s warm-up.</p>
+
+<p>This should get you the assignment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span><span class="nb">cd </span>path/to/warmup-exercises
+</span><span class='line'><span class="nv">$ </span>git pull --rebase upstream master
+</span></code></pre></td></tr></table></div></figure>
+
+<p>(Note that you don&#8217;t need to clone or fork or anything, since that&#8217;s already done).</p>
+
+<p>To get the test at 9:15, commit or stash your changes, and do another git pull.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>git commit -m <span class="s2">&quot;Add solution to assignment 3&quot;</span>
+</span><span class='line'><span class="nv">$ </span>git pull --rebase upstream master
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Class: Practical File/Folder Organization</h2>
+
+<p>What you&#8217;re starting with:</p>
+
+<ul>
+<li><code>data</code> folder &#8211; don&#8217;t change</li>
+<li><code>lib</code> folder &#8211; most of your classes</li>
+<li><code>test</code> folder &#8211; all your tests and any support files</li>
+<li><code>Gemfile</code> &#8211; add any dependencies</li>
+<li><code>Rakefile</code> &#8211; define automated tasks</li>
+</ul>
+
+<p>We&#8217;ll worry about the details of how the test suite will execute your code next week. For now, we&#8217;d recommend you:</p>
+
+<ul>
+<li>Create <code>sales_engine.rb</code> definining the <code>SalesEngine</code> class in the root directory. It should also <code>require</code> any files in <code>lib/</code>.</li>
+<li>Create child classes in the <code>lib</code> directory, like <code>Merchant</code> and <code>Invoice</code></li>
+<li>Create tests in <code>test/</code></li>
+<li>Create a <code>test/test_helper.rb</code> to define common setup bits for your tests</li>
+<li>If you need/want sample data for use in your tests, create a <code>test/support/</code></li>
+</ul>
+
+<h2>Class: Git &amp; GitHub for Pairs</h2>
+
+<ul>
+<li>Reviewing git remotes</li>
+<li>Create a <code>.gitignore</code> to ignore irrelevant files like <code>.DS_Store</code></li>
+<li>Also, you can ignore <code>.DS_Store</code> globally:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>git config --global core.excludesfile ~/.gitignore
+</span><span class='line'><span class="nb">echo</span> .DS_Store &gt;&gt; ~/.gitignore
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li><code>master</code> branch should always be runnable</li>
+<li>Only commit to master when a feature is &quot;done&quot; - written &amp; tested</li>
+<li>Create and use feature branches
+
+<ul>
+<li><code>git branch</code> to display branches</li>
+<li><code>git branch feature_name</code> to create a branch</li>
+<li><code>git checkout feature_name</code> to actually switch to that branch</li>
+<li><code>git checkout -b feature_name</code> to create the branch and switch to it all in one move</li>
+<li>Do you work, commit code to the branch</li>
+<li><code>git push origin feature_name</code> to push the branch to GitHub (assuming GH is your <code>origin</code>)</li>
+</ul></li>
+<li>Merge features into master
+
+<ul>
+<li><code>git checkout master</code></li>
+<li><code>git merge feature_name</code></li>
+<li>If you get &quot;merge conflicts&quot;, you&#8217;ll have to figure them out manually. Run <code>mergetool</code> and you&#8217;ll get a GUI that is really helpful.</li>
+<li><code>git push origin master</code></li>
+</ul></li>
+<li>Rebasing
+
+<ul>
+<li>YAGNI for now</li>
+</ul></li>
+</ul>
+
+<h2>Class: Classes, Objects, Instances, and Methods</h2>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Date</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">parse</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>    <span class="c1"># Turn an input string like &#39;5/12/2013&#39; into a ruby Date object</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">day</span>
+</span><span class='line'>    <span class="c1"># Tell me what day of the week this instance of Date represents</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">d</span> <span class="o">=</span> <span class="no">Date</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;5/12/2013&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">d</span><span class="o">.</span><span class="n">day</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Class: Environment, Editor, and Tooling</h2>
+
+<h3>Unix Tools</h3>
+
+<ul>
+<li><code>ls</code></li>
+<li><code>mkdir</code></li>
+<li><code>cd</code></li>
+<li><code>echo</code></li>
+<li><code>cat</code></li>
+<li><code>touch</code></li>
+<li><code>tail</code></li>
+</ul>
+
+<h3>Customizing Your Terminal</h3>
+
+<ul>
+<li>Open <code>~/.bash_profile</code> in a text editor (ex: <code>subl ~/.bash_profile</code> or <code>nano ~/.bash_profile</code>)</li>
+<li><p>Check out dotfiles on GitHub: <a href="http://dotfiles.github.com/">http://dotfiles.github.com/</a></p></li>
+<li><p><code>export</code> for environment variables</p></li>
+<li><p><code>alias</code> for shorthand commands</p></li>
+<li><p><code>source</code> to run other scripts of bash commands</p></li>
+</ul>
+
+<p>Some snippets from my <code>.bash_profile</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">export</span> <span class="no">PS1</span><span class="o">=</span><span class="s2">&quot;\W \[</span><span class="se">\033</span><span class="s2">[0;33m\]⚡\[</span><span class="se">\033</span><span class="s2">[0;39m\] &quot;</span>
+</span><span class='line'><span class="n">export</span> <span class="no">CLICOLOR</span><span class="o">=</span><span class="mi">1</span>
+</span><span class='line'><span class="n">export</span> <span class="no">LSCOLORS</span><span class="o">=</span><span class="no">ExFxBxDxCxegedabagacad</span>
+</span><span class='line'><span class="n">export</span> <span class="no">EDITOR</span><span class="o">=</span><span class="s1">&#39;/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl -w&#39;</span>
+</span><span class='line'><span class="n">export</span> <span class="no">CC</span><span class="o">=</span><span class="sr">/usr/</span><span class="n">local</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="mi">4</span><span class="o">.</span><span class="mi">2</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># My general projects directory:</span>
+</span><span class='line'><span class="k">alias</span> <span class="n">cdp</span><span class="o">=</span><span class="s2">&quot;cd /Users/jcasimir/Dropbox/Projects/&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># My most commonly used project, &quot;curriculum&quot;:</span>
+</span><span class='line'><span class="k">alias</span> <span class="n">cdc</span><span class="o">=</span><span class="s2">&quot;cd /Users/jcasimir/Dropbox/Projects/curriculum/source&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Use &quot;be&quot; instead of &quot;bundle exec&quot;</span>
+</span><span class='line'><span class="k">alias</span> <span class="n">be</span><span class="o">=</span><span class="s2">&quot;bundle exec $1&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Use &quot;e&quot; and a folder/file to launch SublimeText</span>
+</span><span class='line'><span class="k">alias</span> <span class="n">e</span><span class="o">=</span><span class="s2">&quot;/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin/subl $1&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Enable git&#39;s tab-completion library</span>
+</span><span class='line'><span class="n">source</span><span class="sr"> /usr/</span><span class="n">local</span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">bash_completion</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">git</span><span class="o">-</span><span class="n">completion</span><span class="o">.</span><span class="n">bash</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>SublimeText Settings</h3>
+
+<ul>
+<li>&quot;Settings - Default&quot; versus &quot;Settings - User&quot;</li>
+<li>Some recommended settings:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="s2">&quot;font_size&quot;</span><span class="p">:</span> <span class="mi">16</span><span class="o">.</span><span class="mi">0</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;tab_size&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;translate_tabs_to_spaces&quot;</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;save_on_focus_lost&quot;</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;hot_exit&quot;</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;remember_open_files&quot;</span><span class="p">:</span> <span class="kp">false</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;ensure_newline_at_eof_on_save&quot;</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>SublimeText Plugins &amp; Themes</h3>
+
+<ul>
+<li>PackageControl: <a href="http://wbond.net/sublime_packages/package_control">http://wbond.net/sublime_packages/package_control</a></li>
+<li>Soda Theme: <a href="https://github.com/buymeasoda/soda-theme/">https://github.com/buymeasoda/soda-theme/</a></li>
+<li>SidebarEnhancements: <a href="https://github.com/titoBouzout/SideBarEnhancements">https://github.com/titoBouzout/SideBarEnhancements</a></li>
+<li>BracketHighlighter: <a href="https://github.com/facelessuser/BracketHighlighter">https://github.com/facelessuser/BracketHighlighter</a></li>
+<li>SublimeText2Git: <a href="https://github.com/kemayo/sublime-text-2-git/wiki">https://github.com/kemayo/sublime-text-2-git/wiki</a></li>
+<li>SublimeLinter (?): <a href="https://github.com/SublimeLinter/SublimeLinter">https://github.com/SublimeLinter/SublimeLinter</a></li>
+<li>SublimeCodeIntel: <a href="https://github.com/Kronuz/SublimeCodeIntel">https://github.com/Kronuz/SublimeCodeIntel</a></li>
+<li>Colour Schemes: <a href="https://github.com/daylerees/colour-schemes">https://github.com/daylerees/colour-schemes</a></li>
+<li>Detect Syntax: <a href="https://github.com/phillipkoebbe/DetectSyntax">https://github.com/phillipkoebbe/DetectSyntax</a></li>
+<li>SublimeGuard: <a href="https://github.com/cyphactor/sublime_guard">https://github.com/cyphactor/sublime_guard</a></li>
+</ul>
+
+<h2>Project: SalesEngine Work Time</h2>
+
+<p>Go to it!</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

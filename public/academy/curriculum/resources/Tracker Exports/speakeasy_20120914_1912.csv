@@ -1,0 +1,666 @@
+Id,Story,Labels,Iteration,Iteration Start,Iteration End,Story Type,Estimate,Current State,Created at,Accepted at,Deadline,Requested By,Owned By,Description,URL,Comment,Comment,Task,Task Status
+30426301,Create new message from interface,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,1,accepted,"May 30, 2012","Jun 11, 2012",,Dan Kaufman,Mike Chlipala,"Feature: Creating a new message
+
+  Background:
+     Given I am logged in
+     And I am viewing a chat room
+
+  Scenario: Creating a message
+     When I enter a message into the bottom ""Add Message"" box
+     And click submit
+     The message should be created
+     And it should show in the room",http://www.pivotaltracker.com/story/show/30426301
+30426223,Display new message,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,1,accepted,"May 30, 2012","Jun 11, 2012",,Dan Kaufman,Mike Chlipala,"Feature: Displaying a new message in the chat room
+
+Background:
+     Given I am logged in
+     And I am viewing the root at ""/""
+
+Scenario: Viewing a room in which the message is created
+     Given a new message is created for Room A
+     And I am viewing Room A
+     Then I should see the message displayed in the room
+
+Scenario: Viewing another room when the message is created in a room I can view
+     Given a new message is created for Room A
+     And I am viewing Room B
+     And I have access to Room A
+     Then I should see an indicator on the left sidebar that a new message has been added to Room A
+
+Scenario: Viewing another room when the message is created in a room I cannot view
+     Given a new message is created for Room A
+     And I am viewing Room B
+     And I do not have access to Room A
+     Then I should see no change
+",http://www.pivotaltracker.com/story/show/30426223
+30426483,User switches rooms,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,1,accepted,"May 30, 2012","Jun 11, 2012",,Dan Kaufman,Mike Chlipala,"Feature: Switching Rooms on the Chat Interface
+
+Background:
+     Given I am logged in
+     And I am viewing the chat interface at '/'
+
+Scenario: Switching Rooms
+    When I click on another room on the left sidebar
+    The chat window switches to that room",http://www.pivotaltracker.com/story/show/30426483
+30425579,Authenticated user creates a room,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,2,accepted,"May 30, 2012","Jun 11, 2012",,Dan Kaufman,Mike Chlipala,"Feature: User creates new room
+
+Background:
+  Given I am logged in
+
+Scenario: Creating a room
+  Given I am viewing the chat interface
+  And I click the 'Create new room' button
+  Then I should see 'Create new room form'
+
+  When I fill in 'Room name' with ""store-engine""
+  And I fill in ""Description"" with ""planning room for store engine""
+  And I submit the form
+  Then I should be viewing the chat interface for ""store-engine""",http://www.pivotaltracker.com/story/show/30425579
+30426201,Creating new message via API,core,1,"Jun 11, 2012","Jun 17, 2012",feature,1,accepted,"May 30, 2012","Jun 11, 2012",,Dan Kaufman,Dan Kaufman,"Feature: Creating a message via API
+
+Background:
+  Given I post to /api/core/room/1/messages
+  With a valid token in the cookie
+  And the following request body
+  { message:
+    { 'body': 'Hello World'}
+  }
+
+Scenario: When the token user has access to room 1
+  Then i should receive a 201 created response
+  And a message should be created for room 1
+
+Scenario: When the token user does not have access to room 1
+  Then i should receive a 401 unauthorized response
+  And a message should not be created",http://www.pivotaltracker.com/story/show/30426201
+30824381,Fetching rooms for user via API,core,1,"Jun 11, 2012","Jun 17, 2012",feature,1,accepted,"Jun 6, 2012","Jun 11, 2012",,Dan Kaufman,Dan Kaufman,"Feature: Fetching rooms for a user via API
+
+Background:
+  Given I send a get request to /api/core/rooms
+  With a valid token in the cookie
+
+Scenario: When the token user has access to one or more rooms
+  Then i should receive a 200 ok response
+  And a json response with all of the rooms that user has access to
+
+Scenario: When the token user does not have access any rooms
+  Then i should receive a 200 ok response
+  And no rooms should be returned",http://www.pivotaltracker.com/story/show/30824381
+30425691,Creating a Room via API,core,1,"Jun 11, 2012","Jun 17, 2012",feature,2,accepted,"May 30, 2012","Jun 11, 2012",,Dan Kaufman,Dan Kaufman,"Feature: Creating a room via API
+
+Background:
+  Given I post to /api/core/rooms
+  With a valid token in the cookie
+  And the following request body
+  { room:
+    { 'name': 'Room 1' }
+  }
+
+Scenario: When the token user exists
+  Then i should receive a 201 created response
+  And the room should be created
+
+Scenario: When the token user does not exist
+  Then i should receive a 401 unauthorized response",http://www.pivotaltracker.com/story/show/30425691
+30425935,Fetch most recent messages for a room,core,1,"Jun 11, 2012","Jun 17, 2012",feature,2,accepted,"May 30, 2012","Jun 11, 2012",,Dan Kaufman,Dan Kaufman,"Feature: Fetching Messages via API
+
+Background:
+  Given I send a get request to /api/core/room/1/messages
+  With a valid token in the cookie
+
+Scenario: When the token user has access to room 1
+  Then I should receive a 200 ok response
+  And I should receive a json of the most recent 50 messages for that room
+
+Scenario: When the token user does not have access to room 1
+  Then i should receive a 401 unauthorized response
+  And I should not receive any messages",http://www.pivotaltracker.com/story/show/30425935
+30425227,Authenticate user via API,authentication,1,"Jun 11, 2012","Jun 17, 2012",feature,2,accepted,"May 30, 2012","Jun 11, 2012",,Dan Kaufman,Nisarg Shah,"Feature: Authenticate user via API
+
+  Background:
+    Given I am logging in
+
+  Scenario:
+    And I post to /api/users/sessions with the request body: 
+    {
+      email: ""foo@bar.com"",
+      password: ""foobar"",
+    }
+    Then the session should be created and the user logged in
+    And I should get a 201 response
+    And I should receive the authentication cookie and a response",http://www.pivotaltracker.com/story/show/30425227
+30824753,Creating a Room Permission via API,core,1,"Jun 11, 2012","Jun 17, 2012",feature,2,accepted,"Jun 6, 2012","Jun 14, 2012",,Dan Kaufman,Dan Kaufman,"Feature: Creating a Room Permission via API
+
+Background:
+  Given I post to /api/core/rooms/1/permissions
+  With a valid token in the cookie
+
+Scenario: When the token user exists
+  And room 1 exists
+  And the token user is the room owner
+  Then i should receive a 201 created response
+  And the room permission should be created
+
+Scenario: When the token user exists
+  And room 1 exists
+  And the token user is not the room owner
+  Then i should receive a 401 unauthorized response
+  And the room permission should not be created
+
+Scenario: When the token user does not exist
+  Then i should receive a 401 unauthorized response
+
+Scenario: When room 1 does not exist
+  Then i should receive a 400 bad request response",http://www.pivotaltracker.com/story/show/30824753
+30426123,Display most recent messages for a room,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,1,accepted,"May 30, 2012","Jun 14, 2012",,Dan Kaufman,Mike Chlipala,"Feature: Viewing most-recent messages for a room
+
+Background: 
+  Given I am logged in
+  And the room ""store-engine"" has been created
+
+Scenario: Room member views chat messages for a room
+  Given I am a member of the room ""store-engine""
+  And I am viewing the chat interface for the room ""store-engine""
+  Then I should see up to 50 of the most recent chat messages for the room ""store-engine""",http://www.pivotaltracker.com/story/show/30426123
+30426513,User logs out,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,1,accepted,"May 30, 2012","Jun 14, 2012",,Dan Kaufman,Travis Valentine,"Feature: User logs out of site
+
+Background: Given I am logged into the site
+
+Scenario: Logging out
+     Given I am viewing the chat interface at '/'
+     When I click ""Log Out""
+     I should see the login page
+     And I should no longer be logged in",http://www.pivotaltracker.com/story/show/30426513,,,Added in branch 'sessions'. Need to handle this server-side due to cookies issue.,not completed
+30425191,Create user via API,authentication,1,"Jun 11, 2012","Jun 17, 2012",feature,2,accepted,"May 30, 2012","Jun 14, 2012",,Dan Kaufman,Nisarg Shah,"Feature: Create user via the API
+
+  Background:
+    Given I visit the homepage
+
+  Scenario:
+    And I post to /api/users with the request body: 
+    {
+      email: ""foo@bar.com"",
+      password: ""foobar"",
+      name: ""matt""
+    }
+    Then the user should be created
+    And I should get a 201 response
+    And I should receive the user as a response",http://www.pivotaltracker.com/story/show/30425191
+30996231,Search for messages in a room via API,search,1,"Jun 11, 2012","Jun 17, 2012",feature,3,accepted,"Jun 11, 2012","Jun 14, 2012",,Nisarg Shah,Nisarg Shah,"Feature: Search for messages via API
+
+Background:
+  Given I get to /api/search
+  And the following request body
+  {
+    query: ""hello"",
+    namespace: ""1/messages""
+  }
+  (where namespace is room id + message type)
+
+Scenario: When a valid token exists
+  Then I should get a 200 response
+  And i should get a list of messages that have ""hello"" within the body for room 1
+
+Scenario: When the token doesn't exist
+   Then I should get a 403 response",http://www.pivotaltracker.com/story/show/30996231
+30500761,Adding existing accounts to a room,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,2,accepted,"May 31, 2012","Jun 14, 2012",,Dan Kaufman,Mike Chlipala,"Feature: Adding existing accounts to a room
+
+  Background: 
+       Given I have created the room ""store-engine""
+       And I am viewing the chat interface for ""store-engine""
+       And I am the owner of the room ""store-engine""
+       And ""bar@foo.com"" is an existing account not currently added to ""store-engine""
+
+Scenario: Adding current speakeasy members to a room
+  When I click ""Edit Room details and patrons""
+  Then I should be viewing the form to invite members
+
+  When I fill in the email addresses field with ""bar@foo.com""
+  And I click ""Invite members""
+  Then ""bar@foo.com"" should be added to the room ""store-engine""
+  And I should see a confirmation message
+
+Scenario: Adding current room members to the same room
+  Given I have successfully added ""bar@foo.com"" to the room ""store-engine""
+
+  When I click ""Edit Room details and patrons""
+  Then I should be viewing the form to invite members
+
+  When I fill in the email addresses field with ""bar@foo.com""
+  And I click ""Invite members""
+  Then I should see an error message that ""bar@foo.com"" already has permission to the room ""store-engine""",http://www.pivotaltracker.com/story/show/30500761
+31229179,Adding a link,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,1,accepted,"Jun 14, 2012","Jun 14, 2012",,Travis Valentine,Nisarg Shah,,http://www.pivotaltracker.com/story/show/31229179
+31229197,Adding an image link,front-end,1,"Jun 11, 2012","Jun 17, 2012",feature,0,accepted,"Jun 14, 2012","Jun 14, 2012",,Travis Valentine,Nisarg Shah,,http://www.pivotaltracker.com/story/show/31229197
+31228595,Add header to distinguish search results from actual chat room,front-end,2,"Jun 18, 2012","Jun 24, 2012",chore,,accepted,"Jun 14, 2012","Jun 18, 2012",,Travis Valentine,Mike Chlipala,,http://www.pivotaltracker.com/story/show/31228595
+31229551,Make it easier to return to chat room from search results,front-end,2,"Jun 18, 2012","Jun 24, 2012",chore,,accepted,"Jun 14, 2012","Jun 18, 2012",,Travis Valentine,Mike Chlipala,,http://www.pivotaltracker.com/story/show/31229551
+30824477,Updating a Room via API,core,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 6, 2012",,,Dan Kaufman,Dan Kaufman,"Feature: Creating a message via API
+
+Background:
+  Given I send a put request to /api/core/room/1
+  With a valid token in the cookie
+  And the following request body
+  { room:
+    { 'name': 'Hello World'}
+  }
+
+Scenario: When the token user has access to room 1
+  Then I should receive a 200 ok response
+  And room 1 should be updated
+
+Scenario: When the token user does not have access to room 1
+  Then I should receive a 401 unauthorized response
+  And the room should not be updated
+
+Scenario: When room 1 does not exist
+  Then I should receive a 400 response",http://www.pivotaltracker.com/story/show/30824477
+30425831,Destroying a Room via API,core,14,"Sep 10, 2012","Sep 16, 2012",feature,1,delivered,"May 30, 2012",,,Dan Kaufman,Dan Kaufman,"Feature: Destroying a Room via API
+
+Background:
+  Given I send a delete request to /api/core/room/1
+  With a valid token in the cookie
+
+Scenario: When the token user has access to room 1
+  Then I should receive a 200 ok response
+  And room 1 should be destroyed
+
+Scenario: When the token user does not have access to room 1
+  Then I should receive a 401 unauthorized response
+  And the room should not be destroyed
+
+Scenario: When room 1 does not exist
+  Then I should receive a 400 response",http://www.pivotaltracker.com/story/show/30425831
+30824839,Destroying a Room Permission via API,core,14,"Sep 10, 2012","Sep 16, 2012",feature,1,delivered,"Jun 6, 2012",,,Dan Kaufman,Dan Kaufman,"Feature: Destroying a Room Permission via API
+
+Background:
+  Given I send a delete request to /api/core/rooms/1/permissions/1
+  With a valid token in the cookie
+
+Scenario: When the token user exists
+  And room 1 exists
+  And the token user is the room owner
+  Then i should receive a 200 OK response
+  And the room permission should be destroyed
+
+Scenario: When the token user exists
+  And room 1 exists
+  And the token user is not the room owner
+  Then i should receive a 401 unauthorized response
+  And the room permission should not be destroyed
+
+Scenario: When the token user does not exist
+  Then i should receive a 401 unauthorized response
+  And the room permission should not be destroyed
+
+Scenario: When room 1 does not exist
+  Then i should receive a 400 bad request response",http://www.pivotaltracker.com/story/show/30824839
+30997987,Logger records creation of message,logger,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 11, 2012",,,Dan Kaufman,Dan Kaufman,"Given the core creates a message
+Then it should send an asynchronous alert to the logger
+And the logger should store the user sid, room id, and timestamp",http://www.pivotaltracker.com/story/show/30997987
+31001217,Logger records addition of room,core,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 11, 2012",,,Dan Kaufman,Dan Kaufman,"Given that core creates a new room
+Then it should send an asynchronous alert to logger
+And the logger should record the user sid, room id, and timestamp",http://www.pivotaltracker.com/story/show/31001217
+31106531,Logger records destruction of a room,"",14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 12, 2012",,,Dan Kaufman,Dan Kaufman,"Given that core destroys room
+Then it should send an asynchronous alert to logger
+And the logger should record the user sid, room id, and timestamp",http://www.pivotaltracker.com/story/show/31106531
+31000231,Logger records addition of a room permission,logger,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 11, 2012",,,Dan Kaufman,Dan Kaufman,"Given that core creates a new room permission
+Then it should send an asynchronous alert to logger
+And the logger should record the user sid, room id, and timestamp",http://www.pivotaltracker.com/story/show/31000231
+30426405,GitHub Widget,"front-end, github",14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"May 30, 2012",,,Dan Kaufman,Mike Chlipala,"Feature: GitHub Widget
+
+  Background:
+    Given I am logged in
+    And I am viewing the chat interface
+
+  Scenario: Adding GitHub
+    When I click the ""Account"" link
+    I should see an option to connect my github account
+    If I click the link
+    Then I should go through the linking process on GitHub
+    And I should be redirected back to the chat interface
+    And in the right sidebar I should see that GitHub is connected
+    And I should have the option to filter GitHub events from the 
+      main chat transcript",http://www.pivotaltracker.com/story/show/30426405
+30425469,User creates an account,front-end,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"May 30, 2012",,,Dan Kaufman,Mike Chlipala,"Feature: Sign Up For An Account
+
+Background:
+  Given I am not logged in
+  And I am viewing the root at ""/""
+
+Scenario: Signing up
+  Given I have never signed up
+  When I click the sign up link
+  Then I should see the sign up form
+
+  When I fill in email address with  ""foo@bar.com""
+  And I fill in display name with ""displayname""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see a confirmation message thanking me for signing up
+  And I should be viewing the chat interface
+  And I should receive a welcome email at my address
+
+Scenario: Signing up with an already-used email address
+  Given I have signed up before with ""foo@bar.com""
+  When I click the sign up link
+  Then I should see the sign up form
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in display name with ""displayname""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that the email is taken
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with a malformed email address
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form
+
+  When I fill in email address with ""foo#bar.com""
+  And I fill in display name with ""displayname""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that the email is not of the right format
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with an empty email address
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form
+
+  When I fill in display name with ""displayname""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that email is required
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with an malformed display name
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in display name with ""display name""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that the display name must be only letters, numbers, dashes, or underscores
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with an empty display name
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in password and password confirmation with ""hungry""
+  And I submit the form
+  Then I should see an error message that the display name is required
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with an empty password
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form at ""/signup""
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in display name with ""displayname""
+  And I submit the form
+  Then I should see an error message that the password must be 6 or more characters
+  And I should be viewing the signup form
+  And the data I have entered is still present
+
+Scenario: Signing up with a password confirmation that doesn't match
+  Given I have never signed up before
+  When I click the sign up link
+  Then I should see the sign up form
+
+  When I fill in email address with ""foo@bar.com""
+  And I fill in display name with ""display name""
+  And I fill in password with ""hungry""
+  And I fill in password confirmation with ""academy""
+  And I submit the form
+  Then I should see an error message that the password must be 6 or more characters
+  And I should be viewing the signup form
+  And the data I have entered is still present",http://www.pivotaltracker.com/story/show/30425469,"User should be logged in and shown appropriate message (Matt Yoho - Jun 14, 2012)",,"Need to add password confirmation, double check validations, and fix duplicate validation errors.",not completed
+31211917,Search for messages,front-end,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 14, 2012",,,Nisarg Shah,Mike Chlipala,"Feature: Search within rooms for messages
+
+Background:
+  Given I am logged in
+  And I am on the chat page
+  I should see a search bar
+
+Scenario:
+  When I am in room 1
+  And I type a search query
+  I should see a list of messages with the search term    
+  within the message body.",http://www.pivotaltracker.com/story/show/31211917,"Visual/textual indicator that user is viewing search results. (Matt Yoho - Jun 14, 2012)","Also, prominent, simple button/link for clearing search results/returning to room. (Matt Yoho - Jun 14, 2012)"
+30996265,Bootstrapless UI,front-end,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 11, 2012",,,Travis Valentine,Travis Valentine,"Feature: UI
+
+Background:
+  Given that a user is logged in
+  They should see one page with three panes: one listing all rooms, one that shows the chat with a text area to enter text, and one that contains the current room's information",http://www.pivotaltracker.com/story/show/30996265
+30425091,Unauthenticated user logs into site,front-end,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"May 30, 2012",,,Dan Kaufman,Nisarg Shah,"Feature: Unauthenticated user logs into site
+
+  Background:
+    Given I am trying to log in but haven't created an account
+    I should be at ""/""
+
+  Scenario: Entering an email that doesn't exist
+    When I enter ""foo@bar10.com""
+    I should see a notice that my email does not exist
+    And I should be prompted to sign up
+    And I should be able to create an account",http://www.pivotaltracker.com/story/show/30425091
+31228509,Kick people out of rooms,front-end,14,"Sep 10, 2012","Sep 16, 2012",feature,1,delivered,"Jun 14, 2012",,,Travis Valentine,Mike Chlipala,"Feature: Room owner kicks people out of a room
+
+  Background:
+    Given I am the owner of the room ""Cool Room""
+    And the user ""foo@bar.com"" has permission to ""Cool Room""
+
+  Scenario:
+    Given I am logged in as the owner of the room for ""Cool Room""
+    And I am viewing the chat interface for ""Cool room""
+    When I click ""Manage Patrons""
+    I should see ""foo@bar.com"" listed in the current patrons
+    And I should see an ""x"" button next to ""foo@bar.com""'s email address.
+    
+    When I click the ""x"" button next to ""foo@bar.com""
+    Then ""foo@bar.com"" should be removed from ""Cool room""
+    And I should see a confirmation message that ""foo@bar.com"" has been removed from the room
+ ",http://www.pivotaltracker.com/story/show/31228509
+31229789,Implement gravatars per user,"",14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 14, 2012",,,Travis Valentine,Mike Chlipala,,http://www.pivotaltracker.com/story/show/31229789
+30425875,Room owner clicks to destroy room,front-end,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"May 30, 2012",,,Dan Kaufman,Mike Chlipala,"Feature: Destroying a room
+
+Background: 
+  Given I am logged in
+  And the room ""store-engine"" has been created
+
+Scenario: Room owner tries to delete room
+  Given I am the owner of the room ""store-engine""
+  And I am viewing the chat interface for the room ""store-engine""
+  And I click ""delete this room""
+  Then I should see a warning message asking me to confirm my decision
+  And I click ""cancel""
+  Then I should be viewing the chat interface for the room ""store-engine""
+  And the room ""store-engine"" still exists
+
+Scenario: Room owner deletes room
+  Given I am the owner of the room ""store-engine""
+  And I am viewing the chat interface for the room ""store-engine""
+  And I click ""Edit room""
+  Then I should see a modal with an option to delete this room
+
+  If I click ""delete room""
+  Then I should see a warning message asking me to confirm my decision
+  And I click ""confirm""
+  Then I should be viewing the blank chat interface
+  And the room ""store-engine"" has been deleted
+
+Scenario: Non-room-owner tries to delete room
+  Given I am a member of the room ""store-engine""
+  And I am viewing the chat interface for the room ""store-engine""
+  Then I should not see a button ""Delete this room""",http://www.pivotaltracker.com/story/show/30425875
+31006933,Updating room details,front-end,14,"Sep 10, 2012","Sep 16, 2012",feature,2,delivered,"Jun 11, 2012",,,Mike Chlipala,Mike Chlipala,"Feature: Updating room details
+
+  Background: 
+       Given I have created the room ""store-engine""
+       And I am viewing the chat interface for ""store-engine""
+       And I am the owner of the room ""store-engine""
+
+Scenario: Adding current speakeasy members to a room
+  When I click ""Edit Room""
+  Then I should be viewing the form to edit the room's details
+
+  When I fill in the room name with ""store-engine-sweet""
+  And I fill in the room description with ""working group""
+  And I fill in the github repo with ""git@git.com""  
+  And I click ""Update room""
+  Then I should see a confirmation message that my room has been updated",http://www.pivotaltracker.com/story/show/31006933
+30995579,Travis-CI Widget,front-end,15,"Sep 17, 2012","Sep 23, 2012",feature,2,unstarted,"Jun 11, 2012",,,Dan Kaufman,Travis Valentine,"Feature: Travis-CI Build Widget in chat room
+
+Background:
+  Given that I am in a chat room
+
+Scenario: When the chat room has an associated Github URL
+  And the repo has an associated Travis CI account
+  Then I should see a build status widget in the room
+
+Scenario: When the chat room has an associated Github URL
+  And the repo does not have an associated Travis CI account
+  Then I should not see a build status widget
+
+Scenario: When the chat room does not have an associated Github URL
+  Then I should not see a build status widget",http://www.pivotaltracker.com/story/show/30995579,,,Finishing this relies on GitHub integration,not completed
+30995595,Travis CI Widget Updates,front-end,15,"Sep 17, 2012","Sep 23, 2012",feature,2,unstarted,"Jun 11, 2012",,,Dan Kaufman,Travis Valentine,"Feature: Travis CI Widget updates with repo
+
+Background:
+  Given that a chat room has a Travis CI widget
+
+Scenario: And the build status of the repo changes
+  Then the widget status changes for all viewers of the chat room",http://www.pivotaltracker.com/story/show/30995595,,,Finishing this relies on GitHub integration,not completed
+30502131,Connecting GitHub via API,github,15,"Sep 17, 2012","Sep 23, 2012",feature,2,unstarted,"May 31, 2012",,,Travis Valentine,,"Feature: Connecting to github via the API
+
+  Background:
+    Given I am logged in
+
+  Scenario:
+    Visit api/users/subscriptions/github
+    Redirects to github for authentication
+    Triggers a post to api/users/subscriptions
+    Response 201 with body of subscription
+    Redirects back to the front-end",http://www.pivotaltracker.com/story/show/30502131
+30502293,Disconnect github via API,github,15,"Sep 17, 2012","Sep 23, 2012",feature,1,unstarted,"May 31, 2012",,,Travis Valentine,,"Feature: Disconnecting github via the API
+
+  Background:
+    Given I am logged in
+
+  Scenario:
+    Delete to api/users/subscriptions
+    Response 200 with body of subscription
+    Redirects back to the front-end",http://www.pivotaltracker.com/story/show/30502293
+30482643,Removing GitHub widget,"front-end, github",15,"Sep 17, 2012","Sep 23, 2012",feature,1,unstarted,"May 31, 2012",,,Travis Valentine,,"Feature: Removing GitHub widget
+
+  Background:
+    Given I am logged in
+    And I am viewing the chat interface
+
+  Scenario: Removing GitHub
+    When I click the ""Account"" link
+    I should see GitHub under the services I'm connected to
+    I should see a link to remove GitHub
+    When I click the link
+    I am redirected to the chat interface
+    And GitHub should no longer be in the sidebar, and I should no 
+      longer have the option to filter GitHub events",http://www.pivotaltracker.com/story/show/30482643
+30425209,Update user information via API,authentication,,,,feature,2,unscheduled,"May 30, 2012",,,Dan Kaufman,,"Feature: Update user information via API
+
+  Background:
+    Given I am logged in
+
+  Scenario:
+    And I put to /api/users/id with the request body: 
+    {
+      name: ""matt2""
+    }
+    Then the user should be created
+    And I should get a 200 response
+    And I should receive the updated display name as a response",http://www.pivotaltracker.com/story/show/30425209
+30425255,Reset Password via API,authentication,,,,feature,3,unscheduled,"May 30, 2012",,,Dan Kaufman,,"Feature: Reset Password via API
+
+  Background:
+    Given I am logged in
+
+  Scenario: Send Email
+     And I post to /api/users/password with request body:
+     {
+       email: ""foo@bar.com""
+     }
+     Then an email is sent out with a link to reset password
+     And I should get a 201 response
+
+  Scenario: Resetting password
+    And I put to /api/users/password/ with the request body: 
+    {
+      original_password: ""foobar"",
+      password: ""foobar2"",
+    }
+    Then the user's password should be updated
+    And I should get a 200 response",http://www.pivotaltracker.com/story/show/30425255
+30426157,Display room transcript,front-end,,,,feature,2,unscheduled,"May 30, 2012",,,Dan Kaufman,,"Feature: Viewing a transcript of past room history
+
+  Background:
+     Given I am logged in
+     And I am viewing a room
+
+  Scenario: The room has messages from yesterday
+     When I click on the top link for yesterday's transcript
+     I should be shown the transcript in the center chat window
+     And the left sidebar should indicate that I am no longer viewing that room
+     And the right sidebar should still contain the room's widgets
+
+  Scenario: The room does not have messages from yesterday
+     I should not see a link for yesterday's transcripts",http://www.pivotaltracker.com/story/show/30426157
+30426135,Fetch room transcript,core,,,,feature,3,unscheduled,"May 30, 2012",,,Dan Kaufman,Dan Kaufman,"Feature: Viewing a transcript of room messages
+
+Background:
+  Given that I send a get request to /api/core/room/1/transcript
+  And I have a valid token
+  And I have access to the room
+
+Scenario: Given that the request body is empty
+  Then I should receive a 200 response
+  And I should receive a JSON response of all the room's messages created after 12:00AM EST
+
+Scenario: Given that the request body contains date: ""06/03/2012"" where date is in the format ""MM/DD/YYY""
+  Then I should receive a 200 response
+  And I should receive a JSON response of all the room's messages created between 12:00AM EST and 11:59PM EST on that date
+
+Scenario: Given that the request body contains an invalid date
+  Then I should receive a 400 response
+  And I should not receive any messages",http://www.pivotaltracker.com/story/show/30426135
+30997211,Unauthorized request of room transcript,core,,,,feature,1,unscheduled,"Jun 11, 2012",,,Dan Kaufman,Dan Kaufman,"Scenario: Given that I send a get request to /api/core/room/1/transcript
+  And I have a valid token
+  And I do not have access to the room
+  Then I should receive a 404 response
+
+Scenario: Given that I send a get request to /api/core/room/1/transcript
+  And I do not have a valid token
+  Then I should receive a 401 response",http://www.pivotaltracker.com/story/show/30997211
+30995749,Inviting non-account-holding members to a room,front-end,,,,feature,3,unscheduled,"Jun 11, 2012",,,Mike Chlipala,Mike Chlipala,"Feature: Inviting non-account-holding members to a room
+
+  Background: 
+     Given I have created the room ""store-engine""
+     And I am viewing the chat interface for ""store-engine""
+     And ""foo@bar.com"" is not an existing account
+
+  Scenario: Inviting new speakeasy members
+    When I click ""Invite members""
+    Then I should be viewing the form to invite members
+
+    When I fill in the email addresses field with ""foo@bar.com""
+    And I click ""Invite members""
+    Then ""foo@bar.com"" should receive an email with instructions for joining the ""store-engine"" room",http://www.pivotaltracker.com/story/show/30995749

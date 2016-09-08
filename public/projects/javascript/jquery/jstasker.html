@@ -1,0 +1,734 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JSTasker - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="JSTasker                              In this project we&#8217;ll practice jQuery fundamentals including selectors &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/javascript/jquery/jstasker.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          JSTasker
+        </h1>
+        
+      </header>
+    
+    <p>In this project we&#8217;ll practice jQuery fundamentals including selectors, DOM manipulation, manipulating style, basic animations, and working with collections.  Our project is to build a simple in-browser To-Do list.  A user will be able to enter to-do items, hit enter, and they&#8217;ll be displayed in a list.  The list will allow items to be checked off when completed or removed.</p>
+
+<h3>1. HTML and Stylesheet</h3>
+
+<p>We&#8217;ll start with a very barebones HTML structure.  We&#8217;ll create a form with a single fieldset to hold our text field and an &quot;add&quot; button.  Then below we&#8217;ll have a div with the ID of &#8216;tasks&#8217; containing a UL where our tasks will be inserted.  Here is the HTML:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!doctype html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;</span>Tasker<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&#39;stylesheet&#39;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&#39;styles.css&#39;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;application.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;h1&gt;</span>JSTasker<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">&#39;add_task&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;fieldset&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;legend&gt;</span>Add a Task<span class="nt">&lt;/legend&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;text&#39;</span> <span class="na">name=</span><span class="s">&#39;task_text&#39;</span> <span class="na">id=</span><span class="s">&#39;task_text&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;submit&#39;</span> <span class="na">name=</span><span class="s">&#39;add_button&#39;</span> <span class="na">value=</span><span class="s">&#39;Add&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/fieldset&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/form&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&#39;tasks&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;h2&gt;</span>Your Tasks<span class="nt">&lt;/h2&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And here is the css for <code>styles.css</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+<span class='line-number'>63</span>
+<span class='line-number'>64</span>
+<span class='line-number'>65</span>
+<span class='line-number'>66</span>
+<span class='line-number'>67</span>
+<span class='line-number'>68</span>
+<span class='line-number'>69</span>
+<span class='line-number'>70</span>
+<span class='line-number'>71</span>
+<span class='line-number'>72</span>
+<span class='line-number'>73</span>
+<span class='line-number'>74</span>
+<span class='line-number'>75</span>
+<span class='line-number'>76</span>
+<span class='line-number'>77</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">h1</span><span class="o">,</span> <span class="nt">h2</span><span class="o">,</span> <span class="nt">ul</span><span class="o">,</span> <span class="nt">li</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">html</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="m">#333</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;Gill Sans Light&#39;</span><span class="o">,</span> <span class="s1">&#39;Helvetica&#39;</span><span class="o">,</span> <span class="s1">&#39;Arial&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">font-size</span><span class="o">:</span> <span class="m">90</span><span class="o">%</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">body</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">width</span><span class="o">:</span> <span class="m">400px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">10px</span> <span class="k">auto</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#EEE</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="m">#F6F6F6</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">10px</span> <span class="m">20px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">fieldset</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">border</span><span class="o">:</span> <span class="m">2px</span> <span class="k">solid</span> <span class="m">#CCC</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">10px</span> <span class="m">0px</span> <span class="m">0px</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">input</span><span class="o">[</span><span class="nt">type</span><span class="o">=</span><span class="nt">text</span><span class="o">]</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">width</span><span class="o">:</span> <span class="m">300px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding-right</span><span class="o">:</span> <span class="m">20px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="nt">input</span><span class="o">[</span><span class="nt">type</span><span class="o">=</span><span class="nt">submit</span><span class="o">]</span><span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">#tasks</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">20px</span> <span class="m">0px</span> <span class="m">0px</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">h2</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">margin-bottom</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">h2</span> <span class="nt">span</span><span class="nf">#task_counter</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">font-size</span><span class="o">:</span> <span class="m">80</span><span class="o">%</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">color</span><span class="o">:</span> <span class="m">#999</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">#tasks</span> <span class="nt">ul</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">list-style-type</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">#tasks</span> <span class="nt">ul</span> <span class="nt">li</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">6px</span> <span class="m">10px</span> <span class="m">3px</span> <span class="m">20px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">height</span><span class="o">:</span> <span class="m">1.6em</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">#tasks</span> <span class="nt">ul</span> <span class="nt">li</span><span class="nd">:hover</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="m">#FFF8DC</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">text-decoration</span><span class="o">:</span> <span class="k">underline</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nf">#tasks</span> <span class="nt">ul</span> <span class="nt">li</span><span class="nc">.completed</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="sx">url(&#39;icons/accept.png&#39;)</span> <span class="k">no-repeat</span> <span class="m">0px</span> <span class="m">5px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">text-decoration</span><span class="o">:</span> <span class="k">line-through</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">color</span><span class="o">:</span> <span class="m">#999</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.trash</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">float</span><span class="o">:</span> <span class="k">right</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">2px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nc">.trash</span><span class="nd">:hover</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="m">#F99</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">cursor</span><span class="o">:</span> <span class="k">pointer</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here&#8217;s a link where you can download <a href="/images/accept.png">accept.png</a>.</p>
+
+<h3>2. Add a Task</h3>
+
+<p>The most obvious place to start is with adding a task.  Try typing in a task and clicking the add button.  What happens?</p>
+
+<h4>Intercepting the Click</h4>
+
+<p>Normal HTML form tags contain an address to submit the form to, but ours are blank.  Therefore the browser submits the form back to the page in the form of a GET request which puts the parameters into the URL.  Your URL likely now looks like <code>index.html?task_text=Wakeup&amp;add_button=Add</code>.</p>
+
+<p>We&#8217;ll handle the data processing in Javascript, so as a first step let&#8217;s prevent the browser from actually submitting the form.  We need to find the form, add a listener for a <code>submit</code> event, then prevent the browser&#8217;s default action.  Here&#8217;s the code to get us started in <code>application.js</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;form#add_task&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">){</span>
+</span><span class='line'>    <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Our selector finds the form element with the ID of <code>add_task</code> and attaches a submit listener.  That listener is a function, accepting the parameter named <code>event</code>, which has a one-line block of code.  That line tell the <code>event</code> object to prevent the browser&#8217;s default action.  If you&#8217;re curious about the <code>event</code> object, check out the API page for events: <a href="http://api.jquery.com/category/events/event-object/"><a href="http://api.jquery.com/category/events/event-object/">http://api.jquery.com/category/events/event-object/</a></a>.</p>
+
+<p>Try that in your browser.  Now when you click the add button nothing happens at all.  Is our listener working?  It would seem so since the browser isn&#8217;t actually submitting the form, but let&#8217;s prove it.</p>
+
+<p>Within your <code>click</code> listener function, add a line to pop an <code>alert</code> box just saying <code>&quot;You clicked the add button!&quot;</code>.  Try this in the browser and make sure it triggers when you click the button.  Assuming that works fine we feel confident that our function is being called when we click the add button.</p>
+
+<h4>Pulling Form Content</h4>
+
+<p>The first step to adding the task to the list is to get the text entered into the box.  Write a selector to find the correct <code>input</code> and try modifying your <code>alert</code> to show the text of the field.</p>
+
+<p>Finding the element is easy, but how do you pull out the entered text?  You might be tempted to use <code>.text()</code> like we did in JSRights.  The <code>text</code> method finds the text inside a DOM element, but an input element like this doesn&#8217;t really have an &quot;inside&quot; &#8211; it&#8217;s a single self-closing tag.  Instead we need the value within the input which we access with the <code>.val()</code> method.  Here&#8217;s what I used:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">taskText</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;input#task_text&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="nx">taskText</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Constructing and Inserting the List Item</h4>
+
+<p>Now that we&#8217;ve got the text we can insert it into the list.  This is very similar to what we did with the Table of Contents.  Try it in these steps:</p>
+
+<ol>
+<li>Create a new variable containing the name of the task wrapped in LI tags</li>
+<li>Use a selector to find the tasks UL</li>
+<li>Use <code>append</code> to add the new LI into the UL</li>
+</ol>
+
+<h3>3. UI Enhancements</h3>
+
+<h4>Clearing the Text Field</h4>
+
+<p>Once you&#8217;re adding items to the list it becomes apparent that you should clear the text box once the task is added to the list.  How do we do that?</p>
+
+<p>There&#8217;s a pattern commonly used in jQuery methods: when no parameter is passed in it acts as a &quot;getter&quot;, retrieving the data from the object.  When a parameter is passed it works as a &quot;setter&quot;, changing the data in the object.  We&#8217;ve seen this with <code>.text()</code> and it&#8217;s also true of <code>.val()</code>.</p>
+
+<p>Under your line which appends the LI into the UL, add a line which calls the <code>.val()</code> method on the text input field.  What value should you set it to?  You can use either the empty string like <code>&quot;&quot;</code> or use <code>null</code>, Javascript&#8217;s way of saying &quot;nothing&quot;.</p>
+
+<h4>Auto-Focus the Text Field</h4>
+
+<p>Open a new tab and go to Google.  See how the text box is automatically active, ready for you to type?  They know you didn&#8217;t come to the page to click on buttons, you came to search.  Our page should do the same thing: putting the cursor into the text box when the page is loaded.</p>
+
+<p>We want this to happen when the page is loaded, so make sure you write the instruction <em>outside</em> your <code>click</code> listener.</p>
+
+<p>All you need to do is write a selector to find the text field and call the method <code>.focus()</code> with no parameters.  Refresh your page and you should see the cursor pop into the box, waiting for your tasks.</p>
+
+<p>Now, in HTML5, we can instead use the <code>autofocus</code> option on an input tag. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;text&#39;</span> <span class="na">name=</span><span class="s">&#39;task_text&#39;</span> <span class="na">id=</span><span class="s">&#39;task_text&#39;</span> <span class="na">autofocus=</span><span class="s">&quot;autofocus&quot;</span> <span class="nt">/&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Hovering on Tasks aka Thoughts on Dividing Responsibilities</h4>
+
+<p>When you unlock the power of Javascript there&#8217;s a temptation to do EVERYTHING in Javascript.  We could have just started with a blank HTML document and built our whole form and page on the fly with Javascript.  We&#8217;d be very fancy, but why?  You have to try to do things the easiest way possible.  You&#8217;ve got HTML, CSS, and Javascript &#8211; how do you decide where things go?</p>
+
+<p><em>HTML</em> is for content.  Unless it&#8217;s built dynamically, the content that&#8217;s seen on your page should be in the HTML.</p>
+
+<p><em>CSS</em> is for style.  Anything having to do with how things <em>look</em> should be handled in CSS.</p>
+
+<p><em>Javascript</em> is for action.  It brings your page to life, but it should also be a last resort.  If you can accomplish the job using HTML or CSS do it there instead!</p>
+
+<p>So I wanted to add in a <code>hover</code> action to the task list items.  I wanted them to highlight when the mouse passed over them&#8230;</p>
+
+<p>Then I went through this thought process: &quot;Can I handle it in HTML? No. How about CSS? Yes!&quot; So it would be more fancy to build a <code>hover</code> listener, but since all I&#8217;m doing on hover is changing how things <em>look</em> it&#8217;s more appropriate to handle it in CSS.  Therefore, if you look in styles.css, you&#8217;ll see styles for <code>#tasks ul li:hover</code>.  It&#8217;s simple, it works, so it&#8217;s the right thing to do.</p>
+
+<h3>4. Check and Uncheck Tasks</h3>
+
+<p>This is a depressing application.  We can create a whole bunch of tasks, but we can&#8217;t check them off!  Time to fix that.</p>
+
+<p>Think about the structure of the problem.  We have these LI objects which we&#8217;re inserting into the DOM.  When the user clicks on the LI we want to mark it as completed.  To represent a completed task I want it greyed out and with a strikethrough across the text.</p>
+
+<p>These, again, are about how the element <em>looks</em>, not how it <em>acts</em>.  We need to handle the looks in CSS and use Javascript to add on the appropriate classes when we click an element.  Take a look at <code>styles.css</code> and you&#8217;ll find a rule for <code>#tasks ul li.completed</code>.  When the user clicks on a task to complete it we need to add the CSS class <code>completed</code> to the LI.</p>
+
+<h4>Adding a Click Listener</h4>
+
+<p>Inside our existing <code>click</code> listener for the form we&#8217;re creating the new LI item.  We need to add click listener to that LI which, when clicked, will add the <code>complete</code> CSS class to the LI.</p>
+
+<p>On your own, try to write the <code>click</code> listener attached to the LI.  For starters, have the function just pop an <code>alert</code> saying <code>&quot;You clicked on a task!&quot;</code>.</p>
+
+<h4>Adding the CSS Class</h4>
+
+<p>Now, to make your click listener more meaningful, remove the <code>alert</code> line.  In it&#8217;s place put this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s1">&#39;completed&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try it out in your browser.  Cool, right?  Inspect the HTML and you&#8217;ll see the CSS class getting dynamically added.</p>
+
+<p>In real life users make mistakes.  It&#8217;d be nice if we could un-check a task.  There are three ways to do this:</p>
+
+<ol>
+<li>When the list item is clicked you could remove the existing click listener and add a new one that, when clicked, removes the <code>completed</code> class</li>
+<li>Change the existing listener to check if the <code>completed</code> class is present.  If it isn&#8217;t add it.  If it is, remove it.</li>
+<li>Change the existing listener to use the <code>toggleClass</code> method instead of <code>addClass</code>, getting you the functionality of option 2 with no complexity</li>
+</ol>
+
+<p>That&#8217;s a clear choice, right?  Do it and confirm it works in your browser.</p>
+
+<h3>5. Counting</h3>
+
+<p>I don&#8217;t know about you, but my task lists are usually HUMONGOUS.  It would be nice to know how many tasks are in the list.  Ideally it&#8217;d be right next to the &quot;Your Tasks&quot; heading.  If you peek in the CSS file you&#8217;ll see a style for <code>h2 span#task_counter</code>.  Let&#8217;s make that happen!</p>
+
+<ol>
+<li>Insert the span into the task list&#8217;s HTML</li>
+<li>Write a named function to update the counter</li>
+<li>Add a call to that function in our existing click listeners</li>
+</ol>
+
+<h4>Add the Span to the HTML</h4>
+
+<p>Open up the <code>index.html</code> file and find the &quot;Your Tasks&quot; H2.  Just before the closing H2 tag, add in the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&#39;task_counter&#39;</span><span class="nt">&gt;&lt;/span&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Could we have done this in Javascript? Sure. But it&#8217;s structural content, so when possible we should just modify the HTML.</p>
+
+<h4>Write a Named Function</h4>
+
+<p>Up until now we&#8217;ve written anonymous functions.  They looked like <code>function (){}</code>.  But, when appropriate, we can create functions with names.</p>
+
+<p>At the very top of your <code>application.js</code>, even above the document ready line, add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">updateTaskCounter</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Updating the task counter!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This defines a function named <code>updateTaskCounter</code> which, when called, will pop an alert box.  A few things to notice here:</p>
+
+<ol>
+<li>We put it before the document ready line because we don&#8217;t need to wait for the document to be ready before <em>defining</em> functions, only <em>running</em> them when they need to manipulate the DOM.</li>
+<li>Functions blocks end with a <code>}</code> and don&#8217;t need a semicolon, though many people put one</li>
+<li>This function is defined on the global namespace, so it can be run anywhere in our code AFTER it has been defined</li>
+<li>Because of point 3, it&#8217;s a good practice to put your named functions at the top of the file</li>
+</ol>
+
+<h4>Calling the <code>updateTaskCounter</code> Function</h4>
+
+<p>When do we need to update the counter?  The first place is whenever we add a task.  Find the bottom of that <code>click</code> listener and, maybe right below the line that clears the text box, add a call to our method like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">updateTaskCounter</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now go to your browser, refresh, and add a task.  You should see the alert pop saying that the counter is being updated. You might notice that when the alert pops up the item has already be added to the task list, that&#8217;ll be important soon.</p>
+
+<h4>Counting the To-Dos</h4>
+
+<p>We need to make the <code>updateTaskCounter</code> actually do it&#8217;s thing.  Here&#8217;s how it&#8217;ll work:</p>
+
+<ol>
+<li>Find the UL containing the tasks list items</li>
+<li>Count how many there are</li>
+<li>Find the <code>task_counter</code> span</li>
+<li>Put the count into that span</li>
+</ol>
+
+<p>First, write a selector to find the tasks UL.  Attach the method calls <code>.children().size()</code>, store the result into a variable named <code>task_count</code>, and pop an alert showing the value of <code>task_count</code>.  Test it in your browser and confirm the number goes up with each task.</p>
+
+<p>Then write a selector to find the SPAN with the id <code>task_counter</code>.  Use the <code>text</code> method to set the value to your variable <code>task_count</code>.  Delete or comment out your <code>alert</code> then test it in your browser.  Your counter should be functional!</p>
+
+<h4>Counting only Active To-Dos</h4>
+
+<p>Check off a few items and you&#8217;ll see that, not surprisingly, the counter doesn&#8217;t change.  There are two steps to fixing this:</p>
+
+<ol>
+<li>Make the <code>updateTaskCounter</code> method only count incomplete items</li>
+<li>Make the task <code>click</code> listener run the counter function</li>
+</ol>
+
+<h5>Only Counting Incomplete Items</h5>
+
+<p>Here&#8217;s what my counter line currently looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">taskCount</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div#tasks ul&#39;</span><span class="p">).</span><span class="nx">children</span><span class="p">().</span><span class="nx">size</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we want to only count active tasks.  How would you explain this in English?  I might say &quot;Find all the list items that DON&#8217;T have the class name <code>completed</code>&quot;.  jQuery&#8217;s <code>not()</code> method is perfect for a situation like this where you want to reject a subset from the selection collection.  Here&#8217;s how to change that previous line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">taskCount</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div#tasks ul&#39;</span><span class="p">).</span><span class="nx">children</span><span class="p">().</span><span class="nx">not</span><span class="p">(</span><span class="s1">&#39;li.completed&#39;</span><span class="p">).</span><span class="nx">size</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser, add a few tasks, then check one off.  Did the count change? No. Check off another task and you still won&#8217;t see a change.  But add one more task and you&#8217;ll see the count drop down.  The function is now working properly but it isn&#8217;t getting called when we check off a task.</p>
+
+<h5>A Second Call to <code>updateTaskCounter</code></h5>
+
+<p>So far we&#8217;re calling the function when we add a task, we need to also call it when we check off a task.  Find your <code>click</code> listener which catches that action and add a call to the function.  Make sure you do it <em>after</em> you&#8217;ve toggled the CSS class or else your count will be off by one.</p>
+
+<p>Test it out in your browser and, if everything goes to plan, your counting function is complete!</p>
+
+<h3>6. Moving Completed Tasks</h3>
+
+<p>If we have several items in our To-Do list, it&#8217;d be nice if the completed items would slide to the bottom to keep things tidy.  We can write a named function that&#8230;</p>
+
+<ol>
+<li>Finds the task list</li>
+<li>Finds all completed tasks within the task list</li>
+<li>Pull them out of the list</li>
+<li>Appends them back to the end of the list</li>
+</ol>
+
+<p>Start by writing a function named <code>sortTasks</code> following the model of your <code>updateTaskCounter</code> function.  In the body just pop an alert saying &quot;Sorting the Tasks!&quot;.</p>
+
+<p>Now where should we call this method?  I&#8217;m going to cheat for now and just call it from the bottom of <code>updateTaskCounter</code>.  It already gets called whenever the list changes, so this will work properly.  We&#8217;ll do a little refactoring later.</p>
+
+<p>Refresh your browser and try adding a task to make sure it pops your alert about sorting.</p>
+
+<h4>Finding the List and Tasks</h4>
+
+<p>First remove the alert line from <code>sortTasks</code>.</p>
+
+<p>Write a selector which finds the UL within the tasks div and store this into a variable named <code>taskList</code>.</p>
+
+<p>Write a second selector line which finds all <code>children</code> within <code>taskList</code> that have the class name <code>completed</code>.  Store this into a variable named <code>allCompleted</code>.</p>
+
+<h4>Pull Out the Completed Tasks</h4>
+
+<p>Now that we have the set of completed tasks we need to pull them out of their current positions in the DOM.  jQuery has a few different methods for removing objects.  You&#8217;d probably first be tempted to try <code>remove()</code>, but if you check out the api at <a href="http://docs.jquery.com/Manipulation/remove"><a href="http://docs.jquery.com/Manipulation/remove">http://docs.jquery.com/Manipulation/remove</a></a> you&#8217;ll see that this method removes the objects and destroys their attached listeners.</p>
+
+<p>We want to preserve the attached <code>click</code> listener so tasks can still be un-checked, so using <code>remove()</code> would mean rebuilding the <code>click</code> listener.  Too much work!</p>
+
+<p>Instead we can use the <code>detach()</code> method.  It&#8217;s similar to <code>remove</code> except that it <em>preserves</em> any attached listeners.  Call <code>detach()</code> on your <code>allCompleted</code> variable.</p>
+
+<h4>Append Them Back to the List</h4>
+
+<p>We&#8217;ve done all the hard parts.  The only thing interesting in this step is I want to show you a different method named <code>appendTo</code>.  So far we&#8217;ve used <code>append</code> which when called like <code>a.append(b)</code> puts <code>b</code> into the end of <code>a</code>.  When we call <code>a.appendTo(b)</code> it will stick <code>a</code> into the end of <code>b</code>.  They work exactly the same except the values are flip-flopped.  In general, use whichever feels more comfortable in the situation.</p>
+
+<p>Here, though, use the <code>appendTo</code> method to stick <code>allCompleted</code> into <code>taskList</code>.</p>
+
+<p>Refresh your browser, try it out, and the sorting should work both when tasks are checked and when they&#8217;re un-checked.</p>
+
+<h4>Refactoring</h4>
+
+<p>I hate when functions tell lies.  Right now we have a function named <code>updateTaskCounter</code> which updates the counter then sorts the tasks.  That name is lying about what it does; that&#8217;s not cool.</p>
+
+<p>These functions are also both defined in the global namespace.  It&#8217;s considered a best practice to put your functions into a namespace to prevent collisions.  Let&#8217;s fix both these issues.</p>
+
+<h5>Building a Namespace</h5>
+
+<p>Here&#8217;s how we write functions inside a namespace named <code>JSTasker</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">JSTasker</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">updateTaskCounter</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">sortTasks</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">updatePage</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Copy this structure to the very top of your <code>application.js</code>.  What does it all mean?  We&#8217;re creating a variable named <code>JSTasker</code>.  In Javascript functions can be stored into variables which is kinda amazing if you&#8217;ve never see that before.  <code>JSTasker</code> is set equal to what&#8217;s called an &quot;Object Literal Notation&quot; object, starting and ending with <code>{}</code>.  This is the format that JSON uses if you&#8217;ve seen that before.</p>
+
+<p>Within the brackets you give a name followed by a colon, followed by a &quot;value&quot;, and separate elements by commas.  For our values, in this case, we&#8217;re storing anonymous functions.</p>
+
+<p>Confused yet?</p>
+
+<p>This structure allows us to call methods by saying <code>JSTasker.updateTaskCounter()</code>.  The Javascript engine finds the <code>JSTasker</code> object, looks for an element named <code>updateTaskCounter</code>, then executes the function stored there.</p>
+
+<p>Move the instructions inside your <code>update_task_counter</code> method into the anonymous function like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">JSTasker</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">updateTaskCounter</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">taskCount</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div#tasks ul&#39;</span><span class="p">).</span><span class="nx">children</span><span class="p">().</span><span class="nx">not</span><span class="p">(</span><span class="s1">&#39;li.completed&#39;</span><span class="p">).</span><span class="nx">size</span><span class="p">();</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;span#task_counter&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">task_count</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">sortTasks</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">updatePage</span><span class="o">:</span> <span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that I removed the call to <code>sortTasks</code>.  We&#8217;ll use the more appropriately named <code>updatePage</code> method in a minute.</p>
+
+<p>Next migrate the instructions from your <code>sortTasks</code> function into the anonymous function in <code>JSTasker</code>.  Then delete the old, now blank <code>updateTaskCounter</code> and <code>sortTasks</code> methods.</p>
+
+<p>Within the <code>updatePage</code> function, write a call to <code>this.updateTaskCounter()</code> and to <code>this.sortTasks()</code>.</p>
+
+<p>Finally, within your document ready block, change the calls to <code>updateTaskCounter()</code> to <code>JSTasker.updatePage()</code>.</p>
+
+<p>Test it out in your browser and see if everything still works.  Use the developer window as your friend, watch for the red X in the bottom right to see if there are errors.</p>
+
+<h3>Extensions</h3>
+
+<p>Our task list is really starting to work, but there are many more functions we could add.  Here are some ideas:</p>
+
+<ul>
+<li>Add an animation to highlight the newly added task</li>
+<li>Animate the removal of checked tasks and their reinsertion at the bottom</li>
+<li>Add a trash link which would delete the item from the list</li>
+<li>Add check/uncheck all links</li>
+<li>Add plus/minus links that would slide the element up or down the list</li>
+<li>Make a second list, maybe one &quot;Work&quot; and one &quot;Personal&quot;, then have a radio button to choose which list the task goes into</li>
+<li>Add an animation to highlight the newly added task</li>
+<li>Create a drag handle and dropzone so tasks could be reordered by drag &amp; drop</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

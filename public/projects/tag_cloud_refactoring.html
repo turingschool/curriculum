@@ -1,0 +1,2287 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Tag Cloud Refactoring - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Tag Cloud Refactoring                              In this project you&#8217;ll refactor a method in a Rails &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/tag_cloud_refactoring.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Tag Cloud Refactoring
+        </h1>
+        
+      </header>
+    
+    <p>In this project you&#8217;ll refactor a method in a Rails controller. You will learn
+about</p>
+
+<ul>
+<li>The Single Responsibility Principle</li>
+<li>Using lockdown tests to refactor safely</li>
+<li>Taking very, very small steps</li>
+<li>Refactoring under green</li>
+<li>Extracting methods</li>
+</ul>
+
+<p>This project uses a long-lived open source rails application named
+<a href="http://codeclimate.com/github/JumpstartLab/tracks">Tracks</a>.</p>
+
+<p>It is a todo list application inspired by David Allen&#8217;s <a href="http://www.amazon.com/Getting-Things-Done-Stress-Free-Productivity/dp/0142000280">Getting Things
+Done</a>.</p>
+
+<p>The first commit on the application was made in 2006. It currently has
+well over 200 forks, and is still under active development. The version you
+will be working on is a snapshot from March 2013.</p>
+
+<p>The project will be developed in 10 iterations.</p>
+
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have
+questions/suggestions, please
+<a href="https://github.com/JumpstartLab/curriculum/blob/master/source/projects/tag_cloud_refactoring.markdown">
+submit them to the project on GitHub</a>.</p>
+</div>
+
+<h2>Setup</h2>
+
+<h3>Prerequisites</h3>
+
+<ul>
+<li><a href="https://rvm.io/">Ruby 1.9.3</a> or greater</li>
+<li><a href="http://gembundler.com/">Bundler</a></li>
+</ul>
+
+<p>If you want to run the Cucumber features (warning: it takes about 20 minutes), then you will also need Firefox.</p>
+
+<h3>Running the Code Base Locally</h3>
+
+<p>To do any actual work you&#8217;ll need to clone the repository to your local
+machine. Because it has such a long history, cloning would normally take a
+long time. In the interest of saving time (and bandwidth), we&#8217;ll get a shallow
+clone using the <code>--depth</code> option:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git clone https://github.com/jumpstartlab/tracks.git --depth 1</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then, there&#8217;s some setup:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>cd tracks</span><span class='line command'>cp config/site.yml.tmpl config/site.yml</span><span class='line command'>cp config/database.yml.tmpl config/database.yml</span><span class='line command'>bundle install</span><span class='line command'>bundle exec rake db:create db:migrate db:test:prepare</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Run a subset of the tests with:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake test:stats</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The output should look something like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Finished tests in 2.695372s, 8.1621 tests/s, 47.8598 assertions/s.</span><span class='line output'>22 tests, 129 assertions, 0 failures, 0 errors, 0 skips</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If that worked, then you&#8217;re all set.</p>
+
+<h2>I0: Exploration</h2>
+
+<p>Take a look at our project&#8217;s <a href="http://codeclimate.com/github/JumpstartLab/tracks">Code Climate
+report</a> for this code base.</p>
+
+<ul>
+<li>Which parts of the code base have the worst ratings?</li>
+<li>What seems the scariest to you?
+You don&#8217;t need to be able to articulate why it seems scary.</li>
+<li>What does Code Climate tell us about the code quality in the views?</li>
+</ul>
+
+<h3><code>StatsController</code></h3>
+
+<p>We will be working on a small portion of the <code>StatsController</code>.</p>
+
+<ul>
+<li>What does Code Climate say is the <code>complexity</code> metric for this file?</li>
+<li>How about the <code>duplication</code> metric?</li>
+<li>What do these metrics actually mean?</li>
+<li>How long is the <code>index</code> action in the <code>StatsController</code>?</li>
+<li>What methods are being called?</li>
+<li>Where are they defined?</li>
+<li>How long are they?</li>
+<li>How many instance variables get assigned?</li>
+<li>Do all the assigned instance variables get used in the view and
+partials that get rendered?</li>
+</ul>
+
+<h3>Test Coverage</h3>
+
+<p>Let&#8217;s run the tests with <code>rake test:stats</code> and look at the coverage:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake test:stats</span><span class='line command'>open coverage/index.html</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>This <em>will not</em> represent the full coverage of the entire project, only
+the coverage when running the handful of tests in the <code>test:stats</code> task.</p>
+
+<h3><code>StatsController</code></h3>
+
+<p>Find the <code>StatsController</code> in this list.</p>
+
+<ul>
+<li>What is the code coverage for this file?</li>
+<li>How good do you think the coverage is for the <code>get_stats_tags</code> method?</li>
+</ul>
+
+<h3>Testing the Tests</h3>
+
+<p>Open <code>app/views/stats/index.html.erb</code> and delete the line
+that looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;tags&#39;</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests again</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake test:stats</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<ul>
+<li>How many tests fail?</li>
+<li>Does that seem <strong>ok</strong>?</li>
+</ul>
+
+<p>Now, restore the view template to its original state using git:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git checkout .</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Characterizing <code>get_stats_tags</code></h3>
+
+<p>The tag cloud appears to have 100% code coverage, but it turns out that
+there are no assertions regarding this part of the code, it just runs
+without raising any exceptions.</p>
+
+<p>We need a test that will fail if we change anything in the <code>get_stats_tags</code>
+method or the corresponding <code>tags</code> partial.</p>
+
+<h3>The Lockdown Test</h3>
+
+<p>Look at the <code>test/functional/lockdown_test.rb</code> file. This contains a test that
+does not ship with the real Tracks application. It was written for this
+refactoring.</p>
+
+<p>You can run it with:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake test:lockdown</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It will fail.</p>
+
+<h3>Understanding the Lockdown Test</h3>
+
+<p>Let&#8217;s take a look at the output from the test which is stored in the
+<code>.lockdown</code> folder:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>open .lockdown/received.html</span><span class='line command'>open .lockdown/approved.html</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<ul>
+<li>The <code>received.html</code> is the actual HTML that was generated by the application
+when the <code>index</code> action was called within <code>StatsController</code></li>
+<li>The <code>approved.html</code> is <strong>blank</strong></li>
+</ul>
+
+<p>The idea here is that the two files should be identical. Imagine the
+<code>approved.html</code> contains markup that was created by hand, maybe by our
+designer or product manager, which defines the <em>expected output</em> of the
+method. In the test we compare the <em>expected</em> output, <code>approved.html</code>, with
+the generated output, <code>received.html</code>, and they should be identical.</p>
+
+<p>If and only if they match, then we know the implementation is correct.</p>
+
+<p>The <code>approved.html</code> file is empty, because this is the first time the
+test has been run on this system &#8211; and we&#8217;re not sure what the output should
+look like.</p>
+
+<h3>Defining the Expected Output</h3>
+
+<p>Since we&#8217;re refactoring, we expect that the code we&#8217;re working with is
+actually <em>working correctly</em>. So let&#8217;s assume that the <code>StatsController#index</code>
+action is rendering exactly what it should.</p>
+
+<p>Approve the test by copying the <em>received</em> file over the <em>approved</em> file:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>cp .lockdown/received.html .lockdown/approved.html</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Run the test again:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake test:lockdown</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It should now pass, because the approved file and the received file have
+exactly the same contents.</p>
+
+<h3>Testing the Test</h3>
+
+<p>Open up the <code>app/views/stats/index.html.erb</code> file and delete the line that
+looks like this again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;tags&#39;</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test again and see it <strong>fail</strong>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake test:lockdown</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>When you are done reset the code so we&#8217;re ready to refactor:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git checkout .</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The folder <code>.lockdown</code> is <em>ignored</em> by git because it&#8217;s in the <code>.gitignore</code>
+file, so your <code>approved.html</code> will not be affected by this <code>checkout</code>.</p>
+
+<h2>I1: Cordonning Off Some Code</h2>
+
+<p>We&#8217;re going to be refactoring <code>StatsController#get_stats_tags</code>.</p>
+
+<ul>
+<li>How long is the method?</li>
+<li>How many instance variables does it assign?</li>
+<li>How many SQL queries does it execute?</li>
+<li>Where does it get called from? (HINT: <code>git grep get_stats_tags</code>)</li>
+<li>What does it actually do?</li>
+</ul>
+
+<h3>What it Actually Does</h3>
+
+<p>The <code>get_stats_tags</code> method does all the calculations to create two separate
+tag clouds on the stats page.</p>
+
+<p>The first tag cloud consists of all the tags for all todos for the current
+user since the beginning of time.</p>
+
+<p>The second tag cloud consists of all the tags for all the todos for the
+current user in the past 90 days.</p>
+
+<h3>Preparing a new Model</h3>
+
+<p>These calculations belong in the model layer, so let&#8217;s move them.</p>
+
+<p>We&#8217;re going to create a ruby class that doesn&#8217;t inherit from <code>ActiveRecord::Base</code>.</p>
+
+<p>Create a new directory called <code>stats</code> inside of <code>app/models/</code>.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>mkdir app/models/stats</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then, create a file <code>app/models/stats/tag_cloud.rb</code></p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>touch app/models/stats/tag_cloud.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Put the following code in the <code>tag_cloud.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TagCloud</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">compute</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now <em>copy</em> (do NOT <em>cut</em>) the contents of the <code>get_stats_tags</code> method from the
+controller into the compute method of the new <code>TagCloud</code> class.</p>
+
+<p>Run the lockdown test again. It should be passing.</p>
+
+<p><strong>If the lockdown test is failing, back out the last changes until it is, and
+go through the steps again.</strong></p>
+
+<h3>Sanity Checking the Extraction</h3>
+
+<p>Go back to the controller, and add this line of code to the top of the
+<code>get_stats_tags</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="o">.</span><span class="n">compute</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that we aren&#8217;t using the line of code yet. We&#8217;re just calling it. All
+the old code is still in the <code>get_stats_tags</code> method.</p>
+
+<p>Run the <code>bundle exec rake test:lockdown</code> task again.</p>
+
+<p>We get the following error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>1) Error:
+</span><span class='line'>  test_page_does_not_change_while_refactoring(LockdownTest):
+</span><span class='line'>    NameError: undefined local variable or method `current_user&#39; for #&lt;TagCloud:0x007f9dfd70ea20&gt;
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can fix that by giving the tag cloud object a <code>current_user</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TagCloud</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:current_user</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@current_user</span> <span class="o">=</span> <span class="n">current_user</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">compute</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And then pass the <code>current_user</code> to the tag cloud in the <code>StatsController#get_stats_tags</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Rerun the <code>test:lockdown</code> rake task. The test should be passing.</p>
+
+<p>Commit your changes.</p>
+
+<h2>I2: Using the TagCloud</h2>
+
+<h3>Replacing an Instance Variable</h3>
+
+<p>First, let&#8217;s assign the <code>TagCloud</code> object that we&#8217;re creating in the <code>StatsController#get_stats_tags</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stats_tags</span>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then find the first instance variable assignment in <code>get_stats_tags</code> method.</p>
+
+<p>The first one I find is <code>@tags_for_cloud</code>.</p>
+
+<p>We want to expose this instance variable in the TagCloud object. Add an <code>attr_reader</code> for it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TagCloud</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kp">attr_reader</span> <span class="ss">:current_user</span><span class="p">,</span> <span class="ss">:tags_for_cloud</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, back in the controller, find the place where <code>@tags_for_cloud</code> is being
+assigned, and add a new line underneath it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span><span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'><span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_for_cloud</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the <code>lockdown</code> test. It should be passing.</p>
+
+<p>Now you can delete the original <code>@tags_for_cloud</code> assignment, along with the
+big SQL <code>query</code> string, because it is only used in that line of code.</p>
+
+<p>Run the <code>lockdown</code> test again to make sure you didn&#8217;t delete too much.</p>
+
+<h3>Replacing Another Instance Variable</h3>
+
+<p>The next assignment is <code>@tags_min</code>, which is first assigned and then changed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span><span class="p">,</span> <span class="vi">@tags_min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+</span><span class='line'><span class="vi">@tags_for_cloud</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">max</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="n">max</span><span class="o">].</span><span class="n">max</span>
+</span><span class='line'>  <span class="vi">@tags_min</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="vi">@tags_min</span><span class="o">].</span><span class="n">min</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Create an <code>attr_reader</code> in the <code>TagCloud</code> model for <code>:tags_min</code>, and then go
+back to the controller and add a new assignment below the section that deals
+with <code>@tags_min</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span><span class="p">,</span> <span class="vi">@tags_min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+</span><span class='line'><span class="vi">@tags_for_cloud</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">max</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="n">max</span><span class="o">].</span><span class="n">max</span>
+</span><span class='line'>  <span class="vi">@tags_min</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="vi">@tags_min</span><span class="o">].</span><span class="n">min</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="vi">@tags_min</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_min</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the <code>lockdown</code> test again. It should still be passing.</p>
+
+<p>Delete the code that we&#8217;ve just replaced and re-run the <code>lockdown</code> test to
+make sure that you didn&#8217;t delete too much.</p>
+
+<p>Ouch! That failed. We&#8217;re missing a local variable named <code>max</code>. Let&#8217;s put back
+the code we just deleted. The <code>@tags_divisor</code> assignment needs <code>max</code>.</p>
+
+<p>Go ahead and expose <code>:tags_divisor</code> in the <code>TagCloud</code> object as well, and
+assign it in the controller:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@tags_divisor</span> <span class="o">=</span> <span class="p">((</span><span class="n">max</span> <span class="o">-</span> <span class="vi">@tags_min</span><span class="p">)</span> <span class="o">/</span> <span class="n">levels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'><span class="vi">@tags_divisor</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_divisor</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the <code>lockdown</code> test. It should be passing.</p>
+
+<p>Now we can delete the old code for <code>@tags_min</code> and <code>@tags_divisor</code>. Do that,
+and then run the <code>lockdown</code> test again.</p>
+
+<h3>Progress So Far</h3>
+
+<p>The <code>get_stats_tags</code> method should now look something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stats_tags</span>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="c1"># tag cloud code inspired by this article</span>
+</span><span class='line'>  <span class="c1">#  http://www.juixe.com/techknow/index.php/2006/07/15/acts-as-taggable-tag-cloud/</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">levels</span><span class="o">=</span><span class="mi">10</span>
+</span><span class='line'>  <span class="c1"># TODO: parameterize limit</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_for_cloud</span>
+</span><span class='line'>  <span class="vi">@tags_min</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_min</span>
+</span><span class='line'>  <span class="vi">@tags_divisor</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_divisor</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># A lot more code here...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Yet Another Instance Variable</h3>
+
+<p>The next instance variable that gets assigned is <code>@tags_for_cloud_90days</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@tags_for_cloud_90days</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span>
+</span><span class='line'>  <span class="o">[</span><span class="n">query</span><span class="p">,</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="o">]</span>
+</span><span class='line'><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Expose this in the <code>TagCloud</code> using an attr_reader, and then put a new
+declaration below it using the exposed value:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@tags_for_cloud_90days</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span>
+</span><span class='line'>  <span class="o">[</span><span class="n">query</span><span class="p">,</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="o">]</span>
+</span><span class='line'><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'><span class="vi">@tags_for_cloud_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_for_cloud_90days</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The tests are failing. What happened?</p>
+
+<h3>A <code>nil</code> what, now?</h3>
+
+<p>Let&#8217;s look at the diff:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>diff .lockdown/approved.html .lockdown/received.html
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It looks like the whole tag cloud disappeared. What the heck?</p>
+
+<p>If you take a good look at the query for <code>@tags_for_cloud_90days</code> it
+references an instance variable named <code>@cut_off_3months</code>. Where is that
+instance variable defined?</p>
+
+<p>It looks like it comes from a helper method in the controller called <code>init</code>.
+Let&#8217;s pass it to the <code>TagCloud</code> object when we initialize it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to make sure that we save this new variable in the <code>TagCloud</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TagCloud</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:current_user</span><span class="p">,</span> <span class="ss">:tags_for_cloud</span><span class="p">,</span> <span class="ss">:tags_min</span><span class="p">,</span> <span class="ss">:tags_divisor</span><span class="p">,</span>
+</span><span class='line'>    <span class="ss">:tags_for_cloud_90days</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="n">cut_off_3months</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@current_user</span> <span class="o">=</span> <span class="n">current_user</span>
+</span><span class='line'>    <span class="vi">@cut_off_3months</span> <span class="o">=</span> <span class="n">cut_off_3months</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">compute</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the <code>lockdown</code> test again. It should be passing.</p>
+
+<p>Now we can delete that second big sql <code>query</code> string, along with the old
+<code>@tags_for_cloud_90days</code> assignment.</p>
+
+<p>The test still passes.</p>
+
+<h3>More Instance Variables</h3>
+
+<p>The next instance variable that is being assigned is <code>@tags_min_90days</code>.</p>
+
+<p>Expose the variable in the <code>TagCloud</code>, and add the new assignment below the
+old one in the controller.</p>
+
+<p>Run the <code>lockdown</code> test. It should be passing.</p>
+
+<h3>Déjà Vu</h3>
+
+<p>We won&#8217;t try to delete this, because it looks eerily familiar: the
+<code>@tags_divisor_90days</code> needs the <code>max_90days</code> local variable that gets defined
+in that section of the code.</p>
+
+<p>Expose the <code>@tags_divisor_90days</code> and add the new assignment below the old
+one.</p>
+
+<p>This section of the controller should now look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max_90days</span><span class="p">,</span> <span class="vi">@tags_min_90days</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+</span><span class='line'><span class="vi">@tags_for_cloud_90days</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">max_90days</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="n">max_90days</span><span class="o">].</span><span class="n">max</span>
+</span><span class='line'>  <span class="vi">@tags_min_90days</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="vi">@tags_min_90days</span><span class="o">].</span><span class="n">min</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="vi">@tags_min_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_min_90days</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@tags_divisor_90days</span> <span class="o">=</span> <span class="p">((</span><span class="n">max_90days</span> <span class="o">-</span> <span class="vi">@tags_min_90days</span><span class="p">)</span> <span class="o">/</span> <span class="n">levels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'><span class="vi">@tags_divisor_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_divisor_90days</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>lockdown</code> test should be passing, and we can delete both of the old
+sections defining <code>@tags_min_90days</code> and <code>@tags_divisor_90days</code>.</p>
+
+<p>Run the <code>lockdown</code> test.</p>
+
+<h3>Tidying Up <code>get_stats_tags</code></h3>
+
+<p>The controller method should look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stats_tags</span>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="c1"># tag cloud code inspired by this article</span>
+</span><span class='line'>  <span class="c1">#  http://www.juixe.com/techknow/index.php/2006/07/15/acts-as-taggable-tag-cloud/</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">levels</span><span class="o">=</span><span class="mi">10</span>
+</span><span class='line'>  <span class="c1"># TODO: parameterize limit</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_for_cloud</span>
+</span><span class='line'>  <span class="vi">@tags_min</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_min</span>
+</span><span class='line'>  <span class="vi">@tags_divisor</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_divisor</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@tags_for_cloud_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_for_cloud_90days</span>
+</span><span class='line'>  <span class="vi">@tags_min_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_min_90days</span>
+</span><span class='line'>  <span class="vi">@tags_divisor_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_divisor_90days</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can delete the comments, because they&#8217;ve all been moved into the <code>TagCloud</code>
+class.</p>
+
+<p>We can also ditch the <code>level</code> variable, which is no longer used here.</p>
+
+<p>The controller method now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stats_tags</span>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_for_cloud</span>
+</span><span class='line'>  <span class="vi">@tags_min</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_min</span>
+</span><span class='line'>  <span class="vi">@tags_divisor</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_divisor</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@tags_for_cloud_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_for_cloud_90days</span>
+</span><span class='line'>  <span class="vi">@tags_min_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_min_90days</span>
+</span><span class='line'>  <span class="vi">@tags_divisor_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_divisor_90days</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If the <code>lockdown</code> test is passing, commit your changes.</p>
+
+<h2>I3: Cleaning up the TagCloud</h2>
+
+<h3>Current User is No Longer Current</h3>
+
+<p>In <code>app/models/stats/tag_cloud.rb</code> we&#8217;re referring to a <code>current_user</code>, but users in
+the model aren&#8217;t really <code>current</code>, that&#8217;s a concern for the web-part of the
+application (controllers and views).</p>
+
+<p>Rename <code>current_user</code> to <code>user</code>, and run the <code>lockdown</code> test to make sure you
+did it correctly.</p>
+
+<h3>Comments</h3>
+
+<p>Take a look at the comment that goes like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># tag cloud code inspired by this article</span>
+</span><span class='line'><span class="c1"># http://www.juixe.com/techknow/index.php/2006/07/15/acts-as-taggable-tag-cloud/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That seems like it is relevant to the whole file, not just the compute method.
+Move it up to the top of the file.</p>
+
+<p>The <code>TODO</code> comment is still relevant, but let&#8217;s make it a comment for the
+whole <code>compute</code> method.</p>
+
+<p>The remaining comments are just trying to explain the code. Let&#8217;s go ahead and
+get rid of them.</p>
+
+<h3>Redundant Variable Names</h3>
+
+<p><code>TagCloud#tags_for_cloud</code> is a very redundant method name. It would read much
+better if we just call it <code>tags</code>, because we already know we&#8217;re in a cloud.</p>
+
+<p>Look at how nice this becomes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">cloud</span><span class="o">.</span><span class="n">tags</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Once you&#8217;ve made the change in the <code>TagCloud</code> class, you&#8217;ll need to update the
+controller.</p>
+
+<p>Be sure to only update the message that gets sent to the <code>cloud</code> object, not
+the name of the instance variable that you&#8217;re assigning, because the view is
+still using the old variable name.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>More Redundancy</h3>
+
+<p>When a variable name is composed of several parts, then each part should
+make a meaningful distinction.</p>
+
+<p>Think a bit about the following variable names:</p>
+
+<ul>
+<li><code>tags_for_cloud_90days</code></li>
+<li><code>tags_min</code></li>
+<li><code>tags_divisor</code></li>
+<li><code>tags_min_90days</code></li>
+<li><code>tags_divisor_90days</code></li>
+</ul>
+
+<p>For each part of the name, think about whether or not that portion of the name
+is making a meaningful distinction. Does the variable name lose any meaning if
+that bit is dropped?</p>
+
+<p>Update the variable names, and remember to update the controller as well.</p>
+
+<p>Run the <code>lockdown</code> test, which should still be passing.</p>
+
+<h3>Overspecified Variable Name</h3>
+
+<p>The <code>@cut_off_3months</code> variable name has too much information in it.</p>
+
+<p>The fact that it is a <code>cut_off</code> is important. The fact that it is <code>3months</code> is
+fairly arbitrary. If we happened to set the <code>cut_off</code> to 12 months or 30 days
+the code would still work, giving us back the data for 12 months or 30 days.</p>
+
+<p>Rename the variable to <code>@cut_off</code>, run the <code>lockdown</code> test, and commit your changes.</p>
+
+<h2>I4: Extracting the SQL queries</h2>
+
+<h3>Breaking Down <code>compute</code></h3>
+
+<p>It&#8217;s time to start dealing with that big <code>compute</code> method.</p>
+
+<p>The first thing I want to do is get those enormous SQL strings out of the main
+computation.</p>
+
+<p>There are two <code>query</code> strings, and they&#8217;re very similar, but not identical.</p>
+
+<p>That&#8217;s unfortunate, because <em>identical</em> is easy to deal with: you extract one,
+and call it twice.</p>
+
+<p>With <em>similar</em> we&#8217;re stuck with dealing with them one at a time.</p>
+
+<h3>Exctracting a Method</h3>
+
+<p>Let&#8217;s start with the second one, because that is the longest one.</p>
+
+<p>First add a <code>private</code> declaration at the bottom of the class.</p>
+
+<p>Then, below it, add an empty method called <code>sql_90days</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">sql_90days</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now <em>copy</em> (don&#8217;t <em>cut</em>) the query string that gets used for the <code>@tags_90days</code> assignment.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sql_90days</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT tags.id, tags.name AS name, count(*) AS count&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; FROM taggings, tags, todos&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; WHERE tags.id = tag_id&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=? &quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_type=&#39;Todo&#39; &quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id=todos.id &quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND (todos.created_at &gt; ? OR &quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;      todos.completed_at &gt; ?) &quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; GROUP BY tags.id, tags.name&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; ORDER BY count DESC, name&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; LIMIT 100&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Find the line where this local variable <code>query</code> gets used:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@tags_90days</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span>
+</span><span class='line'>  <span class="o">[</span><span class="n">query</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Replace the reference to the local method <code>query</code> with a call to the private
+method <code>sql_90days</code>.</p>
+
+<p>Run the <code>lockdown</code> test. It should be passing.</p>
+
+<p>Delete the old code where the <code>query</code> string is being built, then rerun the
+<code>lockdown</code> test. It should still be passing.</p>
+
+<p>Commit your changes.</p>
+
+<h3>Do It Again</h3>
+
+<p>Let&#8217;s do the same thing for the first SQL query string.</p>
+
+<p>Create a method called <code>sql</code>, and copy the query string into it.</p>
+
+<p>Verify that the test is passing, delete the old query assignment, and check
+that the test is still passing.</p>
+
+<p>Commit your changes.</p>
+
+<h3>Comparing the two SQL queries</h3>
+
+<p>Now that the SQL queries are all on their own, let&#8217;s take a look at how they
+compare to each other.</p>
+
+<p>Take a look at the first lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql</span>
+</span><span class='line'><span class="s2">&quot;SELECT tags.id, name, count(*) AS count&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql_90days</span>
+</span><span class='line'><span class="s2">&quot;SELECT tags.id, tags.name AS name, count(*) AS count&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>One says <code>tags.name AS name</code>. This is an explicit way of saying <em>the name
+column of the tags table, and oh, by the way, make the result be called
+<strong>name</strong></em>.</p>
+
+<p>The second one just specifies <code>name</code>, which implicitly means <em>the name column
+of the tags table, and oh, by the way, make the result be called <strong>name</strong></em>.</p>
+
+<p>In other words: These are completely equivalent.</p>
+
+<p>We can convert <em>similar</em> into <em>identical</em> by taking one of them and replacing
+the other with it. Let&#8217;s use the more verbose one in case we&#8217;re dealing with a
+join that makes it necessary.</p>
+
+<h3>Identifying Identical</h3>
+
+<p>In both queries, lines 2 and 3 look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; FROM taggings, tags, todos&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; WHERE tags.id = tag_id&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>They are identical, so we can leave them.</p>
+
+<h3>Analyzing Similar</h3>
+
+<p>Here are the following lines of code from both queries:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id = todos.id&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=&quot;</span><span class="o">+</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">to_s</span><span class="o">+</span><span class="s2">&quot; &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_type=&#39;Todo&#39; &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql_90days</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=? &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_type=&#39;Todo&#39; &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id=todos.id &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>They are very similar. Let&#8217;s take it line by line.</p>
+
+<p>The first line extracted from <code>sql</code> is this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id = todos.id&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The last line in <code>sql_90days</code> is identical to that. The order of
+these clauses are irrelevant, so we can move the first of the
+three lines in the excerpt of <code>sql</code> to be last.</p>
+
+<p>We end up with the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=&quot;</span><span class="o">+</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">to_s</span><span class="o">+</span><span class="s2">&quot; &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_type=&#39;Todo&#39; &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id = todos.id&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql_90days</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=? &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_type=&#39;Todo&#39; &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id=todos.id &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The last two lines are now identical. Let&#8217;s get rid of them and focus on the
+remaining line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=&quot;</span><span class="o">+</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">to_s</span><span class="o">+</span><span class="s2">&quot; &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql_90days</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=? &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Both lines of code are doing the same thing: interpolating a user id into the
+query.</p>
+
+<p>The first just concatenates the user id straight in to the string, and the
+second uses <code>ActiveRecord</code>&#8217;s dynamic conditions that turn things like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">BikeShed</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;color = ?&#39;</span><span class="p">,</span> <span class="n">some_color</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>into this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">bike_sheds</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">bike_sheds</span> <span class="k">WHERE</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;PapayaWhip&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It replaces the <code>?</code> with the value you send in, and in the process protects
+you against <a href="http://guides.rubyonrails.org/security.html#sql-injection">SQL injection
+attacks</a>.</p>
+
+<p>We aren&#8217;t afraid of SQL injection happening here, because we&#8217;re just using the
+<code>user.id</code> that the database made up for us, but using the dynamic conditions
+is a good habit to have, so let&#8217;s standardize to that version.</p>
+
+<h3>Converting to a Dynamic Condition</h3>
+
+<p>Before we make these two lines identical it&#8217;s helpful to understand how they
+are different.</p>
+
+<p>There are two <code>find_by_sql</code> calls in the <code>compute</code> method, and these are
+<em>similar</em>, but not <em>identical</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@tags</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span><span class="n">sql</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ... some code</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@tags_90days</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span>
+</span><span class='line'>  <span class="o">[</span><span class="n">sql_90days</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>First, let&#8217;s reformat the one-liner to be on 3 lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@tags</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span>
+</span><span class='line'>  <span class="n">sql</span>
+</span><span class='line'><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ... some code</span>
+</span><span class='line'>
+</span><span class='line'><span class="vi">@tags_90days</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span>
+</span><span class='line'>  <span class="o">[</span><span class="n">sql_90days</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It becomes easier to see that the only difference between the two calls
+is the middle line, or rather: the arguments that get passed to the
+<code>find_by_sql</code> method.</p>
+
+<p>To clarify this, let&#8217;s extract the part that varies.</p>
+
+<p>Assign the arguments to <code>find_by_sql</code> to a variable named <code>params</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="n">sql</span>
+</span><span class='line'><span class="vi">@tags</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ... some code</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql_90days</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'><span class="vi">@tags_90days</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>find_by_sql</code> incantation is now identical in both cases, so we can ignore
+it and focus on the parts that are different:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="n">sql</span>
+</span><span class='line'><span class="c1"># vs</span>
+</span><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql_90days</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>One is an array, and one is not. When <code>find_by_sql</code> receives an array, it
+takes the first element of the array and assumes that it is the actual query
+string, and then all the rest of the variables are what are known as <code>bind</code>
+variables because they get <em>bound</em> into the array wherever there are question
+marks.</p>
+
+<p>This is important, because you need to have a variable for every question
+mark, otherwise it blows up.</p>
+
+<p>On the other hand, it&#8217;s perfectly fine to have an array with a single element
+in it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql</span><span class="o">]</span>
+</span><span class='line'><span class="c1"># vs</span>
+</span><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql_90days</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you run the <code>lockdown</code> test, it should still be passing.</p>
+
+<p>It&#8217;s also perfectly OK to have <code>bind</code> variables that don&#8217;t actually get used.
+It&#8217;s probably not a good idea to keep them around, but as a temporary step to
+keep tests green while preparing code to be changed it&#8217;s a completely
+rational thing to do.</p>
+
+<p>So we can add the <code>user.id</code> to the argument list.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>lockdown</code> test is still passing`.</p>
+
+<p>And now, finally, we can change the line of code in the <code>sql</code> method to be
+identical to the one in the <code>sql_90days</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=? &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Are the Queries Identical Yet?</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># sql</span>
+</span><span class='line'><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT tags.id, tags.name AS name, count(*) AS count&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; FROM taggings, tags, todos&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; WHERE tags.id = tag_id&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=? &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_type=&#39;Todo&#39; &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id=todos.id &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; GROUP BY tags.id, tags.name&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; ORDER BY count DESC, name&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; LIMIT 100&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT tags.id, tags.name AS name, count(*) AS count&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; FROM taggings, tags, todos&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; WHERE tags.id = tag_id&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=? &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_type=&#39;Todo&#39; &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id=todos.id &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND (todos.created_at &gt; ? OR &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;      todos.completed_at &gt; ?) &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; GROUP BY tags.id, tags.name&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; ORDER BY count DESC, name&quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; LIMIT 100&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>There is only one difference between the two queries now:</p>
+
+<p>The <code>sql_90days</code> method has 2 lines more than the <code>sql</code> method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND (todos.created_at &gt; ? OR &quot;</span>
+</span><span class='line'><span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;      todos.completed_at &gt; ?) &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice the question marks in those two lines? We have two bind variables:
+<code>@cut_off</code> and <code>@cut_off</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql_90days</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>The Final Two Lines</h3>
+
+<p>We are so close to having the two queries be identical, and the only way that
+I can think of to make this happen is to wrap the two lines with a conditional
+so that if the <code>@cut_off</code> is nil, the <code>sql_90days</code> query is exactly like the
+<code>sql</code> query.</p>
+
+<p>This would allow us to use the same string for both queries.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">sql_90days</span><span class="p">(</span><span class="n">cut_off</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">=</span> <span class="s2">&quot;SELECT tags.id, tags.name AS name, count(*) AS count&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; FROM taggings, tags, todos&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; WHERE tags.id = tag_id&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND todos.user_id=? &quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_type=&#39;Todo&#39; &quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND taggings.taggable_id=todos.id &quot;</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">cut_off</span>
+</span><span class='line'>    <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; AND (todos.created_at &gt; ? OR &quot;</span>
+</span><span class='line'>    <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot;      todos.completed_at &gt; ?) &quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; GROUP BY tags.id, tags.name&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; ORDER BY count DESC, name&quot;</span>
+</span><span class='line'>  <span class="n">query</span> <span class="o">&lt;&lt;</span> <span class="s2">&quot; LIMIT 100&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Update the call to <code>sql_90days</code> to take the <code>@cut_off</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql_90days</span><span class="p">(</span><span class="vi">@cut_off</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>lockdown</code> test should still be passing.</p>
+
+<h3>Reusing the Code</h3>
+
+<p>Now, finally, if we call the <code>sql_90days</code> method without a <code>@cut_off</code> we get
+the exact same result as if we had called the <code>sql</code> method.</p>
+
+<p>Find this line of code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>and update it to be like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql_90days</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>lockdown</code> test should still be passing.</p>
+
+<p>The <code>sql</code> method is no longer in use. Go ahead and delete it.</p>
+
+<p>Finally, rename <code>sql_90days</code> to just be <code>sql</code>.</p>
+
+<p>Then run your test and commit your changes.</p>
+
+<h2>I5: Two <code>TagCloud</code> Objects</h2>
+
+<h3>Identifying More Duplication</h3>
+
+<p>Notice how the <code>TagCloud</code> essentially does the same thing twice.</p>
+
+<p>The first time, it calculates a tag cloud for all TODO items that have ever
+existed.</p>
+
+<p>The second time, it calculates a tag cloud for all the TODO items in the past
+90 days.</p>
+
+<p>We&#8217;ve managed to reduce the duplication of the SQL query by using the
+<code>cut_off</code> to determine whether or not the result set should actually be
+restricted.</p>
+
+<p>Let&#8217;s expand on that idea so that the whole tag cloud object either calculates
+tags since the beginning of time, or only for a certain time period.</p>
+
+<p>In other words: Let&#8217;s make two separate tag cloud objects for our two separate
+tag clouds.</p>
+
+<h3>Optional Cut Off</h3>
+
+<p>In the <code>TagCloud</code> initializer, make the <code>cut_off</code> parameter optional, with a
+default of <code>nil</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">cut_off</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@user</span> <span class="o">=</span> <span class="n">user</span>
+</span><span class='line'>  <span class="vi">@cut_off</span> <span class="o">=</span> <span class="n">cut_off</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then create two tag clouds in the controller instead of one.</p>
+
+<p>The first does not take a <code>cut_off</code>, but the second still does.</p>
+
+<p>The controller method now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stats_tags</span>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags</span>
+</span><span class='line'>  <span class="vi">@tags_min</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">min</span>
+</span><span class='line'>  <span class="vi">@tags_divisor</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">divisor</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="vi">@tags_for_cloud_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags_90days</span>
+</span><span class='line'>  <span class="vi">@tags_min_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">min_90days</span>
+</span><span class='line'>  <span class="vi">@tags_divisor_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">divisor_90days</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This causes the <code>lockdown</code> test to fail because we have the wrong number of
+<code>bind</code> variables for the SQL queries.</p>
+
+<p>We now need to pass in the correct number of bind variables based on whether
+or not we actually have a value for <code>@cut_off</code> at all.</p>
+
+<p>Change both of the <code>params</code> assignments to look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql</span><span class="p">(</span><span class="vi">@cut_off</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">]</span>
+</span><span class='line'><span class="k">if</span> <span class="vi">@cut_off</span>
+</span><span class='line'>  <span class="n">params</span> <span class="o">+=</span> <span class="o">[</span><span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test should be passing again.</p>
+
+<p>In the controller method the first tag cloud is using the first half of the
+compute method, whereas the second tag cloud is using the second half of the
+compute method.</p>
+
+<p>Change the controller so that none of the calls to <code>cloud</code> call methods with
+<code>_90days</code> in them:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stats_tags</span>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags</span>
+</span><span class='line'>  <span class="vi">@tags_min</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">min</span>
+</span><span class='line'>  <span class="vi">@tags_divisor</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">divisor</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="vi">@tags_for_cloud_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags</span>
+</span><span class='line'>  <span class="vi">@tags_min_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">min</span>
+</span><span class='line'>  <span class="vi">@tags_divisor_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">divisor</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>lockdown</code> test should still be passing.</p>
+
+<p>Having done this we can delete anything in the <code>TagCloud</code> referring to
+<code>90days</code>.</p>
+
+<p>Run the <code>lockdown</code> test and commit your changes.</p>
+
+<h2>I6: Sending the tag clouds to the view</h2>
+
+<p>Open up the <code>app/views/stats/_tags.html.erb</code> file. This is the template for
+our tag cloud.</p>
+
+<p>Now that we have these handy tag cloud objects in the controller, let&#8217;s assign
+them to instance variables and use them in the view.</p>
+
+<p>Start out by just adding extra lines with the assignments in them so that we
+don&#8217;t have to change all the code in the controller method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stats_tags</span>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="vi">@cloud</span> <span class="o">=</span> <span class="n">cloud</span> <span class="c1"># &lt;-- this line is new</span>
+</span><span class='line'>  <span class="vi">@tags_for_cloud</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags</span>
+</span><span class='line'>  <span class="vi">@tags_min</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">min</span>
+</span><span class='line'>  <span class="vi">@tags_divisor</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">divisor</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="vi">@cloud_90days</span> <span class="o">=</span> <span class="n">cloud</span> <span class="c1"># &lt;-- this line is new</span>
+</span><span class='line'>  <span class="vi">@tags_for_cloud_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">tags</span>
+</span><span class='line'>  <span class="vi">@tags_min_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">min</span>
+</span><span class='line'>  <span class="vi">@tags_divisor_90days</span> <span class="o">=</span> <span class="n">cloud</span><span class="o">.</span><span class="n">divisor</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Assigning extra variables won&#8217;t change the output, so our test is still
+passing.</p>
+
+<p>Let&#8217;s go back to the view and replace each instance variable one at a time
+with a call to the cloud object that we now have available to us.</p>
+
+<p>First, replace <code>@tags_for_cloud</code> with <code>@cloud.tags</code>.</p>
+
+<p>The tests failed when I did this.</p>
+
+<p>Take a look at the diff of the files, though:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>diff .lockdown/received.html .lockdown/approved.html</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The only difference is a single line of extra whitespace. I&#8217;m OK with that, so
+I&#8217;m going to approve the new file:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>cp .lockdown/received.html .lockdown/approved.html</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Next replace <code>@tags_min</code> with <code>@cloud.min</code> and run the test.</p>
+
+<p>It&#8217;s still passing.</p>
+
+<p>Replace <code>@tags_divisor</code> with <code>@cloud.divisor</code>.</p>
+
+<p>Run the test.</p>
+
+<p>Replace <code>@tags_for_cloud_90days</code> with <code>@cloud_90days.tags</code>, and run the
+tests.</p>
+
+<p>Replace <code>@tags_min_90days</code> with <code>@cloud_90days.min</code> and <code>@tags_divisor_90days</code>
+with <code>@cloud_90days.divisor</code>.</p>
+
+<p>Run the tests.</p>
+
+<p>Now we can go back and clean up the controller, because we&#8217;re not using some
+of those instance variables:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">get_stats_tags</span>
+</span><span class='line'>  <span class="vi">@cloud</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@cloud</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'>  <span class="vi">@cloud_90days</span> <span class="o">=</span> <span class="no">TagCloud</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">current_user</span><span class="p">,</span> <span class="vi">@cut_off_3months</span><span class="p">)</span>
+</span><span class='line'>  <span class="vi">@cloud_90days</span><span class="o">.</span><span class="n">compute</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test and commit your changes.</p>
+
+<h2>I7: Collapsing duplication in the view</h2>
+
+<p>Let&#8217;s get those instance variables all the way out of the partial.</p>
+
+<p>Open up <code>app/views/stats/index.html.erb</code> and find the line that renders the
+<code>tags</code> partial:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;tags&#39;</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s pass the tag cloud objects as local variables to the partial.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span> <span class="n">cloud</span><span class="p">:</span> <span class="vi">@cloud</span><span class="p">,</span> <span class="n">cloud_90days</span><span class="p">:</span>
+</span><span class='line'><span class="vi">@cloud_90days</span> <span class="p">}</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is still passing, but we&#8217;re not using those local variables.</p>
+
+<p>Go into the <code>app/views/stats/_tags.html.erb</code> file and delete the <code>@</code>
+characters.</p>
+
+<p>When I did this I got another failure, but again it was just a bit of
+whitespace. I just went ahead and approved the new version of the output:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>cp .lockdown/received.html .lockdown/approved.html</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now we can call the partial twice from the <code>index.html.erb</code> file, once for
+each tag cloud:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span> <span class="n">cloud</span><span class="p">:</span> <span class="vi">@cloud</span> <span class="p">}</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span> <span class="n">cloud</span><span class="p">:</span> <span class="vi">@cloud_90days</span> <span class="p">}</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Before we run the tests, we need to delete the second half of the partial.</p>
+
+<p>Run the tests.</p>
+
+<p>Woah! We have more than just whitespace changes this time.</p>
+
+<p>It looks like we changed the following lines:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h3&gt;</span>Tag cloud actions in past 90 days<span class="nt">&lt;/h3&gt;</span>
+</span><span class='line'><span class="nt">&lt;p&gt;</span>This tag cloud includes tags of actions that were created or completed in
+</span><span class='line'>the past 90 days.<span class="nt">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h3&gt;</span>Tag cloud for all actions<span class="nt">&lt;/h3&gt;</span>
+</span><span class='line'><span class="nt">&lt;p&gt;</span>This tag cloud includes tags of all actions (completed, not completed,
+</span><span class='line'>visible and/or hidden)<span class="nt">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We missed a spot.</p>
+
+<p>Two of the lines that we deleted looked like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h3&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">&#39;stats.tag_cloud_90days_title&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">&#39;stats.tag_cloud_90days_description&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>and the code that gets called instead looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h3&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">&#39;stats.tag_cloud_title&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s1">&#39;stats.tag_cloud_description&#39;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to update the translation key to include the <code>_90days</code> bit.</p>
+
+<p>Change the calls to render the partials like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span> <span class="n">cloud</span><span class="p">:</span> <span class="vi">@cloud</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s1">&#39;&#39;</span> <span class="p">}</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;tags&#39;</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span> <span class="n">cloud</span><span class="p">:</span> <span class="vi">@cloud_90days</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="s1">&#39;_90days&#39;</span> <span class="p">}</span> <span class="cp">-%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Also, update the translation keys in the <code>_tags.html.erb</code> partial:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h3&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s2">&quot;stats.tag_cloud</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">_title&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">t</span><span class="p">(</span><span class="s2">&quot;stats.tag_cloud</span><span class="si">#{</span><span class="n">key</span><span class="si">}</span><span class="s2">_description&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Running the tests again leaves us with only whitespace changes. Approve the
+new version of the output:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>cp .lockdown/received.html .lockdown/approved.html</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Commit your changes.</p>
+
+<h2>I8: Polishing up the TagCloud</h2>
+
+<h3>Status</h3>
+
+<p>So far we&#8217;ve managed to reduce the amount of code in the controller method
+from 50 lines to 4 lines.</p>
+
+<p>We&#8217;ve added a model, <code>TagCloud</code>, where we deleted about half of the original
+code that was in the controller.</p>
+
+<p>We&#8217;ve also deleted about half of the code in the view layer.</p>
+
+<p>What could possibly be left to do here?</p>
+
+<p>Well, I&#8217;m not very happy with how the <code>TagCloud</code> class turned out. We can do
+better.</p>
+
+<p>There&#8217;s a lot of bits and pieces here.</p>
+
+<p>First, let&#8217;s move the <code>TODO</code> comment down to the big <code>sql</code> method.</p>
+
+<p>Next, create a private method called <code>levels</code> and have it return the value 10.</p>
+
+<p>Delete the <code>levels = 10</code> line from the compute method.</p>
+
+<p>The <code>lockdown</code> test should still be passing.</p>
+
+<p>Let&#8217;s create a public method called <code>tags</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">tags</span>
+</span><span class='line'>  <span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql</span><span class="p">(</span><span class="vi">@cut_off</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@cut_off</span>
+</span><span class='line'>    <span class="n">params</span> <span class="o">+=</span> <span class="o">[</span><span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="vi">@tags</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that we&#8217;ve copied the first 5 lines of the <code>compute</code> method into it.</p>
+
+<p>Let&#8217;s get rid of the assignment on the last line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">tags</span>
+</span><span class='line'>  <span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql</span><span class="p">(</span><span class="vi">@cut_off</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@cut_off</span>
+</span><span class='line'>    <span class="n">params</span> <span class="o">+=</span> <span class="o">[</span><span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And now in <code>compute</code> after the line with the assignment in it, create a new
+assignment that calls the tags method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">compute</span>
+</span><span class='line'>  <span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql</span><span class="p">(</span><span class="vi">@cut_off</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@cut_off</span>
+</span><span class='line'>    <span class="n">params</span> <span class="o">+=</span> <span class="o">[</span><span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="vi">@tags</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'>  <span class="vi">@tags</span> <span class="o">=</span> <span class="n">tags</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test. It passes, so we can delete the 5 lines above our new
+assignment.</p>
+
+<p>The tests are passing, but we have some weirdness. We have an <code>attr_reader</code>
+for <code>:tags</code> and we also have a method for <code>tags</code>.</p>
+
+<p>We can change the method for <code>tags</code> to assign the results of the database
+call the first time that it gets called:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">tags</span>
+</span><span class='line'>  <span class="k">unless</span> <span class="vi">@tags</span>
+</span><span class='line'>    <span class="n">params</span> <span class="o">=</span> <span class="o">[</span><span class="n">sql</span><span class="p">(</span><span class="vi">@cut_off</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@cut_off</span>
+</span><span class='line'>      <span class="n">params</span> <span class="o">+=</span> <span class="o">[</span><span class="vi">@cut_off</span><span class="p">,</span> <span class="vi">@cut_off</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="vi">@tags</span> <span class="o">=</span> <span class="no">Tag</span><span class="o">.</span><span class="n">find_by_sql</span><span class="p">(</span><span class="n">params</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span> <span class="o">|</span><span class="n">tag</span><span class="o">|</span> <span class="n">tag</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">downcase</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="vi">@tags</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Delete the <code>@tags = tags</code> assignment in <code>compute</code>, and change the remaining
+reference to <code>@tags</code> in <code>compute</code> to <code>tags</code>.</p>
+
+<p>Delete the <code>attr_reader</code> for <code>:tags</code> as well.</p>
+
+<p>Run the test. It should be passing.</p>
+
+<p>Commit your changes.</p>
+
+<p>Take a look at the code that calculates that <code>min</code> and <code>max</code> tag counts:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span><span class="p">,</span> <span class="vi">@min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">tags</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">max</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="n">max</span><span class="o">].</span><span class="n">max</span>
+</span><span class='line'>  <span class="vi">@min</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="vi">@min</span><span class="o">].</span><span class="n">min</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>First of all, min is always 0, because we never get negative counts out of our
+sql query.</p>
+
+<p>So we can simplify:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span><span class="p">,</span> <span class="vi">@min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+</span><span class='line'><span class="n">tags</span><span class="o">.</span><span class="n">each</span> <span class="p">{</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">max</span> <span class="o">=</span> <span class="o">[</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">,</span> <span class="n">max</span><span class="o">].</span><span class="n">max</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next, instead of checking at every step of the way in the iteration, let&#8217;s
+create a variable called <code>tag_counts</code> below this section, which is a simple
+array of the counts:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">tag_counts</span> <span class="o">=</span> <span class="n">tags</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, we&#8217;ll get the max from that array:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">max</span> <span class="o">=</span> <span class="n">tag_counts</span><span class="o">.</span><span class="n">max</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is still passing, so we can delete the old code, leaving us with
+this <code>compute</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">compute</span>
+</span><span class='line'>  <span class="vi">@min</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span class='line'>  <span class="n">tag_counts</span> <span class="o">=</span> <span class="n">tags</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span>
+</span><span class='line'>  <span class="n">max</span> <span class="o">=</span> <span class="n">tag_counts</span><span class="o">.</span><span class="n">max</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="vi">@divisor</span> <span class="o">=</span> <span class="p">((</span><span class="n">max</span> <span class="o">-</span> <span class="vi">@min</span><span class="p">)</span> <span class="o">/</span> <span class="n">levels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can create a public method called min that just returns <code>0</code>, and delete
+the <code>attr_reader</code> for it. Make sure to change <code>@min</code> to <code>min</code> in the computation
+for <code>@divisor</code>.</p>
+
+<p>Run the test.</p>
+
+<p>Next, let&#8217;s extract the <code>tag_counts</code> to a private method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">tag_counts</span>
+</span><span class='line'> <span class="vi">@tag_counts</span> <span class="o">||=</span> <span class="n">tags</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">t</span><span class="o">|</span> <span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test.</p>
+
+<p>Extract <code>max</code> to a private method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">max</span>
+</span><span class='line'>  <span class="n">tag_counts</span><span class="o">.</span><span class="n">max</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test.</p>
+
+<p>Extract divisor to a public method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">divisor</span>
+</span><span class='line'>  <span class="vi">@divisor</span> <span class="o">||=</span> <span class="p">((</span><span class="n">max</span> <span class="o">-</span> <span class="n">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">levels</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test.</p>
+
+<p>This leaves us with an empty compute method. Delete it. Remember to delete the
+call to compute from the controller as well.</p>
+
+<p>Run the <code>lockdown</code> test, as well as the <code>wip</code> rake task, and then commit your
+changes.</p>
+
+<h2>I9: Polishing Up the View</h2>
+
+<p>Open up the tag cloud partial <code>app/views/stats/_tags.html.erb</code>. There&#8217;s a big
+calculation here:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">(9 + 2*(t.count.to_i-cloud.min)/cloud.divisor)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This calculates the relative font size for a tag. A font size is definitely a
+view concern, but it seems like part of that calculation wants to live in the tag
+cloud itself.</p>
+
+<p>Let&#8217;s create a method in the <code>TagCloud</code> called <code>relative_size</code> which takes a
+tag, and put the non-font part of the calculation into it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">relative_size</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span> <span class="o">-</span> <span class="n">cloud</span><span class="o">.</span><span class="n">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">cloud</span><span class="o">.</span><span class="n">divisor</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>t</code> is now called <code>tag</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">relative_size</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span> <span class="o">-</span> <span class="n">cloud</span><span class="o">.</span><span class="n">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">cloud</span><span class="o">.</span><span class="n">divisor</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And we&#8217;re inside the cloud object, so we don&#8217;t need to refer to the <code>cloud</code>
+variable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">relative_size</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">to_i</span> <span class="o">-</span> <span class="n">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">divisor</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Update the view to use this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">(9 + 2*cloud.relative_size(t))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is better, but we still probably shouldn&#8217;t have the calculation in the
+view. Let&#8217;s create a helper method for it.</p>
+
+<p>Open up the <code>app/helpers/stats_helper.rb</code> and add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">font_size</span><span class="p">(</span><span class="n">cloud</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span>
+</span><span class='line'>  <span class="mi">9</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">cloud</span><span class="o">.</span><span class="n">relative_size</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Update the view again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">:style =&gt; &quot;font-size: #{font_size(cloud, t)}pt&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>lockdown</code> test is passing.</p>
+
+<p><code>min</code> and <code>divisor</code> are no longer referenced outside of the <code>TagCloud</code> so we
+can make those methods private.</p>
+
+<p>The <code>lockdown</code> test is passing.</p>
+
+<p>Let&#8217;s run the <code>rake test:stats</code> task to be sure that everything is still good.</p>
+
+<p>The tests should all be green.</p>
+
+<p>Pat your self on the back, and commit your code.</p>
+
+<h2>I10: Retrospective</h2>
+
+<p>Go to Code Climate and look at the data for the <a href="https://codeclimate.com/github/JumpstartLab/tracks/compare/refactor-tag-cloud">refactor-tag-cloud branch</a>.</p>
+
+<ul>
+<li>Did the overall GPA change?</li>
+<li>What is the complexity metric for the <code>StatsController</code>?</li>
+<li>What is the duplication metric for the <code>StatsController</code>?</li>
+<li>What is the score of the new <code>TagCloud</code> class?</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

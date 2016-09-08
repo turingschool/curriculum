@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Exposing an API - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Web Services                                      Exposing an API                              APIs are becoming an essential &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/web_services/api.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Web Services</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Exposing an API
+        </h1>
+        
+      </header>
+    
+    <p>APIs are becoming an essential feature of modern web applications. Rails does a good job of helping your application provide an API using the same MVC structure you are accustomed to.</p>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<h2>In the Controller</h2>
+
+<p>Here is an example controller:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="n">notice</span><span class="p">:</span> <span class="s2">&quot;Your article was created.&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>      <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="ss">:new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We decide to service JSON and XML requests from these two actions. The <code>index</code> will be triggered by a <code>GET</code> request to <code>/articles.json</code> or <code>/articles.xml</code>. The <code>create</code> will be triggered by a <code>POST</code> request to the same paths.</p>
+
+<h3><code>respond_to</code></h3>
+
+<p>The first step is to call <code>respond_to</code> and list the formats our controller will respond to. This is typically done at the beginning of the controller:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="ss">:html</span><span class="p">,</span> <span class="ss">:json</span><span class="p">,</span> <span class="ss">:xml</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Our controller will now attempt to respond to requests for HTML, JSON, or XML.</p>
+
+<div class="opinion">
+<p>When starting out with an API, I often forget the <code>:html</code> in the <code>respond_to</code>. The application will work at first because it will match an existing view template for the rendering. But, once you start using <code>respond_with</code>, your responses will be blank unless you include <code>:html</code> here.</p>
+</div>
+
+<p>If you request <code>/articles.json</code> you will find that the application is still unsuccessfully trying to render <code>articles.json.erb</code>.</p>
+
+<h3><code>respond_with</code></h3>
+
+<p>You could write a view template for JSON and one for XML, but doing so is a tremendous pain. Instead, we would like to render the data directly from the controller.</p>
+
+<h4>Simple Rendering</h4>
+
+<p>In the past, we broke down each format response using <code>respond_to</code> in the controller action:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="n">respond_to</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">html</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">xml</span> <span class="p">{</span> <span class="n">render</span> <span class="n">xml</span><span class="p">:</span> <span class="vi">@articles</span> <span class="p">}</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">json</span> <span class="p">{</span> <span class="n">render</span> <span class="n">json</span><span class="p">:</span> <span class="vi">@articles</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It led to a lot of repetition. In Rails 3, we can instead use <code>respond_with</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">index</span>
+</span><span class='line'>  <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>  <span class="n">respond_with</span><span class="p">(</span><span class="vi">@articles</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>respond_with</code> method will first attempt to render a matching view template for the response type, like <code>index.json.erb</code> or <code>index.html.erb</code>. If that template is <em>not</em> found, then the method will call <code>.to_xml</code> or <code>.to_json</code> on the object and render the result.</p>
+
+<p>By combining <code>respond_to</code> and <code>respond_with</code> we can save a lot of boilerplate code that was prevalent in Rails 2.</p>
+
+<h4>Object Validation</h4>
+
+<p>But how is this technique used when we write a <code>create</code> action that checks object validation? We started with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="n">notice</span><span class="p">:</span> <span class="s2">&quot;Your article was created.&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>    <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="ss">:new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can achieve the same functionality using <code>respond_with</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Your article was created.&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then refactoring the branch into a ternary:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When we pass <code>@article</code> to <code>respond_with</code>, it will actually check if the object is <code>valid?</code> first. If the object is <em>not valid</em>, then it will call <code>render :new</code> when in a <code>create</code> or <code>render :edit</code> when in an <code>update</code>. </p>
+
+<p>If the object <em>is valid</em>, it will automatically redirect to the <code>show</code> action for that object.</p>
+
+<h4>Controlling the Redirect</h4>
+
+<p>Maybe you would rather redirect to the <code>index</code> after successful creation. You can override the redirect by adding the <code>:location</code> option to <code>respond_with</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span><span class="p">,</span> <span class="n">location</span><span class="p">:</span> <span class="n">articles_path</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Overriding by Format</h4>
+
+<p>Does that action feel too simple? Would you like to bring back some of the heavy syntax from Rails 2? Then specify the response by output format:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">article_params</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span> <span class="p">?</span> <span class="s2">&quot;Your article was created.&quot;</span> <span class="p">:</span> <span class="s2">&quot;Article failed to save.&quot;</span>
+</span><span class='line'>  <span class="n">respond_with</span> <span class="vi">@article</span> <span class="k">do</span> <span class="o">|</span><span class="nb">format</span><span class="o">|</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">html</span> <span class="p">{</span> <span class="vi">@article</span><span class="o">.</span><span class="n">valid?</span> <span class="p">?</span> <span class="n">redirect_to</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span> <span class="p">:</span> <span class="n">render</span><span class="p">(</span><span class="ss">:new</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">json</span> <span class="p">{</span> <span class="n">render</span> <span class="n">json</span><span class="p">:</span> <span class="vi">@article</span> <span class="p">}</span>
+</span><span class='line'>    <span class="nb">format</span><span class="o">.</span><span class="n">xml</span>  <span class="p">{</span> <span class="n">render</span> <span class="n">xml</span><span class="p">:</span> <span class="vi">@article</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Filtering Data</h4>
+
+<p>When you use <code>respond_with</code> to output JSON or XML, it will, by default, dump all the attributes. Next we will look at how to filter these attributes from the model layer.</p>
+
+<h2>Exercises</h2>
+
+<ol>
+<li>Modify <code>ArticlesController</code> so <strong>all</strong> actions use <code>respond_with</code> and can speak JSON and HTML.</li>
+<li>Make similar changes to <code>CommentsController</code> so comments can be read and written via JSON.</li>
+<li>CHALLENGE: Use http-console (<a href="https://github.com/cloudhead/http-console">https://github.com/cloudhead/http-console</a>) to interact with the application using JSON</li>
+</ol>
+
+<h2>Resources</h2>
+
+<ul>
+<li><code>ActionController::Responder</code> API: <a href="http://api.rubyonrails.org/classes/ActionController/Responder.html">http://api.rubyonrails.org/classes/ActionController/Responder.html</a></li>
+<li>AsciiCast on Rails 3 Controllers: <a href="http://asciicasts.com/episodes/224-controllers-in-rails-3">http://asciicasts.com/episodes/224-controllers-in-rails-3</a></li>
+<li>PlatformaTec posts on <code>respond_with</code>: <a href="http://blog.plataformatec.com.br/tag/respond_with/">http://blog.plataformatec.com.br/tag/respond_with/</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

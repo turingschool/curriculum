@@ -1,0 +1,397 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Processor Model Design Pattern - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Models                                      Processor Model Design Pattern                              As projects grow in size &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/models/processor_models.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Models</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Processor Model Design Pattern
+        </h1>
+        
+      </header>
+    
+    <p>As projects grow in size the models tend to grow in complexity. Let&#8217;s look at a few strategies for managing the situation.</p>
+
+<h2>Background</h2>
+
+<p>The core issue is that <code>ActiveRecord</code> classes mix two roles: persistence and business logic. This is convenient, especially when first starting an application, but it violates the &quot;Single Responsibility Principle.&quot;</p>
+
+<p>As a project matures there becomes a clearer division between these roles, and breaking them up into distinct domain objects is often a good idea.</p>
+
+<h2>Creating a Processor Object</h2>
+
+<p>A processor object is concerned only with manipulating the data from other objects, it has no persistence itself. It might be an implementation of the <a href="http://en.wikipedia.org/wiki/Facade_pattern">Facade Pattern</a> or even a kind of <a href="http://en.wikipedia.org/wiki/Decorator_pattern">Decorator Pattern</a>.</p>
+
+<p>Writing a processor is very easy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyProcessor</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">thing</span><span class="p">,</span> <span class="n">stuff</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@thing</span> <span class="o">=</span> <span class="n">thing</span>
+</span><span class='line'>    <span class="vi">@stuff</span> <span class="o">=</span> <span class="n">stuff</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s just a &quot;PORO&quot; or &quot;Plain Old Ruby Object&quot;.</p>
+
+<h3>Where Does It Live?</h3>
+
+<p>You can store your processor objects into <code>app/models</code>, but if you&#8217;d like a little more separation it&#8217;s common to create <code>app/lib</code> and store them in there. Any folder added under <code>app/</code> will be added to the automatic load path when the server starts, so create folders whenever they make sense for the organization of your project.</p>
+
+<h2>Practical Techniques</h2>
+
+<p>A processor object will primarily use the same Ruby techniques you&#8217;re accustomed to, but here are a few methods that will make life easier:</p>
+
+<h3><code>attr_reader</code></h3>
+
+<p><code>attr_reader</code>, short for &quot;Attribute Reader&quot;, creates an instance variable and accessor method for you:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyClass</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:my_attribute</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># That&#39;s the same as doing this...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">my_attribute</span>
+</span><span class='line'>    <span class="vi">@my_attribute</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So you&#8217;re creating an attribute that, from outside the instance, can only be read. If you wanted to allow write access you&#8217;d use <code>attr_accessor</code>, though that&#8217;s probably violating the encapsulation of the child objects.</p>
+
+<p>If you are creating multiple attributes you can combine them in one call to <code>attr_reader</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">attr_reader</span> <span class="ss">:first_attribute</span><span class="p">,</span> <span class="ss">:second_attribute</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3><code>delegate</code></h3>
+
+<p>The <a href="http://en.wikipedia.org/wiki/Law_of_Demeter">Law of Demeter</a> says, generally speaking, that we can talk to an object but shouldn&#8217;t talk directly to the object&#8217;s children.</p>
+
+<p>For instance, imagine we have a <code>Plane</code> instance in <code>@plane</code>. We want the engines started. The temptation is to write something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@plane</span><span class="o">.</span><span class="n">engines</span><span class="o">.</span><span class="n">each</span><span class="p">{</span><span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">start</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But that assumes knowledge of how <code>@plane</code> relates to its engines. What if there&#8217;s only a single engine? Will there still be an <code>engines</code> method that returns a collection, or will there only be <code>engine</code>? We&#8217;re breaking the encapsulation of the plane class.</p>
+
+<p>Instead, proper object oriented design would be to <em>tell</em> the plane what to do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@plane</span><span class="o">.</span><span class="n">start_engines</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That leaves it up to the <code>@plane</code> to decide what it means to start the engines.</p>
+
+<p>How does this relate to processor objects? When you create a facade, you&#8217;ll often want to act on attributes and methods of the child objects. Don&#8217;t do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@my_object</span><span class="o">.</span><span class="n">child</span><span class="o">.</span><span class="n">the_method</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@my_object</span><span class="o">.</span><span class="n">the_method</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>How do you make that work? Here&#8217;s the simplistic approach:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">the_method</span>
+</span><span class='line'>    <span class="n">child</span><span class="o">.</span><span class="n">the_method</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you have multiple child objects with many methods, writing and maintaining these proxy methods will be a pain. Instead, use <code>delegate</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="n">child</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This has the exact same effect as the wrapper above. You can delegate many methods at once:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">MyObject</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:child</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:the_method</span><span class="p">,</span> <span class="ss">:second_method</span><span class="p">,</span> <span class="ss">:third_method</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="n">child</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now you can preserve encapsulation but have easily maintained proxies.</p>
+
+<h2>Example Usage</h2>
+
+<p>Imagine we&#8217;re writing a reporting system for a school. We want to follow a REST pattern, and our top-down design says that we should access a <code>Report</code> resource. We&#8217;ll calculate the data on the fly, so it isn&#8217;t necessary to store anything about the report in the database. So we start the <code>Report</code> class like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Child Objects</h3>
+
+<p>The report is going to mix an instance of <code>Student</code>, <code>Term</code>, and <code>ReportType</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:student</span><span class="p">,</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:report_type</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That will setup <code>@student</code>, <code>@term</code>, and <code>@report_type</code> instance variables as well as the similarly named accessor methods.</p>
+
+<h3>Delegations</h3>
+
+<p>From there we could expose child attributes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:student</span><span class="p">,</span> <span class="ss">:term</span><span class="p">,</span> <span class="ss">:report_type</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="ss">:student</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:subtitle</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="ss">:report_type</span>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:start_date</span><span class="p">,</span> <span class="ss">:end_date</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="ss">:term</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And from the outside they can be accessed, preserving encapsulation, like <code>student_report.first_name</code> or <code>student_report.start_date</code>.</p>
+
+<h3>Computations</h3>
+
+<p>Then the facade can do work with the child objects:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">StudentReport</span>
+</span><span class='line'>  <span class="c1"># ... attr_reader and delegate calls</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">gpa</span>
+</span><span class='line'>    <span class="n">course_grades</span> <span class="o">=</span> <span class="n">student</span><span class="o">.</span><span class="n">course_grades_for</span><span class="p">(</span><span class="n">term</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">course_grades</span><span class="o">.</span><span class="n">sum</span><span class="o">.</span><span class="n">to_f</span> <span class="o">/</span> <span class="n">course_grades</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Exercises</h2>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<p>We have both <code>Article</code> and <code>Comment</code> models. Let&#8217;s imagine that we want to start running some statistics on them. For instance, we want to know how many total words are in the articles and its child comments.</p>
+
+<ol>
+<li>Implement a <code>ContentThread</code> processor object that wraps both an article and the set of comments.</li>
+<li>Implement a <code>word_count</code> method that calculates the total word count of the article and all comments.</li>
+<li>Proxy the <code>title</code> method so when it is called on an instance of <code>ContentThread</code> it returns the title of the article.</li>
+<li>Create a <code>commentors</code> method that fetches all the comment authors.</li>
+<li>Create a <code>last_updated</code> method that returns the most recent change to the thread, either a change to the article or to a comment.</li>
+</ol>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

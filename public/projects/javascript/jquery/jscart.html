@@ -1,0 +1,686 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JSCart - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="JSCart                              No Javascript tutorial would be complete without some kind of shopping cart. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/javascript/jquery/jscart.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          JSCart
+        </h1>
+        
+      </header>
+    
+    <p>No Javascript tutorial would be complete without some kind of shopping cart. JSCart to the rescue!  In this project we&#8217;ll build a one page store/cart where customers can add items to the cart and watch the <em>MAGIC</em> as it updates on the fly.</p>
+
+<h3>1. HTML and Styles</h3>
+
+<p>In this project we&#8217;re going to insert significant content dynamically into the HTML.  Didn&#8217;t I previously say that was a bad idea?  Kinda.  Sometimes it makes sense.  Maybe you&#8217;re loading the content from another website, maybe you want to keep most of the HTML static for caching and just update some parts with Javascript.  There are times it makes sense, so let&#8217;s try it.</p>
+
+<p>That&#8217;ll leave us with a very barebones HTML file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="cp">&lt;!doctype html&gt;</span>
+</span><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">&quot;UTF-8&quot;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;title&gt;</span>JSCart<span class="nt">&lt;/title&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&#39;stylesheet&#39;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&#39;styles.css&#39;</span><span class="nt">/&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;data.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;application.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;body&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;h1&gt;</span>Balloon-Animals-R-Us<span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;cart&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;totals&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;p&gt;&lt;span</span> <span class="na">id=</span><span class="s">&#39;cart-quantity&#39;</span><span class="nt">&gt;</span>0<span class="nt">&lt;/span&gt;</span> items in cart<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>        <span class="nt">&lt;p&gt;</span>$<span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&#39;cart-price&#39;</span><span class="nt">&gt;</span>0<span class="nt">&lt;/span&gt;</span> total<span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;inventory&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/body&gt;</span>
+</span><span class='line'><span class="nt">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note that our head now includes a <code>data.js</code> file.  For our example we&#8217;re going to type our inventory data right into <code>data.js</code>, but when doing it &quot;for real&quot; this file could retrieve the data from anywhere (a file, database, the web, etc).</p>
+
+<p>Create an <code>application.js</code> file and just start it with the document ready wrapper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The create a <code>styles.css</code> and paste in this style code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+<span class='line-number'>46</span>
+<span class='line-number'>47</span>
+<span class='line-number'>48</span>
+<span class='line-number'>49</span>
+<span class='line-number'>50</span>
+<span class='line-number'>51</span>
+<span class='line-number'>52</span>
+<span class='line-number'>53</span>
+<span class='line-number'>54</span>
+<span class='line-number'>55</span>
+<span class='line-number'>56</span>
+<span class='line-number'>57</span>
+<span class='line-number'>58</span>
+<span class='line-number'>59</span>
+<span class='line-number'>60</span>
+<span class='line-number'>61</span>
+<span class='line-number'>62</span>
+</pre></td><td class='code'><pre><code class='css'><span class='line'><span class="nt">html</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">font-family</span><span class="o">:</span> <span class="s1">&#39;Gill Sans Light&#39;</span><span class="o">,</span> <span class="s1">&#39;Helvetica&#39;</span><span class="o">,</span> <span class="s1">&#39;Arial&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">font-size</span><span class="o">:</span> <span class="m">90</span><span class="o">%</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">body</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">width</span><span class="o">:</span> <span class="m">700px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">div</span><span class="nf">#cart</span><span class="o">,</span> <span class="nt">div</span><span class="nf">#inventory</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">height</span><span class="o">:</span> <span class="m">320px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">border</span><span class="o">:</span> <span class="m">5px</span> <span class="k">solid</span> <span class="m">#999</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="m">#F0F0F0</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">div</span><span class="nf">#cart</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">width</span><span class="o">:</span> <span class="m">160px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">float</span><span class="o">:</span> <span class="k">right</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">div</span><span class="nf">#inventory</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">width</span><span class="o">:</span> <span class="m">430px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">div</span><span class="nc">.item</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">height</span><span class="o">:</span> <span class="m">120px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">width</span><span class="o">:</span> <span class="m">120px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">border</span><span class="o">:</span> <span class="m">1px</span> <span class="k">solid</span> <span class="m">#EEE</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">background</span><span class="o">:</span> <span class="m">#FFF</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+</span><span class='line'>  <span class="o">-</span><span class="n">webkit</span><span class="o">-</span><span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">border</span><span class="o">-</span><span class="n">radius</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">display</span><span class="o">:</span> <span class="k">block</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">float</span><span class="o">:</span> <span class="k">left</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">5px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">div</span><span class="nc">.item</span> <span class="nt">h3</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">0px</span> <span class="m">0px</span> <span class="m">10px</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">div</span><span class="nc">.item</span> <span class="nt">ul</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">list-style-type</span><span class="o">:</span> <span class="k">none</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">padding</span><span class="o">:</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">div</span><span class="nc">.item</span> <span class="nt">ul</span> <span class="nt">li</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">margin</span><span class="o">:</span> <span class="m">0px</span> <span class="m">0px</span> <span class="m">3px</span> <span class="m">0px</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">div</span><span class="nf">#cart</span> <span class="nt">h3</span><span class="p">{</span>
+</span><span class='line'>  <span class="k">display</span><span class="o">:</span> <span class="k">inline</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">font-size</span><span class="o">:</span> <span class="m">14px</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Load the page in your browser and you won&#8217;t see much!  It&#8217;ll just be a header and an empty cart.</p>
+
+<h3>2. Loading External Data</h3>
+
+<p>We&#8217;re going to store the inventory information in <code>data.js</code> and keep it really simple.  We&#8217;ll just store them in a Javascript array where each element of the array is one product.  The products themselves are stored using the &quot;Object Literal Notation&quot; which we saw in JSTasker.  Feel free to makeup your own products and values, but match the names of the attributes:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">rawInventory</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>  <span class="p">{</span> <span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="mf">4.99</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="s2">&quot;Monkey&quot;</span><span class="p">,</span> <span class="s2">&quot;stock&quot;</span><span class="o">:</span><span class="mi">5</span><span class="p">,</span> <span class="s2">&quot;product_id&quot;</span><span class="o">:</span><span class="mi">1</span> <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span> <span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="mf">4.99</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="s2">&quot;Dog&quot;</span><span class="p">,</span>    <span class="s2">&quot;stock&quot;</span><span class="o">:</span><span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;product_id&quot;</span><span class="o">:</span><span class="mi">2</span> <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span> <span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="mf">6.99</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="s2">&quot;Cat&quot;</span><span class="p">,</span>    <span class="s2">&quot;stock&quot;</span><span class="o">:</span><span class="mi">3</span><span class="p">,</span> <span class="s2">&quot;product_id&quot;</span><span class="o">:</span><span class="mi">3</span> <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span> <span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="mf">5.99</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="s2">&quot;Sword&quot;</span><span class="p">,</span>  <span class="s2">&quot;stock&quot;</span><span class="o">:</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;product_id&quot;</span><span class="o">:</span><span class="mi">4</span> <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span> <span class="s2">&quot;price&quot;</span><span class="o">:</span><span class="mf">7.99</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="s2">&quot;Hat&quot;</span><span class="p">,</span>    <span class="s2">&quot;stock&quot;</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;product_id&quot;</span><span class="o">:</span><span class="mi">5</span> <span class="p">}</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Javascript knows it&#8217;s an array because of the <code>[</code> and <code>]</code>.  Each object in the array is marked with <code>{</code> and <code>}</code>. Then inside the objects there are key/value pairs for the keys price, name, stock, and product_id.</p>
+
+<h4>Loading the Data</h4>
+
+<p>Go over to your <code>application.js</code>.  Let&#8217;s prove that <code>inventory</code> exists by putting this inside your document ready block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">inventory</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="nx">rawInventory</span><span class="p">);</span>
+</span><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;There are &quot;</span> <span class="o">+</span> <span class="nx">inventory</span><span class="p">.</span><span class="nx">length</span> <span class="o">+</span> <span class="s2">&quot; products in the inventory.&quot;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re taking the <code>rawInventory</code> data and turning it into a jQuery object so it&#8217;s easier to work with, then storing that into <code>inventory</code>.  Then we alert the size of that object which should display 5.  If that works then we know the data is loaded and accessible!</p>
+
+<h4>Building a Prototype</h4>
+
+<p>Now it&#8217;s going to get interesting.  We&#8217;re creating content on the fly, but it&#8217;s still wrong to have a lot of HTML in your Javascript.  What can we do?</p>
+
+<p>Let&#8217;s try putting a template into our HTML.  It&#8217;ll have the &quot;shape&quot; of an inventory item, it just won&#8217;t have any data.  Then from Javascript we can find that prototype, make copies of it, fill in the data, and inject those copies into the actual HTML.  Go over to your <code>index.html</code> and add this prototype inside the inventory DIV:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;item&#39;</span> <span class="na">id=</span><span class="s">&quot;prototype-item&quot;</span> <span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;h3&gt;&lt;/h3&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;ul&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>Price: <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;price&quot;</span><span class="nt">&gt;&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;li&gt;</span>Qty: <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;qty&quot;</span><span class="nt">&gt;&lt;/span&gt;&lt;/li&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&#39;#&#39;</span><span class="nt">&gt;</span>Add to Cart<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/ul&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and you&#8217;ll see a blank item show up.  Next let&#8217;s find this prototype from the Javascript.  Inside your document ready block of <code>application.js</code>, try this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">prototypeItem</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#prototype-item&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">prototypeItem</span><span class="p">.</span><span class="nx">detach</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and the blank inventory item is gone.  We&#8217;ve got it loaded into <code>prototypeItem</code>, so now we can create our actual product listings.</p>
+
+<h4>Building Products from the Prototype</h4>
+
+<p>We&#8217;ve got the <code>prototypeItem</code>, we&#8217;ve got the <code>inventory</code>, now we need to iterate through the inventory and inject a copy of the prototype into our listing for each one.  That&#8217;s complex, so let&#8217;s do it one step at a time.</p>
+
+<p>Add this <code>each</code> method call inside your document ready:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">inventory</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>   <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Inserting &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside the <code>each</code> block, <code>this</code> refers to the OLN object inside of <code>inventory</code>.  We can access the attributes using a dot notation like <code>this.name</code>.  Try this in your browser and ensure each of your items is alerted.</p>
+
+<p>The first step is to create a copy or a <code>clone</code> of the <code>prototypeItem</code>.  Add this inside your <code>each</code> block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">item</span> <span class="o">=</span> <span class="nx">prototypeItem</span><span class="p">.</span><span class="nx">clone</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That creates a &quot;deep clone&quot; of <code>prototypeItem</code>.  Let&#8217;s set the first attribute:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">item</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;h3&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Within the object <code>item</code>, find any H3s and replace their <code>text</code> with the value of <code>this.name</code>.  Then insert it into the inventory DIV:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#inventory&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and your items should all appear.  They&#8217;ll have names, but the other attributes are blank.</p>
+
+<p><em>On your own</em>, add more Javascript instructions to set the price and quantity.  We still have to figure out the add to cart link, but that&#8217;s the next iteration.</p>
+
+<p>One thing you&#8217;ll want to change is the item&#8217;s DIV id.  Use the <code>attr</code> method to set it to a unique id like &quot;product_6&quot; for each item.  The <code>attr</code> method takes two parameters: the name of the attribute to change and the value to change it to.  The attribute you want to change is just <code>&quot;id&quot;</code>.</p>
+
+<p>Once you&#8217;re setting the name, price, quantity, id and displaying them in the inventory, then this iteration is done.</p>
+
+<h3>3. Adding Items to the Cart</h3>
+
+<p>Those &quot;Add to Cart&quot; links are mocking us.  They don&#8217;t do anything!</p>
+
+<p>We need to add a <code>click</code> listener.  Each link will need it&#8217;s own listener, so it&#8217;s easiest to add it within your <code>inventory.each</code> loop.  Start with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">item</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;click&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Adding &quot;</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot; to the cart.&quot;</span> <span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try it in your browser.  What&#8217;s up with that &quot;undefined&quot;?  <code>this</code> isn&#8217;t what we think it is.  When the function actually gets executed, <code>this</code> refers to the item&#8217;s DIV, not the data we pulled out of the <code>inventory</code> array.  Hmmm.  What can we do with that?  Try changing you <code>alert</code> to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Adding &quot;</span> <span class="o">+</span> <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; to the cart.&quot;</span> <span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try it in the browser.  Looks promising, right?  That&#8217;s pulling the id that we set which holds the product id from the data array.  Our cart could use that information to find the item in the inventory, get its price, etc.</p>
+
+<h4>Building Up the Cart</h4>
+
+<p>It looks like we can get enough information when the &quot;Add to Cart&quot; link is clicked, but what are we going to do with it?  The cart is basically a blank DIV right now.  Let&#8217;s set it up like a spreadsheet where each inventory item has a row and a quantity ordered.</p>
+
+<p>We can use the same prototype style we did for the inventory listings.  Add this plain HTML into your cart DIV:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;cart-item&#39;</span> <span class="na">id=</span><span class="s">&#39;prototype-cart&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;h3&gt;&lt;/h3&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&#39;qty&#39;</span><span class="nt">&gt;</span>0<span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  $<span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&#39;price&#39;</span><span class="nt">&gt;&lt;/span&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Go back to your <code>application.js</code> and look at how we worked with <code>prototypeItem</code>.  Add a similar set of instructions to build up <code>cartItem</code> and <code>append</code> it to the cart DIV.  Refresh your browser and make sure a line shows up for each of your products.</p>
+
+<h4>Connecting the Click to the Cart</h4>
+
+<p>Now we need to connect the click action to the cart.  When a user clicks on an add to cart link we need to&#8230;</p>
+
+<ol>
+<li>Find the link&#8217;s DIV&#8217;s ID</li>
+<li>Find the DIV in the cart with the same ID</li>
+<li>Increment the quantity in the cart item</li>
+</ol>
+
+<p>Currently our <code>alert</code> line finds the proper <code>id</code> value.  Let&#8217;s store that into a variable named <code>targetId</code>.  Then find the actual target DIV in the cart like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">target</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;div#cart div#&#39;</span> <span class="o">+</span> <span class="nx">targetId</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then the only thing left is to properly update the quantity.  That math is a little tricky, so let&#8217;s take a smaller step:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">target</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;span.qty&#39;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s1">&#39;ME!&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and click the Add to Cart links.  You should see the associated cart quantity change from <code>0</code> to <code>ME!</code>.</p>
+
+<h4>Dealing with Strings and Numbers</h4>
+
+<p>Our cart quantity is just a string.  We want to increase it by one when the user clicks, but if we add a 1 to the contents of quantity it&#8217;ll just add strings resulting in &quot;111&quot; instead of &quot;3&quot;.  We need to&#8230;</p>
+
+<ol>
+<li>Find the current value in QTY</li>
+<li>Convert it to an integer</li>
+<li>Add one to it</li>
+<li>Store it back into QTY</li>
+</ol>
+
+<p>Let&#8217;s first find the SPAN itself and store that into a variable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">quantity</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;span.qty&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can pull out the <code>.text()</code> to get the string number then use Javascript&#8217;s <code>parseInt</code> method to convert it to an integer:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">quantity</span><span class="p">.</span><span class="nx">text</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>From there it&#8217;s just one more line to add <code>1</code> to <code>current</code> and stick it back into <code>quantity</code> &#8211; you figure it out.</p>
+
+<p>Then refresh your browser, click some links, and your cart quantities should increase numerically.</p>
+
+<h3>4. Cart Math</h3>
+
+<p>We&#8217;re plunking items into the cart.  Let&#8217;s add a little more intelligence there to update the total items count and give the user a total price.</p>
+
+<h4>Prefactoring</h4>
+
+<p>I thought I just made up the word prefactoring, but <a href="http://en.wikipedia.org/wiki/Prefactoring">Wikipedia says that it exists</a>.</p>
+
+<p>Let&#8217;s apply the same pattern we used in JSTasker to group methods into a name space.  I want to collect a few methods that will be responsible for tending the cart, just like we did with the To-Do list.  Up at the top of your <code>application.js</code>, let&#8217;s start with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">JSCart</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">updateCartItemCount</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+</span><span class='line'>  <span class="nx">updateCartTotal</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{},</span>
+</span><span class='line'>  <span class="nx">updateCart</span> <span class="o">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">updateCartItemCount</span><span class="p">();</span>
+</span><span class='line'>    <span class="k">this</span><span class="p">.</span><span class="nx">updateCartTotal</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Again we&#8217;re using the &quot;Object Literal Notation&quot; here to namespace three methods.  We&#8217;ll call <code>updateCart</code> from our click instruction, and it&#8217;ll call <code>updateCartItemCount</code> and <code>updateCartTotal</code> for us.</p>
+
+<h4>Calling the Updaters</h4>
+
+<p>Let&#8217;s start by inserting an <code>alert</code> line within <code>updateCart</code> that says &quot;Updating the cart&quot;, one in <code>updateCartItemCount</code> that says &quot;Updating the item count&quot;, and one in the <code>updateCartTotal</code> that says &quot;Updating the total&quot;.</p>
+
+<p>Refresh your browser and nothing should happen.  Why do I bother with putting in these <code>alerts</code> and checking things?  I believe in &quot;Fail Early, Fail Often&quot;.  I&#8217;m not very smart, I make mistakes (especially in Javascript), and throwing in a few alerts lets me know that things are or aren&#8217;t on the right track.  If, for instance, you forgot to declare the anonymous function for <code>updateCart</code> and instead just put instructions, your script would either fail to load OR it&#8217;d execute the <code>alert</code> as soon as it was read (when the page was loaded).  This would be quick clue that something was wrong.</p>
+
+<p>But our methods aren&#8217;t getting called yet which is correct.  Go down you <code>application.js</code> and find the <code>item.on('click'...)</code> listener.  As the last instruction there, add a call to <code>JSCart.updateCart()</code>.</p>
+
+<p>Refresh your browser, click an add to cart link, and the three alerts should pop up.  If you&#8217;re satisfied that things are wired together properly, remove the three alert lines.</p>
+
+<h4>Writing the <code>updateCartItemCount</code> Function</h4>
+
+<p>Our <code>updateCartItemCount</code> function should now be blank.  Here&#8217;s what we need it to do:</p>
+
+<ol>
+<li>Find all the items in the cart</li>
+<li>Gather the quantities specified for each one</li>
+<li>Add them together</li>
+<li>Save the result into the text span &quot;X items in cart&quot;</li>
+</ol>
+
+<h5>Finding the Items</h5>
+
+<p>Each item type has it&#8217;s own DIV with the class name &quot;cart_item&quot;.  Write a selector that finds them all and stores them into a variable named <code>items</code>.</p>
+
+<p>Try popping an alert that tells you how many items there are.  It should be the same as your number of products in the inventory.</p>
+
+<h5>Gathering the Quantities</h5>
+
+<p>We&#8217;ll need to iterate through the list of items, detect their <code>&quot;qty&quot;</code> SPAN, get it&#8217;s contents, convert it to an integer, then add that to the total.  Here&#8217;s the basic structure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">items</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#cart div.cart-item&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="nx">items</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="kd">function</span> <span class="p">(){</span>
+</span><span class='line'>  <span class="c1">// here do some magic to create a variable named value with the qty number</span>
+</span><span class='line'>  <span class="nx">total</span> <span class="o">+=</span> <span class="nx">value</span><span class="p">;</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Storing the Value</h5>
+
+<p>Then you just need to find the SPAN with ID <code>'cartQuantity'</code> and store <code>total</code> into it&#8217;s <code>text</code>.</p>
+
+<p>Refresh your browser and confirm that things are working.  Make sure your count is accurate!</p>
+
+<h4>Writing the <code>updateCartTotal</code> Function</h4>
+
+<p>Having completed the <code>updateCartItemCount</code>, it becomes apparent that we&#8217;re currently setup to do things twice.  The <code>updateCartTotal</code> function needs to do almost the same thing.  The only difference is that instead of adding the quantity into total we want to multiply quantity times price and add that.</p>
+
+<p>Refactoring necessary? Probably.  But let&#8217;s do it the simple way first.  Copy &amp; Paste!  Grab the body of <code>updateCartItemCount</code> and paste it into <code>updateCartTotal</code> count.  Then we need to make a few changes:</p>
+
+<ol>
+<li>Now <code>value</code> feels like the wrong name, rename it to <code>quantity</code></li>
+<li>After <code>quantity</code> is found, find <code>price</code></li>
+<li>Multiply <code>quantity</code> times <code>price</code> to make <code>subtotal</code></li>
+<li>Add <code>subtotal</code> to <code>total</code></li>
+<li>Change the text inserter to put <code>total</code> into the SPAN with ID <code>'cartPrice'</code></li>
+</ol>
+
+<p>I think you can do this on your own, go to it!  One little note: when you pull out the price string and want to convert it to a number, use <code>parseFloat</code> so the cents don&#8217;t get truncated.</p>
+
+<h5>I Hate Floats</h5>
+
+<p>Dealing with floating point numbers is always a pain.  At least in my experimenting, every once in awhile my total would jump to having really small fractions after the decimal.  Ugh!  In general, when working with prices, I recommend you store prices in cents so you can use integers.  But let&#8217;s just leave these as floats and fix this presentation issue.</p>
+
+<p>Find the line where you&#8217;re inserting <code>total</code> into the <code>cartQuantity</code> SPAN.  Instead of just inserting <code>total</code>, use the Javascript native method <code>toFixed</code> like this: <code>total.toFixed(2)</code>.</p>
+
+<h3>Extensions</h3>
+
+<p>This project, like most shopping carts, could go a hundred directions.  Here are some ideas to try adding on:</p>
+
+<ul>
+<li>Add a clickable link that clears the cart</li>
+<li>Add a keyboard shortcut that clears the cart</li>
+<li>Alphabetize the items in the inventory</li>
+<li>Decrease the number of items in inventory when they&#8217;re added to the cart</li>
+<li>When stock is low, change the listing to say &quot;Only X Left!&quot;</li>
+<li>When an item is out of stock, grey out or remove it from the inventory</li>
+<li>Prevent the cart from having more of an item than are in stock</li>
+<li>Add a link to remove individual items from the cart</li>
+<li>Change the cart to use a text field so the quantity could be easily manipulated and the totals updated</li>
+<li>Implement Drag &amp; Drop so the items can be dragged and dropped in the cart</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

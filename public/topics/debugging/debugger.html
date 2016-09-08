@@ -1,0 +1,448 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby Debugger - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Debugging                                      Ruby Debugger                              Tests, logging (e.g. info, warn, debug &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/debugging/debugger.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Debugging</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Ruby Debugger
+        </h1>
+        
+      </header>
+    
+    <p>Tests, logging (e.g. <code>info</code>, <code>warn</code>, <code>debug</code>), traditional output (e.g. <code>puts</code>), and raising exceptions will assist you with finding most issues. However, there are situations when you are unsure about the state of several variables within a context or the state of a complex object within a given interaction. This is when it is useful to employ an interactive debugger.</p>
+
+<p>Ruby&#8217;s <code>ruby-debug</code> is a powerful tool that allows for you to stop the execution of the application at a particular moment and to investigate and interact within that context.</p>
+
+<ul>
+<li>Output the state and value of objects, variables all available within that scope.</li>
+<li>Move step-by-step through the code to ensure that your mental model of the execution maps to the actual execution.</li>
+<li>Change the state of objects to quickly test the effects within the system</li>
+</ul>
+
+<h2>Getting Started</h2>
+
+<p>The debugger is an external gem. You can install in manually:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install debugger</span></code></pre></td></tr></table></div></figure>
+
+<p><em>Note</em>: if you&#8217;re using 1.8.7 install the gem named <code>ruby-debug</code>. Then, as soon as possible, stop using Ruby 1.8.7 :)</p>
+
+<h3>In Plain Ruby</h3>
+
+<p>Using the debugger in a normal Ruby application is straightforward:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;debugger&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># your code here</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">debugger</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># your other code here</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You require the library, then call the <code>debugger</code> method which is defined by the library. When you run the code and it hits the <code>debugger</code> call, you&#8217;ll drop into an interactive prompt with many commands available. Skip down to Basic Usage.</p>
+
+<h3>In Rails</h3>
+
+<p>When you start your Rails server or console you have to explicitly enable the debugger. For the server:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails server --debug
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And for the console:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>rails console --debug
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now the debugger is loaded, and any call to the method <code>debugger</code> in your code will trigger it.</p>
+
+<h4>Interrupting Request/Response Execution</h4>
+
+<p>Wherever you want to inspect execution add a call to <code>debugger</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">debugger</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="c1">#...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If the debugger is <em>not</em> loaded when execution hits the <code>debugger</code> line, there will be a warning in the output log. </p>
+
+<p>If it is properly loaded, execution will pause and drop you into the debugger interface. If you&#8217;re in the middle of a request this console will appear in the window/process where your server is normally outputting its logging information:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="no">Timestamp</span><span class="o">]</span> <span class="no">INFO</span>  <span class="no">WEBrick</span><span class="o">::</span><span class="no">HTTPServer</span><span class="c1">#start: pid=78725 port=3000</span><span class="sr"></span>
+</span><span class='line'><span class="sr">/path/</span><span class="n">to</span><span class="o">/</span><span class="n">your</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">controllers</span><span class="o">/</span><span class="n">articles_controller</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">19</span>
+</span><span class='line'><span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'><span class="p">(</span><span class="n">rdb</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which can be read like this:</p>
+
+<ul>
+<li>Line 1: Normal server startup line</li>
+<li>Line 2: The line of code containing the call to <code>debugger</code></li>
+<li>Line 3: The next line of code pending execution</li>
+<li>Line 4: The debugger prompt</li>
+</ul>
+
+<p>Now you have incredible power available to you with a few simple commands.</p>
+
+<h2>Basic Usage</h2>
+
+<h4><code>continue</code></h4>
+
+<p>Say you figure out the issue and you&#8217;re ready to finish the request. Enter <code>continue</code> and execution will keep running from wherever it paused.</p>
+
+<h4><code>quit</code></h4>
+
+<p>Rarely you want to exit the application all together. Quit will halt execution without finishing the request.</p>
+
+<h4><code>list</code></h4>
+
+<p>The <code>list</code> instructions shows the context of the current code, five lines before and four lines after the current execution point.</p>
+
+<h4><code>next</code></h4>
+
+<p>The <code>next</code> instruction will run the following instruction in the current context and move the marker to the next line in that context. Given this controller code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">debugger</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">),</span> <span class="n">notice</span><span class="p">:</span> <span class="s2">&quot;Your article was created.&quot;</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>See how <code>next</code> moves the execution marker:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">/path/to/your/app/controllers/articles_controller.rb:19</span>
+</span><span class='line'><span class="go">if @article.save</span>
+</span><span class='line'><span class="go">(rdb:2) next</span>
+</span><span class='line'><span class="go">/path/to/your/app/controllers/articles_controller.rb:20</span>
+</span><span class='line'><span class="go">redirect_to article_path(@article), notice: &quot;Your article was created.&quot;</span>
+</span><span class='line'><span class="go">(rdb:2) </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It advances from the <code>if @article.save</code> to the <code>redirect_to</code>.</p>
+
+<h4><code>step</code></h4>
+
+<p>The <code>step</code> command, on the other hand, will move the execution marker to the next instruction to be executed even in a called method. Using the same controller code as before, see how <code>step</code> has a different effect:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">/path/to/your/app/controllers/articles_controller.rb:19</span>
+</span><span class='line'><span class="go">if @article.save</span>
+</span><span class='line'><span class="go">(rdb:2) step</span>
+</span><span class='line'><span class="go">/Users/you/.rvm/gems/ruby-1.9.2-p290@merchant/gems/activerecord-3.0.9/lib/active_record/transactions.rb:239</span>
+</span><span class='line'><span class="go">rollback_active_record_state! do</span>
+</span><span class='line'><span class="go">(rdb:2) </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Execution has now paused inside the implementation of <code>.save</code> within <code>ActiveRecord</code>. </p>
+
+<h4><code>eval</code> Ruby Code</h4>
+
+<p>You can use the <code>eval</code> instruction to run arbitrary ruby or display the value of a variable. For instance, to see the value of <code>@product</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">/path/to/your/app/controllers/articles_controller.rb:19</span>
+</span><span class='line'><span class="go">if @product.save</span>
+</span><span class='line'><span class="go">(rdb:8) eval @article</span>
+</span><span class='line'><span class="go">#&lt;Article id: nil, title: nil, body: nil, created_at: nil, updated_at: nil, author_name: &quot;Stan&quot;, editor_id: nil&gt; </span>
+</span><span class='line'><span class="go">(rdb:8) </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Watching Variables with <code>display</code></h4>
+
+<p>Typically when running the debugger you&#8217;re interested in how a variable changes over a series of instructions. First, let&#8217;s move the debugger call up one line in our action:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="n">debugger</span>
+</span><span class='line'>  <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="c1">#...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>I run that code then use the <code>display</code> command like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='irb'><span class='line'><span class="go">/path/to/your/app/controllers/articles_controller.rb:18</span>
+</span><span class='line'><span class="go">@article = Article.new(params[:article])    </span>
+</span><span class='line'><span class="go">(rdb:2) display @article</span>
+</span><span class='line'><span class="go">1: @article = </span>
+</span><span class='line'><span class="go">(rdb:2) next</span>
+</span><span class='line'><span class="go">1: @article = #&lt;Article id: nil, title: &#39;Hello&#39;, body: &#39;World&#39;&gt; </span>
+</span><span class='line'><span class="go">/path/to/your/app/controllers/articles_controller.rb:19</span>
+</span><span class='line'><span class="go">if @article.save</span>
+</span><span class='line'><span class="go">(rdb:2) next</span>
+</span><span class='line'><span class="go">1: @product = #&lt;Article id: 22, title: &#39;Hello&#39;, body: &#39;World&#39;&gt;</span>
+</span><span class='line'><span class="go">/path/to/your/app/controllers/articles_controller.rb:22</span>
+</span><span class='line'><span class="go">redirect_to article_path(@article), notice: &quot;Your article was created.&quot;</span>
+</span><span class='line'><span class="go">(rdb:2) </span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>In line 3 I tell the debugger to <code>display @article</code>. </li>
+<li>It will then show a line like #4 for each prompt. <code>@article</code> starts as <code>nil</code> which shows up blank like running <code>puts nil</code>. </li>
+<li>Then after I call <code>next</code> and a value is assigned to <code>@article</code>, the value appears on line 6. </li>
+<li>Notice that the display persists for later instructions like line 10. </li>
+</ul>
+
+<p>In fact, when you <code>display</code> a variable it will show up for all further debugger calls in that process. So if your server stays running, you&#8217;ll see variables displayed from a previous request&#8217;s debugging. </p>
+
+<p>Want to stop displaying a variable? Call <code>undisplay</code> with the number displayed next to the variable. So in this case, I&#8217;d see the <code>1:</code> next to <code>@article</code> and call <code>undisplay 1</code>.</p>
+
+<h4>Dropping into IRB</h4>
+
+<p>Not satisfied with those options? Call the <code>irb</code> method and the debugger will drop you into a normal IRB console. Use all your normal Ruby functions and tricks, then <code>exit</code> to get back to the debugger. You can continue to invoke other instructions and any data you created/changed in the IRB session is persisted in the debugging session.</p>
+
+<h3>Shortcuts</h3>
+
+<p>Almost all of the commands (e.g. <code>continue</code>,<code>next</code>,<code>step</code>) can be executed by using the first letter of the command. Allowing you to <code>continue</code> by entering the letter <code>c</code>.</p>
+
+<p>All the commands that you have executed are in a command buffer that you can interact with by using the arrow keys. The <code>up-arrow</code> will move you back in history by one command. The <code>down-arrow</code> will move you forward in history.</p>
+
+<p>The last command that you executed will be executed again by pressing the <code>return</code> key. This is extremely useful if you want to continually <code>step</code> through the code and want to save yourself the requirement of typing <code>s</code> or accessing the previous commands in the history.</p>
+
+<h2>Exercises</h2>
+
+<div class="note">
+  <p>Use the Blogger sample application to complete the exercises in this section. See the <a href="/topics/sample_project.html">Setup Instructions</a> for help.</p>
+</div>
+
+<ol>
+<li>Start the server <em>without</em> <code>--debug</code>, then call <code>debugger</code> in the code, and observe the output</li>
+<li>Start the server <em>with</em> <code>--debug</code> and add a breakpoint to a controller method. Trigger that breakpoint and experiment with each of these commands:
+
+<ul>
+<li><code>eval</code></li>
+<li><code>list</code></li>
+<li><code>next</code></li>
+<li><code>step</code></li>
+<li><code>continue</code></li>
+</ul></li>
+<li><code>debugger</code> is just a method. Try combining it with a conditional branch to only execute on a certain pathway through your code (like a <code>nil</code> input, for example).</li>
+</ol>
+
+<h2>References</h2>
+
+<ul>
+<li>Rails guide on debugging and the debugger: <a href="http://guides.rubyonrails.org/debugging_rails_applications.html">http://guides.rubyonrails.org/debugging_rails_applications.html</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

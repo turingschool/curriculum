@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript Outside of the Browser - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="JavaScript & AJAX                                      JavaScript Outside of the Browser                              What is &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/javascript/outside_the_browser.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">JavaScript & AJAX</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          JavaScript Outside of the Browser
+        </h1>
+        
+      </header>
+    
+    <h2>What is Node?</h2>
+
+<p>Node.js is a server-side platform built on Chrome&#8217;s V8 JavaScript runtime. It uses non-blocking I/O and asynchronous events. It&#8217;s lightweight, efficient, and commonly used for real-time web applications.</p>
+
+<h3>History</h3>
+
+<p>Node.js was released by Ryan Dahl in 2009. Ryan didn&#8217;t set out to create a server-side JavaScript implementation. It was the asynchronous, non-blocking part that he was interested in. Ryan originally tried to accomplish this using C, Lua, and Haskell. Ryan turned his attention to JavaScript when Google open-sourced its V8 JavaScript engine.</p>
+
+<h2>Getting Started</h2>
+
+<h3>Installing Node</h3>
+
+<p>The easiest way to install Node is to Head over to the <a href="http://nodejs.org/">official website</a> and download the installer. Alternatively, you can use <a href="http://thechangelog.com/install-node-js-with-homebrew-on-os-x/">Homebrew</a> or <a href="https://github.com/creationix/nvm">nvm</a>.</p>
+
+<p>Installing Node should automatically install <a href="http://npmjs.org">npm</a> as well. You can test to see if it&#8217;s installed by typing <code>which npm</code> into the terminal.</p>
+
+<h3>The Node REPL</h3>
+
+<p>Node comes with a REPL built-in. Unlike Ruby, this isn&#8217;t a separate binary like <code>irb</code>. You can begin the Node REPL by typing <code>node</code> at the command line.</p>
+
+<p>Try the following:</p>
+
+<ul>
+<li><code>2 + 2;</code></li>
+<li><code>console.log('Hello');</code></li>
+<li><code>var x = 42;</code></li>
+<li><code>x</code></li>
+<li><code>var hello = function () { return 'hello'; };</code></li>
+<li><code>console.log(hello());</code></li>
+</ul>
+
+<p>Press <code>^C</code> twice to exit the REPL.</p>
+
+<h3>Running a Node Program from the Command Line</h3>
+
+<p>Create a new file called <code>sample.js</code> with the following content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">hello</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="k">return</span> <span class="s2">&quot;hello, world&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">hello</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then run it from the terminal:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>node sample.js
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Modules and CommonJS</h2>
+
+<p>Node has a <a href="http://nodejs.org/docs/latest/api/modules.html#modules_modules">simple module system</a> based on the <a href="http://wiki.commonjs.org/wiki/Modules/1.1">CommonJS module specification</a>. Node files and modules have a one-to-one correspondence.</p>
+
+<p>To require a module, <code>foo.js</code>, you would do the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./foo.js&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The file extension is optional and the variable name is arbitrary. You can call it anything you&#8217;d like, but you must store it in a variable. The following is also valid:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./foo&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You must explicitly include a module in every file you use it in. Requiring a module in a top-level file will not make it available throughout your application.</p>
+
+<h3>Requiring Built-in Modules</h3>
+
+<p>Node has an intentionally small standard library. The standard library is documented in the <a href="http://nodejs.org/documentation/api/">Node API Documentation</a>.</p>
+
+<p>The standard library can be required from any Node.js program. You do not have to give a relative path. To use the HTTP library, require it as follows:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Using Events and EventEmitter</h3>
+
+<p>You can also require specific parts of a module.</p>
+
+<p>EventEmitter is a class that is used throughout Node (e.g. in the <code>http</code> module) and many third-party libraries and allows Node applications to respond to events that happen during the lifetime of the application. A server would want to respond requests or connections. In this case, a connection to the server would be considered an event.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;events&#39;</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>EventEmitter</code> class allows you to create an object that can listen for and respond to events.</p>
+
+<p>Create a file named <code>events.js</code> with the following content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">EventEmitter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;events&#39;</span><span class="p">).</span><span class="nx">EventEmitter</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventEmitter</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;A client has connected.&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;disconnect&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;A client has disconnected.&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">emit</span><span class="p">(</span><span class="s1">&#39;disconnect&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the file using <code>node events.js</code>.</p>
+
+<h3>A Simple HTTP Server</h3>
+
+<p>Create a file <code>server.js</code>.</p>
+
+<p>The built-in <code>http.Server</code> module inherits from <code>EventEmitter</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;The HTTP server is listening at Port 3000.&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span> <span class="s2">&quot;text/plain&quot;</span><span class="p">});</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&quot;Hello World&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When the server receives a request, a &quot;request&quot; event is emitted and the server responds with a simple HTTP response.</p>
+
+<p>Try it in your terminal <code>node server.js</code></p>
+
+<p>In traditional web servers, a new thread is created every time a request is received. The program exits after the request is sent. In Node, your server runs on a single thread that waits for requests. This means that we can store data in variables and this state will persist between requests. Let&#8217;s modify our server to take advantage of this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;http&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">()</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">3000</span><span class="p">,</span> <span class="s1">&#39;localhost&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">counter</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;request&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span> <span class="s2">&quot;text/plain&quot;</span><span class="p">});</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&quot;Hello World\n&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s2">&quot;This is Request #&quot;</span> <span class="o">+</span> <span class="o">++</span><span class="nx">counter</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We can use <code>curl</code> to test the server.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl http://localhost:3000/
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Our server should respond with the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>Hello World
+</span><span class='line'>This is Request <span class="c">#1.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The request number will increment upon further requests. If you use a web browser, you&#8217;ll notice that the request number might increment by 2 each time you make a request on the server. This is because some browsers make a request for a favicon each time as well.</p>
+
+<h3>Creating Modules</h3>
+
+<p>Creating modules in Node is simple, but you must explicitly export any functionality that you want to make available.</p>
+
+<p>Create two files: <code>foo.js</code> and <code>bar.js</code>.</p>
+
+<p><code>bar.js</code> should have the following content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">exports</span><span class="p">.</span><span class="nx">addTwo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">addend</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">addend</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">addThree</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">addend</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">addend</span> <span class="o">+</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>foo.js</code> should have the following content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./bar&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">bar</span><span class="p">.</span><span class="nx">addTwo</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span> <span class="c1">// Logs 4.</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Since we only exported `addTwo`, attempting to use `addThree` will throw an exception.</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">bar</span><span class="p">.</span><span class="nx">addThree</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span> <span class="c1">// TypeError: Object #&lt;Object&gt; has no method &#39;addThree&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you are only exporting one function or object, you can use <code>module.exports</code> instead of defining properties on the <code>exports</code> object.</p>
+
+<p>Replace the contents of <code>bar.js</code> with the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">addend</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">addend</span> <span class="o">+</span> <span class="mi">2</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Replace the contents of <code>foo.js</code> with the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">addTwo</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./bar&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">addTwo</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span> <span class="c1">// Logs 4.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>package.json</h2>
+
+<p><code>package.json</code> is a manifest that contains information about your Node application/module and its dependencies. You can create a <code>package.json</code> file by hand or you can let npm guide you through the process using the following command:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>npm init
+</span></code></pre></td></tr></table></div></figure>
+
+<p>npm will ask you a series of questions about your application.</p>
+
+<p><code>package.json</code> can contain any data you want, but certain properties have particular meanings in Node.</p>
+
+<p>Here is an example of a <code>package.json</code> manifest.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'>{
+</span><span class='line'>  "name": "example-application",
+</span><span class='line'>  "version": "0.0.0",
+</span><span class='line'>  "description": "An example Node.js application.",
+</span><span class='line'>  "main": "index.js",
+</span><span class='line'>  "scripts": {
+</span><span class='line'>    "test": "mocha ./test"
+</span><span class='line'>  },
+</span><span class='line'>  "author": "Jumpstart Lab",
+</span><span class='line'>  "license": "MIT"
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+<p>For more information on <code>package.json</code>, please refer to <a href="http://browsenpm.org/package.json">Nodejitsu&#8217;s <code>package.json</code> cheatsheet</a>.</p>
+
+<h2>npm</h2>
+
+<p><a href="http://npmjs.org">npm</a> is the package manager for node.</p>
+
+<p>npm creates a <code>node_modules</code> folder in your current directory and downloads modules and their dependencies into that folder.</p>
+
+<p>Modules in your <code>node_modules</code> folder can be required without using relative paths.</p>
+
+<p>From the command line, type the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'>npm install request</span></code></pre></td></tr></table></div></figure>
+
+<p>This will install the <code>request</code> module and all of its dependencies into your local <code>node_modules</code> folder.</p>
+
+<p>The following command will record the dependency in your <code>package.json</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>npm install request --save
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The example <code>package.json</code> from above should now look as follows:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'>{
+</span><span class='line'>  "name": "example",
+</span><span class='line'>  "version": "0.0.0",
+</span><span class='line'>  "description": "An example Node application.",
+</span><span class='line'>  "main": "index.js",
+</span><span class='line'>  "scripts": {
+</span><span class='line'>    "test": "mocha ./test"
+</span><span class='line'>  },
+</span><span class='line'>  "author": "Jumpstart Lab",
+</span><span class='line'>  "license": "MIT",
+</span><span class='line'>  "dependencies": {
+</span><span class='line'>    "request": "^2.40.0"
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>node_modules</code> directory is typically not checking into version control (by way of <code>.gitignore</code>). This means that you when you clone a repository, you won&#8217;t get the dependencies along with it.</p>
+
+<p>The following command scans <code>package.json</code> for any dependencies and installs them.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>npm install
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Sometimes you want a library in development that you don&#8217;t necessarily need in production. In this case, you would use the following command:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>npm install jasmine-node --save-dev
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This will install the module and add it to your <code>package.json</code> as a <code>devDependency</code>. The example <code>package.json</code> file now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'>{
+</span><span class='line'>  "name": "example",
+</span><span class='line'>  "version": "0.0.0",
+</span><span class='line'>  "description": "An example Node application.",
+</span><span class='line'>  "main": "index.js",
+</span><span class='line'>  "scripts": {
+</span><span class='line'>    "test": "mocha ./test"
+</span><span class='line'>  },
+</span><span class='line'>  "author": "Jumpstart Lab",
+</span><span class='line'>  "license": "MIT",
+</span><span class='line'>  "dependencies": {
+</span><span class='line'>    "request": "^2.40.0"
+</span><span class='line'>  },
+</span><span class='line'>  "devDependencies": {
+</span><span class='line'>    "jasmine-node": "^1.14.5"
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+<p>In addition to creating web servers in Node, you can also create command line utilities. If we wanted to install Jasmine as a command line utility, we would need to install it globally.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo npm install -g jasmine-node
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>-g</code> flag signifies that you&#8217;d like to install the binary globally. By default, you&#8217;ll need to use <code>sudo</code> to install global binaries.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

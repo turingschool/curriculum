@@ -1,0 +1,864 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Getting Started with Sequel - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Getting Started with Sequel                              Sequel is a library for interacting with databases from &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/sql/sequel.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Getting Started with Sequel
+        </h1>
+        
+      </header>
+    
+    <p>Sequel is a library for interacting with databases from Ruby.</p>
+
+<p>This tutorial is geared towards developers who have just finished our <a href="/topics/sql/fundamental_sql.html">Fundamental SQL</a> tutorial.</p>
+
+<h2>Getting Started</h2>
+
+<p>In the course of this tutorial we&#8217;ll build a small sample project. Create a project directory we&#8217;ll refer to as <code>sequel_tutorial</code>.</p>
+
+<h3><code>Gemfile</code></h3>
+
+<p>Within that directory, create a <code>Gemfile</code> that has the following contents.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sequel&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Save it and run <code>bundle</code> from the project directory.</p>
+
+<h3>Create the Database</h3>
+
+<p>Let&#8217;s see if we can get things rolling:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec irb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then, within IRB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; Bundler.require</span><span class='line output'>=&gt; [&lt;Bundler::Dependency type=:runtime name="sequel" requirements="&gt;= 0"&gt;, &lt;Bundler::Dependency type=:runtime name="sqlite3" requirements="&gt;= 0"&gt;]</span><span class='line output'>&gt; database = Sequel.sqlite('database.sqlite3')</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Database: {:adapter=&gt;:sqlite, :database=&gt;"database.sqlite3"}&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We created a database in the file <code>database.sqlite3</code> just by attempting to connect to it. SQLite creates the file if it&#8217;s not found.</p>
+
+<p><strong>NOTE</strong>: PostgreSQL will <em>not</em> automatically create a database. To use Postgres with Sequel you&#8217;ll need to create the database first using <a href="http://www.postgresql.org/docs/8.3/static/app-createdb.html">the <code>createdb</code> tool</a></p>
+
+<p>After connecting to the database we can try running a query:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; database.run "CREATE TABLE people (id integer primary key autoincrement, name varchar(255))"</span><span class='line output'>=&gt; nil</span><span class='line output'>&gt; database[:people].select</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people`"&gt;</span><span class='line output'>&gt; database[:people].select.to_a</span><span class='line output'>=&gt; []</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Not surprisingly, there are no people in our table yet.</p>
+
+<h3>Layers of Abstraction</h3>
+
+<p>Sequel offers you three interaction patterns with your database, detailed below.</p>
+
+<h2>Raw SQL</h2>
+
+<p>You can use Sequel as a dumb bridge between Ruby-land and the SQL database. This patterns is the &quot;closest to the metal&quot;, so you can do anything that&#8217;s possible in SQL &#8211; but you have to be totally comfortable with writing SQL. </p>
+
+<p>Any errors or typos in your SQL fragments are going to get passed through to the database, with possibly catastrophic effects.</p>
+
+<h3>Using <code>#run</code></h3>
+
+<p>Above we used the <code>#run</code> method to create a table within the database. We pass it a string exactly like we&#8217;re typing the SQL at the database&#8217;s native prompt.</p>
+
+<p>We could execute a <code>SELECT</code> using <code>#run</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; database.run "SELECT * from people;"</span><span class='line output'>=&gt; nil</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>But <code>nil</code>? The <code>#run</code> method blindly executes a SQL fragment and does not pay attention to the return value. The <code>#run</code> method <em>always</em> returns <code>nil</code>.</p>
+
+<h3>Using <code>#fetch</code></h3>
+
+<h4>Basic Usage</h4>
+
+<p>The <code>#fetch</code> method is used when you want to gather the response from the database:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; results = database.fetch "SELECT * from people;"</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * from people;"&gt;</span><span class='line output'>&gt; results.to_a</span><span class='line output'>=&gt; []</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Or, if we could actually insert some data:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; database.run "INSERT INTO people(name) VALUES('George')"</span><span class='line output'>=&gt; nil</span><span class='line output'>&gt; database.run "INSERT INTO people(name) VALUES('Thomas')"</span><span class='line output'>=&gt; nil</span><span class='line output'>&gt; database.run "INSERT INTO people(name) VALUES('Douglas')"</span><span class='line output'>=&gt; nil</span><span class='line output'>&gt; results = database.fetch "SELECT * from people;"</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * from people;"&gt;</span><span class='line output'>&gt; results.to_a</span><span class='line output'>=&gt; [{:id=&gt;1, :name=&gt;"George"}, {:id=&gt;2, :name=&gt;"Thomas"}, {:id=&gt;3, :name=&gt;"Douglas"}]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You can see that <code>#fetch</code> returned a <code>Dataset</code> object. When converted to an array with <code>#to_a</code>, you get out an array of hashes. Recall that in database query results the order matters. The array here preserves the ordering as they came out of the DB, then each row is represented as a hash. You could then iterate through those hashes and do something interesting.</p>
+
+<h4>With a Block</h4>
+
+<p>The <code>#fetch</code> method also supports passing in a block which is run on each result:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; database.fetch "SELECT * from people;" do |data|</span><span class='line output'>&gt;   puts data[:name]</span><span class='line output'>&gt; end</span><span class='line output'>George</span><span class='line output'>Thomas</span><span class='line output'>Douglas</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * from people;"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The block is executed once for each row in the returned data.</p>
+
+<h4>As an Enumerator</h4>
+
+<p>You&#8217;ve seen that <code>#fetch</code> is returning an instance of <code>Sequel::SQLite::Dataset</code>. Digging into that object&#8230;</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><br><br><br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; Sequel::SQLite::Dataset.ancestors</span><span class='line output'>=&gt; [Sequel::SQLite::Dataset, Sequel::SQLite::DatasetMethods, Sequel::Dataset, Sequel::SQL::StringMethods, Sequel::SQL::OrderMethods, Sequel::SQL::NumericMethods, Sequel::SQL::InequalityMethods, Sequel::SQL::ComplexExpressionMethods, Sequel::SQL::CastMethods, Sequel::SQL::BooleanMethods, Sequel::SQL::AliasMethods, Enumerable, Object, Kernel, BasicObject]</span><span class='line output'>&gt; Sequel::SQLite::Dataset.ancestors.include? Enumerable</span><span class='line output'>=&gt; true</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>A <code>Dataset</code> acts as a Ruby enumerator. So we can use all our favorite collection methods like <code>#each</code>, <code>#collect</code>, <code>#inject</code>, etc:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; database.fetch("SELECT * from people;").collect{|data| data[:name]}</span><span class='line output'>=&gt; ["George", "Thomas", "Douglas"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>There Is No Step 3</h3>
+
+<p>If you&#8217;re comfortable working at the lowest level of abstraction, <code>#run</code> and <code>#fetch</code> are all you need!</p>
+
+<h2>Abstracted SQL</h2>
+
+<p>Using SQL fragments is error/typo prone and can be a security issue if you accidentially inject user input into the middle of query strings.</p>
+
+<p>Sequel offers you wrapper methods that make the most important SQL functions easier to use.</p>
+
+<h3>On the <code>Database</code> Object</h3>
+
+<p>Continuing from the previous examples, we have a <code>database</code> object:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; database.inspect</span><span class='line output'>=&gt; "#&lt;Sequel::SQLite::Database: {:adapter=&gt;:sqlite, :database=&gt;\"database.sqlite3\"}&gt;"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html">full API lists all available methods</a>, but let&#8217;s look at some of the most useful.</p>
+
+<h4><code>#create_table</code></h4>
+
+<p><a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-create_table">The <code>#create_table</code> method</a> provides you a simplified way to create tables using a Ruby DSL:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">database</span><span class="o">.</span><span class="n">create_table</span> <span class="ss">:addresses</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">primary_key</span> <span class="ss">:id</span>
+</span><span class='line'>  <span class="nb">String</span>      <span class="ss">:line_1</span><span class="p">,</span>  <span class="ss">:size</span> <span class="o">=&gt;</span> <span class="mi">255</span>
+</span><span class='line'>  <span class="nb">String</span>      <span class="ss">:city</span>
+</span><span class='line'>  <span class="nb">String</span>      <span class="ss">:state</span><span class="p">,</span>   <span class="ss">:size</span> <span class="o">=&gt;</span> <span class="mi">2</span>
+</span><span class='line'>  <span class="nb">String</span>      <span class="ss">:zipcode</span><span class="p">,</span> <span class="ss">:size</span> <span class="o">=&gt;</span> <span class="mi">5</span>
+</span><span class='line'>  <span class="nb">Integer</span>     <span class="ss">:person_id</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s equivalent to this SQL:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">addresses</span><span class="p">(</span><span class="n">id</span> <span class="nb">INTEGER</span> <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="n">AUTOINCREMENT</span><span class="p">,</span> <span class="n">line_1</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="n">city</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">),</span> <span class="k">state</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">zipcode</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span> <span class="n">person_id</span> <span class="nb">INT</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the Ruby fragment above in your IRB session and you&#8217;ll get back <code>nil</code>. The <code>create_table</code> method always returns <code>nil</code>. Did it work?</p>
+
+<h4><code>#schema</code></h4>
+
+<p>You can check out the existance of and column definitions for a table with the <code>#schema</code> method:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><br><br><br></pre></td><td class='code'><pre><code><span class='line output'>&gt; database.schema(:addresses)</span><span class='line output'>=&gt; [[:id, {:allow_null=&gt;false, :default=&gt;nil, :primary_key=&gt;true, :db_type=&gt;"integer", :type=&gt;:integer, :ruby_default=&gt;nil}], [:name, {:allow_null=&gt;true, :default=&gt;nil, :primary_key=&gt;false, :db_type=&gt;"varchar(31)", :type=&gt;:string, :ruby_default=&gt;nil}], [:quantity, {:allow_null=&gt;true, :default=&gt;nil, :primary_key=&gt;false, :db_type=&gt;"integer", :type=&gt;:integer, :ruby_default=&gt;nil}]]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Which breaks down each column, its type, and options.</p>
+
+<h4>Other Table Manipulations</h4>
+
+<p>There are other methods for common table manipulations including:</p>
+
+<ul>
+<li><a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-add_column"><code>add_column</code></a></li>
+<li><a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-rename_column"><code>rename_column</code></a></li>
+<li><a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-drop_column"><code>drop_column</code></a></li>
+<li><a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-set_column_default"><code>set_column_default</code></a></li>
+<li><a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-set_column_type"><code>set_column_type</code></a></li>
+</ul>
+
+<h4><code>#from</code></h4>
+
+<p>The method you&#8217;ll use most frequently is <code>#from</code> which returns a <code>Sequel::Dataset</code> object.</p>
+
+<p>If you <a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-from">look at the <code>#from</code> documentation</a>, you&#8217;ll see this example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">DB</span><span class="o">.</span><span class="n">from</span><span class="p">(</span><span class="ss">:items</span><span class="p">)</span> <span class="c1"># SELECT * FROM items</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>How is that useful? Most of the time you want to append <code>WHERE</code> clauses on to your <code>SELECT</code> to scope down the query. The key here is that Sequel uses a <em>delayed query</em> pattern. It doesn&#8217;t actually run the database query until you <strong>need</strong> the data. </p>
+
+<p>When you run <code>#from</code> you get back a <code>Dataset</code> object that you can continue to build upon, adding sorts, scopes, and other SQL features. Only when you call <code>#to_a</code> or iterate over the enumeration will the data actually be fetched from the database.</p>
+
+<p>So what can you do with a <code>Dataset</code>? Let&#8217;s see&#8230;</p>
+
+<h3>On the <code>Dataset</code> Object</h3>
+
+<p>Once you have a <code>Dataset</code> you can refine your query using methods that imitate the functionality of SQL. You can chain together the methods below to build up a complex query.</p>
+
+<p>For each example, assume you&#8217;ve done something like this to create <code>dataset</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">dataset</span> <span class="o">=</span> <span class="n">database</span><span class="o">.</span><span class="n">from</span><span class="p">(</span><span class="ss">:people</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4><code>#select</code></h4>
+
+<p>Use <a href="http://sequel.jeremyevans.net/rdoc/classes/Sequel/Database.html#method-i-select">the <code>#select</code> method</a> to define which of the available columns you want to retrieve. </p>
+
+<p>If you pass in no parameter, it&#8217;ll default to all of them (like <code>*</code>).</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.select</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people`"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Pass in a single symbol, and only that field will be retrieved</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.select(:id)</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT `id` FROM `people`"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Pass in an array of symbols to retrieve multiple fields:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.select([:id, :name])</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT (`id`, `name`) FROM `people`"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4><code>#where</code> / <code>#filter</code></h4>
+
+<p>The <code>#where</code> and <code>#filter</code> methods are effectively aliases, though the query parameter documentation <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-filter">is under the <code>#filter</code> method</a>. Use either method to scope your queries to only matching rows.</p>
+
+<h5>Single Attribute</h5>
+
+<p>Most often you&#8217;ll want to match a specific attribute:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.where(:id =&gt; 1)</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE (`id` = 1)"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h5>Single Attribute In a Set</h5>
+
+<p>Or maybe you want to get all matches within a set:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.where(:id =&gt; [2,3])</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE (`id` IN (2, 3))</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h5>Chaining</h5>
+
+<p>It is very common to chain multiple scopes together, like you could do this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.where(:name =&gt; 'George').where([[:id =&gt; [1,2]]])</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` = 'George') AND (`id` IN (1, 2)))"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Keep calling <code>.where</code> and it&#8217;ll add on more <code>WHERE</code> clauses. A row has to match <em>all</em> the <code>WHERE</code> clauses to be returned.</p>
+
+<p>You can use <code>#or</code> to allow rows which only match one or more of the <code>WHERE</code> clauses:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.where(:name =&gt; 'George').or([[:id =&gt; [2,3]]])</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` = 'George') OR (`id` IN (2, 3)))"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4><code>#grep</code></h4>
+
+<p>You&#8217;ll use <code>#where</code> when you know exactly what you want, but the <code>#grep</code> method is handy when you want to do a fuzzy match.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.grep(:name, 'G%')</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((`name` LIKE 'G%'))"&gt;</span><span class='line output'>&gt; dataset.grep(:name, 'G%').to_a</span><span class='line output'>=&gt; [{:id=&gt;1, :name=&gt;"George"}]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The first parameter specified is the field to match. The second is a match string.</p>
+
+<h5>Writing Match Strings</h5>
+
+<p>Any literal letters are required matches against the row&#8217;s data</p>
+
+<p>The <code>%</code> means &quot;zero or more of any characters&quot;. So <code>'G%'</code> matches <code>&quot;George&quot;</code> because there&#8217;s a <code>&quot;G&quot;</code> then other characters. <code>'G%'</code> does <strong>not</strong> match <code>&quot;SING&quot;</code> because there are letters before the <code>&quot;G&quot;</code>. To match both <code>&quot;George&quot;</code> and <code>&quot;SING&quot;</code>, your match string would be <code>&quot;%G%&quot;</code>.</p>
+
+<p>The <code>_</code> means &quot;exactly one character&quot;. So <code>'G_'</code> matches <code>&quot;Go&quot;</code> but not <code>&quot;George&quot;</code>.</p>
+
+<p>Most databases do these matches <em>case sensitive</em>, so <code>'g%'</code> would not match <code>'George'</code>. To search in a case-insensitive fasion, use the SQL <code>lower</code> function:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.grep(Sequel.function(:lower, :name), 'g%')</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE ((lower(`name`) LIKE 'g%'))"&gt;</span><span class='line output'>&gt; dataset.grep(Sequel.function(:lower, :name), 'g%').to_a</span><span class='line output'>=&gt; [{:id=&gt;1, :name=&gt;"George"}]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4><code>#limit</code></h4>
+
+<p>Use <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-limit">the <code>#limit</code> method</a> to limit how many response rows you&#8217;ll accept from the database.</p>
+
+<p>For instance, when you&#8217;re searching based on an <code>id</code> column, you&#8217;re probably only expecting a single row back since the ID should be unique. Write the query like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.select(:id, :name).where(:id =&gt; 1).limit(1)</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT `id`, 'name' FROM `people` WHERE (`id` = 1) LIMIT 1"&gt;</span><span class='line output'>&gt; dataset.select(:id, :name).where(:id =&gt; 1).limit(1).to_a</span><span class='line output'>=&gt; [{:id=&gt;1, :name=&gt;"George"}]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Using <code>limit</code> appropriately can make your queries and overall program higher performing.</p>
+
+<h4><code>#order</code></h4>
+
+<p>The <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-order"><code>#order</code> method</a> can sort your results:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.order(:name)</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` ORDER BY `name`"&gt;</span><span class='line output'>&gt; dataset.order(Sequel.desc(:name))</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` ORDER BY `name` DESC"&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>By default the database will do an ascending sort on the named attribute. To get a descending sort, rely on <code>Sequel.desc()</code> as shown in the second example.</p>
+
+<h4><code>#exclude</code></h4>
+
+<p>The <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-exclude"><code>#exclude</code> method</a> is a way to write negative <code>WHERE</code> clauses.</p>
+
+<p>Say I want to find all the records who do <em>not</em> have the name <code>'George'</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.exclude(:name =&gt; 'George')</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `people` WHERE (`name` != 'George')"&gt;</span><span class='line output'>&gt; dataset.exclude(:name =&gt; 'George').to_a</span><span class='line output'>=&gt; [{:id=&gt;2, :name=&gt;"Thomas"}, {:id=&gt;3, :name=&gt;"Douglas"}]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4><code>#insert</code></h4>
+
+<p>Use <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-insert">the <code>#insert</code> method</a> to add rows to a table represented by the <code>Dataset</code>.</p>
+
+<p>A variety of parameter styles is supported, but the best bet is to use a hash syntax. Assuming you created the <code>addresses</code> table above:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; addresses = database.from(:addresses)</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `addresses`"&gt;</span><span class='line output'>&gt; addresses.insert(:line_1 =&gt; "1600 Penn Ave", :city =&gt; "Washington", :state =&gt; "DC", :zipcode =&gt; "20001", :person_id =&gt; 1)</span><span class='line output'>=&gt; 1</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Notice that, after the first line, the object is planning to run a <code>SELECT</code>. When we call the <code>INSERT</code> method it changes. Note that <code>#insert</code> is <em>not</em> delayed, so as soon as you hit enter on that instruction you get back a <code>1</code>, signifying that one row was affected in the table.</p>
+
+<p>Verify the insertion using <code>#select</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>&gt; addresses.select.to_a</span><span class='line output'>=&gt; [{:id=&gt;1, :line_1=&gt;"1600 Penn Ave", :city=&gt;"Washington", :state=&gt;"DC", :zipcode=&gt;"20001", :person_id=&gt;1}]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4><code>#join</code></h4>
+
+<p>The <code>#join</code> method actually relies on <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-join_table">the <code>#join_table</code> method</a> and is used to execute an inner join across two or more tables.</p>
+
+<p>Presuming you have the <code>addresses</code> object and the data inserted in the last method, you can do an inner join between addresses and people:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>&gt; addresses.join(:people, :id =&gt; :person_id)</span><span class='line output'>=&gt; #&lt;Sequel::SQLite::Dataset: "SELECT * FROM `addresses` INNER JOIN `people` ON (`people`.`id` = `addresses`.`person_id`)"&gt;</span><span class='line output'>&gt; addresses.join(:people, :id =&gt; :person_id).to_a</span><span class='line output'>=&gt; [{:id=&gt;1, :line_1=&gt;"1600 Penn Ave", :city=&gt;"Washington", :state=&gt;"DC", :zipcode=&gt;"20001", :person_id=&gt;1, :name=&gt;"George"}]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Where the first parameter is the other table you want to join to (here <code>:people</code>). The second parameter specifies the fields to join in the <code>ON</code> clause. The mapping is the attribute of the joining table (here <code>:id</code> of <code>people</code>) pointing to the primary table attribute (here <code>:person_id</code> of <code>addresses</code>).</p>
+
+<p>One word of caution.  If the tables you are joining have the same column names, the join method will put the data from the second table into the matching columns of the first table in the resulting dataset.  To prevent this, use Aliasing.</p>
+
+<p>Sequel.as(:column, :alias)</p>
+
+<p>The syntax in Sequel also allows for implicit aliasing in column symbols using the triple underscore:</p>
+
+<p>:column<em><strong>alias # &quot;column&quot; AS &quot;alias&quot;
+or
+:table</strong>column__</em>alias # &quot;table&quot;.&quot;column&quot; AS &quot;alias&quot;</p>
+
+<h4><code>#update</code></h4>
+
+<p>The <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-update"><code>#update</code> method</a> is used to change information within an existing row or rows. </p>
+
+<p>It is <strong>very likely</strong> that you want to use this in combination with a <code>#where</code> call, lest you change the attribute for every row in the table.</p>
+
+<p>To change the zipcode of an address:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>&gt; addresses.where(:id =&gt; 1).update(:zipcode =&gt; "20500")</span><span class='line output'>=&gt; 1</span><span class='line output'>&gt; addresses.where(:id =&gt; 1).to_a</span><span class='line output'>=&gt; [{:id=&gt;1, :line_1=&gt;"1600 Penn Ave", :city=&gt;"Washington", :state=&gt;"DC", :zipcode=&gt;"20500", :person_id=&gt;1}]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>An <code>UPDATE</code>, like an <code>INSERT</code>, is run immediately. So the <code>where</code> needs to come earlier in the call chain.</p>
+
+<h4><code>#delete</code></h4>
+
+<p>The <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-delete"><code>#delete</code> method</a> is just like <code>#update</code> except that it removes the matching row(s).</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.where(:id =&gt; 2).delete</span><span class='line output'>=&gt; 1</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The returned <code>1</code> shows you that one row was deleted. If that number is large, it&#8217;s time to look for your backups!</p>
+
+<h4>Counting &amp; Math</h4>
+
+<h5><code>#count</code></h5>
+
+<p>You can count the number of responses using <code>#count</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; dataset.count</span><span class='line output'>=&gt; 2</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <code>#count</code> method is advantageous because it runs a <code>COUNT *</code> query in the database and only retrieves the integer result.</p>
+
+<p>Imagine you have 10,000 rows in a table. Calling <code>COUNT *</code> is going to return just the integer <code>10000</code>. But if you run a <code>SELECT *</code> query then call Ruby&#8217;s <code>#count</code> on the collection, you&#8217;re going to get back all the data in all those rows then count the objects. The latter version will be, approximately, one billion percent slower and cause you to be judged by your colleagues.</p>
+
+<h5>Other Functions That Might Be Interesting:</h5>
+
+<ul>
+<li><code>#avg</code>: <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-avg">http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-avg</a></li>
+<li><code>#sum</code>: <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-sum">http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-sum</a></li>
+<li><code>#max</code>: <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-max">http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-max</a></li>
+<li><code>#min</code>: <a href="http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-min">http://sequel.rubyforge.org/rdoc/classes/Sequel/Dataset.html#method-i-min</a></li>
+</ul>
+
+<h4>Enumerable</h4>
+
+<p>As mentioned previously, the <code>Dataset</code> object implements <code>Enumberable</code>, so methods like <code>#each</code>, <code>#map</code>/<code>#collect</code>, <code>#inject</code>/<code>#reduce</code>, <code>#sort</code> and will all work as expected.</p>
+
+<h2>Full ActiveRecord-style ORM</h2>
+
+<p>If you&#8217;re going to use the ActiveRecord-style mappers, maybe you should just use ActiveRecord.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

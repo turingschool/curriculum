@@ -1,0 +1,325 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Monsterporioum - Practicing with Services - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Monsterporioum - Practicing with Services                              During this tutorial, we&#8217;ll help you &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/monsterporium/practicing_services.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Monsterporioum - Practicing with Services
+        </h1>
+        
+      </header>
+    
+    <p>During this tutorial, we&#8217;ll help you think and work through how to build a system of three interoperating services.</p>
+
+<h2>Building a Service</h2>
+
+<p>Along with a pair, work independently on the exercise described below:</p>
+
+<h3>RepFinder</h3>
+
+<p>We have a <a href="/projects/full_event_attendees.csv">CSV data file with attendees from a conference</a> and want to find the congresspersons associated with each attendee based on zipcode.</p>
+
+<p><strong>Note</strong>: The data has been obfuscated such that the street addresses don&#8217;t match with the zipcodes. If accurate, the full address would give more accurate results. But here just deal with the zipcodes.</p>
+
+<p>Can you build a system of interoperating services to get the job done?</p>
+
+<ul>
+<li>the Parser service&#8230;
+
+<ul>
+<li>reads the CSV</li>
+<li>pulls out the ID, zipcode, and name</li>
+<li>corrects any data inconsistencies with the zipcode</li>
+<li>publishes a message to the channel with the data to be looked up</li>
+</ul></li>
+<li>the Fetcher service&#8230;
+
+<ul>
+<li>watches for zipcodes to hit the channel</li>
+<li>looks them up against the Sunlight API</li>
+<li>publishes the fetched data on to the output channel</li>
+</ul></li>
+<li>the Printer service&#8230;
+
+<ul>
+<li>watches for fetched data to hit the channel</li>
+<li>formats the data for print</li>
+<li>prints it to a CSV output file</li>
+</ul></li>
+</ul>
+
+<h4>Accessing the API</h4>
+
+<p>See our <a href="http://tutorials.jumpstartlab.com/projects/eventmanager.html#iteration-3:-using-sunlight">EventManager project</a> for an explanation of the Congress API provided by the <a href="http://sunlightfoundation.com">Sunlight Foundation</a>.</p>
+
+<p>Install the gem:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install sunlight</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Get an API key at <a href="http://sunlightfoundation.com/api/">sunlightfoundation.com</a>.</p>
+
+<p>Here&#8217;s how you would find legislators if the only information you have is a zipcode:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sunlight&#39;</span>
+</span><span class='line'><span class="no">Sunlight</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s2">&quot;YOUR_API_KEY&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">congresspeople</span> <span class="o">=</span> <span class="no">Sunlight</span><span class="o">::</span><span class="no">Legislator</span><span class="o">.</span><span class="n">all_in_zipcode</span><span class="p">(</span><span class="s2">&quot;80203&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">congresspeople</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">peep</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">peep</span><span class="o">.</span><span class="n">firstname</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">peep</span><span class="o">.</span><span class="n">lastname</span><span class="si">}</span><span class="s2"> (</span><span class="si">#{</span><span class="n">peep</span><span class="o">.</span><span class="n">district</span><span class="si">}</span><span class="s2">)&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Extension</h3>
+
+<p>If you get it working, consider parallelizing the operation. The chokepoint here is the Fetcher service. How could one Parser feed multiple Fetchers and those go back into one Printer?</p>
+
+<p>The key is to avoid double-fetching. The PubSub style we&#8217;ve been using won&#8217;t work. Instead we need a queue.</p>
+
+<p>Here&#8217;s a sample of how to use the <code>redis-queue</code> gem:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install redis-queue</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You can learn more about it at <a href="https://github.com/taganaka/redis-queue">https://github.com/taganaka/redis-queue</a></p>
+
+<h4>Queueing Items</h4>
+
+<p>This is how you add a bunch of items to the queue:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><br><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; require 'redis-queue'</span><span class='line output'>2.0.0-p0 :001 &gt; require 'redis-queue'</span><span class='line output'>=&gt; true</span><span class='line output'>2.0.0-p0 :002 &gt; redis = Redis.new</span><span class='line output'>=&gt; #&lt;Redis client v3.0.4 for redis://127.0.0.1:6379/0&gt;</span><span class='line output'>2.0.0-p0 :003 &gt; queue = Redis::Queue.new("waiting_queue", "in_process", :redis =&gt; redis)</span><span class='line output'>=&gt; #&lt;Redis::Queue:0x007fca3b9ed178 @redis=#&lt;Redis client v3.0.4 for redis://127.0.0.1:6379/0&gt;, @queue_name="waiting_queue", @process_queue_name="in_process", @last_message=nil, @timeout=0&gt;</span><span class='line output'>2.0.0-p0 :004 &gt; (1..100).to_a.each{|i| queue.push "element #{i}"}</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The two queues named on line 3 are (A) the queue of items waiting to be processed and (B) the queue of items currently in process. If items in B are not comitted in a certain timeframe, they are moved back to A. If they are comitted, then they&#8217;re removed from B.</p>
+
+<p>The names of the queues here are arbitrary. If they exist in Redis, they&#8217;ll be used. If they don&#8217;t, they&#8217;ll be created.</p>
+
+<h4>Working from the Queue</h4>
+
+<p>Run two (or more) separate instances of IRB with this pattern:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; require 'redis-queue'</span><span class='line output'>2.0.0-p0 :001 &gt; require 'redis-queue'</span><span class='line output'>=&gt; true</span><span class='line output'>2.0.0-p0 :002 &gt; redis = Redis.new</span><span class='line output'>=&gt; #&lt;Redis client v3.0.4 for redis://127.0.0.1:6379/0&gt;</span><span class='line output'>2.0.0-p0 :003 &gt; queue = Redis::Queue.new("waiting_queue", "in_process", :redis =&gt; redis)</span><span class='line output'>=&gt; #&lt;Redis::Queue:0x007fca3b9ed178 @redis=#&lt;Redis client v3.0.4 for redis://127.0.0.1:6379/0&gt;, @queue_name="waiting_queue", @process_queue_name="in_process", @last_message=nil, @timeout=0&gt;</span><span class='line output'>2.0.0-p0 :004 &gt; queue.process do |message|</span><span class='line output'>2.0.0-p0 :005 &gt;     puts message.inspect</span><span class='line output'>2.0.0-p0 :006?&gt;   sleep 3</span><span class='line output'>2.0.0-p0 :007?&gt;   end</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If your <code>process</code> block returns a truthy value, then the message is &quot;comitted&quot; which removes it from the <code>&quot;in_process&quot;</code> queue.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

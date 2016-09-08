@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Integrating Salesforce with Heroku Connect - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Salesforce Elevate                                      Integrating Salesforce with Heroku Connect &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/paths/elevate/integrating_salesforce.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <a href=/elevate>Salesforce Elevate</a>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Integrating Salesforce with Heroku Connect
+        </h1>
+        
+      </header>
+    
+    <h2>Big Goal</h2>
+
+<p>In this section we&#8217;ll connect our sample application to our Salesforce data.</p>
+
+<ul>
+<li>With the application running locally, go <a href="http://localhost:9000/companies">here</a></li>
+<li>View the listing of all companies in our database</li>
+<li>Let&#8217;s replace this with a listing of companies from our Salesforce <code>Account</code> data</li>
+</ul>
+
+<h2>Introducing Heroku Connect</h2>
+
+<p>Your organization has great data in Salesforce. But you want to build consumer-facing web applications using Java, Python, JavaScript, and Ruby and host them on Heroku.</p>
+
+<p>There are many ways that Java applications can interact with Salesforce data. One options is to use the Force.com REST or SOAP APIs. Instead, let&#8217;s experiment with a new offering, Heroku Connect, which uses background sync through PostgreSQL to shuttle data to and from Salesforce.</p>
+
+<h3>Connect Syncs Data</h3>
+
+<p>Heroku Connect creates a sync between your Salesforce data and your Heroku application&#8217;s PostgreSQL database. That can be a&#8230;</p>
+
+<ul>
+<li><strong>Read-Only</strong> one way sync where data flows from Salesforce into PostgreSQL</li>
+<li><strong>Read/Write</strong> where data travels both ways</li>
+</ul>
+
+<p>Conceptually it works like this:</p>
+
+<p><img src="/images/elevate/heroku_connect.png" alt="Heroku Connect">
+</p>
+
+<h3>Availability</h3>
+
+<p>Heroku Connect is a brand new feature that&#8217;s being released in the first half of 2014. But today we can take a look at how it works.</p>
+
+<p>If you&#8217;d like to discuss it more and apply to be a beta partner, email <a href="mailto:margaret@heroku.com">Margaret Francis</a>.</p>
+
+<h2>Setting up Connect</h2>
+
+<p>Setting up Heroku Connect is straightforward and takes just a few minutes.</p>
+
+<h3>Provision the Addon</h3>
+
+<p>From the application directory we can install it like any other add-on.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:add herokuconnect</span><span class='line output'>Adding herokuconnect on play-demo-001... done, v17 (free)</span><span class='line output'>Use 'heroku addons:open herokuconnect' to finish setup</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p><strong>NOTE:</strong> Unless your Heroku account has been approved for early access to connect, this step will fail.</p>
+
+<h3>Web-Based Setup</h3>
+
+<p>Run the <code>open</code> command as instructed:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:open herokuconnect</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>And it&#8217;ll start the web-based setup.</p>
+
+<h4>Database</h4>
+
+<p>First, you&#8217;re asked to select the environment variable that has the address of your current PostgreSQL database. Typically this is <code>DATABASE_URL</code>.</p>
+
+<p><img src="/images/elevate/connect_database.png" alt="DATABASE_URL">
+</p>
+
+<h4>Schema</h4>
+
+<p>Next you&#8217;re asked to create a <strong>schema</strong>. If you&#8217;re not familiar with them, schemas are a way to create a grouping of tables in your database. You don&#8217;t want Connect accidentially clobbering existing tables that you have now or might add in the future, so it&#8217;s a good practice to use a schema. Then all your Salesforce data will be collected together.</p>
+
+<p>The default schema name is <code>salesforce</code> which we&#8217;ll stick with.</p>
+
+<p><img src="/images/elevate/connect_schema.png" alt="Create a Schema">
+</p>
+
+<p>Click <code>Continue</code> and the schema will be created in your PostgreSQL database.</p>
+
+<h4>Salesforce Data</h4>
+
+<p>You&#8217;ll then be asked which database to connect to on the Salesforce side, we&#8217;ll use <code>Development</code>.</p>
+
+<p><img src="/images/elevate/connect_salesforce_data.png" alt="Salesforce Database">
+</p>
+
+<h4>Login to Salesforce</h4>
+
+<p>At that point you&#8217;ll get redirected to a Salesforce authentication page. Login with your Salesforce account and agree to the access requests.</p>
+
+<p><img src="/images/elevate/connect_salesforce_oauth.png" alt="Salesforce Login">
+</p>
+
+<h4>Back to Connect</h4>
+
+<p>After logging in successfully you&#8217;ll return to the Connect interface and be ready to setup your data sync.</p>
+
+<p><img src="/images/elevate/connect_dashboard.png" alt="Connect Dashboard">
+</p>
+
+<h2>Mapping Objects</h2>
+
+<p>Connect is installed and ready to go, but we&#8217;ve now got to think about what data we want from Salesforce.</p>
+
+<h3>Account Data</h3>
+
+<p>For this example we&#8217;re going to start small, just accessing the built-in <code>Account</code> data on the Salesforce side. We want just the <code>name</code> and <code>accountNumber</code> columns synching from Salesforce to our application.</p>
+
+<h3>Create the Mapping</h3>
+
+<p>On the <em>Salesforce</em> tab of Connect we:</p>
+
+<ul>
+<li>Click the <code>Add</code> button</li>
+</ul>
+
+<p><img src="/images/elevate/connect_click_add.png" alt="Click Add">
+</p>
+
+<ul>
+<li>Select <code>Account</code> and click Continue</li>
+</ul>
+
+<p><img src="/images/elevate/connect_select_account.png" alt="Select Account">
+</p>
+
+<ul>
+<li>Check <em>AccountNumber</em> and <em>Name</em> boxes then <em>Continue</em></li>
+</ul>
+
+<p><img src="/images/elevate/connect_account_number.png" alt="Account Number">
+
+<img src="/images/elevate/connect_name.png" alt="Account Name">
+</p>
+
+<ul>
+<li>See the actions to be taken and click <em>Continue</em></li>
+</ul>
+
+<p><img src="/images/elevate/connect_new_mapping.png" alt="Create New Mapping">
+</p>
+
+<ul>
+<li>Notice the cloud sync icon spinning on the left</li>
+<li>See the sync icon change to a green check like this:</li>
+</ul>
+
+<p><img src="/images/elevate/connect_dashboard_synced.png" alt="Dashboard Synced">
+</p>
+
+<h3>Inspecting the Data</h3>
+
+<p>To see what happened in our database, let&#8217;s dive into Postgres:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku pg:psql</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Normal Data</h4>
+
+<p>We can see our existing companies in the <code>Company</code> table:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>=> select * from Company limit 5;</span><span class='line output'>id |       name</span><span class='line output'>----+-------------------</span><span class='line output'>1 | Apple Inc.</span><span class='line output'>2 | Thinking Machines</span><span class='line output'>3 | RCA</span><span class='line output'>4 | Netronics</span><span class='line output'>5 | Tandy Corporation</span><span class='line output'>(5 rows)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Nothing has happened there.</p>
+
+<h4>Synched Data</h4>
+
+<p>Let&#8217;s take a look at the data from Salesforce:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>=> select * from Account limit 5;</span><span class='line output'>ERROR:  relation "account" does not exist</span><span class='line output'>LINE 1: select * from Account limit 5;</span><span class='line output'>^</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>What happened? Remember that, during setup, we chose to put the synced data under a schema (or namespace) named <code>salesforce</code>. So we write our query&#8230;</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>=> select * from salesforce.Account limit 5;</span><span class='line output'>isdeleted | accountnumber |        sfid        | id | _c5_source |  lastmodifieddate   |                name</span><span class='line output'>-----------+---------------+--------------------+----+------------+---------------------+-------------------------------------</span><span class='line output'>f         | CC978213      | 001i000000gEcgZAAS |  1 |            | 2014-03-27 00:02:24 | GenePoint</span><span class='line output'>f         | CD355119-A    | 001i000000gEcgaAAC |  2 |            | 2014-03-27 00:02:24 | United Oil & Gas, UK</span><span class='line output'>f         | CD355120-B    | 001i000000gEcgbAAC |  3 |            | 2014-03-27 00:02:24 | United Oil & Gas, Singapore</span><span class='line output'>f         | CD451796      | 001i000000gEcgcAAC |  4 |            | 2014-03-27 00:02:24 | Edge Communications</span><span class='line output'>f         | CD656092      | 001i000000gEcgdAAC |  5 |            | 2014-03-27 00:02:24 | Burlington Textiles Corp of America</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>There&#8217;s our starter data from Salesforce!</p>
+
+<h2>Changing the Application</h2>
+
+<p>Let&#8217;s modify the sample application to pull company data from the <code>salesforce.Account</code> table instead of <code>Company</code>.</p>
+
+<h3><code>app/models/Company.java</code></h3>
+
+<p>We open the <code>Company</code> model and find a line like this towards the top:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">tableName</span> <span class="o">=</span> <span class="s">&quot;Company&quot;</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You can see that the SQL queries in the <code>list</code> and <code>count</code> methods epend on this variable for the table name. Amazing how that works out in sample projects!</p>
+
+<p>We change it to use the Salesforce schema and table:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='java'><span class='line'><span class="kd">public</span> <span class="kd">static</span> <span class="n">String</span> <span class="n">tableName</span> <span class="o">=</span> <span class="s">&quot;salesforce.Account&quot;</span><span class="o">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Deploying</h3>
+
+<p>Now we commit and push that code:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git add .</span><span class='line command'>git commit -m "Changing database name for Company"</span><span class='line command'>git push heroku master</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Seeing Results</h3>
+
+<p>Refresh the <code>/companies</code> listing in your browser and you should now see the sample <em>Account</em> data from Salesforce.</p>
+
+<h4>Changing Salesforce Data</h4>
+
+<p>Now, through the Salesforce interface, add another Account.</p>
+
+<ul>
+<li>Click the <em>Accounts</em> Tab</li>
+<li>On the left side, click <em>Create New</em> then <em>Account</em></li>
+</ul>
+
+<p><img src="/images/elevate/connect_salesforce_create_account.png" alt="Click Create New Account">
+</p>
+
+<ul>
+<li>Add an Account Name</li>
+<li>Click <em>Save</em></li>
+</ul>
+
+<p><img src="/images/elevate/connect_salesforce_add_account.png" alt="Add an Account">
+</p>
+
+<h4>Seeing the Results</h4>
+
+<p>Then, to see the results:</p>
+
+<ul>
+<li>Click the <em>Accounts</em> Tab</li>
+<li>Change the <em>View</em> drop-down to <em>All Accounts</em></li>
+<li>Click <em>Go</em></li>
+</ul>
+
+<p><img src="/images/elevate/connect_view_accounts.png" alt="View Accounts">
+</p>
+
+<ul>
+<li>See the company you just created in the listing</li>
+</ul>
+
+<p><img src="/images/elevate/connect_accounts_list.png" alt="View Accounts">
+</p>
+
+<h4>Effects in Connect</h4>
+
+<p>Return to the Heroku Connect interface, click the <strong>Activity</strong> tab and, after a few minutes, you should see the <em>Synched Rows</em> increase. The starter data has 12 rows, so if you created one account it should now say 13.</p>
+
+<p><img src="/images/elevate/connect_synched_rows.png" alt="Synched Rows">
+</p>
+
+<h4>Effects in the App</h4>
+
+<p>And now for the big moment. Refresh the <code>/companies</code> page for your app and you should see the company you created show up!</p>
+
+<h2>Writing to Salesforce</h2>
+
+<p>Reading data from Salesforce is pretty useful, but in many situations you&#8217;ll want to write data.</p>
+
+<h3>Setting Connect for Read/Write</h3>
+
+<p>By default Connect is only setup to read. To enable Read/Write within Connect:</p>
+
+<ul>
+<li>Click the Salesforce tab</li>
+<li>Click the <em>Edit</em> button in the top right, then <em>Read/Write</em></li>
+</ul>
+
+<p><img src="/images/elevate/connect_read_write.png" alt="Enable Read/Write">
+</p>
+
+<ul>
+<li>Click <em>Ok</em> to the scary warning box</li>
+</ul>
+
+<p><img src="/images/elevate/connect_read_write_ok.png" alt="Read/Write is OK">
+</p>
+
+<h3>Writing Data with <code>psql</code></h3>
+
+<p>Let&#8217;s write data directly to our production database using <code>psql</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku pg:psql</span><span class='line output'>play-demo-001::JADE=> INSERT INTO salesforce.Account (name) VALUES ('Elevate');</span><span class='line output'>INSERT 0 1</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Results</h3>
+
+<p>First, we can refresh our application and the new data should show up instantly.</p>
+
+<p>Then, refresh the page on Salesforce and the new data should appear. Tada!</p>
+
+<h2>Next Steps</h2>
+
+<p>Connect will be released to the general public later this year, then you can create amazing customer-facing applications on the Heroku platform backed by your Salesforce data.</p>
+
+<h2>Resources</h2>
+
+<ul>
+<li>Heroku Connect on <a href="https://Dev Center.heroku.com/articles/herokuconnect">Dev Center</a></li>
+</ul>
+
+    
+      <a class="print-hidden" href=/elevate><< BACK</a>
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

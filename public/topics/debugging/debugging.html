@@ -1,0 +1,1134 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby Debugging - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Debugging                                      Ruby Debugging                              When our software doesn&#8217;t do &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/debugging/debugging.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Debugging</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Ruby Debugging
+        </h1>
+        
+      </header>
+    
+    <p>When our software doesn&#8217;t do what it is supposed to, we call this a bug.
+The most famous example of this is when Navy Admiral Grace Hopper,
+famous for developing the first compiler, was working on a computer at
+Harvard in 1947. Computers back then were large and mechanical, and this
+computer was acting up. We might say it was being &quot;buggy&quot;. Now, no one wants
+their computer acting buggy, so we try to fix bugs when we find them. This
+is called &quot;debugging&quot;, and is the point of this lesson.</p>
+
+<p>When she went to investigate, to her surprise, the cause of the bug was&#8230;
+a bug! A moth was trapped between the points in a relay. She removed the moth,
+debugging the computer.</p>
+
+<p>Since the military requires you to log goddamn everything (yeah, I&#8217;m a veteran),
+she taped it into the log with the caption &quot;First actual case of bug being found.&quot;</p>
+
+<p><img src="/images/first-computer-bug.jpg" alt="Computer Bug">
+</p>
+
+<h2>Before The Bug</h2>
+
+<p>Before you even get to the point of debugging, there are a number of things
+you can do. These will reduce the likelihood of bugs occurring, and will
+make them easier to find once you identify that you do, in fact, have a bug.</p>
+
+<h3>Code in Small Steps</h3>
+
+<p>If you write a page of code and then go run it, you have an entire page of
+possible places there are errors. If you instead code in small steps, and verify
+that those pieces are working before moving on, then you will catch errors
+as you make them, and will only have a small section of new code that to
+worry about.</p>
+
+<p>Probably the bug is in the small piece of new code.</p>
+
+<h3>Commit Your Code Often</h3>
+
+<p>When you play a difficult game, you save often.
+That way, when you inevitably die, you don&#8217;t lose much progress.
+Source control works the same way.</p>
+
+<p>In addition, if you commit often, you can run <code>git diff</code> to see what code was
+changed. Making it a lot easier to know where you need to go to find the problem.</p>
+
+<h3>Verify Assumptions</h3>
+
+<p>You need to take things from the unknown to the known.
+In the code <code>choice == 5</code>, maybe you think the input is the number 5,
+because you just entered it on the console.
+This means the comparison should be true. Verify that this is the case.
+Maybe it turns out that it is actually the string &quot;5\n&quot;, because
+it was entered by a user on the console, so there is no way for
+the comparison to ever return true.</p>
+
+<p>This allows you rule out pieces of code, knowing that they do what you think
+they should be doing, and allowing you to move beyond that, to other places
+the bug potentially exists.</p>
+<blockquote>
+<p>when faced with a &quot;surprising&quot; failure, you must realize that one or more
+of your assumptions is wrong.</p>
+
+<p><a href="http://pragmatictips.com/27">http://pragmatictips.com/27</a></p>
+</blockquote>
+<p>We&#8217;ll talk about how to verify in the tools section below.</p>
+
+<h3>Prefer Setters and Getters Over Instance Variables</h3>
+
+<p>Here, we set the wrong ivar, but we don&#8217;t find out about it
+until we try to do something with gas, later. Now we&#8217;ve pushed
+the problem out into some other piece of code that is using gas,
+causing us to look in the wrong place when trying to fix it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Car</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:gas</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">gas</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@gass</span> <span class="o">=</span> <span class="n">gas</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="no">Car</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">gas</span> <span class="c1"># =&gt; nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When we invoke the setter, though, we are immediately told of our error,
+at the place that it is introduced.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Car</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:gas</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">gas</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">gass</span> <span class="o">=</span> <span class="n">gas</span> <span class="c1"># ~&gt; NoMethodError: undefined method `gass=&#39; for #&lt;Car:0x007fa4b28d4128&gt;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="no">Car</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">gas</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Use Parentheses When You&#8217;re Not Sure Of Order</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="kp">true</span> <span class="o">||</span> <span class="p">(</span><span class="kp">false</span> <span class="o">&amp;&amp;</span> <span class="kp">false</span><span class="p">)</span>  <span class="c1"># =&gt; true</span>
+</span><span class='line'><span class="p">(</span><span class="kp">true</span> <span class="o">||</span> <span class="kp">false</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="kp">false</span>  <span class="c1"># =&gt; false</span>
+</span><span class='line'><span class="kp">true</span> <span class="o">||</span> <span class="kp">false</span> <span class="o">&amp;&amp;</span> <span class="kp">false</span>    <span class="c1"># =&gt; ??</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Even though you can easily enough check this, as I present it this way,
+just imagine that last line sitting in the middle of a bunch of other code,
+it&#8217;s a lot harder to figure out what it&#8217;s doing.</p>
+
+<p>Further, it could introduce errors as a colleague could read it and assume
+it interprets the other way, and then misinterpret how this code behaves.</p>
+
+<h3>Structure Programs so They are Easier to Reason About</h3>
+
+<p>Objects talk to objects they create. They manage the objects <strong>below</strong> them.
+Generally avoid letting them go talk to any random thing out there in the system.
+So avoid global variables, avoid singleton objects (objects for which there
+is only one instance), strongly avoid mutating objects that were passed in
+as arguments. Calculate a value instead, and let the caller do the mutation.
+Avoid passing instances of self, don&#8217;t let objects you talk to talk back to you.</p>
+
+<p>Each object is a silo, knowing only about itself and the things beneath it.
+Avoid giving it things that let it mess with the world above it.</p>
+
+<p>Then you can take each piece in isolation, and make sure that it works
+without having to worry about the rest of the system.</p>
+
+<p>Example: A CommandLineInterface might instantiate a MasterMind into a game variable, the game should not
+know that it is being run in a command-line interface, it should not
+be able to kick off &quot;play again&quot;, or that users entering &quot;b&quot;
+(simply because its convenient for a CLI) correspond to the beginner
+difficulty setting. That&#8217;s all above it, it just knows about game things.
+And the CLI translates the users inputs into what the game needs,
+and chooses when to start new games based on the context that <strong>it</strong>
+decides.</p>
+
+<p>Here is a hypothetical separation of CLI and MasterMind.
+Notice that the game provides all the methods the CLI needs to make the decisions,
+it implements the game logic, but it leaves it up to the CLI to actually make those decisions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">MasterMind</span>
+</span><span class='line'>  <span class="kp">initialize</span>
+</span><span class='line'>    <span class="n">secret</span>  <span class="o">=</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</span><span class='line'>    <span class="n">guesses</span> <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'>  <span class="n">add_guess</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">over?</span>
+</span><span class='line'>  <span class="n">player_won?</span>
+</span><span class='line'>  <span class="n">player_lost?</span>
+</span><span class='line'>  <span class="n">valid_guess?</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">num_guesses_so_far</span>
+</span><span class='line'>  <span class="n">correct_colors</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">correct_positions</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">CLI</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">play_game</span>
+</span><span class='line'>    <span class="n">game</span> <span class="o">=</span> <span class="no">MasterMind</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="k">until</span> <span class="n">game</span><span class="o">.</span><span class="n">over?</span>
+</span><span class='line'>      <span class="n">guess</span> <span class="o">=</span> <span class="n">get_guess</span><span class="p">(</span><span class="n">game</span><span class="p">)</span> <span class="c1"># get_guess uses game.valid_guess? and returns something like &quot;RRYB&quot;</span>
+</span><span class='line'>      <span class="n">game</span><span class="o">.</span><span class="n">add_guess</span> <span class="n">guess</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">game</span><span class="o">.</span><span class="n">won?</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;:)&quot;</span>
+</span><span class='line'>      <span class="k">elsif</span> <span class="n">game</span><span class="o">.</span><span class="n">lost?</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;:(&quot;</span>
+</span><span class='line'>      <span class="k">else</span>
+</span><span class='line'>        <span class="nb">puts</span> <span class="s2">&quot;You got </span><span class="si">#{</span><span class="n">game</span><span class="o">.</span><span class="n">correct_colors</span> <span class="n">guess</span><span class="si">}</span><span class="s2"> colors correct ...&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="n">game_over_message</span><span class="p">(</span><span class="n">game</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Given this structure, how do we play a second game?
+Well, whoever called <code>play_game</code> will prompt to see if they want to play another,
+and if they do, will call <code>play_game</code> a second time.</p>
+
+<h3>Avoid Mutable Objects</h3>
+
+<p>Objects are mutable if their state can be changed by other objects.
+State is just the data stored in your variables.</p>
+
+<p>Here, we expose methods that change the internal data.
+If some other piece of code doesn&#8217;t consider that we&#8217;re using this objet,
+it might call one of these methods to prepare the object for the new use case.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Sequence</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@sequence</span> <span class="o">==</span> <span class="n">guess</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">use_beginner</span>
+</span><span class='line'>    <span class="vi">@sequence</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="o">]</span> <span class="c1"># hypothetical random sequence</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">use_expert</span>
+</span><span class='line'>    <span class="vi">@sequence</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">beginner_sequence</span> <span class="o">=</span> <span class="no">Sequence</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">beginner_sequence</span><span class="o">.</span><span class="n">use_beginner</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">expert_sequence</span> <span class="o">=</span> <span class="n">beginner_sequence</span> <span class="c1"># &lt;-- expert_sequence is using the same object as the beginner</span>
+</span><span class='line'><span class="n">expert_sequence</span><span class="o">.</span><span class="n">use_expert</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">beginner_sequence</span><span class="o">.</span><span class="n">compare</span> <span class="o">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="o">]</span> <span class="c1"># =&gt; false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Instead, that code should create its own instance with its own state.
+It shouldn&#8217;t change the state of our variables. And we should avoid having
+code that can be misused in this way.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Sequence</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">skill_level</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">case</span> <span class="n">skill_level</span>
+</span><span class='line'>    <span class="k">when</span> <span class="ss">:beginner</span> <span class="k">then</span> <span class="n">use_beginner</span>
+</span><span class='line'>    <span class="k">when</span> <span class="ss">:expert</span>   <span class="k">then</span> <span class="n">use_expert</span>
+</span><span class='line'>    <span class="k">else</span> <span class="k">raise</span> <span class="s2">&quot;No </span><span class="si">#{</span><span class="n">skill_level</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2"> skill level!&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">compare</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@sequence</span> <span class="o">==</span> <span class="n">guess</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">private</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">use_beginner</span>
+</span><span class='line'>    <span class="vi">@sequence</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">use_expert</span>
+</span><span class='line'>    <span class="vi">@sequence</span> <span class="o">=</span> <span class="o">[</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span> <span class="s1">&#39;q&#39;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">beginner_sequence</span> <span class="o">=</span> <span class="no">Sequence</span><span class="o">.</span><span class="n">new</span> <span class="ss">:beginner</span>
+</span><span class='line'><span class="n">expert_sequence</span>   <span class="o">=</span> <span class="no">Sequence</span><span class="o">.</span><span class="n">new</span> <span class="ss">:expert</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">beginner_sequence</span><span class="o">.</span><span class="n">compare</span> <span class="o">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="c1"># =&gt; true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Don&#8217;t Propagate Incorrectness</h3>
+
+<p>As in the example of the incorrect instance variable above,
+<a href="http://pragmatictips.com/32">crashing early</a>, allows you to be as close
+to the problem as possible when something goes wrong.</p>
+
+<p>Who wants to read a stack trace, and then consider all the things that
+might have gone wrong before this point in order to incorrectly arrive here?</p>
+
+<p>Ever look at a piece of code that was initialized with a wrong value?
+That means something else somewhere else was wrong, and instead of complaining
+about it there, it let the wrongness infect the piece of code you&#8217;re looking
+at. Now you have to go find who was talking to this code in order to debug it.
+Avoid this by crashing early when things are known to be wrong.</p>
+
+<p>Validate inputs at the boundaries of the system, where they enter the system,
+so that you can operate under the assumption that data within the system is
+correct, and don&#8217;t have to compensate for potentially bad data in every method
+that receives an argument.</p>
+
+<h2>Thinking About It</h2>
+
+<h3>Is It Actually a Bug?</h3>
+
+<p>Something might not be doing what you expect. That doesn&#8217;t mean it&#8217;s a bug.</p>
+
+<p>If it&#8217;s in the stdlib, make sure you understand it by reading the docs
+and playing around with it in isolation.</p>
+
+<p>If it&#8217;s code you wrote, make sure you understand the requirements on it.</p>
+
+<p>Read the tests written around it, you may find that it explicitly decided
+that this code should behave in this way.</p>
+
+<p>Maybe you&#8217;re just using it wrong, make sure this isn&#8217;t actually how the system
+is supposed to behave.</p>
+
+<h3>Get Feedback</h3>
+
+<p>The core of debugging is finding where something either isn&#8217;t or doesn&#8217;t do
+what you expect. The only way to do this is to check at different points what
+is going on in that code. To do this, you must get feedback.</p>
+
+<p>All the &quot;Before the Bug&quot; steps are about preventing your expectations from
+being violated. But the debugging tools are all about giving you the feedback
+you need to see that something isn&#8217;t what you thought it was.</p>
+
+<p>To debug well, you need to ruthlessly get feedback from the system. Feedback
+that answers specific questions, and feedback that exposes the context
+that the code is running in, so you can see &quot;wait, that doesn&#8217;t feel right&quot;
+or &quot;oh, this clearly won&#8217;t work, what assumption am I making that led to this?&quot;</p>
+
+<p><strong>The first place to get feedback is to read the error message.</strong></p>
+
+<h3>Think About What Can Cause These Issues</h3>
+
+<p>When you experience a bug, consider what could cause that sort of issue.
+Typically, something associated with it will cause it. You don&#8217;t expect
+things way off on the other side of the interpreter to be the cause.</p>
+
+<p>For example, after we installed <a href="https://github.com/JoshCheek/seeing_is_believing">Seeing is Believing</a> into Corey&#8217;s
+atom editor, he found that the editor was not working. Not only did Seeing
+is Believing not work, but when he&#8217;d load a new window, many things in the
+editor were messed up.</p>
+
+<p>Given that the steps we followed were:</p>
+
+<ul>
+<li>Create an rvm wrapper for a specific version of Ruby</li>
+<li>Install Seeing is Believing on that Ruby</li>
+<li>Add settings to Atom&#8217;s configuration file telling it to use our custom Ruby when running Seeing is Believing</li>
+<li>Download the Seeing Is Believing plugin for Atom</li>
+</ul>
+
+<p>I had no clue what was wrong with the editor, but I immediately guessed
+where the problem was, and upon looking at it for a moment, was able to
+see the problem.</p>
+
+<p>Where was the problem? Only two of these touch Atom, and of those two, one
+is right in the middle of a bunch of other Atom stuff.</p>
+
+<h3>Understand The Cause, Don&#8217;t Just Fix The Symptoms</h3>
+<blockquote>
+<p>Beware of myopia when debugging. Resist the urge to fix just the symptoms
+you see: it is more likely that the actual fault may be several steps removed
+from what you are observing, and may involve a number of other related things.
+Always try to discover the root cause of a problem, not just this particular
+appearance of it.</p>
+
+<p><a href="http://pragmatictips.com/25">http://pragmatictips.com/25</a></p>
+</blockquote>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">add5</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">n</span> <span class="o">+</span> <span class="mi">5</span> <span class="c1"># ~&gt; TypeError: no implicit conversion of Fixnum into String</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">add6</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">n</span> <span class="o">+</span> <span class="mi">6</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">print</span> <span class="s2">&quot;Enter a number: &quot;</span>
+</span><span class='line'><span class="n">n</span> <span class="o">=</span> <span class="nb">gets</span>
+</span><span class='line'><span class="n">add5</span> <span class="s1">&#39;5&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When debugging why <code>add5</code> failed, don&#8217;t fix the value of <code>n</code> in <code>add5</code>,
+because then the bug still exists for <code>add6</code>. Go fix it at the source,
+and stop propagating incorrectness.</p>
+
+<p>If you keep tripping and skinning your knee, the solution isn&#8217;t to put on knee
+pads, it&#8217;s to get shoes that fit.</p>
+
+<h2>Finding where it is wrong</h2>
+
+<h3>The Problem is in <em>your</em> Code</h3>
+<blockquote>
+<p>Remember, if you see hoof prints, think horses—not zebras.
+The OS is probably not broken. And the database is probably just fine.
+It is rare to find a bug in the OS or the compiler, or even a third-party
+product or library. The bug is most likely in the application.</p>
+
+<p><a href="http://pragmatictips.com/26">http://pragmatictips.com/26</a></p>
+</blockquote>
+<p>Don&#8217;t waste your time debugging your tools until you are <em>very</em> confident
+that the bug isn&#8217;t in the code you wrote.</p>
+
+<p>Rails has been downloaded <a href="http://rubygems.org/gems/rails">over 36 million times</a>.
+If there&#8217;s an issue, it&#8217;s safe to assume that someone else found and fixed it
+in those <a href="https://github.com/rails/rails/issues?page=1&state=closed">15,000+</a>
+issues.</p>
+
+<p>The bug is in your code that you wrote.</p>
+
+<h3>Follow the Backtrace</h3>
+
+<p>In the same way you need to read the error message, you should also follow
+the backtrace. Where does it enter your code? This is where to begin.
+Who called it before that?</p>
+
+<h3>What Did You Most Recently Change?</h3>
+
+<p>If you are working in small steps, then the thing you most recently changed
+is probably the thing that introduced the bug. Go there and look at that code.</p>
+
+<p>If it&#8217;s not there, then it probably exposed a bug that already existed,
+but wasn&#8217;t showing itself. Go look at the code that it&#8217;s talking to, validate
+that this code works</p>
+
+<h3>Binary Search</h3>
+
+<p>No idea where the problem is? It could be early in the execution of the code
+or late? Come from anywhere? Use a binary search.</p>
+
+<p>Split the code in half, verify something halfway through. If it&#8217;s 10 lines
+of code, check that everything looks good at line 5. If it does, the problem
+is in the last 5 lines of code, if not, it&#8217;s in the first 5. You just cut
+the problem space in half. Do it again. And again, narrowing the space in
+half each time. Eventually, you&#8217;ll hone in on your bug.</p>
+
+<p>Is it an iterative thing that becomes wrong at some point?
+Check that it looks good after half the iterations, and then half again, etc.</p>
+
+<h3>Follow the Code Down</h3>
+
+<p>You don&#8217;t know where the bug is, what happened up to this point,
+what was passed in, etc. So start at the top, what&#8217;s the first thing that happens
+go there, figure out what that is doing. What happens beneath it?
+Figure out which of those is wrong (binary search),
+then go down there. Repeat this process until you find the thing where things went wrong,
+and why they went wrong.</p>
+
+<p><a href="https://github.com/pry/pry/issues/1277#issuecomment-50979838">Here</a>
+is a more extreme example, where I documented everywhere I went.
+I actually started above this, at the binary to figure out that this is
+the top of where pry reads in data and does things with it.</p>
+
+<h3>Extract And Validate Small Ideas</h3>
+
+<p>Have a big piece of code that you&#8217;re pretty much able to reason about,
+but there&#8217;s one small chunk in there that you&#8217;re not sure about?</p>
+
+<p>Take that small chunk out and make sure you understand it independently
+of the context that it is being evaluated in.</p>
+
+<p>For example, <a href="https://github.com/JoshCheek/seeing_is_believing/blob/b9fef0a564eb44412ff34b0e1b7c2cca8828c987/lib/seeing_is_believing/binary/align_line.rb">this code</a>
+has a lot of context necessary to see if it works.
+However, we can pull the body of that <code>line_lengths</code> method out
+and make sure it&#8217;s doing what we expect, independent of the rest of the code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">body</span> <span class="o">=</span> <span class="s2">&quot;1</span>
+</span><span class='line'><span class="s2">12</span>
+</span><span class='line'><span class="s2">123</span>
+</span><span class='line'><span class="s2">1</span>
+</span><span class='line'><span class="s2">1234&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Hash</span><span class="o">[</span> <span class="n">body</span><span class="o">.</span><span class="n">each_line</span>
+</span><span class='line'>          <span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">&amp;</span><span class="ss">:chomp</span><span class="p">)</span>
+</span><span class='line'>          <span class="o">.</span><span class="n">each</span>
+</span><span class='line'>          <span class="o">.</span><span class="n">with_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>          <span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">line</span><span class="p">,</span> <span class="n">index</span><span class="o">|</span> <span class="o">[</span><span class="n">index</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">length</span><span class="o">+</span><span class="mi">2</span><span class="o">]</span> <span class="p">}</span>
+</span><span class='line'>    <span class="o">]</span>
+</span><span class='line'><span class="c1"># =&gt; {1=&gt;3, 2=&gt;4, 3=&gt;5, 4=&gt;3, 5=&gt;6}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is where tools like <a href="https://github.com/JoshCheek/seeing_is_believing">Seeing Is Believing</a> shine.
+We&#8217;ll talk about some of them below.</p>
+
+<h3>Common Bug Types</h3>
+
+<p>Here are some common bug types and how to interpret them.</p>
+
+<h4>Setters vs Local Variables</h4>
+
+<p>When invoking a setter on self, objects need to use <code>self.setter = value</code>
+rather than <code>setter = value</code>, otherwise the interpreter thinks you&#8217;re
+wanting to create a local variable.</p>
+
+<h4>TypeError &quot;not a module/class&quot;</h4>
+
+<p>You created a constant as a class or module, then reopened it as the other.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">A</span>  <span class="c1"># ~&gt; TypeError: A is not a module</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>ArgumentError &quot;wrong number of arguments&quot;</h4>
+
+<p>You invoked a method, passing it too many arguments or too few.
+Look at the backtrace to find the method and the invocation.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">meth</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>  <span class="c1"># ~&gt; ArgumentError: wrong number of arguments (2 for 1)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="n">meth</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>KeyError</h4>
+
+<p>You tried to access a hash key that doesn&#8217;t exist.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">hash</span> <span class="o">=</span> <span class="p">{</span><span class="n">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+</span><span class='line'><span class="nb">hash</span><span class="o">.</span><span class="n">fetch</span> <span class="ss">:a</span>  <span class="c1"># =&gt; 1</span>
+</span><span class='line'><span class="nb">hash</span><span class="o">.</span><span class="n">fetch</span> <span class="ss">:b</span>  <span class="c1"># ~&gt; KeyError: key not found: :b</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>SyntaxError your file is syntactically invalid</h4>
+
+<p>Use a binary search, commenting out half the lines and running
+<code>ruby -c filename.rb</code> to see if it is still invalid. If so,
+the error is in the invalid half.</p>
+
+<p>Sometimes you can&#8217;t directly comment half the lines, but the concept
+of ruling out chunks of code is still valid.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;ab</span>
+</span><span class='line'><span class="s2"># ~&gt; -:1: unterminated string meets end of file</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>LoadError</h4>
+
+<p>You&#8217;re trying to load a file that it can&#8217;t find.</p>
+
+<p>Common reasons are that the name is misspelled,
+at a different location than you think,
+does not have it&#8217;s directory in the <code>$LOAD_PATH</code>,
+or is part of a gem that isn&#8217;t installed.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;zomg&#39;</span>  <span class="c1"># ~&gt; LoadError: cannot load such file -- zomg</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>NameError &quot;uninitialized constant&quot;</h4>
+
+<p>You misspelled the name of a constant, or the namespacing is wrong.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">User</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'><span class="no">Usr</span> <span class="c1"># ~&gt; NameError: uninitialized constant Usr</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>NoMethodError &quot;undefined method &#8230;&quot;</h4>
+
+<p>You are accessing a method or a local variable, and Ruby can&#8217;t find it.</p>
+
+<p>Check your spelling, and that order of lines is correct.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">A</span>
+</span><span class='line'>  <span class="n">attr_accesor</span> <span class="ss">:b</span>  <span class="c1"># ~&gt; NoMethodError: undefined method `attr_accesor&#39; for A:Class</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>ZeroDivisionError</h4>
+
+<p>Often this comes from getting numbers out of empty collections.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">grades</span>     <span class="o">=</span> <span class="o">[]</span>
+</span><span class='line'><span class="n">sum</span>        <span class="o">=</span> <span class="n">grades</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="ss">:+</span><span class="p">)</span>
+</span><span class='line'><span class="n">num_grades</span> <span class="o">=</span> <span class="n">grades</span><span class="o">.</span><span class="n">size</span>
+</span><span class='line'><span class="n">average</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">/</span> <span class="n">num_grades</span>
+</span><span class='line'><span class="c1"># ~&gt; ZeroDivisionError: divided by 0</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Tools</h2>
+
+<h3>Ag</h3>
+
+<p>Get it with</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">ag</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Ag is a tool to search your code.
+It&#8217;s better than other tools, like grep, because it&#8217;s faster,
+it searches smarter, and it takes regular expressions,
+allowing you to make more relevant searches.</p>
+
+<p>Search all your files like this</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">ag</span> <span class="s1">&#39;thing to search for&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Search all your files</p>
+
+<h3>Find + ag</h3>
+
+<p>The unix find command locates things like files and directories.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">find</span> <span class="o">&lt;</span><span class="n">dirname</span><span class="o">&gt;</span> <span class="c1"># lists all files/dirs in the dirname</span>
+</span><span class='line'><span class="err">$</span> <span class="n">find</span> <span class="o">.</span>         <span class="c1"># all files in current working dir</span>
+</span><span class='line'><span class="err">$</span> <span class="n">find</span> <span class="n">lib</span>       <span class="c1"># all files in lib</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s a lot of output, we&#8217;d like to scope that to just the files
+that might be relevant, so we can filter the results with ag:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">find</span> <span class="n">lib</span> <span class="o">|</span> <span class="n">ag</span> <span class="n">keyword</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3><code>which</code> and <code>gem which</code> to find code</h3>
+
+<p>Where is a binary?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">which</span> <span class="n">ruby</span>
+</span><span class='line'><span class="err">$</span> <span class="n">which</span> <span class="n">gem</span>
+</span><span class='line'><span class="err">$</span> <span class="n">which</span> <span class="n">rake</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Lets open it</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">atom</span> <span class="s2">&quot;$(which gem)&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Where is that ruby file I&#8217;m requiring?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">which</span> <span class="n">stringio</span>
+</span><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">which</span> <span class="n">minitest</span><span class="o">/</span><span class="n">pride</span>
+</span><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">which</span> <span class="n">seeing_is_believing</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Git</h3>
+
+<h4>diff</h4>
+
+<p>What have I changed? (likely places things went wrong)</p>
+
+<h4>blame</h4>
+
+<p>When was this line changed? What was the commit, who did it?
+Now you can go investigate that context
+(e.g. get the SHA and pass it to <code>git show</code>)</p>
+
+<h4>show</h4>
+
+<p>Show the commit message and files changed.</p>
+
+<h4>log path/to/file</h4>
+
+<p>Show commits that changed this file</p>
+
+<h4>bisect</h4>
+
+<p>Git will perform a binary search, finding the exact commit
+that the problem was introduced.</p>
+
+<h3>Print Statements</h3>
+
+<p>The most general purpose way of getting the feedback you need to figure out
+where your program is wrong is a print statement. This works in nealry every
+language, and doesn&#8217;t require knowledge of any fancy tools.</p>
+
+<p>Wherever you want something, print it out. In Ruby, you can call <code>inspect</code>
+on an object to get a representation that reveals information about its type.</p>
+
+<p>Here, we figure out that n is coming in as a String by printing its
+inspection just before the error.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">n</span> <span class="o">=</span> <span class="nb">gets</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;n = </span><span class="si">#{</span><span class="n">n</span><span class="o">.</span><span class="n">inspect</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="n">n</span> <span class="o">+</span> <span class="mi">5</span> <span class="c1"># ~&gt; TypeError: no implicit conversion of Fixnum into String</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># &gt;&gt; n = &quot;5\n&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here, we figure out which branch was evaluated.
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">set<em>back</em>to<em>initial</em>conditions</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@was<em>backed</em>up</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;RESTORING BACKUP&quot;</span>
+</span><span class='line'>    <span class="no">FileUtils</span><span class="o">.</span><span class="n">mv</span> <span class="n">temp_filename</span><span class="p">,</span> <span class="n">filename</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;DELETING TEMP FILE&quot;</span>
+</span><span class='line'>    <span class="no">FileUtils</span><span class="o">.</span><span class="n">rm</span> <span class="n">filename</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<h3>Assertions</h3>
+
+<p>You can validate your assumptions by adding assertions. Making sure that
+the code is executing in the context you are expecting</p>
+
+<p>While working on <a href="http://turing.io/">Turing&#8217;s</a> Enrollment application,
+I wound up with a lot of bugs that, as I traced them, were due to
+the seed data being wrong after I added database cleaning. So I added
+assertions around the code that did the cleaning:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Test</span>
+</span><span class='line'>  <span class="k">module</span> <span class="nn">Support</span>
+</span><span class='line'>    <span class="k">module</span> <span class="nn">CleanDatabase</span>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">setup</span>
+</span><span class='line'>        <span class="k">super</span>
+</span><span class='line'>        <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">start</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">def</span> <span class="nf">teardown</span>
+</span><span class='line'>        <span class="k">super</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="s2">&quot;Database is not seeded!&quot;</span> <span class="k">if</span> <span class="no">PaymentPlan</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">zero?</span>
+</span><span class='line'>        <span class="no">DatabaseCleaner</span><span class="o">.</span><span class="n">clean</span>
+</span><span class='line'>        <span class="k">raise</span> <span class="s2">&quot;Database cleaning strategy deleted seed data!&quot;</span> <span class="k">if</span> <span class="no">PaymentPlan</span><span class="o">.</span><span class="n">count</span><span class="o">.</span><span class="n">zero?</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+<blockquote>
+<p>Assertions validate your assumptions.
+Use them to protect your code from an uncertain world.</p>
+
+<p><a href="http://pragmatictips.com/33">http://pragmatictips.com/33</a></p>
+</blockquote>
+<h3>Tests</h3>
+
+<p>Use tests to show your does what you think,
+and to notify you as soon as you make a change that breaks this expectation.</p>
+
+<p>Think of tests as pre-defined debugging that you can run in an instant.</p>
+
+<p>If you have a bug, that&#8217;s a reason to write a test, then you&#8217;ll make sure
+that this problem isn&#8217;t re-introduced. It also implies that the testing
+may be spotty in this area, so this is a place you could stand to buff up
+your test coverage.</p>
+
+<h3>Pry</h3>
+
+<p>Pry is a REPL like IRB. But it&#8217;s just generally better in every way.</p>
+
+<p>Aside from the obvious, that it handles syntax much better, you can also
+use it like a debugger.</p>
+
+<p>You can drop pry into the middle of any piece of running code (e.g. a Rails
+  controller), and it will load you into a REPL.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">add5</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+</span><span class='line'>  <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+</span><span class='line'>  <span class="n">n</span> <span class="o">+</span> <span class="mi">5</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now call that code, and you&#8217;ll see you&#8217;re at a prompt</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1</span><span class="p">:</span> <span class="k">def</span> <span class="nf">add5</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</span><span class='line'><span class="mi">2</span><span class="p">:</span>   <span class="nb">require</span> <span class="s1">&#39;pry&#39;</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">:</span>   <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+</span><span class='line'><span class="mi">4</span><span class="p">:</span>   <span class="n">n</span> <span class="o">+</span> <span class="mi">5</span>
+</span><span class='line'><span class="mi">5</span><span class="p">:</span> <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="n">pry</span><span class="p">(</span><span class="n">main</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">n</span>
+</span><span class='line'><span class="o">=&gt;</span> <span class="s2">&quot;5</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Useful commands:</p>
+
+<ul>
+<li><code>help</code>        - See what commands you can run</li>
+<li><code>cd obj</code>      - Change context into obj (sets self to that object)</li>
+<li><code>cd ..</code>       - Change context back out of that object.</li>
+<li><code>ls -v</code>       - Show all the methods and variables on self</li>
+<li><code>ls -v obj</code>   - Show all the methods and variables on other objects</li>
+<li><code>whereami</code>    - Show code surrounding the current context.</li>
+<li><code>!</code>           - Clear the input buffer, use when you typed something incorrectly and want to get out of it</li>
+<li><code>edit</code>        - Allows you to edit code without rerunning the program. I use it to put another pry into a method that I&#8217;m about to call.</li>
+<li><code>show-source</code> - Show the source for a method or class. SUPER USEFUL!!</li>
+<li><code>nesting</code>     - Display the list of <code>cd</code>s you&#8217;ve gone down</li>
+<li><code>exit</code>        - Quit out of current pry session. <a href="readline-notation"><code>C-D</code></a> also works.</li>
+</ul>
+
+<p>Both the <code>edit</code> and <code>show-source</code> commands can be done like this: <code>some_object.some_method</code> in which case,
+pry will operate on the method named <code>some_method</code> of the object named <code>some_object</code>. Or, if you don&#8217;t
+have access to an instance, you can do <code>SomeClass#some_method</code>, in which case it will operate on
+the instance method <code>some_method</code> of the class <code>SomeClass</code>.</p>
+
+<h3>Seeing Is Believing</h3>
+
+<p>Seeing Is Believing is greate for extracting and verifying small steps.
+It&#8217;s in your editor, so its easier to work with, you can change a line
+anywhere and then re-run it.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

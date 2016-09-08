@@ -1,0 +1,1066 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>MicroBlogger - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="MicroBlogger                              In this multi-phase project, you will build a client that interacts with &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/microblogger.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          MicroBlogger
+        </h1>
+        
+      </header>
+    
+    <p>In this multi-phase project, you will build a client that interacts with the Twitter messaging service. Your client will both mimic functionality found through the twitter.com web interface as well as perform many new tasks.</p>
+
+<h2>Get Ready</h2>
+
+<p>If you haven&#8217;t already setup Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
+
+<h3>Prerequisites</h3>
+
+<p>Before starting this tutorial, you should have a basic understanding of topics
+covered in <a href="http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html">Ruby in 100 Minutes</a>,
+including:</p>
+
+<ul>
+<li>classes</li>
+<li>objects</li>
+<li>methods and arguments</li>
+<li>string interpolation</li>
+</ul>
+
+<p>You should also be comfortable with:</p>
+
+<ul>
+<li>installing a gem</li>
+<li>using IRB</li>
+<li>writing methods</li>
+</ul>
+
+<h3>Learning Goals</h3>
+
+<p>After completing this tutorial, you will be able to:</p>
+
+<ul>
+<li>require and reload files in irb</li>
+<li>understand the difference between <code>puts</code> and <code>printf</code></li>
+<li>get user input with <code>gets.chomp</code></li>
+<li>use conditional branching and looping techniques with <code>case</code> statements and <code>while</code>
+loops</li>
+<li>manipulate strings using methods like <code>.ljust</code> and <code>.split</code></li>
+<li>iterate through collections using <code>.each</code> and <code>.collect</code></li>
+<li>check to see if an element is part of a collection using <code>.include?</code></li>
+<li>add elements to an existing array with the syntax <code>array &lt;&lt; element</code></li>
+<li>select specific elements of array using the syntax <code>array[0]</code> and <code>array[1..-1]</code></li>
+<li>set up and use an API (Application Programming Interface)</li>
+<li>implement functionality provided by various gems: klout, bitly, jumpstart_auth</li>
+</ul>
+
+<h3>What We&#8217;re Doing in This Tutorial</h3>
+
+<p>We&#8217;ll set up a Twitter client using the Jumpstart_Auth gem. Next, we&#8217;ll create a
+<code>tweet</code> method to post a message to Twitter. We&#8217;ll implement functionality to allow
+a command line user to specify whether to tweet, send a direct message, spam followers, see
+everybody&#8217;s last tweet, or exit the program. Finally, we will use the Bitly gem
+to shorten links and the Klout API to measure a user&#8217;s social network influence.
+We won&#8217;t be creating a test suite with this project, but if you finish all
+iterations, try writing tests as an extension.</p>
+
+<div class="note">
+<p>The Twitter API and gem are constantly changing. We do our best to keep this tutorial updated, but sorry if things get confusing.</p>
+</div>
+
+<h2>Iteration 0: Up &amp; Running</h2>
+
+<p>Before building fancy features, let&#8217;s focus on getting <em>something</em> running.</p>
+
+<h3><code>jumpstart_auth</code></h3>
+
+<p>Install the <code>jumpstart_auth</code> gem by running this instruction from your command prompt (Windows) or terminal (OS X):</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install jumpstart_auth</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It&#8217;ll likely install several dependencies in addition to <code>jumpstart_auth</code> itself.</p>
+
+<h3>MicroBlogger Skeleton</h3>
+
+<p>Next, open your text editor. Create a file named <code>micro_blogger.rb</code> and start it off with this structure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;jumpstart_auth&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">MicroBlogger</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:client</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Initializing MicroBlogger&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Fire It Up</h3>
+
+<p>Let&#8217;s see if that little program is ready to run. From your terminal/command prompt, start &quot;Interactive Ruby&quot; with this instruction:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>irb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You&#8217;ll get a prompt that looks something like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'></span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>At that prompt, load our microblogger.rb file and create a new
+instance of our MicroBlogger class by running these two instructions:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>require './micro_blogger'</span><span class='line output'>true</span><span class='line command'>blogger = MicroBlogger.new</span><span class='line output'>Initializing</span><span class='line output'>#&lt;MicroBlogger:0x1014012b0&gt;</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The line <code>#&lt;MicroBlogger:0x1014012b0&gt;</code> represents a MicroBlogger object.</p>
+
+<h3>Dealing with OAuth</h3>
+
+<p>When connecting to a third-party service (such as Twitter), from the developer&#8217;s
+perspective, possibly the simplest form of authentication is passing the user&#8217;s
+username and password. Unfortunately, this puts more work on the user and is
+not very secure or robust.</p>
+
+<p>That&#8217;s where OAuth comes in. The OAuth authentication system is a more complex
+workflow that involves a <em>lot</em> of moving parts and can be confusing to understand
+at first.</p>
+
+<p>Because of this, we&#8217;ve moved all of the complexity into the <code>jumpstart_auth</code> gem
+so that we can focus on the important parts of this exercise. You can use this
+the <code>jumpstart_auth</code> library inside your initialize method like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Initializing...&quot;</span>
+</span><span class='line'>    <span class="vi">@client</span> <span class="o">=</span> <span class="no">JumpstartAuth</span><span class="o">.</span><span class="n">twitter</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Re-Run from IRB</h3>
+
+<p>Since we made a change to our file, we need to reprocess and load it back into
+irb. Run this command from Terminal:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>load './micro_blogger.rb'</span><span class='line output'>true</span><span class='line command'>blogger = MicroBlogger.new</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The first time this is run it&#8217;ll use the <code>Launchy</code> gem to pop open your web
+browser and ask for permission to use your account. We <em>strongly</em> recommend
+that you use one of our demo accounts (if you&#8217;re in a class) or a fake account
+you setup yourself.</p>
+
+<p>Twitter will then give you a pin number that&#8217;s about 10 digits. Copy it to your
+clipboard, go over to your IRB session, and paste it in where the prompt says
+<code>Enter the supplied pin:</code>.</p>
+
+<p>After entering the pin, we&#8217;ll have a <code>@client</code> variable which holds our
+connection to Twitter. With that setup, we can move forward.</p>
+
+<h2>Iteration 1: Posting Tweets</h2>
+
+<p>Now that we have the <code>@client</code> object, we need to know what methods are
+available from the Twitter library. In other words, what Ruby code can we write
+that will interact with Twitter&#8217;s API.</p>
+
+<p>The best information is available on the <a href="http://rdoc.info/gems/twitter/file/README.md">project readme file here</a>.</p>
+
+<p>In the readme you&#8217;ll find a section &quot;Usage Examples&quot; which clues you into some
+of the functions exposed by the library. One of the methods we have access to is
+ <code>update</code>, which allows us to post to the Twitter account we&#8217;re using.</p>
+
+<h3>Step 1 - Write the <code>tweet</code> Method</h3>
+
+<p>Now add the the following method to your class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">tweet</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>   <span class="vi">@client</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then at the very end of the file, add these lines as an execution script:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">blogger</span> <span class="o">=</span> <span class="no">MicroBlogger</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">blogger</span><span class="o">.</span><span class="n">tweet</span><span class="p">(</span><span class="s2">&quot;MicroBlogger Initialized&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then run your code by going to your terminal an entering:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby micro_blogger.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You should see the output say <code>Initializing</code>. Now go to your test account&#8217;s Twitter page and look for your results!</p>
+
+<h4>Step 2 - Length Restrictions</h4>
+
+<p>Twitter messages are limited to 140 characters. Experiment with your current
+program and see what happens if your try to call <code>tweet</code> with a message longer
+than 140. Did all of the message post? Part of it? Any of it? Let&#8217;s create some
+error checking that will prevent the user from posting messages longer than 140.</p>
+
+<p>Here&#8217;s some pseudocode for what we want our <code>tweet</code> method to do:</p>
+
+<ul>
+<li>If the message to tweet is less than or equal to 140 characters long, tweet it.</li>
+<li>Otherwise, print out a warning message and do not post the tweet.</li>
+</ul>
+
+<p>Inside of your <code>tweet</code> method, write the code that will perform this logic.Test
+your new <code>tweet</code> method with a message that is less than 140 characters, one
+that is exactly 140 characters, and one that&#8217;s longer than 140 characters.</p>
+
+<p>Wondering how to get a string that&#8217;s exactly 140 characters?  Here&#8217;s how I
+did it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">140</span><span class="p">,</span> <span class="s2">&quot;abcd&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Iteration 2: A Better Interface</h2>
+
+<p>Our client is off to a good start, but the interface sucks. We have to change
+lines in the Ruby file for each tweet we want to send &#8211; that&#8217;s not reasonable!
+Let&#8217;s write code that will allow a user to control the program from the command
+line.</p>
+
+<p>Let&#8217;s build an interactive prompt interface to run our program.</p>
+
+<h4>Step 0 - Outline the Process</h4>
+
+<p>First, let&#8217;s define a method named <code>run</code> which will be the instruction that gets
+repeated over and over:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">run</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Welcome to the JSL Twitter Client!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then go to the last line of your program and change it to <code>blogger.run</code>.</p>
+
+<p>Run your program at the command line with <code>ruby micro_blogger.rb</code> and you should just see the line &quot;Welcome to the JSL Twitter Client!&quot;</p>
+
+<h4>Step 1 - The Loop</h4>
+
+<p>Underneath the <code>puts &quot;Welcome to the JSL Twitter Client!&quot;</code> line we&#8217;ll use a <code>while</code> loop to repeat instructions over and over. Add these lines below the <code>puts</code> but before the <code>end</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>  <span class="k">while</span> <span class="n">command</span> <span class="o">!=</span> <span class="s2">&quot;q&quot;</span>
+</span><span class='line'>    <span class="nb">printf</span> <span class="s2">&quot;enter command: &quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Remember that you can exit a running Ruby application by pressing <em>Control-C</em> if you just so happen to get in an infinite loop.</p>
+
+<p>Go ahead and run that program and you should see the &quot;enter command: &quot; string over and over. Why?</p>
+
+<p>The <code>while</code> loop will keep repeating until the variable <code>command</code> contains the value <code>&quot;q&quot;</code>. Since we set <code>command</code> to the empty string and aren&#8217;t changing it, the loop continues forever.</p>
+
+<p>Also, you might wonder what <code>printf</code> is about. Why not <code>puts</code>?  The difference is that <code>printf</code> prints text and leaves the cursor there, while <code>puts</code> prints text then starts a new line. For our interface, we&#8217;ll have the prompt and the command on the same line.</p>
+
+<h4>Step 2 - Accepting Input</h4>
+
+<p>In Ruby we can accept user string with the <code>gets</code> command. Add this line below your <code>printf</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">command</span> <span class="o">=</span> <span class="nb">gets</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now run your program again and it&#8217;ll wait for you to enter commands. Try typing some things in. Try entering a <code>q</code> to quit.</p>
+
+<p>It doesn&#8217;t work, right?  There&#8217;s a little gotcha with using <code>gets</code> &#8211; it picks up the enter key too. So your <code>command</code> variable is actually getting the string <code>&quot;q\n&quot;</code> where that backslash-n is a new line. The fix is to change <code>gets</code> to <code>gets.chomp</code>. The <code>chomp</code> method will remove any whitespace (spaces, tabs, newlines) on the back end of a string.</p>
+
+<p>After you add the <code>chomp</code> try your program again and you should be able to quit with just <code>q</code>.</p>
+
+<h4>Step 3 - Starting a Case Statement</h4>
+
+<p>We think we&#8217;re getting the instruction from the user, but we need to actually do something with it. We&#8217;ll use what&#8217;s called a <em>case statement</em>. Case statements in Ruby look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">case</span> <span class="n">input</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;a&quot;</span> <span class="k">then</span> <span class="nb">puts</span> <span class="s2">&quot;It&#39;s an A!&quot;</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;b&quot;</span> <span class="k">then</span> <span class="nb">puts</span> <span class="s2">&quot;It&#39;s a B!&quot;</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s2">&quot;c&quot;</span> <span class="k">then</span> <span class="nb">puts</span> <span class="s2">&quot;It&#39;s a C!&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;It&#39;s something else!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Ruby will look at the variable <code>input</code> and see what value it holds. If the value matches one of the <code>when</code> lines, then it&#8217;ll do the instruction(s) that follow that line&#8217;s <code>then</code>. If it doesn&#8217;t match any of the <code>when</code> lines, it&#8217;ll run the <code>else</code>.</p>
+
+<p>Start with this case statement in your method just below the <code>command = gets.chomp</code> line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">case</span> <span class="n">command</span>
+</span><span class='line'>    <span class="k">when</span> <span class="s1">&#39;q&#39;</span> <span class="k">then</span> <span class="nb">puts</span> <span class="s2">&quot;Goodbye!&quot;</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;Sorry, I don&#39;t know how to </span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run your program and test some commands.</p>
+
+<h4>Step 4 - Tweeting &amp; Parameters</h4>
+
+<p>Let&#8217;s make this thing work for our tweet method. Add a <code>when</code> line that is run when the <code>command</code> is <code>&quot;t&quot;</code>. Have it call our <code>tweet</code> method.</p>
+
+<p>Run your program and try entering <code>t This is only a test!</code>.</p>
+
+<p>You should see output like <code>Sorry, I don't know how to (t This is only a test!)</code>.
+I wanted it to call the <code>tweet</code> method because I started the line with <code>t</code>,
+but then the rest of the line was my message. Instead, it thought the whole line
+was the command. We need to divide up the input between the command and the text
+that should be sent to that command.</p>
+
+<p>There are a few ways we could accomplish this, but we&#8217;ll use the most straightforward method.</p>
+
+<h5>Making the Command-Line Interface Smarter</h5>
+
+<p>We want the <code>command</code> variable to be just the first letter(s) that are entered.
+But right now, the line <code>command = gets.chomp</code> isn&#8217;t just getting the <code>command</code>,
+it&#8217;s getting a <code>command</code> and a message to send to that command. Let&#8217;s change this
+line to <code>input = gets.chomp</code> then we&#8217;ll work with <code>input</code> to pull out the command.</p>
+
+<p>Now that we have <code>input</code> we need to split it up into pieces. We&#8217;ll cut it up
+using the <code>split</code> method. Just below the <code>input = gets.chomp</code> add a line that
+says <code>parts = input.split(&quot; &quot;)</code> to cut <code>input</code> into an array of <code>parts</code>.</p>
+
+<p><code>split</code> will take our input string (entered by the user at the
+command line) and chop it into an array of smaller strings. Whatever argument we
+pass to <code>.split</code> will be where the string gets chopped.</p>
+
+<p>For example, if the user gave the input: <code>t tweet my message</code></p>
+
+<p>Our <code>input = gets.chomp</code> would produce a <code>parts</code> array that looked like this:
+<code>[&quot;t&quot;, &quot;tweet&quot;, &quot;my&quot;, &quot;message&quot;]</code></p>
+
+<p>Knowing the structure of this array will allow us to pull out the
+parts we need at various places in our program. In the example <code>parts</code> array above,
+<code>t</code> is the command we&#8217;re looking for, so let&#8217;s pull it out by saying <code>command = parts[0]</code>.</p>
+
+<p>The rest of the elements in <code>parts</code> are our message. We can change these parts
+back into a string with <code>parts[1..-1].join(&quot; &quot;)</code>. This means: take all the parts
+from index 1 to the end of the array (-1) and put them together with a space between
+each.</p>
+
+<p>Using that idea in the <code>when</code> line for <code>t</code>, here&#8217;s what my <code>run</code> method looks like right now:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">run</span>
+</span><span class='line'>    <span class="n">command</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span class='line'>    <span class="k">while</span> <span class="n">command</span> <span class="o">!=</span> <span class="s2">&quot;q&quot;</span>
+</span><span class='line'>      <span class="nb">printf</span> <span class="s2">&quot;Enter command: &quot;</span>
+</span><span class='line'>      <span class="n">input</span> <span class="o">=</span> <span class="nb">gets</span><span class="o">.</span><span class="n">chomp</span>
+</span><span class='line'>      <span class="n">parts</span> <span class="o">=</span> <span class="n">input</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">command</span> <span class="o">=</span> <span class="n">parts</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">case</span> <span class="n">command</span>
+</span><span class='line'>         <span class="k">when</span> <span class="s1">&#39;q&#39;</span> <span class="k">then</span> <span class="nb">puts</span> <span class="s2">&quot;Goodbye!&quot;</span>
+</span><span class='line'>         <span class="k">when</span> <span class="s1">&#39;t&#39;</span> <span class="k">then</span> <span class="n">tweet</span><span class="p">(</span><span class="n">parts</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
+</span><span class='line'>         <span class="k">else</span>
+</span><span class='line'>           <span class="nb">puts</span> <span class="s2">&quot;Sorry, I don&#39;t know how to </span><span class="si">#{</span><span class="n">command</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try it out and you should finally be able to post tweets over and over!</p>
+
+<h2>Iteration 3: Send Direct Messages</h2>
+
+<p>Sending Direct Messages isn&#8217;t that different from posting a tweet. In fact, we
+can reuse our existing <code>tweet</code> method to do all the hard work.</p>
+
+<h4>Step 0 - Frameworks</h4>
+
+<p>Our <code>dm</code> method will take a target (Twitter handle for some user) and a message:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">dm</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Trying to send </span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2"> this direct message:&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">message</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And we need to add the command to our <code>run</code> method. We&#8217;ll enter the instruction
+like <code>dm jumpstartlab Here is the text of the DM</code>, so our <code>when</code> line should
+look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">when</span> <span class="s1">&#39;dm&#39;</span> <span class="k">then</span> <span class="n">dm</span><span class="p">(</span><span class="n">parts</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">,</span> <span class="n">parts</span><span class="o">[</span><span class="mi">2</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">].</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Remember that <code>parts[0]</code> is the command itself, here <code>dm</code>. Then <code>parts[1]</code> will
+be the target username, here <code>jumpstartlab</code>. Then everything else is the message,
+so we join them with spaces <code>parts[2..-1].join(&quot; &quot;)</code>.</p>
+
+<h4>Step 1 - Create and Send the Message</h4>
+
+<p>First, let&#8217;s add to our <code>dm</code> method. We&#8217;ll create a variable <code>message</code> which will
+be a combination of the letter d, a target, and a message.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">dm</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Trying to send </span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2"> this direct message:&quot;</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">message</span>
+</span><span class='line'>  <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;d @</span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="n">tweet</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then call the <code>tweet</code> method with this new string as the parameter message.</p>
+
+<p>Log into your personal Twitter account and follow the fake account you created. (You
+will need to do this before you can send a direct message.) Then try sending yourself
+a direct message from your MicroBlogger.</p>
+
+<h4>Step 2 - Error Checking DM-ability</h4>
+
+<p>You can only DM people who are following you. If you try and DM someone who doesn&#8217;t
+follow you, it doesn&#8217;t give you an error message. It just fails silently.</p>
+
+<p>Let&#8217;s add a way to verify that the target is following you before sending the
+message. In pseudo-code, it&#8217;d go something like this:</p>
+
+<ul>
+<li>Find the list of my followers</li>
+<li>If the target is in this list, send the DM</li>
+<li>Otherwise, print an error message</li>
+</ul>
+
+<p>We can call <code>@client.followers</code> which gives us back a list of all our followers
+but includes lots of information we don&#8217;t need right now like their follower count,
+web address, last tweet. All we want is to find their <code>screen_name</code>.</p>
+
+<p>What we need to do is pull out just the <code>screen_name</code>. We create an array of the
+followers&#8217; screen names with this line of code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">screen_names</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">followers</span><span class="o">.</span><span class="n">collect</span> <span class="p">{</span> <span class="o">|</span><span class="n">follower</span><span class="o">|</span> <span class="vi">@client</span><span class="o">.</span><span class="n">user</span><span class="p">(</span><span class="n">follower</span><span class="p">)</span><span class="o">.</span><span class="n">screen_name</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To read this line out loud it would be like &quot;Call the <code>followers</code> method of
+<code>@client</code>, then take that array and, for each element in the array, <code>collect</code>
+together the value of <code>screen_name</code>.</p>
+
+<p>Now you have an array of your followers&#8217; screen names. Create a conditional
+block that follows this logic:</p>
+
+<ul>
+<li>If the <code>target</code> username is in the <code>screen_names</code> list (use <a href="http://rubydoc.info/stdlib/core/Array#include%3F-instance_method">Array#include?</a> method), then send the DM</li>
+<li>Otherwise, print out an error saying that you can only DM people who follow you</li>
+</ul>
+
+<p>Test your code by sending a DM to someone who does follow your demo account
+and someone who does not.</p>
+
+<h4>Step 3 - Spamming Your Friends</h4>
+
+<p>It would be cool to be able to send the same message out to all of our followers. We&#8217;ll accomplish this in two parts:</p>
+
+<ul>
+<li>Create a method named <code>followers_list</code> that returns an array containing the usernames of all my followers</li>
+<li>Create a method named <code>spam_my_followers</code> that finds all followers from <code>followers_list</code> and tries to send them a Direct Message using the <code>dm</code> method</li>
+</ul>
+
+<p>To create the <code>followers_list</code> method&#8230;</p>
+
+<ul>
+<li>Define the method named <code>followers_list</code> with no parameters</li>
+<li>Create a blank array named <code>screen_names</code></li>
+<li>On the <code>@client</code> call the <code>followers</code> method iterate through <code>each</code> of them performing the instruction below:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">screen_names</span> <span class="o">&lt;&lt;</span> <span class="vi">@client</span><span class="o">.</span><span class="n">user</span><span class="p">(</span><span class="n">follower</span><span class="p">)</span><span class="o">.</span><span class="n">screen_name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Return the array <code>screen_names</code></li>
+</ul>
+
+<p>Then for the <code>spam_my_followers</code> method&#8230;</p>
+
+<ul>
+<li>Define the method named <code>spam_my_followers</code> with a parameter named <code>message</code></li>
+<li>Get the list of your followers from the <code>followers_list</code> method</li>
+<li>Iterate through <code>each</code> of those followers and use your <code>dm</code> method to send them the <code>message</code></li>
+</ul>
+
+<p>Then create a <code>when</code> line in your <code>run</code> method for the command <code>spam</code>. It will look just like the <code>tweet</code> line, except it&#8217;ll send the message into the <code>spam_my_friends</code> method.</p>
+
+<p>Test it out and see how many followers you can annoy at once!</p>
+
+<h2>Iteration 4: Last Tweet from All Friends</h2>
+
+<p>So now you can post tweets and DMs. There are hundreds of clients that can do that. If you&#8217;re a normal twitter user you follow some people who post several times per day and some people who post once per week. It can be difficult to see everyone. Lets create a list of the last tweet for each person you follow.</p>
+
+<h4>Step 0 - Framework</h4>
+
+<p>Here it is in pseudocode:</p>
+
+<ul>
+<li><p>Find the list of people you follow</p></li>
+<li><p>For <code>each</code> member of the list&#8230;</p>
+
+<ul>
+<li>Find their latest tweet</li>
+<li>Print out their <code>screen_name</code> and latest tweet</li>
+</ul></li>
+</ul>
+
+<p>Turn that into code like this&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">everyones_last_tweet</span>
+</span><span class='line'>    <span class="n">friends</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">friends</span>
+</span><span class='line'>    <span class="n">friends</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">friend</span><span class="o">|</span>
+</span><span class='line'>      <span class="c1"># find each friend&#39;s last message</span>
+</span><span class='line'>      <span class="c1"># print each friend&#39;s screen_name</span>
+</span><span class='line'>      <span class="c1"># print each friend&#39;s last message</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># Just print a blank line to separate people</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Add a <code>when</code> line to your <code>run</code> method for this instruction. I&#8217;m using the instruction <code>elt</code> so my <code>when</code> line is just <code>when 'elt' then everyones_last_tweet</code>. Once added, restart your program and try it out.</p>
+
+<h4>Step 1: Finding the Last Messages</h4>
+
+<p>When you call the <code>friends</code> method you get an array list where each element of the array is an object representing one friend. The object has all the information about an individual friend such as <code>screen_name</code>, <code>id</code>, <code>followers_count</code>, etc. Here are the useful properties that it has:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="ss">:all_replies</span><span class="p">,</span> <span class="ss">:blocking</span><span class="p">,</span> <span class="ss">:can_dm</span><span class="p">,</span> <span class="ss">:connections</span><span class="p">,</span> <span class="ss">:contributors_enabled</span><span class="p">,</span> <span class="ss">:default_profile</span><span class="p">,</span> <span class="ss">:default_profile_image</span><span class="p">,</span> <span class="ss">:description</span><span class="p">,</span> <span class="ss">:favourites_count</span><span class="p">,</span> <span class="ss">:follow_request_sent</span><span class="p">,</span> <span class="ss">:followed_by</span><span class="p">,</span> <span class="ss">:followers_count</span><span class="p">,</span> <span class="ss">:following</span><span class="p">,</span> <span class="ss">:friends_count</span><span class="p">,</span> <span class="ss">:geo_enabled</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:is_translator</span><span class="p">,</span> <span class="ss">:lang</span><span class="p">,</span> <span class="ss">:listed_count</span><span class="p">,</span> <span class="ss">:location</span><span class="p">,</span> <span class="ss">:marked_spam</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:notifications</span><span class="p">,</span> <span class="ss">:notifications_enabled</span><span class="p">,</span> <span class="ss">:profile_background_color</span><span class="p">,</span> <span class="ss">:profile_background_image_url</span><span class="p">,</span> <span class="ss">:profile_background_image_url_https</span><span class="p">,</span> <span class="ss">:profile_background_tile</span><span class="p">,</span> <span class="ss">:profile_image_url</span><span class="p">,</span> <span class="ss">:profile_image_url_https</span><span class="p">,</span> <span class="ss">:profile_link_color</span><span class="p">,</span> <span class="ss">:profile_sidebar_border_color</span><span class="p">,</span> <span class="ss">:profile_sidebar_fill_color</span><span class="p">,</span> <span class="ss">:profile_text_color</span><span class="p">,</span> <span class="ss">:profile_use_background_image</span><span class="p">,</span> <span class="ss">:protected</span><span class="p">,</span> <span class="ss">:screen_name</span><span class="p">,</span> <span class="ss">:statuses_count</span><span class="p">,</span> <span class="ss">:time_zone</span><span class="p">,</span> <span class="ss">:url</span><span class="p">,</span> <span class="ss">:utc_offset</span><span class="p">,</span> <span class="ss">:verified</span><span class="p">,</span> <span class="ss">:want_retweets</span><span class="p">,</span> <span class="ss">:all_replies?</span><span class="p">,</span> <span class="ss">:blocking?</span><span class="p">,</span> <span class="ss">:can_dm?</span><span class="p">,</span> <span class="ss">:contributors_enabled?</span><span class="p">,</span> <span class="ss">:default_profile?</span><span class="p">,</span> <span class="ss">:default_profile_image?</span><span class="p">,</span> <span class="ss">:follow_request_sent?</span><span class="p">,</span> <span class="ss">:following?</span><span class="p">,</span> <span class="ss">:followed_by?</span><span class="p">,</span> <span class="ss">:favorites</span><span class="p">,</span> <span class="ss">:favorites_count</span><span class="p">,</span> <span class="ss">:favourites</span><span class="p">,</span> <span class="ss">:followers</span><span class="p">,</span> <span class="ss">:friends</span><span class="p">,</span> <span class="ss">:geo_enabled?</span><span class="p">,</span> <span class="ss">:is_translator?</span><span class="p">,</span> <span class="ss">:listed</span><span class="p">,</span> <span class="ss">:marked_spam?</span><span class="p">,</span> <span class="ss">:notifications?</span><span class="p">,</span> <span class="ss">:notifications_enabled?</span><span class="p">,</span> <span class="ss">:profile_background_tile?</span><span class="p">,</span> <span class="ss">:profile_use_background_image?</span><span class="p">,</span> <span class="ss">:protected?</span><span class="p">,</span> <span class="ss">:statuses</span><span class="p">,</span> <span class="ss">:translator</span><span class="p">,</span> <span class="ss">:translator?</span><span class="p">,</span> <span class="ss">:updates</span><span class="p">,</span> <span class="ss">:verified?</span><span class="p">,</span> <span class="ss">:want_retweets?</span><span class="p">,</span> <span class="ss">:status</span><span class="p">,</span> <span class="ss">:created_at</span><span class="p">,</span> <span class="ss">:credentials</span><span class="p">,</span> <span class="ss">:credentials?</span><span class="p">,</span> <span class="ss">:attrs</span><span class="p">,</span> <span class="ss">:attrs</span><span class="p">,</span> <span class="ss">:to_hash</span><span class="p">,</span> <span class="ss">:[]</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So for each of those <code>friend</code> objects, if you call <code>friend.followers_count</code> you&#8217;ll get their number of followers. Or use <code>friend.id</code> to get their unique Twitter ID number.</p>
+
+<p><code>status</code> contains their last tweet, but there&#8217;s a catch &#8211; <code>status</code> is ANOTHER complex object, not simply a string. The <code>status</code> object has these properties and methods:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="ss">:favorited</span><span class="p">,</span> <span class="ss">:from_user</span><span class="p">,</span> <span class="ss">:from_user_id</span><span class="p">,</span> <span class="ss">:from_user_name</span><span class="p">,</span> <span class="ss">:id</span><span class="p">,</span> <span class="ss">:in_reply_to_screen_name</span><span class="p">,</span> <span class="ss">:in_reply_to_attrs_id</span><span class="p">,</span> <span class="ss">:in_reply_to_status_id</span><span class="p">,</span> <span class="ss">:in_reply_to_user_id</span><span class="p">,</span> <span class="ss">:iso_language_code</span><span class="p">,</span> <span class="ss">:profile_image_url</span><span class="p">,</span> <span class="ss">:retweet_count</span><span class="p">,</span> <span class="ss">:retweeted</span><span class="p">,</span> <span class="ss">:source</span><span class="p">,</span> <span class="ss">:text</span><span class="p">,</span> <span class="ss">:to_user</span><span class="p">,</span> <span class="ss">:to_user_id</span><span class="p">,</span> <span class="ss">:to_user_name</span><span class="p">,</span> <span class="ss">:truncated</span><span class="p">,</span> <span class="ss">:favorited?</span><span class="p">,</span> <span class="ss">:retweeted?</span><span class="p">,</span> <span class="ss">:truncated?</span><span class="p">,</span> <span class="ss">:expanded_urls</span><span class="p">,</span> <span class="ss">:geo</span><span class="p">,</span> <span class="ss">:media</span><span class="p">,</span> <span class="ss">:metadata</span><span class="p">,</span> <span class="ss">:place</span><span class="p">,</span> <span class="ss">:user</span><span class="p">,</span> <span class="ss">:retweeted_status</span><span class="p">,</span> <span class="ss">:oembed</span><span class="p">,</span> <span class="ss">:created_at</span><span class="p">,</span> <span class="ss">:attrs</span><span class="p">,</span> <span class="ss">:attrs</span><span class="p">,</span> <span class="ss">:to_hash</span><span class="p">,</span> <span class="ss">:[]</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So if you want to access one of these pieces of data you&#8217;d call it like this: <code>friend.status.created_at</code> or <code>friend.status.source</code>.</p>
+
+<p>Now that you understand the hashes available to you, implement code for the three commented lines in our <code>everyones_last_tweet</code> method. RUN your program and you should see output kinda like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>MicroBlogger Initialized</span><span class='line output'>rsturim said...</span><span class='line output'>the raw bar is open</span><span class='line output'></span><span class='line output'>amyhoy said...</span><span class='line output'>along with our candlelit dinner in the garden, charming brass music drifted over the hills from nearby. as if it were just for us.</span><span class='line output'></span><span class='line output'>wonderwillow said...</span><span class='line output'>`ChrisMacDen fab idea. Do you know of good resources?</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Step 2: Improving the Output</h4>
+
+<p>Getting each friend&#8217;s last message was cool, but they&#8217;re in some random order. Sort them by the <code>screen_name</code> in alphabetical order!  I want you to hack out the code, but the way I did it would read like this:</p>
+
+<p>&quot;take the friends list and use the <a href="http://rubydoc.info/stdlib/core/Enumerable#sort_by-instance_method">Array#sort_by</a> method, then call each one <code>friend</code> and find the <code>friend.screen_name</code>&quot;. You might look at how you used <code>sort_by</code> in EventManager for syntax clues. (NOTE: Ruby considers all capital letters to come earlier in alphabetical order than lowercase letters. To keep all your letters together regardless of capitalization, change <code>friend.screen_name</code> to <code>friend.screen_name.downcase</code> when sorting)</p>
+
+<p>Second, these messages are lacking any time context. The <code>status</code> hash has a key named <code>created_at</code> which holds a string like this one: <code>Thu Jul 23 23:31:16 +0000 2009</code>. That&#8217;s the information we need, but it&#8217;s in an ugly format. Use these steps to make the data more useable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">timestamp</span> <span class="o">=</span> <span class="n">friend</span><span class="o">.</span><span class="n">status</span><span class="o">.</span><span class="n">created_at</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">#Then, when you want to print the date, it can be formatted like this:</span>
+</span><span class='line'><span class="n">timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%A, %b %d&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><a href="http://rubydoc.info/stdlib/date/DateTime#strftime-instance_method">DateTime#strftime</a>
+is my most hated method in Ruby because every time I use it I need to
+lookup the dumb parameters. The <code>&quot;%A, %b %d&quot;</code> that I gave you will cause it to
+output the date formatted like <code>Wednesday, Jul 29</code>. Implement the sorting and
+the timestamping to create output that looks like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>MicroBlogger Initialized</span><span class='line output'>abailin said this on Wednesday, Jul 29...</span><span class='line output'>RT `JackiMieler: `abailin Amen! Be sure to spread the word about the facts of this story - http://tinyurl.com/mt3gfx - vs. the fictitous</span><span class='line output'></span><span class='line output'>AlexSenn said this on Tuesday, Jan 13...</span><span class='line output'>Is looking for a cute condo in Atlanta...2 bedroom, 2 bathroom...any suggestions, let me know!</span><span class='line output'></span><span class='line output'>americasvoice said this on Wednesday, Jul 29...</span><span class='line output'>Frank Sharry on Huffington Post: GOP Latino Outreach Strategy: Oppose, Ignore, Aggravate and Scapegoat - http://bit.ly/1jbpxo #topptog #tcot</span><span class='line output'></span><span class='line output'>amyhoy said this on Wednesday, Jul 29...</span><span class='line output'>along with our candlelit dinner in the garden, charming brass music drifted over the hills from nearby. as if it were just for us.</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Iteration 5: Shorten URLs with Bit.ly</h2>
+
+<p>There&#8217;s a great library which can be used to automatically create shortened URLs. Let&#8217;s add this functionality into our project.</p>
+
+<h4>Step 0 - Testing the Library</h4>
+
+<p>First, go into Terminal and run this line:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install bitly</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Next, open <code>irb</code> and try out the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bitly&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Bitly</span><span class="o">.</span><span class="n">use_api_version_3</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">bitly</span> <span class="o">=</span> <span class="no">Bitly</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;hungryacademy&#39;</span><span class="p">,</span> <span class="s1">&#39;R_430e9f62250186d2612cca76eee2dbc6&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nb">puts</span> <span class="n">bitly</span><span class="o">.</span><span class="n">shorten</span><span class="p">(</span><span class="s1">&#39;http://jumpstartlab.com/courses/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">short_url</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It might take a few seconds, but you should now have a shortened URL from Bitly&#8217;s shortner service. Try it out in your browser to make sure it works.</p>
+
+<h4>Step 1 - Framework</h4>
+
+<p>Create this method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">shorten</span><span class="p">(</span><span class="n">original_url</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># Shortening Code</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Shortening this URL: </span><span class="si">#{</span><span class="n">original_url</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Add a <code>when</code> line to your <code>run</code> method so that the command <code>s</code> will take one parameter and send it into the <code>shorten</code> method.</p>
+
+<h4>Step 2 - Implement the Method</h4>
+
+<p>Look at the model for Bitly that we used in Step 0 and use it to fill in the shortening code of your <code>shorten</code> method. Make sure that your method ends with a <code>return</code> statement so it sends the shortened URL that to the method that called it.</p>
+
+<h4>Step 3 - Tweet with URL</h4>
+
+<p>How can we shorten a url while posting a tweet?  There are a few ways to do it. Here&#8217;s an easy one:</p>
+
+<p>Add a <code>when</code> line in your <code>run</code> method for the command <code>turl</code> which stands for &quot;Tweet with URL&quot;. Make it accept commands that look like this:</p>
+
+<p><code>turl I wrote this twitter client at: http://jumpstartlab.com</code></p>
+
+<p>You know that <code>parts[0]</code> is the command, <code>parts[1..-2]</code> are the message, and <code>parts[-1]</code> is the URL to be shortened. You can put that all together like this:</p>
+
+<p><code>tweet(parts[1..-2].join(&quot; &quot;) + &quot; &quot; + shorten(parts[-1]))</code></p>
+
+<p>Get that working and you&#8217;re done with the twitter client!</p>
+
+<h2>Iteration 6: The Klout API</h2>
+
+<p>Let&#8217;s continue experimenting with various APIs.</p>
+
+<p>Klout (klout.com) is a service that, &quot;measures influence on social networks.&quot; The Klout service analyzes a variety of networks to determine an individual&#8217;s &quot;Klout Score.&quot; Measured from 0 to 100, a higher Klout Score indicates greater influence on various social networks.</p>
+
+<p>Klout offers a free public API that lets you retrieve Klout scores by simply providing a Twitter username. Let&#8217;s attempt to retrieve the Klout Score of all the users you follow and see who has the greatest influence!</p>
+
+<h4>Step 0 - Testing the API</h4>
+
+<p>First, hop into Terminal and run this line:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install klout</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Next, open <code>irb</code> so you can experiment with the Klout API. Run the following lines:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>require 'klout'</span><span class='line command'>Klout.api_key = 'xu9ztgnacmjx3bu82warbr3h'</span><span class='line command'>identity = Klout::Identity.find_by_screen_name('jack')</span><span class='line command'>user = Klout::User.new(identity.id)</span><span class='line command'>user.score.score</span><span class='line output'>=&gt; 74.61</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>While the format of the second command may be a bit confusing, you&#8217;re simply asking Klout to return a user&#8217;s Klout Score in a format you can read and interpret. In this example, you&#8217;ve provided the Twitter username <code>jack</code> (the original creator of Twitter), and Klout returned the value <code>74.61</code>. You can easily change out <code>jack</code> for any other Twitter username, so let&#8217;s obtain the Klout Score for everyone you follow!</p>
+
+<h4>Step 1 - Require Klout</h4>
+
+<p>First, you&#8217;ll want to require the Klout gem in your MicroBlogger implementation, and make sure you can make requests to the Klout service. At the top of your <code>micro_blogger.rb</code> file, insert the following just below require <code>jumpstart_auth</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;klout&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next, in your initialize method, insert the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Klout</span><span class="o">.</span><span class="n">api_key</span> <span class="o">=</span> <span class="s1">&#39;xu9ztgnacmjx3bu82warbr3h&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Great! Now you&#8217;re set up to make requests to Klout&#8217;s API!</p>
+
+<h4>Step 2 - Obtain Klout Scores</h4>
+
+<p>You&#8217;ve already written logic to obtain a list of your friends, which looks something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">screen_names</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">friends</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="n">f</span><span class="o">.</span><span class="n">screen_name</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you wanted to write a method that prints out the Klout score for all of your friends, its logic would be structured something like this:</p>
+
+<ul>
+<li>Obtain a list of all your friends, and save that list inside a variable named <code>screen_names</code> (this is done using the method above).</li>
+<li>Step through the list of friends. For each <code>friend</code>, issue a request to Klout to obtain their Klout score.</li>
+<li>Print out each <code>screen_name</code> followed by their Klout score.</li>
+</ul>
+
+<p>Here&#8217;s the basic setup for this method, you can fill in the gaps:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">klout_score</span>
+</span><span class='line'>    <span class="n">friends</span> <span class="o">=</span> <span class="vi">@client</span><span class="o">.</span><span class="n">friends</span><span class="o">.</span><span class="n">collect</span><span class="p">{</span><span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="n">f</span><span class="o">.</span><span class="n">screen_name</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">friends</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">friend</span><span class="o">|</span>
+</span><span class='line'>      <span class="c1"># print your friend&#39;s screen_name</span>
+</span><span class='line'>      <span class="c1"># print your friends&#39;s Klout score</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;&quot;</span> <span class="no">Print</span> <span class="n">a</span> <span class="n">blank</span> <span class="n">line</span> <span class="n">to</span> <span class="n">separate</span> <span class="n">each</span> <span class="n">friend</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Once you&#8217;re finished, test the method by inserting the following line at the bottom of the <code>micro_blogger.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">blogger</span><span class="o">.</span><span class="n">klout_score</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>and then run the program. Who has the highest Klout score amongst your friends?</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

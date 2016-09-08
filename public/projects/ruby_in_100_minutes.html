@@ -1,0 +1,1178 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby in 100 Minutes - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Ruby in 100 Minutes                              In this tutorial we&#8217;ll explore the fundamental syntax you &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/ruby_in_100_minutes.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Ruby in 100 Minutes
+        </h1>
+        
+      </header>
+    
+    <p>In this tutorial we&#8217;ll explore the fundamental syntax you need to get started programming with Ruby.</p>
+
+<div class="note">
+<p>If you haven&#8217;t already set up Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
+</div>
+
+<h2>Ruby History</h2>
+
+<p>Ruby is thought of by many as a &quot;new&quot; programming language, but it was actually released back in 1994 by a developer known as Matz. Matz is a self-described &quot;language geek&quot; and was a particularly big fan of Perl. His idea for Ruby was to create a language that was flexible and powerful like Perl, but more expressive in its syntax &#8211; even pushing towards English-like readability.</p>
+
+<p>Ruby grew an audience quickly &#8211; in Japan. Until 2000 there really wasn&#8217;t any documentation about the language that wasn&#8217;t in Japanese. So if you wanted to learn Ruby you had to learn Japanese first. Dave Thomas, a pioneer of agile programming, became enamored with Ruby and decided to create that documentation. He wrote what&#8217;s affectionately known as <a href="http://pragprog.com/book/ruby/programming-ruby">&quot;The Pickaxe&quot;</a>, due to its cover image, which opened Ruby to the English-speaking world.</p>
+
+<p>From there Ruby started growing in the English-speaking world, though slowly. It became popular with system administrators to write maintenance and &quot;glue&quot; scripts &#8211; the kinds of things Perl had been used for. The US Ruby community numbered in the hundreds from 2000-2005.</p>
+
+<p>In 2004-2005 a Chicago company named 37Signals hired a young developer to build a web application. They gave him almost total freedom for the implementation; they were only concerned with the design and functionality from the client-side. At the time the predominant web technologies were Perl CGI, PHP, Java&#8217;s JSP, and Microsoft&#8217;s ASP. They were each somewhat painful, so David, today known as DHH, went his own direction.</p>
+
+<p>He wrote the application in Ruby. He relied on the core library and a handful of helper libraries, but more-or-less created the entire stack himself. He and 37Signals worked on the web app, today known as Basecamp, and released it.</p>
+
+<p>Then, once Basecamp was built, DHH extracted the web framework out of it. This was a very different approach from Java/Sun or .NET/Microsoft where the web frameworks were handed down from on high. Instead, Rails was extracted from the real world. It focused on convention over configuration and making the common problems easy to solve.</p>
+
+<p>That approach was a big hit and Rails has powered the growth of the Ruby community ever since. Now we have dozens of books on Amazon, nearly a hundred conferences around the world, and thousands of people employed as Ruby/Rails developers.</p>
+
+<p>And if you want to learn Rails, you need to learn Ruby first!  Here goes&#8230;</p>
+
+<h2>1. Instructions &amp; Interpreters</h2>
+
+<p>Ruby is an &quot;interpreted&quot; programming language which means it can&#8217;t run on your processor directly, it has to be fed into a middleman called the &quot;virtual machine&quot; or VM. The VM takes in Ruby code on one side and speaks natively to the operating system and processor on the other. The benefit to this approach is that you can write Ruby code once and, typically, execute it on many different operating systems and hardware platforms.</p>
+
+<p>A Ruby program can&#8217;t run on it&#8217;s own, you need to load the VM. There are two ways to execute Ruby with the VM: through IRB and through the command line.</p>
+
+<h3>Running Ruby from the Command Line</h3>
+
+<p>This is the durable way to write Ruby code because you save your instructions into a file. That file can then be backed up, transferred, added to source control, etc.</p>
+
+<h4>An Example Ruby File</h4>
+
+<p>We might create a file named <code>my_program.rb</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Sample</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">hello</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">s</span> <span class="o">=</span> <span class="no">Sample</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">s</span><span class="o">.</span><span class="n">hello</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we could run the program like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby my_program.rb</span><span class='line output'>Hello, World!</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>When you run <code>ruby my_program.rb</code> you&#8217;re actually loading the <code>ruby</code> virtual machine which in turn loads your <code>my_program.rb</code>.</p>
+
+<h3>Running Ruby from IRB</h3>
+
+<p>Ruby was one of the first languages to popularize what&#8217;s called a &quot;REPL&quot;: Read, Evaluate, Print, Loop. Think of it kind of like a calculator &#8211; as you put in each complete instruction, IRB executes that instruction and shows you the result.</p>
+
+<p>IRB is best used as a scratch pad for experimenting. Many developers keep an IRB window open while writing their &quot;real&quot; programs, using it to remember how a certain method works or debug a chunk of code.</p>
+
+<p>Let&#8217;s begin our experiments with IRB. <strong>Start IRB by opening Terminal (Mac) or Command Prompt (Win) and typing <code>irb</code></strong>.</p>
+
+<h2>2. Variables</h2>
+
+<p>Programming is all about creating abstractions, and in order to create an abstraction we must be able to assign names to things. Variables are a way of creating a name for a piece of data.</p>
+
+<p>In some languages you need to specify what type of data (like a number, word, etc) can go in a certain variable. Ruby, however, has a flexible type system where any variable can hold any kind of data.</p>
+
+<h3>Creating &amp; Assigning a Variable</h3>
+
+<p>In some languages you need to &quot;declare&quot; a variable before you assign a value to it. Ruby variables are automatically created when you assign a value to them. Let&#8217;s try an example:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>a = 5</span><span class='line output'>=&gt; 5</span><span class='line command'>a</span><span class='line output'>=&gt; 5</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The line <code>a = 5</code> creates the variable named <code>a</code> and stores the value <code>5</code> into it.</p>
+
+<h4>Right Side First</h4>
+
+<p>In English we read left-to-right, so it&#8217;s natural to read code left to right. But when evaluating an assignment using the single equals (<code>=</code>), Ruby actually evaluates the <em>right side first</em>. Take the following example:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>b = 10 + 5</span><span class='line output'>=&gt; 15</span><span class='line command'>b</span><span class='line output'>=&gt; 15</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <code>10 + 5</code> is evaluated first, and the result is given the name <code>b</code>.</p>
+
+<h4>Flexible Typing</h4>
+
+<p>Ruby&#8217;s variables can hold any kind of data and can even change the type of data they hold. For instance:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>c = 20</span><span class='line output'>=&gt; 20</span><span class='line command'>c = "hello"</span><span class='line output'>=&gt; "hello"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The first assignment gave the name <code>c</code> to the number <code>20</code>. The second assignment changed <code>c</code> to the value <code>&quot;hello&quot;</code>.</p>
+
+<h4>Naming Variables</h4>
+
+<p>Most Ruby variables (local variables) have a few requirements imposed by the VM. They&#8230;</p>
+
+<ul>
+<li>always start with a lowercase letter (underscore is permitted, though uncommon)</li>
+<li>have no spaces</li>
+<li>do not contain most special characters like <code>$</code>, <code>@</code>, and <code>&amp;</code></li>
+</ul>
+
+<p>In addition to those VM requirements, Rubyists have a few common style preferences for variable names:</p>
+
+<ul>
+<li>use <em>snake case</em> where each word in the name is lowercase and connected by underscores (<code>_</code>)</li>
+<li>are named after the meaning of their contents, not the type of their contents</li>
+<li>aren&#8217;t abbreviated</li>
+</ul>
+
+<p>Good variable names might be <code>count</code>, <code>students_in_class</code>, or <code>first_lesson</code>.</p>
+
+<p>A few examples of <strong>bad</strong> Ruby variable names include:</p>
+
+<ul>
+<li><code>studentsInClass</code> &#8211; uses <em>camel-case</em> rather than <em>snake-case</em>, should be <code>students_in_class</code></li>
+<li><code>1st_lesson</code> &#8211; variables can&#8217;t start with a number, should just be <code>first_lesson</code></li>
+<li><code>students_array</code> &#8211; includes the type of the data in the name, should just be <code>students</code></li>
+<li><code>sts</code> &#8211; abbreviates rather than just using <code>students</code></li>
+</ul>
+
+<h3>Exercises</h3>
+
+<p>Use IRB to store values with each of the following variable names. Which names are good, which are actually invalid Ruby, and which are valid but go against Ruby style?</p>
+
+<ul>
+<li><code>time_machine</code></li>
+<li><code>student_count_integer</code></li>
+<li><code>homeworkAssignment</code></li>
+<li><code>3_sections</code></li>
+<li><code>top_ppl</code></li>
+</ul>
+
+<h2>3. Strings</h2>
+
+<p>In the real world strings tie things up. Programming strings have <em>nothing</em> to do with real-world strings.</p>
+
+<p>Programming strings are used to store collections of letters and numbers. That could be a single letter like <code>&quot;a&quot;</code>, a word like <code>&quot;hi&quot;</code>, or a sentence like <code>&quot;Hello my friends.&quot;</code>.</p>
+
+<h3>Writing a String</h3>
+
+<p>A Ruby string is defined as a quote (<code>&quot;</code>) followed by zero or more letters, numbers, or symbols and followed by a closing quote (<code>&quot;</code>). The shortest possible string is called the empty string: <code>&quot;&quot;</code>. It&#8217;s not uncommon for a single string to contain paragraphs or even pages of text.</p>
+
+<h3>Substrings</h3>
+
+<p>Often with strings we want to pull out just a part of the whole &#8211; this is called a substring. Try these examples in <code>irb</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>greeting = "Hello Everyone!"</span><span class='line command'>greeting[0..4]</span><span class='line command'>greeting[6..14]</span><span class='line command'>greeting[6..-1]</span><span class='line command'>greeting[6..-2]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Positive and Negative Positions</h4>
+
+<p>The characters in a string each have a position number, starting with zero. So for a string <code>&quot;Hi&quot;</code>, the <code>&quot;H&quot;</code> is in position zero and the <code>&quot;i&quot;</code> is in position 1.</p>
+
+<p>To pull out a substring we use the starting and ending positions. Thus <code>greeting[0..4]</code> above pull out the letters in position zero, one, two, three, and four.</p>
+
+<p>Ruby interprets negative positions to count back from the end of the string. So in <code>&quot;Hi&quot;</code>, the <code>&quot;i&quot;</code> is in position -1 and the <code>&quot;H&quot;</code> is in position -2.</p>
+
+<p>So if a letter has both a positive and negative position number, which should you use? If you can use the positive numbers do it, they&#8217;re easier to reason about. But, if you&#8217;re looking for something based on it being at the end of the string (like &quot;What&#8217;s the last character of this string?&quot;), then use the negative positions.</p>
+
+<h3>Common String Methods</h3>
+
+<p>Let&#8217;s experiment with strings and some common methods in IRB.</p>
+
+<h4><code>.length</code></h4>
+
+<p>The length method tells you how many characters (including spaces) are in the string:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>greeting = "Hello Everyone!"</span><span class='line output'>=&gt; "Hello Everyone!"</span><span class='line command'>greeting.length</span><span class='line output'>=&gt; 15</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p><strong>Try It:</strong> Calculate the total length of your name</p>
+
+<h4><code>.split</code></h4>
+
+<p>Often you&#8217;ll have string that you want to break into parts. For instance, imagine you have a sentence stored in a string and want to break it into words:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sentence = "This is my sample sentence."</span><span class='line output'>=&gt; "This is my sample sentence."</span><span class='line command'>sentence.split</span><span class='line output'>=&gt; ["This", "is", "my", "sample", "sentence."]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <code>.split</code> method gives you back an Array which we&#8217;ll learn about in a later section. It cuts the string wherever it encounters a space (<code>&quot; &quot;</code>) character.</p>
+
+<h5><code>.split</code> with an Argument</h5>
+
+<p>But sometimes you&#8217;ll want to split on a character other than space. The <code>.split</code> method takes an argument, a piece of data that tells it how to do what it does.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>numbers = "one,two,three,four,five"</span><span class='line output'>=&gt; "one,two,three,four,five"</span><span class='line command'>numbers.split</span><span class='line output'>=&gt; ["one,two,three,four,five"]</span><span class='line command'>numbers.split(",")</span><span class='line output'>=&gt; ["one", "two", "three", "four", "five"]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>In the first call to <code>split</code> it tries to cut on spaces but there are none, so you get back an Array of the entire string. In the second try, though, we specify that the splitting should happen wherever there is a comma, so we get back an Array of the five individual words.</p>
+
+<h4><code>.sub</code> and <code>.gsub</code></h4>
+
+<p>These two methods can be used to replace parts of a string. They&#8217;re like using &quot;Find &amp; Replace&quot; in a word processor. <code>.sub</code>, short for substitute, replaces just a single occurance. <code>.gsub</code>, short for global substitute, replaces all occurances (like &quot;Replace All&quot;).</p>
+
+<p>For both <code>.sub</code> and <code>.gsub</code> you&#8217;ll need to specify two arguments: first the substring you&#8217;re wanting to replace and second the string you want to replace it with.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>greeting = "Hello Everyone!"</span><span class='line command'>greeting.gsub("Everyone!","Friends!")</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Combining Strings and Variables</h3>
+
+<p>It is extremely common that we want to combine the value of a variable with a string. For instance, let&#8217;s start with this example string:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="s2">&quot;Good morning, Frank!&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When we put that into IRB it just spits back the same string. If we were writing a proper program, we&#8217;d want it to greet the user with their name rather than <code>&quot;Frank&quot;</code>.</p>
+
+<p>What we need to do is combine a variable with the string. There are two ways to do that.</p>
+
+<h4>String Concatenation</h4>
+
+<p>The simplistic approach is called <strong>string concatenation</strong> which is joins strings together with the plus sign:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>name = "Frank"</span><span class='line command'>puts "Good morning, " + name + "!"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>In the first line we set up a variable to hold the name. In the second line we print the string <code>&quot;Good morning,</code> combined with the value of the variable <code>name</code> and the string <code>&quot;!&quot;</code>.</p>
+
+<h4>String Interpolation</h4>
+
+<p>The second approach is to use <em>string interpolation</em> where we stick data into the middle of a string.</p>
+
+<p>String interpolation only works on a double-quoted string. Within the string we use the interpolation marker <code>#{}</code>. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot of the outer string. Our previous example could be rewritten like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>name = "Frank"</span><span class='line command'>puts "Good morning, #{name}!"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If you compare the output you&#8217;ll see that they give the exact same results. The interpolation style tends to be fewer characters to type and fewer open/close quotes and plus signs to forget.</p>
+
+<h5>Executing Code Inside Interpolation</h5>
+
+<p>You can also put any Ruby code or calculations inside the brackets when interpolating like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>modifier = "very "</span><span class='line command'>mood = "excited"</span><span class='line command'>puts "I am #{modifier * 3 + mood} for today's class!"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The snippet <code>modifier * 3 + mood</code> is evaluated first, then the result is injected into the outer string.</p>
+
+<h2>4. Symbols</h2>
+
+<p>Symbols are difficult to explain, they&#8217;re halfway between a string and a number. You can recognize a symbol because it starts with a colon then one or more letters, like <code>:flag</code> or <code>:best_friend</code>.</p>
+
+<h3>Symbols for New Programmers</h3>
+
+<p>If you&#8217;re new to programming, think of a symbol as a stripped down string that has barely any methods and no string interpolation. Compare the method list for a proper string versus a similar symbol like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>"hello".methods</span><span class='line command'>"hello".methods.count</span><span class='line command'>:hello.methods</span><span class='line command'>:hello.methods.count</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Symbols for Experienced Programmers</h3>
+
+<p>If you&#8217;re an experienced programmer, think of a symbol as a &quot;named integer&quot;. It doesn&#8217;t matter what actual value the symbol references. All we care about is that any reference to that value within the VM will give back the same value. Symbols are thus defined in a global symbol table and their value cannot change.</p>
+
+<h2>5. Numbers</h2>
+
+<p>There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point).</p>
+
+<p>Integers are much easier for both you and the computer to work with. You can use normal math operations with integers including <code>+</code>, <code>-</code>, <code>/</code>, and <code>*</code>. Integers have a bunch of methods to help you do math-related things, which you can see by calling <code>5.methods</code>.</p>
+
+<h3>Repeating Instructions</h3>
+
+<p>A common pattern in <em>other</em> languages is the <code>for</code> loop, used to repeat an instruction a set number of times. For example, in JavaScript you might write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello, World&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>For loops are common, but they&#8217;re not very readable. Because Ruby&#8217;s integers are objects they have methods. One of those is the <code>times</code> method to repeat an instruction a set number of times.</p>
+
+<p>To rewrite the above loop in a Ruby style:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In this example we&#8217;re using both the <code>times</code> method and what&#8217;s called a <em>block</em>. We&#8217;ll discuss blocks in the next section. But go ahead and run this example in IRB to see what happens.</p>
+
+<h2>6. Blocks</h2>
+
+<p>Blocks are a powerful concept used frequently in Ruby. Think of them as a way of bundling up a set of instructions for use elsewhere.</p>
+
+<h3>Starting &amp; Ending Blocks</h3>
+
+<p>You just saw a block used with the <code>.times</code> method on an integer:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The block starts with the keyword <code>do</code> and ends with the keyword <code>end</code>. The <code>do</code>/<code>end</code> style is always acceptable.</p>
+
+<h4>Bracket Blocks</h4>
+
+<p>When a block contains just a single instruction, though, we&#8217;ll often use the alternate markers <code>{</code> and <code>}</code> to begin and end the block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">5</span><span class="o">.</span><span class="n">times</span><span class="p">{</span> <span class="nb">puts</span> <span class="s2">&quot;Hello, World!&quot;</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Blocks Are Passed to Methods</h3>
+
+<p>So what is a block actually used for? They&#8217;re a parameter passed into a method call.</p>
+
+<p>If, for instance, we just called <code>5.times</code>, Ruby wouldn&#8217;t know what we want to be done five times. When we pass in the block we&#8217;re saying &quot;here are the instructions I want you to run each time&quot;.</p>
+
+<p>There are <em>many</em> methods that accept blocks. Like the <code>.gsub</code> method you saw on String earlier will run a block once for each match:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>"this is a sentence".gsub("e"){ puts "Found an E!"}</span><span class='line output'>Found an E!</span><span class='line output'>Found an E!</span><span class='line output'>Found an E!</span><span class='line output'>=&gt; "this is a sntnc"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Notice that the <code>Found an E!</code> line shows up three times because there were three Es in the string.</p>
+
+<p>Why does the result say <code>&quot;sntnc&quot;</code>? That&#8217;s a puzzle for you.</p>
+
+<h3>Block Parameters</h3>
+
+<p>Often our instructions within a block need to reference the value that they&#8217;re currently working with. When we write the block we can specify a block parameter inside pipe characters:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What value gets put into that block parameter is up to the method we&#8217;re calling. In this case, the <code>times</code> method puts in the number of the current run. Try the block as it is above, observe the output, then try this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">5</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">: Hello, World!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>While <code>.gsub</code> passes in the string that it found. Try this (with the bracket notation):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="s2">&quot;this is a sentence&quot;</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;e&quot;</span><span class="p">){</span><span class="o">|</span><span class="n">letter</span><span class="o">|</span> <span class="n">letter</span><span class="o">.</span><span class="n">upcase</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You&#8217;ll see that <code>gsub</code> is using the result of the block as the replacement for the original match.</p>
+
+<h2>7. Arrays</h2>
+
+<p>Usually when we&#8217;re writing a program it&#8217;s because we need to deal with a <em>collection</em> of data. Let&#8217;s first look at the most common collection of data, the Array.</p>
+
+<h3>A Visual Model</h3>
+
+<p>An <em>array</em> is a number-indexed list. Imagine you had a blank piece of paper and drew a set of three small boxes in a line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> ---  ---  ---
+</span><span class='line'>|   ||   ||   |
+</span><span class='line'> ---  ---  ---</span></code></pre></td></tr></table></div></figure>
+
+<p>You could number each one by its position left to right:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> ---  ---  ---
+</span><span class='line'>|   ||   ||   |
+</span><span class='line'> ---  ---  ---
+</span><span class='line'>  0    1    2</span></code></pre></td></tr></table></div></figure>
+
+<p>Then put strings in each box:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> -------------  ---------  ----------
+</span><span class='line'>| "Breakfast" || "Lunch" || "Dinner" |
+</span><span class='line'> -------------  ---------  ----------
+</span><span class='line'>       0            1           2</span></code></pre></td></tr></table></div></figure>
+
+<p>We have a three element Array. Ruby arrays can grow and shrink, so if we added an element it&#8217;d usually go on the end:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> -------------  ---------  ----------  -----------
+</span><span class='line'>| "Breakfast" || "Lunch" || "Dinner" || "Dessert" |
+</span><span class='line'> -------------  ---------  ----------  -----------
+</span><span class='line'>       0            1           2           3</span></code></pre></td></tr></table></div></figure>
+
+<p>Note how the position of the last element is always one less than the number of elements.</p>
+
+<p>If you asked the array for the element in position two you&#8217;d get back <code>&quot;Dinner&quot;</code>. Ask for the last element and you&#8217;d get back <code>&quot;Dessert&quot;</code>.</p>
+
+<h3>Arrays in Code</h3>
+
+<p>Here&#8217;s how we would go through the same modeling in Ruby code:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>meals = ["Breakfast", "Lunch", "Dinner"]</span><span class='line output'>=&gt; ["Breakfast", "Lunch", "Dinner"]</span><span class='line command'>meals &lt;&lt; "Dessert"</span><span class='line output'>=&gt; ["Breakfast", "Lunch", "Dinner", "Dessert"]</span><span class='line command'>meals[2]</span><span class='line output'>=&gt; "Dinner"</span><span class='line command'>meals.last</span><span class='line output'>=&gt; "Dessert"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Observe that&#8230;</p>
+
+<ul>
+<li>the array was created by putting pieces of data between square brackets (<code>[]</code>) and separated by commas</li>
+<li>we add an element to the end of an array by using the &quot;shovel operator&quot; (<code>&lt;&lt;</code>)</li>
+<li>we fetch the element at a specific position by using square brackets (<code>[]</code>)</li>
+<li>there are convenience methods like <code>.last</code></li>
+</ul>
+
+<h3>Common Array Methods</h3>
+
+<p>There are lots of cool things to do with an array. Here are a few examples:</p>
+
+<h4>Explanation of <code>.sort</code></h4>
+
+<p>The sort method will return a new array where the elements are sorted. If the elements are strings they&#8217;ll come back in alphabetacal order. If they&#8217;re numbers they&#8217;ll come back in ascending value order. Try these:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>one = ["this", "is", "an", "array"]</span><span class='line command'>one.sort</span><span class='line command'>one</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You can rearrange the order of the elements using the <code>sort</code> method. You can iterate through each element using the <code>each</code> method. You can mash them together into one string using the <code>join</code> method. You can find the address of a specific element by using the <code>index</code> method. You can ask an array if an element is present with the <code>include?</code> method.</p>
+
+<p>We use arrays whenever we need a list where the elements are in a specific order.</p>
+
+<h4>Others to Try</h4>
+
+<p>Try experimenting with these common methods on Array:</p>
+
+<ul>
+<li><code>each</code></li>
+<li><code>collect</code></li>
+<li><code>first</code> and <code>last</code></li>
+<li><code>shuffle</code></li>
+</ul>
+
+<p>You can reference the documentation for more details here: <a href="http://www.ruby-doc.org/core-2.1.2/Array.html">http://www.ruby-doc.org/core-2.1.2/Array.html</a></p>
+
+<h2>8. Hashes</h2>
+
+<p>A hash is a collection of data where each element of data is addressed by a <em>name</em>. As an analogy, think about a refrigerator. If we&#8217;re keeping track of the produce inside the fridge, we don&#8217;t really care about what shelf it&#8217;s on &#8211; the order doesn&#8217;t matter. Instead we organize things by <em>name</em>. Like the name &quot;apples&quot; might have the value 3, then the name &quot;oranges&quot; might have the value 1, and &quot;carrots&quot; the value 12. In this situation we&#8217;d use a hash.</p>
+
+<h3>Key/Value Pairs</h3>
+
+<p>A hash is an <em>unordered</em> collection where the data is organized into &quot;key/value pairs&quot;. Hashes have a more complicated syntax that takes some getting used to:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>produce = {"apples" =&gt; 3, "oranges" =&gt; 1, "carrots" =&gt; 12}</span><span class='line command'>puts "There are #{produce['oranges']} oranges in the fridge."</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <em>key</em> is used as the address and the <em>value</em> is the data at that address. In the <code>produce</code> hash we have keys including <code>&quot;apples&quot;</code> and <code>&quot;oranges&quot;</code> and values including <code>12</code> and <code>3</code>. When creating a hash the key and value are linked by the <code>=&gt;</code> symbol which is called a <em>rocket</em>. So hashes start with a curly bracket <code>{</code>, have zero or more entries made up of a <em>key</em>, a rocket, and a <em>value</em> separated by commas, then end with a closing curly bracket <code>}</code>.</p>
+
+<p>Try a few more steps:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+<span class='line-number'>2.1.1 :005&gt;</span>
+<span class='line-number'>2.1.1 :006&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>produce["grapes"] = 221</span><span class='line command'>produce</span><span class='line command'>produce["oranges"] = 6</span><span class='line command'>produce</span><span class='line command'>produce.keys</span><span class='line command'>produce.values</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>In the first line of those instructions, we add a new value to the hash. Since the <code>&quot;grapes&quot;</code> key wasn&#8217;t in the original hash, it&#8217;s added with the value of <code>221</code>. Keys in the hash <em>must be unique</em>, so when we use the same syntax with <code>produce[&quot;oranges&quot;]</code> it sees that the key <code>oranges</code> is already in the list and it replaces the value with <code>6</code>. The <code>keys</code> and <code>values</code> methods will also give you just half of the pairs.</p>
+
+<h3>Simplified Hash Syntax</h3>
+
+<p>We&#8217;ll very commonly use symbols as the keys of a hash. When all the keys are symbols, then there is a shorthand syntax which can be used:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>produce = {apples: 3, oranges: 1, carrots: 12}</span><span class='line command'>puts "There are #{produce[:oranges]} oranges in the fridge."</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Notice that the keys end with a colon rather than beginning with one, even though these are symbols. This simplified syntax works with Ruby version 1.9 and higher. To find out which version of Ruby you have type &quot;ruby -v&quot; into the console.</p>
+
+<h2>9. Conditionals</h2>
+
+<p>Conditional statements evaluate to <code>true</code> or <code>false</code>. The most common conditional operators are <code>==</code> (equal), <code>&gt;</code> (greater than), <code>&gt;=</code> (greater than or equal to), <code>&lt;</code> (less than), and <code>&lt;=</code> (less than or equal to).</p>
+
+<p>Some objects also have methods which return a <code>true</code> or <code>false</code>, so they&#8217;re used in conditional statements. For example every object has the method <code>.nil?</code> which is <code>true</code> only when the object is <code>nil</code>. Arrays have a method named <code>.include?</code> which returns true if the array includes the specified element. The convention in Ruby is that a method which returns <code>true</code> or <code>false</code> should have a name ending in a <code>?</code>.</p>
+
+<h3>Conditional Branching / Instructions</h3>
+
+<p>Why do we have conditional statements?  Most often it&#8217;s to control conditional instructions, especially <code>if</code>/<code>elsif</code>/<code>else</code> structures. Let&#8217;s write an example by adding a method like this in IRB:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">water_status</span><span class="p">(</span><span class="n">minutes</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">minutes</span> <span class="o">&lt;</span> <span class="mi">7</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;The water is not boiling yet.&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">minutes</span> <span class="o">==</span> <span class="mi">7</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;It&#39;s just barely boiling&quot;</span>
+</span><span class='line'>  <span class="k">elsif</span> <span class="n">minutes</span> <span class="o">==</span> <span class="mi">8</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;It&#39;s boiling!&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hot! Hot! Hot!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try running the method with <code>water_status(5)</code>, <code>water_status(7)</code>, <code>water_status(8)</code>, and <code>water_status(9)</code>.</p>
+
+<h4>Understanding the Execution Flow</h4>
+
+<p>When the <code>minutes</code> is 5, here is how the execution goes: &quot;Is it <code>true</code> that 5 is less than 7? Yes, it is, so print out the line <code>The water is not boiling yet.</code>&quot;.</p>
+
+<p>When the <code>minutes</code> is 7, it goes like this: &quot;Is it <code>true</code> that 7 is less than 7? No. Next, is it <code>true</code> that 7 is equal to 7? Yes, it is, so print out the line <code>It's just barely boiling</code>&quot;.</p>
+
+<p>When the <code>minutes</code> is 8, it goes like this: &quot;Is it <code>true</code> that 8 is less than 7? No. Next, is it <code>true</code> that 8 is equal to 7? No. Next, is it <code>true</code> that 8 is equal to 8? Yes, it is, so print out the line <code>It's boiling!</code>&quot;.</p>
+
+<p>Lastly, when total is 9, it goes: &quot;Is it <code>true</code> that 9 is less than 7? No. Next, is it <code>true</code> that 9 is equal to 7? No. Next, is it <code>true</code> that 9 is equal to 8? No. Since none of those are true, execute the <code>else</code> and  print the line <code>Hot! Hot! Hot!</code>.</p>
+
+<h4><code>if</code> Possible Constructions</h4>
+
+<p>An <code>if</code> statement has&#8230;</p>
+
+<ul>
+<li>One <code>if</code> statement whose instructions are executed only if the statement is true</li>
+<li>Zero or more <code>elsif</code> statements whose instructions are executed only if the statement is true</li>
+<li>Zero or one <code>else</code> statement whose instructions are executed if no <code>if</code> nor <code>elsif</code> statements were true</li>
+</ul>
+
+<p>Only <em>one</em> section of the <code>if</code>/<code>elsif</code>/<code>else</code> structure can have its instructions run. If the <code>if</code> is <code>true</code>, for instance, Ruby will never look at the <code>elsif</code>. Once one block executes, that&#8217;s it.</p>
+
+<h3>Equality vs. Assignment</h3>
+
+<p>The #1 mistake people encounter when writing conditional statements is the difference between <code>=</code> and <code>==</code>.</p>
+
+<ul>
+<li><p><code>=</code> is an <em>assignment</em>. It means &quot;take what&#8217;s on the right side and stick it into whatever is on the left side&quot; &#8211; it&#8217;s <em>telling</em>, not <em>asking</em></p></li>
+<li><p><code>==</code> is a <em>question</em>. It means &quot;is the thing on the right equal to the thing on the left?&quot; &#8211; it&#8217;s <em>asking</em>, not <em>telling</em></p></li>
+</ul>
+
+<p>You can also combine conditional statements using logical operators. The most common are known as &quot;logical and&quot; and &quot;logical or&quot;. In Ruby you can write a &quot;logical and&quot; with double ampersands like this: <code>&amp;&amp;</code>. You can write a &quot;logical or&quot; with double pipes like this: <code>||</code>.</p>
+
+<h2>10. Nil &amp; Nothingness</h2>
+
+<p>What is nothingness?  Is there nothingness only in outer space?  Really, when we think of &quot;nothing&quot;, isn&#8217;t it just the absence of something?  OK, that&#8217;s too much philosophy&#8230;</p>
+
+<p><code>nil</code> is Ruby&#8217;s way of referring to &quot;nothingness.&quot;</p>
+
+<p>If you have three eggs, eat three eggs, then you might think you have &quot;nothing&quot;, but in terms of eggs you have &quot;0&quot;. Zero is something, it&#8217;s a number, and it&#8217;s not nothing.</p>
+
+<p>If you&#8217;re working with words and have a string like &quot;hello&quot; then delete the &quot;h&quot;, &quot;e&quot;, &quot;l&quot;s, and &quot;o&quot; you might think you&#8217;d end up with nothing, but you really have &quot;&quot; which is an empty string. It&#8217;s still something.</p>
+
+<p><code>nil</code> is Ruby&#8217;s idea of nothingness. It&#8217;s usually encountered when you ask for something that doesn&#8217;t exist. When looking at arrays, for instance, we created a list with five elements then asked Ruby to give us the sixth element of that list. There is no sixth element, so Ruby gave us <code>nil</code>. It isn&#8217;t that there&#8217;s a blank in that sixth spot (<code>&quot;&quot;</code>), it&#8217;s not a number <code>0</code>, it&#8217;s nothingness &#8211; <code>nil</code>.</p>
+
+<p>A large percentage of the errors you encounter while writing Ruby code will involve <code>nil</code>. You thought something was there, you tried to do something to it, and you can&#8217;t do something to nothing so Ruby raises an error.</p>
+
+<h2>11. Objects, Attributes, and Methods</h2>
+
+<h3>Ruby is Object-Oriented</h3>
+
+<p>Ruby is an Object-Oriented programming language which means that all the things we interact with inside the VM are objects. Each piece of data is an object. Objects hold information, called <em>attributes</em>, and they can perform actions, called <em>methods</em>.</p>
+
+<p>For an example of an object, think about you as a human being. You have attributes like height, weight, and eye color. You have methods like &quot;walk&quot;, &quot;run&quot;, &quot;wash dishes&quot;, and &quot;daydream.&quot;  Different types of objects have different attributes and methods. In the next sections we&#8217;ll look at a few specific kinds of objects common in Ruby.</p>
+
+<h3>Classes and Instances</h3>
+
+<p>In Object-Oriented programming we define <em>classes</em>, which are abstract descriptions of a category or type of thing. It defines what attributes and methods all objects of that type have.</p>
+
+<h4>Defining a Class</h4>
+
+<p>For example, let&#8217;s think about modeling a school. We&#8217;d likely create a class named <code>Student</code> that represents the abstract idea of a student. The <code>Student</code> class would define attributes like <code>first_name</code>, <code>last_name</code>, and <code>primary_phone_number</code>. It could define a method <code>introduction</code> that causes the student to introduce themself.</p>
+
+<p>Try this in IRB:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Student</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:primary_phone_number</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">introduction</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hi, I&#39;m </span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You haven&#8217;t yet seen the <code>attr_accesor</code> method which is used to define attributes for instances of a class.</p>
+
+<h4>Creating Instances</h4>
+
+<p>The class itself doesn&#8217;t represent a student, it&#8217;s the <em>idea</em> of what a student is like. To represent an actual student we create an <em>instance</em> of that class.</p>
+
+<p>Imagine you&#8217;re a student. You&#8217;re not an abstract concept, you&#8217;re an actual person. This actual person is an <em>instance</em> of <code>Student</code> - it is a realization of the abstract idea. It has actual data for the attributes <code>first_name</code>, <code>last_name</code>, and <code>primary_phone_number</code>.</p>
+
+<p>The <em>class</em> <code>Student</code>, on the other hand, has an abstract <code>first_name</code>, <code>last_name</code>, and <code>primary_phone_number</code> &#8211; we can&#8217;t determine them ahead of time.</p>
+
+<h3>Running Ruby from a File</h3>
+
+<p>We rarely use IRB for defining classes. It&#8217;s just a scratchpad, remember? Let&#8217;s look at how to run Ruby from a file.</p>
+
+<ul>
+<li>Exit your IRB session (enter <code>exit</code>)</li>
+<li>Note which folder your terminal is currently in, this is your &quot;working directory&quot;</li>
+<li>Using a plain-text editor to create a file named <code>student.rb</code>.</li>
+<li>Save the file in your editor</li>
+<li>Run the file from your terminal:</li>
+</ul>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby student.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You should get no output since the file is blank.</p>
+
+<h4>Creating a Student Class</h4>
+
+<p>In your text editor, begin the structure of the class like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Student</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside the class we usually define one or more methods using the <code>def</code> keyword:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Student</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">introduction</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hi, I&#39;m </span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that the <code>puts</code> line is counting on there being a method named <code>first_name</code> which returns the first name of the student. Let&#8217;s add the three attributes we used earlier:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Student</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:primary_phone_number</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">introduction</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hi, I&#39;m </span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Run the File</h4>
+
+<p>Go back to your terminal and try running the file with <code>ruby student.rb</code>. You should again get no output.</p>
+
+<p>Why? We defined a student class and said that a student has a method named <code>introduction</code> along with a few attributes &#8211; but we didn&#8217;t actually create instances of that <code>Student</code> class or call any methods.</p>
+
+<h4>Creating an Instance</h4>
+
+<p>Once we define a class, we would create an <code>instance</code> of that class like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">frank</span> <span class="o">=</span> <span class="no">Student</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re calling the <code>new</code> method on the class <code>Student</code> and storing it into the variable named <code>frank</code>. Once we have that instance, we can set or get its attributes and call its methods. &#8217;</p>
+
+<p>Methods are called by using this syntax: <code>object.method_name</code>. So if you have a variable named <code>frank</code>, you would tell him to introduce himself by calling <code>frank.introduction</code>.</p>
+
+<h4>Creating an Instance in the File</h4>
+
+<p>At the bottom of your <code>student.rb</code>, after the closing <code>end</code> for the <code>Student</code> class, add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">frank</span> <span class="o">=</span> <span class="no">Student</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">frank</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Frank&quot;</span>
+</span><span class='line'><span class="n">frank</span><span class="o">.</span><span class="n">introduction</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Save it, return to your terminal, and try <code>ruby student.rb</code> again. It should now output <code>Hi, I'm Frank!</code></p>
+
+<h3>Method Arguments</h3>
+
+<p>Sometimes methods take one or more <em>arguments</em> that tell them <em>how</em> to do what they&#8217;re supposed to do. For instance, I might call <code>frank.introduction('Katrina')</code> for him to introduce himself to Katrina. Arguments can be numbers, strings, or any kind of object. Modify your method to take an argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Student</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:primary_phone_number</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">introduction</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hi </span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2">, I&#39;m </span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">frank</span> <span class="o">=</span> <span class="no">Student</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">frank</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Frank&quot;</span>
+</span><span class='line'><span class="n">frank</span><span class="o">.</span><span class="n">introduction</span><span class="p">(</span><span class="s1">&#39;Katrina&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now run your file again and you should see <code>Hi Katrina, I'm Frank</code>.</p>
+
+<h3>Return Value</h3>
+
+<p>In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated.</p>
+
+<h4>Adding <code>favorite_number</code></h4>
+
+<p>Let&#8217;s add a method named <code>favorite_number</code> to our class.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Student</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:primary_phone_number</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">introduction</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;Hi </span><span class="si">#{</span><span class="n">target</span><span class="si">}</span><span class="s2">, I&#39;m </span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2">!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">favorite_number</span>
+</span><span class='line'>    <span class="mi">7</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">frank</span> <span class="o">=</span> <span class="no">Student</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">frank</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Frank&quot;</span>
+</span><span class='line'><span class="nb">puts</span> <span class="s2">&quot;Frank&#39;s favorite number is </span><span class="si">#{</span><span class="n">frank</span><span class="o">.</span><span class="n">favorite_number</span><span class="si">}</span><span class="s2">.&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run that from your terminal and you should see <code>Frank's favorite number is 7</code>. The last line of the file is calling the <code>favorite_number</code> method. The last (and only) line of that method is just the line <code>7</code>. That then becomes the return value of the method, which is sent back to whomever called the method. In our case, that <code>7</code> comes back and gets interpolated into the string.</p>
+
+<h2>You&#8217;ve Got the Vocabulary</h2>
+
+<p>Alright, that&#8217;s a quick introduction to the language. Now you&#8217;re ready to dive into your Ruby!</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

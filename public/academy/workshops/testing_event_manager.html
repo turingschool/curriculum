@@ -1,0 +1,913 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>TDD with MiniTest and EventManager - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="TDD with MiniTest and EventManager                              Let&#8217;s go back to EventManager and rebuild it &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/workshops/testing_event_manager.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          TDD with MiniTest and EventManager
+        </h1>
+        
+      </header>
+    
+    <p>Let&#8217;s go back to <a href="/projects/eventmanager.html">EventManager</a> and rebuild it using automated testing.</p>
+
+<h2>Getting Started</h2>
+
+<p>While TDD has its haters and its believers, we can all agree that it takes a bit of tedius up-front setup. Let&#8217;s get it started right:</p>
+
+<h3>File Structure</h3>
+
+<p>Setup a new project with the following folders and files:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>event_manager_minitest
+</span><span class='line'> `-- [lib]
+</span><span class='line'> `-- [test]
+</span><span class='line'> |   `-- event_manager_test.rb
+</span><span class='line'> `-- event_manager.rb
+</span><span class='line'> `-- Rakefile</span></code></pre></td></tr></table></div></figure>
+
+<p>Where <code>lib</code> and <code>test</code> are directories, the others are files.</p>
+
+<h3>Install MiniTest</h3>
+
+<p>A version of MiniTest is built into Ruby 1.9, but let&#8217;s get the latest version from Rubygems along with Rake:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install minitest rake</span></code></pre></td></tr></table></div></figure>
+
+<h3>Setup Rake</h3>
+
+<p>We&#8217;ll use the tool Rake to actually run the tests. Open the <code>Rakefile</code> in your project directory and add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rake/testtask&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Rake</span><span class="o">::</span><span class="no">TestTask</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;test/*_test.rb&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This tells Rake that our tests will be in the directory named <code>test</code> and the file names will end in <code>_test.rb</code>.</p>
+
+<p>Save the Rakefile, then try running the tests from your project directory:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">rake</span> <span class="nb">test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Writing a First Test</h3>
+
+<p>Open your <code>test/event_manager_test.rb</code> and start with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EventManagerTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_exists</span>
+</span><span class='line'>    <span class="n">em</span> <span class="o">=</span> <span class="no">EventManager</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">assert_kind_of</span> <span class="no">EventManager</span><span class="p">,</span> <span class="n">em</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that the name of the method is prefixed with <code>test_</code>. The class can have other methods in it, for example to set things up for your tests, or helper methods. The prefix <code>test_</code> is how MiniTest identifies a test that needs to be run.</p>
+
+<p>What&#8217;s the point of this test? It&#8217;s just a quick way to verify that our parts are hooked together properly.</p>
+
+<p>Run the test with <code>rake test</code> and you&#8217;ll find that it fails. The test isn&#8217;t able to find an <code>EventManager</code> class.</p>
+
+<h4>Requiring Files</h4>
+
+<p>The test needs to load our <code>event_manager.rb</code> using <code>require</code>. </p>
+
+<p>Do we require <code>event_manager</code>, maybe <code>../event_manager</code>? Neither will work. You&#8217;re running <code>rake</code> from the root of the project, so any paths you express must be relative to that folder. The <code>event_manager.rb</code> is in the same root directory, so we need:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./event_manager&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the <code>rake test</code> again, and there&#8217;s still an error about <code>EventManager</code> because the file doesn&#8217;t actually define the class.</p>
+
+<h3>A Stub Class</h3>
+
+<p>Open <code>event_manager.rb</code> and define a simplistic class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EventManager</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Save it, run <code>rake test</code>, and you should finally be passing. Now just do programming!</p>
+
+<h2>Building Functionality</h2>
+
+<p>Some things are easy to test, some things are hard to test. Most of the time, if testing a feature is difficult it means the feature is poorly concieved.</p>
+
+<p>The user interacts with the program through reading prompts and entering commands. But testing things that use <code>gets</code> and <code>puts</code> are difficult.</p>
+
+<p>Tests, especially &quot;unit tests&quot; like we&#8217;re writing today, help you understand and design the objects in your system.</p>
+
+<h3>Thinking in Objects</h3>
+
+<p>What&#8217;s the core object of EventManager? It&#8217;s not the script runner, it&#8217;s not the prompt or command switching, nor the telephone numbers or zipcodes. EventManager is about people. In this problem domain they&#8217;re called attendees.</p>
+
+<p>Let&#8217;s design an <code>Attendee</code> object using tests.</p>
+
+<h3><code>attendee_test.rb</code></h3>
+
+<p>Create a file <code>test/attendee_test.rb</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">AttendeeTest</span> <span class="o">&lt;</span> <span class="no">MiniTest</span><span class="o">::</span><span class="no">Unit</span><span class="o">::</span><span class="no">TestCase</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_it_exists</span>
+</span><span class='line'>    <span class="n">attendee</span> <span class="o">=</span> <span class="no">Attendee</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">assert_kind_of</span> <span class="no">Attendee</span><span class="p">,</span> <span class="n">attendee</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run your tests and that&#8217;ll fail because it can&#8217;t find an <code>Attendee</code> class.</p>
+
+<h3>Using <code>lib</code></h3>
+
+<p>Before you jump to creating a new object in your root directory, let&#8217;s talk about <code>lib</code>. The lib folder is the place where most of your functional code should live. Let&#8217;s create <code>lib/attendee.rb</code> with this starter:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Attendee</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then at the top of your <code>attendee_test</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/attendee&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run your tests and everything should be passing.</p>
+
+<h3>How Should An Attendee Be Created?</h3>
+
+<p>We know we&#8217;ve got a CSV of attendees. We&#8217;ll want to create one <code>Attendee</code> instance per line of the CSV. CSV rows work like hashes. So let&#8217;s model an <code>Attendee</code> instance being created by a hash of data:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">test_it_is_initialized_from_a_hash_of_data</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s1">&#39;George&#39;</span><span class="p">,</span> <span class="ss">:last_name</span> <span class="o">=&gt;</span> <span class="s1">&#39;Washington&#39;</span><span class="p">,</span> <span class="ss">:phone_number</span> <span class="o">=&gt;</span> <span class="s1">&#39;2024556677&#39;</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">attendee</span> <span class="o">=</span> <span class="no">Attendee</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="n">data</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">first_name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="n">data</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">last_name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="n">data</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>There are a few things to notice. I arbitrarily chose first name, last name, and phone number as the fields I&#8217;d like to deal with first. I <em>did not</em> care what the actual headers are in the CSV. In fact, that CSV has awful inconsistencies in the headers.</p>
+
+<p>TDD is about building software the way you want to use it. I want to create attendees with nicely formatted, reasonable hash keys, so I do it. I accept that, somewhere in the future, I&#8217;ll need to create a translator object that can convert the crap headers from the CSV into the hash object I&#8217;m expecting here. That&#8217;s ok.</p>
+
+<p>Also notice that this test has three assertions. In general, that&#8217;s not a good idea &#8211; a single test should have a single assertion. But I&#8217;ll deal with that in the refactor step.</p>
+
+<p>Run the test and it fails with the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Error</span><span class="p">:</span>
+</span><span class='line'><span class="n">test_it_is_initialized_from_a_hash_of_data</span><span class="p">(</span><span class="no">AttendeeTest</span><span class="p">):</span>
+</span><span class='line'><span class="no">ArgumentError</span><span class="p">:</span> <span class="n">wrong</span> <span class="n">number</span> <span class="n">of</span> <span class="n">arguments</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="mi">0</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>&quot;1 for 0&quot; means I&#8217;m supplying one and the object is expecting zero. When you call <code>.new</code> on a class it is actually running two things under the hood: allocating memory and the object&#8217;s initializer, if there is one. When we want to affect how an object is created, we override the <code>initialize</code> method, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Attendee</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run that and&#8230;uh-oh. Two failures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Error</span><span class="p">:</span>
+</span><span class='line'><span class="n">test_it_exists</span><span class="p">(</span><span class="no">AttendeeTest</span><span class="p">):</span>
+</span><span class='line'><span class="no">ArgumentError</span><span class="p">:</span> <span class="n">wrong</span> <span class="n">number</span> <span class="n">of</span> <span class="n">arguments</span> <span class="p">(</span><span class="mi">0</span> <span class="k">for</span> <span class="mi">1</span><span class="p">)</span><span class="sr"></span>
+</span><span class='line'><span class="sr">    /Users/</span><span class="n">jcasimir</span><span class="o">/</span><span class="no">Dropbox</span><span class="o">/</span><span class="no">Projects</span><span class="o">/</span><span class="n">event_manager_test</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">attendee</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">2</span><span class="ss">:in</span> <span class="sb">`initialize&#39;</span>
+</span><span class='line'><span class="sb">    /Users/jcasimir/Dropbox/Projects/event_manager_test/test/attendee_test.rb:7:in `</span><span class="kp">new</span><span class="s1">&#39;</span>
+</span><span class='line'><span class="s1">    /Users/jcasimir/Dropbox/Projects/event_manager_test/test/attendee_test.rb:7:in `test_it_exists&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="mi">2</span><span class="p">)</span> <span class="no">Error</span><span class="p">:</span>
+</span><span class='line'><span class="n">test_it_is_initialized_from_a_hash_of_data</span><span class="p">(</span><span class="no">AttendeeTest</span><span class="p">):</span>
+</span><span class='line'><span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`first_name&#39; for #&lt;Attendee:0x007fd729999d70&gt;</span>
+</span><span class='line'><span class="sb">    /Users/jcasimir/Dropbox/Projects/event_manager_test/test/attendee_test.rb:14:in `</span><span class="n">test_it_is_initialized_from_a_hash_of_data</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first one looks like the failure we got before, but look closely. It&#8217;s now &quot;0 for 1&quot; and the failure is coming from a different test, the &quot;it exists&quot; test. Now I have a question:</p>
+
+<p>Is it the case that (A) the &quot;it exists&quot; test is now outdated and should be deleted entirely, (B) should be updated to pass in a hash (possibly blank), or (C) should we change the <code>Attendee</code> class to allow calling <code>.new</code> without a parameter?</p>
+
+<p>This kind of decision makes some developers feel frustrated with TDD. &quot;I just want to write features!&quot; Though it seems small, this question is important. It may significantly affect how <code>Attendee</code> instances are created in the future. Our TDD process is forcing us to make the decision consciously now, rather that implicitly later.</p>
+
+<p>We decide (C), that it should be valid to create blank attendees with no parameter. Let&#8217;s make <code>input</code> an option parameter in <code>Attendee</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and we&#8217;re down to one failure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Error</span><span class="p">:</span>
+</span><span class='line'><span class="n">test_it_is_initialized_from_a_hash_of_data</span><span class="p">(</span><span class="no">AttendeeTest</span><span class="p">):</span>
+</span><span class='line'><span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`first_name&#39; for #&lt;Attendee:0x007fecfa8f22a0&gt;</span>
+</span><span class='line'><span class="sb">    /Users/jcasimir/Dropbox/Projects/event_manager_test/test/attendee_test.rb:14:in `</span><span class="n">test_it_is_initialized_from_a_hash_of_data</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>An attendee doesn&#8217;t have a <code>first_name</code> method. We can do the simplest thing that could possibly work and add one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Attendee</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">first_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and get this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Failure</span><span class="p">:</span>
+</span><span class='line'><span class="n">test_it_is_initialized_from_a_hash_of_data</span><span class="p">(</span><span class="no">AttendeeTest</span><span class="p">)</span> <span class="o">[/</span><span class="no">Users</span><span class="o">/</span><span class="n">jcasimir</span><span class="o">/</span><span class="no">Dropbox</span><span class="o">/</span><span class="no">Projects</span><span class="o">/</span><span class="n">event_manager_test</span><span class="o">/</span><span class="nb">test</span><span class="o">/</span><span class="n">attendee_test</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">14</span><span class="o">]</span><span class="p">:</span>
+</span><span class='line'><span class="no">Expected</span><span class="p">:</span> <span class="s2">&quot;George&quot;</span>
+</span><span class='line'>  <span class="no">Actual</span><span class="p">:</span> <span class="kp">nil</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>I see an easy fix:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">first_name</span>
+</span><span class='line'>    <span class="s2">&quot;George&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests again and get the similar failure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Error</span><span class="p">:</span>
+</span><span class='line'><span class="n">test_it_is_initialized_from_a_hash_of_data</span><span class="p">(</span><span class="no">AttendeeTest</span><span class="p">):</span>
+</span><span class='line'><span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`last_name&#39; for #&lt;Attendee:0x007f8858db9fb0&gt;</span>
+</span><span class='line'><span class="sb">    /Users/jcasimir/Dropbox/Projects/event_manager_test/test/attendee_test.rb:15:in `</span><span class="n">test_it_is_initialized_from_a_hash_of_data</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And follow a similar pattern for <code>last_name</code> and <code>phone_number</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Attendee</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">first_name</span>
+</span><span class='line'>    <span class="s2">&quot;George&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">last_name</span>
+</span><span class='line'>    <span class="s2">&quot;Washington&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">phone_number</span>
+</span><span class='line'>    <span class="s2">&quot;2024556677&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and everything passes. Hooray what a sweet class we have!</p>
+
+<p>At this point you have to resist the urge to make a better implementation. Should this class be using <code>attr_accessor</code>? I think so. But the tests haven&#8217;t <em>driven</em> us to that implemention yet.</p>
+
+<p>Let&#8217;s write a new one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">test_it_can_change_first_names</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="ss">:first_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;George&quot;</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">attendee</span> <span class="o">=</span> <span class="no">Attendee</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="n">data</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">first_name</span>
+</span><span class='line'>    <span class="n">attendee</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="s2">&quot;Thomas&quot;</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Thomas&quot;</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">first_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test and it fails:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Error</span><span class="p">:</span>
+</span><span class='line'><span class="n">test_it_can_change_first_names</span><span class="p">(</span><span class="no">AttendeeTest</span><span class="p">):</span>
+</span><span class='line'><span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`first_name=&#39; for #&lt;Attendee:0x007fc6e32c6648&gt;</span>
+</span><span class='line'><span class="sb">    /Users/jcasimir/Dropbox/Projects/event_manager_test/test/attendee_test.rb:23:in `</span><span class="n">test_it_can_change_first_names</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, we could go and implement a <code>first_name=</code> method which sets an instance variable and refactor the <code>first_name</code> method to return that variable. But we&#8217;re not trying to do the most simplistic thing (IE: use as &quot;dumb&quot; of features as possible), we&#8217;re trying to do the simplest thing (easy to program). Let&#8217;s create an <code>attr_accessor</code> for the first name and get rid of the previously implemented method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Attendee</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:first_name</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">last_name</span>
+</span><span class='line'>    <span class="s2">&quot;Washington&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">phone_number</span>
+</span><span class='line'>    <span class="s2">&quot;2024556677&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and we see a regression. That test which sends in the hash of data and checks that each field is properly set is now failing. We need to actually use the <code>input</code> hash in the <code>initialize</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run it and, boom, another regression. You can&#8217;t call <code>[:first_name]</code> in the scenario when no parameter was passed in and <code>input</code> got the default of <code>nil</code>. We can change the default value to the empty hash <code>{}</code> instead of <code>nil</code> to get around the issue:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run that and all four tests pass. Write two further tests to drive the addition of <code>last_name</code> and <code>phone_number</code> to the <code>attr_accessor</code> call.</p>
+
+<h3>Cleaning Phone Numbers</h3>
+
+<p>From inspecting the data (and/or building the project before), we know there are issues with the phone numbers. Many have non-numeric characters like spaces, hyphes, or periods. A handful have an unnecessary leading zero. Others are too short and can&#8217;t be repaired. Let&#8217;s use tests to guide us through implementing a cleaner.</p>
+
+<h4>Focusing on How You Want To <em>Use</em> It</h4>
+
+<p>If we&#8217;re thinking ahead, we&#8217;ve probably realized there will be something like a &quot;clean phone number&quot; method &#8211; but resist that thinking. Instead, how do we want to use it. I want the cleaning to be done automatically, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_cleans_up_phone_numbers_with_periods_and_hyphens</span>
+</span><span class='line'>  <span class="n">attendee</span> <span class="o">=</span> <span class="no">Attendee</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:phone_number</span> <span class="o">=&gt;</span> <span class="s2">&quot;202.444-9382&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;2024449382&quot;</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>I run the test and see this failure:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Failure</span><span class="p">:</span>
+</span><span class='line'><span class="n">test_it_cleans_up_phone_numbers_with_periods_and_hyphens</span><span class="p">(</span><span class="no">AttendeeTest</span><span class="p">)</span> <span class="o">[/</span><span class="no">Users</span><span class="o">/</span><span class="n">jcasimir</span><span class="o">/</span><span class="no">Dropbox</span><span class="o">/</span><span class="no">Projects</span><span class="o">/</span><span class="n">event_manager_test</span><span class="o">/</span><span class="nb">test</span><span class="o">/</span><span class="n">attendee_test</span><span class="o">.</span><span class="n">rb</span><span class="p">:</span><span class="mi">45</span><span class="o">]</span><span class="p">:</span>
+</span><span class='line'><span class="no">Expected</span><span class="p">:</span> <span class="s2">&quot;2024449382&quot;</span>
+</span><span class='line'>  <span class="no">Actual</span><span class="p">:</span> <span class="s2">&quot;202.444-9382&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Great! Now I can do a simplistic cleaning in the initializer:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>    <span class="vi">@first_name</span>   <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@last_name</span>    <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">].</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and&#8230;that cleanup test passes but others have broken. </p>
+
+<h4>Introducing Regressions</h4>
+
+<p>When no phone number is passed in, <code>input[:phone_number]</code> is <code>nil</code>. Then calling <code>gsub</code> on <code>nil</code> blows up. Ugh, let&#8217;s add a little guard:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>  <span class="vi">@first_name</span>   <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@last_name</span>    <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">].</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and we&#8217;re passing. </p>
+
+<p>I look at that implementation and know it&#8217;s limited. I see we&#8217;re not guarding against spaces, commas, parentheses, or other characters that might come up. While it&#8217;s impossible to come up with an exhaustive list of everything that could be done wrong, this is totally reasonable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">test_it_cleans_up_phone_numbers_with_spaces_and_parentheses</span>
+</span><span class='line'>    <span class="n">attendee</span> <span class="o">=</span> <span class="no">Attendee</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:phone_number</span> <span class="o">=&gt;</span> <span class="s2">&quot;(202) 444 9382&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;2024449382&quot;</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run it, see it fail, then go back and add to my implementation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>    <span class="vi">@first_name</span>   <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@last_name</span>    <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>      <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">].</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">gsub</span><span class="p">(</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It passes the tests, but fails Ruby decency standards. We can enter the refactoring process: cleaning up code while trying to avoid adding any new significant functionality.</p>
+
+<h4>Refactoring Away From <code>.gsub</code></h4>
+
+<p>I think it&#8217;d work to use a regular expression and <code>.scan</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">].</span><span class="n">scan</span><span class="sr"> /[0-9]/</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and I remember that scan returns an array of strings, not a single string, so my tests are failing. Add on a <code>.join</code> and everything is cool:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">].</span><span class="n">scan</span><span class="p">(</span><span class="sr">/[0-9]/</span><span class="p">)</span><span class="o">.</span><span class="n">join</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Dealing with Leading Zeros</h4>
+
+<p>Some phone numbers in the data are 11 digits and start with a 1. We can safely cut off that one to normalize the number. Starting with a test&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_removes_leading_one_from_an_eleven_digit_phone_number</span>
+</span><span class='line'>  <span class="n">attendee</span> <span class="o">=</span> <span class="no">Attendee</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:phone_number</span> <span class="o">=&gt;</span> <span class="s2">&quot;12024449382&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;2024449382&quot;</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run it and, of course, it fails. I implement the easiest idea I can think of inside the <code>initialize</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">].</span><span class="n">scan</span><span class="p">(</span><span class="sr">/[0-9]/</span><span class="p">)</span><span class="o">.</span><span class="n">join</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@phone_number</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">11</span> <span class="o">&amp;&amp;</span> <span class="vi">@phone_number</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="vi">@phone_number</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and it passes.</p>
+
+<h4>Dealing with Too Short or Too Long Numbers</h4>
+
+<p>If, after the previous cleanings, a phone number is not 10 digits, I need to throw it away.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_it_throws_away_phone_numbers_that_are_too_long</span>
+</span><span class='line'>  <span class="n">attendee</span> <span class="o">=</span> <span class="no">Attendee</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:phone_number</span> <span class="o">=&gt;</span> <span class="s2">&quot;23334445555&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;0000000000&quot;</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_it_throws_away_phone_numbers_that_are_too_short</span>
+</span><span class='line'>  <span class="n">attendee</span> <span class="o">=</span> <span class="no">Attendee</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:phone_number</span> <span class="o">=&gt;</span> <span class="s2">&quot;222333444&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;0000000000&quot;</span><span class="p">,</span> <span class="n">attendee</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run them, they fail, then add even more code to this <code>initialize</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">if</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>  <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">].</span><span class="n">scan</span><span class="p">(</span><span class="sr">/[0-9]/</span><span class="p">)</span><span class="o">.</span><span class="n">join</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@phone_number</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">11</span> <span class="o">&amp;&amp;</span> <span class="vi">@phone_number</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="vi">@phone_number</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@phone_number</span><span class="o">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">10</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="s2">&quot;0000000000&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests and they pass.</p>
+
+<h4>Refactoring Under Test</h4>
+
+<p>That&#8217;s all the functionality we&#8217;re expecting out of number sanitizing, so we can stop writing tests.</p>
+
+<p>But the code&#8230;ick. We need to first get it out of the <code>Attendee#initialize</code> method. Our test harness allows us to do this with confidence:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Attendee</span>
+</span><span class='line'>  <span class="kp">attr_accessor</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:phone_number</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">input</span> <span class="o">=</span> <span class="p">{})</span>
+</span><span class='line'>    <span class="vi">@first_name</span>   <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@last_name</span>    <span class="o">=</span> <span class="n">input</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">clean_phone_number</span><span class="p">(</span><span class="n">input</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">clean_phone_number</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">number</span>
+</span><span class='line'>      <span class="n">number</span> <span class="o">=</span> <span class="n">number</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="sr">/[0-9]/</span><span class="p">)</span><span class="o">.</span><span class="n">join</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">number</span><span class="o">.</span><span class="n">length</span> <span class="o">==</span> <span class="mi">11</span> <span class="o">&amp;&amp;</span> <span class="n">number</span><span class="o">.</span><span class="n">start_with?</span><span class="p">(</span><span class="s2">&quot;1&quot;</span><span class="p">)</span>
+</span><span class='line'>        <span class="n">number</span> <span class="o">=</span> <span class="n">number</span><span class="o">[</span><span class="mi">1</span><span class="o">.</span><span class="n">.</span><span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="k">if</span> <span class="n">number</span><span class="o">.</span><span class="n">length</span> <span class="o">!=</span> <span class="mi">10</span>
+</span><span class='line'>        <span class="n">number</span> <span class="o">=</span> <span class="s2">&quot;0000000000&quot;</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">return</span> <span class="n">number</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>clean_phone_number</code> method is still pretty ugly, but it&#8217;s abstracted out from <code>initialize</code> which is now looking good. Before we try to simplify the <code>clean_phone_number</code> method, we have to ask an important question:</p>
+
+<p><strong>What does cleaning a phone number have to do with the idea of an <code>Attendee</code>?</strong></p>
+
+<p>It doesn&#8217;t. This functionality doesn&#8217;t belong in the <code>Attendee</code> class. It belongs in a <code>PhoneNumber</code> class.</p>
+
+<h4>Applying Your Learning</h4>
+
+<ul>
+<li>Create a <code>phone_number.rb</code> and accompanying <code>phone_number_test.rb</code></li>
+<li>Move or create tests in <code>phone_number_test.rb</code> which exercise the class with all these same formatting fixes</li>
+<li>Use that class from the <code>attendee.rb</code></li>
+<li>Verify that all tests are passing.</li>
+<li>Once you feel good about <code>PhoneNumber</code>, you can reduce the number of tests about phone numbers in <code>attendee_test.rb</code></li>
+</ul>
+
+<h4>Next Steps</h4>
+
+<ul>
+<li>Apply this same pattern to dealing with the zipcodes</li>
+<li>Grab the actual CSV header names, and write an adapter/translator that can take in the CSV row objects and create the <code>Attendee</code> objects</li>
+<li>Write a <code>Representative</code> object which, supplied a zipcode, can supply all the information needed for the Congressional Lookup iteration</li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+<li>MiniTest on GitHub: <a href="https://github.com/seattlerb/minitest">https://github.com/seattlerb/minitest</a></li>
+<li>MiniTest Quick Reference: <a href="http://www.mattsears.com/articles/2011/12/10/minitest-quick-reference">http://www.mattsears.com/articles/2011/12/10/minitest-quick-reference</a></li>
+<li>Most common assertions:
+
+<ul>
+<li><code>assert</code></li>
+<li><code>assert_equal</code></li>
+<li><code>assert_includes</code></li>
+<li><code>assert_nil</code></li>
+<li><code>assert_raises</code></li>
+</ul></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

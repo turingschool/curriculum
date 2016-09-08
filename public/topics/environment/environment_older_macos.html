@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Older MacOS Platforms - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Environment & Source Control                                      Older MacOS Platforms                              If you&#8217 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/environment/environment_older_macos.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Environment & Source Control</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Older MacOS Platforms
+        </h1>
+        
+      </header>
+    
+    <p>If you&#8217;re not on the latest version of MacOS you should probably update that, first. It&#8217;s usually free.</p>
+
+<p>If, for some reason, you have to stay on an older version, the below notes may be helpful:</p>
+
+<h2>OS X 10.7.x (Lion) or OS X 10.8.x (Mountain Lion)</h2>
+
+<p>Installing ruby on Mac OS requires the Command Line Tools that XCode gives you
+access to.</p>
+
+<h3>If you have XCode installed</h3>
+
+<ul>
+<li>Open XCode and go to Preferences &gt; Downloads &gt; Install Command Line Tools.</li>
+</ul>
+
+<h3>If you don&#8217;t have XCode installed</h3>
+
+<ul>
+<li><a href="https://developer.apple.com/programs/register/">Create or Register</a> an Apple ID.
+Register with the same Apple ID you use for other Apple services, such as
+iTunes, iCloud, and the Apple Online Store.</li>
+<li><a href="http://developer.apple.com/downloads/index.action">Login</a> to the Apple
+Developer Portal.</li>
+<li>In the pane on the right, look for &quot;command line tools&quot; and choose the</li>
+<li>package appropriate to your version of OS X.
+** Mac OS X 10.7.x - Lion
+** Mac OS X 10.8.x - Mountain Lion</li>
+<li>Download this package</li>
+<li>When the download completes, you&#8217;ll have a .dmg file. Double-click this
+file.</li>
+<li>Then double-click the .mpkg file that appears</li>
+<li>A dialog pops up. Accept the Terms.</li>
+<li>Accept the default install location (probably Macintosh HD) by clicking
+&quot;install&quot; or &quot;continue&quot;</li>
+<li>You&#8217;ll be asked to enter your password, which is the password you use to log
+in to your account on the computer.</li>
+<li>When it has completed the installation, click &quot;close&quot;.</li>
+</ul>
+
+<p>You&#8217;re good to go. You won&#8217;t have to go looking for the program that got
+installed, it&#8217;s just going to be used by other things you&#8217;ll be installing
+later.</p>
+
+<h3>GCC</h3>
+
+<p>You&#8217;re going to need a C compiler in order to install Ruby. We can use
+homebrew to get the official Apple gcc program that is distributed with XCode.</p>
+
+<p>First we need to tell brew to add some extra formulae:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>brew tap homebrew/dupes</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>When that completes, type:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>brew install apple-gcc42</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Manipulating the Path</h3>
+
+<p>Your computer has something called a PATH, which is basically a big list of
+places that it will look for programs on your computer. For example, it might
+have a list like this (except much longer):</p>
+
+<ul>
+<li><code>/usr/bin</code></li>
+<li><code>/usr/local/bin</code></li>
+<li><code>~/bin</code></li>
+</ul>
+
+<p>When you type a command in the terminal, the computer goes to the first place,
+<code>/usr/bin</code> and looks for a program with the name you typed. If it finds it,
+fine, it will go ahead and run that program. If not, it will move to the next
+location in the list and try again.</p>
+
+<p>Right now, <code>/usr/bin</code> is before <code>/usr/local/bin</code> in your PATH, and Apple&#8217;s
+version (which is installed under <code>/usr/bin</code> is taking precedence over the one
+we just installed (which is installed under <code>/usr/local/bin</code>.</p>
+
+<p>We need to switch the order so the computer looks in <code>/usr/local/bin</code> first.</p>
+
+<p>Go to your terminal and paste in the following (hit enter to run the command):</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>echo 'export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"' >> ~/.bash_profile</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>What does all that mean?</h4>
+
+<p><code>echo</code> is a command that just repeats whatever comes after it. For example:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>echo "Hello, World!"</span><span class='line output'>Hello, World!</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The <code>&gt;&gt;</code> means <em>append the output of the previous thing to the file that comes
+after this</em>.</p>
+
+<p>Here we&#8217;re appending to <code>~/.bash_profile</code> which is a file that contains
+configuration for your terminal. Every time you open a new terminal window,
+that file gets read so that your terminal behaves the way you want it to.</p>
+
+<h4>Moving On</h4>
+
+<p>Now that we&#8217;ve changed the <code>~/.bash_profile</code> file, we need to update our
+terminal session to read the new information. This is called <em>sourcing</em> a
+file:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>source ~/.bash_profile</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>To make sure that everything is the way you want it, run the <code>git --version</code>
+and <code>which git</code> commands again:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>which git</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>git --version</span></code></pre></td></tr></table></div></div>
+        </div>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Merge Sort Workshop - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Merge Sort Workshop                              Merge sort is an O(n log n) comparison-based sorting algorithm. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/workshops/merge_sort.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Merge Sort Workshop
+        </h1>
+        
+      </header>
+    
+    <blockquote>
+<p>Merge sort is an O(n log n) comparison-based sorting algorithm. Most implementations produce a stable sort, which means that the implementation preserves the input order of equal elements in the sorted output. Merge sort is a divide and conquer algorithm that was invented by John von Neumann in 1945.[1] A detailed description and analysis of bottom-up mergesort appeared in a report by Goldstine and Neumann as early as 1948.[2]</p>
+</blockquote>
+<p>~ <a href="http://en.wikipedia.org/wiki/Merge_sort">Wikipedia</a></p>
+
+<p><img src="/images/merge_sort.gif" alt="Merge Sort in Action">
+</p>
+
+<h2>Goals</h2>
+
+<p>The goal of this workshop is to create an implementation of the <a href="http://en.wikipedia.org/wiki/Merge_sort">merge sort</a> algorithm.</p>
+
+<p>During the course of the workshop the emphasis is <em>not</em> on completing the implementation within the timeframe provided. It is about choosing and following a path for growth.</p>
+
+<p>Your path may be to understand the problem in a new way or to build an implementation in another language. You may find yourself drawn to a path which emphasizes the process or the tools you use as a craftsman. It may not even be a technical path but one in which you emphasize communication with your peer.</p>
+
+<p>Use this workshop as an excuse to try something different and to fail. As the code itself you write today will not be useful, it&#8217;s about the process.</p>
+
+<h2>Schedule</h2>
+
+<ul>
+<li>Introduction (15 minutes)</li>
+<li>First Session (40 minutes)</li>
+<li>Break (10 minutes)</li>
+<li>Second Session (40 minutes)</li>
+<li>Retrospective (15 minutes)</li>
+</ul>
+
+<h3>Step 1: Setup</h3>
+
+<p>We&#8217;ve setup a repository to conduct your work. In this project you&#8217;ll find several folders, each representing a path you might choose.</p>
+
+<p>Clone the repository from GitHub:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/workshop_mergesort.git</span></code></pre></td></tr></table></div></figure>
+
+<div class='download'>
+        <img src='/images/download_tag.png'/>
+        <div class='title'>
+          <a href='https://github.com/jumpstartlab/workshop_mergesort/zipball/setup'>Download a Zip </a>
+        </div>
+        <div class='description'>
+        
+If you don&#8217;t have Git, click here to download the repository as a zip file.
+
+        </div>
+       </div>
+
+<h3>Step 2: Select a Path &amp; Partner</h3>
+
+<p>We&#8217;d recommend you not go it alone, please find someone to pair with.</p>
+
+<p>Either&#8230;</p>
+
+<ul>
+<li>choose a person that you want to work with and decide on a path, or</li>
+<li>choose a path and find someone willing to attempt it with you</li>
+</ul>
+
+<h4>Selection Suggestions</h4>
+
+<p>What will you practice?</p>
+
+<ul>
+<li>Consider a new language
+
+<ul>
+<li>Feel comfortable with Ruby? Maybe select a less common dialect like JRuby or Rubinius. What specialized tools or techniques could you take advantage of?</li>
+<li>Interested in functional programming? Maybe try Scala.</li>
+<li>What would it be like to implement some parts in Ruby, and some in a C extension?</li>
+<li>In JavaScript? CoffeeScript?</li>
+</ul></li>
+<li>An emphasis on code <a href="http://c2.com/cgi/wiki?TwoTypesOfCodeClarity">clarity</a> or structure
+
+<ul>
+<li>Could you build it with no methods?</li>
+<li>Using only one-line methods?</li>
+<li>Using no if or case statements?</li>
+</ul></li>
+<li>A test driven approach
+
+<ul>
+<li>Using Test::Unit</li>
+<li>Using RSpec and pushing yourself into less-common syntax</li>
+<li>Using Jasmine</li>
+<li>Using Cucumber or Turnip</li>
+</ul></li>
+<li>Utilizing different development tools
+
+<ul>
+<li>If you&#8217;re a SublimeText/Textmate person, what about Vim?</li>
+<li>If you&#8217;re a Vim person, what about Emacs?</li>
+<li>If there were such a thing as an Emacs person, what about pencil &amp; paper?</li>
+</ul></li>
+<li>Emphasizing the partnership
+
+<ul>
+<li>What if you didn&#8217;t talk?</li>
+<li>What if one person writes tests, the other writes implementation?</li>
+</ul></li>
+</ul>
+
+<p>You are encouraged to define your own path if none of these options appeal to you.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

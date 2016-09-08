@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>WebGuesser - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="WebGuesser                              In this introductory level project, you&#8217;ll use Sinatra to build a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/web_guesser.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          WebGuesser
+        </h1>
+        
+      </header>
+    
+    <p>In this introductory level project, you&#8217;ll use Sinatra to build a number guessing game.</p>
+
+<h4>Goals</h4>
+
+<p>It will:</p>
+
+<ul>
+<li>Generate a random number on startup</li>
+<li>Have a web page where you can enter a guess</li>
+<li>Tell you whether your guess was&#8230;
+
+<ul>
+<li>Way too high</li>
+<li>Too high</li>
+<li>Correct</li>
+<li>Too low</li>
+<li>Way too low</li>
+</ul></li>
+</ul>
+
+<h2>Iteration 0: Generating the Number</h2>
+
+<p>When we start a project we like to work in iterations. You can think of an iteration like a draft when you&#8217;re writing a paper. The goal of Iteration 0 is to get the program doing <em>something</em> successfully.</p>
+
+<p>In this iteration, let&#8217;s focus on:</p>
+
+<ul>
+<li>Beginning the Sinatra app</li>
+<li>Generating the random number</li>
+<li>Storing that number</li>
+<li>Displaying the number</li>
+</ul>
+
+<h3>Setup the Application</h3>
+
+<p>In your Command Prompt:</p>
+
+<ul>
+<li>Install Sinatra with <code>gem install sinatra</code></li>
+<li>Use <code>cd</code> to get to your <code>projects</code> directory</li>
+<li>Make a new directory with <code>mkdir web_guesser</code></li>
+<li>Change into that directory with <code>cd web_guesser</code></li>
+<li>Create new git repository with <code>git init</code></li>
+<li>Create our server file with <code>touch web_guesser.rb</code></li>
+</ul>
+
+<p>Then go over to SublimeText and open that <code>web_guesser.rb</code> file.</p>
+
+<h3>Hello, World</h3>
+
+<p>Let&#8217;s focus first on getting the server running. Start off your file with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And save it in SublimeText</p>
+
+<h3>Start the Server</h3>
+
+<ul>
+<li>Go back to your Command Prompt</li>
+<li>Start the server with <code>ruby web_guesser.rb</code></li>
+<li>See output like this:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>INFO  WEBrick 1.3.1
+</span><span class='line'>INFO  ruby 1.9.3 (2013-02-22) [x86_64-darwin12.3.0]
+</span><span class='line'>== Sinatra/1.3.6 has taken the stage on 4567 for development with backup from WEBrick
+</span><span class='line'>INFO  WEBrick::HTTPServer#start: pid=3616 port=4567</span></code></pre></td></tr></table></div></figure>
+
+<p>That says that the server started listening on port <code>4567</code>.</p>
+
+<p>Go to your web browser and open <code>http://localhost:4567</code> and you should see the output &quot;Hello, World.&quot; Your web application and server are running!</p>
+
+<h3>Commit to Git</h3>
+
+<p>Let&#8217;s commit our code. From the command prompt:</p>
+
+<ul>
+<li><code>git add .</code> to add the new file</li>
+<li><code>git commit -m &quot;I0: first sinatra server&quot;</code> to commit the code</li>
+</ul>
+
+<h2>Iteration 1: Generating the Number</h2>
+
+<p>Our program should generate the secret number when it first starts up. Let&#8217;s start with a number between 0 and 100.</p>
+
+<h3>Using <code>rand</code></h3>
+
+<p>You&#8217;ve probably seen the <code>rand</code> method before. It takes one argument: the upper bound of numbers you want to generate. So <code>rand(4)</code> could generate a <code>0</code>, <code>1</code>, <code>2</code>, or <code>3</code>.</p>
+
+<p>Can you figure out how to use <code>rand</code> in your program to:</p>
+
+<ul>
+<li>Generate a number between <code>0</code> and <code>100</code></li>
+<li>Output it on the page so, instead of Hello, World, it says &quot;The secret number is X&quot; where X is the secret number</li>
+<li>Make sure that when you refresh the web page you see the same number each time</li>
+</ul>
+
+<h3>Sinatra and Code Changes</h3>
+
+<p>With a Sinatra application, changes you make to the server file are <strong>not</strong> automatically reloaded. So every time you make a change you need to stop and restart the server.</p>
+
+<h4>Setup <code>sinatra/reloader</code></h4>
+
+<p>That&#8217;s no fun. Let&#8217;s add on a library that can automatically reload the code when changes are made. In your command prompt:</p>
+
+<ul>
+<li>Stop your server if it&#8217;s running with <code>Ctrl-C</code></li>
+<li>Install the <code>sinatra-contrib</code> gem by typing <code>gem install sinatra-contrib</code></li>
+</ul>
+
+<p>Then, go back to SublimeText and add a second <code>require</code> statement underneath the existing one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/reloader&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Test It Out</h4>
+
+<ul>
+<li>Start your server from the command prompt</li>
+<li>Visit the web page and see your line like &quot;The secret number is X&quot;</li>
+<li>Go to your <code>web_guesser.rb</code> and change the capitalization to &quot;The SECRET NUMBER is X&quot;</li>
+<li>Refresh your browser and the text should change <em>without</em> having to stop/start the server</li>
+</ul>
+
+<h4>Thinking About Reloading</h4>
+
+<p>If you&#8217;ve done everything properly up to this point&#8230;</p>
+
+<ul>
+<li>A random number is generated when the server file is loaded</li>
+<li>Accessing the web page does <em>not</em> cause the server file to reload</li>
+<li>Making changes to <code>web_guesser.rb</code> causes it to automatically reload</li>
+</ul>
+
+<p>Therefore&#8230;</p>
+
+<ul>
+<li>If you refresh the web page the number should not change</li>
+<li>If you make changes to the code, the number will change</li>
+</ul>
+
+<p>That&#8217;s just fine because when someone&#8217;s actually playing the game we won&#8217;t be changing the server code at the same time. We&#8217;re ready to start guessing!</p>
+
+<h3>Commit to Git</h3>
+
+<p>Let&#8217;s commit our code. From the command prompt:</p>
+
+<ul>
+<li><code>git add .</code> to add the new file</li>
+<li><code>git commit -m &quot;I1: generates a random number&quot;</code> to commit the code</li>
+</ul>
+
+<h2>I2: Using ERB and HTML</h2>
+
+<p>Let&#8217;s move toward letting the user actually put in a guess and give feedback.</p>
+
+<h3>HTML &amp; Forms</h3>
+
+<p>In HTML, the way you allow the user to enter data is through a web form.</p>
+
+<p>But wait, we aren&#8217;t even rendering HTML! Our server is just spitting back raw text. Let&#8217;s output HTML instead.</p>
+
+<h3>Rendering a Template</h3>
+
+<p>We&#8217;re going to separate the HTML code out from our Ruby code to make things more clear.</p>
+
+<ul>
+<li>Create a folder within the <code>web_guesser</code> directory named <code>views</code></li>
+<li>Inside that <code>views</code> folder, create a file named <code>index.erb</code></li>
+<li>Cut the secret number line from <code>web_guesser.rb</code> and paste it into <code>index.erb</code> (the line inside your get &quot;/&quot; method)</li>
+<li>Where that line used to be in <code>web_guesser.rb</code>, instead put <code>erb :index</code></li>
+<li>Save both files</li>
+</ul>
+
+<p>Refresh your web browser</p>
+
+<p>You should then see something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>"The SECRET NUMBER is #{number}"</span></code></pre></td></tr></table></div></figure>
+
+<p>If you don&#8217;t see that, use the error messages to help you debug the issue.</p>
+
+<h3>What is ERB?</h3>
+
+<p>When we named the file <code>.erb</code> we were telling Sinatra that we&#8217;re creating an ERB file. ERB stands for <strong>E</strong>mbedded <strong>R</strong>u<strong>b</strong>y &#8211; it&#8217;s a way of mixing plain text and Ruby together.</p>
+
+<p>But it has different syntax than Ruby strings. By default, everything in an ERB file is assumed to be plain text that should be output to the browser.</p>
+
+<h4>Ruby Injection</h4>
+
+<p>But if we have some Ruby code that we want to run, we put in what&#8217;s called a ruby injection. Try this in your ERB file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">The SECRET NUMBER is </span><span class="cp">&lt;%=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>&lt;%=</code> marks the beginning of Ruby code and the <code>%&gt;</code> ends it. Sinatra will run the Ruby inside those markers and output the results in that spot.</p>
+
+<p>Refresh your browser and you should see the number appear.</p>
+
+<h4>Passing Variables</h4>
+
+<p>But if you refresh your browser again the number will change. That&#8217;s no good &#8211; it means the random number is being regenerated each request.</p>
+
+<p>Instead of generating the number in the ERB file, we want to take the number that was already generated in <code>web_guesser.rb</code> and pass it into the ERB template.</p>
+
+<p>Change your ERB template to output a variable named <code>number</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">The SECRET NUMBER is </span><span class="cp">&lt;%=</span> <span class="n">number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, in your <code>web_guesser.rb</code>, you need to pass the local variable into the ERB template like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">erb</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">:locals</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:number</span> <span class="o">=&gt;</span> <span class="n">number</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Translated to English, this means &quot;render the ERB template named <code>index</code> and create a local variable for the template named <code>number</code> which has the same value as the <code>number</code> variable from this server code.&quot;</p>
+
+<h3>Writing HTML</h3>
+
+<p>Our current output to the browser isn&#8217;t really valid HTML. The browser that we&#8217;re using is &quot;repairing&quot; it so that it can be displayed.</p>
+
+<p>Let&#8217;s instead output valid HTML ourselves. Rewrite your template so it looks like this, which has the minimum valid HTML tags:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;html&gt;</span>
+</span><span class='line'><span class="x">  &lt;head&gt;&lt;/head&gt;</span>
+</span><span class='line'><span class="x">  &lt;body&gt;</span>
+</span><span class='line'><span class="x">    &lt;p&gt;</span>
+</span><span class='line'><span class="x">      The SECRET NUMBER is </span><span class="cp">&lt;%=</span> <span class="n">number</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;/p&gt;</span>
+</span><span class='line'><span class="x">  &lt;/body&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh your browser and you should see &#8230; no change. But if you view the page source (different on each browser), you should see that full HTML structure.</p>
+
+<h3>Commit to Git</h3>
+
+<p>Let&#8217;s commit our code. From the command prompt:</p>
+
+<ul>
+<li><code>git add .</code> to add the new file</li>
+<li><code>git commit -m &quot;I2: uses an ERB template and HTML&quot;</code> to commit the code</li>
+</ul>
+
+<h2>I3: Guessing Numbers</h2>
+
+<p>At first this game will not be very challenging. We&#8217;re going to let the user guess a number <strong>and</strong> we&#8217;re going to print out the secret number at the same time!</p>
+
+<h3>Writing an HTML Form</h3>
+
+<p>Now that we&#8217;re rendering HTML we can create an HTML form. It goes like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;text&#39;</span> <span class="na">name=</span><span class="s">&#39;guess&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&#39;submit&#39;</span> <span class="na">value=</span><span class="s">&#39;Guess!&#39;</span> <span class="nt">/&gt;</span>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In that code you&#8217;ll see:</p>
+
+<ul>
+<li>Opening and closing <code>form</code> tags that mark the beginning and end of the form</li>
+<li>An <code>input</code> which has the <code>type</code> set to <code>text</code>. This will create a small text box that the user can type into</li>
+<li>An <code>input</code> which has the <code>type</code> set to <code>submit</code>. This will create a button that the user can click to submit the form. The <code>value=</code> attribute specifies the text that we want to appear on the button.</li>
+</ul>
+
+<p>Refresh your browser and you should see the box and button appear. Go ahead and guess a number.</p>
+
+<h3>Reacting to the Guess</h3>
+
+<p>Nothing really happens when you guess a number. But you can see the guess in the URL now, which probably looks like <code>http://localhost:4567/?guess=14</code>. Let&#8217;s go back to the <code>web_guesser.rb</code> and figure out what to do with that guess.</p>
+
+<h4>Working with <code>params</code></h4>
+
+<p>Inside your <code>get</code> block, add this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>throw params.inspect
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh the browser and you should see a <code>RuntimeError</code>. On the second line it shows you the error message like <code>{&quot;guess&quot;=&gt;&quot;14&quot;}</code>.</p>
+
+<p>Using <code>throw</code> like this can be an quick way to understand what data looks like inside the server. What we see here is that the <code>params</code> method returns us a Ruby hash with the key <code>&quot;guess&quot;</code> and the value <code>&quot;14&quot;</code>. That 14 is what I had entered in the form.</p>
+
+<p>So if we write <code>params[&quot;guess&quot;]</code> we&#8217;ll get back a string representation of the guess that the user entered in the form.</p>
+
+<p>Now that we&#8217;re done debugging, remove that <code>throw params.inspect</code> line.</p>
+
+<h4>Too High?</h4>
+
+<p>Let&#8217;s tell the user when their guess is too high. Here&#8217;s the pseudocode for what we want to happen on the server:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>if the guess is too high
+</span><span class='line'>  set the message to "Too high!"
+</span><span class='line'>end
+</span><span class='line'>render the ERB template and pass in the number AND the message</span></code></pre></td></tr></table></div></figure>
+
+<p>Can you figure out how to do that? Some things to keep in mind:</p>
+
+<ul>
+<li>The value you get from <code>params['guess']</code> will be a string. To compare it to an integer, first convert it to an integer.</li>
+<li>You can pass multiple local variables to the ERB template by specifying multiple key/value pairs inside the locals hash</li>
+<li>You can use a new ERB injection in the <code>index.erb</code> to output the message.</li>
+</ul>
+
+<p>When it&#8217;s working correctly:</p>
+
+<ul>
+<li>A too low guess has no message</li>
+<li>A too high guess has output like this:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Too high!
+</span><span class='line'>
+</span><span class='line'>The SECRET NUMBER is 32</span></code></pre></td></tr></table></div></figure>
+
+<h4>Too low?</h4>
+
+<p>Once that&#8217;s working, implement the logic so you get a message <code>Too low!</code> when the guess is too low.</p>
+
+<h4>Correct</h4>
+
+<p>With too high and too low in place, add a message <code>&quot;You got it right!&quot;</code> when the guess is correct.</p>
+
+<h4>Way Too</h4>
+
+<p>When the guess is more than five numbers too high, print a message <code>&quot;Way too high!&quot;</code>.</p>
+
+<p>When the guess is more than five number too low, print a message <code>&quot;Way too low!&quot;</code>.</p>
+
+<h4>Remove the Answer</h4>
+
+<p>Finally, only display &quot;The SECRET NUMBER is&quot; line when they guess correctly.</p>
+
+<h4>Refactor</h4>
+
+<p>Once it&#8217;s working&#8230;</p>
+
+<ol>
+<li>Try to generally simplify your guess checking code</li>
+<li>Pull all the checking out to it&#8217;s own method so your <code>get</code> block looks like this:</li>
+</ol>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">guess</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="s2">&quot;guess&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">message</span> <span class="o">=</span> <span class="n">check_guess</span><span class="p">(</span><span class="n">guess</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">erb</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">:locals</span> <span class="o">=&gt;</span> <span class="p">{</span><span class="ss">:number</span> <span class="o">=&gt;</span> <span class="n">number</span><span class="p">,</span> <span class="ss">:message</span> <span class="o">=&gt;</span> <span class="n">message</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To make it work as expected, you can assign the secret number to a constant:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">SECRET_NUMBER</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then the <code>check_guess</code> number could use that <code>SECRET_NUMBER</code> constant and it wouldn&#8217;t change between requests.</p>
+
+<p>For bonus points, do this with <a href="http://www.sinatrarb.com/configuration.html">Sinatra&#8217;s settings feature</a>.</p>
+
+<h4>Play!</h4>
+
+<p>Have one of your classmates try out your guessing game!</p>
+
+<h3>Commit to Git</h3>
+
+<p>Let&#8217;s commit our code. From the command prompt:</p>
+
+<ul>
+<li><code>git add .</code> to add the new file</li>
+<li><code>git commit -m &quot;I3: number guessing game complete&quot;</code> to commit the code</li>
+</ul>
+
+<h2>I4: Extensions</h2>
+
+<p>You can guess numbers, eh? Let&#8217;s make it a little more interesting.</p>
+
+<h3>Colorizing the Output</h3>
+
+<p>You could embed some CSS in your HTML to change the color. For instance, adding this <code>&lt;style&gt;</code> tag to the <code>&lt;head&gt;</code> will make the background red:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;head&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;style&gt;</span>
+</span><span class='line'>      <span class="nt">body</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">background</span><span class="o">:</span> <span class="nb">red</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="nt">&lt;/style&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/head&gt;</span>
+</span><span class='line'><span class="nt">&lt;body&gt;</span>
+</span><span class='line'><span class="c">&lt;!-- the rest of your code below --&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Can you make it so the background is:</p>
+
+<ul>
+<li>Bright red when the guess is way too high or way too low</li>
+<li>A light red (closer to white) when the guess is just a little bit high or low</li>
+<li>Green when the guess is correct</li>
+</ul>
+
+<p>When it works correctly, commit your files to Git!</p>
+
+<h3>Guess Limiting</h3>
+
+<p>Can you make it so they only get five guesses before a new number is generated? Some tips:</p>
+
+<ul>
+<li>Create a class variable with <code>@@</code> that keeps track of how many guesses they have remaining</li>
+<li>When subtract one from that each guess</li>
+<li>If the guesses reach zero, then&#8230;
+
+<ul>
+<li>Generate a new number</li>
+<li>Set the number of guesses back to five</li>
+<li>Show them a message that they&#8217;ve lost and a new number has been generated</li>
+</ul></li>
+<li>If they guess correctly, then&#8230;
+
+<ul>
+<li>Generate a new number</li>
+<li>Set the number of guesses back to five</li>
+<li>Show the message that they&#8217;ve guessed correctly</li>
+</ul></li>
+</ul>
+
+<p>When it works correctly, commit your files to Git!</p>
+
+<h3>Cheat Mode</h3>
+
+<p>Right now, our guess URLs look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>http://localhost:4567/?guess=56
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s build a cheat mode. When the user manually changes the URL to look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'>http://localhost:4567/?guess=56<span class="err">&amp;</span>cheat=true
+</span></code></pre></td></tr></table></div></figure>
+
+<p>They unlock the cheat mode. When cheat is true, the page should always print out the secret number so they can get it right on the next guess.</p>
+
+<p>When it works correctly, commit your files to Git!</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

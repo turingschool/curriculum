@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Adding to the Admin Experience - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Building Applications with Spree                                      Adding to the Admin Experience &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/spree/adding_to_the_admin_experience.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Building Applications with Spree</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Adding to the Admin Experience
+        </h1>
+        
+      </header>
+    
+    <h2>Introduction</h2>
+
+<p>The current admin experience offers us the ability to list the current users
+in the system. When we view this page we only have a list of email addresses
+of our users. It is hard to tell from this who are the admins of our system.</p>
+
+<h3>Learning Goals</h3>
+
+<ul>
+<li>Practice adding Ruby code to Spree&#8217;s execution flow</li>
+<li>Understand how Rails&#8217; routing works in Spree</li>
+<li>Practice overriding view templates</li>
+</ul>
+
+<h3>Plan</h3>
+
+<p>We&#8217;ll start by accessing the model data for a given user and determine whether or not they&#8217;re an admin. If they are, we&#8217;ll modify the user interface to clearly highlight or mark them in the users listing.</p>
+
+<h3>Finding Where To Start</h3>
+
+<p>Maybe the hardest part about building with Spree is understanding where to get started.</p>
+
+<h4>Finding Our Way by Logging</h4>
+
+<p>From our earlier explorations we learned how to use the terminal to find
+the controller and the action that we were requesting.</p>
+
+<ul>
+<li>Visit <code>http://localhost:3000/admin/users</code></li>
+</ul>
+
+<p>This should show our one admin user in the system &quot;<a href="mailto:spree@example.com">spree@example.com</a>&quot;.</p>
+
+<ul>
+<li>View the terminal log:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Started GET "/admin/users" for 127.0.0.1 at 2013-08-09 12:36:41 -0500
+</span><span class='line'>Processing by Spree::Admin::UsersController#index as HTML</span></code></pre></td></tr></table></div></figure>
+
+<h4>Finding Our Way by <code>rake routes</code></h4>
+
+<p>Using the logs is a great way to find our where our requests are going. But you may want to get a sense of where <em>all</em> the routes are heading and not constantly be referring to the logs.</p>
+
+<p>Rails provides a <a href="http://guides.rubyonrails.org/routing.html#inspecting-and-testing-routes">utility</a>
+to help assist with laying out all the possible routes within your application.</p>
+
+<ul>
+<li>Run <code>rake routes</code></li>
+</ul>
+
+<p>The results should be a huge list of all the urls and their associated
+controller and action. Within the list we would need to find a route
+that matches the format &quot;/admin/users&quot;.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>admin_users GET    /admin/users(.:format)                                                       spree/admin/users#index</span></code></pre></td></tr></table></div></figure>
+
+<p>The right hand column shows the filepath that defines the controller. In this
+case we are interested in finding a controller with the path:
+<code>spree/admin/users_controller</code>. Within that controller we are looking for the
+index action.</p>
+
+<p>It&#8217;s often helpful to combine the Unix tool <code>grep</code> with <code>rake routes</code> to find the routes you&#8217;re interested in. For instance, to find all the paths with the substring &quot;users&quot;:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rake routes | grep users</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Opening The Appropriate Gem</h4>
+
+<p>The request is handled by the index action of the
+<code>Spree::Admin::UsersController</code>. We can find that class within one of the
+various spree gems included in our project. As we mentioned previously, the admin interface is in the <code>spree_backend</code> gem:</p>
+
+<ul>
+<li>Run <code>bundle open spree_backend</code> to look at the source code.</li>
+</ul>
+
+<p>Searching through the source you are not going to find the
+<code>app/controllers/spree/admin/users_controller.rb</code> in this gem. That is because
+user management is handled by the gem <strong>spree<em>auth</em>devise</strong>.</p>
+
+<ul>
+<li>Run <code>bundle open spree_auth_devise</code></li>
+</ul>
+
+<p>To make things a little more confusing, this is not an actual gem. It is a git repository specified in the <code>Gemfile</code> that Bundler cloned locally. Nevertheless, we can interact with it like a gem.</p>
+
+<ul>
+<li>Open <code>app/controllers/spree/admin/users_controller.rb</code></li>
+</ul>
+
+<p>Notice that the namespace of the controller, <code>Spree::Admin</code>, is mirrored in the path. This is a convention
+enforced by Rails.</p>
+
+<p>Finally we can look at the index action:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def index
+</span><span class='line'>  respond_with(@collection) do |format|
+</span><span class='line'>    format.html
+</span><span class='line'>    format.json { render :json =&gt; json_data }
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<p>The index action responds with a <code>@collection</code> of user objects. By default the
+index action will render a template within the views directory that has a path
+composed with the name of the controller and the action.</p>
+
+<p>In this case the <strong>index</strong> action renders the template:
+<code>app/views/spree/admin/users/index.html.erb</code>.</p>
+
+<h3>Overriding the Current Admin View</h3>
+
+<p>Similar to when we were debugging, we could start to edit the controller and
+the template within the current gem. However this will lead to <strong>serious</strong>
+problems because the source we are editing is not within our own project.</p>
+
+<h4>Override the Whole Template</h4>
+
+<p>The first way we can override an existing view is to create a parallel copy of
+that template within our own project.</p>
+
+<ul>
+<li>Within our Spree project create <code>app/views/spree/admin/users/index.html.erb</code>
+and add the following html:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;h1&gt;</span>USERS<span class="nt">&lt;/h1&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>View <code>http://localhost:3000/admin/users</code></li>
+</ul>
+
+<p>Our original users index page should completely disappear and be replaced with
+our new, feature-less page.</p>
+
+<p>Rails will <em>first</em> look locally in our app for the matching template file before looking in the Spree gems. Since the app now has that template, the built in version is unreachable.</p>
+
+<h3>Adding a Stubbed Admin Flag to the View</h3>
+
+<p>Sometimes
+it is easier to work with the entire view before we know what portion of the
+view we want to replace with more surgical tools like <a href="https://github.com/spree/deface">deface</a>.</p>
+
+<ul>
+<li>Copy the source of the original into <code>app/views/spree/admin/users/index.html.erb</code>.</li>
+<li>Add the new table header to display whether the user is an admin</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- other html data --&gt;</span>
+</span><span class='line'><span class="nt">&lt;th&gt;</span><span class="err">&lt;</span>%= sort_link @search,:email, Spree.t(:user), {}, {:title =&gt; &#39;users_email_title&#39;} %&gt;<span class="nt">&lt;/th&gt;</span>
+</span><span class='line'><span class="nt">&lt;th&gt;</span>Admin?<span class="nt">&lt;/th&gt;</span>
+</span><span class='line'><span class="c">&lt;!-- other html data --&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Add the new table row to display if the user is an admin</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="c">&lt;!-- other html data --&gt;</span>
+</span><span class='line'><span class="nt">&lt;td</span> <span class="na">class=</span><span class="s">&#39;user_email&#39;</span><span class="nt">&gt;</span><span class="err">&lt;</span>%=link_to user.email, object_url(user) %&gt;<span class="nt">&lt;/td&gt;</span>
+</span><span class='line'><span class="nt">&lt;td&gt;</span>Yes<span class="nt">&lt;/td&gt;</span>
+</span><span class='line'><span class="c">&lt;!-- other html data --&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This should display that <em>every</em> user is an Admin. We are not actually checking whether the user is an admin, we just display &quot;Yes&quot; for each user.</p>
+
+<p>Displaying stubbed data like this is a useful strategy to take as it is often
+easier to focus a single aspect of your implementation. Here we were able to
+complete the view representation of that data without thinking about the backend.</p>
+
+<h3>Replacing the Stubbed Data with Real Data</h3>
+
+<p>The stubbed data was great to help us focus on our view implementation. It is
+now time to replace that stubbed data with the actual state of the each user.</p>
+
+<p>One hard part about Ruby is understanding what methods exist on a given object.
+How do we know what methods already exist on the user object?</p>
+
+<p>We are going to explore some ways to determine the state of the user object.</p>
+
+<h4>Debugging</h4>
+
+<p>The most accurately way to determine what the object is and what methods it
+has is to ask the object in the midst of execution.</p>
+
+<p>We could employ similar debugging techniques that we employed previously. This
+time we will add our debugger statement within our view that we have overridden.</p>
+
+<ul>
+<li>Open <code>app/views/spree/admin/users/index.html.erb</code> and add the following
+source within the view within the loop that iterates over the users:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html+erb'><span class='line'><span class="c">&lt;!-- other html and erb tags --&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;tbody&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%</span> <span class="vi">@users</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span><span class="cp">%&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;%</span> <span class="n">debugger</span> <span class="cp">%&gt;</span>
+</span><span class='line'>    <span class="c">&lt;!-- other html and erb tags --&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/tbody&gt;</span>
+</span><span class='line'><span class="c">&lt;!-- other html and erb tags --&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Within the current debugging session enter the command <code>irb</code></li>
+</ul>
+
+<p>We now an a complete irb session where we can interogate the <code>user</code> instance
+that was defined in this block. We could have likewise used the <code>p</code> or <code>print</code>
+command. Sometimes when you are doing quite a bit of exploration it is easier
+to simply start an irb session.</p>
+
+<ul>
+<li>Enter the command <code>user</code></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html+erb'><span class='line'>=&gt; #<span class="nt">&lt;Spree::User</span> <span class="na">id:</span> <span class="na">1</span><span class="err">,</span> <span class="na">encrypted_password:</span> <span class="err">&quot;</span><span class="na">5e405f697605774637dfeb1fe083ec0a0d7efc365c0c0f3a509</span><span class="err">...&quot;,</span> <span class="na">password_salt:</span> <span class="err">&quot;</span><span class="na">wR52GbvL2G7R4sxjU4Gf</span><span class="err">&quot;,</span> <span class="na">email:</span> <span class="err">&quot;</span><span class="na">spree</span><span class="err">@</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">&quot;,</span> <span class="na">remember_token:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">persistence_token:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">reset_password_token:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">perishable_token:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">sign_in_count:</span> <span class="na">2</span><span class="err">,</span> <span class="na">failed_attempts:</span> <span class="na">0</span><span class="err">,</span> <span class="na">last_request_at:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">current_sign_in_at:</span> <span class="err">&quot;</span><span class="na">2013-08-09</span> <span class="na">17:21:28</span><span class="err">&quot;,</span> <span class="na">last_sign_in_at:</span> <span class="err">&quot;</span><span class="na">2013-08-02</span> <span class="na">21:06:26</span><span class="err">&quot;,</span> <span class="na">current_sign_in_ip:</span> <span class="err">&quot;</span><span class="na">127</span><span class="err">.</span><span class="na">0</span><span class="err">.</span><span class="na">0</span><span class="err">.</span><span class="na">1</span><span class="err">&quot;,</span> <span class="na">last_sign_in_ip:</span> <span class="err">&quot;</span><span class="na">127</span><span class="err">.</span><span class="na">0</span><span class="err">.</span><span class="na">0</span><span class="err">.</span><span class="na">1</span><span class="err">&quot;,</span> <span class="na">login:</span> <span class="err">&quot;</span><span class="na">spree</span><span class="err">@</span><span class="na">example</span><span class="err">.</span><span class="na">com</span><span class="err">&quot;,</span> <span class="na">ship_address_id:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">bill_address_id:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">authentication_token:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">unlock_token:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">locked_at:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">reset_password_sent_at:</span> <span class="na">nil</span><span class="err">,</span> <span class="na">created_at:</span> <span class="err">&quot;</span><span class="na">2013-08-02</span> <span class="na">21:05:36</span><span class="err">&quot;,</span> <span class="na">updated_at:</span> <span class="err">&quot;</span><span class="na">2013-08-09</span> <span class="na">17:21:28</span><span class="err">&quot;,</span> <span class="na">spree_api_key:</span> <span class="err">&quot;</span><span class="na">6daeb8cd93dafbd6a40295d5e9169f16ca9a89a240e41cd9</span><span class="err">&quot;,</span> <span class="na">remember_created_at:</span> <span class="na">nil</span><span class="nt">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We see that the user is in fact a <code>Spree::User</code> and from the output we are
+able to inspect some of the colums that the user maintains. However we need to
+know if it has particular methods.</p>
+
+<ul>
+<li>Enter the command <code>user.methods</code></li>
+</ul>
+
+<p>This will display an array of the available methods, represeted as symbols, on
+the user object. Because it is an array of symbols we may wish to sort them to
+make our lives easier for browsing.</p>
+
+<ul>
+<li>Enter the command <code>user.methods.sort</code></li>
+</ul>
+
+<p>The list is in alphabetical order and now will allow us to browse all the
+methods in a saner fashion. However, there are still more than a terminal
+screen worth of methods. So it might be easier to search for a particular
+method substring.</p>
+
+<ul>
+<li>Enter the command <code>user.methods.grep(/admin/)</code></li>
+</ul>
+
+<p>Ruby allows you to search through an array with 
+<a href="http://rubydoc.info/stdlib/core/Enumerable#grep-instance_method">grep</a> which
+takes a regular expression as a parameter. In our case we are looking for any
+method that has the word admin anywhere within it.</p>
+
+<p>The results should contain one method: <code>admin?</code></p>
+
+<p>If we knew the name of the method we were looking for we could have tried:</p>
+
+<ul>
+<li>Enter the command <code>user.respond_to?(:admin?)</code></li>
+</ul>
+
+<p>The result of this should be true, knowing now that the user object does in
+fact have the method <code>admin?</code>.</p>
+
+<ul>
+<li>Enter the command <code>exit</code> to leave the IRB session</li>
+<li>Enter the command <code>continue</code> to finish the debugger session</li>
+<li>Remove the <code>debugger</code> line from the view template</li>
+</ul>
+
+<h4>Reviewing Source Code</h4>
+
+<p>A not as accurate method to determine the state of an object is to review the
+source code.</p>
+
+<p>If we review the source code in the controller action all we saw was an
+instance variable named <code>@collection</code> that we assumed had an array of
+<code>Spree::User</code> objects. So we are making an assumption.</p>
+
+<p>Rails controllers, as a convention, will usually manage a collection of models
+which share a similar name. In this case, the <code>UsersController</code> manages
+<code>User</code> objects. However this convention is <em>not</em> enforced by Rails.</p>
+
+<p>From the previous exercise we know that the object is a <code>Spree::User</code> so let&#8217;s
+review that source:</p>
+
+<ul>
+<li>Within the <code>spree_auth_device</code> gem, open <code>app/spree/models/user.rb</code>.</li>
+</ul>
+
+<p>The <code>Spree::User</code> includes an external module, defines multiple different
+attributes and several association relationships.</p>
+
+<p>Scrolling past those we find the <code>admin?</code> method defined which is a helper method
+that simply asks if the user has the the spree role of <code>'admin'</code>.</p>
+
+<h4>Reviewing Tests</h4>
+
+<p>Probably the most responsible way to determine the state of an object is to
+reivew the tests or specifications associated with that object.</p>
+
+<ul>
+<li>Within the <code>spree_auth_device</code> gem, open <code>spec/models/user_spec.rb</code>.</li>
+</ul>
+
+<p>One of the first specs defined for the <code>Spree::User</code> is the <code>admin?</code> method.</p>
+
+<h4>Using Real Data</h4>
+
+<p>We now know that a user object has a helper method to determine if it is an
+admin. We can use that within our view template to represent the actual state
+of the users.</p>
+
+<ul>
+<li>Open <code>app/views/spree/admin/users/index.html.erb</code> and update the stubbed
+data to call the <code>admin?</code> method on the user object.</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html+erb'><span class='line'><span class="nt">&lt;td&gt;</span><span class="cp">&lt;%=</span> <span class="n">user</span><span class="o">.</span><span class="n">admin?</span> <span class="cp">%&gt;</span><span class="nt">&lt;/td&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we&#8217;ll output <code>true</code> or <code>false</code> depending on whether the user is actually an administrator.</p>
+
+<h3>Understanding How <code>@collections</code> is Set</h3>
+
+<p>While reviewing the <code>Spree::Admin::UsersController</code> source we skipped over how
+the <code>@collection</code> variable was set within the <code>index</code> action. It seems to have
+happened as if by magic. Lets take some time to understand what is happening.</p>
+
+<p>On first examination it looks as though the <code>@collection</code> is used without ever being set. There is no code within the <code>index</code> action
+that sets that value so we need to examine the various <strong>before_filters</strong> and
+see if they apply.</p>
+
+<p><a href="http://guides.rubyonrails.org/v3.2.13/action_controller_overview.html#filters">Before Filters</a> are methods that take place prior to
+the execution of the action. By default, when a before filter is defined it
+will affect all actions within the controller and any sub-classes of that
+controller. They can be scoped to only particular actions.</p>
+
+<p>Within the <code>UsersController</code> there are two before filters defined.</p>
+
+<ul>
+<li>Open <code>app/controllers/spree/admin/users_controller.rb</code>:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_filter</span> <span class="ss">:check_json_authenticity</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="ss">:index</span>
+</span><span class='line'><span class="n">before_filter</span> <span class="ss">:load_roles</span><span class="p">,</span> <span class="ss">:only</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:edit</span><span class="p">,</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:update</span><span class="p">,</span> <span class="ss">:create</span><span class="p">,</span> <span class="ss">:generate_api_key</span><span class="p">,</span> <span class="ss">:clear_api_key</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first filter is <code>:check_json_authenticity</code> which applies only to the
+<code>index</code>. Since we are calling the index action, this filter definitely acts
+before our action is called. So this filter may be setting up the <code>@collections</code>
+value. Though it does not seem likely based on the name.</p>
+
+<p>The second filter <code>:load_roles</code> applies in several other circumstances except
+for the <code>index</code> action so it does not apply.</p>
+
+<h4><code>ResourcesController</code></h4>
+
+<p>Our <code>UsersController</code> is a subclass of the <code>ResourcesController</code> so any filters
+or methods defined within that controller are also present within the current
+controller. So it is time to find that controller.</p>
+
+<ul>
+<li>Run <code>bundle open spree_backend</code></li>
+<li>Open the file <code>app/controllers/spree/admin/resource_controller.rb</code></li>
+</ul>
+
+<p>Here we find a new before filter called:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_filter</span> <span class="ss">:load_resource</span><span class="p">,</span> <span class="ss">:except</span> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:update_positions</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The method <code>load_resource</code> has a much more promising name. Looking
+through the <code>ResourceController</code> we find a method named <code>load_resource</code> which
+defines several promising leads within it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">load_resource</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">member_action?</span>
+</span><span class='line'>    <span class="vi">@object</span> <span class="o">||=</span> <span class="n">load_resource_instance</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># call authorize! a third time (called twice already in Admin::BaseController)</span>
+</span><span class='line'>    <span class="c1"># this time we pass the actual instance so fine-grained abilities can control</span>
+</span><span class='line'>    <span class="c1"># access to individual records, not just entire models.</span>
+</span><span class='line'>    <span class="n">authorize!</span> <span class="n">action</span><span class="p">,</span> <span class="vi">@object</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">object_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="vi">@object</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="vi">@collection</span> <span class="o">||=</span> <span class="n">collection</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1"># note: we don&#39;t call authorize here as the collection method should use</span>
+</span><span class='line'>    <span class="c1"># CanCan&#39;s accessible_by method to restrict the actual records returned</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">controller_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="vi">@collection</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice in the later half:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@collection</span> <span class="o">||=</span> <span class="n">collection</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If not set elsewhere, <code>@collection</code> will get its value from the <code>collection</code> method. Lets return to our original <code>UsersController</code> class and see if we can find
+a method with the name <code>collection</code>.</p>
+
+<h4>The <code>collection</code> Method</h4>
+
+<ul>
+<li>Open, within <code>spree_auth_devise</code> gem, the file
+<code>app/controllers/spree/admin/users_controller.rb</code></li>
+</ul>
+
+<p>Returning to our original <code>UsersController</code> there is a <code>protected</code> method defined
+with the name <code>collection</code>. Within it we can see <code>@collection</code> variable set
+in various instances based on the details of the request.</p>
+
+<p>So this solves the mystery of how the <code>@collection</code> is set. But within the view
+itself we used the variable <code>@users</code>. So that leaves us one more mystery.</p>
+
+<h4>Where Do <code>@users</code> Come From?</h4>
+
+<ul>
+<li>Return to the file <code>app/controllers/spree/admin/resource_controller.rb</code></li>
+</ul>
+
+<p>Later after the collection method has been called an instance variable is
+set which is based on the name of the current controller.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">instance_variable_set</span><span class="p">(</span><span class="s2">&quot;@</span><span class="si">#{</span><span class="n">controller_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="vi">@collection</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Essentially a Spree <code>ResourceController</code> is a controller which manages a
+collection of objects. Those objects can be referenced by <code>@collection</code> or
+by an instance variable based on the controller&#8217;s name. In the case of our
+<code>UsersController</code>, the controller name is <strong>users</strong>, and thus the instance
+variable has been set.</p>
+
+<h3>Conclusion</h3>
+
+<p>We were able to add a new field to our users&#8217; index page to allow us to see
+if a user is an admin. This at its heart was not a large feature but we
+were able to learn a lot about how the Spree source is structured and allowed
+to explore several of the controllers and views core to the Spree framework.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Creating a Gem - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Creating a Gem                              Let&#8217;s talk about how to package Ruby code into a gem. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/creating_a_gem.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Creating a Gem
+        </h1>
+        
+      </header>
+    
+    <p>Let&#8217;s talk about how to package Ruby code into a gem.</p>
+
+<h2>Introduction</h2>
+
+<h3>What is a Gem?</h3>
+
+<p>A gem is an archive that contains ruby code (the code you write) and a specification file (<a href="http://docs.rubygems.org/read/chapter/20">gemspec</a>).</p>
+
+<h3>Gemspec</h3>
+
+<p>A gem specification is a special manifest file that contains:</p>
+
+<ul>
+<li>The name of the gem, the author, description, license, and links to resources, etc.</li>
+<li>a list of source files</li>
+<li>a list of test files</li>
+<li>a list of dependencies</li>
+</ul>
+
+<h2>Creating a Gem</h2>
+
+<h3>A Skeleton from Bundler</h3>
+
+<p>The <a href="http://gembundler.com/">Bundler</a> gem provides a command that allows us to quickly generate the structure of the gem. There are many <a href="https://www.ruby-toolbox.com/categories/gem_creation">alternatives</a> and you could do it manually.</p>
+
+<p>For example, if we want to create a gem named <code>zipper</code> we can run:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle gem zipper</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Completing the <code>.gemspec</code></h3>
+
+<p>Open the generated <code>zipper.gemspec</code> and you can complete the <code>name</code>, <code>version</code>, <code>authors</code>, <code>email</code>, <code>homepage</code>, <code>summary</code>, and <code>description</code> easily enough. </p>
+
+<p>The <code>rubyforge_project</code> is unused in the age of GitHub.</p>
+
+<h3>Listing Files</h3>
+
+<p>The <code>gemspec</code> lists the files that are included in the gem itself. This can be an annoyance in that every time you add a file to the gem you have to add it to the <code>.gemspec</code> too.</p>
+
+<p>Instead, it&#8217;s become common to cheat. The <code>.gemspec</code> is Ruby, so we can use a bit of trickery to shell out, use git to list the files, and dynamically build them into an array for the spec:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  s.files         = `git ls-files`.split("\n")
+</span><span class='line'>  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+</span><span class='line'>  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+</span><span class='line'>  s.require_paths = ["lib"]</span></code></pre></td></tr></table></div></figure> 
+
+<h3>Dependencies</h3>
+
+<p>Your application should specify any other gems that it depends on in development or production/usage.</p>
+
+<h4>Usage Runtime Dependency</h4>
+
+<p>If there&#8217;s a gem that you gem depends on to be used by a normal user, it&#8217;s a runtime dependency. These are added like so:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>s.add_dependency 'activesupport', '~&gt; 3.2'</span></code></pre></td></tr></table></div></figure>
+
+<p>You want to write these version specifications carefully. </p>
+
+<h4>Dependency Version Specification</h4>
+
+<p>Just like a <code>Gemfile</code> in a Rails application, you need to think about what versions will be sufficient for the needed functionality. </p>
+
+<p>Get too specific about which version you want, and your gem might be incompatible with another gem that depends on a different version of the same dependency.</p>
+
+<p>Be too general, and the user&#8217;s system might use a much older or much newer version of the dependency gem, which might break your usage.</p>
+
+<p>In general, you should use the <code>~&gt;</code> comparator which means &quot;accept any version of this gem which matches the version number or has a greater smallest digit&quot;.</p>
+
+<p>For instance, &#8216;~&gt; 3.2&#8217; would match versions <code>3.2</code>, <code>3.3</code>, or <code>3.12</code>. But it wouldn&#8217;t match <code>3.1</code> or <code>4.1</code>.</p>
+
+<p>The second number, the minor version, is usually safe to rely on for not breaking backwards compatibility.</p>
+
+<p>But, if you wanted to rely on a specific minor version, you could specify the patch level. &#8216;~&gt; 3.2.0&#8217; would match versions <code>3.2.0</code>, <code>3.2.1</code>, or <code>3.2.12</code>. But it wouldn&#8217;t match <code>3.1</code> or <code>3.3</code>.</p>
+
+<h4>Development Dependencies</h4>
+
+<p>Often there are gems that are needed for working on the gem itself, but not necessary for normal users. These should be specified as development dependencies:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>s.add_development_dependency 'rspec', '~&gt; 2.12'</span></code></pre></td></tr></table></div></figure>
+
+<h2>Migrating Your Code Into The Gem</h2>
+
+<p>Now it&#8217;s time to actually move your code into the gem. </p>
+
+<h3>The Base File</h3>
+
+<p>The convention is to create a file like <code>lib/zipper.rb</code> where <code>zipper</code> is replaced by the name of your gem. That file:</p>
+
+<ul>
+<li>requires other Ruby files in the gem</li>
+<li>handles any setup tasks</li>
+</ul>
+
+<h3>Real Code</h3>
+
+<p>From there, let&#8217;s say you have a class named &quot;Foo&quot; and a class named &quot;Bar&quot;. The files should be <code>lib/zipper/foo.rb</code> and <code>lib/zipper/bar.rb</code>.</p>
+
+<h4>Namespacing Your Classes</h4>
+
+<p>When users require our gem we want to be reasonably sure that our classed don&#8217;t cause namespace collisions with classes in their application. To avoid this problem, we use Ruby modules as name spaces.</p>
+
+<p>Say that my <code>Foo</code> class was originally:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class Foo
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<p>Then I want to wrap it in a namespace matching my gem&#8217;s name:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>module Zipper
+</span><span class='line'>  class Foo
+</span><span class='line'>  end
+</span><span class='line'>end</span></code></pre></td></tr></table></div></figure>
+
+<p>Where <code>Zipper</code> should be the actual name of your gem.</p>
+
+<h2>Packaging and Shipping Your Gem</h2>
+
+<p>Once the code is in place and your specs are passing, it&#8217;s time to actually build the gem archive:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem build zipper.gemspec</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Installing Locally</h3>
+
+<p>You can then install the gem locally so it&#8217;s available to all your apps:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install --local zipper-0.0.1.gem</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Pushing to Rubygems</h3>
+
+<p>Ready to be famous? Then push your code to Rubygems:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem push zipper-0.0.1.gem</span></code></pre></td></tr></table></div></div>
+        </div>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

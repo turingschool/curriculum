@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Jasmine - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Jasmine                              Unit testing your code is a great way to increase code quality and prevent &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/javascript/testing/1-jasmine-intro.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Jasmine
+        </h1>
+        
+      </header>
+    
+    <p>Unit testing your code is a great way to increase code quality and prevent regressions. In this section we&#8217;ll use the Jasmine javascript unit testing framework to test some example code.</p>
+
+<h3>Setup</h3>
+
+<p>The first thing we&#8217;re going to do is setup the Jasmine test framework.</p>
+
+<h4>Download</h4>
+
+<p>Download Jasmine from GitHub:</p>
+
+<p><a href="https://github.com/pivotal/jasmine/downloads"><a href="https://github.com/pivotal/jasmine/downloads">https://github.com/pivotal/jasmine/downloads</a></a></p>
+
+<p>This chapter is written against Jasmine 1.2.0, but feel free to try the latest stable version.</p>
+
+<p>Unzip the archive that you downloaded.</p>
+
+<h4>Test Suite Scaffold</h4>
+
+<p>Open up <code>SpecRunner.html</code> from the unzipped folder. Let&#8217;s look through this file. First of all, it&#8217;s an HTML file. Jasmine runs its tests by running JavaScript in the browser. Let&#8217;s walk through the <code>head</code> of the document.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="na">href=</span><span class="s">&quot;lib/jasmine-1.2.0/jasmine.css&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;lib/jasmine-1.2.0/jasmine.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;lib/jasmine-1.2.0/jasmine-html.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>First, we&#8217;re incuding the Jasmine CSS stylesheet so that our tests are displayed in a nice format. Then we&#8217;re including the core <code>jasmine.js</code> library. This contains all of Jasmine&#8217;s testing code. Then, we&#8217;re including the <code>jasmine-html.js</code> file, which is for running Jasmine via the browser. There is also a Jasmine Ruby gem for running the tests in a ruby project.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;spec/SpecHelper.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;spec/PlayerSpec.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next up, we&#8217;re including the sample specs that come with Jasmine as an example. Spec is short for specification, and this is where all the testing code is. We&#8217;re including <code>SpecHelper.js</code> which is where they have put common testing code to be used in all the specs. We&#8217;re also including <code>PlayerSpec.js</code> which is the spec for a <code>Player</code> (which we&#8217;ll see in a minute).</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;src/Player.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;src/Song.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Last of the included scripts is the source code. We have a <code>Player</code> file and a <code>Song</code> file. This is where we would include all of our code to be testing.</p>
+
+<p>Now let&#8217;s take a look at Jasmine&#8217;s bootstrapping function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">jasmineEnv</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">getEnv</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">jasmineEnv</span><span class="p">.</span><span class="nx">updateInterval</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">htmlReporter</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">HtmlReporter</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">jasmineEnv</span><span class="p">.</span><span class="nx">addReporter</span><span class="p">(</span><span class="nx">htmlReporter</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">jasmineEnv</span><span class="p">.</span><span class="nx">specFilter</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">spec</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">htmlReporter</span><span class="p">.</span><span class="nx">specFilter</span><span class="p">(</span><span class="nx">spec</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">currentWindowOnload</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">onload</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">currentWindowOnload</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">currentWindowOnload</span><span class="p">();</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nx">execJasmine</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">function</span> <span class="nx">execJasmine</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">jasmineEnv</span><span class="p">.</span><span class="nx">execute</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="p">})();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is Jasmine&#8217;s default bootstrapping function which sets up the Jasmine environment and the html output, then runs all the tests when the window is loaded. It also preserves the existing <code>window.onload</code> if there is one. It&#8217;s a bit complicated, and can actually be simplified down to this for simple test suites that don&#8217;t use a default <code>window.onload</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">jasmineEnv</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">getEnv</span><span class="p">();</span>
+</span><span class='line'><span class="nx">jasmineEnv</span><span class="p">.</span><span class="nx">addReporter</span><span class="p">(</span><span class="k">new</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">HtmlReporter</span><span class="p">());</span>
+</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">jasmineEnv</span><span class="p">.</span><span class="nx">execute</span><span class="p">();</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This simply sets up the environment, adds the html reporter, and boots jasmine when the window has loaded. However this does not have any spec filtering (but we&#8217;re not using that anyways.</p>
+
+<h4>Check it out</h4>
+
+<p>Open the <code>SpecRunner.html</code> file in your browser and check it out. It is formatting the tests in such a way that you can read what they do and if they passed or failed (they all pass in this case).</p>
+
+<h3>Writing a Spec with BDD</h3>
+
+<h4>Behavior Driven Development</h4>
+
+<p>Behavior Driven Development, or BDD, is a style of development where you define a piece of code&#8217;s behavior with specifications and then use those specs to drive the coding itself. You don&#8217;t actually write the code until you have a spec that is failing that requires you to write code to make it pass.</p>
+
+<p>What differentiates BDD from TDD (test-driven development) is that BDD specifically concerns itself with the actions that a piece of code takes in order to accomplish its task. The best way to explain it is with an example, so let&#8217;s write some specs.</p>
+
+<h4>Add our Spec</h4>
+
+<p>First off, remove the script tags that include <code>spec/...</code> and <code>src/...</code>, because we&#8217;re going to write our own specs and code.</p>
+
+<p>We&#8217;re going to BDD a <code>Circle</code> class that draws a circle in canvas. Add the following line to the <code>head</code> of <code>SpecRunner.html</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;spec/CircleSpec.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next, open up <code>spec/CircleSpec.js</code> and write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;Circle&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should run&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="kc">true</span><span class="p">).</span><span class="nx">toBeTruthy</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first line, <code>describe</code> tells Jasmine what piece of code we&#8217;re going to be testing against. It takes a function as a second argument, which will have all the test code in it that tests <code>Circle</code>.</p>
+
+<p>Next, there is the <code>it</code> function, which describes a specific behavior. Here we are just making sure it works, so our description is simple, <code>&quot;should run&quot;</code>. <code>it</code> also takes a function, and inside that are the individual expectations.</p>
+
+<p><code>expect</code> takes anything, and then returns an object with matchers on it. Here we use the <code>toBeTruthy</code> matcher, which checks that what was passed in <code>=== true</code>. So, this test checks that <code>true === true</code>.</p>
+
+<p>Refresh <code>SpecRunner.html</code> and you should get output like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">Passing</span> <span class="mi">1</span> <span class="nx">spec</span>
+</span><span class='line'>  <span class="nx">Circle</span>
+</span><span class='line'>    <span class="nx">should</span> <span class="nx">run</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Describe our first behavior</h4>
+
+<p>Now that we have our circle spec running, let&#8217;s describe our first behavior. You can delete the &quot;should run&quot; section, since it was just to make sure it was connected properly. Instead, let&#8217;s test our dimensions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;Circle&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should have an x coordinate&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">circle</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Circle</span><span class="p">(</span><span class="mi">47</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circle</span><span class="p">.</span><span class="nx">x</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">47</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh <code>SpecRunner.html</code>. You should see the following error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">ReferenceError</span><span class="o">:</span> <span class="nx">Circle</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">defined</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When running our spec, the first error it encoutered is that <code>Circle</code> does not exist. Now it&#8217;s time to write some source code.</p>
+
+<p>Open <code>SpecRunner.html</code> and include a Circle.js source file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;src/Circle.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Open up <code>src/Circle.js</code> and write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">Circle</span><span class="p">()</span> <span class="p">{}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Why only that? Why didn&#8217;t we write all the code? We want our test to drive development of only what&#8217;s necessary. This is enough to fix the current error, so we&#8217;ll leave it at that. This way, instead of guessing what the next problem is, we&#8217;ll let our test tell us.</p>
+
+<p>Save the file and re-run the test suite (by refreshing <code>SpecRunner.html</code>). You should now see:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">Expected</span> <span class="kc">undefined</span> <span class="nx">to</span> <span class="nx">equal</span> <span class="mi">47</span><span class="p">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Also, farther down the stack trace should be a line that references <code>CircleSpec</code> and it will look something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">at</span> <span class="kc">null</span><span class="p">.</span><span class="o">&lt;</span><span class="nx">anonymous</span><span class="o">&gt;</span> <span class="p">(</span><span class="nx">file</span><span class="o">:</span><span class="c1">//path/to/spec/CircleSpec.js:4:22)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That means the error is line 4 character 22 of <code>CircleSpec.js</code>. Which points to the line that expects the x coordinate to equal 47. This means that we need to set the x coordinate in the constructor, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">function</span> <span class="nx">Circle</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Re-run the spec, and it should pass.</p>
+
+<h4>More behaviors</h4>
+
+<p>On your own, add a y coordinate and a radius. For each one, BDD the feature by writing a new <code>it(...)</code> for each attribute and an expectation inside it similar to the x coordinate.</p>
+
+<h3>Setup and teardown</h3>
+
+<p>After implementing the x, y, and radius specs, our specs are getting a bit repetitive. Specifically, we&#8217;re setting up the circle to test against every time. Let&#8217;s refactor our test code so that they share a common setup. To do this, we&#8217;ll use Jasmine&#8217;s <code>beforeEach</code> function:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;Circle&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">circle</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">circle</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Circle</span><span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should have an x coordinate&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circle</span><span class="p">.</span><span class="nx">x</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">47</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now the <code>circle</code> variable exists at the scope of the describe block, and then before each test, we will allocate a new <code>Circle</code>. Then in the spec for the x coordinate, we can just reference the circle. Make the change to your y and radius spec as well. Much cleaner!</p>
+
+<h3>Spying on the Canvas</h3>
+
+<p>Suppose we want to be able to draw our circles on a canvas 2d context. We&#8217;ll implement a simple <code>draw</code> function that will take a <code>context</code> as a parameter and draw a circle on that context. Let&#8217;s write our spec:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="c1">// Inside the circle describe block</span>
+</span><span class='line'><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should draw on the canvas&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">hmmmm</span><span class="p">;</span> <span class="c1">// ???</span>
+</span><span class='line'>  <span class="nx">circle</span><span class="p">.</span><span class="nx">draw</span><span class="p">(</span><span class="nx">context</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What can we do here? We could:</p>
+
+<ol>
+<li>Put a canvas tag on the DOM</li>
+<li>Get a context from the canvas</li>
+<li>Pass the context to the circle <code>draw</code> method</li>
+<li>Then how do we check that it drew?</li>
+</ol>
+
+<p>Also, we don&#8217;t really want to run all the canvas code, since we don&#8217;t need to test it (nor should we test it) in the context of the circle.</p>
+
+<p>Instead, <code>context</code> is a collaborator to <code>circle</code>, and so we should use a mock object instead. Jasmine comes with <code>spies</code> to let you spy on an object. Here&#8217;s how we can create a fake context and then spy on the function we care about:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should draw on the canvas&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">context</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">createSpyObj</span><span class="p">(</span><span class="s1">&#39;context&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;arc&#39;</span><span class="p">,</span> <span class="s1">&#39;stroke&#39;</span><span class="p">]);</span>
+</span><span class='line'>  <span class="nx">circle</span><span class="p">.</span><span class="nx">draw</span><span class="p">(</span><span class="nx">context</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">expect</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">arc</span><span class="p">).</span><span class="nx">toHaveBeenCalledWith</span><span class="p">(</span><span class="mi">47</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">)</span>
+</span><span class='line'>  <span class="nx">expect</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">stroke</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We are using <code>jasmine.createSpyObj(name, [fn1, fn2, ...])</code> to create a fake object and also fake methods. We name it <code>context</code> and then we are creating the fake functions <code>arc</code> and <code>stroke</code>. If you already have a real object and you just need to spy on its existing methods, you can use Jasmine&#8217;s <code>spyOn</code>. There are a bunch more spy methods covered in Jasmine&#8217;s documentation.</p>
+
+<p>Next, we call circle&#8217;s <code>draw</code> with our fake context. Then, our spec&#8217;s actual testing checks to see if the context had the appropriate methods called on it. We want to make sure an arc was drawn with the x, y, and radius we sent in during construction. Also, it should be drawn from <code>0</code> to <code>2*Math.PI</code>, which is a full circle.</p>
+
+<p><code>stroke</code> just needs to be called without arguments to actually stroke the path that we created with <code>arc</code>.</p>
+
+<p>Now, refresh your test suite and follow the errors until you have a working implementation.</p>
+
+<h4>Fill it in on your own</h4>
+
+<p>Next, BDD another version of <code>draw</code>. We&#8217;d like to be able to call <code>circle.draw(context, '#ff0000')</code> to draw a circle filled in red. By default, without a second parameter, we will not fill at all. So, our previous test should not need to be modified and should still pass. But, we will add a new test that checks that when a second parameter is given, the circle is filled in.</p>
+
+<p>HINT: to fill in a path, first set <code>context.fillStyle = color</code> then after a path is drawn, run <code>context.fill()</code>.</p>
+
+<p>How did you test <code>fillStyle</code>, since it&#8217;s not a function?</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

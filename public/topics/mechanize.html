@@ -1,0 +1,553 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Mechanize - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Mechanize                              As programmers, the essence of your job is to remove tedium from the world. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/mechanize.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Mechanize
+        </h1>
+        
+      </header>
+    
+    <p>As programmers, the essence of your job is to remove tedium from the world.</p>
+
+<h3>Writing Scripts</h3>
+
+<p>One way to do that is to write little programs (often called <em>scripts</em> if they&#8217;re one-off or ad-hoc things) to take care of things for us. What&#8217;s the difference between a script and an application? Typically an application is used by an <em>end-user</em>, while a <em>script</em> is used by either the developer or another internal user.</p>
+
+<p>Typical tasks would be:</p>
+
+<ul>
+<li>generate a pdf invoice every 2 weeks and email it to your employer</li>
+<li>generate a &quot;hall of fame&quot; list based on a text file of names and upload it to the right place on an FTP server</li>
+<li>automatically scan a given web page for some text and <strong>do stuff</strong> when a particular phrase is detected (see the sci-fi novel Daemon for an interesting take on this).</li>
+<li>grab the source HTML for a web page and pull out the data that you care about, be it images, css, urls, or only the text.</li>
+</ul>
+
+<h2>Web Scripts &amp; HTML</h2>
+
+<p>You&#8217;re web developers, so the majority of your jobs are going to be centered on the web. We love when applications provide beautiful, RESTful APIs and have well-designed wrapper gems to access them.</p>
+
+<p>But the <em>rest</em> of the time, you&#8217;ll have to get the data you want like a browser: making requests, getting HTML responses, and picking through the wall of text for the data.</p>
+
+<h3>Parsing HTML Yourself</h3>
+
+<p>Almost every developer has tried reading or parsing HTML with regular expressions. Just don&#8217;t do it: <a href="http://blog.codinghorror.com/parsing-html-the-cthulhu-way/">there are so many things to go wrong</a>.</p>
+
+<p>In Ruby, the typical tool for parsing HTML or XML is <a href="http://nokogiri.org/">nokogiri</a>. In many cases, using nokogiri directly is all you need. Grab the HTML content, get the HTML nodes you want, do your <em>thing</em>.</p>
+
+<h3>Installing Nokogiri</h3>
+
+<p>Install nokogiri from your terminal:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install nokogiri</span></code></pre></td></tr></table></div></figure>
+
+<p>It includes some C code, so it might take a little while to install (it will say <em>building native extensions</em>). If there are problems with the gem install, your development environment isn&#8217;t properly configured. For instance, you might have an incompatible version of GCC or be missing some header libraries. Read through <a href="http://nokogiri.org/tutorials/installing_nokogiri.html">Nokogiri&#8217;s installation instructions</a> if this is the case.</p>
+
+<h3>An HTML-Nokogiri Experiment</h3>
+
+<p>This is how you&#8217;d get the list of the <em>breaking news</em> links from the Denver post. Drop this code into a Ruby script and execute it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;nokogiri&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://www.denverpost.com/frontpage&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">page</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">element</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">element</span><span class="o">[</span><span class="s1">&#39;href&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>What Just Happened</h4>
+
+<p>The script called the <code>open</code> method which is defined by the <code>open-uri</code> library. This method returns an I/O (input/output) object which reads the data from the specified URL. For instance, you can try this in IRB:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mo">001</span> <span class="o">&gt;</span> <span class="nb">require</span> <span class="s1">&#39;open-uri&#39;</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'><span class="mo">002</span> <span class="o">&gt;</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;http://google.com&#39;</span><span class="p">)</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="c1">#&lt;File:/var/folders/hl/kf6pvb8538j0kyrzm5gp3zjh0000gn/T/open-uri20131028-32050-1v3mcbj&gt;</span>
+</span><span class='line'><span class="mo">003</span> <span class="o">&gt;</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;http://google.com&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span>
+</span><span class='line'> <span class="c1"># lots of HTML output...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That I/O object was then passed to <code>Nokogiri::HTML</code>. That <code>HTML</code> is a class method on the <code>Nokogiri</code> class. Running the experiment so far in IRB:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mo">001</span> <span class="o">&gt;</span> <span class="nb">require</span> <span class="s1">&#39;nokogiri&#39;</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'><span class="mo">002</span> <span class="o">&gt;</span> <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://www.denverpost.com/frontpage&quot;</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="s2">&quot;http://www.denverpost.com/frontpage&quot;</span>
+</span><span class='line'><span class="mo">003</span> <span class="o">&gt;</span> <span class="n">page</span> <span class="o">=</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">HTML</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">url</span><span class="p">))</span>
+</span><span class='line'> <span class="c1"># lots of output...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then you can poke around on that <code>page</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mo">004</span> <span class="o">&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">methods</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="o">[</span><span class="ss">:type</span><span class="p">,</span> <span class="ss">:meta_encoding</span><span class="p">,</span> <span class="o">.</span><span class="n">.</span><span class="o">.]</span>
+</span><span class='line'><span class="mo">005</span> <span class="o">&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="s2">&quot;Front Page - The Denver Post&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Call the <code>.css</code> method to find all elements matching the CSS selector you specify:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mo">006</span> <span class="o">&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="mi">770</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>There are 770 links on the front page. What is the object that comes back from <code>page.css(&quot;a&quot;)</code>? We called <code>count</code> on it, presuming that it acts like an Array&#8230;or something similar.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mo">007</span> <span class="o">&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">class</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">XML</span><span class="o">::</span><span class="no">NodeSet</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What is a <code>Nokogiri::XML::NodeSet</code>? We don&#8217;t care. As long as it behaves like an Array, then we know how to work with it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mo">00</span><span class="mi">8</span> <span class="o">&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">element</span><span class="o">|</span>
+</span><span class='line'><span class="mo">00</span><span class="mi">9</span> <span class="o">&gt;</span>   <span class="nb">puts</span>
+</span><span class='line'><span class="mo">010</span><span class="o">?&gt;</span>   <span class="nb">puts</span> <span class="n">element</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'><span class="mo">011</span><span class="o">?&gt;</span>   <span class="nb">puts</span> <span class="n">element</span><span class="o">[</span><span class="s1">&#39;href&#39;</span><span class="o">]</span>
+</span><span class='line'><span class="mo">012</span><span class="o">?&gt;</span> <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Iterate through <code>each</code> element of the collection and execute the block. What methods can you call on <code>element</code>?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mo">013</span> <span class="o">&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">class</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="no">Nokogiri</span><span class="o">::</span><span class="no">XML</span><span class="o">::</span><span class="no">Element</span>
+</span><span class='line'><span class="mo">014</span> <span class="o">&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">css</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">methods</span>
+</span><span class='line'> <span class="o">=&gt;</span> <span class="c1">#...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You can check out the <a href="http://nokogiri.org/Nokogiri/XML/Element.html">XML::Element documentation</a> which just redirects you to the <a href="http://nokogiri.org/Nokogiri/XML/Node.html">XML::Node documentation</a>. There are many handy methods there, like <code>inner_html</code>, <code>inner_text</code>, <code>text</code>, <code>parent</code>, etc.</p>
+
+<h2>Scripting Beyond HTML</h2>
+
+<p>Sometimes, though, websites want you to do pesky things like fill in forms and follow redirects. Websites check your cookies and store session data, and nokogiri isn&#8217;t optimized to handle that sort of thing.</p>
+
+<p>This is where mechanize comes in. It makes it really easy to do things like fill out forms and click buttons.</p>
+
+<h3>Using Mechanize</h3>
+
+<p>Install mechanize:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gem install mechanize</span></code></pre></td></tr></table></div></figure>
+
+<p>It depends on nokogiri. If you managed to get that installed above, you should have no problem getting mechanize working.</p>
+
+<h3>Trying It Out</h3>
+
+<p>We&#8217;ll do the same work as above, only using mechanize rather than using nokogiri directly:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;mechanize&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://www.denverpost.com/frontpage&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">agent</span> <span class="o">=</span> <span class="no">Mechanize</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">page</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">link</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">puts</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">link</span><span class="o">.</span><span class="n">text</span>
+</span><span class='line'>  <span class="nb">puts</span> <span class="n">link</span><span class="o">.</span><span class="n">href</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s not very different. The <code>page</code> that mechanize returns gives us direct access to all the nokogiri stuff, and also provides some nice shortcuts and a more intuitive interface.</p>
+
+<p>The real power of mechanize becomes apparent when you need to fill in forms, follow redirects, be authenticated, upload files and all that jazz.</p>
+
+<h3>What About Filling In Forms and Logging In?</h3>
+
+<p>Mechanize is able to do more than request a page and look at its links.
+It can click links and fill in forms, too.
+When you talk to a website, the website sets a header in the HTTP request called a cookie.
+The browser then sends this back to the site whenever you interact with it.
+This allows the site to set the cookie to be something that allows them to identify you.
+Which, in turn, means they can do things like authenticate that you are the user you say you are, and then store that in a cookie.
+If you didn&#8217;t send the cookie back, it would look like you weren&#8217;t logged in.
+So for us to crawl sites, we often need to remember the cookies the site has set, and then re-submit them for all future requests.</p>
+
+<p>If we call our current browsing process a &quot;session&quot;, then we will want to remember cookies for this session.
+Fortunately, Mechanize takes care of this for us, it keeps track of the cookies the website has sent, for the duration of our session, and continues to re-submit them.
+This means that when we fill in a form to log into a website, we will continue to be logged in.
+You can configure Nokogiri, or other web crawling tools to log into your accounts, and perform tasks for you, collect data for you, whatever it happens to be.</p>
+
+<h3>Give It A Try</h3>
+
+<p>Our form won&#8217;t require a session, but the process is the same.
+We&#8217;re going to give you a list of ISBNs that identify books about Ruby
+(for a liberal definition of &quot;Ruby&quot;). Your task is to go to
+<a href="http://www.isbnsearch.org">isbnsearch.org</a>, fill the isbn into the form, submit it,
+and then extract the data from the resulting page into a format of your choice.</p>
+
+<p>You have completed the task when you can show me a text file with all of the data.
+You can verify your data against <a href="https://gist.githubusercontent.com/JoshCheek/1ef1c6fbe7ff7ee28de4/raw/4637ee480fad96f2808583e04d7c9b74e90da492/books_selected#">this list</a>.</p>
+
+<p>Here are the ISBNS:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="mi">1405232501</span> <span class="mi">082172388</span><span class="n">X</span> <span class="mo">076422222</span><span class="mi">8</span>
+</span><span class='line'><span class="mo">05</span><span class="mi">90474235</span> <span class="mo">0672320</span><span class="mi">835</span> <span class="mo">043</span><span class="mi">9539439</span>
+</span><span class='line'><span class="mo">0375434461</span> <span class="mo">0752</span><span class="mi">859978</span> <span class="mo">0752</span><span class="mi">860224</span>
+</span><span class='line'><span class="mi">2745945475</span> <span class="mo">0425032337</span> <span class="mo">07445</span><span class="mi">9040</span><span class="n">X</span>
+</span><span class='line'><span class="mi">1860393225</span> <span class="mi">1405232501</span> <span class="mi">082172388</span><span class="n">X</span>
+</span><span class='line'><span class="mo">07642</span><span class="mi">90762</span> <span class="mo">05</span><span class="mi">90474235</span> <span class="mo">0672320</span><span class="mi">835</span>
+</span><span class='line'><span class="mi">3826672429</span> <span class="mo">0375434461</span> <span class="mo">0752</span><span class="mi">859978</span>
+</span><span class='line'><span class="mo">03</span><span class="mi">8079392</span><span class="n">X</span> <span class="mi">2745945475</span> <span class="mo">0425032337</span>
+</span><span class='line'><span class="mo">07011</span><span class="mi">84361</span> <span class="mi">1860393225</span> <span class="mo">075</span><span class="mi">8238614</span>
+</span><span class='line'><span class="mo">015204</span><span class="mi">9215</span> <span class="mi">3826672429</span> <span class="mi">1921656573</span>
+</span><span class='line'><span class="mo">0747203</span><span class="mi">873</span> <span class="mo">07011</span><span class="mi">84361</span> <span class="mo">076422222</span><span class="mi">8</span>
+</span><span class='line'><span class="mo">043</span><span class="mi">9539439</span> <span class="mo">015204</span><span class="mi">9215</span> <span class="mo">0752</span><span class="mi">860224</span>
+</span><span class='line'><span class="mo">07445</span><span class="mi">9040</span><span class="n">X</span> <span class="mo">0747203</span><span class="mi">873</span> <span class="mo">07642</span><span class="mi">90762</span>
+</span><span class='line'><span class="mo">03</span><span class="mi">8079392</span><span class="n">X</span> <span class="mi">1921656573</span> <span class="mo">075</span><span class="mi">8238614</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><a href="http://www.isbnsearch.org/isbn/1860393225">Here</a> is an example.
+You should be able to extract the title, isbn10, isbn13, author,
+binding, publisher, and published date.</p>
+
+<h3>You Know What You Want To Do&#8230; But How Do You Do It?</h3>
+
+<p>For reference, you can look at the script I used to retrieve this data with:</p>
+
+<figure class='code'><figcaption><span>file.sh </span></figcaption>
+ <div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>curl https://gist.githubusercontent.com/JoshCheek/1ef1c6fbe7ff7ee28de4/raw/e4749a0ac3ac28a62f4e04aac71ae4f184a546d4/get_potentials.rb &gt; example.rb
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But lets open up pry and play around with Mechanize a little bit.</p>
+
+<p>I recommend loading pry and playing around with either the site you&#8217;re going to parse
+or another site. This allows you to try things out with much less effort.
+Here are some examples of playing around with the Denver Post page:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># an example pry session (http://pryrepl.org/)</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;mechanize&#39;</span>
+</span><span class='line'><span class="n">internet</span> <span class="o">=</span> <span class="no">Mechanize</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">internet</span><span class="o">.</span><span class="n">get</span> <span class="s2">&quot;http://www.denverpost.com/frontpage&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># links</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">count</span> <span class="c1"># =&gt; 91</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">links</span><span class="o">.</span><span class="n">first</span> <span class="c1"># =&gt; #&lt;Mechanize::Page::Link &quot;Front Page&quot; &quot;http://www.denverpost.com/frontpage?source=hot-topic-bar&quot;&gt;</span>
+</span><span class='line'><span class="n">ls</span> <span class="o">-</span><span class="n">v</span> <span class="n">page</span> <span class="o">--</span><span class="n">grep</span> <span class="n">link</span> <span class="c1"># displays methods with link in the name:</span>
+</span><span class='line'>                       <span class="c1"># Mechanize::Page#methods: link  link_with  link_with!  links  links_with  select_links</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># use link_with to select 1 link based on attributes.</span>
+</span><span class='line'><span class="c1"># and links_with (plural) to select all links that match that attribute</span>
+</span><span class='line'><span class="c1"># the key is the attribute, the value is the value of that attribute</span>
+</span><span class='line'><span class="c1"># you can also use :text to talk about the text inside of that tag</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">link_with</span> <span class="n">text</span><span class="p">:</span> <span class="s1">&#39;Front Page&#39;</span> <span class="c1"># =&gt; #&lt;Mechanize::Page::Link &quot;Front Page&quot; &quot;http://www.denverpost.com/frontpage?source=hot-topic-bar&quot;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># if you want to use a CSS selector to scope which item you&#39;re interested in</span>
+</span><span class='line'><span class="c1"># you can pass the selector as a parameter to :search</span>
+</span><span class='line'><span class="c1"># the CSS selector must still match your item, so in the case of a link</span>
+</span><span class='line'><span class="c1"># must end in &quot;a&quot;, for the &quot;anchor&quot; tag</span>
+</span><span class='line'><span class="n">link</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">link_with</span> <span class="n">search</span><span class="p">:</span> <span class="s1">&#39;.complexListingBox a&#39;</span><span class="p">,</span> <span class="n">class</span><span class="p">:</span> <span class="s1">&#39;complexListingLink&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># click the link and get the next page</span>
+</span><span class='line'><span class="n">link</span><span class="o">.</span><span class="n">click</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># lets go back to the main page and look at the search form there</span>
+</span><span class='line'><span class="n">page</span> <span class="o">=</span> <span class="n">internet</span><span class="o">.</span><span class="n">get</span> <span class="s1">&#39;http://www.denverpost.com/&#39;</span>
+</span><span class='line'><span class="n">page</span><span class="o">.</span><span class="n">forms</span> <span class="c1"># omitted b/c it&#39;s long</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># and like link has link_with and links_with</span>
+</span><span class='line'><span class="c1"># form has form_with and forms_with, supporting the same search interface</span>
+</span><span class='line'><span class="n">form</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">form_with</span> <span class="nb">method</span><span class="p">:</span> <span class="s1">&#39;POST&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># and within form, the same interface for its fields</span>
+</span><span class='line'><span class="n">input</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">field_with</span> <span class="nb">name</span><span class="p">:</span> <span class="s1">&#39;_dyncharset&#39;</span> <span class="c1"># =&gt; [hidden:0x3fecce347538 type: hidden name: _dyncharset value: UTF-8]</span>
+</span><span class='line'><span class="n">input</span><span class="o">.</span><span class="n">value</span> <span class="c1"># =&gt; &quot;UTF-8&quot;</span>
+</span><span class='line'><span class="n">input</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;NOT UTF 8, lol&#39;</span>
+</span><span class='line'><span class="n">input</span> <span class="c1"># =&gt; [hidden:0x3fecce347538 type: hidden name: _dyncharset value: NOT UTF 8, lol]</span>
+</span><span class='line'><span class="n">new_page</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">click_button</span> <span class="c1"># ... and so on</span>
+</span><span class='line'><span class="n">new_page</span><span class="o">.</span><span class="n">uri</span>  <span class="c1"># ...where are we now?</span>
+</span><span class='line'><span class="n">new_page</span><span class="o">.</span><span class="n">body</span> <span class="c1"># ...show me the HTML!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Use this information to complete the task.
+If you find yourself needing something not covered here,
+consider how we used pry just now to find out about the links_with methods.
+Can you use this tool to answer your questions, too?</p>
+
+<h3>Things to consider:</h3>
+
+<ul>
+<li>How do you want to store the data?</li>
+<li>What happens if you get 90% finished with the scraping, and then it blows up for some reason? Maybe you should persist the results ASAP, so you can skip work you&#8217;ve already done when you fix the error and rerun it.</li>
+<li>What are things that could break your scraper?</li>
+</ul>
+
+<h3>Finished and bored?</h3>
+
+<ul>
+<li>Given that we&#8217;ve seen both form and link have search methods that suffix <code>_with</code> to them, we might hypothesize that there are other such methods. Can you use pry to confirm or deny this hypothesis?</li>
+<li>Got all the data? Nice. How about reading it in and generating a html page that lists all the books.</li>
+<li>Pull down other useful information, as well. How about the image and the relevant links.</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

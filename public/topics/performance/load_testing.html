@@ -1,0 +1,554 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Load Testing - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Performance                                      Load Testing                              Imagine that you are launching a &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/performance/load_testing.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Performance</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Load Testing
+        </h1>
+        
+      </header>
+    
+    <p>Imagine that you are launching a national health care website. You need to make sure that <em>a lot</em> of people can use the site at the same time without it falling
+over.</p>
+
+<h2>Load Testing</h2>
+
+<p>Load testing is one approach to figuring out how quickly pages load under different conditions, in particular when several users are using the site
+concurrently.</p>
+
+<h3>Apache Bench</h3>
+
+<p>A popular tool is ApacheBench. It was originally developed to test the Apache server, but it is generic enough that it can test any server, whether it is running locally on your machine, or out on the internet. It comes pre-installed on MacOS.</p>
+
+<h3>How Reliable Are The Results?</h3>
+
+<p>If you use ApacheBench to test a server that is <em>not</em> on the local network, you will also be seeing network latency. On one hand you can&#8217;t control those middle-men in the network, but on the other hand you&#8217;re seeing the results as the user will see them.</p>
+
+<p>When you do benchmarking of any kind you need to run the tests many times to reduce the impact of secondary factors (like your computer&#8217;s memory swapping, other processes taking CPU time, etc). Make sure to close other applications running on the test system.</p>
+
+<p>The hardware of the test machine matters. The more CPU power you have the more requests you can churn out.</p>
+
+<h2>Getting Started</h2>
+
+<p>We will be using the <a href="https://github.com/JumpstartLab/dissaperf">dissaperf</a> repository for these exercises. Start by cloning this repository:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git clone git@github.com:JumpstartLab/dissaperf.git</span><span class='line command'>cd dissaperf</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then <code>bundle.</code></p>
+
+<h2>Comparing Ruby Web Servers</h2>
+
+<p>You have seen that ruby has several options for open-source web servers.
+For example on your projects you&#8217;ve probably run WEBrick in development
+and something more sophisticated like Puma or Unicorn in production.</p>
+
+<p>One thing that differentiates thse options is how they handle heavier
+load and concurrent requests. We&#8217;ll explore this idea in this lesson by
+benchmarking our sample app with several different web servers:</p>
+
+<ul>
+<li><code>WEBrick</code></li>
+<li><code>unicorn</code></li>
+<li><code>thin</code></li>
+<li><code>puma</code></li>
+</ul>
+
+<p>(Remember that Rack provides a uniform interface for ruby apps to
+interact with a web server &#8211; this allows us to swap them out
+seamlessly.)</p>
+
+<p>Our app is a very simplistic web app. On the root path it simply prints
+&quot;Hello World&quot; &#8211; an action which should be nearly instantaneous,
+allowing us to see the impact of the different web servers on overall
+performance.</p>
+
+<p>In addition, we have a <code>/slow</code> endpoint, which also prints &quot;Hello
+World&quot;, but also injects a random amount of slowness into the action.
+this will be userful for simulating the impact of server-side slowness
+on our users.</p>
+
+<h3>Beginning with WEBrick</h3>
+
+<p>Let&#8217;s start simple with <code>WEBrick</code>.</p>
+
+<h4>Start the Server</h4>
+
+<p>Boot the app using <code>rackup</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rackup -s webrick -p 9000</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Simulating Users</h4>
+
+<p>Now, with the server running, open another tab in your terminal window using <code>CMD+T</code>.</p>
+
+<p>Imagine that 10 users are accessing your app at the same time, each of them making 10 requests. Let&#8217;s mimic the load with ApacheBench:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ab -n 100 -c 10 http://0.0.0.0:9000/</span><span class='line output'>This is ApacheBench, Version 2.3 <$Revision: 655654 $></span><span class='line output'>Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><span class='line output'>Licensed to The Apache Software Foundation, http://www.apache.org/</span><span class='line output'></span><span class='line output'>Benchmarking 0.0.0.0 (be patient).....done</span><span class='line output'></span><span class='line output'></span><span class='line output'>Server Software:        WEBrick/1.3.1</span><span class='line output'>Server Hostname:        0.0.0.0</span><span class='line output'>Server Port:            9000</span><span class='line output'></span><span class='line output'>Document Path:          /</span><span class='line output'>Document Length:        13 bytes</span><span class='line output'></span><span class='line output'>Concurrency Level:      10</span><span class='line output'>Time taken for tests:   0.320 seconds</span><span class='line output'>Complete requests:      100</span><span class='line output'>Failed requests:        0</span><span class='line output'>Write errors:           0</span><span class='line output'>Total transferred:      29000 bytes</span><span class='line output'>HTML transferred:       1300 bytes</span><span class='line output'>Requests per second:    312.81 [#/sec] (mean)</span><span class='line output'>Time per request:       31.968 [ms] (mean)</span><span class='line output'>Time per request:       3.197 [ms] (mean, across all concurrent requests)</span><span class='line output'>Transfer rate:          88.59 [Kbytes/sec] received</span><span class='line output'></span><span class='line output'>Connection Times (ms)</span><span class='line output'>min  mean[+/-sd] median   max</span><span class='line output'>Connect:        0    0   0.1      0       1</span><span class='line output'>Processing:    12   29  11.1     26      66</span><span class='line output'>Waiting:        6   27  11.1     23      61</span><span class='line output'>Total:         12   29  11.1     26      66</span><span class='line output'></span><span class='line output'>Percentage of the requests served within a certain time (ms)</span><span class='line output'>50%     26</span><span class='line output'>66%     30</span><span class='line output'>75%     33</span><span class='line output'>80%     34</span><span class='line output'>90%     48</span><span class='line output'>95%     57</span><span class='line output'>98%     59</span><span class='line output'>99%     66</span><span class='line output'>100%     66 (longest request)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>AB here is showing us a &quot;histogram&quot; of the response times for our 100
+requests. Your times will be slightly different, but in our example
+above we can see that the slowest request took 66ms and 50% of requests
+took longer than 26 ms.</p>
+
+<p>Notice that AB gives us increasing detail as we get closer to the
+slowest request. When diagnosing performance issues, it&#8217;s often most
+useful to focus on the worst-case or &quot;pathological&quot; requests &#8211; i.e.
+those in the 90-100 percentiles.</p>
+
+<h3>Understanding the Parameters</h3>
+
+<p>When we run ApacheBench like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ab -n 100 -c 10 http://0.0.0.0:9000/</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We&#8217;re specifying:</p>
+
+<ul>
+<li><code>-n</code> configures the number of total requests</li>
+<li><code>-c</code> configures the number of concurrent requests</li>
+<li><code>-t</code> configures the maximum wait for responses</li>
+<li><code>-p</code> sends a file containing data via a POST request</li>
+<li><code>-u</code> sends a file containing data via a PUT request</li>
+<li><code>-T</code> specifies the content-type for POSTing or PUTing when sending a file</li>
+<li><code>-e</code> specifies an output file to save results</li>
+</ul>
+
+<h3>Triggering Failure</h3>
+
+<p>Increase the number of total requests and concurrent requests until you cause the server to crash. Make sure the total requests are larger than the number of concurrent requests, like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ab -n 500 -c 100 http://0.0.0.0:9000/</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Saving the Results</h3>
+
+<p>You may want to generate the results to a CSV file, so that you can graph the results:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ab -n 10 -c 2 -e filename.csv http://0.0.0.0:9000/</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>After you run the command, a <code>filename.csv</code> file will be created in the directory that you executed the command. Open it to see all the response data.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>open filename.csv</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Testing Other Servers (Individual Exercise)</h3>
+
+<p>At this point, swap in the other server options (Thin, Puma, and Unicorn) and run your tests. Which respond fastest? Which are the most fault-tolerant? How many concurrent requests are needed to take out each one?</p>
+
+<p>Thin: <code>rackup -s thin -p 9000</code></p>
+
+<p>Puma: <code>rackup -s puma -p 9000</code></p>
+
+<p>Unicorn: <code>unicorn -p 9000</code></p>
+
+<p>Compare the results of these servers to a single-threaded server (e.g. running puma with only 1 thread):</p>
+
+<p>Puma with max threads set to 1: <code>puma -p 9000 -t 1:1</code></p>
+
+<h3>Slower Requests</h3>
+
+<p>Go back to WEBrick and run some tests against the sample &quot;slow&quot; endpoint:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ab -n 10 -c 2 http://0.0.0.0:9000/slow</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>And compare the results to the faster page:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ab -n 100 -c 10 http://0.0.0.0:9000/</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>How do the stats compare? What implications can you draw about the overhead involved?</p>
+
+<h3>Testing Other Servers&#8217; Slow Endpoint Performance (Individual Exercise)</h3>
+
+<p>Repeat the steps for testing the &quot;slow&quot; endpoint for each of the other
+servers. Do the performance profiles change as we add in more server
+time?</p>
+
+<h3>Sending Data</h3>
+
+<p>The <code>-p</code> flag lets you perform <code>POST</code> requests, passing a file that contains the data that will be submitted as the POST body. The <code>-T</code> lets you specify the data you are sending.</p>
+
+<p>We have included some JSON data in the <code>/data</code> folder:</p>
+
+<ul>
+<li><code>small.json</code></li>
+<li><code>medium.json</code></li>
+<li><code>large.json</code></li>
+<li><code>huge.json</code></li>
+<li><code>ginormous.json</code></li>
+</ul>
+
+<p>Let&#8217;s send a POST request to your your app with the <code>small.json</code> file.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ab -n 10 -c 2 -p data/small.json -T 'application/json' http://0.0.0.0:9000/</span><span class='line output'>This is ApacheBench, Version 2.3 <$Revision: 655654 $></span><span class='line output'>Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/</span><span class='line output'>Licensed to The Apache Software Foundation, http://www.apache.org/</span><span class='line output'></span><span class='line output'>Benchmarking 0.0.0.0 (be patient).....done</span><span class='line output'></span><span class='line output'></span><span class='line output'>Server Software:        WEBrick/1.3.1</span><span class='line output'>Server Hostname:        0.0.0.0</span><span class='line output'>Server Port:            9000</span><span class='line output'></span><span class='line output'>Document Path:          /</span><span class='line output'>Document Length:        41 bytes</span><span class='line output'></span><span class='line output'>Concurrency Level:      2</span><span class='line output'>Time taken for tests:   0.051 seconds</span><span class='line output'>Complete requests:      10</span><span class='line output'>Failed requests:        0</span><span class='line output'>Write errors:           0</span><span class='line output'>Total transferred:      3180 bytes</span><span class='line output'>Total POSTed:           8970</span><span class='line output'>HTML transferred:       410 bytes</span><span class='line output'>Requests per second:    197.99 [#/sec] (mean)</span><span class='line output'>Time per request:       10.101 [ms] (mean)</span><span class='line output'>Time per request:       5.051 [ms] (mean, across all concurrent requests)</span><span class='line output'>Transfer rate:          61.49 [Kbytes/sec] received</span><span class='line output'>173.44 kb/s sent</span><span class='line output'>234.92 kb/s total</span><span class='line output'></span><span class='line output'>Connection Times (ms)</span><span class='line output'>min  mean[+/-sd] median   max</span><span class='line output'>Connect:        0    0   0.0      0       0</span><span class='line output'>Processing:     6   10   3.1      9      14</span><span class='line output'>Waiting:        5    9   2.9      9      14</span><span class='line output'>Total:          6   10   3.1     10      15</span><span class='line output'></span><span class='line output'>Percentage of the requests served within a certain time (ms)</span><span class='line output'>50%     10</span><span class='line output'>66%     10</span><span class='line output'>75%     13</span><span class='line output'>80%     15</span><span class='line output'>90%     15</span><span class='line output'>95%     15</span><span class='line output'>98%     15</span><span class='line output'>99%     15</span><span class='line output'>100%     15 (longest request)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Experiment with the various <code>json</code> files, and also vary the number of total requests and concurrent requests.</p>
+
+<p>How does the server hold up?</p>
+
+<h3>Making Authenticated Requests</h3>
+
+<p>Often there will be pages in your application only accessible to
+authenticated users. Load testing these can be a bit more difficult,
+since we need to configure Apache Bench to send requests with the proper
+credentials. You can pass optional cookie data to AB with the <code>-C</code>
+command line flag. The format for providing cookies looks like:</p>
+
+<p><code>&lt;cookie_name&gt;=&lt;cookie_value&gt;;&lt;cookie2_name&gt;=&lt;cookie2_value&gt;</code></p>
+
+<p>So, for example:</p>
+
+<p><code>ab -n 1 -c 1 -C &quot;my_cookie=pizza;another_cookie=log_me_in&quot;
+http://localhost:3000/</code></p>
+
+<p>In the case of standard rails apps, the Session cookie is usually the
+main one needed to authenticate. However more sophisticated auth systems
+may take a bit of trial and error to figure out just what credentials
+need to be supplied.</p>
+
+<h2>Optional: Plotting Data</h2>
+
+<p>You can use d3 to plot data in csv files (<code>-e</code>), or GNUplot to plot data in tab delimited files (<code>-g</code>) if you&#8217;re happier on the command line.</p>
+
+<h2>For Further Reading</h2>
+
+<ul>
+<li>Checkout <a href="http://jmeter.apache.org/">JMeter</a>, also from Apache, for more advanced test suites</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

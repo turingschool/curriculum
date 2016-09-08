@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Exploring Spree Applications - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Building Applications with Spree                                      Exploring Spree Applications &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/spree/exploration.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Building Applications with Spree</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Exploring Spree Applications
+        </h1>
+        
+      </header>
+    
+    <p>Spree gives you all these great features but it is not clear where the features
+come from an initial project. To build new features for Spree it is essential
+to understand how to navigate the Spree source code.</p>
+
+<h3>Installation</h3>
+
+<p>With a fairly <a href="https://github.com/JumpstartLab/SpreeStore">barebones</a>
+Spree application you would be surprised how little code is in that project.</p>
+
+<p>Let&#8217;s install all of the project&#8217;s dependencies and start the rails server.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>git clone git@github.com:JumpstartLab/SpreeStore.git
+</span><span class='line'>bundle install
+</span><span class='line'>rake db:migrate
+</span><span class='line'>rake db:seed
+</span><span class='line'>rake spree_sample:load
+</span><span class='line'>rails server
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Visit the Root Page</h3>
+
+<p>Let&#8217;s visit the application&#8217;s root page and disect the request and the
+associated logs to help us figure out to start exploring the Spree source code.</p>
+
+<ul>
+<li><p>Visit <code>http://localhost:3000</code></p></li>
+<li><p>View the terminal results</p></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>Started GET <span class="s2">&quot;/&quot;</span> <span class="k">for </span>127.0.0.1 at 2013-08-08 19:02:28 -0500
+</span><span class='line'>Processing by Spree::HomeController#index as HTML
+</span><span class='line'>...
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So we know that the root of our application is being processed by the <code>index</code>
+action of the <code>Spree::HomeController</code>. A quick review of our existing source
+code we see we have not defined that route or even that controller. Where
+did this functionality come from?</p>
+
+<h3>Disecting the Root Page Results</h3>
+
+<p>Let&#8217;s start by examining our routes file and look for an associated controller.</p>
+
+<ul>
+<li>Open the <code>config/routes.rb</code>:</li>
+</ul>
+
+<p>A traditional Rails application defines a
+<a href="http://guides.rubyonrails.org/routing.html#using-root">root route</a> within
+the <code>config/routes.rb</code> file. When we look at our current application there is
+no root present, however there is a Rails Engine setup at the root of the
+application.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>mount Spree::Core::Engine, :at <span class="o">=</span>&gt; <span class="s1">&#39;/&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So instead of a root action Spree defines an engine that is mounted at the
+root of our application. So our application has no routes and no controller
+defined. So we need to start exploring the Spree source code to find out
+more details about the engine.</p>
+
+<h3>Exploring the Spree Engine</h3>
+
+<p>So our application contains no Spree source code. Where is the spree source?
+So how do we gain access to the Spree source?</p>
+
+<p>The <a href="http://bundler.io/">Bundler</a> application allows us to manage our
+dependencies. We used it to install all of the necessary components. It can
+also help us find and open the source.</p>
+
+<p>Let&#8217;s first view the location of the source and then open the source code:</p>
+
+<ul>
+<li>Run <code>bundle show spree</code></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/Users/USERNAME/.rvm/gems/ruby-2.0.0-p195@GEMSETNAME/gems/spree-2.0.3
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The result of the <em>bundle show</em> command will show us the file location of
+the <strong>spree</strong> gem. We can use that file path to open within our editor.</p>
+
+<p>However, before we do that lets use a different Bundler command which will
+allows us to more quickly open the contents of the gem.</p>
+
+<ul>
+<li>Run <code>bundle open spree</code></li>
+</ul>
+
+<p>When we execute this command the first time it will inform us that we need
+to set our EDITOR or BUNDLER_EDITOR.</p>
+
+<ul>
+<li>Setup <a href="http://www.sublimetext.com/docs/2/osx_command_line.html">Sublime</a>
+to be launchable from the terminal.</li>
+</ul>
+
+<p>This allows you to run the command <code>subl FILENAME</code> to open a file in sublime.</p>
+
+<ul>
+<li>Run <code>export BUNDLER_EDITOR=subl</code></li>
+</ul>
+
+<p>This will set your bundler editor for current terminal sessions.</p>
+
+<ul>
+<li>Run <code>bundle open spree</code></li>
+</ul>
+
+<p>Sublime should open with the contents of the Spree gem.</p>
+
+<h3>Your source is in Another Gem</h3>
+
+<p>Looking through the <a href="http://rubygems.org/gems/spree">Spree</a> gem that was opened
+you will not find the <code>Spree::Core::Engine</code> or <code>Spree::HomeController</code>.</p>
+
+<p>That is because the spree gem is a meta-gem. Which means it contains little or
+no source code but has several dependencies on other gems.</p>
+
+<ul>
+<li>Open <code>lib/spree.rb</code>:</li>
+</ul>
+
+<p>The source contains several require lines which require additional gems:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>require <span class="s1">&#39;spree_core&#39;</span>
+</span><span class='line'>require <span class="s1">&#39;spree_api&#39;</span>
+</span><span class='line'>require <span class="s1">&#39;spree_backend&#39;</span>
+</span><span class='line'>require <span class="s1">&#39;spree_frontend&#39;</span>
+</span><span class='line'>require <span class="s1">&#39;spree_sample&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Opening Another Gem</h3>
+
+<p>So the source we are looking for does not exist within the <strong>spree</strong> gem but
+it probably exists in one of its dependencies.</p>
+
+<p>Using <code>bundle open GEMNAME</code> to open up:</p>
+
+<ul>
+<li>spree_core</li>
+<li>spree_backend</li>
+<li>spree_frontend</li>
+</ul>
+
+<p>Within each of these projects search for the following files:</p>
+
+<ul>
+<li><code>config/routes.rb</code></li>
+<li><code>app/controllers/home_controller.rb</code></li>
+</ul>
+
+<h3>Opening All the Gems</h3>
+
+<p>Another alternative to opening each and every gem in various editor windows is
+to open all of your gems. This may be overkill, but can make it easier sometimes
+to search through all of the source quickly and easily.</p>
+
+<ul>
+<li>Run <code>bundle show spree</code></li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>/Users/USERNAME/.rvm/gems/ruby-2.0.0-p195@GEMSET/gems/spree-2.0.3
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The path in the output contains the specific information that includes the
+Spree gem. Remove the spree gem from the path and you have a path to all
+the gems within the gemset.</p>
+
+<ul>
+<li>Run <code>subl /Users/USERNAME/.rvm/gems/ruby-2.0.0-p195@GEMSET/gems</code></li>
+</ul>
+
+<p>Sublime will open an editor that now allows you search across all the gems
+within your gemset. This may be an overly large list of gems but sometimes
+having access to more than one gem at a time is easier to manage particularly
+if you want to browse the source.</p>
+
+<h3>An Easier Time Exploring With RubyMine</h3>
+
+<p>RubyMine makes the entire process of navigating the source code and associated
+gems much easier as all the installed gems are provided in the list of external
+libraries.</p>
+
+<ul>
+<li><p>Set the correct Ruby Version and Gemset in project options.</p></li>
+<li><p>Press <code>Cmd+N</code> to search for a class and search for <code>HomeController</code>.</p></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

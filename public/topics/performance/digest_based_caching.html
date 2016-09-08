@@ -1,0 +1,718 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Digest-Based Caching - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Performance                                      Digest-Based Caching                              Expiring caches is hard. What &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/performance/digest_based_caching.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Performance</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Digest-Based Caching
+        </h1>
+        
+      </header>
+    
+    <p>Expiring caches is hard. What if you could just ignore antiquated data? Enter key-based cache expiration.</p>
+
+<ol>
+<li>The cache is append-only. What this means is that we never change the values stored in the cache, but instead create new key/value pairs.</li>
+<li>The key is calculated based on the object being cached. When the object changes, the key changes. The old key/value pair is irrelevant.</li>
+<li>Will you run out of memory? Ideal key/value stores for this technique automatically evict older entries when memory is needed.</li>
+<li>You can nest objects, and that ties their keys (and therefore, their values) together.Caching a post and its comments, then when a new comment is the post&#8217;s cache gets invalidated (or rather creates a different key, making the old data irrelevant).</li>
+</ol>
+
+<h2>Tooling Setup</h2>
+
+<p>In other performance tutorials we&#8217;ve used Redis. But Redis does not auto-expire keys. When its memory fills up new writes will start failing.</p>
+
+<p>Instead let&#8217;s use memcache.</p>
+
+<h3>The Sample Project</h3>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger_advanced.git
+</span><span class='line'>cd blogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<p>We need a lot of sample data. Open up <code>db/seeds.rb</code> and increase the number of objects generated:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Author</span><span class="o">.</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="no">Tag</span><span class="o">.</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, re-build the database and start the server:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake db:drop db:migrate db:seed</span><span class='line command'>rails s</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Installing Memcache</h3>
+
+<p>If you&#8217;re on OS X with Homebrew it&#8217;s easy:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>brew install memcached</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>After installation, you&#8217;ll want to start Memcache:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ln -sfv /usr/local/opt/memcached/*.plist ~/Library/LaunchAgents</span><span class='line command'>launchctl load ~/Library/LaunchAgents/homebrew.mxcl.memcached.plist</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Installing Dalli</h3>
+
+<p><a href="https://github.com/mperham/dalli">Dalli</a> is the preferred Ruby client for interacting with Memcached. Add it to your application&#8217;s <code>Gemfile</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;dalli&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then <code>bundle</code>.</p>
+
+<h3>Configuring Rails to Use Dalli</h3>
+
+<p>Presuming that you&#8217;re experimenting in development, open <code>config/environments/development.rb</code> and add this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">cache_store</span> <span class="o">=</span> <span class="ss">:dalli_store</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">action_controller</span><span class="o">.</span><span class="n">perform_caching</span> <span class="o">=</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Make sure that if you already had <code>cache_store</code> configured from another tutorial that this line <em>replaces</em> it.</p>
+
+<h3>Verifying It All</h3>
+
+<p>With those change in place, fire up a Rails console and try it out:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>&gt; Rails.cache.write("counter", 5)</span><span class='line output'>=&gt; true</span><span class='line output'>&gt; Rails.cache.read("counter")</span><span class='line output'>=&gt; 5</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Want some proof from memcached itself? There isn&#8217;t a great console/interface built in. But you can use telnet to verify that the key is there:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>telnet localhost 11211</span><span class='line output'>Trying ::1...</span><span class='line output'>Connected to localhost.</span><span class='line output'>Escape character is '^]'.</span><span class='line output'>> get counter</span><span class='line output'>VALUE counter 1 4</span><span class='line output'>i</span><span class='line output'></span><span class='line output'>END</span><span class='line output'>> get counter_doesnt_exist</span><span class='line output'>END</span><span class='line output'>> quit</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Note that the <code>&gt;</code> above don&#8217;t actually appear, they&#8217;re just used here to point out the commands entered.</p>
+
+<h2>Getting Started with Cache Digests</h2>
+
+<p>We&#8217;ll use the <code>cache_digests</code> library to generate cache keys based on input data.</p>
+
+<h3>Checking Out All Articles</h3>
+
+<p>Let&#8217;s try it with the &#8216;all articles&#8217; page first. Start up your
+server and hit <code>http://localhost:3000/articles</code> in your browser.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Rendered articles/index.html.erb within layouts/application (19306.7ms)
+</span><span class='line'>Completed 200 OK in 19449ms (Views: 6716.8ms | ActiveRecord: 12731.3ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Brutal! We have to load a thousand articles, a hundred tags, and count all
+the comments&#8230; mega slow.</p>
+
+<h3>How Cache Digest Works</h3>
+
+<p>The <code>cache_digests</code> library uses MD5 hashing to generate cache keys. If any bit of the input to the the hash operation changes, then the hash output will change. Since that hash result changes the cache key being searched for changes. The old value will be cleaned up by <code>memcached</code> when memory is needed.</p>
+
+<p><code>cache_digests</code> can hash both the templates and the data, so if you change either then a new cache key is generated.</p>
+
+<h3>Adding <code>cache_digests</code> to a Rails App</h3>
+
+<p>In Rails 4, there&#8217;s nothing to do. It&#8217;s built in.</p>
+
+<p>If you&#8217;re using Rails 3, add the <code>cache_digests</code> gem to the Gemfile, then <code>bundle</code>.</p>
+
+<h3>Add Caching to the View Template</h3>
+
+<p>We need to mark segments of the view template for caching. Modify
+<code>app/views/articles/index.html.erb</code> to use a <code>cache</code> block when it renders each article:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='html+erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">cache</span> <span class="n">article</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&#39;tag_list&#39;</span><span class="nt">&gt;</span><span class="cp">&lt;%=</span> <span class="n">article</span><span class="o">.</span><span class="n">tag_list</span> <span class="cp">%&gt;</span><span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&#39;actions&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;%=</span> <span class="n">edit_icon</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;%=</span> <span class="n">delete_icon</span><span class="p">(</span><span class="n">article</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/span&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">pluralize</span> <span class="n">article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span><span class="p">,</span> <span class="s2">&quot;Comment&quot;</span> <span class="cp">%&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, each article block will have a cache based on the <code>Article</code> instance. If we
+modify an article, only that article&#8217;s digest (and thus key) will change.</p>
+
+<h3>Results from the Browser</h3>
+
+<p>Open up your browser, hit <code>http://localhost:3000/articles</code>, then look at the server log. You&#8217;ll see something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Rendered articles/index.html.erb within layouts/application (29488.8ms)
+</span><span class='line'>Completed 200 OK in 29660ms (Views: 16398.4ms | ActiveRecord: 13261.1ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then refresh the page and return to the log for results like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Rendered articles/index.html.erb within layouts/application (582.2ms)
+</span><span class='line'>Completed 200 OK in 599ms (Views: 579.5ms | ActiveRecord: 18.7ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Before the final output, you should have seen a bunch of these:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Read fragment views/articles/995-20130426175152/68d8223fc7ff88a529e72542807fd454 (0.2ms)
+</span><span class='line'>Read fragment views/articles/996-20130426175152/68d8223fc7ff88a529e72542807fd454 (0.1ms)
+</span><span class='line'>Read fragment views/articles/997-20130426175153/68d8223fc7ff88a529e72542807fd454 (0.2ms)
+</span><span class='line'>Read fragment views/articles/998-20130426175154/68d8223fc7ff88a529e72542807fd454 (0.1ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Comment Problems</h3>
+
+<p>On that index page each article displays the number of comments.</p>
+
+<ul>
+<li>Open one of the articles in a separate tab</li>
+<li>Notice the number of comments on the index</li>
+<li>Add a comment using the other tab</li>
+<li>Reload the index and the comments count <strong>didn&#8217;t</strong> change</li>
+</ul>
+
+<p>Why? The cache fragments are based on the article. We added a comment record to the database, but we didn&#8217;t change the article itself.</p>
+
+<h3>Touching Objects</h3>
+
+<p>We can have new comments affect the <code>updated_at</code> timestamp of the parent article. In <code>comment.rb</code> add <code>:touch</code> :</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:article</span><span class="p">,</span> <span class="ss">:touch</span> <span class="o">=&gt;</span> <span class="kp">true</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Go add another comment in the article show tab, refresh the article index, and you should see the correct comment count. The generated key changed because the article <code>updated_at</code> changed.</p>
+
+<h3>One Sad User, Most Are Happy</h3>
+
+<p>We still have that bad first page load. But when we change an article or add a comment, just one digest key will change. The rest of the article digests will remain the same so their existing cached fragments will be used.</p>
+
+<h2>Caching a Single Article</h2>
+
+<h3>Starting with the <code>show</code> Template</h3>
+
+<p>Let&#8217;s try the technique on the show page for an <code>Article</code>. Find an article with
+a lot of comments, or just add a bunch of comments to one in the console. For this example we&#8217;ll work with the article with ID #799,
+so I opened up <code>http://localhost:3000/articles/799</code> in my browser. It has 15
+comments:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Rendered articles/show.html.erb within layouts/application (353.3ms)
+</span><span class='line'>Completed 200 OK in 392ms (Views: 366.1ms | ActiveRecord: 18.3ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>392ms isn&#8217;t horrible, but it&#8217;s not ok. Let&#8217;s examine the 
+<code>app/views/articles/show.html.erb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class='html+erb'><span class='line'><span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'><span class="nt">&lt;h4&gt;</span>Published <span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">created_at</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h4&gt;</span>
+</span><span class='line'><span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&#39;tag_list&#39;</span><span class="nt">&gt;&lt;em&gt;</span>Tagged:<span class="nt">&lt;/em&gt;</span> <span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">tag_list</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;article_actions&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">edit_icon</span><span class="p">(</span><span class="vi">@article</span><span class="p">,</span> <span class="s2">&quot;Edit&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">delete_icon</span><span class="p">(</span><span class="vi">@article</span><span class="p">,</span> <span class="s2">&quot;Delete&quot;</span><span class="p">)</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">link_to</span> <span class="s2">&quot;Back to All Articles&quot;</span><span class="p">,</span> <span class="n">articles_path</span>  <span class="cp">%&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h3&gt;</span><span class="cp">&lt;%=</span> <span class="n">pluralize</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span><span class="p">,</span> <span class="s2">&quot;Comment&quot;</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h3&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">comment</span><span class="o">|</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;comment&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>      <span class="nt">&lt;em&gt;</span><span class="cp">&lt;%=</span> <span class="n">comment</span><span class="o">.</span><span class="n">author_name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/em&gt;</span>
+</span><span class='line'>      said <span class="cp">&lt;%=</span> <span class="n">distance_of_time_in_words</span><span class="p">(</span><span class="vi">@article</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span> <span class="n">comment</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span> <span class="cp">%&gt;</span> later:
+</span><span class='line'>    <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">comment</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;/div&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nt">&lt;h4&gt;</span>Add Your Comment<span class="nt">&lt;/h4&gt;</span>
+</span><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span><span class="p">(</span><span class="vi">@article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">new</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:author_name</span> <span class="cp">%&gt;</span><span class="nt">&lt;br/&gt;</span>
+</span><span class='line'>        <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:author_name</span> <span class="cp">%&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>        <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="nt">&lt;br/&gt;</span>
+</span><span class='line'>        <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">hidden_field</span> <span class="ss">:article_id</span><span class="cp">%&gt;</span>
+</span><span class='line'>    <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">submit</span> <span class="s2">&quot;Save&quot;</span> <span class="cp">%&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Adding Caching</h3>
+
+<p>We need to tell Rails two things:</p>
+
+<ol>
+<li>Cache all of this based on the <code>Article</code></li>
+<li>Cache the nested child comments individually</li>
+</ol>
+
+<p>First wrap a cache call around the whole template:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='html+erb'><span class='line'><span class="cp">&lt;%</span> <span class="n">cache</span> <span class="vi">@article</span> <span class="k">do</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h1&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;h4&gt;</span>Published <span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">created_at</span> <span class="cp">%&gt;</span><span class="nt">&lt;/h4&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&#39;tag_list&#39;</span><span class="nt">&gt;&lt;em&gt;</span>Tagged:<span class="nt">&lt;/em&gt;</span> <span class="cp">&lt;%=</span> <span class="vi">@article</span><span class="o">.</span><span class="n">tag_list</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>
+</span><span class='line'>...everything else...
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh the page twice to make sure the cache gets loaded up.</p>
+
+<p><img src="/images/caching/before_cache.png" alt="before caching">
+</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Read fragment views/articles/799-20130426174937/33c6b50a8951af1b50232cdb6f7ffb60 (0.3ms)
+</span><span class='line'>Rendered articles/show.html.erb within layouts/application (0.6ms)
+</span><span class='line'>Completed 200 OK in 17ms (Views: 16.5ms | ActiveRecord: 0.1ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Add a Comment</h3>
+
+<p>Nice. Let&#8217;s try adding a comment by using a form at the bottom.
+Fill it out&#8230;</p>
+
+<p><img src="/images/caching/comment.png" alt="comment">
+</p>
+
+<p>and hit submit&#8230;</p>
+
+<p><img src="/images/caching/after_cache.png" alt="after caching">
+</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Read fragment views/articles/799-20130427002754/33c6b50a8951af1b50232cdb6f7ffb60 (0.3ms)
+</span><span class='line'>  Tag Load (10.5ms)  SELECT &quot;tags&quot;.* FROM &quot;tags&quot; INNER JOIN &quot;taggings&quot; ON &quot;tags&quot;.&quot;id&quot; = &quot;taggings&quot;.&quot;tag_id&quot; WHERE &quot;taggings&quot;.&quot;article_id&quot; = 799
+</span><span class='line'>   (3.7ms)  SELECT COUNT(*) FROM &quot;comments&quot; WHERE &quot;comments&quot;.&quot;article_id&quot; = 799
+</span><span class='line'>  Comment Load (3.6ms)  SELECT &quot;comments&quot;.* FROM &quot;comments&quot; WHERE &quot;comments&quot;.&quot;article_id&quot; = 799
+</span><span class='line'>Write fragment views/articles/799-20130427002754/33c6b50a8951af1b50232cdb6f7ffb60 (0.4ms)
+</span><span class='line'>  Rendered articles/show.html.erb within layouts/application (30.7ms)
+</span><span class='line'>Completed 200 OK in 45ms (Views: 25.9ms | ActiveRecord: 17.9ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>See that &#8216;Read fragment&#8217; and &#8216;write fragment&#8217;? Because of our <code>:touch</code>,
+when the comment was created, it updated the timestamp on the article. The updated article generated a different digest key than the old one, so the cache load missed. Rails ran the template itself and cached the results for later use.</p>
+
+<h2>Nested Cache Elements</h2>
+
+<h3>Thinking About <code>updated_at</code></h3>
+
+<p>There&#8217;s one problem with this technique, though. Adding the comment touched the parent article, which meant changing the <code>updated_at</code>. The view template was outputting that <code>updated_at</code> to represent when the content of the article itself was updated, which  didn&#8217;t really happen. You might not care this time, but for some applications, this isn&#8217;t
+great. </p>
+
+<p>There&#8217;s another way. We can nest the cache blocks within the template, then <code>:touch</code> isn&#8217;t needed down in the models. </p>
+
+<p><strong>Remove</strong> all the <code>touch</code> bits from the models. Return to the article in the browser and add another comment:</p>
+
+<p><img src="/images/caching/stale_cache.png" alt="stale cache">
+</p>
+
+<p>Oh no! It still says 16 total comments, and this troll-y comment I left before
+is the &#8216;newest&#8217; one. But I added another! Where&#8217;d it go?</p>
+
+<p>Well, because our <code>updated_at</code> wasn&#8217;t modified for <code>@article</code>, the digest generated the same old cache key.</p>
+
+<h3>Listing Cache Dependencies</h3>
+
+<p>We can see the nested dependencies with this rake task:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show</span><span class='line output'>[</span><span class='line output'></span><span class='line output'>]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Nothing yet. </p>
+
+<h3>Extracting a Partial</h3>
+
+<p>Find the part of the view template that renders the comments using <code>@article.comments.each</code>. Cut the segment inside of the each block out to a partial:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html+erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">render</span> <span class="n">partial</span><span class="p">:</span> <span class="s1">&#39;comments/comment&#39;</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="vi">@article</span><span class="o">.</span><span class="n">comments</span> <span class="cp">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>and in <code>app/views/comments/_comment.html.erb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='html+erb'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&#39;comment&#39;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;p&gt;</span>
+</span><span class='line'>    <span class="nt">&lt;em&gt;</span><span class="cp">&lt;%=</span> <span class="n">comment</span><span class="o">.</span><span class="n">author_name</span> <span class="cp">%&gt;</span><span class="nt">&lt;/em&gt;</span>
+</span><span class='line'>    said <span class="cp">&lt;%=</span> <span class="n">distance_of_time_in_words</span><span class="p">(</span><span class="n">comment</span><span class="o">.</span><span class="n">article</span><span class="o">.</span><span class="n">created_at</span><span class="p">,</span> <span class="n">comment</span><span class="o">.</span><span class="n">created_at</span><span class="p">)</span> <span class="cp">%&gt;</span> later:
+</span><span class='line'>  <span class="nt">&lt;/p&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="n">comment</span><span class="o">.</span><span class="n">body</span> <span class="cp">%&gt;</span><span class="nt">&lt;/p&gt;</span>
+</span><span class='line'><span class="nt">&lt;/div&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you&#8217;re seeing the comments repeating over and over again after refreshing the show page, make sure you&#8217;ve deleted the each block that previously surrounded the portion you cut out. </p>
+
+<h4>Reevaluating Dependencies</h4>
+
+<p>Let&#8217;s examine those dependencies again:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake cache_digests:nested_dependencies TEMPLATE=articles/show</span><span class='line output'>[</span><span class='line output'>"comments/comment"</span><span class='line output'>]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Rails will now know that we rely on this partial. When it caches the whole template, it&#8217;ll cache each rendering of the partial individually. If any of the comments changes, its key will change making the old fragment/key obsolete. The whole page, which is dependent on this fragment, will also generate a different key.</p>
+
+<p>Hit refresh, and you should see all posted comments.</p>
+
+<h2>More Resources</h2>
+
+<ul>
+<li><a href="https://devcenter.heroku.com/articles/advanced-memcache">Heroku&#8217;s Guide to Memcached</a></li>
+<li><a href="https://github.com/rails/cache_digests">Cache Digest gem on GitHub</a></li>
+<li><a href="http://37signals.com/svn/posts/3113-how-key-based-cache-expiration-works">How Key-based Cache Expiration Works</a></li>
+<li><a href="https://github.com/rails/cache_digests">cache_digests gem</a></li>
+<li><a href="https://github.com/jumpstartlab/blogger_advanced/tree/caching">The &#8216;caching&#8217; branch of blogger_advanced</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How Heroku Works - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Salesforce Elevate                                      How Heroku Works                              Heroku is a cloud hosting &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/paths/elevate/how_heroku_works.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <a href=/elevate>Salesforce Elevate</a>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          How Heroku Works
+        </h1>
+        
+      </header>
+    
+    <p>Heroku is a cloud hosting platform focused on serving developers. Before you can get your application up and running we should discuss how the platform works.</p>
+
+<h2>High Level</h2>
+
+<p>The Heroku platform supports applications written in Ruby, Node.js, Java, Python, PHP, Clojure, and Scala. It falls in the domain of &quot;Platform as a Service&quot; (PaaS), allowing developers to focus on building their application while the platform deals with the intricacies of servers and deployment.</p>
+
+<p>The power of Heroku is that you need to know, worry, and care <em>very little</em> about the systems that are used to run your application. Instead your energy goes into building your app.</p>
+
+<h2>Git as Transport Mechanism</h2>
+
+<p>There are many options for moving code between servers. Many devs have used FTP, SCP, or network shares. Heroku relies on Git.</p>
+
+<h3>Why Git?</h3>
+
+<p>Heroku made a big bet on Git back in the mid-2000s, and since then Git has come to dominate modern application development. It&#8217;s the Source Control Management (SCM) option chosen for most new applications.</p>
+
+<h3>Heroku as Git Remote</h3>
+
+<p>If you&#8217;re using Git, then shipping code to Heroku is easy. A Git repository typically has one or more remotes. These often have names like <code>origin</code> and point to the places where you host and share code with colleagues, like GitHub.</p>
+
+<p>You can think of Heroku as a big Git server. When you &quot;create&quot; an application, the end result is that you have a new Git remote that you can push code to.</p>
+
+<h3>Just Like Any Other Remote</h3>
+
+<p>The SSH-style URL for an application looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git@heroku.com:name_of_your_application.git</span></code></pre></td></tr></table></div></figure>
+
+<p>When you create an app on Heroku, the toolbelt will add a remote named <code>heroku</code> with your app&#8217;s correct URL. If you wanted to do it manually, however, it&#8217;s just the same as any other Git remote:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git remote add heroku git@heroku.com:name_of_your_application.git</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Now It&#8217;s Just Git</h3>
+
+<p>Once Heroku is a remote for your repo, you can:</p>
+
+<ol>
+<li>Push code</li>
+<li><em>Pull</em> code</li>
+<li>Use Heroku as the place where you store your code (instead of GitHub)</li>
+</ol>
+
+<p>Typically, though, you&#8217;re only going to exercise option 1.</p>
+
+<h2>Building a Slug</h2>
+
+<p>Once the code is transferred, Heroku starts building a <strong>slug</strong>. A slug is a compressed archive containing your application code, configuration, and any dependencies (like external libraries).</p>
+
+<p>This slug is then a self-contained, ready-to-run version of your application. It just needs to be started.</p>
+
+<h2>Dynos Run Slugs</h2>
+
+<p>You can think of a dyno like a single-purpose computer. A dyno can take a slug and run it, making the application available to the world.</p>
+
+<h3>One Dyno, One Slug</h3>
+
+<p>A single dyno can only run one slug. You can use multiple processes and threads to have multiple things happening at once, but a dyno cannot be shared by multiple slugs.</p>
+
+<h3>One Slug, Many Dynos</h3>
+
+<p>The converse is not true. That slug is just a zipped up version of your application. It can be copied to and booted by multiple dynos. To support real-world traffic, many applications utilize eight or more dynos all running copies of the same slug.</p>
+
+<h2>Responding to Requests</h2>
+
+<p>A slug is built and started up on one or more dynos, then what?</p>
+
+<p><img src="/images/elevate/heroku_request_response.png" alt="Heroku Request/Response Diagram">
+</p>
+
+<h3>A Request Arrives at the Routers</h3>
+
+<p>A request comes into Heroku&#8217;s <strong>Routers</strong> and, based on the domain specified in the request, the router figures out that it belongs to your application.</p>
+
+<p>Once Heroku knows that the request belongs to your application it needs to be distributed to a dyno. There are several approaches to distributing work among multiple workers, which is the pattern in place here with dynos, each with their own advantages and drawbacks.</p>
+
+<p>Heroku&#8217;s chosen to randomize requests as they come through the routers due to the low coordination overhead. When a request comes in you don&#8217;t know and shouldn&#8217;t care which of your dynos it gets routed to. The next request will likely get routed to a different dyno, and that shouldn&#8217;t matter to your application.</p>
+
+<h3>External Data - PostgreSQL</h3>
+
+<p>Most web applications need to store data in a traditional database, an in-memory store, on the filesystem, or some combination thereof.</p>
+
+<p>If you have multiple dynos all responding to requests, that can be tricky. If my first request goes to Dyno A, stores data, then my next request goes to Dyno B, will the data be there?</p>
+
+<p>Heroku separates the concept of the data store from the web application. If you were setting up a VPS you might run the application and database on the same machine and communicate over UNIX sockets, but you could also use TCP/IP.</p>
+
+<p>Heroku hosts database instances and in fact provisions an instance of PostgreSQL for your application when you first create it. That database instance is accessible over TCP/IP, so <em>all</em> your dynos can access it simultaneously.</p>
+
+<p>Heroku stores the location of the database in environment variables accessible to all your dynos, so once one dyno can reach the database then all of them can. You can scale up dynos with no additional configuration.</p>
+
+<p>The same approach holds true for the filesystem. Heroku recommends you consider the dyno&#8217;s filesystem to be &quot;ephemeral&quot;. You can write to it, but those writes won&#8217;t persist across dyno restarts. You should thus think of dynos as stateless.</p>
+
+<p>If you need to store files, push them out to Amazon&#8217;s S3. Put the credentials in your application configuration and they&#8217;ll be shared by all dynos.</p>
+
+<h3>External Data - Memcached</h3>
+
+<p>Need an in-memory store like Redis or Memcached? Install one of the available add-ons and all the dynos can reach it via the same approach &#8211; TCP/IP connections specified in the environment variables.</p>
+
+<h2>Recap</h2>
+
+<ul>
+<li>You transfer code to Heroku by using <code>git push</code></li>
+<li>Heroku builds an archive of your ready-to-run application called a <strong>slug</strong></li>
+<li>A slug gets copied to and run on one or more <strong>dynos</strong>. The more dynos you run, the more traffic you can support.</li>
+<li>Requests come in to Heroku&#8217;s <strong>Routers</strong> and are dispatched to your application</li>
+<li>All dynos can <em>share external data</em> so you don&#8217;t care which dyno is actually serving the request</li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://Dev Center.heroku.com/articles/how-heroku-works">How Heroku Works</a> on Heroku&#8217;s Dev Center</li>
+<li><a href="https://Dev Center.heroku.com/categories/heroku-architecture">Heroku Architecture</a> on Heroku&#8217;s Dev Center</li>
+</ul>
+
+    
+      <a class="print-hidden" href=/elevate><< BACK</a>
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

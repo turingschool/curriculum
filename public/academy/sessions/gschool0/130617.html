@@ -1,0 +1,496 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Monday, June 17th - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Monday, June 17th                              Daily OutlineWarm-upNetworking, Servers, and OpsCustomer Check- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/sessions/gschool0/130617.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Monday, June 17th
+        </h1>
+        
+      </header>
+    
+    <h2>Daily Outline</h2>
+
+<ul>
+<li>Warm-up</li>
+<li>Networking, Servers, and Ops</li>
+<li>Customer Check-Ins</li>
+<li>Reading Group: JavaScript Patterns</li>
+<li>Lightning Talk Kickoff</li>
+</ul>
+
+<h2>Weekly Preview</h2>
+
+<ul>
+<li>Tuesday
+
+<ul>
+<li>Revisiting Git Techniques</li>
+<li>Project Work</li>
+</ul></li>
+<li>Wednesday
+
+<ul>
+<li>Using Pub/Sub</li>
+<li>Project Work</li>
+</ul></li>
+<li>Thursday
+
+<ul>
+<li>Technical Check-Ins</li>
+<li>Resume Workshop</li>
+<li>Project Work</li>
+</ul></li>
+<li>Friday
+
+<ul>
+<li>Retrospective</li>
+<li>Lightning Talks</li>
+<li>Guest: Wil Moore III</li>
+<li>1-on-1s &amp; Open Source</li>
+</ul></li>
+</ul>
+
+<h2>Networking, Servers, and Deployment</h2>
+
+<h3>Part 1: What You Need To Know About Networking</h3>
+
+<h4>Learning Goals</h4>
+
+<ul>
+<li>Understand the format of IP addresses</li>
+<li>Understand how packets flow through the network</li>
+<li>Be able to explain the roles of:
+
+<ul>
+<li>DNS</li>
+<li>Gateway</li>
+<li>TCP/IP</li>
+<li>Router</li>
+</ul></li>
+<li>Be familiar with basic network tooling including:
+
+<ul>
+<li><code>ifconfig</code></li>
+<li><code>ping</code></li>
+<li><code>nslookup</code></li>
+</ul></li>
+</ul>
+
+<h4>Conversation Notes</h4>
+
+<h5>IP Addresses</h5>
+
+<ul>
+<li>IPv4: 
+
+<ul>
+<li>Four octets, 0.0.0.0 to 255.255.255.255</li>
+</ul></li>
+<li>IPv6: 
+
+<ul>
+<li>Eight groups of four hexadecimal digits</li>
+<li>Ex: <code>2001:0db8:85a3:0042:1000:8a2e:0370:7334</code></li>
+</ul></li>
+<li>IPv4 and IPv6 address pool
+
+<ul>
+<li>&quot;Every device&quot; needs an IP address</li>
+<li>Total pool size</li>
+<li>IPv4 address exhaustion</li>
+</ul></li>
+<li>Many ranges and addresses are special
+
+<ul>
+<li>Ping <code>.255</code></li>
+<li><code>10.0.0.*</code></li>
+<li><code>192.168.*.*</code></li>
+</ul></li>
+<li>Use <code>ifconfig</code> to find your addresses</li>
+<li>Use <code>ping</code> to&#8230;
+
+<ul>
+<li>check if another server is responding</li>
+<li>get a sense of how long transmissions take (&quot;ping time&quot;)</li>
+<li>&#8230;except that many web hosts disable &quot;pingback&quot;</li>
+</ul></li>
+</ul>
+
+<h4>DNS</h4>
+
+<ul>
+<li>The need for name resolution</li>
+<li>DNS server hierarchy</li>
+<li>Local caching of DNS (and <code>dscacheutil -flushcache</code>)</li>
+<li>Use <code>nslookup</code></li>
+</ul>
+
+<h4>Misc</h4>
+
+<ul>
+<li>Port scanning with OS X Network Utility</li>
+</ul>
+
+<h3>Part 2: Servers</h3>
+
+<h4>Learning Goals</h4>
+
+<ul>
+<li>Understand what a port is and why it&#8217;s useful</li>
+<li>Build a conceptual model of how the ports on a server work</li>
+<li>Understand what a loopback address is</li>
+<li>Experiment with installing and configuring a reverse-proxy web server</li>
+</ul>
+
+<h4>Conversation Notes</h4>
+
+<ul>
+<li>Servers &amp; Ports</li>
+<li>Running Services</li>
+<li>Some of the most common:
+
+<ul>
+<li>Port 21 - FTP</li>
+<li>Port 22 - SSH</li>
+<li>Port 23 - Telnet</li>
+<li>Port 25 - SMTP (Sending Mail)</li>
+<li>Port 80 - HTTP</li>
+<li>Port 110 - POP3</li>
+<li>Port 443 - HTTPS</li>
+</ul></li>
+<li>Web browers assume port 80 for http</li>
+<li>Experimenting with Telnet</li>
+</ul>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>telnet jumpstartlab.com 80
+</span><span class='line'>GET http://jumpstartlab.com/today HTTP/1.0</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Loopback Addresses
+
+<ul>
+<li><code>127.0.0.1</code></li>
+<li><code>localhost</code></li>
+<li><code>0.0.0.0</code></li>
+</ul></li>
+<li>Local app &amp; Telnet
+
+<ul>
+<li>Start an old Rails app on port 3000 (default)</li>
+<li>Access it through your browser</li>
+<li>Access it via telnet</li>
+<li>Stop the Rails app</li>
+<li>Restart it on port 80</li>
+<li>Access it through your browser without specifying the port</li>
+<li>Stop the Rails app and restart it on port 3000</li>
+</ul></li>
+</ul>
+
+<h5>Experiment with NGINX</h5>
+
+<p>Now let&#8217;s try out using NGINX as a front-end web server. First, get it installed on your OS X system:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>brew install nginx
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now you need to edit the configuration. You can use sublime text, vim, or nano:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>nano /usr/local/etc/nginx/nginx.conf
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Scroll down and change the <code>listen</code> line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='raw'><span class='line'><span class="err">listen       80;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Scroll further and change the routing for the root address to proxy to port 3000:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='raw'><span class='line'><span class="err">location / {</span>
+</span><span class='line'><span class="err">  proxy_pass      http://127.0.0.1:3000;</span>
+</span><span class='line'><span class="err">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Save the config file, then start up <code>nginx</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='raw'><span class='line'><span class="err">sudo nginx</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need <code>sudo</code> because of the way OS X handles permissions on the ports.</p>
+
+<p>Now, visit <a href="http://127.0.0.1">http://127.0.0.1</a> with no additional port. You&#8217;re hitting port 80, it&#8217;s getting proxied to 3000, then your Rails app is serving the request.</p>
+
+<p>Why use a reverse proxy? At the NGINX level you can:</p>
+
+<ul>
+<li>Route requests to multiple apps running on the same server (based on domain name, file path, etc)</li>
+<li>Serve static assets quickly without hitting your server</li>
+<li>Enforce external network-based security</li>
+</ul>
+
+<h3>Part 3: Deployment</h3>
+
+<h4>Learning Goals</h4>
+
+<ul>
+<li>Understand what a VPS server is and isn&#8217;t</li>
+<li>Know how to SSH into a server</li>
+<li>Develop a conceptual model of how deployment works</li>
+<li>Understand the roles of&#8230;
+
+<ul>
+<li>SSH</li>
+<li>Git Remote</li>
+<li>Ruby server</li>
+<li>Web server</li>
+<li>Database server</li>
+<li>Capistrano</li>
+</ul></li>
+</ul>
+
+<h4>Conversation Notes</h4>
+
+<ul>
+<li>Having a &quot;server&quot;
+
+<ul>
+<li>Physical machine - &quot;colocation&quot;</li>
+<li>Hypervisor - The OS of OSes</li>
+<li>Shared machine - virtualized server, virtual private server (VPS)</li>
+<li>Ifrastructure As A Service (IaaS)</li>
+</ul></li>
+</ul>
+
+<h5>Typical Deployment Process</h5>
+
+<ol>
+<li>SSH into the machine</li>
+<li>Clone code via git</li>
+<li>Run pending migrations</li>
+<li>Restart the Ruby server(s)</li>
+<li>Leave the proxy server alone</li>
+</ol>
+
+<h4>Experimenting with a VPS</h4>
+
+<p>Thanks to DigitalOcean, we can create VPS servers with reckless abandon! Each of you has been provisioned a VPS.</p>
+
+<ul>
+<li>Check your email for your server credentials</li>
+<li><a href="https://www.digitalocean.com/community/articles/initial-server-setup-with-ubuntu-12-04">Setup a non-root user with password</a></li>
+<li><a href="https://www.digitalocean.com/community/articles/how-to-install-nginx-on-ubuntu-12-04-lts-precise-pangolin">Install NGINX</a></li>
+<li><a href="https://www.digitalocean.com/community/articles/how-to-install-ruby-on-rails-on-ubuntu-12-04-lts-precise-pangolin-with-rvm">Install Ruby and Rails</a></li>
+<li><a href="https://www.digitalocean.com/community/articles/how-to-install-git-on-ubuntu-12-04">Install git</a></li>
+<li><a href="http://hendrelouw73.wordpress.com/2013/04/29/how-to-install-postgresql-9-1-on-ubuntu-13-04-linux/">Install postgresql</a></li>
+<li>Switch to your user directory (<code>cd ~</code>), then clone one of your existing Rails projects from GitHub</li>
+<li>Bundle</li>
+<li>Run <code>rake db:create</code> then run your migrations</li>
+<li>Start the ruby server on port 3000</li>
+<li>Configure your NGINX to reverse proxy from port 80 to port 3000</li>
+<li>Restart NGINX (<code>sudo service nginx restart</code>)</li>
+<li>Visit http://yourip from a web browser and you should see your project! Or, more likely, it&#8217;s time to debug :D</li>
+</ul>
+
+<h2>Customer Check-Ins</h2>
+
+<p>Meet with Jeff in the Nook to review your stories. So&#8230;there should be stories.</p>
+
+<ul>
+<li>12:25 &#8211; RunTalk - Blair Anderson, Chelsea Komlo, Daniel Mee</li>
+<li>12:50 &#8211; SupportMe - John Maddux, Jorge Tellez, Laura Steadman</li>
+<li>1:15 &#8211; WeTube - Geoffrey Schorkopf, Kyle Suss, Logan Sears, Paul Blackwell</li>
+<li>1:40 &#8211; TrivialChat - Aimee Maher, Christopher Knight, Josh Mejia, Shane Rogers</li>
+<li>2:05 &#8211; Backchannel - Jennifer Eliuk, Kareem Grant, Phil Battos, Raphael Weiner</li>
+<li>2:30 &#8211; Quizzical - Bradley Sheehan, Danny Garcia, Elaine Tai, Erin Drummond</li>
+</ul>
+
+<h2>Reading Group: JavaScript Patterns</h2>
+
+<p>Let&#8217;s kick off Stoyan Stefanov&#8217;s &quot;JavaScript Patterns&quot; book today with a reading session. For next Monday, please read and experiment with <em>chapters 1 through 5 (up to page 114)</em>. Take this hour to get started.</p>
+
+<p>If you&#8217;ve already read that far, please try to gather with other students who have done the same and conduct some experiments, answer each other&#8217;s questions, etc.</p>
+
+<h2>Lightning Talk Kickoff</h2>
+
+<p>This week we&#8217;ll have lightning talks from:</p>
+
+<ul>
+<li>Josh Mejia</li>
+<li>Erin Drummond</li>
+<li>Kareem Grant</li>
+<li>Paul Blackwell</li>
+<li>John Maddux</li>
+<li>Kyle Suss</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,704 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Ruby & Rails Development Environment with Vagrant - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Ruby & Rails Development Environment with Vagrant                              GoalsA development-ready environment &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/vagrant_setup.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body   class="no-sidebar" >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Ruby & Rails Development Environment with Vagrant
+        </h1>
+        
+      </header>
+    
+    <h2>Goals</h2>
+
+<p>A development-ready environment includes the following tools:</p>
+
+<ul>
+<li>Ruby Version Manager (RVM)</li>
+<li>Ruby 1.9.3 and 2.1</li>
+<li>Git</li>
+<li>PostgreSQL 9+</li>
+<li>SublimeText Editor</li>
+<li>VirtualBox</li>
+<li>Vagrant</li>
+<li>Ubuntu Linux</li>
+</ul>
+
+<h2>Setup Process</h2>
+
+<p>The entire setup process should take less than three hours.</p>
+
+<h3>VirtualBox</h3>
+
+<p>VirtualBox is an application for running virtual machines. It&#8217;s free and available for every major platform. You can <a href="https://www.virtualbox.org/">learn more about it</a>, or jump straight to the download page here:</p>
+
+<p><a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a></p>
+
+<p>Look under &quot;VirtualBox platform packages&quot; for the binary distribution appropriate for your platform. Run the installer and follow the instructions.</p>
+
+<h3>Vagrant</h3>
+
+<p>Vagrant is a system for easily managing and interactive with VirtualBox-based virtual machines. Using vagrant we can do everything from the command line and rarely if ever need to open the actual VirtualBox application. You can <a href="http://vagrantup.com">learn more on the Vagrant website</a>.</p>
+
+<p>First, download the appropriate binary (matching your primary OS) from <a href="http://www.vagrantup.com/downloads.html">http://www.vagrantup.com/downloads.html</a> and run the installer. The later steps here are based on the <a href="http://docs.vagrantup.com/v2/getting-started/">Vagrant Getting Started Guide</a>.</p>
+
+<h4>Setting Up Ubuntu</h4>
+
+<p>The easiest way to get going is to use an Ubuntu image preconfigured and vetted by the Vagrant project team. Drop into a terminal and <strong>change to a directory</strong> where you&#8217;ll build your project (such a <code>~/projects/starting_rails</code> or <code>C:\projects\starting_rails</code>) and store the configuration for your virtual machine.</p>
+
+<p>Then, from that directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>vagrant init hashicorp/precise32</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That&#8217;ll generate a <code>Vagrantfile</code>. Before starting the virtual machine, we want to setup a bridged port so we can later access a web server running in Vagrant from our host operating system.</p>
+
+<p>Open that <code>Vagrantfile</code> in a text editor and uncomment/modify line 22 so it looks like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>config.vm.network "forwarded_port", guest: 3000, host: 3000</span></code></pre></td></tr></table></div></figure>
+
+<p>Save the file and close your editor. Return to the terminal and start the VM:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>vagrant up</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>When you run <code>up</code> it&#8217;ll try and boot that image, see that it&#8217;s not available on the local system, then fetch an image of Ubuntu 12.04 &quot;Precise Pangolin&quot;. Once downloaded and setup, it&#8217;ll be started.</p>
+
+<p>Other operating system &quot;boxes&quot; can be found at <a href="https://vagrantcloud.com/discover/featured">https://vagrantcloud.com/discover/featured</a> and you can build your own.</p>
+
+<h4>Entering the Virtual Machine</h4>
+
+<p>You can now SSH into the running virtual machine:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>vagrant ssh</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You&#8217;re now inside the fully-functioning operating system.</p>
+
+<h4>Synched Folders</h4>
+
+<p>You can share files seamlessly between your host operating system and your virtual machine. This is useful if, for instance, you&#8217;d like to use a graphical editor in the host operating system, but run the code inside the VM.</p>
+
+<p>The folder that you used to store the vagrant configuration is automatically shared with the virtual machine. So&#8230;</p>
+
+<ul>
+<li>Say you&#8217;re working in the directory <code>~/projects/starting_rails</code></li>
+<li>It currently contains the config file <code>~/projects/starting_rails/Vagrantfile</code></li>
+<li>You can create a file <code>~/projects/starting_rails/README.md</code> using your host OS and any editor</li>
+<li>Within the VM&#8217;s SSH session, you can interact with that file, like <code>cat /vagrant/README.md</code></li>
+</ul>
+
+<p>Check out <a href="http://docs.vagrantup.com/v2/synced-folders/">http://docs.vagrantup.com/v2/synced-folders/</a> for more complex folder synching, but this setup will be good enough for now.</p>
+
+<h4>Local Editor</h4>
+
+<p>Because of the transparent folder sharing you have two options for editing code:</p>
+
+<ol>
+<li>SSH into your virtual machine and use a text-based editor like Vim or Emacs</li>
+<li>Run a graphical editor in the host operating system</li>
+</ol>
+
+<p>If you go with option (2), we recommend <a href="http://www.sublimetext.com/">downloading SublimeText</a> which is available for OS X, Windows, and Linux. It&#8217;s quite popular in the Ruby community.</p>
+
+<h3>Git</h3>
+
+<p>You&#8217;ll of course need Git for source control. Install it within the SSH session:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sudo apt-get update</span><span class='line command'>sudo apt-get install git</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>And respond <code>y</code> to the prompt. You might notice that the <code>sudo</code> didn&#8217;t ask for a password. Your Vagrant VM is setup to &quot;trust&quot; you. No one can login to the VM unless they&#8217;re an authenticated user of your host operating system, so this is safe.</p>
+
+<h3>PostgreSQL</h3>
+
+<h4>Locale</h4>
+
+<p>Postgres uses information from the operating system to determine the language and encoding of databases. Let&#8217;s set that default locale before install postgres :</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sudo /usr/sbin/update-locale LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>PostgreSQL installation</h4>
+
+<p>PostgreSQL is the database of choice in the Ruby community. Let&#8217;s get it installed with apt:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sudo apt-get install postgresql libpq-dev</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Creating the Database Instance &amp; Adding a User</h4>
+
+<p>Once installed, we need to create the database instance. Within the SSH session:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sudo mkdir -p /usr/local/pgsql/data</span><span class='line command'>sudo chown postgres:postgres /usr/local/pgsql/data</span><span class='line command'>sudo su postgres</span><span class='line command'>/usr/lib/postgresql/9.1/bin/initdb -D /usr/local/pgsql/data</span><span class='line command'>createuser vagrant</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Respond &quot;Y&quot; to <code>Shall the new role be a superuser?</code> Then you can exit the <code>su</code> subshell:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>exit</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now you&#8217;re back to your Vagrant user session.</p>
+
+<h4>Add privilege for Vagrant to create database.</h4>
+
+<p>vagrant@vagrant-ubuntu-trusty-64:~$ psql  postgres
+psql (9.3.5)
+Type &quot;help&quot; for help.</p>
+
+<p>postgres=&gt; ALTER ROLE vagrant  CREATEDB;
+postgres-&gt; \q
+vagrant@vagrant-ubuntu-trusty-64:~$</p>
+
+<h4>Verifying Install and Permissions</h4>
+
+<p>You should now be back to the normal <code>vagrant@precise32:~$</code> prompt. Let&#8217;s create a database and connect to it:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>createdb sample_db</span><span class='line command'>psql sample_db</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You should see the following:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>psql sample_db</span><span class='line output'>psql (9.1.12)</span><span class='line output'>Type "help" for help.</span><span class='line output'></span><span class='line output'>sample_db=# \q</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>RVM</h3>
+
+<p>There are several options for managing Ruby versions, but we&#8217;ll use RVM with the standard &quot;single user&quot; method.</p>
+
+<h4>Initial Setup</h4>
+
+<p>From your SSH session, we first need to install the <code>curl</code> tool for fetching files, then can use a script provided by the RVM team for easy setup:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sudo apt-get install curl</span><span class='line command'>\curl -sSL https://get.rvm.io | bash</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>As it says in the post-install instructions, we need to load RVM into the current environment by running:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>source /home/vagrant/.rvm/scripts/rvm</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Note that there will be no output from this command, but you can now see RVM:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>which rvm</span><span class='line output'>/home/vagrant/.rvm/bin/rvm</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Requirements</h4>
+
+<p>The RVM tool has an awesome tool for installing all the various compilers and packages you&#8217;ll need to build Ruby and common libraries. Run it like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rvm requirements</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Ruby 1.9.3 and 2.1</h4>
+
+<p>You can see all the Rubies available through RVM with this command:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rvm list known</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then install both Ruby 1.9.3 and 2.1:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rvm install 1.9.3</span><span class='line command'>rvm install 2.1</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It&#8217;ll take awhile to compile.</p>
+
+<h4>Default Ruby</h4>
+
+<p>You can set either as your default Ruby. For 2.1, run this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rvm use 2.1 --default</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>And verify it:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>which ruby</span><span class='line output'>/home/vagrant/.rvm/rubies/ruby-2.1.1/bin/ruby</span><span class='line command'>ruby -v</span><span class='line output'>ruby 2.1.1p76 (2014-02-24 revision 45161) [i686-linux]</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Bundler</h4>
+
+<p>Just about every project now uses Bundler, so let&#8217;s install it:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install bundler</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>JavaScript Runtime</h4>
+
+<p>Rails&#8217; Asset Pipeline needs a JavaScript runtime. There are several options, but let&#8217;s install NodeJS:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sudo apt-get install nodejs</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Verification</h2>
+
+<p>Let&#8217;s clone and run a sample Rails application to make sure everything is setup correctly.</p>
+
+<h3>Clone the Project</h3>
+
+<p>Within the SSH session:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>cd /vagrant</span><span class='line command'>git clone https://github.com/JumpstartLab/platform_validator.git</span><span class='line command'>cd platform_validator</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Rails Setup</h3>
+
+<p>Next we need to install dependencies and setup the database:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle</span><span class='line command'>rake db:create db:migrate db:seed</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Rails Console</h3>
+
+<p>Check that the console is working properly:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rails console</span><span class='line output'>2.1.1 :001 > Person.count</span><span class='line output'>(0.3ms)  SELECT COUNT(*) FROM "people"</span><span class='line output'>=> 6</span><span class='line output'>2.1.1 :002 > Person.all</span><span class='line output'>Person Load (0.6ms)  SELECT "people".* FROM "people"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Run the Server</h3>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rails server</span><span class='line output'>=> Booting Thin</span><span class='line output'>=> Rails 4.0.4 application starting in development on http://0.0.0.0:3000</span><span class='line output'>=> Run `rails server -h` for more startup options</span><span class='line output'>=> Ctrl-C to shutdown server</span><span class='line output'>Thin web server (v1.6.2 codename Doc Brown)</span><span class='line output'>Maximum connections set to 1024</span><span class='line output'>Listening on 0.0.0.0:3000, CTRL+C to stop</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then, in your host operating system, open http://localhost:3000 in a browser. You should see the <em>Welcome abord</em> page &#8211; you&#8217;re done!</p>
+
+<h2>Cloning</h2>
+
+<p>Once you&#8217;ve got a VM ready to go, you might want to back it up or copy it to other computers.</p>
+
+<h3>Creating the Image</h3>
+
+<p>Start within the same folder as the <code>Vagrantfile</code> and:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>vagrant package</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It&#8217;ll shutdown the VM if it&#8217;s running, then export a movable image named <code>package.box</code> which is about 650mb.</p>
+
+<p>Move the file by any normal means (SCP, flash drive, network share, etc).</p>
+
+<h3>Setup the Second Machine</h3>
+
+<p>Now on the machine where you want to run the VM you&#8217;ll need to install VirtualBox and Vagrant using the same steps as above.</p>
+
+<h3>Setup the Box</h3>
+
+<p>In a terminal from the same directory where the <code>package.box</code> file is, run the following:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>vagrant box add package.box --name rails_box</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That will &quot;download&quot; the box file to the local Vagrant install&#8217;s set of known boxes.</p>
+
+<h3>Provision and Start the Box</h3>
+
+<p>Now move to the project directory where the <code>Vagrantfile</code> and your application code will live. Then:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>vagrant init rails_box</span><span class='line command'>vagrant up</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It&#8217;ll clone the box then boot. Now you can <code>vagrant ssh</code> and you&#8217;re ready to go!</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

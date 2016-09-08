@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JetFuel - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="JetFuel                              AbstractIn this project you&#8217;ll use Ruby and Sinatra to build a URL &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/jet_fuel.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          JetFuel
+        </h1>
+        
+      </header>
+    
+    <h2>Abstract</h2>
+
+<p>In this project you&#8217;ll use Ruby and Sinatra to build a URL shortener service.</p>
+
+<p>Your application will live on the Internet. It will allow anonymous users and registered users to provide long, ugly URLs and create shortened URLs through your service.</p>
+
+<p>The main goal of your application is to redirect a request at the shortened URL to their long URL equivalent.</p>
+
+<p>Your secondary goal is to track URL usage and provide valueable statistics which you can use to share with your users and/or with advertisers.</p>
+
+<h2>Learning Goals</h2>
+
+<ul>
+<li>Understand how web traffic works</li>
+<li>Designing with RESTful interfaces</li>
+<li>Design a normalized SQL-based database structure</li>
+<li>Use ActiveRecord to interface with the database from Ruby</li>
+<li>Practice fundamental database storage and retrieval</li>
+<li>Understand and practice HTTP verbs including GET, PUT, and POST</li>
+<li>Practice using fundamental HTML and CSS to create a usable web interface</li>
+</ul>
+
+<h2>Base Expectations</h2>
+
+<h3>Anonymous Users</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='gherkin'><span class='line'><span class="k">Given </span><span class="nf">that I am an anonymous user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">give a URL to the service</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect it to return a service shortened URL</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Given </span><span class="nf">that I am an anonymous user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I follow a service shortened URL</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect to be redirected to the original URL</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Given </span><span class="nf">that I am an anonymous user of the sytem</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect to see URLs sorted by popularity</span>
+</span><span class='line'><span class="k">And </span><span class="nf">I expect to see URLs sorted by how recently they were added</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Registered Users</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='gherkin'><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">give a URL to the service and a vanity string</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect it to return a service shortened URL composed of the vanity string</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">view my user page</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I am able to view a list of all my service shortened URLs</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Choose two extension scenarios.</p>
+
+<h2>Extensions</h2>
+
+<h3>API</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='gherkin'><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">view my user page</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I should be able to see my personal API key</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Create a ruby gem that uses your API</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install --local jetfuel-0.0.1.gem</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>jf = JetFuel.new 'http://SERVER', 'IDENTIFIER', 'API_KEY'</span><span class='line command'>jf.shorten "http://jumpstartlab.com"</span><span class='line output'>=&gt; "http://SERVER/AFGAD"</span><span class='line command'>jf.shorten "http://jumpstartlab.com", "js"</span><span class='line output'>=&gt; "http://SERVER/js"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Statistics</h3>
+
+<p>Provide additional statistics on the main page of your application, a user&#8217;s page of shortened URLS, and indivudal URL pages.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='gherkin'><span class='line'><span class="k">Given </span><span class="nf">that I am an anonymous user of the sytem</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect to see a list of influential users</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">view my user page</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect to see a list of links to each shortened URLs detail page</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">view a shortened URL details page</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I am able to see individual details about each individual who has used the URL</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>URL Management</h3>
+
+<p>Provide additional tools that allow individuals to remove, deactivate and modify existing defined shortened URLs.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='gherkin'><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">view a shortened URL details page</span>
+</span><span class='line'><span class="k">And </span><span class="nf">I change the target of a shortened URL</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I follow the service shortened URL</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect to be redirected to the updated URL</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">view a shortened URL details page</span>
+</span><span class='line'><span class="k">And </span><span class="nf">I set the shortened URL to inactive</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I follow the service shortened URL</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect to be directed to an error-inactive page</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">view a shortened URL details page</span>
+</span><span class='line'><span class="k">And </span><span class="nf">I set the shortened URL to active</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I follow the service shortened URL</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect to be directed to the original URL</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">Given </span><span class="nf">that I am a registered user of the system</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I visit the site</span>
+</span><span class='line'><span class="k">And </span><span class="nf">view a shortened URL details page</span>
+</span><span class='line'><span class="k">And </span><span class="nf">I delete the shortened URL</span>
+</span><span class='line'><span class="k">When </span><span class="nf">I follow the service shortened URL</span>
+</span><span class='line'><span class="k">Then </span><span class="nf">I expect to be directed to an error-deleted page</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Search Engine</h3>
+
+<p>Create a job process that collects information about all the
+defined target URLs. The data should be stored and indexed.
+Users are able to search through all the stored/indexed data
+and appropriate links are returned to them.</p>
+
+<h3>Cucumber</h3>
+
+<p>Create a cucumber test suite that employs Capybara to
+test your applications current feature set.</p>
+
+<h2>Evaluations</h2>
+
+<h3>Documentation</h3>
+
+<ul>
+<li>Is it clear on how to get started with the application?</li>
+<li>Is it clear the external dependencies of the project?</li>
+<li>Is it clear to run the tests?</li>
+<li>Is it clear on the features of the application?</li>
+<li>Is it clear the limitations of the application?</li>
+</ul>
+
+<h3>Application</h3>
+
+<ul>
+<li>Does the application meet the expectations defined above?</li>
+</ul>
+
+<h3>Code Clarity</h3>
+
+<ul>
+<li>Is the application consistent with other ruby applications you have written or seen?</li>
+<li>Are the files of the application laid out in a logical manner?</li>
+<li>Does the code within each file directly relate to the name of the file and location within the application?</li>
+<li>Is the code clearly laid out within the class?</li>
+<li>Does each method accomplish their intended task or do they do more than their intended?</li>
+</ul>
+
+<h3>Models</h3>
+
+<ul>
+<li>Are the user passwords stored securly in the database?</li>
+<li>Are the shortened urls generated within the Url model or within a class method?</li>
+</ul>
+
+<h3>Controller Code</h3>
+
+<ul>
+<li>Does each sinatra routing action handle a single operation?</li>
+<li>Are there a small number of instance variables defined?</li>
+<li>Could multiple of the instance variables be represented with a singular concept/object?</li>
+</ul>
+
+<h3>View</h3>
+
+<ul>
+<li>Are the views well formatted?</li>
+<li>Are the views broken into appropriate sub-view templates?</li>
+<li>Are the views free of complicated code and conditional logic?</li>
+</ul>
+
+<h3>Tests</h3>
+
+<ul>
+<li>Do the tests run? Are there failures?</li>
+<li>Are the tests within the test file directly related to the file they are testing?</li>
+<li>Is it clear what code is under test?</li>
+<li>Is it clear what scenario is being tested?</li>
+<li>Is it clear the expected results of the scenario?</li>
+<li>Is there a lot of repetition of setup/teardown in the tests?</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,452 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Small Background Jobs - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Performance                                      Small Background Jobs                              SetupClone the storedom repo &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/performance/small_background_jobs.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Performance</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Small Background Jobs
+        </h1>
+        
+      </header>
+    
+    <h2>Setup</h2>
+
+<ul>
+<li>Clone the storedom repo from <a href="https://github.com/turingschool-examples/storedom">https://github.com/turingschool-examples/storedom</a></li>
+<li>Switch to the &quot;mega&quot; branch (<code>git checkout -b mega origin/mega</code>)</li>
+<li>Run <code>bundle</code></li>
+<li>Make sure you have redis installed/running (<code>brew install redis</code>)</li>
+<li>Check to make sure redis is running with (<code>redis-cli ping</code>) and you should get <code>PONG</code></li>
+</ul>
+
+<h2>I0: Starting Point</h2>
+
+<p>We&#8217;re going to use our seeds file as it&#8217;s an easy way to write some plain Ruby
+inside a Rails application. We want to create a massive stack of data in our
+database. Let&#8217;s see how long it takes as-is:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>time rake db:seed</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That uses the UNIX <code>time</code> utility to measure how long it takes to run a <code>db:seed</code>.
+It should take about 90 seconds. You can move on while it&#8217;s running.</p>
+
+<h2>I1: Big Jobs</h2>
+
+<p>Let&#8217;s start to break this into a few big jobs.</p>
+
+<p>Sidekiq is already in the app&#8217;s <code>Gemfile</code>. Let&#8217;s change our Generator classes to
+fit Sidekiq&#8217;s worker style. We need to include <code>Sidekiq::Worker</code> and define a <code>perform</code>
+method.</p>
+
+<h3>Defining a UserGenerator Job</h3>
+
+<p>Here&#8217;s what the <code>UserGenerator</code> would look like as a job:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">UserGenerator</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Sidekiq</span><span class="o">::</span><span class="no">Worker</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">generate</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">quantity</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>      <span class="no">Delay</span><span class="o">.</span><span class="n">wait</span>
+</span><span class='line'>      <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span>
+</span><span class='line'>        <span class="nb">name</span><span class="p">:</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Name</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">email</span><span class="p">:</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Internet</span><span class="o">.</span><span class="n">email</span>
+</span><span class='line'>        <span class="p">)</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;User </span><span class="si">#{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> - </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2"> created!&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Queueing the Job</h3>
+
+<p>Then, at the bottom of the seeds file, replace this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user_generator</span> <span class="o">=</span> <span class="no">UserGenerator</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">user_generator</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">UserGenerator</span><span class="o">.</span><span class="n">perform_async</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Starting the Worker</h3>
+
+<p>Open a new terminal tab and start a sidekiq worker:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec sidekiq</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Run It!</h3>
+
+<p>Go back to your first tab and run the seeds:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rake db:seed</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Flip to your worker tab and you should see it cranking out users. The primary
+seed run still builds your items and orders.</p>
+
+<h3>Run a Second Worker</h3>
+
+<p>Open another tab and start another worker. Run your seeds again. You should see
+that it takes about the same amount of time because only one worker can do the work
+since there&#8217;s just one big job.</p>
+
+<h2>I2: Many Small Jobs</h2>
+
+<p>Instead of queuing one big job, let&#8217;s queue many small jobs. In the seeds, let&#8217;s
+go back to the original call to <code>UserGenerator</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">user_generator</span> <span class="o">=</span> <span class="no">UserGenerator</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'><span class="n">user_generator</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Revising the Job</h3>
+
+<p>Then bring the worker usage inside of the <code>UserGenerator</code> class itself. First
+create a <code>generate_one</code> method like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">generate_one</span><span class="p">(</span><span class="n">marker</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">Delay</span><span class="o">.</span><span class="n">wait</span>
+</span><span class='line'>    <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">create!</span><span class="p">(</span>
+</span><span class='line'>      <span class="nb">name</span><span class="p">:</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Name</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">email</span><span class="p">:</span> <span class="no">Faker</span><span class="o">::</span><span class="no">Internet</span><span class="o">.</span><span class="n">email</span>
+</span><span class='line'>      <span class="p">)</span>
+</span><span class='line'>    <span class="nb">puts</span> <span class="s2">&quot;User </span><span class="si">#{</span><span class="n">marker</span><span class="si">}</span><span class="s2">: </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> - </span><span class="si">#{</span><span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="si">}</span><span class="s2"> created!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then revise the <code>perform</code> method to call <code>generate_one</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">perform</span><span class="p">(</span><span class="n">marker</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">generate_one</span><span class="p">(</span><span class="n">marker</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And revise <code>generate</code> to queue a bunch of jobs, one per user:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">generate</span><span class="p">(</span><span class="n">quantity</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">quantity</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span> <span class="o">|</span><span class="n">i</span><span class="o">|</span>
+</span><span class='line'>      <span class="no">UserGenerator</span><span class="o">.</span><span class="n">perform_async</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Run It</h3>
+
+<p>Run it again. If you have two tabs running Sidekiq then you should see 20 threads
+start per tab, creating all the users in just a few seconds.</p>
+
+<h2>I3: Revising Items &amp; Orders</h2>
+
+<p>Now go through the same process to queue jobs for items and orders.</p>
+
+<h3>I4: An Approximate Benchmark</h3>
+
+<p>Want to figure out the resulting impact on the timing?</p>
+
+<p>Create a file <code>db/seeds_benchmark.rb</code> with these contents:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;benchmark&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">User</span><span class="o">.</span><span class="n">destroy_all</span>
+</span><span class='line'><span class="no">Item</span><span class="o">.</span><span class="n">destroy_all</span>
+</span><span class='line'><span class="no">Order</span><span class="o">.</span><span class="n">destroy_all</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">load_seed</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">puts</span> <span class="no">Benchmark</span><span class="o">.</span><span class="n">measure</span> <span class="p">{</span>
+</span><span class='line'>  <span class="n">user_target</span> <span class="o">=</span> <span class="mi">100</span>
+</span><span class='line'>  <span class="n">item_target</span> <span class="o">=</span> <span class="mi">500</span>
+</span><span class='line'>  <span class="n">order_target</span> <span class="o">=</span> <span class="mi">100</span>
+</span><span class='line'>  <span class="n">complete</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">until</span> <span class="n">complete</span>
+</span><span class='line'>    <span class="n">user_count</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="n">item_count</span> <span class="o">=</span> <span class="no">Item</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="n">order_count</span> <span class="o">=</span> <span class="no">Order</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="n">user_target</span> <span class="o">==</span> <span class="n">user_count</span> <span class="o">&amp;&amp;</span>
+</span><span class='line'>      <span class="n">item_target</span> <span class="o">==</span> <span class="n">item_count</span> <span class="o">&amp;&amp;</span>
+</span><span class='line'>      <span class="n">order_target</span> <span class="o">==</span> <span class="n">order_count</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">complete</span> <span class="o">=</span> <span class="kp">true</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="nb">sleep</span> <span class="mi">0</span><span class="o">.</span><span class="mi">25</span>
+</span><span class='line'>      <span class="nb">puts</span> <span class="s2">&quot;Counts: </span><span class="si">#{</span><span class="n">user_count</span><span class="si">}</span><span class="s2"> users, </span><span class="si">#{</span><span class="n">item_count</span><span class="si">}</span><span class="s2"> items, </span><span class="si">#{</span><span class="n">order_count</span><span class="si">}</span><span class="s2"> orders&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then run it from the command line:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rails runner ./db/seeds_benchmark.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,2129 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Creating a Web Interface - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Creating a Web Interface                              This tutorial builds on the code written in Driving the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/workshops/ideabox/www.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Creating a Web Interface
+        </h1>
+        
+      </header>
+    
+    <p>This tutorial builds on the code written in <a href="/academy/workshops/ideabox/tdd.html">Driving the Domain Model Using
+TDD</a>.</p>
+
+<h2>Wiring up Sinatra and Rack::Test</h2>
+
+<p>We need to update the Gemfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span> <span class="c1"># or &#39;rspec&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rack-test&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>bundle install</code> to get any missing dependencies.</p>
+
+<p>Then we need a test that will prove that we&#8217;ve wired everything up correctly.</p>
+
+<h3>Using Minitest</h3>
+
+<p>Create a file <code>test/app_test.rb</code> with the following code in it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/app&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxAppTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Test</span><span class="o">::</span><span class="no">Methods</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">app</span>
+</span><span class='line'>    <span class="no">IdeaboxApp</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_hello</span>
+</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Hello, World!&quot;</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Using RSpec</h3>
+
+<p>Create a file <code>spec/app_spec.rb</code> with the following code in it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/app&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">IdeaboxApp</span> <span class="k">do</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Test</span><span class="o">::</span><span class="no">Methods</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">app</span>
+</span><span class='line'>    <span class="no">IdeaboxApp</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;returns &quot;Hello, World!&quot; from the root&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">last_response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Getting to Green</h3>
+
+<p>This is failing.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>cannot load such file -- ./lib/app (LoadError)</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>To get it to pass, create a file <code>lib/app.rb</code>, and add a
+small Sinatra application to it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaboxApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s it. We have a Sinatra application, and it&#8217;s tested!</p>
+
+<h3>Running the app in the Browser</h3>
+
+<p>It&#8217;s a web application, but we can&#8217;t actually run it in the browser yet.</p>
+
+<p>Change the <code>app.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">run!</span> <span class="k">if</span> <span class="n">app_file</span> <span class="o">==</span> <span class="vg">$0</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now you can start the application like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>ruby lib/app.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Visit the application at <a href="http://localhost:4567">localhost:4567</a>.</p>
+
+<p>It&#8217;s not very impressive. Also, this is not the standard way to organize a
+Sinatra app.</p>
+
+<p>Let&#8217;s create a rackup file (<code>config.ru</code>) to run it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="ss">:default</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/app&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">run</span> <span class="no">IdeaboxApp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now clean up the <code>app.rb</code> file, deleting the line with <code>run</code> in it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaboxApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;Hello, World!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Kill the application and start it again like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>rackup -p 4567</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Visit the browser. Our very minimal page is still working.</p>
+
+<h2>Rendering Ideas</h2>
+
+<p>Let&#8217;s make it actually render some ideas.</p>
+
+<p>Replace the simple &quot;hello&quot; test with this test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_idea_list</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dinner&quot;</span><span class="p">,</span> <span class="s2">&quot;spaghetti and meatballs&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;drinks&quot;</span><span class="p">,</span> <span class="s2">&quot;imported beers&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;movie&quot;</span><span class="p">,</span> <span class="s2">&quot;The Matrix&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">[</span><span class="sr"></span>
+</span><span class='line'><span class="sr">    /dinner/</span><span class="p">,</span><span class="sr"> /spaghetti/</span><span class="p">,</span><span class="sr"></span>
+</span><span class='line'><span class="sr">    /drinks/</span><span class="p">,</span><span class="sr"> /imported beers/</span><span class="p">,</span><span class="sr"></span>
+</span><span class='line'><span class="sr">    /movie/</span><span class="p">,</span><span class="sr"> /The Matrix/</span>
+</span><span class='line'>  <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">content</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">assert_match</span> <span class="n">content</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;displays a list of ideas&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dinner&quot;</span><span class="p">,</span> <span class="s2">&quot;spaghetti and meatballs&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;drinks&quot;</span><span class="p">,</span> <span class="s2">&quot;imported beers&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;movie&quot;</span><span class="p">,</span> <span class="s2">&quot;The Matrix&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="o">[</span><span class="sr"></span>
+</span><span class='line'><span class="sr">    /dinner/</span><span class="p">,</span><span class="sr"> /spaghetti/</span><span class="p">,</span><span class="sr"></span>
+</span><span class='line'><span class="sr">    /drinks/</span><span class="p">,</span><span class="sr"> /imported beers/</span><span class="p">,</span><span class="sr"></span>
+</span><span class='line'><span class="sr">    /movie/</span><span class="p">,</span><span class="sr"> /The Matrix/</span>
+</span><span class='line'>  <span class="o">].</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">content</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">last_response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">match</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Following the Trail of Test Failures</h3>
+
+<p>The test is not passing anymore:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NameError: uninitialized constant IdeaStore</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We need to make the <code>IdeaStore</code> and <code>Idea</code> classes available to the
+application.</p>
+
+<p>A typical Ruby project is organized like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lib
+</span><span class='line'>└── ideabox
+</span><span class='line'>    ├── idea.rb
+</span><span class='line'>    └── idea_store.rb
+</span><span class='line'>└── ideabox.rb</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>ideabox.rb</code> file will contain all the <code>require</code> statements for the files
+that live in <code>./lib/ideabox</code>, which will make it possible to require the
+entire application, just by saying `require &#8216;./lib/ideabox&#8217;.</p>
+
+<p>Let&#8217;s make it so. Add the require statement to <code>./lib/app.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gets us a new error from the test suite:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>cannot load such file -- ./lib/ideabox</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Add the missing file, and run the tests again.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>NameError: uninitialized constant IdeaStore</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We need to add the require statements for <code>idea</code> and <code>idea_store</code> to the
+<code>./lib/ideabox.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox/idea&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox/idea_store&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This finally gets us the expected failure:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>expected "Hello, World!" to match /dinner/</span><span class='line output'>-/dinner/</span><span class='line output'>+"Hello, World!"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>To make the test pass we need to tell the application to render a view:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/ideabox&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaboxApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="s2">&quot;./lib/app&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span><span class="n">ideas</span><span class="p">:</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">all</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice the <code>set :root</code> line. That tells the Sinatra app to look for the view templates in a directory <code>lib/app/views</code>.</p>
+
+<p>Create the directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>mkdir -p lib/app/views</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then create the template that the test is expecting:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>touch lib/app/views/index.erb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Add a simple HTML page to the view template, looping through the collection of
+<code>ideas</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;!</span><span class="no">DOCTYPE</span> <span class="n">html</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">title</span><span class="o">&gt;</span><span class="no">IdeaBox</span><span class="o">&lt;</span><span class="sr">/title&gt;</span>
+</span><span class='line'><span class="sr">  &lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Ideas</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'><span class="sr">    &lt;ul&gt;</span>
+</span><span class='line'><span class="sr">      &lt;% ideas.each do |idea| %&gt;</span>
+</span><span class='line'><span class="sr">        &lt;li&gt;&lt;%= idea.title %&gt; - &lt;%= idea.description %&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">    &lt;/ul&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sr">/body&gt;</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This should get the test passing, but since we&#8217;re creating ideas, it may be
+breaking the other tests.</p>
+
+<p>We need to clean up after ourselves. Create a <code>teardown</code> method (Minitest) or
+a <code>after</code> block (RSpec):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">teardown</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">delete_all</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">after</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">delete_all</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Commit your changes.</p>
+
+<h3>Seeing the Ideas in the Browser</h3>
+
+<p>Kill the running application, and restart it (<code>rackup -p4567</code>), and reload the
+page in the browser.</p>
+
+<p>It&#8217;s pretty empty-looking. That&#8217;s because we haven&#8217;t stored any ideas. We need
+a way to add ideas.</p>
+
+<h2>Adding an Input Form</h2>
+
+<p>Because filling in form fields is a pain, we&#8217;re going to use Capybara to fill in the fields and submit the form, and verify that the page contains the new idea.</p>
+
+<p>We need a another gem in the test group:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Also, if you&#8217;re using Minitest, you&#8217;ll need to add:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest-capybara&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>bundle install</code> to get the required dependencies.</p>
+
+<h3>Using Capybara</h3>
+
+<p>Until now, we&#8217;ve created test files that mirror a production file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>lib/ideabox/idea.rb
+</span><span class='line'>test/ideabox/idea_test.rb
+</span><span class='line'>spec/ideabox/idea_spec.rb
+</span><span class='line'>
+</span><span class='line'>lib/ideabox/idea_store.rb
+</span><span class='line'>test/ideabox/idea_store_test.rb
+</span><span class='line'>spec/ideabox/idea_store_spec.rb
+</span><span class='line'>
+</span><span class='line'>lib/app.rb
+</span><span class='line'>test/app_test.rb
+</span><span class='line'>spec/app_spec.rb</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we&#8217;re going to depart from this pattern a bit, and write an integration
+test.</p>
+
+<h3>Using Minitest</h3>
+
+<p>Create a new directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>mkdir test/integration/</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Add a new file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>test/integration/idea_management_test.rb</span></code></pre></td></tr></table></div></figure>
+
+<p>Add the following code to the test file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/dsl&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/app&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="no">IdeaboxApp</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">register_driver</span> <span class="ss">:rack_test</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+</span><span class='line'>  <span class="no">Capybara</span><span class="o">::</span><span class="no">RackTest</span><span class="o">::</span><span class="no">Driver</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="ss">:headers</span> <span class="o">=&gt;</span>  <span class="p">{</span> <span class="s1">&#39;User-Agent&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Capybara&#39;</span> <span class="p">})</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">IdeaManagementTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Capybara</span><span class="o">::</span><span class="no">DSL</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">teardown</span>
+</span><span class='line'>    <span class="no">IdeaStore</span><span class="o">.</span><span class="n">delete_all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_display_ideas</span>
+</span><span class='line'>    <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;eat&quot;</span><span class="p">,</span> <span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Using RSpec</h3>
+
+<p>Create a new directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>mkdir spec/integration/</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Add a new file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>spec/integration/idea_management_spec.rb</span></code></pre></td></tr></table></div></figure>
+
+<p>Add the following code to the test file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/dsl&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./lib/app&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">app</span> <span class="o">=</span> <span class="no">IdeaboxApp</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">register_driver</span> <span class="ss">:rack_test</span> <span class="k">do</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span>
+</span><span class='line'>  <span class="no">Capybara</span><span class="o">::</span><span class="no">RackTest</span><span class="o">::</span><span class="no">Driver</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="ss">:headers</span> <span class="o">=&gt;</span>  <span class="p">{</span> <span class="s1">&#39;User-Agent&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Capybara&#39;</span> <span class="p">})</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="s2">&quot;managing ideas&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Capybara</span><span class="o">::</span><span class="no">DSL</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">after</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">IdeaStore</span><span class="o">.</span><span class="n">delete_all</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;displays ideas&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;eat&quot;</span><span class="p">,</span> <span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Running the Test</h3>
+
+<p>This test suite can be run in exactly the same way as the others:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">rake</span> <span class="c1"># if you have a Rakefile</span>
+</span><span class='line'><span class="n">ruby</span> <span class="nb">test</span><span class="o">/</span><span class="n">integration</span><span class="o">/</span><span class="n">idea_management_test</span><span class="o">.</span><span class="n">rb</span> <span class="c1"># if you&#39;re using minitest</span>
+</span><span class='line'><span class="n">rspec</span> <span class="n">spec</span><span class="o">/</span><span class="n">integration</span><span class="o">/</span><span class="n">idea_management_spec</span><span class="o">.</span><span class="n">rb</span> <span class="c1"># if you&#39;re using rspec</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This test doesn&#8217;t do anything interesting, it just verifies that our current index view is working as expected.</p>
+
+<h3>A Minitest Gotcha</h3>
+
+<p>If the test suite blows up saying that it doesn&#8217;t know anything about <code>Minitest::Test</code>, take a look at the version of minitest in your Gemfile.lock file.</p>
+
+<p>It turns out that <code>minitest-capybara</code> has specified that it will only work with minitest v4.x, which is the old-school version.</p>
+
+<p>To fix this, change <code>Minitest::Test</code> to <code>MiniTest::Unit::TestCase</code> everywhere.</p>
+
+<h3>Committing the Changes</h3>
+
+<p>Since we&#8217;ve managed to wire together Capybara and Minitest successfully, go ahead and commit your changes.</p>
+
+<h3>Implementing a Real Acceptance Test</h3>
+
+<p>Capybara tests are end-to-end tests. They&#8217;ll test an entire happy path of one feature. They&#8217;re more like sagas than stories. Epic tails of resounding success. Failures should be tested in lower-level tests.</p>
+
+<p>Delete the existing test (<code>test_displays_ideas</code> or <code>it &quot;displays ideas&quot;</code>) and
+replace it with an empty test and some pseudo-code to guide you through the
+next step.</p>
+
+<p>We&#8217;ll simulate a user who creates, edits, and deletes an idea.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_manage_ideas</span>
+</span><span class='line'>  <span class="c1"># Create an idea</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Edit the idea</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Delete the idea</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;manages ideas&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># Create an idea</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Edit the idea</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Delete the idea</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is the first part of the test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Create an idea</span>
+</span><span class='line'><span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'><span class="n">fill_in</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;eat&#39;</span>
+</span><span class='line'><span class="n">fill_in</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;chocolate chip cookies&#39;</span>
+</span><span class='line'><span class="n">click_button</span> <span class="s1">&#39;Save&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we&#8217;ll need an assertion to make sure that everything up to now is
+working:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">),</span> <span class="s2">&quot;Idea is not on page&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span>  <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To start making this pass we need to put a form in the <code>index.erb</code> page.</p>
+
+<p>This is the updated index page:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;!</span><span class="no">DOCTYPE</span> <span class="n">html</span><span class="o">&gt;</span>
+</span><span class='line'><span class="o">&lt;</span><span class="n">html</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">head</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">title</span><span class="o">&gt;</span><span class="no">IdeaBox</span><span class="o">&lt;</span><span class="sr">/title&gt;</span>
+</span><span class='line'><span class="sr">  &lt;/</span><span class="n">head</span><span class="o">&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="n">body</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">h1</span><span class="o">&gt;</span><span class="no">Add</span> <span class="n">a</span> <span class="kp">new</span> <span class="n">idea</span><span class="o">&lt;</span><span class="sr">/h1&gt;</span>
+</span><span class='line'><span class="sr">    &lt;form action=&#39;/</span><span class="s1">&#39; method=&#39;</span><span class="no">POST</span><span class="s1">&#39;&gt;</span>
+</span><span class='line'><span class="s1">      &lt;input type=&#39;</span><span class="n">text</span><span class="s1">&#39; name=&#39;</span><span class="n">title</span><span class="s1">&#39;/&gt;&lt;br/&gt;</span>
+</span><span class='line'><span class="s1">      &lt;textarea name=&#39;</span><span class="n">description</span><span class="s1">&#39;&gt;&lt;/textarea&gt;&lt;br/&gt;</span>
+</span><span class='line'><span class="s1">      &lt;input type=&#39;</span><span class="n">submit</span><span class="err">&#39;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Save&quot;</span><span class="o">/&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="sr">/form&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="sr">    &lt;h2&gt;Your ideas&lt;/</span><span class="n">h2</span><span class="o">&gt;</span>
+</span><span class='line'>    <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="sx">% ideas.each </span><span class="k">do</span> <span class="o">|</span><span class="n">idea</span><span class="o">|</span> <span class="sx">%&gt;</span>
+</span><span class='line'><span class="sx">        &lt;li&gt;</span><span class="o">&lt;</span><span class="sx">%= idea.title %&gt; - &lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span> <span class="sx">%&gt;&lt;/li&gt;</span>
+</span><span class='line'>      <span class="o">&lt;</span><span class="sx">% end %&gt;</span>
+</span><span class='line'><span class="sx">    &lt;/ul&gt;</span>
+</span><span class='line'>  <span class="o">&lt;</span><span class="sr">/body&gt;</span>
+</span><span class='line'><span class="sr">&lt;/</span><span class="n">html</span><span class="o">&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That gets us half-way there, but when we click Save, we&#8217;re stuck. We need a new endpoint in the application, <code>POST /</code>, and we don&#8217;t want to be writing that without a controller test.</p>
+
+<p>Put the Capybara test on hold, and go to the <code>test/app_test.rb</code> or
+<code>spec/app_spec.rb</code> file.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_create_idea</span>
+</span><span class='line'>  <span class="n">post</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="s1">&#39;costume&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="s2">&quot;scary vampire&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;costume&quot;</span><span class="p">,</span> <span class="n">idea</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;scary vampire&quot;</span><span class="p">,</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;stores an idea&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">post</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="s1">&#39;costume&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="s2">&quot;scary vampire&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;costume&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;scary vampire&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To get the test passing, create a <code>POST '/'</code> endpoint in <code>IdeaboxApp</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="p">,</span> <span class="n">params</span><span class="o">[</span><span class="ss">:description</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">redirect</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now go back to the Capybara test, which should pass.</p>
+
+<p>Commit your changes.</p>
+
+<h3>Editing Ideas</h3>
+
+<p>At the very top of your <em>manage ideas</em> test, create a couple of extra ideas.
+These are decoys that prove that we&#8217;re editing the right thing later.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;laundry&quot;</span><span class="p">,</span> <span class="s2">&quot;buy more socks&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;groceries&quot;</span><span class="p">,</span> <span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then below it, we will visit the page and ensure that the decoy ideas are
+present:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In Minitest, this looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (socks) is not on page&quot;</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (macaroni) is not on page&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The same assertions in RSpec look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we have the part that we wrote earlier, where we fill in the form with an
+idea, and then verify the page:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">fill_in</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;eat&#39;</span>
+</span><span class='line'><span class="n">fill_in</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;chocolate chip cookies&#39;</span>
+</span><span class='line'><span class="n">click_button</span> <span class="s1">&#39;Save&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">),</span> <span class="s2">&quot;Idea is not on page&quot;</span>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span>  <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next, we need to find the idea so we can use the ID to edit it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;eat&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With the idea in hand, the next step is to edit it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">within</span><span class="p">(</span><span class="s2">&quot;#idea_</span><span class="si">#{</span><span class="n">idea</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">click_link</span> <span class="s1">&#39;Edit&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This will, hypothetically take us to the edit page, which should contain a
+form where the current values are pre-filled out in the fields:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="n">assert_equal</span> <span class="s1">&#39;eat&#39;</span><span class="p">,</span> <span class="n">find_field</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+</span><span class='line'><span class="n">assert_equal</span> <span class="s1">&#39;chocolate chip cookies&#39;</span><span class="p">,</span> <span class="n">find_field</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">find_field</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;eat&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">find_field</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;chocolate chip cookies&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we need to edit the data in the form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">fill_in</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;eats&#39;</span>
+</span><span class='line'><span class="n">fill_in</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;chocolate chip oatmeal cookies&#39;</span>
+</span><span class='line'><span class="n">click_button</span> <span class="s1">&#39;Save&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>and prove that saving the idea changed the values.</p>
+
+<p>We can&#8217;t just go straight to the database to prove this, since it&#8217;s an
+end-to-end test. We need to make sure that the edited idea is being displayed
+on the page, and that the decoys remain unchanged:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip oatmeal cookies&quot;</span><span class="p">),</span> <span class="s2">&quot;Updated idea is not on page&quot;</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (socks) is not on page&quot;</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (macaroni) is not on page&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip oatmeal cookies&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We also want to make sure that the original values (the ones that got edited)
+are no longer there, because we could have created a new idea rather than
+editing the existing one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="n">refute</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">),</span> <span class="s2">&quot;Original idea is on page still&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">not_to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is a very long test, and we&#8217;re not done yet. If you get stuck, try
+sticking <code>print page.html</code> at the place in your test where you&#8217;re stuck.</p>
+
+<p>Notice that we need an extra method on IdeaStore, <code>find_by_title</code>, to get this
+working.</p>
+
+<p>Add a test to the IdeaStoreTest to drive the new method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_find_by_title</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dance&quot;</span><span class="p">,</span> <span class="s2">&quot;like it&#39;s the 80s&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;sleep&quot;</span><span class="p">,</span> <span class="s2">&quot;like a baby&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dream&quot;</span><span class="p">,</span> <span class="s2">&quot;like anything is possible&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s2">&quot;sleep&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;like a baby&quot;</span><span class="p">,</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;finds by title&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dance&quot;</span><span class="p">,</span> <span class="s2">&quot;like it&#39;s the 80s&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;sleep&quot;</span><span class="p">,</span> <span class="s2">&quot;like a baby&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dream&quot;</span><span class="p">,</span> <span class="s2">&quot;like anything is possible&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s2">&quot;sleep&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s2">&quot;like a baby&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here is the code to get the test to pass:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_by_title</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">all</span><span class="o">.</span><span class="n">find</span> <span class="k">do</span> <span class="o">|</span><span class="n">idea</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">idea</span><span class="o">.</span><span class="n">title</span> <span class="o">==</span> <span class="n">text</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we need an edit link in the index page. Update the list of ideas:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Your ideas&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;ul&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">ideas</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">idea</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;li id=&quot;idea_</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x"> - </span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;a href=&quot;/</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;Edit&lt;/a&gt;</span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When we click <em>Edit</em> we need to go to a <code>GET /:id</code> url.</p>
+
+<p>It doesn&#8217;t have any fancy behavior, so let&#8217;s create the endpoint for it in <code>app.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/:id&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">erb</span> <span class="ss">:edit</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span><span class="n">idea</span><span class="p">:</span> <span class="n">idea</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This requires an <code>edit.erb</code> view:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;!DOCTYPE html&gt;</span>
+</span><span class='line'><span class="x">&lt;html&gt;</span>
+</span><span class='line'><span class="x">  &lt;head&gt;</span>
+</span><span class='line'><span class="x">    &lt;title&gt;IdeaBox&lt;/title&gt;</span>
+</span><span class='line'><span class="x">  &lt;/head&gt;</span>
+</span><span class='line'><span class="x">  &lt;body&gt;</span>
+</span><span class='line'><span class="x">    &lt;h1&gt;Edit your idea&lt;/h1&gt;</span>
+</span><span class='line'><span class="x">    &lt;form action=&quot;/</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot; method=&quot;POST&quot;&gt;</span>
+</span><span class='line'><span class="x">      &lt;label for=&quot;title&quot;&gt;Title&lt;/label&gt;</span>
+</span><span class='line'><span class="x">      &lt;input type=&#39;text&#39; id=&quot;title&quot; name=&quot;title&quot; value=&quot;</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&quot;/&gt;&lt;br/&gt;</span>
+</span><span class='line'><span class="x">      &lt;label for=&quot;description&quot;&gt;Description&lt;/label&gt;</span>
+</span><span class='line'><span class="x">      &lt;textarea id=&quot;description&quot; name=&quot;description&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span> <span class="cp">%&gt;</span><span class="x">&lt;/textarea&gt;&lt;br/&gt;</span>
+</span><span class='line'><span class="x">      &lt;input type=&#39;submit&#39; value=&#39;Save&#39;/&gt;</span>
+</span><span class='line'><span class="x">    &lt;/form&gt;</span>
+</span><span class='line'><span class="x">  &lt;/body&gt;</span>
+</span><span class='line'><span class="x">&lt;/html&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>At this point we can&#8217;t get any further without a <code>PUT /:id</code> endpoint to update
+the attributes.</p>
+
+<p>Since this endpoint does more than just render a view, we need drop down into
+the <code>app_test.rb</code> and add a test for it.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_update_idea</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;sing&#39;</span><span class="p">,</span> <span class="s1">&#39;happy songs&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">put</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span> <span class="s1">&#39;yodle&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="s1">&#39;joyful songs&#39;</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">302</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">status</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s1">&#39;yodle&#39;</span><span class="p">,</span> <span class="n">idea</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s1">&#39;joyful songs&#39;</span><span class="p">,</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;updates an idea&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;sing&#39;</span><span class="p">,</span> <span class="s1">&#39;happy songs&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">put</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span> <span class="s1">&#39;yodle&#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">:</span> <span class="s1">&#39;joyful songs&#39;</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">last_response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">302</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">title</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;yodle&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">description</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;joyful songs&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here&#8217;s the code to get the test running green:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">put</span> <span class="s1">&#39;/:id&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">params</span><span class="o">[</span><span class="ss">:description</span><span class="o">]</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">redirect</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we have what we need to complete the Capybara test.</p>
+
+<p>It&#8217;s currently failing.</p>
+
+<p>HTTP has a a number of verbs (<code>GET</code>, <code>POST</code>, <code>PUT</code>, etc), however HTML is
+somewhat limited. It only knows about <code>GET</code> and <code>POST</code>.</p>
+
+<p>So we need our HTML form (which sends a <code>POST</code> request) to be understood to be
+a <code>PUT</code> request by the Sinatra application.</p>
+
+<p>A common hack for this is to send a parameter named <code>_method</code>, which the
+application will then translate to the correct verb, passing the request to
+the correct endpoint in the application.</p>
+
+<p>Add a hidden field for <code>_method</code> in the edit form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;input type=&quot;hidden&quot; name=&quot;_method&quot; value=&quot;PUT&quot;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is called <em>method override</em> in Sinatra, and can be turned on with the
+following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:method_override</span><span class="p">,</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The Sinatra application now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IdeaboxApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:method_override</span><span class="p">,</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="s2">&quot;./lib/app&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>All the tests in the entire application  should now be passing.</p>
+
+<h3>Deleting Ideas</h3>
+
+<p>So far, in the Capybara test we&#8217;ve ensured that we can:</p>
+
+<ul>
+<li>create ideas</li>
+<li>display a list of all ideas</li>
+<li>edit ideas</li>
+</ul>
+
+<p>Here&#8217;s what the test looks like so far in Minitest:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_manage_ideas</span>
+</span><span class='line'>  <span class="c1"># Create a couple of decoys</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;laundry&quot;</span><span class="p">,</span> <span class="s2">&quot;buy more socks&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;groceries&quot;</span><span class="p">,</span> <span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Verify that the decoys are being displayed</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (socks) is not on page&quot;</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (macaroni) is not on page&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Create an idea</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;eat&#39;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;chocolate chip cookies&#39;</span>
+</span><span class='line'>  <span class="n">click_button</span> <span class="s1">&#39;Save&#39;</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">),</span> <span class="s2">&quot;Idea is not on page&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Find the newly created idea</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;eat&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Click the idea&#39;s edit link</span>
+</span><span class='line'>  <span class="n">within</span><span class="p">(</span><span class="s2">&quot;#idea_</span><span class="si">#{</span><span class="n">idea</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">click_link</span> <span class="s1">&#39;Edit&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Verify that the edit form is correctly filled out</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s1">&#39;eat&#39;</span><span class="p">,</span> <span class="n">find_field</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s1">&#39;chocolate chip cookies&#39;</span><span class="p">,</span> <span class="n">find_field</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Change the idea&#39;s attributes</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;eats&#39;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;chocolate chip oatmeal cookies&#39;</span>
+</span><span class='line'>  <span class="n">click_button</span> <span class="s1">&#39;Save&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Make sure the idea has been updated</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip oatmeal cookies&quot;</span><span class="p">),</span> <span class="s2">&quot;Updated idea is not on page&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Make sure the decoys are untouched</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (socks) is not on page after update&quot;</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (macaroni) is not on page after update&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Make sure the original idea is no longer there</span>
+</span><span class='line'>  <span class="n">refute</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">),</span> <span class="s2">&quot;Original idea is on page still&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In RSpec, this is what the Capybara test looks like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;manages ideas&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># Create a couple of decoys</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;laundry&quot;</span><span class="p">,</span> <span class="s2">&quot;buy more socks&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;groceries&quot;</span><span class="p">,</span> <span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Verify that the decoys are being displayed</span>
+</span><span class='line'>  <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Create an idea</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;eat&#39;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;chocolate chip cookies&#39;</span>
+</span><span class='line'>  <span class="n">click_button</span> <span class="s1">&#39;Save&#39;</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span>  <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Find the newly created idea</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find_by_title</span><span class="p">(</span><span class="s1">&#39;eat&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Click the idea&#39;s edit link</span>
+</span><span class='line'>  <span class="n">within</span><span class="p">(</span><span class="s2">&quot;#idea_</span><span class="si">#{</span><span class="n">idea</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">click_link</span> <span class="s1">&#39;Edit&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Verify that the edit form is correctly filled out</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">find_field</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;eat&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">find_field</span><span class="p">(</span><span class="s1">&#39;description&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">&#39;chocolate chip cookies&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Change the idea&#39;s attributes</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;eats&#39;</span>
+</span><span class='line'>  <span class="n">fill_in</span> <span class="s1">&#39;description&#39;</span><span class="p">,</span> <span class="ss">:with</span> <span class="o">=&gt;</span> <span class="s1">&#39;chocolate chip oatmeal cookies&#39;</span>
+</span><span class='line'>  <span class="n">click_button</span> <span class="s1">&#39;Save&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Make sure the idea has been updated</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip oatmeal cookies&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Make sure the decoys are untouched</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># Make sure the original idea is no longer there</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">not_to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip cookies&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Expanding the Capybara test once again</h4>
+
+<p>At the bottom of the test, add the interaction that will delete the idea:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Delete the idea</span>
+</span><span class='line'><span class="n">within</span><span class="p">(</span><span class="s2">&quot;#idea_</span><span class="si">#{</span><span class="n">idea</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">click_button</span> <span class="s1">&#39;Delete&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we need more assertions.</p>
+
+<p>In Minitest, these assertions look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Make sure the idea is gone</span>
+</span><span class='line'><span class="n">refute</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;chocolate chip oatmeal cookies&quot;</span><span class="p">),</span> <span class="s2">&quot;Idea is not on page&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Make sure the decoys are still untouched</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (socks) is not on page after delete&quot;</span>
+</span><span class='line'><span class="n">assert</span> <span class="n">page</span><span class="o">.</span><span class="n">has_content?</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">),</span> <span class="s2">&quot;Decoy idea (macaroni) is not on page after delete&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In RSpec, the final assertions go like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># Make sure the idea is gone</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">not_to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;chocolate chip oatmeal cookies&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Make sure the decoys are still untouched</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;buy more socks&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="n">expect</span><span class="p">(</span><span class="n">page</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">have_content</span><span class="p">(</span><span class="s2">&quot;macaroni, cheese&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Getting the last bit passing</h4>
+
+<p>We need a delete button in the <code>index.erb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Your ideas&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;ul&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">ideas</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">idea</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;li id=&quot;idea_</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x"> - </span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;a href=&quot;/</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;Edit&lt;/a&gt;</span>
+</span><span class='line'><span class="x">      &lt;form action=&#39;/</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&#39; method=&#39;POST&#39;&gt;</span>
+</span><span class='line'><span class="x">        &lt;input type=&quot;hidden&quot; name=&quot;_method&quot; value=&quot;DELETE&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;input type=&#39;submit&#39; value=&quot;Delete&quot;/&gt;</span>
+</span><span class='line'><span class="x">      &lt;/form&gt;</span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Once again, we need an endpoint that does more than render a view. Add a skip
+to the capybara test, and drop down to <code>app_test.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_delete_idea</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;breathe&#39;</span><span class="p">,</span> <span class="s1">&#39;fresh air in the mountains&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">delete</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">302</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">status</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;deletes an idea&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;breathe&#39;</span><span class="p">,</span> <span class="s1">&#39;fresh air in the mountains&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">delete</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">last_response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">302</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="no">IdeaStore</span><span class="o">.</span><span class="n">count</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here&#8217;s the Sinatra endpoint that will make the test pass:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">delete</span> <span class="s1">&#39;/:id&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="o">|</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="nb">id</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">redirect</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gets the rest of the Capybara test to green.</p>
+
+<p>Commit your changes.</p>
+
+<h3>Liking and Ranking Ideas</h3>
+
+<p>Our domain model allows us to like ideas, but the web interface doesn&#8217;t expose
+this yet.</p>
+
+<p>Add a new Capybara test that clicks <code>+1</code> a number of times on different ideas and then verifies that the ideas are sorted in the expected order.</p>
+
+<p>Here&#8217;s the Capybara test I wrote in Minitest:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_ranking_ideas</span>
+</span><span class='line'>  <span class="n">id1</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;ride horses&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">id2</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;vacation&quot;</span><span class="p">,</span> <span class="s2">&quot;camping in the mountains&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">id3</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;write&quot;</span><span class="p">,</span> <span class="s2">&quot;a book about being brave&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">all</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">within</span><span class="p">(</span><span class="s2">&quot;#idea_</span><span class="si">#{</span><span class="n">id2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">click_button</span> <span class="s1">&#39;+&#39;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">within</span><span class="p">(</span><span class="s2">&quot;#idea_</span><span class="si">#{</span><span class="n">id3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">click_button</span> <span class="s1">&#39;+&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">ideas</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_match</span><span class="sr"> /camping in the mountains/</span><span class="p">,</span> <span class="n">ideas</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">text</span>
+</span><span class='line'>  <span class="n">assert_match</span><span class="sr"> /a book about being brave/</span><span class="p">,</span> <span class="n">ideas</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">text</span>
+</span><span class='line'>  <span class="n">assert_match</span><span class="sr"> /ride horses/</span><span class="p">,</span> <span class="n">ideas</span><span class="o">[</span><span class="mi">2</span><span class="o">].</span><span class="n">text</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And here is the Capybara test in RSpec:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;allows ranking of ideas&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">id1</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;fun&quot;</span><span class="p">,</span> <span class="s2">&quot;ride horses&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">id2</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;vacation&quot;</span><span class="p">,</span> <span class="s2">&quot;camping in the mountains&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">id3</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;write&quot;</span><span class="p">,</span> <span class="s2">&quot;a book about being brave&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">visit</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">all</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">idea</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">within</span><span class="p">(</span><span class="s2">&quot;#idea_</span><span class="si">#{</span><span class="n">id2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="mi">3</span><span class="o">.</span><span class="n">times</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">click_button</span> <span class="s1">&#39;+&#39;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">within</span><span class="p">(</span><span class="s2">&quot;#idea_</span><span class="si">#{</span><span class="n">id3</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">click_button</span> <span class="s1">&#39;+&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">ideas</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="s1">&#39;li&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">ideas</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">match</span><span class="p">(</span><span class="sr">/camping in the mountains/</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">ideas</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">match</span><span class="p">(</span><span class="sr">/a book about being brave/</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">ideas</span><span class="o">[</span><span class="mi">2</span><span class="o">].</span><span class="n">text</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">match</span><span class="p">(</span><span class="sr">/ride horses/</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The index page needs another button form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h2&gt;Your ideas&lt;/h2&gt;</span>
+</span><span class='line'><span class="x">&lt;ul&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">ideas</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">idea</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">    &lt;li id=&quot;idea_</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span>
+</span><span class='line'><span class="x">      </span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">rank</span> <span class="cp">%&gt;</span><span class="x">: </span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x"> - </span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">description</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">      &lt;a href=&quot;/</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;Edit&lt;/a&gt;</span>
+</span><span class='line'><span class="x">      &lt;form action=&#39;/</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&#39; method=&#39;POST&#39;&gt;</span>
+</span><span class='line'><span class="x">        &lt;input type=&quot;hidden&quot; name=&quot;_method&quot; value=&quot;DELETE&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;input type=&#39;submit&#39; value=&quot;Delete&quot;/&gt;</span>
+</span><span class='line'><span class="x">      &lt;/form&gt;</span>
+</span><span class='line'><span class="x">      &lt;form action=&#39;/</span><span class="cp">&lt;%=</span> <span class="n">idea</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">/like&#39; method=&#39;POST&#39; style=&quot;display: inline&quot;&gt;</span>
+</span><span class='line'><span class="x">        &lt;input type=&#39;submit&#39; value=&quot;+&quot;/&gt;</span>
+</span><span class='line'><span class="x">      &lt;/form&gt;</span>
+</span><span class='line'><span class="x">    &lt;/li&gt;</span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test blows up because we don&#8217;t have a <code>like</code> endpoint in the Sinatra
+application.</p>
+
+<p>Drop down to the controller test and add this test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># minitest</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_like_idea</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">,</span> <span class="s1">&#39;really, really fast&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">post</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">/like&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">302</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">status</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="n">idea</span><span class="o">.</span><span class="n">rank</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># rspec</span>
+</span><span class='line'><span class="n">it</span> <span class="s2">&quot;likes an idea&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">save</span> <span class="no">Idea</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;run&#39;</span><span class="p">,</span> <span class="s1">&#39;really, really fast&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">post</span> <span class="s2">&quot;/</span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">/like&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">last_response</span><span class="o">.</span><span class="n">status</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">302</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">expect</span><span class="p">(</span><span class="n">idea</span><span class="o">.</span><span class="n">rank</span><span class="p">)</span><span class="o">.</span><span class="n">to</span> <span class="n">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This will return a 404. Add the endpoint:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span> <span class="s1">&#39;/:id/like&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">idea</span> <span class="o">=</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">idea</span><span class="o">.</span><span class="n">like!</span>
+</span><span class='line'>  <span class="n">redirect</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Sorting the Ideas on the Index Page</h3>
+
+<p>The Capybara test still isn&#8217;t passing.</p>
+
+<p>The Sinatra endpoint is sending all the ideas to the page, but they&#8217;re
+unsorted. We need to update the list to be ranked, highest first:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">erb</span> <span class="ss">:index</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span><span class="n">ideas</span><span class="p">:</span> <span class="no">IdeaStore</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">sort</span><span class="o">.</span><span class="n">reverse</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Finally, the Capybara test is happy. Your web application is exposing all the
+behavior that is supported in the domain model.</p>
+
+<p>Restart the application with <code>rackup -p4567</code> and visit the page in the
+browser, and try out your application.</p>
+
+<p>Commit your changes, pat yourself on the back, and celebrate.</p>
+
+<h2>Next Steps</h2>
+
+<p>Kill your application and restart it.</p>
+
+<p>It turns out there is more work to be done. The application is storing the
+ideas in memory. We need a more persistent form of storage.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,938 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Background Jobs with Resque - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Performance                                      Background Jobs with Resque                              When building websites &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/performance/background_jobs.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Performance</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Background Jobs with Resque
+        </h1>
+        
+      </header>
+    
+    <p>When building websites, it&#8217;s important to keep your response times down.
+Long-running requests tie up server resources, degrade user perception of
+your site, and make it hard to manage failures.</p>
+
+<p>There&#8217;s a solution to this: return a successful response, and then schedule
+some computation to happen later, outside the original request/response cycle.</p>
+
+<h2>Do you need a job queue?</h2>
+
+<p>How do you identify areas of the application that can benefit from a background
+job? Some common areas for asynchronous work:</p>
+
+<ul>
+<li>Data Processing - e.g. generating thumbnails or resizing images</li>
+<li>3rd Party APIs - interacting with a service outside of your site</li>
+<li>Maintenance - expiring old sessions, sweeping caches</li>
+<li>Email - a request that causes an email to be sent</li>
+</ul>
+
+<p>Applications with good OO design make it easy to send jobs to workers, poor OO
+makes it hard to extract jobs since responsibilities tend to overlap.</p>
+
+<p>While there are various solutions to provide a background job, we&#8217;ll focus on
+using <a href="https://github.com/resque/resque">Resque</a>, the most widely
+deployed queuing library.</p>
+
+<p>For this tutorial, clone our blogger advanced repo. You can find it <a href="https://github.com/JumpstartLab/blogger_advanced.git">here</a>.</p>
+
+<h2>Setting up Resque</h2>
+
+<h3>Setup Redis</h3>
+
+<p>You&#8217;ll need Redis installed. Assuming you&#8217;re on MacOS and using Homebrew:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>brew install redis</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Follow the instructions in the notes to start Redis on boot, or start it manually with <code>redis-server</code></p>
+
+<h3>Setup Resque</h3>
+
+<p>Install Resque by adding <code>gem 'resque'</code> to the <code>Gemfile</code> and running <code>bundle</code>.</p>
+
+<h2>Creating a fake delay</h2>
+
+<p>To exemplify how background jobs work, we are going to fake a delayed process. Under the <code>ArticlesController#create</code> let&#8217;s add a <code>sleep</code> method that will delay our controller for 5 seconds.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="c1"># more code goes here</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="nb">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article was created.&quot;</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="n">articles_path</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, launch your app and try to create an article. You&#8217;ll see that there is a 5 seconds delay.</p>
+
+<p>Let&#8217;s move that fake process to a background job.</p>
+
+<h2>Writing a Job</h2>
+
+<p>A good practice is to create an <code>app/jobs</code> folder and store your job classes there. Let&#8217;s create a <code>jobs</code> folder under your <code>app</code> folder. Then create a file named <code>sleeper.rb</code> under your <code>app/jobs</code> folder.</p>
+
+<p>A Resque job is any Ruby class or module with a <code>perform</code> class method. Put the following code in your <code>sleeper.rb</code> file.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Sleeper</span>
+</span><span class='line'>  <span class="vi">@queue</span> <span class="o">=</span> <span class="ss">:sleep</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">perform</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+</span><span class='line'>    <span class="nb">sleep</span><span class="p">(</span><span class="n">seconds</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Resque can maintain multiple queues for different job types. By setting the
+<code>@queue</code> class instance variable, this worker will only look for jobs on the
+<code>:sleep</code> queue.</p>
+
+<h2>Queueing a Job</h2>
+
+<p>Queuing a job in Resque looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Resque</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="no">Sleeper</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The parameters will be serialized as JSON and appended onto the Redis queue
+specified in the job class. The above call would be added to the <code>sleep</code>
+queue with the following JSON:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>{
+</span><span class='line'>  &#39;class&#39;: &#39;Sleeper&#39;,
+</span><span class='line'>  &#39;args&#39;: [ 5 ]
+</span><span class='line'>}
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now that we have our fake process in our Sleeper job, we can modify our controller to call our background job instead.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ArticlesController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="c1"># more code goes here</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="vi">@article</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>      <span class="no">Resque</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="no">Sleeper</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Article was created.&quot;</span>
+</span><span class='line'>      <span class="n">redirect_to</span> <span class="n">articles_path</span>
+</span><span class='line'>    <span class="k">else</span>
+</span><span class='line'>      <span class="n">render</span> <span class="ss">:new</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Jobs should only need to access your models. If you&#8217;re tempted to trigger a
+controller action, it&#8217;s a sign that the controller action is holding domain
+logic which needs to be pushed down to the model.</p>
+
+<p>When a job is created it gets appended to a list data structure in Redis. A
+Resque worker will then try to process the job.</p>
+
+<h2>Monitoring the Resque Queue</h2>
+
+<p>Resque provides a Sinatra application as a web interface to monitor the status
+of your queues &amp; workers and to view statistics of the instance.</p>
+
+<h3>Setup</h3>
+
+<p>The front-end application is not loaded by default, but we can load it in our
+routes file.</p>
+
+<p>Open your <code>config/routes.rb</code> and mount the application like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;resque/server&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Of course, you need to substitute your application name here, a block</span>
+</span><span class='line'><span class="c1"># like this probably already exists.</span>
+</span><span class='line'><span class="no">MyApp</span><span class="o">::</span><span class="no">Application</span><span class="o">.</span><span class="n">routes</span><span class="o">.</span><span class="n">draw</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">mount</span> <span class="no">Resque</span><span class="o">::</span><span class="no">Server</span><span class="o">.</span><span class="n">new</span><span class="p">,</span> <span class="n">at</span><span class="p">:</span> <span class="s2">&quot;/resque&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then <strong>restart</strong> your Rails server. Open up <code>http://localhost:3000/resque</code> in
+a browser to check out the web backend.</p>
+
+<h3>Overview</h3>
+
+<p>On the Overview tab you can see a list of the queues and workers. Each queue
+shows a count of pending jobs. The list of workers displays what queue(s) each
+worker is working on, and the job currently being processed (if any).</p>
+
+<p><img src="/images/resque_overview.png" alt="Resque Overview Tab">
+</p>
+
+<h3>Failed</h3>
+
+<p>The Failed tab shows jobs which failed along with the exception that was
+thrown, an error message, and the line where the error occurred. You can also
+kick off jobs to be retried on this page, or remove them from the history of
+failed jobs.</p>
+
+<p><img src="/images/resque_failed.png" alt="Resque Failed Tab">
+</p>
+
+<h3>Workers</h3>
+
+<p>The Workers tab shows a list of all workers and their status. Clicking on a
+worker shows the details of the worker including the host, pid, when it was
+started, how many jobs its processed, and how many failures it has encountered.</p>
+
+<h3>Stats</h3>
+
+<p>The Stats tab displays overall stats of the Resque instance as well as a
+listing of all the keys in Redis. Clicking on the keys will show the value of
+the key, so this provides a nice quick way to look inside Redis without having
+to connect and fire up the command line client.</p>
+
+<h2>Starting Up the Workers</h2>
+
+<p>Resque provides rake tasks to start one or many workers. Add <code>require
+'resque/tasks'</code> in the top of your <code>Rakefile</code>. Then, you&#8217;ll see them added to
+your available tasks:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake -T resque</span><span class='line output'>rake resque:failures:sort  # Sort the 'failed' queue for the redis_multi_queue failure backend</span><span class='line output'>rake resque:work           # Start a Resque worker</span><span class='line output'>rake resque:workers        # Start multiple Resque workers.</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You can control these tasks with environment variables:</p>
+
+<ul>
+<li><code>QUEUE</code> controls which queue will be monitored</li>
+<li><code>COUNT</code> sets the number of workers (only with <code>resque:workers</code>)</li>
+</ul>
+
+<p>So, let&#8217;s startup a worker by running:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake environment resque:work QUEUE=sleep</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Once the rake task starts it will begin processing jobs from the queue. Now go to your app and try to create an article.</p>
+
+<p>Since we put the sleep method in a background job, you will notice that the delay is gone.</p>
+
+<h2>Additional Rake Tasks</h2>
+
+<p>If you&#8217;re in a situation where the worker <em>doesn&#8217;t need</em> access to your Rails
+app, skip the <code>environment</code> and you&#8217;ll save a lot of memory/start-up time:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rake resque:work QUEUE=sleep</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Formatting the Log</h3>
+
+<p>If you&#8217;d like to change the Resque&#8217;s log format, create an initializer to do it. Open up
+<code>config/initializers/resque.rb</code> and put this in it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Resque</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="no">Resque</span><span class="o">::</span><span class="no">QuietFormatter</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is the default. If you&#8217;d like to make it verbose, do this instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Resque</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="no">Resque</span><span class="o">::</span><span class="no">VerboseFormatter</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>or even</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Resque</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="no">Resque</span><span class="o">::</span><span class="no">VeryVerboseFormatter</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you really want to see all the gory details. Resque uses a variant of the
+standard Ruby logger (<a href="https://rubygems.org/gems/mono_logger">mono_logger</a>)
+that&#8217;s got equivalent behavior. So if you want, you could write your own
+formatter to get exactly the logging you&#8217;d prefer. See the <a href="http://www.ruby-doc.org/stdlib-1.9.3/libdoc/logger/rdoc/Logger.html">standard library logger
+documentation</a>
+for more.</p>
+
+<p>With the <code>VerboseFormatter</code>,</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake environment resque:work QUEUE=sleep</span><span class='line output'>*** Checking sleep</span><span class='line output'>*** Found job on sleep</span><span class='line output'>*** got: (Job{sleep} | Sleeper | [5])</span><span class='line output'>*** resque-1.25.1: Processing sleep since 1386736305 [Sleeper]</span><span class='line output'>*** Running before_fork hooks with [(Job{sleep} | Sleeper | [5])]</span><span class='line output'>*** resque-1.25.1: Forked 13978 at 1386736305</span><span class='line output'>*** Running after_fork hooks with [(Job{sleep} | Sleeper | [5])]</span><span class='line output'>*** done: (Job{sleep} | Sleeper | [5])</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>And with the <code>VeryVerboseFormatter</code>,</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake environment resque:work QUEUE=sleep</span><span class='line output'>** [21:35:54 2013-12-10] 14071: Checking sleep</span><span class='line output'>** [21:35:54 2013-12-10] 14071: Found job on sleep</span><span class='line output'>** [21:35:54 2013-12-10] 14071: got: (Job{sleep} | Sleeper | [5])</span><span class='line output'>** [21:35:54 2013-12-10] 14071: resque-1.25.1: Processing sleep since 1386736554 [Sleeper]</span><span class='line output'>** [21:35:54 2013-12-10] 14071: Running before_fork hooks with [(Job{sleep} | Sleeper | [5])]</span><span class='line output'>** [21:35:54 2013-12-10] 14071: resque-1.25.1: Forked 14101 at 1386736554</span><span class='line output'>** [21:35:54 2013-12-10] 14101: Running after_fork hooks with [(Job{sleep} | Sleeper | [5])]</span><span class='line output'>** [21:35:59 2013-12-10] 14101: done: (Job{sleep} | Sleeper | [5])</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Since workers will be kicked off on remote servers it will be helpful to
+redirect their log output instead of just dumping it to STDOUT to be lost. Do
+this in <code>config/initializers/resque.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Resque</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">MonoLogger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="no">Rails</span><span class="o">.</span><span class="n">root</span><span class="si">}</span><span class="s2">/log/resque.log&quot;</span><span class="p">,</span> <span class="s2">&quot;w+&quot;</span><span class="p">))</span>
+</span><span class='line'><span class="no">Resque</span><span class="o">.</span><span class="n">logger</span><span class="o">.</span><span class="n">formatter</span> <span class="o">=</span> <span class="no">Resque</span><span class="o">::</span><span class="no">QuietFormatter</span><span class="o">.</span><span class="n">new</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And then, in the terminal,</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake environment resque:work QUEUE=sleep</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>As usual.</p>
+
+<h2>Queuing Calculations</h2>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger_advanced.git
+</span><span class='line'>cd blogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<p>Start the server, and visit the root page. This is the
+<code>DashboardController#index</code> which we&#8217;ll use to illustrate the benefits of
+jobs.</p>
+
+<h3>Why Use a Job</h3>
+
+<p>The blogger application tracks the total word counts for all articles and all
+comments on the dashboard. Currently, it recalculates these values for each
+request of the dashboard page.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@comment_word_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>total_word_count</code> methods on <code>Article</code> and <code>Comment</code> are each implemented as such:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The result is that each viewing of the dashboard causes a calculation involving
+each comment or article to be rerun. This is the sort of potentially slow
+operation that should A) be cached, and B) be calculated in the background.
+Introducing a Resque job into our application will make this change
+relatively simple and straightforward to implement.</p>
+
+<h2>Writing Our Word Count Job</h2>
+
+<p>Before we write our custom job class, let&#8217;s make the Resque Rake tasks
+available so that we can run our worker queue later. Create a file
+<code>lib/tasks/resque.rake</code> and add the following line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;resque/tasks&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Running <code>bundle exec rake -T</code> should show us a list that includes two Resque-related tasks.</p>
+
+<p>We&#8217;ll want to replace the inline call to <code>Comment.total_word_count</code> with
+something that is run in the background, i.e., our Resque job. Create a
+directory called <code>app/jobs</code>, then inside it create a file called
+<code>comment_total_word_count.rb</code>.</p>
+
+<p>Inside the file let&#8217;s add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">CommentTotalWordCount</span>
+</span><span class='line'>  <span class="vi">@queue</span> <span class="o">=</span> <span class="ss">:total_word_count</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">perform</span>
+</span><span class='line'>    <span class="no">Comment</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;ve moved the call that calculates the total count of words for comments into
+a job method, moving the slow operation away from the request-response
+cycle, but we haven&#8217;t stored the result of the calculation anywhere that the
+request can retrieve it.</p>
+
+<p>We could store it somewhere in the database, but as of right now there&#8217;s no
+obvious place to put it. A dashboard table of some kind seems pretty
+unappealing. Fortunately, a side-benefit of using Resque is that we get access
+to a Redis instance for free. Redis is a natural place to cache a value such as
+this.</p>
+
+<p>The easiest way to access a Redis server in Ruby is through the <code>redis</code> gem.
+Although we could add the <code>redis</code> gem to our Gemfile, it&#8217;s not needed because
+Resque already has it declared as a dependency. We will, however, need to bring
+a Redis endpoint into our Rails application so that we can easily access the
+memory store.</p>
+
+<p>Create an initializer file in <code>config/initializers/redis.rb</code> and add the
+following content:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DataCache</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">data</span>
+</span><span class='line'>    <span class="vi">@data</span> <span class="o">||=</span> <span class="no">Redis</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="mi">6379</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">data</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">get_i</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">to_i</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>After a quick restart of the Rails server, we&#8217;ll now have a globally-available
+handle on our Redis store. Although globals are ideally avoided, the <code>redis</code>
+gem is at least threadsafe by default, so this approach will meet our needs for
+now.</p>
+
+<p>With this in place, let&#8217;s return to our Resque job and store the result of
+the word count calculation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">CommentTotalWordCount</span>
+</span><span class='line'>  <span class="vi">@queue</span> <span class="o">=</span> <span class="ss">:total_word_count</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">perform</span>
+</span><span class='line'>    <span class="no">DataCache</span><span class="o">.</span><span class="n">set</span> <span class="s1">&#39;comment_total_word_count&#39;</span><span class="p">,</span> <span class="no">Comment</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now that we know the name of the Resque queue that our job class is using,
+let&#8217;s start up a Resque worker processor by running one of its built-in Rake
+tasks: <code>bundle exec rake environment resque:work QUEUE=total_word_count</code>. Note
+this will block the terminal it is run in.</p>
+
+<p>We now are able to find the total word count for comments in the background,
+but we still need to enqueue the job at some point. The best place to
+put this is in the controller, after we make a new comment.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">CommentsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:comment</span><span class="o">][</span><span class="ss">:article_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">comment</span> <span class="o">=</span> <span class="n">article</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:comment</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="no">Resque</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="no">CommentTotalWordCount</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">flash</span><span class="o">[</span><span class="ss">:notice</span><span class="o">]</span> <span class="o">=</span> <span class="s2">&quot;Your comment was added.&quot;</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="n">article_path</span><span class="p">(</span><span class="n">article</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we&#8217;re storing the current total word count after each comment is created so
+that it can be retrieved later. If we move back to the dashboard controller, we
+can take advantage of this by removing the call to <code>Comment.total_word_count</code>,
+replacing it with a Redis query:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DashboardController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@comment_word_count</span> <span class="o">=</span> <span class="no">DataCache</span><span class="o">.</span><span class="n">get_i</span><span class="p">(</span><span class="s1">&#39;comment_total_word_count&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Refactoring to a Cleaner Approach</h3>
+
+<p>What we&#8217;ve done so far essentially works, but there are some sloppy aspects
+that could be cleaned up. For one, we&#8217;ve leaked information about where
+aggregate comment data is stored out of the <code>Comment</code> class and into both our
+dashboard controller and our job. That&#8217;s probably not a great idea.</p>
+
+<p>Let&#8217;s update the comment class to have two methods for the total word count:
+one that calculates and stores the total and one that retrieves it. By doing
+so, we can move all knowledge of its storage in Redis inside the <code>Comment</code>
+class. Here&#8217;s the code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Comment</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">update_statistics</span>
+</span><span class='line'>    <span class="n">calculate_total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">calculate_total_word_count</span>
+</span><span class='line'>    <span class="n">total</span> <span class="o">=</span> <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
+</span><span class='line'>    <span class="no">DataCache</span><span class="o">.</span><span class="n">set</span> <span class="s1">&#39;comment/total_word_count&#39;</span><span class="p">,</span> <span class="n">total</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="no">DataCache</span><span class="o">.</span><span class="n">get_i</span><span class="p">(</span><span class="s1">&#39;comment/total_word_count&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we&#8217;ve wrapped the knowledge of aggregate comment data inside the <code>Comment</code>
+class. Let&#8217;s adjust our job accordingly:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">CommentTotalWordCount</span>
+</span><span class='line'>  <span class="vi">@queue</span> <span class="o">=</span> <span class="ss">:total_word_count</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">perform</span>
+</span><span class='line'>    <span class="no">Comment</span><span class="o">.</span><span class="n">calculate_total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Finally, let&#8217;s revisit the dashboard controller and put things back the way we
+found them:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@comment_word_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Before we started to implement the job pattern, the
+<code>DasboardController#show</code> action was unaware of the calculation that
+<code>Comment.total_word_count</code> entailed. We&#8217;ve come full circle: now it&#8217;s ignorant
+of the background work and caching going on behind the scenes. This is probably
+a good sign.</p>
+
+<h2>Going Further</h2>
+
+<p>We&#8217;ve created a big savings for each request to view the dashboard by
+offloading the calculation of total words count for comments to a job. We&#8217;re
+still incurring a similar penalty for articles, though.</p>
+
+<ul>
+<li>Update the articles total word count calculation to use the job pattern
+similarly to what we&#8217;ve done for comments</li>
+<li>Our implementation for comments has a race condition when multiple Resque
+workers are running; use the Redis <code>MULTI</code> command to help ameliorate this
+problem.</li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+<li>Resque Gem: <a href="https://github.com/resque/resque">https://github.com/resque/resque</a></li>
+<li>Resque Introduction: <a href="https://github.com/blog/542-introducing-resque">https://github.com/blog/542-introducing-resque</a></li>
+<li>Redis Gem: <a href="https://github.com/ezmobius/redis-rb">https://github.com/ezmobius/redis-rb</a></li>
+<li>Redis documentation: <a href="http://redis.io/documentation">http://redis.io/documentation</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

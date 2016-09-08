@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Deploying Java Apps on Heroku - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Salesforce Elevate                                      Deploying Java Apps on Heroku                              Now that you &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/paths/elevate/deploying_java_applications.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <a href=/elevate>Salesforce Elevate</a>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Deploying Java Apps on Heroku
+        </h1>
+        
+      </header>
+    
+    <p>Now that you understand the basics of how Heroku works, let&#8217;s actually deploy an application.</p>
+
+<h2>Goalsetting</h2>
+
+<p>In this section we will:</p>
+
+<ul>
+<li>clone a project from GitHub</li>
+<li>provision an application on Heroku</li>
+<li>push the application to Heroku</li>
+<li>see it running live in the browser</li>
+</ul>
+
+<h3>What You&#8217;ll See</h3>
+
+<p>When we&#8217;re finished, we&#8217;ll see the running application like this:</p>
+
+<p><img src="/images/elevate/computer_database.png" alt="Computer Database">
+</p>
+
+<h2>Using the Toolbelt</h2>
+
+<p>Let&#8217;s talk a bit more about the Toolbelt.</p>
+
+<h3>Setup</h3>
+
+<p>The prerequisites here are a <a href="http://heroku.com/signup">Heroku Account</a> and to <a href="https://toolbelt.heroku.com/">install the Toolbelt</a>.</p>
+
+<h3>Does It Belong to a Project?</h3>
+
+<p>The Heroku toolbelt is an executable that gets installed and added to your path. That means that you can run it within your terminal, regardless of which folder you&#8217;re in.</p>
+
+<p>Most of the time you&#8217;ll run it from inside a project&#8217;s root folder.</p>
+
+<h3>What Can It Do?</h3>
+
+<p>Anything you can do to an application through the Heroku website, you can do with the toolbelt. You can also do several things that are difficult, impossible, or just slow through the website. The most common include:</p>
+
+<ul>
+<li>Creating applications</li>
+<li>Adding and removing backups</li>
+<li>Managing add-ons</li>
+<li>Running one-off commands on the server</li>
+<li>Manipulating environment variables</li>
+<li>Checking the runtime logs</li>
+</ul>
+
+<p>The best way to learn about it is to use it. Here goes!</p>
+
+<h2>Creating an Application</h2>
+
+<h3>Setup</h3>
+
+<p>We&#8217;re assuming you&#8217;ve got the sample project cloned already. If not, do so like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git clone https://github.com/JumpstartLab/play_sample</span><span class='line command'>cd play_sample</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>As it stands, the application can be run locally, but it&#8217;s not ready for Heroku! Let&#8217;s intentionally run into some problems, then look at the resolutions.</p>
+
+<h3><code>heroku create</code></h3>
+
+<p>As in the instructions above, you&#8217;ve used <code>cd</code> to change <em>into the project directory</em>. Now let&#8217;s provision an instance on Heroku:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku create</span><span class='line output'>Creating calm-ocean-7332... done, stack is cedar</span><span class='line output'>http://calm-ocean-7332.herokuapp.com/ | git@heroku.com:calm-ocean-7332.git</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>&quot;Calm Ocean&quot;! That&#8217;s the kind of serenity I&#8217;m looking for in my web development. If you don&#8217;t specify a name, Heroku generates a random name for the application that&#8217;s two words followed by a four digit number.</p>
+
+<h3>Heroku Git Remote</h3>
+
+<p>When you run <code>heroku create</code>&#8230;</p>
+
+<ul>
+<li>A repo is provisioned on Heroku&#8217;s side</li>
+<li>The git URL for that repo is added as a master named <code>heroku</code></li>
+<li>The toolbelt can later find the app by looking for that remote in the git config</li>
+</ul>
+
+<h3><code>heroku rename</code></h3>
+
+<p>But maybe you want your application to sound more official. You can use <code>heroku rename</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku rename deploying-java-001</span><span class='line output'>Renaming boiling-island-2815 to deploying-java-001... done</span><span class='line output'>http://deploying-java-001.herokuapp.com/ | git@heroku.com:deploying-java-001.git</span><span class='line output'>Git remote heroku updated</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now we&#8217;re ready for the enterprise. You could also have specified the name with the initial <code>create</code> command, like <code>heroku create deploying-java-002</code>.</p>
+
+<p><strong>Got an error?</strong> Applications need to have a unique name for across the platform. So if you followed the example exactly your name collided with an instance we previously created. Come up with your own name!</p>
+
+<h3><code>heroku open</code></h3>
+
+<p>You have a running instance&#8230;kind of. Run this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku open</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Your browser will pop up, attempt to load the application, and give you an ** Application Error**. You haven&#8217;t actually deployed the code yet!</p>
+
+<h2>Deploying the Application</h2>
+
+<p>Let&#8217;s get our code running on Heroku.</p>
+
+<h3><code>git push</code></h3>
+
+<p>We explained before that you transmit code to Heroku through git. To deploy the application, do the following:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git push heroku master</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Try Again</h4>
+
+<p>Once the code is up we can try the site again in the browser. Just refresh with the same address. You&#8217;ll still see an <strong>Application Error</strong></p>
+
+<h3>The <code>Procfile</code></h3>
+
+<p>The <code>Procfile</code> is a file that tells Heroku exactly how to run your application. The execution process will be very different for a Java application versus Python, Ruby, or JavaScript.</p>
+
+<p>The <code>Procfile</code> defines one or more processes for your application. Typically applications define a <code>web</code> process for the primary web application, and might create something like <code>worker</code> for background workers. Each named process defines a single executable to run.</p>
+
+<p>Let&#8217;s look at setting up a <code>web</code> process for our Play application.</p>
+
+<h4>The Process for Play</h4>
+
+<p>When we ran the Play application locally we did it with:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>play run</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>In production it&#8217;ll be a bit more complicated.</p>
+
+<h4><code>target/start</code></h4>
+
+<p>On Heroku&#8217;s Dev Center they recommend:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}</span></code></pre></td></tr></table></div></figure>
+
+<p>What? Let&#8217;s unpack that piece by piece:</p>
+
+<ul>
+<li>The process will be named <code>web</code></li>
+<li>The executable to run is <code>target/start</code></li>
+<li>We want it to run on the port specified by the environment variable <code>PORT</code>, which is automatically set by Heroku</li>
+<li>We&#8217;ll pass in any options for the JVM stored in <code>JAVA_OPTS</code></li>
+<li>We want to automatically apply any &quot;evolutions&quot;, the technique Play apps use for changing the structure/contents of the database</li>
+<li>The database driver should default to PostgreSQL</li>
+<li>The URL for the Postgres database is specified in environment variable <code>DATABASE_URL</code></li>
+</ul>
+
+<h4>Make It!</h4>
+
+<ul>
+<li>Use your text editor to create a file named <code>Procfile</code> in the root directory of the project. Note that it starts with a capital P.</li>
+<li>In that file, add just a single line: the <code>web:</code> line above.</li>
+<li>Save the file</li>
+<li>Commit it to git</li>
+</ul>
+
+<p>You can do those same steps with a bit of UNIX-fu like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<br><br><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>echo 'web: target/start -Dhttp.port=${PORT} ${JAVA_OPTS} -DapplyEvolutions.default=true -Ddb.default.driver=org.postgresql.Driver -Ddb.default.url=${DATABASE_URL}' > Procfile</span><span class='line command'>git add .</span><span class='line command'>git commit -m "Adding a Procfile"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Push it to Heroku again (<code>git push heroku master</code>) and refresh it in your browser.</p>
+
+<h4>Looking at Logs</h4>
+
+<p>Still getting an <strong>Application Error</strong>? Try this&#8230;</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku logs</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You&#8217;ll see a lot of output from the log file including some lines like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>2014-03-26T03:31:19.798557+00:00 app[web.1]:  at java.lang.Class.forName(Class.java:266)
+</span><span class='line'>2014-03-26T03:31:19.798557+00:00 app[web.1]:  at play.api.db.BoneCPApi.play$api$db$BoneCPApi$$register(DB.scala:272)
+</span><span class='line'>2014-03-26T03:31:19.798420+00:00 app[web.1]: Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
+</span><span class='line'>2014-03-26T03:31:19.798420+00:00 app[web.1]:  at scala.Option.map(Option.scala:133)
+</span><span class='line'>2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.api.db.BoneCPPlugin.onStart(DB.scala:231)
+</span><span class='line'>2014-03-26T03:31:19.798045+00:00 app[web.1]:  at play.core.StaticApplication.&lt;init&gt;(ApplicationProvider.scala:51)</span></code></pre></td></tr></table></div></figure>
+
+<p>Specifically:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver</span></code></pre></td></tr></table></div></figure>
+
+<p>The app is crashing because it can&#8217;t load the PostgreSQL driver.</p>
+
+<h2>Dependencies</h2>
+
+<p>When you deploy an application to Heroku the platform has to build the <em>slug</em>. Typically web applications rely on external libraries for some of their functionality. For the slug to be ready-to-run, it needs those dependencies downloaded and zipped in.</p>
+
+<h3>Expressing Dependencies</h3>
+
+<p><em>How</em> you express dependencies will vary by application. In a Ruby app, it&#8217;s through the <code>Gemfile</code>. In a Play app, that happens in <code>project/Build.scala</code>.</p>
+
+<h4><code>project/Build.scala</code></h4>
+
+<p>Open that file and you&#8217;ll see:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">import</span> <span class="nn">sbt._</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">Keys._</span>
+</span><span class='line'><span class="k">import</span> <span class="nn">PlayProject._</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">object</span> <span class="nc">ApplicationBuild</span> <span class="k">extends</span> <span class="nc">Build</span> <span class="o">{</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">val</span> <span class="n">appName</span>         <span class="k">=</span> <span class="s">&quot;computer-database-jpa&quot;</span>
+</span><span class='line'>    <span class="k">val</span> <span class="n">appVersion</span>      <span class="k">=</span> <span class="s">&quot;1.0&quot;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">val</span> <span class="n">appDependencies</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+</span><span class='line'>      <span class="s">&quot;org.hibernate&quot;</span> <span class="o">%</span> <span class="s">&quot;hibernate-entitymanager&quot;</span> <span class="o">%</span> <span class="s">&quot;3.6.9.Final&quot;</span>
+</span><span class='line'>    <span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">val</span> <span class="n">main</span> <span class="k">=</span> <span class="nc">PlayProject</span><span class="o">(</span><span class="n">appName</span><span class="o">,</span> <span class="n">appVersion</span><span class="o">,</span> <span class="n">appDependencies</span><span class="o">,</span> <span class="n">mainLang</span> <span class="k">=</span> <span class="nc">JAVA</span><span class="o">).</span><span class="n">settings</span><span class="o">(</span>
+</span><span class='line'>      <span class="n">ebeanEnabled</span> <span class="o">:=</span> <span class="kc">false</span>
+</span><span class='line'>    <span class="o">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note the middle section about <code>appDependencies</code>.</p>
+
+<h4>Adding PostgreSQL</h4>
+
+<p>In this section we need to express a dependency on the Java library for PostgreSQL like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="k">val</span> <span class="n">appDependencies</span> <span class="k">=</span> <span class="nc">Seq</span><span class="o">(</span>
+</span><span class='line'>  <span class="s">&quot;org.hibernate&quot;</span> <span class="o">%</span> <span class="s">&quot;hibernate-entitymanager&quot;</span> <span class="o">%</span> <span class="s">&quot;3.6.9.Final&quot;</span><span class="o">,</span>
+</span><span class='line'>  <span class="s">&quot;postgresql&quot;</span> <span class="o">%</span> <span class="s">&quot;postgresql&quot;</span> <span class="o">%</span> <span class="s">&quot;9.1-901-1.jdbc4&quot;</span>
+</span><span class='line'><span class="o">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note the <strong>comma</strong> that was added to the end of the <code>hibernate</code> line, too.</p>
+
+<h4>Commit and Re-Deploy</h4>
+
+<p>With that dependency in place we can retry deployment:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git add .</span><span class='line command'>git commit -m "Adding PostgreSQL dependency"</span><span class='line command'>git push heroku master</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If you watch closely during the deployment you&#8217;ll see:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='scala'><span class='line'><span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="n">downloading</span> <span class="n">http</span><span class="o">://</span><span class="n">repo1</span><span class="o">.</span><span class="n">maven</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">maven2</span><span class="o">/</span><span class="n">postgresql</span><span class="o">/</span><span class="n">postgresql</span><span class="o">/</span><span class="mf">9.1</span><span class="o">-</span><span class="mi">901</span><span class="o">-</span><span class="mf">1.</span><span class="n">jdbc4</span><span class="o">/</span><span class="n">postgresql</span><span class="o">-</span><span class="mf">9.1</span><span class="o">-</span><span class="mi">901</span><span class="o">-</span><span class="mf">1.</span><span class="n">jdbc4</span><span class="o">.</span><span class="n">jar</span> <span class="o">...</span>
+</span><span class='line'><span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="o">[</span><span class="kt">SUCCESSFUL</span><span class="o">]</span> <span class="n">postgresql</span><span class="err">#</span><span class="n">postgresql</span><span class="o">;</span><span class="mf">9.1</span><span class="o">-</span><span class="mi">901</span><span class="o">-</span><span class="mf">1.</span><span class="n">jdbc4</span><span class="o">!</span><span class="n">postgresql</span><span class="o">.</span><span class="n">jar</span> <span class="o">(</span><span class="mi">206</span><span class="n">ms</span><span class="o">)</span>
+</span><span class='line'><span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Done</span> <span class="n">updating</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now the Postgres driver is available.</p>
+
+<h4>Try It</h4>
+
+<p>Refresh your browser and&#8230;you should see a working web application!</p>
+
+<h2>Recap</h2>
+
+<ul>
+<li>We started with a working play application</li>
+<li>We provisioned the application with <code>heroku create</code></li>
+<li>We renamed it with <code>heroku rename</code></li>
+<li>We pushed up code with <code>git push heroku master</code></li>
+<li>We created a <code>Procfile</code> telling Heroku how to execute the application</li>
+<li>We used <code>git push heroku master</code> to update the application in place</li>
+<li>We used <code>heroku logs</code> to learn more about our application error</li>
+<li>We expressed a dependency on the PostgreSQL library</li>
+<li>We updated the app and it worked!</li>
+</ul>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://www.playframework.com/documentation/2.1.1/ProductionHeroku">Deploying to Heroku</a>, Play Framework Documentation</li>
+<li><a href="https://Dev Center.heroku.com/articles/play-support">Heroku Play Framework Support</a>, Heroku Dev Center</li>
+</ul>
+
+    
+      <a class="print-hidden" href=/elevate><< BACK</a>
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,483 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Capybara Overview - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Integration Testing with Capybara                                      Capybara Overview                              What is all &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/capybara/capybara_and_phantom.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Integration Testing with Capybara</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Capybara Overview
+        </h1>
+        
+      </header>
+    
+    <h2>What is all this stuff?</h2>
+
+<p>Before we dive in, lets make sure all this fancy lingo makes sense.</p>
+
+<h3>Definitions</h3>
+
+<ul>
+<li><strong>Use Case (aka Feature)</strong>
+Way that a user of the application tries to use it E.g. sign up, add friend to contacts list, etc</li>
+<li><strong>Phantom.js</strong>
+Headless (no window pops up) web browser</li>
+<li><strong>Capybara</strong>
+Testing tool that browses the app, because it is so high-level, it is an effective way to test the user&#8217;s perspective,
+so it is good for testing use cases</li>
+<li><strong>Poltergeist</strong>
+Capybara &quot;Driver&quot;, Capybara tells it what to do, and it translates that to instructons for Phantom.js (it &quot;drives&quot; Phantom)
+Capybara doesn&#8217;t drive Phantom.js directly because it wants to be able to work with any number of technologies,
+so it expects all drivers to be able to understand it, and then lets them go do what they do without it needing to know what that means.</li>
+<li><strong>Acceptance test</strong>
+High-level test that exercises the system in the way the user is expected to (defined by the use case)</li>
+<li><strong>Launchy</strong>
+A gem that lets you &quot;save and open screenshot&quot; in Capybara</li>
+</ul>
+
+<h3>What is Capybara?</h3>
+
+<p>Capybara provides an interface for interacting with websites from Ruby</p>
+
+<p>It is specifically intended for testing, providing helpful methods for that purpose.
+But given what it does, we could also use it in place of Mechanize for scraping.</p>
+
+<p>It leaves the specifics of how to talk to the website to a &quot;driver&quot;
+This allows you to use it with numerous tools, such as rack-test,
+Which hooks it into your rack layer, allowing you to navigate your website
+Without ever loading a server.
+The driver that knows how to talk to Phantom.js is called Poltergeist
+So we&#8217;ll use Capybara to navigate the web, click links, and so forth, like Mechanize,
+but we&#8217;ll have it use Poltergeist so it does this in Phantom.js,
+and we can interact with JavaScript</p>
+
+<h3>What is Rack::Test</h3>
+
+<p>Rack::Test is a library that sits above the rack app, like Rack does
+(note: Rails and Sinatra both implement the Rack interface, making them Rack apps)
+It allows you to fake web requests to the app. To the app, they come from Rack,
+the same as a real web request, but in reality, we haven&#8217;t started a server,
+these requests come from our our test suite commanding telling Rack::Test</p>
+
+<p>Capybara&#8217;s default driver works with Rack::Test, meaning that if we tell it
+what our app is (normally the config.ru does this, but we aren&#8217;t loading a server)
+then we can use Capybara to test our app.</p>
+
+<h3>What is Phantom.js?</h3>
+
+<p>Phantom.js is a web browser</p>
+
+<p>It doesn&#8217;t have a window like Opera or FireFox, it does all the work without ever displaying the pages.
+Why use it, then? Because it has an api that allows external programs to tell it what to do.
+This means that we can navigate the internet through Phantom.js, from our Ruby program
+Which gives us the full power of a real browser (which is mostly to say that we can run JavaScript
+the same way that we would in our web browser, whereas with Rack::Test, we were restricted to
+just HTML).</p>
+
+<h3>What is Poltergeist?</h3>
+
+<p>Poltergeist is a Capybara driver that knows how to talk to Phantom.js
+So if we tell Capybara to use Poltergeist, we can run our test suite in the Phantom.js browser
+with full javascript, CSS, etc, and all the capabilities and restrictions of an actual browser</p>
+
+<h2>Thinking</h2>
+
+<h3>Process</h3>
+
+<ul>
+<li>Place yourself in mind of the user (customer, admin, etc)</li>
+<li>Consider what should happen independent of the existing implementation (you are a user, not a developer!)</li>
+<li>Write down in English what you would like to and why, this is about context.</li>
+<li>Translate the English into tests (since we&#8217;re building websites, these will use Capybara)</li>
+<li>Implement the feature.</li>
+<li>When the test passes, we believe the feature is complete.</li>
+<li>We don&#8217;t need to test <em>every</em> facet of the feature at this level, but its good to get a good happy path and sad path.
+We can test the nuances of ways that this can be called at unit-level tests.</li>
+</ul>
+
+<p>Lets do some <a href="http://tutorials.jumpstartlab.com/topics/capybara/workflow.html">examples</a>.</p>
+
+<h3>When to use this</h3>
+
+<p>This is a great place to start when adding functionality to an application.
+It gets you focused on the goal, thinking about the purpose of the code.
+And then lets you know how far along you are towards that goal, directing your more focused efforts.</p>
+
+<h3>When not to use this</h3>
+
+<p>While this provides many of the benefits of testing, such as regression checking
+(aka &quot;did I break everything?&quot;), it is not a good way to perform fine-grained testing.
+For example, if we want to say that your application is declined if you are from
+Wisconsin, Idaho, California, or Montana, we don&#8217;t want to operate at this level for each of these.
+Perhaps we show that &quot;when I am from an unserviced state, my application is declined&quot;.
+Testing each one independently would be expensive, verbose, and not give us quick or good feedback.
+But if we just made it a normal RSpec test, we could say something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">context</span> <span class="s1">&#39;when I am from an unserviced state&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;declines my application&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">set_unserviced_states_to</span><span class="p">(</span><span class="o">[</span><span class="s1">&#39;Wisconsin&#39;</span><span class="p">,</span> <span class="s1">&#39;Idaho&#39;</span><span class="o">]</span><span class="p">)</span> <span class="c1"># a helper method we wrote elsewhere in our test suite</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Application</span><span class="o">.</span><span class="n">new</span> <span class="n">data</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="s1">&#39;Wisconsin&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">be_declined</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Application</span><span class="o">.</span><span class="n">new</span> <span class="n">data</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="s1">&#39;Idaho&#39;</span>    <span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">be_declined</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">(</span><span class="no">Application</span><span class="o">.</span><span class="n">new</span> <span class="n">data</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">state</span><span class="p">:</span> <span class="s1">&#39;Florida&#39;</span>  <span class="p">))</span><span class="o">.</span><span class="n">to</span> <span class="n">be_approved</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Those tests are really focused, cheap to run, small to see what&#8217;s involved,
+and give us confidence that if this ever breaks, we&#8217;ll know.</p>
+
+<h2>Setting up Capybara</h2>
+
+<p>Alright, so we thought through it and made use case for what we want to do&#8230;
+Now how do we write this test? We&#8217;ll use Capybara, of course! (of course, b/c that&#8217;s
+the subject of this lesson)</p>
+
+<h3>Versions used</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">phantomjs</span> <span class="o">--</span><span class="n">version</span>
+</span><span class='line'><span class="mi">1</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">7</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">gem</span> <span class="n">list</span> <span class="o">|</span> <span class="n">ruby</span> <span class="o">-</span><span class="n">ne</span> <span class="s1">&#39;print if /^rails\b|capy|launch|polt|rspec-core/&#39;</span>
+</span><span class='line'><span class="n">capybara</span> <span class="p">(</span><span class="mi">2</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">launchy</span> <span class="p">(</span><span class="mi">2</span><span class="o">.</span><span class="mi">4</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span>
+</span><span class='line'><span class="n">poltergeist</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">5</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'><span class="n">rails</span> <span class="p">(</span><span class="mi">4</span><span class="o">.</span><span class="mi">1</span><span class="o">.</span><span class="mi">4</span><span class="p">)</span>
+</span><span class='line'><span class="n">rspec</span><span class="o">-</span><span class="n">core</span> <span class="p">(</span><span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Installation</h3>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">brew</span> <span class="n">install</span> <span class="n">phantomjs</span>
+</span><span class='line'><span class="err">$</span> <span class="n">gem</span> <span class="n">install</span> <span class="n">rails</span> <span class="n">capybara</span> <span class="n">poltergeist</span> <span class="n">launchy</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Did they install correctly?</h3>
+
+<p>Play around with them in pry: try the following.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">pry</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/poltergeist&#39;</span>          <span class="c1"># require the gems</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># Configure Poltergeist to not blow up on websites with js errors aka every website with js</span>
+</span><span class='line'><span class="c1"># See more options at https://github.com/teampoltergeist/poltergeist#customization</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">register_driver</span><span class="p">(</span><span class="ss">:poltergeist</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">app</span><span class="o">|</span> <span class="no">Capybara</span><span class="o">::</span><span class="no">Poltergeist</span><span class="o">::</span><span class="no">Driver</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">js_errors</span><span class="p">:</span> <span class="kp">false</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">default_driver</span> <span class="o">=</span> <span class="ss">:poltergeist</span>  <span class="c1"># configure Capybara to use poltergeist as the driver</span>
+</span><span class='line'><span class="n">internet</span> <span class="o">=</span> <span class="no">Capybara</span><span class="o">.</span><span class="n">current_session</span>     <span class="c1"># the object we&#39;ll interact with</span>
+</span><span class='line'><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/jnicklas/capybara&quot;</span>
+</span><span class='line'><span class="n">internet</span><span class="o">.</span><span class="n">visit</span> <span class="n">url</span>                      <span class="c1"># go to a web page (first request will take a bit)</span>
+</span><span class='line'><span class="n">internet</span><span class="o">.</span><span class="n">save_and_open_page</span>             <span class="c1"># save the page locally, open it (this is what Launchy does)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Setting up a play environment</h3>
+
+<p>Lets make a new Rails app to play in (in reality, I committed all along the way as I did this,
+but that made the example even longer, so I took it out. I&#8217;ll leave it up to you to do that)</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">rails</span> <span class="kp">new</span> <span class="n">play_app</span>
+</span><span class='line'><span class="err">$</span> <span class="n">cd</span> <span class="n">play_app</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to add all these gems to the Gemfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">group</span> <span class="ss">:development</span><span class="p">,</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rspec-rails&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 3.0.0&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;pry-rails&#39;</span><span class="p">,</span>   <span class="s1">&#39;~&gt; 0.3.2&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;capybara&#39;</span><span class="p">,</span>    <span class="s1">&#39;~&gt; 2.4&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;launchy&#39;</span><span class="p">,</span>     <span class="s1">&#39;~&gt; 2.4&#39;</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;poltergeist&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 1.5&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Update the gems and setup rspec</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span>
+</span><span class='line'><span class="err">$</span> <span class="n">rails</span> <span class="n">generate</span> <span class="n">rspec</span><span class="ss">:install</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And edit the .rspec file, remove <code>--warnings</code> and add <code>--format documentation</code> so it looks like</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">--</span><span class="n">color</span>
+</span><span class='line'><span class="o">--</span><span class="nb">require</span> <span class="n">spec_helper</span>
+</span><span class='line'><span class="o">--</span><span class="nb">format</span> <span class="n">documentation</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now lets tell RSpec we want to use Capybara with Poltergeist,
+edit <code>spec/rails_helper.rb</code>, add this after the other requires.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># load up Capybara</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/rspec&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/rails&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># load up Poltergeist (not turning off js errors, b/c this is our app, we want to know about errors!)</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;capybara/poltergeist&#39;</span>
+</span><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:poltergeist</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Make this test in <code>spec/features/play_app_spec.rb</code>.
+Saying <code>js: true</code> tells it that we need JavaScript to work
+which will cause Capybara to use its javascript_driver. The <code>feature: true</code> we
+technically get by default simply because we&#8217;re in the features directory, but
+I hate that implicit stuff. This just tells it to make Capybara available.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;rails_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="s1">&#39;Playing around&#39;</span><span class="p">,</span> <span class="n">js</span><span class="ss">:true</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="ss">:feature</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s1">&#39;loads capybara into the test&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">require</span> <span class="s2">&quot;pry&quot;</span>
+</span><span class='line'>    <span class="nb">binding</span><span class="o">.</span><span class="n">pry</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the spec, and we should have Capybara available.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span> <span class="nb">exec</span> <span class="n">rake</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And try this out in the pry session</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">visit</span> <span class="s1">&#39;http://www.google.com&#39;</span>
+</span><span class='line'><span class="n">save_and_open_page</span>
+</span><span class='line'><span class="n">save_and_open_screenshot</span>
+</span><span class='line'><span class="nb">exit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Writing our acceptance test.</h2>
+
+<p>First lets write a use-case together, remembering how to think about them <a href="https://www.youtube.com/watch?v=tQ-8eAjss04">1</a>.
+Then lets translate it into Capybara,
+if we need a more thorough walkthrough on how it works, we can read the <a href="http://tutorials.jumpstartlab.com/topics/capybara/essentials.html">essentials</a>.
+Or to see my process for how I figured out how to use it, see my previous <a href="https://gist.github.com/JoshCheek/1ef1c6fbe7ff7ee28de4/82b9f97d71e695a6f0d90525bdc6d0ace6362410#file-using_capybara_with_poltergeist_to_get_the_data-rb">Capybara example</a>.
+And if we&#8217;re cool with having all that available, but lets just get to it, then we can use <a href="https://gist.github.com/zhengjia/428105">this cheatsheet</a>.</p>
+
+<p>After we write the test, we&#8217;ll make it pass (this is just writing normal Rails, and updating the test as necessary).
+And if there&#8217;s time at the end, you&#8217;ll get to try writing your own without me.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

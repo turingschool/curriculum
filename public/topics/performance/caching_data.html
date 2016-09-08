@@ -1,0 +1,778 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Caching Data - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Performance                                      Caching Data                              There are two hard things in computer &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/performance/caching_data.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Performance</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Caching Data
+        </h1>
+        
+      </header>
+    
+    <p>There are two hard things in computer science: naming things, cache
+invalidation, and off-by-one errors. Let&#8217;s talk about that second one.</p>
+
+<p>Caching is difficult to get right, but Rails provides you with some excellent
+tools to help make it easy. In this tutorial, we&#8217;ll look at how to pre-calculate data so requests utilizing that data can respond quickly.</p>
+
+<h2>Setup</h2>
+
+<div class="note">
+<p>Get the Blogger project from GitHub and run setup procedures:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>git clone git://github.com/JumpstartLab/blogger_advanced.git
+</span><span class='line'>cd blogger_advanced
+</span><span class='line'>bundle
+</span><span class='line'>bundle exec rake db:setup
+</span><span class='line'>bundle exec rake</span></code></pre></td></tr></table></div></figure>
+
+<p>All existing tests should pass. Optionally, run the tests continuously while developing by running <code>guard</code></p>
+</div>
+
+<h2>Simple Data Caching</h2>
+
+<h3>Terminology</h3>
+
+<p>Computers compute. Sometimes, they do a lot of computing. Sometimes, they need
+to do so much computing that it takes a really, really long time. But we want our sites to be fast. What do we do?</p>
+
+<p>The answer is a <strong>cache</strong>. A cache is a temporary storage place. In software, the cache is typically used to store data you want fast access to, but the cache is not the primary storage place. </p>
+
+<p>The <strong>database</strong> is meant to be your durable, long-run data storage. You should use a cache in such a way that if it gets totally deleted you haven&#8217;t lost any data of value. </p>
+
+<p>An empty cache is <strong>&quot;cold&quot;</strong> and as we calculate and store data values we&#8217;re <strong>&quot;warming&quot;</strong> it. If we try and load a piece of data from the cache and it&#8217;s not that, that&#8217;s a <strong>&quot;cache miss&quot;</strong>. If the data <em>is</em> there when we want it, that&#8217;s a <strong>&quot;cache hit&quot;</strong>.</p>
+
+<p>When our underlying database data changes and the cache entries need to be removed we&#8217;re <strong>invalidating</strong> them.</p>
+
+<h3>The problem</h3>
+
+<p>We&#8217;re working with the blog application you may have used in previous
+tutorials, but if you haven&#8217;t, it&#8217;s pretty straightforward. <code>Author</code>s write
+<code>Article</code>s that have <code>Comment</code>s and <code>Tag</code>s. We&#8217;re going to add some caching to
+the admin dashboard to improve its performance.</p>
+<blockquote>
+<p>&quot;If you can not measure it, you can not improve it.&quot; - Lord Kelvin</p>
+</blockquote>
+<p>When you have a web application, statistics on its usage are important. They
+can help you optimize conversions, plan new content based on what&#8217;s been
+popular on the past, and tons of other things.</p>
+
+<p>Let&#8217;s load up the site and check it out:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rails s</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If you open <a href="http://localhost:3000">http://localhost:3000</a> in your browser,
+you&#8217;ll see something like this:</p>
+
+<p><img src="/images/caching/dashboard.png" alt="dashboard">
+</p>
+
+<p>That part at the bottom is what we&#8217;ll be improving upon. We collect a number
+of statistics about the articles, comments, and the number of words in the sum
+of them. This page renders pretty quickly at the moment, but as the number of
+articles and comments goes up, it can get really slow. </p>
+
+<p>Let&#8217;s change things so that we can see this difference. Open up <code>db/seeds.rb</code> and increase the number of objects generated:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Author</span><span class="o">.</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="no">Tag</span><span class="o">.</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</span><span class='line'><span class="no">Article</span><span class="o">.</span><span class="n">generate_samples</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, re-build the database:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake db:drop db:migrate db:seed</span><span class='line command'>rails s</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now load up the site again, and it should feel&#8230;slow.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Rendered dashboard/show.html.erb within layouts/application (19.4ms)
+</span><span class='line'>Completed 200 OK in 4776ms (Views: 57.4ms | ActiveRecord: 3113.9ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Five seconds. Hit refresh. Another five seconds. This situation is
+unacceptable, so let&#8217;s fix it.</p>
+
+<h2>An Experimental Approach: Class Instance Variables</h2>
+
+<p>The easiest possible thing that we can do is to <em>Just Use Ruby</em>. </p>
+
+<h3>Finding the Slowness</h3>
+
+<p>Let&#8217;s check out the <code>DashboardController</code>, where the calculation is done:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">DashboardController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">show</span>
+</span><span class='line'>    <span class="vi">@articles</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@article_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@article_word_count</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>    <span class="vi">@most_popular_article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">most_popular</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="vi">@comments</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">for_dashboard</span>
+</span><span class='line'>    <span class="vi">@comment_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="vi">@comment_word_count</span> <span class="o">=</span> <span class="no">Comment</span><span class="o">.</span><span class="n">total_word_count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>All the logic is pressed down to the models. Let&#8217;s then check out
+<code>Article.total_word_count</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>  <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We load up all the articles and loop through them calling <code>word_count</code> on each. This works, but will be super slow. We re-run the calculation on each new request! </p>
+
+<h3>Memoization</h3>
+
+<p>We can use memoization to improve this situation. Memoization is a technique where
+a method is made faster by not repeating cacluations that were previously
+done. In Ruby, this is most commonly accomplished through instance variables. For instance, with the <code>total_word_count</code> method we can add an instance variable in front of the calculation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>  <span class="vi">@total_word_count</span> <span class="o">||=</span> <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>How Memoization Works</h4>
+
+<p>Now, the first time we use <code>total_word_count</code>, it will save the answer into the
+<code>@total_word_count</code> variable. On subsequent calls the <code>||=</code> will return the previously-calculated data instead of re-performing the calculation.</p>
+
+<p>Note that since the instance variable is created inside a <code>self.</code> class method, it is stored on with the class itself. Remember that classes in Ruby are instances of the <code>Class</code> class. If you were creating a <em>normal</em> instance variable in an <code>Article</code> instance method it would only be attached to that instance of <code>Article</code> which gets wiped away between requests.</p>
+
+<p>But the class is <strong>not</strong> re-loaded between requests. Thus the class instance variable will still be there for the subsequent requests.</p>
+
+<h4>Memoizing Other Methods</h4>
+
+<p>Go ahead and use the same technique for the other methods called from the
+<code>DashboardController#show</code>.</p>
+
+<h4>Testing the Results</h4>
+
+<p>Start up your server again with <code>rails s</code> and load the dashboard page. You should see output in your server log similar to this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Rendered dashboard/show.html.erb within layouts/application (17.6ms)
+</span><span class='line'>Completed 200 OK in 4311ms (Views: 48.3ms | ActiveRecord: 2843.4ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then hit refresh in your browser and observe something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='text'><span class='line'>Rendered dashboard/show.html.erb within layouts/application (10.8ms)
+</span><span class='line'>Completed 200 OK in 43ms (Views: 19.8ms | ActiveRecord: 20.8ms)
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Whoah! Here&#8217;s a diff of all changes made in this experiment:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class='diff'><span class='line'><span class="gh">diff --git a/app/models/article.rb b/app/models/article.rb</span>
+</span><span class='line'><span class="gh">index 4967d0f..2e679a9 100644</span>
+</span><span class='line'><span class="gd">--- a/app/models/article.rb</span>
+</span><span class='line'><span class="gi">+++ b/app/models/article.rb</span>
+</span><span class='line'><span class="gu">@@ -28,7 +28,7 @@ class Article &lt; ActiveRecord::Base</span>
+</span><span class='line'>   end
+</span><span class='line'>
+</span><span class='line'>   def self.most_popular
+</span><span class='line'><span class="gd">-    all.sort_by{|a| a.comments.count }.last</span>
+</span><span class='line'><span class="gi">+    @most_popular ||= all.sort_by{|a| a.comments.count }.last</span>
+</span><span class='line'>   end
+</span><span class='line'>
+</span><span class='line'>   def self.random
+</span><span class='line'><span class="gu">@@ -57,7 +57,7 @@ class Article &lt; ActiveRecord::Base</span>
+</span><span class='line'>   end
+</span><span class='line'>
+</span><span class='line'>   def self.total_word_count
+</span><span class='line'><span class="gd">-    all.inject(0) {|total, a| total += a.word_count }</span>
+</span><span class='line'><span class="gi">+    @total_word_count ||= all.inject(0) {|total, a| total += a.word_count }</span>
+</span><span class='line'>   end
+</span><span class='line'>
+</span><span class='line'>   def self.generate_samples(quantity = 1000)
+</span><span class='line'><span class="gh">diff --git a/app/models/comment.rb b/app/models/comment.rb</span>
+</span><span class='line'><span class="gh">index feafe3f..47f9350 100644</span>
+</span><span class='line'><span class="gd">--- a/app/models/comment.rb</span>
+</span><span class='line'><span class="gi">+++ b/app/models/comment.rb</span>
+</span><span class='line'><span class="gu">@@ -12,6 +12,6 @@ class Comment &lt; ActiveRecord::Base</span>
+</span><span class='line'>   end
+</span><span class='line'>
+</span><span class='line'>   def self.total_word_count
+</span><span class='line'><span class="gd">-    all.inject(0) {|total, a| total += a.word_count }</span>
+</span><span class='line'><span class="gi">+    @total_word_count ||= all.inject(0) {|total, a| total += a.word_count }</span>
+</span><span class='line'>   end
+</span><span class='line'> end
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Just three lines changed, adding three variables, and we went from 4,000 ms to
+43 ms! So we&#8217;re done, right?</p>
+
+<h4>Memoization Means Problems</h4>
+
+<p>Not so fast. The first page load still takes four seconds. And it&#8217;ll take four
+seconds every time we restart our server, as well. That&#8217;s often not good
+enough. </p>
+
+<p>More importantly, our cached values never expire! When we add a new article or comment the old data will still be memoized. The dashboard will never change! We could chase around our code and find every place that changes an article or a comment and tell it to clear the cached values. But you&#8217;ll miss one (or more) as the application grows and your cache won&#8217;t work properly.</p>
+
+<p>We need a better strategy.</p>
+
+<h2>Using <code>Rails.cache</code></h2>
+
+<p>There are software tools called &#8216;key/value stores&#8217; that can tackle this
+exact sitaution. From the name, you can infer that a key/value store&#8230; stores
+keys and values. </p>
+
+<p>You know how to use hashes in Ruby. Think of a key/value store as a big-hash-as-a-server. It&#8217;s persistent and can be shared by multiple processes or applications.</p>
+
+<h3>Starting with Redis</h3>
+
+<p>There are multiple key/value stores, and so Rails provides an interface to use
+any one you want. Just remember the Rails API, and you can use Redis,
+Memcached, or another store that you may fancy.</p>
+
+<p>Let&#8217;s explore Redis which is an excellent key/value store.</p>
+
+<div class="note">
+<p>You need to follow the <a href='installing_redis.html'>instructions for installing and configuring Redis</a> to follow this part of the tutorial.</p>
+</div>
+
+<h3>Keys &amp; Values in Ruby</h3>
+
+<p>First let&#8217;s look at a simple Ruby <code>Hash</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>irb &gt; cache = {}</span><span class='line output'>=&gt; {}</span><span class='line output'>irb &gt; cache[:count] = 5</span><span class='line output'>=&gt; 5</span><span class='line output'>irb &gt; cache[:count]</span><span class='line output'>=&gt; 5</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Easy, right? </p>
+
+<h3><code>Rails.cache</code></h3>
+
+<p>From the Rails console:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>irb &gt; Rails.cache.write("count", 5)</span><span class='line output'>=&gt; "OK"</span><span class='line output'>irb &gt; Rails.cache.read("count")</span><span class='line output'>=&gt; 5</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Your data is stored in the cache.</p>
+
+<h3>Redis Console</h3>
+
+<p>You can connect to Redis directly to inspect keys and values:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>redis-cli</span><span class='line output'>redis 127.0.0.1:6379> select 1</span><span class='line output'>OK</span><span class='line output'>redis 127.0.0.1:6379[1]> keys *</span><span class='line output'>1) "ns:count"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That <code>&quot;ns:count&quot;</code> there shows we have a <code>count</code> key in the <code>ns</code> namespace.</p>
+
+<h3>Using <code>fetch</code></h3>
+
+<p>If you were to implement it right now, you&#8217;d probably do something like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="n">count</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="s2">&quot;total_comment_word_count&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">unless</span> <span class="n">count</span>
+</span><span class='line'>      <span class="n">count</span> <span class="o">=</span> <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
+</span><span class='line'>      <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;total_comment_word_count&quot;</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Check to see if we have it cached, if not, calculate and store it, then return
+the answer. It&#8217;ll work.</p>
+
+<p>But the <code>#fetch</code> method will make your life much easier. It&#8217;s a method available on any <code>Hash</code> in Ruby:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>irb &gt; sample = {}</span><span class='line output'>=&gt; {}</span><span class='line output'>irb &gt; sample.fetch("count") { 5 }</span><span class='line output'>=&gt; 5</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We created the <code>sample</code> hash with no keys, so asking for <code>sample[&quot;count&quot;]</code> would normally return <code>nil</code>. But with <code>#fetch</code> you can pass a block which provides a default value. Since the <code>&quot;count&quot;</code> key was not found, <code>5</code> was returned.</p>
+
+<p><strong>But</strong>, it doesn&#8217;t store that value. So if you now ask for the key again the normal way:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>irb &gt; cache["count"]</span><span class='line output'>=&gt; nil</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It doesn&#8217;t actually save the value into our <code>Hash</code>. Bummer. </p>
+
+<h3>Rails Cache &amp; <code>#fetch</code></h3>
+
+<p>However, <code>Rails.cache</code> is not a normal Ruby hash. It&#8217;s a specialized class which not only implements <code>#fetch</code>, but also stores the value:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>irb &gt; Rails.cache.clear</span><span class='line output'>=&gt; 1</span><span class='line output'>irb &gt; Rails.cache.read("count")</span><span class='line output'>=&gt; nil</span><span class='line output'>irb &gt; Rails.cache.fetch("count") { 5 }</span><span class='line output'>=&gt; 5</span><span class='line output'>irb &gt; Rails.cache.read("count")</span><span class='line output'>=&gt; 5</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Awesome! Now, we can write our method in a much simpler way:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">total_word_count</span>
+</span><span class='line'>    <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;comment_total_word_count&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">all</span><span class="o">.</span><span class="n">inject</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span><span class="o">|</span><span class="n">total</span><span class="p">,</span> <span class="n">a</span><span class="o">|</span> <span class="n">total</span> <span class="o">+=</span> <span class="n">a</span><span class="o">.</span><span class="n">word_count</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Keys Must Be Unique</h4>
+
+<p>One small note: you may notice that we&#8217;ve added <code>comment_</code> to the front of our
+key. This is because we have a <code>total_word_count</code> for both articles and
+comments. The keys in a hash much be unique.</p>
+
+<h4>Cache Data Must Be Simple</h4>
+
+<p>Check out the <code>#most_popular</code> method with memoization:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">most_popular</span>
+</span><span class='line'>  <span class="vi">@most_popular</span> <span class="o">||=</span> <span class="n">all</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span><span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span> <span class="p">}</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This stored a <code>Article</code> object in <code>@most_popular</code>. </p>
+
+<p>Your data cache (Redis) is not Ruby. It doesn&#8217;t know about <code>Article</code> objects. It only deals with strings, integers, and a few other simple data types. You can try to <em>serialize</em> your <code>Article</code> instance into a string and <em>deserialize</em> it later, but you&#8217;re going to have a bad time. Serialization causes lots of new problems.</p>
+
+<p>Only store those simple data types into the cache. For <code>most_popular</code>, you can store just the <code>id</code> of the most popular article in the cache. Then, when the method is called, find the <code>id</code> and execute a single database query to get the actual article.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">most_popular</span>
+</span><span class='line'>  <span class="nb">id</span> <span class="o">=</span> <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;article_most_popular&quot;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">all</span><span class="o">.</span><span class="n">sort_by</span><span class="p">{</span><span class="o">|</span><span class="n">a</span><span class="o">|</span> <span class="n">a</span><span class="o">.</span><span class="n">comments</span><span class="o">.</span><span class="n">count</span> <span class="p">}</span><span class="o">.</span><span class="n">last</span><span class="o">.</span><span class="n">id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">Article</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Implement It</h4>
+
+<p>Go ahead and implement these tactics for all three of our methods that need
+caching.  When you hit the server, the <em>very first</em> page load will be slow,
+ then all the rest should be fast. Restart your server, and it should still
+be fast. Your cache is now <em>warm</em>. </p>
+
+<p>However, that first page load is still slow. Not cool. And if we add a new
+<code>Article</code> or <code>Comment</code>, it doesn&#8217;t update the data because our cache hasn&#8217;t been expired.</p>
+
+<h2>Explicit Cache Expiration</h2>
+
+<p>When do we need to recalculate the data? Whenever a comment or article is added, removed, or changed. </p>
+
+<h3>Using Rails Callbacks</h3>
+
+<p>Let&#8217;s take advantage of Rails&#8217; callbacks system to invalidate our cache when those objects are changed.</p>
+
+<h4>Creating <code>InvalidatesCache</code></h4>
+
+<p>Create a file <code>app/models/invalidates_cache.rb</code> with these contents:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">InvalidatesCache</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">Concern</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">included</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">after_create</span> <span class="ss">:invalidate_cache</span>
+</span><span class='line'>    <span class="n">after_update</span> <span class="ss">:invalidate_cache</span>
+</span><span class='line'>    <span class="n">after_destroy</span> <span class="ss">:invalidate_cache</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">invalidate_cache</span>
+</span><span class='line'>      <span class="no">Rails</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">clear</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This module makes use of the <code>included</code> method from <code>ActiveSupport::Concern</code>. All the code between the <code>do</code> and <code>end</code> will be executed in the context of the including class, just as if you&#8217;d written these lines in the model class itself.</p>
+
+<h4>Using <code>InvalidatesCache</code></h4>
+
+<p>Open your <code>Article</code> and <code>Comment</code> models and add the following inside the class definition. Typically includes are done at the top of the class, so it&#8217;d look like&#8230;</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Article</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">InvalidatesCache</span>
+</span><span class='line'>  <span class="c1"># The rest of the existing code...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, when we make a new <code>Article</code> or <code>Comment</code> (or update it), the entire cache gets
+blown away. </p>
+
+<h4>Observing the Behavior</h4>
+
+<p>Experiment with it in the Rails console:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>irb &gt; Article.create title: "new article", body: "This is a body", author_id: 1</span><span class='line output'>=&gt; #&lt;Article id: 1001, title: "new article", body: "This is a body", created_at: "2013-04-26 20:04:49", updated_at: "2013-04-26 20:04:49", author_id: 1&gt;</span><span class='line output'>irb &gt; Rails.cache.read("article_most_popular")</span><span class='line output'>=&gt; nil</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Blowing away the entire cache is quite expensive because now it&#8217;s totally <em>cold</em>. Every subsequent request that uses cached data will <em>miss</em> until it&#8217;s all recalculated and stored.</p>
+
+<h4>Fine-Grained Expiration</h4>
+
+<p>To do this right we need to know exactly which keys should be invalidated when a record changes. We need to keep track of which calculation goes with which key, and update them accordingly. </p>
+
+<p>We also need to know which calculations depend on each other. For example, the total words calculation relies on both articles and comments, but the most popular article calculation only relies on articles.</p>
+
+<p>Caching is hard and for this kind of usage there are no easy answers.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

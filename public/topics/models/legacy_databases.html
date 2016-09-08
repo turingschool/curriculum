@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Legacy/Non-conformant Databases - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Models                                      Legacy/Non-conformant Databases                              Not every application &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/models/legacy_databases.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Models</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Legacy/Non-conformant Databases
+        </h1>
+        
+      </header>
+    
+    <p>Not every application starts from scratch, sometime you have to deal with a legacy database. Walking the Rails golden path makes life easy, and there&#8217;s a perception that stepping off that path is incredibly painful. </p>
+
+<p>It&#8217;s not true. If your database is well designed but doesn&#8217;t follow the Rails naming conventions, it&#8217;s easy to make them play nicely together. However, if your database structure is crap to begin with, then there&#8217;s only so much Rails can do for you. <code>ActiveRecord</code> is a mapper between the database and objects, but it&#8217;s not a DBA-in-a-Box.</p>
+
+<h2>Theory</h2>
+
+<p>In a green-field app, <code>ActiveRecord</code> and the Database fit right together:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------+
+</span><span class='line'>| Active Record |
+</span><span class='line'>|               |
+</span><span class='line'>+---------------|
+</span><span class='line'>|               |
+</span><span class='line'>|   Database    |
+</span><span class='line'>+---------------+</span></code></pre></td></tr></table></div></figure>
+
+<p>But when they don&#8217;t align, we need to insert an adapter. There are a few options to make the parts fit together. </p>
+
+<h3>Option 1: Database Views</h3>
+
+<p>If you&#8217;re using a powerful database engine then it has the ability to create views. Think of them as a translation layer for your data. From the outside, the Rails application will interact with the view as though it were a real table. We thereby encapsulate the complexity within the database layer and our Rails application needs no modification.</p>
+
+<p>You could think of it, graphically, like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------+
+</span><span class='line'>| Active Record |
+</span><span class='line'>|               |
+</span><span class='line'>+---------------+
+</span><span class='line'>|   Data Views  |
+</span><span class='line'>| ------------- |
+</span><span class='line'>|   Real Data   |
+</span><span class='line'>+---------------+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is the best option when:</p>
+
+<ul>
+<li>The Rails app is the only user of the database</li>
+<li>The database could be rewritten/restructured to follow Rails conventions in the future</li>
+<li>You have a sufficiently advanced database engine</li>
+<li>Database performance is not a major bottleneck (usually, it&#8217;s not)</li>
+</ul>
+
+<p>The implementation of views varies by database engine. Here are guides for the most common options:</p>
+
+<ul>
+<li>PostgreSQL Views: <a href="http://www.postgresql.org/docs/9.0/interactive/tutorial-views.html">http://www.postgresql.org/docs/9.0/interactive/tutorial-views.html</a></li>
+<li>Introduction to MySQL Views: <a href="http://net.tutsplus.com/tutorials/databases/introduction-to-mysql-views/">http://net.tutsplus.com/tutorials/databases/introduction-to-mysql-views/</a></li>
+</ul>
+
+<p>The beauty of this approach is that our Rails application has the illusion of being on the &quot;Golden Path&quot;.</p>
+
+<h3>Option 2: Overriding Defaults</h3>
+
+<p>Creating views isn&#8217;t always practical, such as when:</p>
+
+<ul>
+<li>You only want to override a few column names, table names, etc &#8211; not change significant structure</li>
+<li>You don&#8217;t have access/control of the database internal structure</li>
+<li>You&#8217;re hopelessly scared of SQL</li>
+</ul>
+
+<p>Your primary option, then, is to have <code>ActiveRecord</code> handle the translation:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>+---------------+
+</span><span class='line'>| Active Record |
+</span><span class='line'>| ------------- |
+</span><span class='line'>| AR Overrides  |
+</span><span class='line'>+---------------+
+</span><span class='line'>|               |
+</span><span class='line'>|   Database    |
+</span><span class='line'>+---------------+</span></code></pre></td></tr></table></div></figure>
+
+<p>Assuming our database structure is sound but doesn&#8217;t follow the Rails conventions, the typical overrides include:</p>
+
+<ul>
+<li>table names</li>
+<li>primary key (ID) name</li>
+<li>foreign key name</li>
+</ul>
+
+<h4>Specifying Table Name</h4>
+
+<p>Imagine a model named <code>Customer</code>. By default, Rails assumes the data is in a table named <code>customers</code>, but let&#8217;s say it&#8217;s in actually in a table named <code>existing_customers</code>. The override is simple within the <code>Customer</code> model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set_table_name</span> <span class="s1">&#39;existing_customers&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Nothing else in the model or application needs to change.</p>
+
+<h4>Specifying Primary Key</h4>
+
+<p>Say that the <code>existing_customers</code> table doesn&#8217;t use a primary key named <code>id</code>, instead it is <code>customer_id</code>. No problem:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set_table_name</span> <span class="s1">&#39;existing_customers&#39;</span>
+</span><span class='line'>  <span class="n">set_primary_key</span> <span class="s1">&#39;customer_id&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Foreign Keys</h4>
+
+<p>And what about relationships? Imagine there is an associated <code>Order</code> object where one <code>Customer</code> <code>has_many</code> <code>Order</code>s. Normally, that would imply that the <code>orders</code> table has a column <code>customer_id</code>, but in our DB it is <code>existing_customer_id</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set_table_name</span> <span class="s1">&#39;existing_customers&#39;</span>
+</span><span class='line'>  <span class="n">set_primary_key</span> <span class="s1">&#39;customer_id&#39;</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:orders</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s1">&#39;existing_customer_id&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That is the <code>foreign_key</code> within the <code>orders</code> table pointing back to this <code>Customer</code> object. On the <code>Order</code> side we do the same thing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:customer</span><span class="p">,</span> <span class="n">foreign_key</span><span class="p">:</span> <span class="s1">&#39;existing_customer_id&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The same pattern holds true for a <code>has_one</code>/<code>belongs_to</code> relationship.</p>
+
+<h3>Option 3: Rebuilding</h3>
+
+<p>The hardest option, of course, is rebuilding your database. Here are a few tools that might help you along the way:</p>
+
+<h4>Taps</h4>
+
+<p>The Taps gem (<a href="https://github.com/ricardochimal/taps">https://github.com/ricardochimal/taps</a>) makes moving data between databases super simple. Have you ever done a <code>heroku db:pull</code> or <code>heroku db:push</code>? That magic happens through taps. It&#8217;s useful for moving data between machines, but it can even convert between supported databases on the fly. </p>
+
+<p>When pulling data from Heroku, you&#8217;re getting it out of PostgreSQL on the server and building SQLite locally. It can also translate between MySQL, PostgreSQL, and SQLite, even properly setting the auto-incrementing triggers. </p>
+
+<h4>Sequel</h4>
+
+<p>Sequel is a simple, beautiful SQL &quot;access toolkit&quot;. You can quickly build a customized object-relational mapping (ORM) for your existing data, then programmatically manipulate that data to output <code>ActiveRecord</code>-compliant structures. </p>
+
+<p>Developers have used Sequel to implement ORMs for non-SQL sources like flat files, CSV files, and even Google Spreadsheets. Check it out at <a href="https://github.com/jeremyevans/sequel">https://github.com/jeremyevans/sequel</a></p>
+
+<h2>References</h2>
+
+<ul>
+<li>PostgreSQL Views: <a href="http://www.postgresql.org/docs/9.0/interactive/tutorial-views.html">http://www.postgresql.org/docs/9.0/interactive/tutorial-views.html</a></li>
+<li>Introduction to MySQL Views: <a href="http://net.tutsplus.com/tutorials/databases/introduction-to-mysql-views/">http://net.tutsplus.com/tutorials/databases/introduction-to-mysql-views/</a></li>
+<li>Rails associations and overrides: <a href="http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html">http://api.rubyonrails.org/classes/ActiveRecord/Associations/ClassMethods.html</a></li>
+<li>Taps: <a href="https://github.com/ricardochimal/taps">https://github.com/ricardochimal/taps</a></li>
+<li>Sequel: <a href="https://github.com/jeremyevans/sequel">https://github.com/jeremyevans/sequel</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

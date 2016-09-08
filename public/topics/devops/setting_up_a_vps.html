@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Setting Up a VPS - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="DevOps                                      Setting Up a VPS                              You built an app, got excited and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/devops/setting_up_a_vps.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">DevOps</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Setting Up a VPS
+        </h1>
+        
+      </header>
+    
+    <p>You built an app, got excited and deployed it easily on Heroku. But after several thousand users, you ended up paying thousand of dollars to keep it running. You looked for other alternatives, and you decided to give a VPS a try.</p>
+
+<h2>What is a VPS?</h2>
+
+<p>A VPS, or virtual private server, is a virtual machine that runs on someone else&#8217;s infrastructure.</p>
+
+<p>A VPS can run it&#8217;s own OS and applications indepedently of other virtual machines that live in the same infrastructure. This allows companies to sell access, space and time in their servers to various customers without conflicting to each other.</p>
+
+<p>There are many VPS prodivers, such as DigitalOcean and Linode out there. Just make sure to read reviews online and ask your peers before making a choice.</p>
+
+<h2>Setup</h2>
+
+<ol>
+<li>Install CentOS (it might be preinstalled)</li>
+<li>Initial Setup
+
+<ol>
+<li>SSH (Secure Shell) into Server</li>
+<li>Change your password</li>
+<li>Create a new user</li>
+<li>Give your new user root privilages</li>
+<li>Configure SSH (optional)</li>
+<li>Reload SSH (Secure Shell)</li>
+</ol></li>
+<li>Preparing the Server for Deployment
+
+<ol>
+<li>Update your OS</li>
+<li>Install the development tools</li>
+<li>Add the EPEL (Extra Packages for Enterprise Linux)software repository</li>
+<li>Install <code>curl-devel</code></li>
+<li>Install <code>sqlite-devel</code></li>
+<li>Install <code>libyaml-devel</code></li>
+<li>Install nano text editor (optional)</li>
+</ol></li>
+<li>Install Postgres (if necessary)
+
+<ol>
+<li>Exclude CentOS postgres packages</li>
+<li>Add Postgres repositories</li>
+<li>Find the repository</li>
+<li>Dowload the repository</li>
+<li>Install the repository</li>
+<li>Install <code>postres-server</code> via yum</li>
+<li>Configure postgres to start on boot</li>
+</ol></li>
+<li>Setting Up Ruby Environment and Rails
+
+<ol>
+<li>Install RVM (Ruby Version Manager)</li>
+<li>Install Ruby</li>
+<li>Install Node.js</li>
+<li>Install Rails</li>
+</ol></li>
+<li>Install the server applications
+
+<ol>
+<li>Install Phusion Passenger</li>
+<li>Install Nginx via Passenger</li>
+<li>Install Git</li>
+<li>Clone your app to /var/www/application_name</li>
+<li>Create Nginx Management Script</li>
+</ol></li>
+<li>Configure Nginx
+
+<ol>
+<li>Open Configuration file: nano /opt/nginx/conf/nginx.conf</li>
+<li>Define your application root</li>
+<li>Restart NGinx</li>
+</ol></li>
+</ol>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

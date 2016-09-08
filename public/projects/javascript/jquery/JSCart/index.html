@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>JSCart</title>
+    <link rel='stylesheet' type="text/css" href='styles.css'/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="data.js"></script>
+    <script src="application.js"></script>
+  </head>
+  <body>
+    <h1>Balloon-Animals-R-Us</h1>
+    <div id="cart">
+      <div class='cart_item' id='prototype_cart'>
+        <h3></h3>
+        <span class='qty'>0</span>
+        $<span class='price'></span>
+      </div>
+      <div class='totals'>
+        <p><span id='cart_quantity'>0</span> items in cart</p>
+        <p>$<span id='cart_price'>0</span> total</p>
+      </div>
+
+    </div>
+    <div id="inventory">
+      <div class='item' id="prototype_item" >
+        <h3></h3>
+        <ul>
+          <li>Price: <span class="price"></span></li>
+          <li>Qty: <span class="qty"></span></li>
+          <li><a href='#'>Add to Cart</a></li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

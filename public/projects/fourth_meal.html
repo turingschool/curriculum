@@ -1,0 +1,585 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Fourth Meal - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Fourth Meal                              In this project you&#8217;ll build on an existing implementation of Dinner &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/fourth_meal.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Fourth Meal
+        </h1>
+        
+      </header>
+    
+    <p>In this project you&#8217;ll build on an existing implementation of <a href="/projects/dinner_dash.html">Dinner Dash</a>, turning it from a single restaurant to a platform for multiple restaurants.</p>
+
+<h3>Learning Goals</h3>
+
+<h4>Modeling</h4>
+
+<ul>
+<li>Adapt the existing restaurant models to belong to individual restaurants</li>
+<li>Mind security permissions such that each restaurant does <strong>not</strong> have any knowledge of other restaurants&#8217; data</li>
+<li>Push <em>all</em> logic down to the model layer so controllers and views remain simple</li>
+</ul>
+
+<h4>Interface &amp; Views</h4>
+
+<ul>
+<li>Use and switch between multiple view templates to reduce view-layer logic</li>
+<li>Implement a clean, logical order flow that minimizes customer frustration</li>
+</ul>
+
+<h4>Performance</h4>
+
+<ul>
+<li>Use database indices to improve query performance</li>
+<li>Use an in-memory data store to cache pre-calculated and pre-fetched data</li>
+<li>Use &quot;Russian-Doll Caching&quot; to reduce the render time of view fragments</li>
+</ul>
+
+<h4>Process</h4>
+
+<ul>
+<li>Practice working with a &quot;legacy&quot; codebase to add substantial functionality</li>
+<li>Use outside-in TDD/BDD to drive all layers of Rails development</li>
+<li>Use a professional project management tool to pace and track progress</li>
+</ul>
+
+<h3>Teams</h3>
+
+<p>The project will be completed by teams of three to four developers over the span of eighteen days.</p>
+
+<p>Like all projects, individual team members are expected to:</p>
+
+<ul>
+<li>Seek out features and responsibilities that are uncomfortable. The time to learn is <em>now</em>.</li>
+<li>Support your teammates so that everyone can collaborate and contribute.</li>
+</ul>
+
+<h3>Project Starting Point</h3>
+
+<p>You&#8217;ll build upon an existing code base authored by one of your teammates in the Dinner Dash project. Your first task, then, is to decide which project to use. </p>
+
+<h4>Dinner Dash Mini-Demos</h4>
+
+<p>Each teammate should give a quick demo of their existing app/code to the rest of the team, focusing on:</p>
+
+<ul>
+<li>General strengths and weaknesses</li>
+<li>Test coverage and quality</li>
+<li>Architectural concerns</li>
+<li>Components that are particularly strong or weak</li>
+</ul>
+
+<h4>Beginning Fourth Meal</h4>
+
+<p>Once you select a base project:</p>
+
+<ul>
+<li>Select one member of the group who will host the cannonical repository for the project</li>
+<li>Create a new, blank repository on GitHub named <code>fourth_meal</code></li>
+<li>Clone the Dinner Dash project that you&#8217;ll be working with to your local machine</li>
+<li>Go into that project directory and <code>git remote rm origin</code></li>
+<li>Add the new repository as a remote <code>git remote add origin git://new_repo_url</code></li>
+<li>Push the code <code>git push origin master</code></li>
+<li>In GitHub, add the other team members as collaborators</li>
+<li>The other team members can then fork the new repo</li>
+</ul>
+
+<h4>Tagging the Start Point</h4>
+
+<p>We want to be able to easily compare the change between the start of the project and the end. For that purpose, create a tag in the repo and push it to GitHub:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git tag -a dinner_dash_v1</span><span class='line command'>git push --tags</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Restrictions &amp; Outside Code</h3>
+
+<p>Your project should evolve, refactor, and clean up the code you inherit. This includes deleting redudant, broken, or obsolete code. However, you should not throw out the previous work wholesale.</p>
+
+<p>Furthermore, there should be <em>no reduction in functionality</em> except when explicitly called for by new requirements.</p>
+
+<h2>Managing Requirements</h2>
+
+<h3>Authoritative Requirements</h3>
+
+<p>While this document is a starting place, the Pivotal Tracker project for your team should be considered the <strong>canonical</strong> version of the requirements. </p>
+
+<h3>Teams &amp; Workflow</h3>
+
+<p>Your team should understand and follow our <a href="/projects/workflow.html">Project Workflow for Development Teams</a>.</p>
+
+<p>Questions or requests for clarification about the requirements should be raised as <em>comments</em> in the appropriate Tracker stories.</p>
+
+<p>This means that the requirements for your team will likely drift  apart from others teams over the duration of the project.</p>
+
+<h3>Project Check-In Meetings</h3>
+
+<p>Rapid and frequent feedback about the work we produce is a central tenet of agile software development and lean item delivery.</p>
+
+<ul>
+<li>Day 3 - Iteration Planning</li>
+<li>Day 8 - Show &amp; Tell</li>
+<li>Day 10 - Technical Review</li>
+<li>Day 15 - Fit &amp; Finish</li>
+</ul>
+
+<h4>Meeting 1 - Iteration Planning</h4>
+
+<p>As the project gets rolling, we&#8217;ll meet with your team to evaluate and give recommendations on:</p>
+
+<ul>
+<li>Your planned iterations and features</li>
+<li>Strengths/Weaknesses in your chosen codebase</li>
+<li>Strategies for how your team will work together</li>
+</ul>
+
+<h4>Meeting 2 - Show-And-Tell</h4>
+
+<p>This meeting will verify that the work done so far is in line with the item manager&#8217;s expectations and to sanity check your team&#8217;s progress toward delivery.</p>
+
+<p>A &#8216;Show and Tell&#8217; milestone exists in the starter stories. This milestone is positioned to indicate the features required for completion. Meeting this milestone will affect your project evaluation.</p>
+
+<p>When you reach this milestone please create a tag or branch (named <code>show_and_tell</code>) for reference.</p>
+
+<p>The show-and-tell session will take place on day eight after work begins.</p>
+
+<h4>Meeting 3 - Technical Review</h4>
+
+<p>Just beyond the midway point, this check-in focuses on the code. Is your team on track to hit the technical goals?</p>
+
+<h4>Meeting 4 - Fit &amp; Finish</h4>
+
+<p>During this check-in teams are expected to have a nearly completed project and all base stories ready for acceptance. The purpose of this meeting is to find any last rough-edges that can be smoothed out before project submission.</p>
+
+<h4>Meeting Expectations</h4>
+
+<p>Both the show-and-tell and fit &amp; finish meetings are intended to model interactions with a <em>real customer</em>. As the stories clearly define the customer&#8217;s expectations, your application needs to <strong>exactly</strong> follow the stories or the stories will be rejected.</p>
+
+<p>A 95% implementation is wrong. If you want to deviate from the story as it was originally written, you need to discuss that with your customer and get approval to change the story <em>first</em>.</p>
+
+<h2>Base Expectations</h2>
+
+<p>You are to extend Dinner Dash so that it can handle multiple, simultaneous restaurants. Each has their own name, unique URL, item stock, order queue, and administrators. Each restaurant must maintain the functionality previously required for the Dinner Dash project in addition to the new requirements or enhancements defined here.</p>
+
+<p>At least for the base expectations, all Dinner Dash restaurants share single sign-on.</p>
+
+<p>You are to optimize the application&#8217;s performance under load in order to accommodate the additional restaurants, traffic, users, and revenue that this platform will generate. To do so, you will implement various caching techniques and introduce background workers into the system.</p>
+
+<p>You will also need to focus on an excellent user experience.</p>
+
+<div class='note'>
+<p>The requirements reference an <b>example.com</b>, but your URL will differ.</p>
+</div>
+
+<h2>Functional Requirements</h2>
+
+<p>Individual restaurants can be accessed by specifying their restaurant name as the path prefix.</p>
+
+<ul>
+<li>Given a restaurant named <em>Billy&#8217;s BBQ</em></li>
+<li>When I visit <code>http://example.com/billys-bbq</code></li>
+<li>Then I expect to see all items defined for <em>Billy&#8217;s BBQ</em></li>
+<li>And I expect to see branding defined for <em>Billy&#8217;s BBQ</em></li>
+<li>When I visit <code>http://example.com/billys-bbq/categories</code></li>
+<li>Then I expect to see all categories defined for <em>Billy&#8217;s BBQ</em></li>
+</ul>
+
+<h3>Public Visitor</h3>
+
+<p>As a public, unauthenticated visitor to a restaurant I can:</p>
+
+<ul>
+<li>Maintain a <strong>separate</strong> shopping cart for each restaurant I browse</li>
+<li>Purchase items in a shopping cart when I provide my email, billing address, shipping address, and credit card number.</li>
+<li>Create an account
+
+<ul>
+<li>When I create an account, then I expect to receive a welcome email</li>
+</ul></li>
+<li>Login with my account and become an authenticated shopper</li>
+</ul>
+
+<h4>First-time User Experience</h4>
+
+<ul>
+<li>I may proceed through the process of adding an item to my cart and checking out</li>
+<li>I may then create an account or simply enter my email, billing, shipping, and credit card info</li>
+<li>If I create an account, I will <strong>immediately</strong> resume the checkout process</li>
+<li>If I do not create an account
+
+<ul>
+<li>My order confirmation email will include a unique, obscure link to view my order details</li>
+<li>The unique link will be displayed on the confirmation page for the order</li>
+</ul></li>
+</ul>
+
+<div class='note'>
+<p>Your inherited Dinner Dash program may not implement unauthenticated checkout. You&#8217;ll need to add support for that to complete these requirements.</p>
+</div>
+
+<h3>Authenticated Restaurant Shopper</h3>
+
+<p>As an authenticated shopper I can:</p>
+
+<ul>
+<li>Maintain a <strong>separate</strong> shopping cart for each restaurant I browse</li>
+<li>Make purchases on any restaurant I am browsing
+
+<ul>
+<li>Recieve an email confirmation of my order with basic order details and a link to the order detail page</li>
+</ul></li>
+<li>Manage my account information shared by all restaurants centrally on my account page
+
+<ul>
+<li>Shipping addresses</li>
+<li>Billing addresses</li>
+<li>Credit cards associated with my account</li>
+<li>Basic account info like name and password, as managed previously in Dinner Dash v1</li>
+</ul></li>
+<li>View and manage my purchase history across all restaurants</li>
+<li>Create a new restaurant, pending admin approval, via my account page
+
+<ul>
+<li>Specify basic restaurant info: name, URL identifier, and description</li>
+<li>Automatically become restaurant admin</li>
+</ul></li>
+</ul>
+
+<h3>Authenticated Restaurant Stocker</h3>
+
+<p>As an authenticated restaurant stocker, I can:</p>
+
+<ul>
+<li>Add items, edit items, and retire items in my restaurant only</li>
+</ul>
+
+<h3>Authenticated Restaurant Administrator</h3>
+
+<p>As an authenticated restaurant admin, by using a dedicated admin area, I can:</p>
+
+<ul>
+<li>Do everything a stocker for my restaurant can do</li>
+<li>Update the details of my restaurant such as the: name, URL identifier, and description</li>
+<li>Add or remove restaurant stocker accounts
+
+<ul>
+<li>Adding a stocker account automatically emails the account holder with a link to confirm their account and status</li>
+</ul></li>
+<li>Add or remove other admins for the restaurant
+
+<ul>
+<li>There can never be fewer than 1 admin for a restaurant</li>
+</ul></li>
+<li>Perform the admin actions available to administrators in the current Dinner Dash version</li>
+</ul>
+
+<h3>Authenticated Platform Administrator</h3>
+
+<p>As an authenticated Platform Administrator, I can:</p>
+
+<ul>
+<li>Approve or decline the creation of new restaurants</li>
+<li>Take a restaurant &quot;offline&quot; temporarily so that attempting to browse it redirects its root and displays a maintenance message
+
+<ul>
+<li>Bring an offline restaurant back online</li>
+</ul></li>
+<li>Override/assist restaurant admins in any functionality available to them via the admin portion of their restaurant pages</li>
+</ul>
+
+<h3>Validation and Error Messages</h3>
+
+<p>Any form in the application must:</p>
+
+<ul>
+<li>validate the submitted data appropriately</li>
+<li>reject invalid input</li>
+<li>display clear and helpful errors and corrective instructions</li>
+<li>allow the user to quickly fix and resubmit</li>
+</ul>
+
+<h2>Non-Functional Requirements</h2>
+
+<p>The non-functional requirements are based around maintaining or improving site performance as data and users scale up. The primary metric for this is in keeping response time &mdash; the elapsed time between a browser making a web request and when a &quot;usable&quot; page has been loaded &mdash; below some threshold.</p>
+
+<p>200ms is a reasonable ceiling for your request times. It&#8217;s also important to consider consistency of response times. Maintaining sub-100ms times for 9 requests but allowing the 10th to take a full second is an unacceptable user experience.</p>
+
+<p>Implement two common methods for reducing response times: caching and background workers.</p>
+
+<h3>Caching</h3>
+
+<p>Response time and caching are critically important. Your improved Dinner Dash should make significant use of:</p>
+
+<ul>
+<li>data caching</li>
+<li>fragment caching (aka Russian-Doll caching)</li>
+<li>query consolidation</li>
+<li>database optimizations (query count, using indicies, join)</li>
+</ul>
+
+<p>Use the built-in Rails functionality along with Redis and/or Postgres to implement these strategies.</p>
+
+<h3>Background Workers</h3>
+
+<p>Use background workers for any job that doesn&#8217;t <strong>have to</strong> be completed before the response is sent to the user (ex: sending email, updating statistics, etc).</p>
+
+<p>Use Resque or a similar library to support this functionality.</p>
+
+<h2>Base Data</h2>
+
+<p>Before final delivery, and ideally before customer check-ins, you should have the following data pre-loaded in your marketplace:</p>
+
+<ul>
+<li>At least 10,000 total restaurants broken up into&#8230;</li>
+<li>At least 30 different regions (ex: <a href="http://en.wikipedia.org/wiki/List_of_United_States_cities_by_population">US cities</a> )</li>
+<li>At least 20 items per restaurant</li>
+<li>At least 3 item categories per restaurant and at least 30 categories total</li>
+<li>100,000 known users</li>
+<li>2 restaurant admins per restaurant</li>
+<li>2 stockers per restaurant</li>
+<li>2 platform administrators</li>
+</ul>
+
+<p>It creates a much stronger impression of your site if the data is plausible. We recommend creating a few &quot;template&quot; restaurants that have real dishes, then replicating those many times. It&#8217;s better to have &quot;Taste of India 26&quot; and &quot;Taste of India 27&quot; than &quot;Lorem Ipsum&quot; and &quot;Tellus Domit&quot;.</p>
+
+<h2>Extensions</h2>
+
+<p>In this project you as developers are expected to take a more active role in shaping the project. Although there are a few potential extensions proposed at the outset, you are encouraged to propose additional extensions, in the form of new features and user stories describing them, to your project manager.</p>
+
+<p>If you have an idea for a killer feature for your application, pitch it to your stakeholders for refinement. If they are convinced of its value, they&#8217;ll work with your team to create one or more user stories in Pivotal Tracker and prioritize those stories in the context of the rest of the requirements. You may be able to convince them to prioritize your feature ahead of current base requirements if it is sufficiently compelling or necessary.</p>
+
+<p>Here are some possible extensions:</p>
+
+<h3>Custom CSS per restaurant</h3>
+
+<p>Provide a mechanism so that restaurant administrators may provide custom a CSS sheet to change the appearance of their restaurant. This custom styling should not affect any other restaurant&#8217;s appearance.</p>
+
+<p>Have four pre-built themes they can select from and the ability to upload their own.</p>
+
+<h3>Use Sub-Domains To Distinguish Restaurants</h3>
+
+<p>In order to give greater precedence and more SEO-juice to each individual restaurant, as well as pave the way for restaurants to use custom domains, change your application so that, instead of using a path prefix per request to identify individual restaurants in the system, use unique sub-domains instead.</p>
+
+<p>So instead of <code>http://www.example.com/billys-bbq/items</code> pointing to the items belonging to the restaurant <em>Billy&#8217;s BBQ</em>, allow <code>http://billys-bbq.example.com/items</code> to be used instead.</p>
+
+<h3>Separate Per-Restaurant Sign In</h3>
+
+<p>So that each restaurant can optionally create the impression of being independent by cordoning off their user experience, it should be possible for a restaurant to require a unique sign on and account management that is not shared across restaurants.</p>
+
+<p>Shipping, billing, credit card info, and order history must be uniquely managed through this restaurant&#8217;s management interface alone. Email address are thus not unique across multiple restaurants on the platform, but must be unique within a given restaurant.</p>
+
+<h2>Evaluation Criteria</h2>
+
+<p>The evaluation of the project is broken into three areas:</p>
+
+<ol>
+<li>Evaluation of the user stories for each feature of the application</li>
+<li>Code critique and review by instructors</li>
+<li>Non-functional requirements and metrics</li>
+</ol>
+
+<h3>Evaluation of User Stories for Base and Extensions</h3>
+
+<p>Each user story for the base expectations will be worth the point value they have been assigned in Pivotal Tracker. Points for a story will be awarded if that story can be exercised without crash or error.</p>
+
+<p>Extension stories will also be worth their story point value in Tracker, but no story&#8217;s points will count toward the total score unless all other stories of higher priority have been delivered. Therefore you must have delivered the complete base expecations to receive credit for any extensions.</p>
+
+<h3>Code Critique by Instructors</h3>
+
+<p>Reviewers will compare the state of the code before the project began and the state of the code at the end, looking for improvement and evolution.</p>
+
+<p>The high-level outline for the evaluation is:</p>
+
+<ol>
+<li>Good object-oriented and general application design practices, such as SOLID and DRY.</li>
+<li>Use of Ruby and Rails idioms and features.</li>
+<li>Good testing practices and coverage.</li>
+<li>Improvement and evolution of the code, use of refactoring.</li>
+<li>Adherence to the intent of project-specific non-functional requirements, such as background workers and caching.</li>
+<li>Application correctness and robustness.</li>
+<li>Security protections against common attacks.</li>
+</ol>
+
+<h3>Non-Functional Metrics</h3>
+
+<p>Here are the criteria for the non-functional requirements.</p>
+
+<ol>
+<li>Performance Under Load</li>
+<li>User Interface &amp; Design</li>
+<li>Test Coverage</li>
+<li>Code Style</li>
+<li>Show And Tell Milestone</li>
+</ol>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

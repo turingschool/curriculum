@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Environment Setup - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Environment & Source Control                                      Environment Setup                              Setting up your &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/environment/environment.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Environment & Source Control</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Environment Setup
+        </h1>
+        
+      </header>
+    
+    <p>Setting up your environment can be difficult when you&#8217;re first starting with Ruby. We want to get the following installed:</p>
+
+<ul>
+<li>Git</li>
+<li>Ruby 2.2</li>
+<li>A text editor</li>
+</ul>
+
+<p>The setup instructions are broken down by platform: Mac, Linux, and Windows.</p>
+
+<h3>Text Editor</h3>
+
+<p>If you don&#8217;t already have a favorite text editor, we recommend using <a href="https://atom.io/">Atom</a>.</p>
+
+<p>However, if you&#8217;re a student at Turing, please download and install <a href="https://www.jetbrains.com/ruby/download/">RubyMine</a>.</p>
+
+<h2>Mac OS</h2>
+
+<p>Mac OS is the most popular platform for Ruby and Rails developers.
+These instructions assume you&#8217;re on the latest version of MacOS, 10.10.
+If you&#8217;re using an older version, refer to <a href="/topics/environment/environment_older_macos.html">these additional notes</a>.</p>
+
+<h3>Terminal</h3>
+
+<p>The terminal is a textual interface to your computer.
+You can move around folders (called directories) and run programs within it.
+For example, when you run <code>pry</code> or <code>ruby</code>, you are running that program from the terminal.</p>
+
+<p>If this is all new for you, see <a href="http://tutorials.jumpstartlab.com/academy/workshops/terminal_and_editor.html">Terminal and Editor</a></p>
+
+<p>To launch the terminal, open Spotlight using <code>Command-Spacebar</code>, type &quot;terminal&quot;, then enter.</p>
+
+<h3>XCode &amp; Command Line Tools</h3>
+
+<p>XCode is a huge suite of development tools published by Apple. You&#8217;ll want to install it before attempting to install anything else.</p>
+
+<ol>
+<li>Install XCode from the Apple App Store</li>
+<li>Open the application after installing and agree to the SLA terms</li>
+<li>Open <code>terminal</code> and run <code>xcode-select --install</code>, enter your user password</li>
+</ol>
+
+<p>Now you should have the underlying tools we need to move forward.</p>
+
+<h3>Homebrew</h3>
+
+<p><a href="http://brew.sh">Homebrew</a> is a package management system that makes it easy to install hundreds of open source projects and compile them from source for maximum performance on your machine.</p>
+
+<p>Open the Terminal then run the homebrew installation script:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<br></pre></td><td class='code'><pre><code><span class='line command'>ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It will ask you for your password. This is the password to log in to your account on the computer. It needs this because it installs its packages in a place that all users of this computer can access.</p>
+
+<h4>Verifying Homebrew</h4>
+
+<p>When it has completed the installation run <code>brew doctor</code> and it should tell you that everything is fine:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>brew doctor</span><span class='line output'>Your system is ready to brew.</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Modifying your PATH</h4>
+
+<p>If you got a warning from Homebrew about your path, do the following:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bash_profile</span><span class='line command'>source ~/.bash_profile</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now run <code>brew doctor</code> again and the warning should be gone.</p>
+
+<h3>Git</h3>
+
+<p><a href="http://git-scm.com/">Git</a> is the version control system of choice in the Ruby community. XCode installed an older version of Git for you, but let&#8217;s update it.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>brew install git</span><span class='line output'>==> Downloading http://git-core.googlecode.com/files/git-1.8.3.4.tar.gz</span><span class='line output'>########################################################### 100.0%</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3><a href="http://rvm.io">RVM</a></h3>
+
+<p>RVM allows you to install and maintain multiple versions of Ruby. More information about Ruby Version Mananger (RVM) can be found at <a href="http://rvm.io"><a href="http://rvm.io">http://rvm.io</a></a>.</p>
+
+<h4>Installation</h4>
+
+<p>Similar to Homebrew, RVM provides a script to get everything installed. Run this in your Terminal:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>curl -L https://get.rvm.io | bash -s stable</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Loading / Post-Install</h4>
+
+<p>Look for the line in the output from the RVM installation that starts with</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>To start using RVM you need to run `source ...`</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Copy the command inside of the backticks (don&#8217;t include the backticks), paste it into your terminal window, and hit enter.</p>
+
+<p>Check if it got installed correctly by checking the version.</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>rvm --version</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It should give you a version number rather than an error message.</p>
+
+<h3>Ruby</h3>
+
+<p>We&#8217;re going to install Ruby 2.2. If you need another version it&#8217;ll be same procedure, just replace &quot;2.2&quot; in the instructions with whichever version you want.</p>
+
+<p>Install it with:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rvm install 2.2</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Setting the Default Version</h4>
+
+<p>You can tell rvm which Ruby version you want to use by default:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rvm use 2.2 --default</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Requirements</h4>
+
+<p>There are <em>several</em> additional libraries that gems will often rely on. RVM makes installing those easy, too. Run this command:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rvm requirements</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>It&#8217;ll figure out what needs to be installed and install it. If prompted for your password, use your computer login password.</p>
+
+<h3>PostgreSQL</h3>
+
+<p>Postgres is the database of choice for most Rails projects.</p>
+
+<h4>Installation</h4>
+
+<p>Homebrew has Postgres for you. From your terminal:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>brew install postgresql</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Linux</h2>
+
+<p>If Mac OS isn&#8217;t a possibility, then your next best bet is Linux. Among distributions, Ubuntu has the best support for Ruby and Rails development.</p>
+
+<p>Check out our tutorial for <a href="/topics/systems/vagrant_setup.html">setting up a Vagrant/Linux virtual machine</a>. Just skip the bits about Vagrant, all the other Linux-centric setup is the same.</p>
+
+<h2>Windows</h2>
+
+<p>Getting started on the Windows platform is actually very easy. Engine Yard (<a href="http://engineyard.com">http://engineyard.com</a>) has put together the RailsInstaller (<a href="http://railsinstaller.org/">http://railsinstaller.org/</a>), a single package installer with all the tools you need to get working. Make sure that, during the setup, you check the box to configure your environment variables. You can stop after step 2, once you&#8217;ve entered your email and name in the DOS prompt.</p>
+
+<p>Beyond initial setup, though, there is going to be pain. As you add in more Gems and other dependencies you&#8217;ll find that many of them utilize <em>native extensions</em>, code written in C for better performance. Unless the authors have put energy into being cross-platform, you&#8217;ll run into issues.</p>
+
+<p>Instead, we recommend using VirtualBox and Vagrant to run a Linux virtual machine within your Windows host operating system.</p>
+
+<p>Check out our <a href="/topics/systems/vagrant_setup.html">Vagrant Setup</a> tutorial for a full walk-through.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

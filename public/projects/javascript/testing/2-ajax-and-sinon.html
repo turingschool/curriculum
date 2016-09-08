@@ -1,0 +1,628 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>AJAX and Sinon.js - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="AJAX and Sinon.js                              Javascript really gets its strengths from creating dynamic web pages &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/javascript/testing/2-ajax-and-sinon.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          AJAX and Sinon.js
+        </h1>
+        
+      </header>
+    
+    <p>Javascript really gets its strengths from creating dynamic web pages, and a necessary component of that is AJAX. AJAX stands for Asynchronous Javascript and XML, and it is a technique which uses javascript to fetch data from a web server. It happens asynchronously, which means you can continue to run javascript code while the request is still pending. The XML part was the original use of AJAX, but nowadays people use all kinds of content-types as the return value from the server. The most common is JSON (Javascript Object Notation) but HTML is often used when it&#8217;s simply some dynamic template data that should be inserted into the DOM.</p>
+
+<h3>AJAX Basics</h3>
+
+<h4>XHR</h4>
+
+<p>XHR (XML HTTP Request) is the browser&#8217;s implementation of asynchronous data requests. It&#8217;s the &quot;raw layer&quot; like canvas that is part of a browser&#8217;s native library. Like canvas, it has a lot of low-level functions that are a bit painful to use, and it also has slightly different implementations across different browsers.</p>
+
+<p>We aren&#8217;t going to cover XHR, as very few projects ever deal with it directly.</p>
+
+<h4>GETting data with $.ajax</h4>
+
+<p>jQuery is the ultimate library for cross-browser compatibility, and it contains some great methods for making ajax requests. Here is an example ajax call to GET data from a server:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="s1">&#39;/circles&#39;</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;got some data:&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In this example, if we assume a RESTful endpoint <code>data</code> would be a JSON array containing a list of circles in the system, like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="p">[</span>
+</span><span class='line'>  <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="nx">y</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>  <span class="nx">radius</span><span class="o">:</span> <span class="mi">5</span> <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">5</span><span class="p">,</span>  <span class="nx">radius</span><span class="o">:</span> <span class="mi">8</span> <span class="p">},</span>
+</span><span class='line'>  <span class="p">{</span> <span class="nx">x</span><span class="o">:</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nx">radius</span><span class="o">:</span> <span class="mi">2</span> <span class="p">}</span>
+</span><span class='line'><span class="p">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that since this is an asynchronous operation, the data is not immediately available. Instead, we pass a function to the <code>done</code> method on the object returned by <code>ajax</code>. The <code>done</code> method will be called with the data when the ajax request is complete. There is also <code>fail</code> for an error, and <code>always</code> for both cases.</p>
+
+<p>So, let&#8217;s make a class called <code>Circles</code> whose job will be to fetch circle data from the server and then call a callback with instantiated <code>Circle</code> objects. We would like to use it like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="cm">/* This is our imagined use case of the fetch method</span>
+</span><span class='line'><span class="cm"> * which we are going to write. It&#39;s helpful to pretend</span>
+</span><span class='line'><span class="cm"> * like it works so that you know how you should test it.</span>
+</span><span class='line'><span class="cm"> */</span>
+</span><span class='line'><span class="nx">Circles</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">circles</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">for</span><span class="p">(</span><span class="nx">i</span> <span class="k">in</span> <span class="nx">circles</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">circle</span><span class="p">.</span><span class="nx">draw</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Start by making a spec file called <code>CirclesSpec.js</code> in the <code>spec/</code> directory. In here, write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;Circles&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">it</span><span class="p">(</span><span class="s2">&quot;should fetch from a server&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">callback</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">createSpy</span><span class="p">(</span><span class="s1">&#39;callback&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>      <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="nx">y</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="nx">radius</span><span class="o">:</span> <span class="mi">5</span><span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">radius</span><span class="o">:</span> <span class="mi">10</span><span class="p">}</span>
+</span><span class='line'>    <span class="p">];</span>
+</span><span class='line'>    <span class="nx">spyOn</span><span class="p">(</span><span class="nx">$</span><span class="p">,</span> <span class="s1">&#39;ajax&#39;</span><span class="p">).</span><span class="nx">andReturn</span><span class="p">({</span>
+</span><span class='line'>      <span class="nx">done</span><span class="o">:</span><span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span> <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">Circles</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">).</span><span class="nx">toHaveBeenCalledWith</span><span class="p">(</span><span class="s2">&quot;/circles&quot;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">circles</span> <span class="o">=</span> <span class="nx">callback</span><span class="p">.</span><span class="nx">mostRecentCall</span><span class="p">.</span><span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">x</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">x</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">y</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">y</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">radius</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">radius</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">x</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">x</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">y</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">y</span><span class="p">);</span>
+</span><span class='line'>    <span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">radius</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">radius</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s walk through this spec. First, we are describing our new object, <code>Circles</code>. Next, we have our <code>it</code> test for fetching against our server. Then, we&#8217;re making a callback spy. If you glance forward to line 12, you can see this is the callback we&#8217;re going to call <code>fetch</code> with. </p>
+
+<p>Lines 4-10 setup the fake data we&#8217;ll respond with and set up the spy on <code>$.ajax</code> to return an object with <code>done</code> on it that calls the given callback with the data we provided.</p>
+
+<p>After we call the <code>fetch</code> method, we start asserting. We check that <code>$.ajax</code> was called with the proper url first. Then we get the callback spy&#8217;s most recent call so we can see what instantiated circles were passed back.</p>
+
+<p>Then, we check both circles and their attributes against the data we &quot;returned&quot; from the ajax call.</p>
+
+<p>On your own, implement <code>Circles.fetch</code> to pass this test. Don&#8217;t forget to add script tags to the html file to include the spec file, your source file, and jQuery (via google&#8217;s ajax apis with http:// on the front).</p>
+
+<h3>Faking a server with Sinon.js</h3>
+
+<p>So, what do we think of the previous test and the solution? It certainly is doing a good job testing the <code>fetch</code> function on <code>Circles</code>, but it is also very verbose and spends most of its time setting up the relationship with <code>$.ajax</code>. On top of that, it is highly coupled with the implementation.</p>
+
+<p>jQuery is a very flexible library, and instead of using <code>$.ajax(url).done(callback)</code>, we could have written:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/circles&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And it would work perfectly well, but our test would fail completely. This is where Sinon steps in. Jasmine&#8217;s spies are written to work with simple Javascript objects and functions, but Sinon takes it a step further.</p>
+
+<p>Let&#8217;s walk through writing a Jasmine test with a fake Sinon server.</p>
+
+<p>First, download Sinon from <a href="http://sinonjs.org/"><a href="http://sinonjs.org/">http://sinonjs.org/</a></a>.</p>
+
+<p>Next, let&#8217;s setup our test scaffold:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;with fake server&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="nx">afterEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="nx">it</span><span class="p">(</span><span class="s2">&quot;fetches Circles&quot;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next, inside the <code>describe</code> we will set up our data as before, along with a variable to keep track of our fake server:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">describe</span><span class="p">(</span><span class="s2">&quot;with fake server&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">data</span> <span class="o">=</span> <span class="p">[</span>
+</span><span class='line'>    <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="nx">y</span><span class="o">:</span> <span class="mi">0</span><span class="p">,</span>  <span class="nx">radius</span><span class="o">:</span> <span class="mi">5</span><span class="p">},</span>
+</span><span class='line'>    <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">radius</span><span class="o">:</span> <span class="mi">10</span><span class="p">}</span>
+</span><span class='line'>  <span class="p">];</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">server</span><span class="p">;</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When we start our test, we want to setup sinon&#8217;s fake server, and when we end our test, we want to restore the original implementation:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">server</span> <span class="o">=</span> <span class="nx">sinon</span><span class="p">.</span><span class="nx">fakeServer</span><span class="p">.</span><span class="nx">create</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">afterEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">server</span><span class="p">.</span><span class="nx">restore</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside our <code>it</code> function, first we setup the sinon server to respond to our expected request:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">respondWith</span><span class="p">(</span><span class="s2">&quot;GET&quot;</span><span class="p">,</span> <span class="s2">&quot;/circles&quot;</span><span class="p">,</span> <span class="p">[</span>
+</span><span class='line'>  <span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span><span class="s2">&quot;application/json&quot;</span><span class="p">},</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+</span><span class='line'><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This tells sinon to respond to a GET request at the <code>/circles</code> url with a 200 (success). It should also add the response header for <code>Content-Type</code> that signifies JSON data. Then, the data returned should be a JSON string of our <code>data</code> variable. So, sinon will send our <code>data</code> back to anyone who fetches data from <code>/circles</code>.</p>
+
+<p>Next, we will setup a jasmine spy as our callback and fetch from the server:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">callback</span> <span class="o">=</span> <span class="nx">jasmine</span><span class="p">.</span><span class="nx">createSpy</span><span class="p">(</span><span class="s1">&#39;callback&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nx">Circles</span><span class="p">.</span><span class="nx">fetch</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+</span><span class='line'><span class="nx">server</span><span class="p">.</span><span class="nx">respond</span><span class="p">();</span>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">callback</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We have to tell the sinon server to respond to any pending ajax requests at this point, and then we will check to see that our callback has been called.</p>
+
+<p>Last, we can grab the results of the callback and compare them with our data to ensure the <code>fetch</code> method processed the data correctly:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="kd">var</span> <span class="nx">circles</span> <span class="o">=</span> <span class="nx">callback</span><span class="p">.</span><span class="nx">mostRecentCall</span><span class="p">.</span><span class="nx">args</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">.</span><span class="nx">length</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">x</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">x</span><span class="p">);</span>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">y</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">y</span><span class="p">);</span>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">radius</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">radius</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">x</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">x</span><span class="p">);</span>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">y</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">y</span><span class="p">);</span>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">radius</span><span class="p">).</span><span class="nx">toEqual</span><span class="p">(</span><span class="nx">data</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nx">radius</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That makes sure that the x, y, and radius in our data matches our circles.</p>
+
+<p>Run this test, and it should pass. Note that since your previous test was faking out <code>$.ajax</code>, you will have to remove that test (or at least commented it out) so that <code>$.ajax</code> reaches the Sinon server.</p>
+
+<p>Try a few variations of jQuery&#8217;s ajax functions:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="s2">&quot;/circles&quot;</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">});</span>
+</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;/circles&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span> <span class="p">...</span> <span class="p">});</span>
+</span><span class='line'><span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+</span><span class='line'>  <span class="nx">url</span><span class="o">:</span> <span class="s2">&quot;/circles&quot;</span><span class="p">,</span>
+</span><span class='line'>  <span class="nx">success</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{...}</span>
+</span><span class='line'><span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Do they all work?</p>
+
+<h3>A Quick Aside: Jasmine Matchers</h3>
+
+<p>One thing we&#8217;d like to check in our previous test is that <code>Circles.fetch()</code> actually gives us <code>Circle</code> objects back. A simple test in javascript would look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="k">if</span> <span class="p">(</span><span class="nx">someCircle</span> <span class="k">instanceof</span> <span class="nx">Circle</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;It&#39;s a circle!&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>So, we could write this in Jasmine:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circle</span> <span class="k">instanceof</span> <span class="nx">Circle</span><span class="p">).</span><span class="nx">toBe</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>But it would be way cleaner if we wrote this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circle</span><span class="p">).</span><span class="nx">toBeA</span><span class="p">(</span><span class="nx">Circle</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>To do that, we have to write a custom matcher. Add a <code>SpecHelper.js</code> file in <code>/spec</code> and include it in our test suite with a <code>&lt;script&gt;</code> tag. Then, add this to <code>SpecHelper.js</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">beforeEach</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">addMatchers</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">toBeA</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">expectedClass</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;We should make sure that&quot;</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">actual</span><span class="p">,</span> <span class="s2">&quot;is an instance of&quot;</span><span class="p">,</span> <span class="nx">expectedClass</span><span class="p">);</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Modify the contents of the <code>toBeA</code> function to return whether or not the object (<code>this.actual</code>) is an instance of the class (<code>expectedClass</code>).</p>
+
+<p>Now, add in our check in our test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">toBeA</span><span class="p">(</span><span class="nx">Circle</span><span class="p">);</span>
+</span><span class='line'><span class="nx">expect</span><span class="p">(</span><span class="nx">circles</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="nx">toBeA</span><span class="p">(</span><span class="nx">Circle</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Error handling and jQuery Deferred Objects</h3>
+
+<p>In our previous test, we had our <code>fetch</code> method take a callback as a parameter. This is pretty common in Javascript, but it&#8217;s not particularly flexible. What would have happened if the ajax request failed?</p>
+
+<p><code>$.Deferred()</code> gives you a jQuery Deferred object, and it allows you to asynchronously call different functions in different scenarios. For example, we could implement <code>fetch</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">fetch</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">deferred</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">Deferred</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span><span class="s2">&quot;/circles&quot;</span><span class="p">).</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">circles</span><span class="p">;</span>
+</span><span class='line'>    <span class="c1">// setup circles</span>
+</span><span class='line'>    <span class="nx">deferred</span><span class="p">.</span><span class="nx">resolve</span><span class="p">(</span><span class="nx">circles</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">}).</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">deferred</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">deferred</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That would mean that we could use our <code>fetch</code> function just like how <code>$.ajax</code> works:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">Circles</span><span class="p">.</span><span class="nx">fetch</span><span class="p">().</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">circles</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Got some circles:&quot;</span><span class="p">,</span> <span class="nx">circles</span><span class="p">);</span>
+</span><span class='line'><span class="p">}).</span><span class="nx">fail</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;oh no, couldn&#39;t get any circles&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Modify your <code>fetch</code> function to use a deferred object. Next, add another test that tests when the ajax request fails. HINT: one possible status code you could use is 404, which means the resource could not be found. This test should make sure that the <code>fail</code> callback is called.</p>
+
+<h3>POSTing data</h3>
+
+<p>Next, let&#8217;s POST data to our server to create a new circle. The REST action for creating a circle is to issue a POST request to <code>/circles</code> with the data for the circle. So, we&#8217;ll setup a test that expects a POST to <code>/circles</code> when <code>Circles.create()</code> is called.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;POSTs to create a circle&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">postData</span> <span class="o">=</span> <span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+</span><span class='line'>  <span class="nx">server</span><span class="p">.</span><span class="nx">respondWith</span><span class="p">(</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;/circles&quot;</span><span class="p">,</span> <span class="p">[</span>
+</span><span class='line'>    <span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Content-Type&quot;</span><span class="o">:</span><span class="s2">&quot;application/json&quot;</span><span class="p">},</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">postData</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">]);</span>
+</span><span class='line'>  <span class="c1">// next, call Circles.create with a spy callback</span>
+</span><span class='line'>  <span class="c1">// and ensure the callback was called</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Setup the rest of the test on your own. Implement <code>Circles.create</code> to use a deferred object. HINT: <code>$.ajax</code> and its derivatives return a deferred object.</p>
+
+<h3>Updating a circle</h3>
+
+<p>Let&#8217;s say we want to update a circle on the server. The RESTful request would be:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">PUT</span> <span class="o">/</span><span class="nx">circles</span><span class="o">/</span><span class="mi">4</span> <span class="p">{</span><span class="nx">x</span><span class="o">:</span> <span class="nx">newX</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="nx">newY</span><span class="p">,</span> <span class="nx">radius</span><span class="o">:</span> <span class="nx">newRadius</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Where <code>4</code> is the <code>id</code> of the circle.</p>
+
+<p>On your own, take the following steps:</p>
+
+<ol>
+<li>Add an <code>id</code> parameter to the constructor for <code>Circle</code>, do this via BDD in your <code>CircleSpec.js</code></li>
+<li>Add a test in <code>CircleSpec</code> to test that a <code>Circle</code> has a <code>save</code> method that makes an AJAX request to the proper url (<code>/circles/id-of-circle</code>).</li>
+<li>Implement the <code>save</code> method on <code>Circle</code> to pass the test. HINT: there is no <code>$.put</code>, so you need to use <code>$.ajax(url, {type: &quot;PUT&quot;})</code>.</li>
+<li>Add a test that ensures that the <code>fail</code> callback is run if the server rejects the update. 422 is the status code for <code>unprocessable entity</code>.</li>
+</ol>
+
+<h3>Deleting a Circle</h3>
+
+<p>To delete a circle, the RESTful request is:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">DELETE</span> <span class="o">/</span><span class="nx">circles</span><span class="o">/</span><span class="mi">4</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>On your own:</p>
+
+<ol>
+<li>Add a test to <code>CircleSpec</code> to test that calling <code>delete</code> on a circle makes the appropriate ajax request</li>
+<li>Implement <code>delete</code>. HINT: like update, there is no <code>$.delete</code>.</li>
+</ol>
+
+<h3>Refactor</h3>
+
+<p>Now that we have a great test suite to fall back on, let&#8217;s clean up our code. Here are some examples:</p>
+
+<ol>
+<li>Implement <code>url</code> on <code>Circle</code> to generate its url for use in <code>save</code> and <code>delete</code></li>
+<li>Implement <code>url</code> on <code>Circles</code> for fetch, and then use that url in <code>Circle</code>&#8217;s <code>url</code> as the root</li>
+<li>Change the constructor for <code>Circle</code> to take a single argument: an object, with keys for x, y, radius, and id. You&#8217;ll have to change your tests for this, so do that first!</li>
+<li>Make a test helper function that easily sets up a RESTful server fake and callback. For example, it could be used like this:</li>
+</ol>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">it</span><span class="p">(</span><span class="s2">&quot;can delete&quot;</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">circle</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Circle</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">fakeRest</span><span class="p">(</span><span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="s2">&quot;/circles/1&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="p">{},</span> <span class="s2">&quot;&quot;</span><span class="p">],</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">circle</span><span class="p">.</span><span class="k">delete</span><span class="p">().</span><span class="nx">done</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>fakeRest</code> method will setup the server and callback, then send the callback to the passed in function to be hooked up to the code being tested, then after the code being tested it has the server respond and asserts the callback is called. Rewrite your previous tests to use this helper.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

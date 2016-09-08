@@ -1,0 +1,546 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Relationships - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Models                                      Relationships                              The most important component of the Rails &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/models/relationships.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Models</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Relationships
+        </h1>
+        
+      </header>
+    
+    <p>The most important component of the Rails MVC stack is the model layer. <code>ActiveRecord</code>, Rails&#8217; built-in Object-Relational Mapper, makes working with databases easy. Let&#8217;s look at the basic relationships in a traditional database and how they&#8217;re implemented in <code>ActiveRecord</code>.</p>
+
+<h2>The Basics</h2>
+
+<p>There are three core relationships:</p>
+
+<ul>
+<li>One-to-One</li>
+<li>One-to-Many</li>
+<li>Many-to-Many</li>
+</ul>
+
+<h3>One-to-One</h3>
+
+<p>The simplest but most under-utilized relationship is one-to-one. It is best applied when you have an object that has more than one role in the system.</p>
+
+<p>For instance, imagine an e-commerce site. We have customers, and for each of those customers we want to track information like:</p>
+
+<ul>
+<li>Orders</li>
+<li>Addresses</li>
+<li>First Name</li>
+<li>Last Name</li>
+<li>Birthday</li>
+<li>Gender</li>
+<li>Home City</li>
+<li>Username</li>
+<li>Password</li>
+<li>Email Address</li>
+</ul>
+
+<p>Filtering that into a table <code>customers</code> would result in these columns:</p>
+
+<ul>
+<li><code>first_name</code></li>
+<li><code>last_name</code></li>
+<li><code>birthday</code></li>
+<li><code>gender</code></li>
+<li><code>city</code></li>
+<li><code>username</code></li>
+<li><code>password</code></li>
+<li><code>email_address</code></li>
+</ul>
+
+<p>It&#8217;s most common to drop all these attributes into a single model, but does that really make sense?</p>
+
+<h4>Problem Scenario</h4>
+
+<p>Imagine we want to display a message like &quot;Hello, John&quot; in the header of each page. In our controller we would say <code>Customer.find(17)</code> and use <code>@customer.first_name</code> in our view.  Rails will run a SQL statement like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="o">*</span> <span class="k">from</span> <span class="n">CUSTOMERS</span> <span class="k">where</span> <span class="n">ID</span><span class="o">=</span><span class="s1">&#39;17&#39;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And, of course, that&#8217;s going to fetch the entire row from our <code>customers</code> table. We&#8217;re trying to get the <code>first_name</code>, so why bother fetching the <code>birthday</code>, <code>gender</code>, and <code>home_city</code> every request? Instead, we could create a one-to-one relationship between a customer and their &quot;details&quot;. </p>
+
+<h4>Building Details</h4>
+
+<p>We create a new table named details with just these columns:</p>
+
+<ul>
+<li><code>birthday</code></li>
+<li><code>gender</code></li>
+<li><code>city</code></li>
+<li><code>customer_id</code></li>
+</ul>
+
+<p>Now that table can hold any small, infrequently used bits of information and we&#8217;ll improve application performance.</p>
+
+<h4>Model Relationships</h4>
+
+<p>To explain this relationship to Rails we use the methods <code>has_one</code> and <code>belongs_to</code>. Which is which? The side that holds a foreign key, here the <code>customer_id</code>, is effectively the child which <code>belongs_to</code> the parent.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:detail</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Detail</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:customer</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Using the Objects</h4>
+
+<p>Now when we could find a customer by the ID 17 with <code>Customer.find(17)</code>. That object would just have the essential fields.</p>
+
+<p>To access the details, we could do something like <code>Customer.find(17).detail.birthday</code> and it would work just fine.</p>
+
+<h4>Automatic Building</h4>
+
+<p>In this kind of scenario, we want every customer to have an associated <code>Detail</code> object.</p>
+
+<p>In pseudocode, what we want to do is &quot;create an attached <code>Detail</code> object whenever a <code>Customer</code> object is initialized&quot;. To implement that in code we can use the <code>after_initialize</code> callback:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:detail</span>
+</span><span class='line'>  <span class="n">after_initialize</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">build_detail</span> <span class="k">if</span> <span class="n">detail</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now when we call <code>Customer.new</code> it will automatically build a <code>Detail</code> and associate them in memory. Once the <code>Customer</code> is saved it will get an ID from the database and that ID will be stored in the <code>customer_id</code> field of the <code>Detail</code>. We only want to build a Detail object if we don&#8217;t already have one, so we add the if detail.nil? condition to avoid replacing an existing Detail object.</p>
+
+<h4>Automatic Destruction</h4>
+
+<p>Given the current setup, when we destroy a <code>Customer</code> it is going to leave an orphaned <code>Detail</code> object in the database. Instead, we want the child object destroyed automatically when the parent is destroyed. That&#8217;s accomplished with this change to the <code>has_one</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">has_one</span> <span class="ss">:detail</span><span class="p">,</span> <span class="n">dependent</span><span class="p">:</span> <span class="ss">:destroy</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Hiding the Child Object</h4>
+
+<p>Reaching through an object, talking to the object&#8217;s child, and calling methods is a violation of the &quot;Law of Demeter&quot; (<a href="http://avdi.org/devblog/2011/07/05/demeter-its-not-just-a-good-idea-its-the-law/">http://avdi.org/devblog/2011/07/05/demeter-its-not-just-a-good-idea-its-the-law/</a>). Instead, the parent object should present an interface to the child object. From the outside, we shouldn&#8217;t know the <code>Detail</code> object exists at all!</p>
+
+<p>To do that we use Rails&#8217; <code>delegate</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:detail</span><span class="p">,</span> <span class="n">dependent</span><span class="p">:</span> <span class="ss">:destroy</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">delegate</span> <span class="ss">:birthday</span><span class="p">,</span> <span class="ss">:gender</span><span class="p">,</span> <span class="ss">:city</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="ss">:detail</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">after_initialize</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">build_detail</span> <span class="k">if</span> <span class="n">detail</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then when we call <code>Customer.find(17).city</code> it will proxy the call to the associated <code>Detail</code> object, fetch it from the database if it hasn&#8217;t already been loaded, and return us the value returned from the <code>Detail</code> object&#8217;s method. All of this is transparent from the outside.</p>
+
+<h4>Simplifying the Proxy</h4>
+
+<p>One small catch here is that <code>delegate</code> only handles the listed methods, so if you want to have full read/write access to the child&#8217;s attributes you&#8217;d need:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">delegate</span> <span class="ss">:birthday</span><span class="p">,</span> <span class="ss">:birthday</span><span class="o">=</span><span class="p">,</span> <span class="ss">:gender</span><span class="p">,</span> <span class="ss">:gender</span><span class="o">=</span><span class="p">,</span> <span class="ss">:city</span><span class="p">,</span> <span class="ss">:city</span><span class="o">=</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="ss">:detail</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The list starts to get long, and if we add methods to <code>Detail</code> we need to remember to add them to the delegation. Programmers don&#8217;t remember things, so here&#8217;s one solution:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Detail</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:customer</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">ATTR_METHODS</span> <span class="o">=</span> <span class="o">[</span><span class="ss">:birthday</span><span class="p">,</span> <span class="ss">:birthday</span><span class="o">=</span><span class="p">,</span> <span class="ss">:gender</span><span class="p">,</span> <span class="ss">:gender</span><span class="o">=</span><span class="p">,</span> <span class="ss">:city</span><span class="p">,</span> <span class="ss">:city</span><span class="o">=]</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_one</span> <span class="ss">:detail</span><span class="p">,</span> <span class="n">dependent</span><span class="p">:</span> <span class="ss">:destroy</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">delegate</span> <span class="o">*</span><span class="no">Detail</span><span class="o">::</span><span class="no">ATTR_METHODS</span><span class="p">,</span> <span class="n">to</span><span class="p">:</span> <span class="ss">:detail</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">after_initialize</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">self</span><span class="o">.</span><span class="n">build_detail</span> <span class="k">if</span> <span class="n">detail</span><span class="o">.</span><span class="n">nil?</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The element that you&#8217;re likely to notice here is the use of <code>*</code>, Ruby&#8217;s splat operator. It breaks apart the array into a list of parameters, resulting in identical functionality to when we listed them all right in the call to <code>delegate</code>. </p>
+
+<h3>One-to-Many</h3>
+
+<p>One-to-many is the most common relationship in Rails. One customer connects to many orders. One article connects to many comments. The relationship is asymmetric because the parent has many children, but the child has only one parent.</p>
+
+<h4>In the Database</h4>
+
+<p>At the database level it is very similar to a one-to-one: the &quot;child&quot; record holds a foreign key pointing back to the &quot;parent&quot;. The parent record or row actually has no idea how many children are out there and only the child links back to the parent.</p>
+
+<h4>In Your Models</h4>
+
+<p>Let&#8217;s say we&#8217;re going to connect our <code>Customer</code> object with multiple <code>Order</code> objects. In our Rails models:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:orders</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Order</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:customer</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>has_many :orders</code> tells Rails to expect a model named <code>Order</code> that has a foreign key named <code>customer_id</code>. The <code>belongs_to :customer</code> tells Rails that <code>customer_id</code> points to the ID field of a class named <code>Customer</code> or table named <code>customers</code>. All these expectations can be overridden as we&#8217;ll see soon.</p>
+
+<h4>Building Child Objects</h4>
+
+<p>When you create a <code>Customer</code> it won&#8217;t have any child <code>Order</code> objects. Here are three ways to create one, assuming we have a <code>customer</code> object:</p>
+
+<ul>
+<li><code>Order.new(customer_id: customer.id)</code> &#8211; least preferred. It has no future flexibility if we change details like the foreign key name</li>
+<li><code>Order.new(customer: customer)</code> &#8211; better. It created the object through the <code>ActiveRecord</code> relationship, so we can handle the details in that relationship.</li>
+<li><code>customer.orders.new</code> &#8211; best. The order is built directly off the relationship, hiding all the details. We can add things like a validation on customer that they don&#8217;t have more than X open orders or whatever else applies to our domain. Note that <code>customer.orders.build</code> is equivalent to calling <code>.new</code>.</li>
+</ul>
+
+<h4>Destroying Children</h4>
+
+<p>Just like the <code>has_one</code> relationship, we frequently want the child objects to be destroyed when the parent is destroyed. We add the same <code>dependent</code> option to the <code>has_many</code> call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:orders</span><span class="p">,</span> <span class="n">dependent</span><span class="p">:</span> <span class="ss">:destroy</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Many-to-Many</h3>
+
+<p>Strictly speaking, there is no such thing as a many-to-many relationship. It is only achieved through the composition of two one-to-many relationships via a join model.</p>
+
+<h4>HABTM</h4>
+
+<p>In the early days of Rails we used <code>has_and_belongs_to_many</code> to handle this relationship. A typical example might imagine a publisher of magazines: a customer connects to many magazines and a magazine connects to many customers.</p>
+
+<p>Using HABTM, we would have modeled it like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Magazine</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_and_belongs_to_many</span> <span class="ss">:customers</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_and_belongs_to_many</span> <span class="ss">:magazines</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This told Rails that there was a table <code>magazines</code>, a table <code>customers</code>, and a table <code>customers_magazines</code> (named by alphabetizing the two table names). Neither <code>magazines</code> nor <code>customers</code> hold any foreign keys. Each row of the join table, <code>customers_magazines</code>, has a foreign key connecting to one row from <code>magazines</code> and one row from <code>customers</code>.</p>
+
+<p>Thus a <code>Magazine</code> related to many rows in <code>magazine_customers</code> which, in turn, each related to one <code>Customer</code>. The reverse is also true, completing the illusion of many magazines connecting to many customers. </p>
+
+<p>For all later examples in this chapter, assume <code>@magazine</code> is an instance of <code>Magazine</code> and <code>@customer</code> an instance of <code>Customer</code>. We could then hop between them like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>customers = @magazine.customers</span><span class='line command'>magazines = @customer.magazines</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>These days, through, HABTM is deprecated and should not be used.</p>
+
+<h4>Has Many Through</h4>
+
+<p>As our experience with HABTM grew, it became apparent that, in almost every circumstance, the join model should <em>not</em> just be an implementation detail. Instead, it is usually the sign of a missing domain model.</p>
+
+<p>Consider this example of <code>Customer</code> and <code>Magazine</code>. What is their connection? It should be a <code>Subscription</code>. It deserves promotion to a proper model:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Magazine</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:subscriptions</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Subscription</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:magazine</span>
+</span><span class='line'>  <span class="n">belongs_to</span> <span class="ss">:customer</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:subscriptions</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Why does it deserve to be a model in its own right? As apps grow we often want to store data in the connection. What day did the customer subscribe to the magazine? When does the subscription expire? What promotion code did they use to sign up? This data could probably be hacked into the <code>customers</code> table, but it really belongs in the join &#8211; the <code>subscriptions</code> table.</p>
+
+<p>What about hopping between the models? We can do this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">IRB</h1>
+          <div class="container"><div class="irb"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>2.1.1 :001&gt;</span>
+<span class='line-number'>2.1.1 :002&gt;</span>
+<span class='line-number'>2.1.1 :003&gt;</span>
+<span class='line-number'>2.1.1 :004&gt;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>mag_subscriptions = @magazine.subscriptions</span><span class='line command'>customers = mag_subscriptions.collect{|sub| sub.customer}</span><span class='line command'>cust_subscriptions = @customer.subscriptions</span><span class='line command'>magazines = cust_subscriptions.collect{|sub| sub.magazine}</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>But we&#8217;ve lost the elegance of hopping directly from a <code>Magazine</code> to its associated <code>Customer</code> objects.</p>
+
+<p>The solution is to add a second relationship to each of the primary models:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Magazine</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:subscriptions</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:customers</span><span class="p">,</span> <span class="n">through</span><span class="p">:</span> <span class="ss">:subscriptions</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">Customer</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:subscriptions</span>
+</span><span class='line'>  <span class="n">has_many</span> <span class="ss">:magazines</span><span class="p">,</span> <span class="n">through</span><span class="p">:</span> <span class="ss">:subscriptions</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Using &quot;has many through&quot;, Rails can hop across the intermediary relationship. We can now call <code>@customer.subscriptions</code> when we want to work with the join, and <code>@customer.magazines</code> when we don&#8217;t. Similarly, <code>@magazine.subscriptions</code> and <code>@magazine.customers</code>. We have the elegance of HABTM, but the ability to put logic and intelligence in the join.</p>
+
+<h2>Reference</h2>
+
+<ul>
+<li>Ruby&#8217;s splat operator: <a href="http://kconrails.com/2010/12/22/rubys-splat-operator/">http://kconrails.com/2010/12/22/rubys-splat-operator/</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

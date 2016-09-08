@@ -1,0 +1,917 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Task Manager - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Task Manager                              Let&#8217;s use Sinatra to build an application where we can manage our &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/task_manager.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Task Manager
+        </h1>
+        
+      </header>
+    
+    <p>Let&#8217;s use Sinatra to build an application where we can manage our tasks. </p>
+
+<h3>Getting Configured</h3>
+
+<p>Let&#8217;s make a project folder from the command line: <code>mkdir task_manager</code>. Go into the directory with <code>cd task_manager</code>. </p>
+
+<p>We&#8217;ll also need a Gemfile: <code>touch Gemfile</code>. Inside of your Gemfile, add Sinatra and Shotgun. <a href="https://github.com/rtomayko/shotgun">Shotgun</a> will allow us to make changes to our code base without having to restart the server each time. </p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;shotgun&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We will be using the <a href="http://www.sinatrarb.com/intro.html#Modular%20vs.%20Classic%20Style">modular</a> style of Sinatra app, which is why we need to require &#8216;sinatra/base&#8217;.</p>
+
+<p>Next, let&#8217;s make a config file from the command line: <code>touch config.ru</code>. This file will be used by Rackup. Add this code inside of the config file: </p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>
+</span><span class='line'><span class="vg">$LOAD_PATH</span><span class="o">.</span><span class="n">unshift</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/app&quot;</span><span class="p">))</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;controllers/task_manager_app&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">run</span> <span class="no">TaskManagerApp</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The first two lines of this file allow all of your gems to be required. Then, we change the load path so that everything inside of our <code>app</code> folder (we haven&#8217;t created it yet) can be required. Next, we require a file called <code>task_manager_app</code> that will be inside of our <code>controllers</code> folder. Finally, we call the run method and specify that our app is called TaskManagerApp.</p>
+
+<p>Go ahead and run <code>bundle install</code> from the command line. </p>
+
+<h3>Project Folder Structure</h3>
+
+<p>So far, we just have a Gemfile, config.ru, and Gemfile.lock. Let&#8217;s create the folders we&#8217;ll need for our Task Manager. </p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">mkdir</span> <span class="n">app</span>
+</span><span class='line'><span class="err">$</span> <span class="n">mkdir</span> <span class="n">db</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;ll use the <code>app</code> folder for all of our implementation code. Our <code>db</code> folder will hold our fake database (we&#8217;re going to use YAML, not a real database).</p>
+
+<p>We&#8217;ll need a few folders inside of our app folder so that we can separate our files.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">mkdir</span> <span class="n">app</span><span class="o">/</span><span class="n">controllers</span>
+</span><span class='line'><span class="err">$</span> <span class="n">mkdir</span> <span class="n">app</span><span class="o">/</span><span class="n">models</span>
+</span><span class='line'><span class="err">$</span> <span class="n">mkdir</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Although we could put all of our code inside of the same folder (or even most of it in the same file), we&#8217;re going to use this structure to mimic the <a href="http://www.codelearn.org/ruby-on-rails-tutorial/mvc-in-rails">MVC</a> setup that Rails will give us. </p>
+
+<h3>Getting the App Running</h3>
+
+<p>Ok, so we have our project structure. Let&#8217;s now get our app up and running! Make a file inside of app/controllers called <code>task_manager_app.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">touch</span> <span class="n">app</span><span class="o">/</span><span class="n">controllers</span><span class="o">/</span><span class="n">task_manager_app</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside of it, add the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TaskManagerApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s1">&#39;hello, world!&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Remember when we wrote <code>run TaskManagerApp</code> in our <code>config.ru</code> file? Well, the class we just defined is what that line in our config.ru refers to.</p>
+
+<p>Line 2 sets the root of our project. Here, we&#8217;re taking the current file (<code>app/controllers/task_manager_app</code>) and going one folder up the chain. This should take us to our <code>app</code> folder. The reason we&#8217;re doing this is because Sinatra will look relative to our app for views and stylesheets. We don&#8217;t want to put these things in our controller folder, so we&#8217;re specifying that our root is just <code>app</code>.</p>
+
+<p>Next, we tell our app that when a <code>get</code> request is sent to the <code>'/'</code> path, it should send back &#8216;hello, world!&#8217; as the response. Let&#8217;s try it!</p>
+
+<p>From the command line, run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">shotgun</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Navigate to http://localhost:9393/ and you should see magic!</p>
+
+<h3>Using Views</h3>
+
+<p>Let&#8217;s change our controller to render an ERB view instead of &#8216;hello, world!&#8217;. Inside of <code>task_manager_app.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TaskManagerApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:dashboard</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This piece of code will look for an .erb file called &#8216;dashboard&#8217; in the views folder at the root of the app. Since we&#8217;ve already set the root of the app and created a views folder there, we&#8217;re ready to make a dashboard file. If you&#8217;re still running your server, press control+c to stop it. </p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">touch</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">dashboard</span><span class="o">.</span><span class="n">erb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside of this file, let&#8217;s add links to some functionality we might want in our app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;Welcome to the Task Manager&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;ul&gt;</span>
+</span><span class='line'><span class="x">  &lt;li&gt;&lt;a href=&quot;/tasks&quot;&gt;Task Index&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">  &lt;li&gt;&lt;a href=&quot;/tasks/new&quot;&gt;New Task&lt;/a&gt;&lt;/li&gt;</span>
+</span><span class='line'><span class="x">&lt;/ul&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We have an h1 tag for our welcome message, then an unordered list (ul) with two list items (li) inside. If you are unfamiliar with HTML tags, try one of the <a href="https://github.com/turingschool/intermission-assignments/blob/master/prep-for-module-2.markdown">HTML tutorials</a> before continuing. </p>
+
+<p>Inside of each li tag, we have an <code>a</code> tag. The href of the tag is the path where the link will go. In the first a tag, the path will be <code>http://localhost:9393/tasks</code>. The second path will be <code>http://localhost:9393/tasks/new</code>. </p>
+
+<p>Restart your server with <code>shotgun</code> from the command line, then refresh the page. You should see our welcome message and two links. We haven&#8217;t set up our controller to handle either of these yet, so clicking on these should give us a &quot;Sinatra doesn&#8217;t know this ditty&quot; error. </p>
+
+<h3>Adding a Task Index Route</h3>
+
+<p>In a Sinatra app, we can add routes by combining an HTTP verb (get, post, put, delete, etc.) with a URL pattern. If you&#8217;re unfamiliar with HTTP verbs, check out <a href="http://code.tutsplus.com/tutorials/a-beginners-guide-to-http-and-rest--net-16340">A Beginner&#8217;s Guide to HTTP and REST</a>. </p>
+
+<p>Our controller currently has one route:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:dashboard</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s add a route for the first link we want &#8211; our Task Index. In <code>app/controllers/task_manager_app.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TaskManagerApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:dashboard</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@tasks</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;task1&quot;</span><span class="p">,</span> <span class="s2">&quot;task2&quot;</span><span class="p">,</span> <span class="s2">&quot;task3&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What are we doing here? Well, we create an instance variable <code>@tasks</code> and assign an array of three strings to it. Then, we render the <code>index.erb</code> file. Our instance variable will be available to use in the view. </p>
+
+<p>Let&#8217;s try rendering this array in the view. First, we need to create our <code>index.erb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">touch</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">erb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside of the view, we will iterate through the array and display each string:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;All Tasks&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="vi">@tasks</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">task</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;h3&gt;</span><span class="cp">&lt;%=</span> <span class="n">task</span> <span class="cp">%&gt;</span><span class="x">&lt;/h3&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Navigate to <code>http://localhost:9393/tasks</code> and check that each task is displayed. Our <code>index.erb</code> is looking ok right now.</p>
+
+<h3>Adding a New Task Route</h3>
+
+<p>We need a route that will bring a user to a form where they can enter a new task. This is the second link we had in our dashboard. In our controller:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TaskManagerApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:dashboard</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@tasks</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;task1&quot;</span><span class="p">,</span> <span class="s2">&quot;task2&quot;</span><span class="p">,</span> <span class="s2">&quot;task3&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks/new&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We don&#8217;t need any instance variables here; we just need to render the view. Let&#8217;s make that view:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">touch</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="kp">new</span><span class="o">.</span><span class="n">erb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In that file, we&#8217;ll add a form:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;form action=&quot;/tasks&quot; method=&quot;post&quot;&gt;</span>
+</span><span class='line'><span class="x">  &lt;p&gt;Enter a new task:&lt;/p&gt;</span>
+</span><span class='line'><span class="x">  &lt;input type=&#39;text&#39; name=&#39;task[title]&#39;/&gt;&lt;br/&gt;</span>
+</span><span class='line'><span class="x">  &lt;textarea name=&#39;task[description]&#39;&gt;&lt;/textarea&gt;&lt;br/&gt;</span>
+</span><span class='line'><span class="x">  &lt;input type=&#39;submit&#39;/&gt;</span>
+</span><span class='line'><span class="x">&lt;/form&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here we have a form with an action (url path) of <code>/tasks</code> and a method of <code>post</code>. This combination of path and verb will be important when we create the route in the controller. We then have an text input field for the title, a textarea for the description, and a submit button. </p>
+
+<p>Navigate to <code>http://localhost:9393/tasks/new</code> to see your beautiful form!</p>
+
+<p>Try clicking the submit button. You should get a &quot;Sinatra doesn&#8217;t know that ditty&quot; error because we haven&#8217;t set up a route in our controller to handle this action - method combination from the form submission.</p>
+
+<p>In our controller:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">TaskManagerApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:dashboard</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@tasks</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;task1&quot;</span><span class="p">,</span> <span class="s2">&quot;task2&quot;</span><span class="p">,</span> <span class="s2">&quot;task3&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks/new&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">post</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;&lt;p&gt;Params: </span><span class="si">#{</span><span class="n">params</span><span class="si">}</span><span class="s2">&lt;/p&gt; &lt;p&gt;Task params: </span><span class="si">#{</span><span class="n">params</span><span class="o">[</span><span class="ss">:task</span><span class="o">]</span><span class="si">}</span><span class="s2">&lt;/p&gt;&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Why <code>post</code> instead of <code>get</code>? First, we specified a method of post in our form (go look at the form if that sentence doesn&#8217;t make sense to you). Although we could make it work using <code>get</code>, HTTP convention specifies that a <code>get</code> request should request data from a specified resource while a <code>post</code> should submit data to be processed. In our case, we are submitting form data that needs to be processed, so we&#8217;re using <code>post</code>. </p>
+
+<p>Inside of this route, we&#8217;ll need to eventually do some work. But for right now, we&#8217;re just displaying the params.</p>
+
+<p>Go back to <code>http://localhost:9393/tasks/new</code>. Fill in a fake title and a fake description. Click submit. On the page, you should see something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Params</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;task&quot;</span><span class="o">=&gt;</span><span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Make cookies&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Chocolate chip cookies are so delicious. I am hungry.&quot;</span><span class="p">}}</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Task</span> <span class="n">params</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;title&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Make cookies&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Chocolate chip cookies are so delicious. I am hungry.&quot;</span><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that <code>params</code> is just a hash. The key is <code>&quot;task&quot;</code> and the value is another hash containing the <code>title</code> and <code>description</code>. This structure was created because of the way we named the input fields in our form (go back and look at the form if this is confusing to you). </p>
+
+<p>When we access <code>params[:task]</code>, we get back just the part we want; the title and description. This is what we&#8217;ll use to build a task.</p>
+
+<h3>Saving Tasks</h3>
+
+<p>Let&#8217;s change the code inside of our controller. Find the <code>post '/tasks'</code> route:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">post</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">TaskManager</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:task</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect</span> <span class="s1">&#39;/tasks&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We are going to delegate the creation of a task to a TaskManager class. You can think of this class as one whose job it is to manage all of our tasks. Once the task is created, we&#8217;ll redirect to <code>'/tasks'</code> (our index) so that the user can see the task. </p>
+
+<p>First, we&#8217;ll need to require this class in our controller. At the top of the controller file, add this line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;models/task_manager&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We will also need to create this class which will live in our <code>models</code> folder. From the command line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">touch</span> <span class="n">app</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">task_manager</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside of that file, we&#8217;ll add the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;yaml/store&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TaskManager</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">database</span>
+</span><span class='line'>    <span class="vi">@database</span> <span class="o">||=</span> <span class="no">YAML</span><span class="o">::</span><span class="no">Store</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;db/task_manager&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">database</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;tasks&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;tasks&#39;</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span> <span class="o">=&gt;</span> <span class="n">task</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span> <span class="o">=&gt;</span> <span class="n">task</span><span class="o">[</span><span class="ss">:description</span><span class="o">]</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>First, we require <code>'yaml/store'</code> which will allow us to store data in a specific file using <a href="http://en.wikipedia.org/wiki/YAML">YAML</a> format. This is part of the <a href="http://ruby-doc.org/stdlib-1.9.3/libdoc/yaml/rdoc/YAML.html">Ruby standard library</a>. </p>
+
+<p>Next, define a class method <code>self.database</code> which will return an instance of our YAML::Store using the &quot;db/task_manager&quot; file. This file will be created if it does not already exist. </p>
+
+<p>Finally, we define a class method <code>self.create(task)</code> which will accept a task hash (remember <code>params[:task]</code>?). We call the <code>transaction</code> method on our <code>database</code>, which will allow us to execute several pieces of code together. </p>
+
+<p>Inside of this transaction, we try to find [&#8216;tasks&#8217;]. If it doesn&#8217;t exist, we make it an empty array ([]). We also want to keep track of a total number of tasks, so we either find that (<code>database['total']</code>) or assign it to 0. Next, we increase that total by 1 (<code>database['total'] += 1</code>) because we are creating a new task. Finally, we take our <code>database['tasks']</code> and shovel in a hash that includes an <code>id</code> key with a value of the total number of tasks, a <code>title</code> key with a value of <code>task[:title]</code>, and a <code>description</code> key with a value of <code>task[:description]</code>.</p>
+
+<p>Go back to the form and submit a new task. Although you won&#8217;t see anything different in your index page (we haven&#8217;t taken care of that functionality yet), we should be able to see something new in the <code>db/task_manager</code> file. Open it up. It should look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="n">tasks</span><span class="p">:</span>
+</span><span class='line'><span class="o">-</span> <span class="nb">id</span><span class="p">:</span> <span class="mi">1</span>
+</span><span class='line'>  <span class="n">title</span><span class="p">:</span> <span class="no">Make</span> <span class="n">cookies</span>
+</span><span class='line'>  <span class="n">description</span><span class="p">:</span> <span class="no">Chocolate</span> <span class="n">chip</span> <span class="n">cookies</span> <span class="n">are</span> <span class="n">so</span> <span class="n">delicious</span><span class="o">.</span> <span class="n">I</span> <span class="n">am</span> <span class="n">hungry</span><span class="o">.</span>
+</span><span class='line'><span class="n">total</span><span class="p">:</span> <span class="mi">1</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>What happened? Well, we have a section called <code>tasks</code> which will keep track of each task and a section called <code>total</code> which keeps track of the total number of tasks we have entered. Try entering a few more tasks using the web interface and watch this file change. You should see the total change, and each new tasks will be added under <code>tasks</code>. </p>
+
+<h3>Displaying Real Tasks on the Index Page</h3>
+
+<p>So that&#8217;s pretty cool. But what about displaying these on the index page? Right now, we have just hard-coded an array of fake tasks in our controller when we hit <code>get '/tasks'</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@tasks</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;task1&quot;</span><span class="p">,</span> <span class="s2">&quot;task2&quot;</span><span class="p">,</span> <span class="s2">&quot;task3&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We actually want to pull these tasks using our TaskManager class. Let&#8217;s change that code in our controller:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@tasks</span> <span class="o">=</span> <span class="no">TaskManager</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We haven&#8217;t defined this <code>TaskManager.all</code> method yet, but we want it to return an array of Task objects. Let&#8217;s do that. Inside of your <code>app/models/task_manager.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;yaml/store&#39;</span>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;task&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TaskManager</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">database</span>
+</span><span class='line'>    <span class="vi">@database</span> <span class="o">||=</span> <span class="no">YAML</span><span class="o">::</span><span class="no">Store</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;db/task_manager&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">database</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;tasks&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;tasks&#39;</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span> <span class="o">=&gt;</span> <span class="n">task</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span> <span class="o">=&gt;</span> <span class="n">task</span><span class="o">[</span><span class="ss">:description</span><span class="o">]</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">raw_tasks</span>
+</span><span class='line'>    <span class="n">database</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;tasks&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="o">[]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">all</span>
+</span><span class='line'>    <span class="n">raw_tasks</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">data</span><span class="o">|</span> <span class="no">Task</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We added two new methods. Let&#8217;s talk about the first one, <code>self.raw_tasks</code>. This will go into our YAML file and retrieve everything under <code>database['tasks']</code>. What does this output look like? Well, if we were to call just that method, we would get something that looks like this: </p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">[</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="o">=&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Make cookies&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;They are delicious.&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="o">=&gt;</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Write code.&quot;</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="o">=&gt;</span><span class="s2">&quot;Always write code.&quot;</span><span class="p">}</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s an array of hashes; one hash for each task in our YAML file. This is ok, but what we really want is for these hashes to be actual Task objects. </p>
+
+<p>This is where our <code>self.all</code> method comes in. We will map over the <code>raw_tasks</code> and pass that data hash into <code>Task.new</code>. Let&#8217;s create a new model for Task:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">touch</span> <span class="n">app</span><span class="o">/</span><span class="n">models</span><span class="o">/</span><span class="n">task</span><span class="o">.</span><span class="n">rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Inside of that file, we&#8217;ll add the following code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Task</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:title</span><span class="p">,</span>
+</span><span class='line'>              <span class="ss">:description</span><span class="p">,</span>
+</span><span class='line'>              <span class="ss">:id</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@id</span>          <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="s2">&quot;id&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@title</span>       <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="s2">&quot;title&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@description</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="s2">&quot;description&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Here we are defining the class <code>Task</code> and then creating attr_readers for title, description, and id. Upon initialization, it will accept a data hash and access each piece of data via the keys (<code>data[&quot;id&quot;]</code>, <code>data[&quot;title&quot;]</code>, <code>data[&quot;description&quot;]</code>). </p>
+
+<p>Now, when we call <code>TaskManager.all</code>, we will get back an array of Task objects. Navigate to <code>http://localhost:9393/tasks</code>. You should see a <code>#</code> sign for each task in your YAML file, but no actual data. </p>
+
+<h3>Updating the Index View</h3>
+
+<p>We need to change our <code>index.erb</code> file so that we display each task&#8217;s id and title. Let&#8217;s make it so that the title is a link to a page where you will see that individual task and its description. So, in the <code>index.erb</code> file, this is what we should write:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;h1&gt;All Tasks&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="vi">@tasks</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">task</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  &lt;h3&gt;</span><span class="cp">&lt;%=</span> <span class="n">task</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">: &lt;a href=&quot;/tasks/</span><span class="cp">&lt;%=</span> <span class="n">task</span><span class="o">.</span><span class="n">id</span> <span class="cp">%&gt;</span><span class="x">&quot;&gt;</span><span class="cp">&lt;%=</span> <span class="n">task</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/a&gt;&lt;/h3&gt;</span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Refresh <code>http://localhost:9393/tasks</code>. You should see your tasks each with an id and a title. The title should be clickable even though you&#8217;ll get a &quot;Sinatra doesn&#8217;t know this ditty&quot; error. </p>
+
+<h3>Showing Individual Tasks</h3>
+
+<p>Notice that the URL when you clicked on a link was something like <code>http://localhost:9393/tasks/1</code>. We want that last number, the task id number, to be flexible. If we go to <code>http://localhost:9393/tasks/1</code>, we should see task 1 displayed. If we go to <code>http://localhost:9393/tasks/2</code>, we should see task 2. </p>
+
+<p>Let&#8217;s set up another route in our controller to handle this behavior:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;models/task_manager&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TaskManagerApp</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="bp">__FILE__</span><span class="p">),</span> <span class="s1">&#39;..&#39;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:dashboard</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@tasks</span> <span class="o">=</span> <span class="no">TaskManager</span><span class="o">.</span><span class="n">all</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:index</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks/new&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">post</span> <span class="s1">&#39;/tasks&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">TaskManager</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:task</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">redirect</span> <span class="s1">&#39;/tasks&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/tasks/:id&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="o">|</span>
+</span><span class='line'>    <span class="vi">@task</span> <span class="o">=</span> <span class="no">TaskManager</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="nb">id</span><span class="o">.</span><span class="n">to_i</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">erb</span> <span class="ss">:show</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>/:id</code> will take whatever is at that point in the URL and allow us to access it as a local variable <code>id</code>. Next, we create an instance varaible <code>@task</code> which will hold the return value of <code>TaskManager.find(id.to_i)</code>. We don&#8217;t have this method yet. Why <code>id.to_i</code>? <code>id</code> is coming in as a string (like <code>&quot;1&quot;</code> or <code>&quot;2&quot;</code>) from the URL but we want it to be an integer. </p>
+
+<p>Before we build our find method, let&#8217;s create the view:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">touch</span> <span class="n">app</span><span class="o">/</span><span class="n">views</span><span class="o">/</span><span class="n">show</span><span class="o">.</span><span class="n">erb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In this file, we&#8217;ll add HTML and ERB that will display one specific task along with a link back to the task index:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="x">&lt;a href=&quot;/tasks&quot;&gt;Task Index&lt;/a&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;h1&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@task</span><span class="o">.</span><span class="n">title</span> <span class="cp">%&gt;</span><span class="x">&lt;/h1&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="x">&lt;p&gt;</span><span class="cp">&lt;%=</span> <span class="vi">@task</span><span class="o">.</span><span class="n">description</span> <span class="cp">%&gt;</span><span class="x">&lt;/p&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Building the <code>.find</code> Method</h3>
+
+<p>Let&#8217;s head over to <code>app/models/task_manager.rb</code> and add two methods that will allow us to find a task:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;yaml/store&#39;</span>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;task&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">TaskManager</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">create</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">database</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;tasks&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="o">[]</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="mi">0</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;tasks&#39;</span><span class="o">]</span> <span class="o">&lt;&lt;</span> <span class="p">{</span> <span class="s2">&quot;id&quot;</span> <span class="o">=&gt;</span> <span class="n">database</span><span class="o">[</span><span class="s1">&#39;total&#39;</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span> <span class="o">=&gt;</span> <span class="n">task</span><span class="o">[</span><span class="ss">:title</span><span class="o">]</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span> <span class="o">=&gt;</span> <span class="n">task</span><span class="o">[</span><span class="ss">:description</span><span class="o">]</span> <span class="p">}</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">database</span>
+</span><span class='line'>    <span class="vi">@database</span> <span class="o">||=</span> <span class="no">YAML</span><span class="o">::</span><span class="no">Store</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;db/task_manager&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">raw_tasks</span>
+</span><span class='line'>    <span class="n">database</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">database</span><span class="o">[</span><span class="s1">&#39;tasks&#39;</span><span class="o">]</span> <span class="o">||</span> <span class="o">[]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">all</span>
+</span><span class='line'>    <span class="n">raw_tasks</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="o">|</span><span class="n">data</span><span class="o">|</span> <span class="no">Task</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">raw_task</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">raw_tasks</span><span class="o">.</span><span class="n">find</span> <span class="p">{</span> <span class="o">|</span><span class="n">task</span><span class="o">|</span> <span class="n">task</span><span class="o">[</span><span class="s2">&quot;id&quot;</span><span class="o">]</span> <span class="o">==</span> <span class="nb">id</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">Task</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">raw_task</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the <code>self.raw_task(id)</code> method, we&#8217;re taking the <code>raw_tasks</code> and finding the one where the <code>task[&quot;id&quot;]</code> is the same as the id that is passed in. That will return a hash of the task data. In the <code>self.find(id)</code> method, we&#8217;ll create a Task object from that hash of task data.</p>
+
+<p>Refresh <code>http://localhost:9393/tasks/1</code>. Assuming that you have a task in your YAML file with the id of 1, you should see the task title and description displayed. You should also be able to click back to the task index. </p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,376 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>JavaScript Testing with Selenium & Capybara-Webkit - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Integration Testing with Capybara                                      JavaScript Testing with Selenium & Capybara-Webkit &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/capybara/capybara_with_selenium_and_webkit.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Integration Testing with Capybara</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          JavaScript Testing with Selenium & Capybara-Webkit
+        </h1>
+        
+      </header>
+    
+    <p>By default Capybara uses <code>Rack::Test</code> which is a headless browser emulator. It gives us great speed, but we sacrifice the ability to run JavaScript. If you need to test JS as part of your integration suite, then you need to use another <em>driver</em>.</p>
+
+<h3>Linux Note</h3>
+
+<p>If you&#8217;re using Linux, you&#8217;ll need to set up xvfb in order to use either Selenium or Capybara-Webkit. Here are the Ubuntu commands to install xvfb and additional fonts to get rid of some warnings.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>sudo apt-get install xvfb
+</span><span class='line'>sudo apt-get install x11-xkb-utils
+</span><span class='line'>sudo apt-get install xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In order to use xvfb with your specs, you will need to run <code>xvfb-run bundle exec rake</code> (an alias may be in order).
+Now selunium and capybara-webkit will use <em>xvfb</em> when launching a browser.</p>
+
+<p>There are alternative x-servers and alternative ways to use the x-server from the specs (<em>headless</em> gem) but they are not covered here.</p>
+
+<h2>Using Selenium</h2>
+
+<p>The most popular driver is Selenium. It uses an actual browser window and you can watch the test happen. It uses the browser&#8217;s actual JavaScript engine, so it&#8217;s identical to having a human Q/A department interacting with your application.</p>
+
+<h3>Setup?</h3>
+
+<p>If you have Firefox 4 installed then there are no extra setup steps. It&#8217;s possible to use Chrome or another WebKit-based browser, but it is more work.</p>
+
+<h3>Modifying Your Examples</h3>
+
+<p>If you want to only use the browser for a few specific tests, you can add <code>js: true</code> into the <code>it</code> line like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;should list the article titles on the index&quot;</span><span class="p">,</span> <span class="n">js</span><span class="p">:</span> <span class="kp">true</span> <span class="k">do</span>
+</span><span class='line'>  <span class="vi">@articles</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">article</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">should</span> <span class="n">have_link</span><span class="p">(</span><span class="n">article</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>More commonly you&#8217;ll have a group of tests that you want to run in the browser. Rather than litter <code>js: true</code> all over the place, do this:</p>
+
+<ul>
+<li>Create a <code>describe</code> block that contains the examples that need JavaScript</li>
+<li>Add a before-all block like this:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Capybara</span><span class="o">.</span><span class="n">current_driver</span> <span class="o">=</span> <span class="ss">:selenium</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Put your examples after the <code>before</code> block</li>
+<li>Add an after-all block like this:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">after</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">Capybara</span><span class="o">.</span><span class="n">use_default_driver</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now any example added inside that <code>describe</code> will use Selenium.  If you forget the <code>after(:all)</code> block, all subsequent tests will continue using the <code>:selenium</code> driver, which will work, albeit more slowly than with the default, headless driver.</p>
+
+<h3>Selenium Methods</h3>
+
+<p>If you&#8217;re just triggering AJAX actions via JavaScript you can probably get by with the normal Capybara actions. But Selenium itself has many actions that are not directly supported by Capybara.</p>
+
+<p>But that&#8217;s ok! If you ask Capybara for <code>page.driver.browser</code> while in a Selenium-powered test, it&#8217;ll give you the <code>Selenium::WebDriver::Driver</code> object. You can then access any Selenium method according to the API here: <a href="http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html">http://selenium.googlecode.com/svn/trunk/docs/api/rb/Selenium/WebDriver/Driver.html</a></p>
+
+<h4>Checking for an Alert</h4>
+
+<p>Here&#8217;s a complete example of how you could use Selenium to check that an alert pops up when we attempt to delete an article:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;on the show page for an article&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">before</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Capybara</span><span class="o">.</span><span class="n">current_driver</span> <span class="o">=</span> <span class="ss">:selenium</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">before</span><span class="p">(</span><span class="ss">:each</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="vi">@article</span> <span class="o">=</span> <span class="vi">@articles</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>    <span class="n">visit</span> <span class="n">article_path</span><span class="p">(</span><span class="vi">@article</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;pops up a confirm dialog when we click delete&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">page</span><span class="o">.</span><span class="n">click_link</span><span class="p">(</span><span class="s2">&quot;Delete&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">dialog</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">driver</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">switch_to</span><span class="o">.</span><span class="n">alert</span>
+</span><span class='line'>    <span class="n">dialog</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;Delete &#39;</span><span class="si">#{</span><span class="vi">@article</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&#39;?&quot;</span>
+</span><span class='line'>    <span class="n">dialog</span><span class="o">.</span><span class="n">dismiss</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">after</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Capybara</span><span class="o">.</span><span class="n">use_default_driver</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You could also use <code>dialog.accept</code> to click the <code>OK</code> button where <code>dialog.dismiss</code> clicks <code>CANCEL</code>.</p>
+
+<h2>Selenium Alternatives</h2>
+
+<p>Selenium, for one reason or another, makes developers a little uneasy. It sometimes has issues in the development versions but, most importantly, it&#8217;s slow. It would be awesome if we could run JavaScript without actually waiting for the slow rendering of a GUI window.</p>
+
+<p>There are some attempts to make this work, libraries such as HTML::Unit and Akephalos. They do a good job, but their JavaScript engines aren&#8217;t a perfect match for a real browser. If only there were a real browser that we could run without the GUI!</p>
+
+<h3>Using WebKit</h3>
+
+<p>The WebKit framework powers Chrome, Safari, and most mobile phone browsers. It&#8217;s a popular open source project and is really at the vanguard of web browsers.</p>
+
+<p>The team at ThoughtBot, a Rails consultancy in Boston, put together the <code>capybara-webkit</code> gem: <a href="https://github.com/thoughtbot/capybara-webkit">https://github.com/thoughtbot/capybara-webkit</a></p>
+
+<p>It uses the WebKit framework as a headless browser. We get almost all the speed of being headless with <code>Rack::Test</code>, but the power of a full, real-world JavaScript interpreter.</p>
+
+<h3>Setup Qt</h3>
+
+<p><code>capybara-webkit</code> uses the QtWebKit port, which depends on the Qt windowing framework. Even though the whole point is to run WebKit without windows, the compilation process has dependencies on Qt. </p>
+
+<p>Because Qt is not available for Windows, it&#8217;s not possible to build WebKit for use with Capybara-Webkit on Windows. You&#8217;ll need OS X or Linux.</p>
+
+<p>OS X users can download and install the non-debug Qt from Nokia here: <a href="http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x">http://qt.nokia.com/downloads/qt-for-open-source-cpp-development-on-mac-os-x</a></p>
+
+<p>Ubuntu users can <code>sudo apt-get install libqt4-dev</code>, while other Linux distributions can build it from Nokia&#8217;s source code: <a href="http://qt.nokia.com/downloads/linux-x11-cpp">http://qt.nokia.com/downloads/linux-x11-cpp</a></p>
+
+<h3>Add the Gem</h3>
+
+<p>Open your <code>Gemfile</code> and add the following in your development dependencies:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;capybara-webkit&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>At the time of this writing, it was necessary to use the 1.0 branch of capybara-webkit like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s2">&quot;capybara-webkit&quot;</span><span class="p">,</span> <span class="n">git</span><span class="p">:</span> <span class="s2">&quot;https://github.com/thoughtbot/capybara-webkit.git&quot;</span><span class="p">,</span> <span class="n">branch</span><span class="p">:</span> <span class="s2">&quot;1.0&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Tell Capybara about Capybara-Webkit</h3>
+
+<p>Then you&#8217;d hop into your <code>spec/spec_helper.rb</code> and add this line inside the <code>RSpec.configure</code> block:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Capybara</span><span class="o">.</span><span class="n">javascript_driver</span> <span class="o">=</span> <span class="ss">:webkit</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Run Your Examples</h3>
+
+<p>Now all you do is run your examples! We just swapped the driver, but the way we tell Capybara to use it is exactly the same as Selenium. If you want to run a single test with WebKit, add <code>js: true</code> to the <code>it</code> line. </p>
+
+<p>If you have a set of examples to run with JavaScript, wrap them in a <code>describe</code> block with a before-all and after-all like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="s2">&quot;run with webkit&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">before</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Capybara</span><span class="o">.</span><span class="n">current_driver</span> <span class="o">=</span> <span class="ss">:webkit</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;runs something fancy with javascript&quot;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">after</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="no">Capybara</span><span class="o">.</span><span class="n">use_default_driver</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You&#8217;ll practice using the JavaScript-enabled drivers in the exercises in the next section.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

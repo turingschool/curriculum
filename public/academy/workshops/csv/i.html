@@ -1,0 +1,2206 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Intro to CSV - Level I - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Intro to CSV - Level I                              We will use the csv-exercisesrepository to practice using test- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/academy/workshops/csv/i.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Intro to CSV - Level I
+        </h1>
+        
+      </header>
+    
+    <p>We will use the <a href="https://github.com/JumpstartLab/csv-exercises">csv-exercises</a>
+repository to practice using test-driven development and working with objects.</p>
+
+<p>There are five exercises, and this tutorial guides you through the process of
+solving the first one, then provides hints for working through the remaining
+exercises.</p>
+
+<h2>Getting Started</h2>
+
+<p>If you do not have the repository on your local machine, start by cloning it:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git clone git@github.com:JumpstartLab/csv-exercises.git</span><span class='line command'>cd csv-exercises</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If you do have it, then you&#8217;re fine. Make sure that you&#8217;ve committed any
+changes, so that your working directory is clean, and that you&#8217;re on the
+master branch.</p>
+
+<p>Fetch the latest changes from the upstream repository, and ensure that your
+master matches it:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git fetch origin</span><span class='line command'>git reset --hard origin/master</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then check out a new branch to work on the <code>level-i</code> exercises:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git checkout -b level-i</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Go to the <code>level-i</code> directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>cd level-i</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We&#8217;ll be working on the Phone Book exercise, so change directories to
+<code>phone_book</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>cd phone_book</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Inspecting the Data</h2>
+
+<p>For our electronic telephone directory listing service we want to be able to
+look people up by their last name, or by their first and last name. Also, we
+want to provide a reverse lookup, where we input a number, and get back the
+name of the person who owns it.</p>
+
+<p>If you open up the <code>./data</code> directory you&#8217;ll see one file:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>./data/</span><span class='line output'>├── people.csv</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We have many people, and each person has a phone number.</p>
+
+<h2>Designing the Interface</h2>
+
+<p>We have three ways of looking up data in our telephone directory listing:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># By last name</span>
+</span><span class='line'><span class="n">phone_book</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;Smith&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># By first and last name</span>
+</span><span class='line'><span class="n">phone_book</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;Smith, Alice&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># By number</span>
+</span><span class='line'><span class="n">phone_book</span><span class="o">.</span><span class="n">reverse_lookup</span><span class="p">(</span><span class="s1">&#39;(123) 555-1234&#39;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Knowing When We&#8217;re Done</h2>
+
+<p>When developing a product, it&#8217;s easy to get carried away as each feature leads
+to more and more features. We&#8217;ll define a single, automated test that will
+tell us when our Minimum Usable Product is complete.</p>
+
+<p>The minimal usuable product will be a single pass through the application,
+exposing just the first of the lookup methods: <code>phone_book.lookup('Smith')</code>.</p>
+
+<p>This will use the real data, and all the real code, as though it were being
+used in production. There are many names for tests like these: end-to-end
+tests, acceptance tests, feature tests, or integration tests.</p>
+
+<p>For simplicity we&#8217;ve arbitrarily chosen to call this an <em>integration test</em>.</p>
+
+<p>Create an empty file called <code>test/integration_test.rb</code>. We&#8217;re going to start
+by adding the usual testing boilerplate to it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.2&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we&#8217;ll need to require the application, and the application will require
+anything else that is needed:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;../lib/phone_book&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Lastly, we need to define the test suite where our integration test will live:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IntegrationTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Since we&#8217;re starting with a single feature, we&#8217;re only going to write a single
+test that proves that we can look people up by last name.</p>
+
+<p>If you open up the file and manually count the people with last name
+<strong>Parker</strong>, you should get 3 entries: Agnes, Craig, and Mohamed.</p>
+
+<p>We don&#8217;t want to enforce any sort of ordering of the search results, so before
+we make the assertions, we&#8217;ll sort what came back. Then we need to prove that
+we got the right names and that the numbers are associated to the correct
+person.</p>
+
+<p>Here&#8217;s what I came up with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">IntegrationTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_lookup_by_last_name</span>
+</span><span class='line'>    <span class="n">phone_book</span> <span class="o">=</span> <span class="no">PhoneBook</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>    <span class="n">entries</span> <span class="o">=</span> <span class="n">phone_book</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;Parker&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span><span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">first_name</span><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">3</span><span class="p">,</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>    <span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">e3</span> <span class="o">=</span> <span class="n">entries</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Agnes Parker&quot;</span><span class="p">,</span> <span class="n">e1</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;758.942.6890&quot;</span><span class="p">,</span> <span class="n">e1</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Craig Parker&quot;</span><span class="p">,</span> <span class="n">e2</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;716-133-3210&quot;</span><span class="p">,</span> <span class="n">e2</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Mohamed Parker&quot;</span><span class="p">,</span> <span class="n">e3</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;701-655-6889&quot;</span><span class="p">,</span> <span class="n">e3</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Driving Development with the Integration Test</h2>
+
+<p>This integration test is going to be failing until the very end. We will use
+the test in the following way:</p>
+
+<p>First, we need to distinguish between <strong>errors</strong> and <strong>failures</strong>.</p>
+
+<p>An <strong>error</strong> means that the code cannot even run. There&#8217;s a missing file, a
+class hasn&#8217;t been defined, or we&#8217;re calling a method that does not exist.</p>
+
+<p>A <strong>failure</strong> is a missed expectation. We wanted chocolate cake, but were
+given oatmeal cookies with raisins. It&#8217;s not broken, it&#8217;s just a
+disappointment.</p>
+
+<p>We will use the integration test to fix errors, so if the integration test
+blows up because we don&#8217;t have a file, we&#8217;ll create the file.</p>
+
+<p>However, once the integration test complains that it expected one thing, but
+got something else, that will be our signal to drop to a lower level in the
+application, abandon the integration test for a while, and develop the
+necessary code using more fine-grained tests.</p>
+
+<p>When the fine-grained tests are passing, then we will pop back up to the
+integration test, work through any errors, and then use the next failure to
+guide us towards the next tests we need to write.</p>
+
+<h2>Handling the First Errors</h2>
+
+<p>Run the integration test:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ruby test/integration_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The first error is a missing file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>test/integration_test.rb:4:in `require_relative': cannot load such file -- /Users/you/csv-exercises/level-i/phone_book/lib/phone_book (LoadError)
+</span><span class='line'>  from test/integration_test.rb:4:in `&lt;main&gt;'</span></code></pre></td></tr></table></div></figure>
+
+<p>We can change the error message by creating the missing file:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>touch lib/phone_book.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Run the test again, and get another error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>NameError: uninitialized constant IntegrationTest::PhoneBook
+</span><span class='line'>    test/integration_test.rb:8:in `phone_book'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>In the <code>lib/phone_book.rb</code> file that we just created, add an empty class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneBook</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test to get the next step:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>NoMethodError: undefined method `lookup' for #&lt;PhoneBook:0x007ff7139be1e8&gt;
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>NoMethodError</code> tells us we need to create a method named <code>lookup</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneBook</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">lookup</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests again, and you&#8217;ll get a new error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 0)
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:2:in `lookup'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>The lookup method takes an argument. Add a parameter to the method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneBook</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests again. Another error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="mi">1</span><span class="p">)</span> <span class="no">Error</span><span class="p">:</span>
+</span><span class='line'><span class="no">IntegrationTest</span><span class="c1">#test_lookup_by_last_name:</span>
+</span><span class='line'><span class="no">NoMethodError</span><span class="p">:</span> <span class="n">undefined</span> <span class="nb">method</span> <span class="sb">`sort_by&#39; for nil:NilClass</span>
+</span><span class='line'><span class="sb">    test/integration_test.rb:12:in `</span><span class="n">test_lookup_by_last_name</span><span class="err">&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Because the test is sorting what it gets back from <code>lookup</code>, we need to return
+something that can be sorted. An empty array will do nicely:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneBook</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">[]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test again, and finally, you should get a failure rather than an
+error.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Failure:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name [test/integration_test.rb:14]:
+</span><span class='line'>Expected: 3
+</span><span class='line'>  Actual: 0</span></code></pre></td></tr></table></div></figure>
+
+<h2>Driving a Feature with Lower-Level Tests</h2>
+
+<p>We&#8217;re getting a failure because we expect to get 3 results back from the
+lookup method, but we&#8217;re hard-coding an empty array.</p>
+
+<p>We need a phone book that, given a bunch of entries, will find the right ones
+for us. Let&#8217;s defer having to know about how entries are getting out of the
+CSV file, and just talk to an <code>EntryRepository</code> who handles that for us.</p>
+
+<p>So let&#8217;s punt.</p>
+
+<p>We&#8217;ll create a test that says that phone book talks to the entry
+repository correctly.</p>
+
+<p>What does <em>correctly</em> mean? Well, we get to make that up.</p>
+
+<p>The <code>lookup</code> method is going to have to either ask the repository to go fetch
+people by last name, or by first and last name. Let&#8217;s have explicit methods
+for each of those:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">repository</span><span class="o">.</span><span class="n">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'><span class="c1"># and</span>
+</span><span class='line'><span class="n">repository</span><span class="o">.</span><span class="n">find_by_first_and_last_name</span><span class="p">(</span><span class="n">first_name</span><span class="p">,</span> <span class="n">last_name</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We could give the phone book a fake repository with fake data, and then assert
+that what we get back when we call <code>lookup(name)</code> is whatever the fake
+repository returns for <code>find_by_last_name</code>, but that seems kind of pointless.</p>
+
+<p>Instead we&#8217;ll implement a mock assertion that the interaction is correct.</p>
+
+<h2>Mocking an Interaction</h2>
+
+<p>A mock expectation goes like this:</p>
+
+<ol>
+<li>set up the expectation</li>
+<li>do work</li>
+<li>check that while work was being done, the right things happened</li>
+</ol>
+
+<p>Suppose that you have some code that is very polite. When you say <em>be polite</em>
+it does a number of things, such as say <em>thank you</em> and <em>hello</em>. We&#8217;ll make
+an expectation that being polite includes saying <code>hello</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">something</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="ss">:hello</span><span class="p">)</span>
+</span><span class='line'><span class="n">something</span><span class="o">.</span><span class="n">be_polite</span>
+</span><span class='line'><span class="n">something</span><span class="o">.</span><span class="n">verify</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, as long as within <code>be_polite</code> the <code>hello</code> method gets called on
+<code>something</code>, the <code>verify</code> line (the assertion) will pass.</p>
+
+<p>To do this for our directory listing, create a new file,
+<code>test/phone_book_test.rb</code>, and add the following to it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.2&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/mock&#39;</span>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;../lib/phone_book&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">PhoneBookTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">repository</span>
+</span><span class='line'>    <span class="vi">@repository</span> <span class="o">||=</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Mock</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_lookup_by_last_name</span>
+</span><span class='line'>    <span class="n">phone_book</span> <span class="o">=</span> <span class="no">PhoneBook</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">repository</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="ss">:find_by_last_name</span><span class="p">,</span> <span class="o">[]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;Smith&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">phone_book</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;Smith&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">repository</span><span class="o">.</span><span class="n">verify</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The expectation that we&#8217;re defining is a bit more complicated than just saying
+<em>it should call the <code>find_by_last_name</code> method</em>.</p>
+
+<p>We want to make sure that it calls the method with the right arguments
+(&quot;Smith&quot;). In minitest, it also lets you fake out a return value. We don&#8217;t
+care what the return value is &#8211; we&#8217;re not using it for anything in our test.
+We&#8217;ll just use an empty array.</p>
+
+<p>In other words, in this line of code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">repository</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="ss">:find_by_last_name</span><span class="p">,</span> <span class="o">[]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;Smith&quot;</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li><code>[]</code> is the stubbed return value,</li>
+<li><code>[&quot;Smith&quot;]</code> is the array of arguments that gets passed to the method, which is named</li>
+<li><code>:find_by_last_name</code></li>
+</ul>
+
+<p>Running the test gives us an error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>PhoneBookTest#test_lookup_by_last_name:
+</span><span class='line'>ArgumentError: wrong number of arguments(1 for 0)
+</span><span class='line'>    test/phone_book_test.rb:13:in `initialize'
+</span><span class='line'>    test/phone_book_test.rb:13:in `new'
+</span><span class='line'>    test/phone_book_test.rb:13:in `phone_book'
+</span><span class='line'>    test/phone_book_test.rb:18:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>Our current <code>PhoneBook</code> has not defined <code>initialize</code>, which means that it has
+inherited the default <code>initialize</code>, and that method doesn&#8217;t accept any
+arguments.</p>
+
+<p>Our test is calling:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">phone_book</span> <span class="o">=</span> <span class="no">PhoneBook</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to define an <code>initialize</code> method that takes a parameter so that we can
+pass it the repository:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneBook</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">[]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test again, and get an error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>PhoneBookTest#test_lookup_by_last_name:
+</span><span class='line'>MockExpectationError: expected find_by_last_name() =&gt; "Smith", got []
+</span><span class='line'>    test/phone_book_test.rb:19:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>In order to make it pass, delegate to the repository in <code>lookup</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneBook</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:repository</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@repository</span> <span class="o">=</span> <span class="n">repository</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">repository</span><span class="o">.</span><span class="n">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This gets the test passing. Now we need to go back to the integration test,
+fix any errors, and then let the failure tell us where to go next.</p>
+
+<h2>Where to Go Next</h2>
+
+<p>Right off the bat, we get an error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>ArgumentError: wrong number of arguments (0 for 1)
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:4:in `initialize'
+</span><span class='line'>    test/integration_test.rb:8:in `new'
+</span><span class='line'>    test/integration_test.rb:8:in `phone_book'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>The test is calling <code>PhoneBook.new</code>, but now phone book&#8217;s <code>initialize</code> expects an argument.</p>
+
+<p>We don&#8217;t want to have to tell the phone book where to find it&#8217;s data, so let&#8217;s
+provide a default repository that it can use if nothing is passed in.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">PhoneBook</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:repository</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">repository</span><span class="o">=</span><span class="no">EntryRepository</span><span class="o">.</span><span class="n">in</span><span class="p">(</span><span class="s1">&#39;./data&#39;</span><span class="p">))</span>
+</span><span class='line'>    <span class="vi">@repository</span> <span class="o">=</span> <span class="n">repository</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This blows up, naturally, since we just pulled the <code>EntryRepository</code> out of
+thin air.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>NameError: uninitialized constant PhoneBook::EntryRepository
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:4:in `initialize'
+</span><span class='line'>    test/integration_test.rb:8:in `new'
+</span><span class='line'>    test/integration_test.rb:8:in `phone_book'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>Create a new file called <code>lib/entry_repository.rb</code>, and require it at the top
+of <code>lib/phone_book.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;entry_repository&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">PhoneBook</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The integration test complains about an unknown constant <code>EntryRepository</code>.
+Create the empty class.</p>
+
+<p>This gives us a new error:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>NoMethodError: undefined method `in' for EntryRepository:Class
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:6:in `initialize'
+</span><span class='line'>    test/integration_test.rb:8:in `new'
+</span><span class='line'>    test/integration_test.rb:8:in `phone_book'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>Notice that this is complaining about an undefined method on the
+<code>EntryRepository</code> class, not on an instance of it.</p>
+
+<p>Create a class method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Running the tests gives us a new error, telling us that the <code>in</code> method needs
+an argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 0)
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:2:in `in'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:6:in `initialize'
+</span><span class='line'>    test/integration_test.rb:8:in `new'
+</span><span class='line'>    test/integration_test.rb:8:in `phone_book'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>Define a parameter for <code>in</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re still not done. This time, the error says that we&#8217;re calling a method on
+<code>nil</code>. What <code>nil</code> is that, exactly?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>NoMethodError: undefined method `find_by_last_name' for nil:NilClass
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:11:in `lookup'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s the <code>nil</code> that gets returned from <code>in</code>.</p>
+
+<p>If you look at the code in <code>phone_book.rb</code> it looks like what we want <code>in</code> to
+return is an actual instance of <code>EntryRepository</code>. We can do that by calling
+<code>new</code> from within <code>in</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the test again. It&#8217;s still broken, rather than just plain disappointed.</p>
+
+<p>We&#8217;re missing a method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>NoMethodError: undefined method `find_by_last_name' for #&lt;EntryRepository:0x007fad62928b98&gt;
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:11:in `lookup'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>Define the empty <code>find_by_last_name</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_by_last_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Running the tests will tell you that it takes a parameter.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 0)
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:6:in `find_by_last_name'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:11:in `lookup'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>Looking through the code should tell you that the parameter is <code>name</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We get a familiar error complaining that our results cannot be sorted:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>NoMethodError: undefined method `sort_by' for nil:NilClass
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>This is because we removed the hard-coded empty array that we were returning
+from <code>lookup</code>, and now we&#8217;re returning the result of <code>find_by_last_name</code>,
+which is <code>nil</code>.</p>
+
+<p>Hard-code a return value for <code>find_by_last_name</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">[]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And finally, we get a failure rather than an error.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Failure:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_and_first_name [test/integration_test.rb:14]:
+</span><span class='line'>Expected: 3
+</span><span class='line'>  Actual: 0</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the <code>test/phone_book_test.rb</code> to make sure we haven&#8217;t broken anything
+while wiring up the integration test. It should still be passing.</p>
+
+<h2>Moving On</h2>
+
+<p>The failure that we&#8217;re getting is telling us that we&#8217;re not getting any
+results from <code>find_by_last_name</code> in the <code>EntryRepository</code>.</p>
+
+<p>The <code>EntryRepository</code> needs to handle the rows of CSV data, and return a list
+of <code>Entry</code> objects that match our search criteria.</p>
+
+<p>Let&#8217;s assume for now that all the actual CSV stuff happens in the
+<code>EntryRepository.in</code> method, and that by the time we create an instance of the
+repository, we have a collection of data.</p>
+
+<p>Here&#8217;s a simple test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.2&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;../lib/entry_repository&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EntryRepositoryTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">rows</span>
+</span><span class='line'>    <span class="o">[</span>
+</span><span class='line'>      <span class="p">{</span> <span class="n">first_name</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s2">&quot;Smith&quot;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">:</span> <span class="s2">&quot;111.111.1111&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="n">first_name</span><span class="p">:</span> <span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s2">&quot;Smith&quot;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">:</span> <span class="s2">&quot;222.222.2222&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="n">first_name</span><span class="p">:</span> <span class="s2">&quot;Charlie&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s2">&quot;Jones&quot;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">:</span> <span class="s2">&quot;333.333.3333&quot;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">repository</span>
+</span><span class='line'>    <span class="vi">@repository</span> <span class="o">||=</span> <span class="no">EntryRepository</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_find_by_last_name</span>
+</span><span class='line'>    <span class="n">entries</span> <span class="o">=</span> <span class="n">repository</span><span class="o">.</span><span class="n">find_by_last_name</span><span class="p">(</span><span class="s2">&quot;Smith&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span><span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">first_name</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">2</span><span class="p">,</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>    <span class="n">alice</span><span class="p">,</span> <span class="n">bob</span> <span class="o">=</span> <span class="n">entries</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Alice Smith&quot;</span><span class="p">,</span> <span class="n">alice</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;111.111.1111&quot;</span><span class="p">,</span> <span class="n">alice</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Bob Smith&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;222.222.2222&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This is basically the same test as the integration test, except that we&#8217;re not
+actually integrating with anything. Given that the repository has data, we
+should be able to get a subset of that data.</p>
+
+<p>Run <code>test/entry_repository_test.rb</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>EntryRepositoryTest#test_find_by_last_name:
+</span><span class='line'>ArgumentError: wrong number of arguments(1 for 0)
+</span><span class='line'>    test/entry_repository_test.rb:24:in `initialize'
+</span><span class='line'>    test/entry_repository_test.rb:24:in `new'
+</span><span class='line'>    test/entry_repository_test.rb:24:in `repository'
+</span><span class='line'>    test/entry_repository_test.rb:28:in `test_find_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>We haven&#8217;t explicitly defined an <code>initialize</code> method, and the test is passing
+rows of data to the new repository as an options hash.</p>
+
+<p>Make the <code>initialize</code> method explicit, and define a parameter for it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">[]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now we&#8217;re getting an actual failure, which looks exactly like the one we got
+from the integration test.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Failure:
+</span><span class='line'>EntryRepositoryTest#test_find_by_last_name [test/entry_repository_test.rb:29]:
+</span><span class='line'>Expected: 2
+</span><span class='line'>  Actual: 0</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to save the <code>@rows</code> that comes into the initialize method, and then
+create an <code>attr_reader</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:rows</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@rows</span> <span class="o">=</span> <span class="n">rows</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">[]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we&#8217;re going to need to do some real programming to get this to pass. Since
+the data is in a hash we can use enumerable methods to filter the data set:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rows</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">person</span><span class="o">|</span> <span class="n">person</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span> <span class="o">==</span> <span class="nb">name</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests. We haven&#8217;t quite connected the dots:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>EntryRepositoryTest#test_find_by_last_name:
+</span><span class='line'>NoMethodError: undefined method `first_name' for {:first_name=&gt;"Alice", :last_name=&gt;"Smith", :phone_number=&gt;"111.111.1111"}:Hash
+</span><span class='line'>    test/entry_repository_test.rb:28:in `block in test_find_by_last_name'
+</span><span class='line'>    test/entry_repository_test.rb:28:in `each'
+</span><span class='line'>    test/entry_repository_test.rb:28:in `sort_by'
+</span><span class='line'>    test/entry_repository_test.rb:28:in `test_find_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>The test expects to get back actual objects that have a <code>first_name</code> method.
+The object represents an entry in the phone directory listing, so we&#8217;ll call
+the object <code>entry</code>.</p>
+
+<h3>Test-Driving a Simple Entry Object</h3>
+
+<p>We need an object that has a name and a phone number. Here&#8217;s a test suite that
+gives us an example of what we need:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="s1">&#39;~&gt; 5.2&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;../lib/entry&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EntryTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_entry_attributes</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">first_name</span><span class="p">:</span> <span class="s1">&#39;Alice&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">last_name</span><span class="p">:</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">phone_number</span><span class="p">:</span> <span class="s1">&#39;111.111.1111&#39;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">entry</span> <span class="o">=</span> <span class="no">Entry</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s1">&#39;Alice&#39;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">first_name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">last_name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s1">&#39;Alice Smith&#39;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s1">&#39;111.111.1111&#39;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test blows up, because we don&#8217;t have an <code>entry.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Press ENTER or type command to continue
+</span><span class='line'>test/entry_test.rb:4:in `require_relative': cannot load such file -- /Users/you/csv-exercises/level-i/phone_book/lib/entry (LoadError)
+</span><span class='line'>  from test/entry_test.rb:4:in `&lt;main&gt;'</span></code></pre></td></tr></table></div></figure>
+
+<p>Create the file:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>touch lib/entry.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Next, we&#8217;re missing a constant:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>EntryTest#test_entry_attributes:
+</span><span class='line'>NameError: uninitialized constant EntryTest::Entry
+</span><span class='line'>    test/entry_test.rb:13:in `test_entry_attributes'</span></code></pre></td></tr></table></div></figure>
+
+<p>Define the class:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test expects <code>Entry</code> to be initialized with an argument:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>EntryTest#test_entry_attributes:
+</span><span class='line'>ArgumentError: wrong number of arguments (1 for 0)
+</span><span class='line'>    test/entry_test.rb:13:in `initialize'
+</span><span class='line'>    test/entry_test.rb:13:in `new'
+</span><span class='line'>    test/entry_test.rb:13:in `test_entry_attributes'</span></code></pre></td></tr></table></div></figure>
+
+<p>Define the <code>initialize</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re missing a method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>EntryTest#test_entry_attributes:
+</span><span class='line'>NoMethodError: undefined method `first_name' for #&lt;Entry:0x007fe2133a59b0&gt;
+</span><span class='line'>    test/entry_test.rb:15:in `test_entry_attributes'</span></code></pre></td></tr></table></div></figure>
+
+<p>Define a <code>first_name</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">first_name</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It&#8217;s expecting to get an actual name back:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Failure:
+</span><span class='line'>EntryTest#test_entry_attributes [test/entry_test.rb:15]:
+</span><span class='line'>Expected: "Alice"
+</span><span class='line'>  Actual: nil</span></code></pre></td></tr></table></div></figure>
+
+<p>The quickest way to get this passing is to hard-code the expected value:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">first_name</span>
+</span><span class='line'>    <span class="s2">&quot;Alice&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Go through the same steps for <code>last_name</code>.</p>
+
+<p>You can get <code>name</code> passing by combining the first and last names:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>  <span class="s2">&quot;</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we&#8217;re missing another method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>EntryTest#test_entry_attributes:
+</span><span class='line'>NoMethodError: undefined method `phone_number' for #&lt;Entry:0x007fa8aab2c0f0&gt;
+</span><span class='line'>    test/entry_test.rb:16:in `test_entry_attributes'</span></code></pre></td></tr></table></div></figure>
+
+<p>Define an empty method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">first_name</span>
+</span><span class='line'>    <span class="s2">&quot;Alice&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">last_name</span>
+</span><span class='line'>    <span class="s2">&quot;Smith&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="s2">&quot;</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">phone_number</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The test isn&#8217;t happy yet:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Failure:
+</span><span class='line'>EntryTest#test_entry_attributes [test/entry_test.rb:16]:
+</span><span class='line'>Expected: "111.111.1111"
+</span><span class='line'>  Actual: nil</span></code></pre></td></tr></table></div></figure>
+
+<p>Make the method pass by hard-coding the return value:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">phone_number</span>
+</span><span class='line'>  <span class="s2">&quot;111.111.1111&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The tests are passing, but the data is duplicated between the tests and the
+implementation. We can fix that by using the data that gets passed into the
+initialize method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:phone_number</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="s2">&quot;</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Finally, we can go back to the entry repository.</p>
+
+<h3>Where Were We?</h3>
+
+<p>The tests are failing with this error message:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `first_name' for #&lt;Hash:0x007fb37478dca8&gt;</span></code></pre></td></tr></table></div></figure>
+
+<p>Our method is returning a Hash, but our tests expect an object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rows</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="n">row</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span> <span class="o">==</span> <span class="nb">name</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We need to change the method so that it creates objects for each of the rows:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rows</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="n">row</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span> <span class="o">==</span> <span class="nb">name</span><span class="p">}</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="no">Entry</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">row</span><span class="p">)}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This blows up. We haven&#8217;t told the repository class where to find the <code>Entry</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>EntryRepositoryTest#test_find_by_last_name:
+</span><span class='line'>NameError: uninitialized constant EntryRepository::Entry
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `block in find_by_last_name'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `map'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `find_by_last_name'
+</span><span class='line'>    test/entry_repository_test.rb:20:in `test_find_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>Since this isn&#8217;t a top-level class, we&#8217;ll require dependencies in the test
+rather than the production code.</p>
+
+<p>Require the new entry file in the <code>entry_repository_test.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="c1"># ...</span>
+</span><span class='line'><span class="n">require_relative</span> <span class="s1">&#39;entry&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">EntryRepositoryTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The tests are passing, but now that I see the code in EntryRepository, I&#8217;m not
+particularly happy about how it&#8217;s put together.</p>
+
+<p>Every time we search for Alice Smith, we&#8217;ll make a new Entry object and pass
+it back. It seems like maybe the repository should just hold on to a
+collection of Entry objects, and if it does, it shouldn&#8217;t be in charge of
+making them in the first place.</p>
+
+<p>Let&#8217;s change the tests so that the <code>EntryRepository</code> is initialized with actual
+<code>Entry</code> objects.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepositoryTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">entries</span>
+</span><span class='line'>    <span class="o">[</span>
+</span><span class='line'>      <span class="p">{</span> <span class="n">first_name</span><span class="p">:</span> <span class="s2">&quot;Alice&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s2">&quot;Smith&quot;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">:</span> <span class="s2">&quot;111.111.1111&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="n">first_name</span><span class="p">:</span> <span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s2">&quot;Smith&quot;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">:</span> <span class="s2">&quot;222.222.2222&quot;</span> <span class="p">},</span>
+</span><span class='line'>      <span class="p">{</span> <span class="n">first_name</span><span class="p">:</span> <span class="s2">&quot;Charlie&quot;</span><span class="p">,</span> <span class="n">last_name</span><span class="p">:</span> <span class="s2">&quot;Jones&quot;</span><span class="p">,</span> <span class="n">phone_number</span><span class="p">:</span> <span class="s2">&quot;333.333.3333&quot;</span> <span class="p">}</span>
+</span><span class='line'>    <span class="o">].</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="no">Entry</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">row</span><span class="p">)}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">repository</span>
+</span><span class='line'>    <span class="vi">@repository</span> <span class="o">||=</span> <span class="no">EntryRepository</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That breaks, since the code is still accessing its data as though it&#8217;s a hash:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> 1) Error:
+</span><span class='line'>EntryRepositoryTest#test_find_by_last_name:
+</span><span class='line'>NoMethodError: undefined method `[]' for #&lt;Entry:0x007fdb491ef7b8&gt;
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `block in find_by_last_name'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `select'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:13:in `find_by_last_name'
+</span><span class='line'>    test/entry_repository_test.rb:21:in `test_find_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rows</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">row</span><span class="o">|</span> <span class="n">entry</span><span class="o">.</span><span class="n">last_name</span> <span class="o">==</span> <span class="nb">name</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It seems odd to call it <code>rows</code>, now. They used to be rows of CSV data, but now
+that they&#8217;re real objects. Let&#8217;s rename this to entries:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="kp">new</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:entries</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">entries</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@entries</span> <span class="o">=</span> <span class="n">entries</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">entries</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">entry</span><span class="o">|</span> <span class="n">entry</span><span class="o">.</span><span class="n">last_name</span> <span class="o">==</span> <span class="nb">name</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This isn&#8217;t passing yet:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>NoMethodError: undefined method `last_name' for #&lt;Entry:0x007fcab09da8f0&gt;</span></code></pre></td></tr></table></div></figure>
+
+<p>Our entry doesn&#8217;t have a last name method. Go back to the <code>entry_test.rb</code> and
+add an assertion to the test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">assert_equal</span> <span class="s1">&#39;Smith&#39;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">last_name</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Get the test passing again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:phone_number</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">data</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Pop back over to the <code>entry_repository_test.rb</code> and we get a new message:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NoMethodError: undefined method `first_name' for #&lt;Entry:0x007f9f9b23d510&gt;</span></code></pre></td></tr></table></div></figure>
+
+<p>Ok. Go back to the <code>entry_test.rb</code> and add an assertion for <code>first_name</code>, and
+then make the test pass.</p>
+
+<p>The code now looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:name</span><span class="p">,</span> <span class="ss">:phone_number</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@name</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The only line in <code>initialize</code> that isn&#8217;t reading from <code>data</code> is <code>@name</code>. We
+should probably move that out:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">Entry</span>
+</span><span class='line'>  <span class="kp">attr_reader</span> <span class="ss">:last_name</span><span class="p">,</span> <span class="ss">:first_name</span><span class="p">,</span> <span class="ss">:phone_number</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@last_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:last_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@first_name</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:first_name</span><span class="o">]</span>
+</span><span class='line'>    <span class="vi">@phone_number</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="ss">:phone_number</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">name</span>
+</span><span class='line'>    <span class="s2">&quot;</span><span class="si">#{</span><span class="n">first_name</span><span class="si">}</span><span class="s2"> </span><span class="si">#{</span><span class="n">last_name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now both the <code>Entry</code> test and the <code>EntryRepository</code> test is passing.</p>
+
+<p>It&#8217;s time to see how our integration test is doing.</p>
+
+<h3>Status?</h3>
+
+<p>The integration test is not passing yet, so we&#8217;re not done.</p>
+
+<p>Here&#8217;s the first error we&#8217;re getting:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>  1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_name:
+</span><span class='line'>ArgumentError: wrong number of arguments (0 for 1)
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:8:in `initialize'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:3:in `new'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/entry_repository.rb:3:in `in'
+</span><span class='line'>    /Users/you/csv-exercises/level-i/phone_book/lib/phone_book.rb:6:in `initialize'
+</span><span class='line'>    test/integration_test.rb:8:in `new'
+</span><span class='line'>    test/integration_test.rb:8:in `phone_book'
+</span><span class='line'>    test/integration_test.rb:12:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>The problem is that <code>PhoneBook.new</code> is being called without any arguments.
+This means that we&#8217;re triggering the <code>EntryRepository.in</code> method, which simply
+calls <code>new</code> to create a new instance of <code>EntryRepository</code>. But now
+<code>EntryRepository</code> needs to be passed data &#8211; the actual instances of all the
+entries that represent the CSV file.</p>
+
+<p>Since a test for just the <code>EntryRepository#in</code> method would essentially
+duplicate the integration test, we&#8217;ll use the integration test to verify it.</p>
+
+<p>We need to:</p>
+
+<ul>
+<li>Read the CSV data</li>
+<li>Wrap each row in an Entry object</li>
+<li>call <code>new</code> with those Entry objects</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EntryRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">in</span><span class="p">(</span><span class="n">dir</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">file</span> <span class="o">=</span> <span class="no">File</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dir</span><span class="p">,</span> <span class="s1">&#39;people.csv&#39;</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="no">CSV</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">headers</span><span class="p">:</span> <span class="kp">true</span><span class="p">,</span> <span class="n">header_converters</span><span class="p">:</span> <span class="ss">:symbol</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">rows</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">map</span> <span class="k">do</span> <span class="o">|</span><span class="n">row</span><span class="o">|</span>
+</span><span class='line'>      <span class="no">Entry</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="kp">new</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re still missing some dependencies:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NameError: uninitialized constant EntryRepository::CSV</span></code></pre></td></tr></table></div></figure>
+
+<p>The CSV library ships with Ruby, but it is in the Standard Library, not in
+Core, so we have to explicitly say that we want to use it.</p>
+
+<p>We need to open up <code>lib/phone_book.rb</code> and add the following line at the top:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;csv&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re also missing the <code>Entry</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>NameError: uninitialized constant EntryRepository::Entry</span></code></pre></td></tr></table></div></figure>
+
+<p>Add <code>require_relative 'entry'</code> to <code>lib/phone_book.rb</code>.</p>
+
+<p>This gets the tests passing.</p>
+
+<p>Commit your changes.</p>
+
+<h2>Adding The Next Features</h2>
+
+<p>We want to be able to look up by &quot;Lastname, Firstname&quot;.</p>
+
+<p>Add a test to the <code>integration_test.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_lookup_by_last_and_first_name</span>
+</span><span class='line'>  <span class="n">phone_book</span> <span class="o">=</span> <span class="no">PhoneBook</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="n">entries</span> <span class="o">=</span> <span class="n">phone_book</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;Parker, Craig&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sort_by</span> <span class="p">{</span><span class="o">|</span><span class="n">e</span><span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">first_name</span><span class="p">}</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="n">entry</span> <span class="o">=</span> <span class="n">entries</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Craig Parker&quot;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;716-133-3210&quot;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>It fails. We need to improve the <code>PhoneBook#lookup</code> method. Go to the
+<code>phone_book_test.rb</code>, add a test for looking up by first and last name:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_lookup_by_last_name_first_name</span>
+</span><span class='line'>  <span class="n">phone_book</span> <span class="o">=</span> <span class="no">PhoneBook</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">repository</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="ss">:find_by_first_and_last_name</span><span class="p">,</span> <span class="o">[]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;Alice&quot;</span><span class="p">,</span>     <span class="s2">&quot;Smith&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">phone_book</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="s1">&#39;Smith, Alice&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">repository</span><span class="o">.</span><span class="n">verify</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Update <code>PhoneBook#lookup</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">lookup</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">lastname</span><span class="p">,</span> <span class="n">firstname</span> <span class="o">=</span> <span class="nb">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">firstname</span>
+</span><span class='line'>    <span class="n">repository</span><span class="o">.</span><span class="n">find_by_first_and_last_name</span><span class="p">(</span><span class="n">firstname</span><span class="p">,</span> <span class="n">lastname</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">repository</span><span class="o">.</span><span class="n">find_by_last_name</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the integration test again:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1) Error:
+</span><span class='line'>IntegrationTest#test_lookup_by_last_and_first_name:
+</span><span class='line'>NoMethodError: undefined method `find_by_first_and_last_name' for #&lt;EntryRepository:0x007f842389f108&gt;
+</span><span class='line'>/Users/kytrinyx/turing/csv-exercises/level-i/phone_book/lib/phone_book.rb:15:in `lookup'
+</span><span class='line'>  test/integration_test.rb:28:in `test_lookup_by_last_name'</span></code></pre></td></tr></table></div></figure>
+
+<p>We need a new method on entry repository.
+In the test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_find_by_first_and_last_name</span>
+</span><span class='line'>  <span class="n">entries</span> <span class="o">=</span> <span class="n">repository</span><span class="o">.</span><span class="n">find_by_first_and_last_name</span><span class="p">(</span><span class="s2">&quot;Bob&quot;</span><span class="p">,</span> <span class="s2">&quot;Smith&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="n">bob</span> <span class="o">=</span> <span class="n">entries</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Bob Smith&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;222.222.2222&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the EntryRepository:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">find_by_first_and_last_name</span><span class="p">(</span><span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">entries</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">entry</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">entry</span><span class="o">.</span><span class="n">first_name</span> <span class="o">==</span> <span class="n">first</span>
+</span><span class='line'>  <span class="p">}</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">entry</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">entry</span><span class="o">.</span><span class="n">last_name</span> <span class="o">==</span> <span class="n">last</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the integration test again. It passes.</p>
+
+<p>Commit your changes.</p>
+
+<p>We&#8217;re ready to add the final feature, reverse lookup.</p>
+
+<p>Create an integration test.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_reverse_lookup</span>
+</span><span class='line'>  <span class="n">phone_book</span> <span class="o">=</span> <span class="no">PhoneBook</span><span class="o">.</span><span class="n">new</span>
+</span><span class='line'>  <span class="n">entries</span> <span class="o">=</span> <span class="n">phone_book</span><span class="o">.</span><span class="n">reverse_lookup</span><span class="p">(</span><span class="s2">&quot;716-133-3210&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="n">entry</span> <span class="o">=</span> <span class="n">entries</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Craig Parker&quot;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;716-133-3210&quot;</span><span class="p">,</span> <span class="n">entry</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then drop down to phone book test:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_lookup_by_number</span>
+</span><span class='line'>  <span class="n">phone_book</span> <span class="o">=</span> <span class="no">PhoneBook</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">repository</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">repository</span><span class="o">.</span><span class="n">expect</span><span class="p">(</span><span class="ss">:find_by_number</span><span class="p">,</span> <span class="o">[]</span><span class="p">,</span> <span class="o">[</span><span class="s2">&quot;(123) 123-1234&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">phone_book</span><span class="o">.</span><span class="n">reverse_lookup</span><span class="p">(</span><span class="s1">&#39;(123) 123-1234&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">repository</span><span class="o">.</span><span class="n">verify</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Fix the NoMethodError by adding <code>reverse_lookup</code> to <code>PhoneBook</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">reverse_lookup</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This needs to delegate to the repository.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">reverse_lookup</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">repository</span><span class="o">.</span><span class="n">find_by_number</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That gets the phone book test passing. Go back to the integration test.</p>
+
+<p>Now it&#8217;s complaining about a missing method on entry repository. Drop down to entry repository test and write a test for the missing method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_find_by_number</span>
+</span><span class='line'>  <span class="n">entries</span> <span class="o">=</span> <span class="n">repository</span><span class="o">.</span><span class="n">find_by_number</span><span class="p">(</span><span class="s2">&quot;222.222.2222&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="n">entries</span><span class="o">.</span><span class="n">length</span>
+</span><span class='line'>  <span class="n">bob</span> <span class="o">=</span> <span class="n">entries</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;Bob Smith&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">name</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;222.222.2222&quot;</span><span class="p">,</span> <span class="n">bob</span><span class="o">.</span><span class="n">phone_number</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Make it pass.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">find_by_number</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">entries</span><span class="o">.</span><span class="n">select</span> <span class="p">{</span><span class="o">|</span><span class="n">entry</span><span class="o">|</span> <span class="n">entry</span><span class="o">.</span><span class="n">phone_number</span> <span class="o">==</span> <span class="n">number</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Go back to the integration test. It passes.</p>
+
+<p>Commit your changes.</p>
+
+<h2>Practice More</h2>
+
+<h3><code>ReportCard</code></h3>
+
+<p>The grade is defined by a percentage.</p>
+
+<p>The <code>ReportCard</code> class loads the CSV data, creates the students, and also
+provides a mechanism to find:</p>
+
+<ul>
+<li>all the grades for a given student</li>
+<li>all the grades for a particular subject</li>
+</ul>
+
+<p>In addition, it can tell you:</p>
+
+<ul>
+<li>the average score for a given student</li>
+<li>the average score for a given subject</li>
+</ul>
+
+<h3>The Shopping List</h3>
+
+<p>Create an <code>Item</code> class that is initialized with the CSV data (<code>name</code>,
+<code>quantity</code>, <code>unit_price</code>). Calculate <code>price</code> and <code>tax</code>.</p>
+
+<p>Implement search methods: <code>cheaper_than</code> and <code>more_expensive_than</code>.</p>
+
+<p>A couple things that will help you along the way:</p>
+
+<ul>
+<li><a href="http://ruby-doc.org/core-2.0.0/String.html#method-i-to_i"><code>String#to_i</code></a></li>
+<li><a href="http://ruby-doc.org/core-2.0.0/String.html#method-i-to_f"><code>String#to_f</code></a></li>
+</ul>
+
+<h3><code>DoctorsOffice</code></h3>
+
+<p>The CSV file provides the patient name, and the date and time of their
+appointment as actual <code>Date</code> and <code>Time</code> objects.</p>
+
+<p>There are conversion methods from <code>Date</code> to <code>Time</code>, and from <code>Time</code> to <code>Date</code>.</p>
+
+<p>Also, you may want to look at <code>Time#strptime</code>, and the handy website <a href="http://foragoodstrftime.com">For a
+Good Strftime</a>.</p>
+
+<p>Provide a search method that allows you to find all the appointments for a
+single day, or all the appointments for a given patient.</p>
+
+<h3><code>Calendar</code></h3>
+
+<p>Create a test suite for <code>Birthday</code>, which has two attributes: <code>name</code> and
+<code>date_of_birth</code>.</p>
+
+<p>Then implement the following functionality:</p>
+
+<ul>
+<li>Get birthday as a Date object</li>
+<li>Calculate age</li>
+<li>Calculate gigasecond (assume that the person was born at midnight, and just
+get the date where the gigasecond falls).</li>
+</ul>
+
+<p>To create a ruby Date object from a String, try this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;date&#39;</span>
+</span><span class='line'><span class="no">Date</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;1987&#39;</span><span class="p">,</span> <span class="s2">&quot;%Y-%m-%d&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>A gigasecond is 1 billion seconds. Don&#8217;t worry about getting the exact moment,
+just assume that the person is born at midnight, and calculate the day on
+which they turn 1 gigasecond old.</p>
+
+<p>Implement the calendar class to manage the collection of birthdays.
+People have a birthday, each day might have multiple birthdays on it.</p>
+
+<p>Once you have the basic functionality that loads the CSV data and creates the
+birthday objects, add the following functionality:</p>
+
+<ul>
+<li>Find everyone who is a certain age</li>
+<li>Find everyone who has a birthday on a certain date (regardless of year)</li>
+<li>Given two names, figure out who is older</li>
+<li>Given two names, figure out who has a birthday earlier in the year than the other</li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

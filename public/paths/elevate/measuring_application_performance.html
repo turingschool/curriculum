@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Measuring Application Performance with NewRelic - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Salesforce Elevate                                      Measuring Application Performance with NewRelic &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/paths/elevate/measuring_application_performance.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <a href=/elevate>Salesforce Elevate</a>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Measuring Application Performance with NewRelic
+        </h1>
+        
+      </header>
+    
+    <p>You want to make sure you application runs well and delivers a great experience for you users. One of the best choices for monitoring an application running on Heroku is NewRelic.</p>
+
+<p><img src="/images/elevate/newrelic_snapshot.jpg" alt="New Relic Screenshot">
+</p>
+
+<h2>Introduction</h2>
+
+<p>To get that data to NewRelic you:</p>
+
+<ul>
+<li>Install the add-on</li>
+<li>Download and install their monitor package into your application</li>
+<li>Setup your unique account key</li>
+<li>Re-deploy your application</li>
+</ul>
+
+<h3>Install the Addon</h3>
+
+<p>NewRelic has several plan types depending on your needs, but we&#8217;ll use the free <em>Stark</em> plan. From your project directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:add newrelic:stark</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Then, as it suggests, you can open the Dev Center documentation about NewRelic:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:docs newrelic</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Install the Monitor</h3>
+
+<p>NewRelic offers monitor packages for Java, Ruby, Python, Node.js, and Clojure.</p>
+
+<p>Detailed instructions to install the agent can be found <a href="https://Dev Center.heroku.com/articles/newrelic#java-configuration">in the Dev Center</a>. We&#8217;ve already included the agent in the sample application, which involved:</p>
+
+<ul>
+<li>Downloading the latest Java agent version from <a href="http://download.newrelic.com/newrelic/java-agent/newrelic-agent/">http://download.newrelic.com/newrelic/java-agent/newrelic-agent/</a></li>
+<li>Extracting it into the project directory</li>
+</ul>
+
+<h4>Load the Monitor</h4>
+
+<p>For Java applications we can load the monitor when the application starts by modifying the <code>JAVA_OPTS</code> environment variable.</p>
+
+<p>Remember that you can list out your existing environment variables with <code>heroku config</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku config</span><span class='line output'>=== boiling-island-2815 Config Vars</span><span class='line output'>NEW_RELIC_LICENSE_KEY: a57d802cdb7891d33bc7bc5eeeff6af94c67b020</span><span class='line output'>NEW_RELIC_LOG:         stdout</span><span class='line output'>DATABASE_URL:               postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8</span><span class='line output'>HEROKU_POSTGRESQL_JADE_URL: postgres://username:password@ec2-54-225-101-119.compute-1.amazonaws.com:5432/d4tstdg3etpui8</span><span class='line output'>JAVA_OPTS:                  -Xmx384m -Xss512k -XX:+UseCompressedOops</span><span class='line output'>PATH:                       .jdk/bin:.sbt_home/bin:/usr/local/bin:/usr/bin:/bin</span><span class='line output'>REPO:                       /app/.sbt_home/.ivy2/cache</span><span class='line output'>SBT_OPTS:                   -Xmx384m -Xss512k -XX:+UseCompressedOops</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>We need to add <code>-javaagent:newrelic/newrelic.jar</code> to the end of JAVA_OPTS like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<br></pre></td><td class='code'><pre><code><span class='line command'>heroku config:add JAVA_OPTS='-Xmx384m -Xss512k -XX:+UseCompressedOops -javaagent:newrelic/newrelic.jar'</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now when our dyno restarts it&#8217;ll load the monitor.</p>
+
+<h3>Restarting Manually</h3>
+
+<p>If you had added the monitor yourself, you&#8217;d want to commit to Git and push to Heroku.</p>
+
+<p>But since the files were already in place for the sample app, we can just force a restart to pickup the new environment variables:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku restart</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Generate Data</h3>
+
+<p>Run <code>heroku open</code> to open your production application in your browser. Click around through a few different screens to generate a bit of data.</p>
+
+<h3>View Results in NewRelic</h3>
+
+<p>You can view NewRelic from within your Heroku dashboard:</p>
+
+<ul>
+<li>Visit <a href="https://dashboard.heroku.com/apps">https://dashboard.heroku.com/apps</a></li>
+<li>Click your application</li>
+<li>Under the <em>Add-ons</em> heading, click <code>New Relic</code></li>
+<li>You&#8217;ll be taken to the NewRelic interface and automatically logged in</li>
+</ul>
+
+<p>There you should see the data from the last few minutes of your production activity.</p>
+
+<p>In the future, you could also run the following from your command line: <code>heroku addons:open newrelic</code></p>
+
+<h2>What You&#8217;ve Learned</h2>
+
+<ul>
+<li>Heroku&#8217;s add-on system makes it easy to install third-party tools like NewRelic</li>
+<li>NewRelic can be used to monitor the health of your application</li>
+</ul>
+
+    
+      <a class="print-hidden" href=/elevate><< BACK</a>
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

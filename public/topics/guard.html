@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Guard - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Guard                              Guard is a system for automatically running your tests whenever a file changes. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/guard.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Guard
+        </h1>
+        
+      </header>
+    
+    <p>Guard is a system for automatically running your tests whenever a file changes.</p>
+
+<p>Check out the <a href="https://github.com/guard/guard">Guard project page on GitHub</a>.</p>
+
+<h2>Install</h2>
+
+<p>Install the guard-minitest gem:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>gem install guard-minitest</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h2>Create a <code>Guardfile</code></h2>
+
+<p>You then need a <code>Guardfile</code>. Assuming you&#8217;re in the root directory of your project:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>touch Guardfile</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Add a <code>guard</code> Group</h3>
+
+<p>The <code>Guardfile</code> allows you to define multiple entries for files you want to
+react to grouped by type. For our exercise we only need to run Minitest tests.
+Start with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">guard</span> <span class="ss">:minitest</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Which will contain a set of Minitest watchers.</p>
+
+<h3>Add a Watcher</h3>
+
+<p>Inside that block, add a watcher:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">watch</span><span class="p">(</span><span class="sr">/^lib\/.+\.rb/</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This regular expression matches files inside the <code>lib</code> folder that end in <code>.rb</code>.
+Whenever a matching file changes, Guard will try to run the tests.</p>
+
+<h3>Run Guard</h3>
+
+<p>Let&#8217;s try it. From your project directory:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>guard</span><span class='line output'>16:28:16 - INFO - Guard is using TerminalTitle to send notifications.</span><span class='line output'>16:28:16 - INFO - Guard::Minitest 2.3.1 is running, with Minitest::Unit 5.3.3!</span><span class='line output'>16:28:16 - INFO - Running: all tests</span><span class='line output'>Run options: --seed 43607</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Modify a file in <code>lib</code> and you&#8217;ll see output like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>16:31:22 - INFO - Running:</span><span class='line output'>Run options: --seed 18199</span><span class='line output'></span><span class='line output'># Running:</span><span class='line output'></span><span class='line output'>Finished in 0.000942s, 0.0000 runs/s, 0.0000 assertions/s.</span><span class='line output'></span><span class='line output'>0 runs, 0 assertions, 0 failures, 0 errors, 0 skips</span><span class='line output'>[1] guard(main)></span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Guard saw that a file changed. But instead of running a test file it ran the file
+in <code>lib</code> itself, which doesn&#8217;t contain any tests.</p>
+
+<h3>Improving the <code>watch</code></h3>
+
+<p>Assuming we changed a file <code>lib/sample.rb</code> then we want to run a test file
+<code>test/sample_test.rb</code>. We need to add a block to our <code>Guardfile</code> to make this work:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">guard</span> <span class="ss">:minitest</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">/^lib\/.+\.rb/</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;test/sample_test.rb&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When you save the <code>Guardfile</code>, Guard will re-read it automatically. Try changing
+your file in <code>lib</code> and see the results. Guard runs the <code>sample_test.rb</code> file.</p>
+
+<p>But that&#8217;s not good enough because it&#8217;s always running <code>sample_test.rb</code>,
+regardless of which file was changed in <code>lib/</code>.</p>
+
+<h3>Using the Captures</h3>
+
+<p>Because Guard relies on regular expressions, it passes a <code>MatchData</code> object to the
+block. If we define a capture within the file pattern, then we can use that
+capture in the block.</p>
+
+<p>Let&#8217;s start by adding the capture. Look carefully at this regular expression and
+notice the parenthses around the <code>.+</code>. That&#8217;ll capture the name of the file between the
+folder and the <code>.rb</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">guard</span> <span class="ss">:minitest</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">/^lib\/(.+)\.rb/</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;test/sample_test.rb&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Next we modify the block to use the capture:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">guard</span> <span class="ss">:minitest</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">watch</span><span class="p">(</span><span class="sr">/^lib\/(.+)\.rb/</span><span class="p">)</span> <span class="p">{</span> <span class="o">|</span><span class="n">captures</span><span class="o">|</span> <span class="s2">&quot;test/</span><span class="si">#{</span><span class="n">captures</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="si">}</span><span class="s2">_test.rb&quot;</span><span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>captures</code> here acts like an array. <code>captures[0]</code> is the entire string which was
+matched, like <code>lib/sample.rb</code>. But <code>captures[1]</code> is <em>just</em> the name fragment that
+we need. We use string interpolation to inject it into the filename.</p>
+
+<p>Save the <code>Guardfile</code>, see Guard re-evaluate it, then change your <code>lib/sample.rb</code>.
+Guard should run the matching test file. Now any time you modify a file in <code>lib</code>
+the matching test file will run.</p>
+
+<h3>Watch the Tests</h3>
+
+<p>But what about the other way? It&#8217;d be great to have the tests run whenever <em>they</em>
+change. Add another watcher like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">watch</span><span class="p">(</span><span class="sr">/^test\/.+\.rb/</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This time we don&#8217;t need any captures because we just want to run the file that
+changed.</p>
+
+<p>That&#8217;s everything you need to get started with Guard. Check out the
+<a href="https://github.com/guard/guard">Guard project page on GitHub</a> for more tips and
+ideas.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">puts</span> <span class="s2">&quot;This is a test&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,645 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Outputting Text to Logger for Debugging - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Debugging                                      Outputting Text to Logger for Debugging                              The first and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/debugging/outputting_text.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Debugging</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Outputting Text to Logger for Debugging
+        </h1>
+        
+      </header>
+    
+    <p>The first and most widely used method of debugging Ruby applications is simply outputting text data. Let&#8217;s look at a few approaches at increasing levels of expertise.</p>
+
+<h2>Reading a Request/Response</h2>
+
+<p>Greatly undervalued by newer Rails developers, the first step when observing unexpected behavior should be the server log and the request/response information. Let&#8217;s pick apart an example.</p>
+
+<h3>Sample Request/Response</h3>
+
+<p>Here&#8217;s an actual request from a sample application:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Started POST "/products" for 127.0.0.1 at 2011-07-19 12:42:48 -0700</span><span class='line output'>Processing by ProductsController#create as HTML</span><span class='line output'>Parameters: {"utf8"=>"✓", "authenticity_token"=>"E3aGszU+Xmdq3bs9woAtMzH93zy34Z9lQqiNHwLACRY=", "product"=>{"title"=>"Apples", "price"=>"5.99", "stock"=>"12", "description"=>"A bag of apples.", "image_url"=>"apples.jpg"}, "commit"=>"Create Product"}</span><span class='line output'>User Load (0.3ms)  SELECT "users".* FROM "users" WHERE "users"."id" IS NULL LIMIT 1</span><span class='line output'>Order Load (1.1ms)  SELECT "orders".* FROM "orders" WHERE "orders"."id" = 48 LIMIT 1</span><span class='line output'>AREL (0.5ms)  INSERT INTO "products" ("title", "price", "description", "image_url", "created_at", "updated_at", "stock") VALUES ('Apples', 5.99, 'A bag of apples.', 'apples.jpg', '2011-07-19 19:42:48.457003', '2011-07-19 19:42:48.457003', 12)</span><span class='line output'>Redirected to http://localhost:3000/products/3</span><span class='line output'>Completed 302 Found in 117ms</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Here are some of the facts we can learn from reading the request:</p>
+
+<ul>
+<li>Line1: It executed a <code>POST</code> request for <code>/products</code> which should trigger the <code>create</code> action of <code>ProductsController</code>. Is this the controller and action intended? Especially scrutinize the request verb, this is a common place for mixups.</li>
+<li>Line2: It did attempt to execute <code>ProductsController#create</code></li>
+<li>Line3: The params hash. Look for elements that are blank/nil. Is the structure reasonable? Unfortunately, because of the UTF-8 checkmark, this hash can&#8217;t be copy/pasted into the console for testing unless you&#8217;re on Ruby 1.9.2. If you have trouble navigating this hash:
+
+<ul>
+<li>Copy it from the log output</li>
+<li>Paste it into a text editor</li>
+<li>Remove the <code>utf8</code> key/value pair</li>
+<li>Copy the result</li>
+<li>Paste it into console and experiment</li>
+<li>Inspect whether attributes are correctly nested, correctly named, etc</li>
+</ul></li>
+<li>Lines 4-6: See the SQL interactions. Particularly pay attention to <code>INSERT</code> statements. Is the information from the Line 3 params in the <code>INSERT</code> or are there a bunch of <code>nil</code> fields? The most common issue you&#8217;ll spot here is this:
+<code>text
+WARNING: Can't mass-assign protected attributes: [your attributes here]
+</code>
+In that case, look in the model for the <code>attr_accessible</code> method call and see if additional fields should be made accessible. Note that the suffix matters, so making <code>product</code> accessible will not automatically accept <code>product_id</code>, list both to allow mass-assignment via ID number or actual object.</li>
+<li>Last Lines: Redirect or render and HTML status code. Usually not helpful unless the app is redirecting you somewhere unexpected.</li>
+</ul>
+
+<p>Just to say it one more time, the issue about <em>Can&#8217;t mass-assign protected attributes</em> is an incredibly common issue new Rails developers spend hours debugging. If you see the error in the log, though, it can be fixed in seconds. Just go to your model file and add the attributes to <code>attr_accessible</code>.</p>
+
+<h2>Temporary Instructions</h2>
+
+<p>Let&#8217;s next look at adding temporary instructions to our application.</p>
+
+<h3>Using Warn</h3>
+
+<p>Looking at the server log gave lots of great info, but it doesn&#8217;t help with inspecting the values of variables or instructions. For that job, use the <code>warn</code> method of Ruby&#8217;s <code>Kernel</code> object. Here&#8217;s how you might insert it into the <code>create</code> action used above:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@product</span> <span class="o">=</span> <span class="no">Product</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="nb">warn</span> <span class="s2">&quot;Product before save:&quot;</span>
+</span><span class='line'>  <span class="nb">warn</span> <span class="vi">@product</span><span class="o">.</span><span class="n">inspect</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@product</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">redirect_to</span> <span class="vi">@product</span><span class="p">,</span> <span class="n">notice</span><span class="p">:</span> <span class="s2">&quot;Successfully created product.&quot;</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="n">action</span><span class="p">:</span> <span class="s1">&#39;new&#39;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then in the output log see the results:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>Product before save:</span><span class='line output'>#<Product id: nil, title: "Apples", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0></span><span class='line output'></span><span class='line output'>Started POST "/products" for 127.0.0.1 at 2011-07-19 13:18:26 -0700</span><span class='line output'>Processing by ProductsController#create as HTML</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Notice that the warn comes out before where the log claims it is &quot;starting&quot; the response. The <code>warn</code> is output immediately, while the normal logging operations are buffered and output all together.</p>
+
+<div class="opinion">
+<p>When I use warn I&#8217;ll typically put in some label to the output, like the <code>Product before save</code> here. The messages for <code>warn</code> are just strings, so you can use <code>\n</code> newlines or other text formatting to make them easier to read.
+</div>
+
+<h3>Raising Exceptions</h3>
+
+<p>One of my most frequently used techniques is to intentionally raise an exception. If I wanted to check out the <code>@product</code> object during the <code>create</code> action and maybe look at the parameters of the request, I&#8217;d typically do this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@product</span> <span class="o">=</span> <span class="no">Product</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">raise</span> <span class="vi">@product</span><span class="o">.</span><span class="n">inspect</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@product</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>  <span class="c1">#...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>raise</code> will immediately halt execution and display Rails&#8217; normal error page. The <code>raise</code> method accepts one parameter, a string, which will be output as the error message.</p>
+
+<p>With this usage you&#8217;d see something like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>RuntimeError in ProductsController#create</span><span class='line output'>#<Product id: nil, title: "Apples", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0></span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The first line specifying that it was a general <code>RuntimeError</code> exception and the second line is the message, the result of our <code>inspect</code>. Generally <code>inspect</code> is a better choice than <code>to_s</code> as it&#8217;ll show more about the object&#8217;s internal state.</p>
+
+<p>Also, further down the page you&#8217;ll see the request&#8217;s parameters formatted in a YAML debug block.</p>
+
+<p>This is a great debugging technique when writing Rails applications because you don&#8217;t have to dig through anything &#8211; execution halts right at your message.</p>
+
+<p>You can even use <code>raise</code> in conjunction with Ruby&#8217;s <em>here-doc</em> and string interpolation to create a block of output:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">raise</span> <span class="o">&lt;&lt;-</span><span class="no">EOS</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">params: #{params.inspect}</span>
+</span><span class='line'><span class="err">@product: #{@product.inspect}</span>
+</span><span class='line'>
+</span><span class='line'><span class="err">&gt;&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">params</span><span class="p">:</span> <span class="c1">#{params.inspect}</span>
+</span><span class='line'><span class="vi">@product</span><span class="p">:</span> <span class="c1">#{@product.inspect}</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&gt;&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Debug Helper</h3>
+
+<p>If you can get to the point of execution where a view template is being rendered, then you can take advantage of the <code>debug</code> helper method. It accepts one object as an argument and outputs a nicely formatted YAML representation of the object wrapped in <code>&lt;pre&gt;</code> tags. The built-in Rails stylesheet already has styles for the <code>&lt;pre&gt;</code> tags for this reason.</p>
+
+<p>For instance, in the form used with the <code>create</code> action, I could insert <code>debug</code> like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">debug</span> <span class="vi">@product</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then when the view is rendered the YAML output will be visible.</p>
+
+<p>But there&#8217;s a serious problem with adding debug code &#8211; it tends to get left behind and sent into production! One solution I&#8217;ve used is to define this helper in <code>ApplicationHelper</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="k">def</span> <span class="nf">d</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">debug</span> <span class="n">object</span> <span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then in the view templates just use it instead of the built-in <code>debug</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">d</span> <span class="vi">@product</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now any debug code would be hidden in production. Want to take it a step further? How about this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">d</span><span class="p">(</span><span class="n">object</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="no">Rails</span><span class="o">.</span><span class="n">env</span> <span class="o">==</span> <span class="s2">&quot;development&quot;</span>
+</span><span class='line'>    <span class="n">debug</span> <span class="n">object</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="s2">&quot;Debug code running in test &amp; production!&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, assuming that you have coverage of your views in automated tests, debug code will get caught before hitting production!</p>
+
+<h2>A Custom Logger</h2>
+
+<p>Let&#8217;s say you want to debug a more complex process. Maybe it involves several &quot;checkpoints&quot; across multiple methods. Or you want to build an audit trail for actions in your application. You need a custom logger.</p>
+
+<p>It&#8217;s very easy to create and use thanks to Rails <code>ActiveSupport::BufferedLogger</code>. Imagine we want to build an audit log for our application. Start with an initializer <code>config/initializers/audit_logger.rb</code></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Kernel</span>
+</span><span class='line'>  <span class="vc">@@audit_log</span> <span class="o">=</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">BufferedLogger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;log/audit.log&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">audit</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">preamble</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[</span><span class="si">#{</span><span class="nb">caller</span><span class="o">.</span><span class="n">first</span><span class="si">}</span><span class="s2">] at </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="si">}</span><span class="se">\n</span><span class="s2">Message: &quot;</span>
+</span><span class='line'>    <span class="vc">@@audit_log</span><span class="o">.</span><span class="n">add</span> <span class="mi">0</span><span class="p">,</span> <span class="n">preamble</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="n">inspect</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then anywhere in your application call the <code>audit</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">create</span>
+</span><span class='line'>  <span class="vi">@product</span> <span class="o">=</span> <span class="no">Product</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:product</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">audit</span> <span class="vi">@product</span><span class="o">.</span><span class="n">inspect</span>
+</span><span class='line'>  <span class="k">if</span> <span class="vi">@product</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="c1">#...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Pop open <code>log/audit.log</code> and you&#8217;ll find messages like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>[/path/to/your/app/controllers/products_controller.rb:18:in `create'] at 2011-07-19 14:12:16 -0700</span><span class='line output'>Message: "#<Product id: nil, title: \"Apples\", price: nil, description: nil, image_url: nil, created_at: nil, updated_at: nil, stock: 0>"</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Tweak the formatting to your liking, then add auditing wherever needed in your application!</p>
+
+<h2>Heroku Logs</h2>
+
+<p>That&#8217;s great for development, but what about accessing our logs in production?</p>
+
+<p>The first step is to enable Heroku&#8217;s &quot;Expanded&quot; logging add-on. From within your project directory, assuming it is already running on Heroku:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku addons:add logging:expanded</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Fetching Logs</h3>
+
+<p>Getting logs from Heroku is simple:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku logs --tail</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Which will give you output like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku logs</span><span class='line output'>2010-09-16T15:13:46-07:00 app[web.1]: Processing PostController#list (for 208.39.138.12 at 2010-09-16 15:13:46) [GET]</span><span class='line output'>2010-09-16T15:13:46-07:00 app[web.1]: Rendering template within layouts/application</span><span class='line output'>2010-09-16T15:13:46-07:00 app[web.1]: Rendering post/list</span><span class='line output'>2010-09-16T15:13:46-07:00 app[web.1]: Rendered includes/_header (0.1ms)</span><span class='line output'>2010-09-16T15:13:46-07:00 app[web.1]: Completed in 74ms (View: 31, DB: 40) | 200 OK [http://myapp.heroku.com/]</span><span class='line output'>2010-09-16T15:13:46-07:00 heroku[router]: GET myapp.heroku.com/posts queue=0 wait=0ms service=1ms bytes=975</span><span class='line output'>2010-09-16T15:13:47-07:00 app[worker.1]: 2 jobs processed at 16.6761 j/s, 0 failed ...</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>The marker in <code>[]</code> corresponds to the dyno generating the message. The log aggregates information from all your dynos and workers, so it&#8217;s great for tracking down complex interactions between components.</p>
+
+<p>For more extensive discussion, check out the Heroku resource center here: <a href="http://devcenter.heroku.com/articles/logging">http://devcenter.heroku.com/articles/logging</a></p>
+
+<h2>Distributed Logging with Greylog2</h2>
+
+<p>That kind of approach works great for a single instance, but what about coordinating multiple machines or logging from non-Ruby processes? Then you need a distributed logging system.</p>
+
+<p>I took a poll of Ruby developers and three options stood out:</p>
+
+<ul>
+<li>3rd party logging services like <a href="https://papertrailapp.com/">Papertrail</a></li>
+<li>Open source with commercial support <a href="http://www.balabit.com/network-security/syslog-ng">Syslog-ng</a></li>
+<li>Open source <a href="http://graylog2.org">Graylog2</a></li>
+</ul>
+
+<p>The third party services are definitely the easiest to work with, but you&#8217;re incurring extra costs and losing lots of control. If I were working on a small team and didn&#8217;t have dedicated DevOps staff, I&#8217;d definitely go this route.</p>
+
+<p>Syslog-ng is probably the most powerful of the three, but it&#8217;s no fun to work with. The setup process was referred to as &quot;black arts&quot; by one developer. It requires installation on both the client and server sides, which is a lot of work. It&#8217;s a pure Unix solution that doesn&#8217;t leverage any Ruby.</p>
+
+<p>Finally Graylog2 is quite interesting. You run a Java-based server backed by a MongoDB database, then submit log messages over UDP from a variety of client libraries. Because it relies on simple network protocols, the client-side setup is minimal. If logging every single entry is of critical importance and your server network experiences volatility, then the &quot;fire and forget&quot; nature of UDP is not going to be a good fit. But if you&#8217;re ok with the possibility of a very occassional slip, then Graylog2 is a solid choice.</p>
+
+<h3>Graylog2 Server Setup</h3>
+
+<p>The server setup on a Unix system is painless:</p>
+
+<ul>
+<li>Install and setup MongoDB if not already available (<code>brew install mongodb</code> using Homebrew for OS X)</li>
+<li>Download and decompress the server from <a href="https://github.com/Graylog2/graylog2-server">https://github.com/Graylog2/graylog2-server</a></li>
+<li>Copy the <code>graylog2.conf.example</code> to <code>/etc/graylog2.conf</code> and edit with necessary MongoDB credentials. Also, changing the host from <code>localhost</code> to <code>127.0.0.1</code> was necessary due to a Java quirk on OS X.</li>
+<li>Start the server with <code>java -jar graylog2-server.jar</code></li>
+</ul>
+
+<h3>Graylog2 as Rails Logger</h3>
+
+<p>With the server running, let&#8217;s try to use it for our normal Rails application logging instead of a <code>production.log</code>.</p>
+
+<h4>Install the Gem</h4>
+
+<p>Open your <code>Gemfile</code> and add a dependency on <code>gelf</code>. Run <code>bundle</code> to setup the dependency.</p>
+
+<h4>Configuring the Logger</h4>
+
+<p>Open <code>config/application.rb</code> and inside <code>class Application</code> add:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">colorize_logging</span> <span class="o">=</span> <span class="kp">false</span>
+</span><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">GELF</span><span class="o">::</span><span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="mi">12201</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:facility</span> <span class="o">=&gt;</span> <span class="s2">&quot;your_application_name&quot;</span> <span class="p">})</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Normal Rails logging uses terminal colorization which looks crazy when you send it to other services, so we turn the colors off. </p>
+
+<p>Then <code>config.logger</code> changes the Rails logger to use an instance of <code>GELF::Logger</code>. The instance needs:</p>
+
+<ul>
+<li>The ip of the Graylog2 server</li>
+<li>The port</li>
+<li>(Optionally) a &quot;facility&quot; name for categorizing messages from this server on the log server</li>
+</ul>
+
+<p>Restart the Rails server and you&#8217;re good to go&#8230;maybe? How do we check out the results?</p>
+
+<h4>Graylog2 Web Interface</h4>
+
+<p>Graylog2 offers a Rails-based web interface to view, search, and manipulate the logs. If your machine is already setup with Ruby, then it&#8217;s easy to get the web interface going.</p>
+
+<ul>
+<li>Download the code from <a href="https://github.com/Graylog2/graylog2-web-interface">https://github.com/Graylog2/graylog2-web-interface</a></li>
+<li>Edit the <code>config/mongoid.yml</code> to connect to the MongoDB server on the Graylog2 server. Note that the web interface and logging server could run on different machines.</li>
+<li>Run <code>bundle</code> from the project directory to setup dependencies</li>
+<li>Start the server in production mode: <code>rails server -e production</code></li>
+<li>Open the address in a browser and create a new user if one hasn&#8217;t been created already</li>
+<li>See your log entries pouring in!</li>
+</ul>
+
+<h4>Dealing with Exceptions</h4>
+
+<p>You probably don&#8217;t write bugs, but maybe someone else on your team does. Then they&#8217;re going to cause exceptions in the Rails app. The exceptions should get logged as part of the normal logging facility, but there&#8217;s also another approach.</p>
+
+<p>Graylog2 offers a Rack middleware just for logging exceptions. From inside your Rack-based application:</p>
+
+<ul>
+<li>Add a dependency on <code>graylog2_exceptions</code></li>
+<li><code>bundle</code> to setup the gem</li>
+<li>For Rails, load the middleware by editing <code>config/application.rb</code> and adding this with the correct ip address:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">use</span> <span class="s2">&quot;Graylog2Exceptions&quot;</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:hostname</span> <span class="o">=&gt;</span> <span class="s1">&#39;graylog2.server.ip.address&#39;</span><span class="p">,</span> <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="s1">&#39;12201&#39;</span><span class="p">,</span> <span class="ss">:level</span> <span class="o">=&gt;</span> <span class="mi">0</span> <span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<ul>
+<li>Or, for a Sinatra application:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">use</span>  <span class="no">Graylog2Exceptions</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:local_app_name</span> <span class="o">=&gt;</span> <span class="s2">&quot;MyApp&quot;</span><span class="p">,</span> <span class="ss">:hostname</span> <span class="o">=&gt;</span> <span class="s1">&#39;graylog2.server.ip.address&#39;</span><span class="p">,</span> <span class="ss">:port</span> <span class="o">=&gt;</span> <span class="mi">12201</span><span class="p">,</span> <span class="ss">:level</span> <span class="o">=&gt;</span> <span class="mi">0</span> <span class="p">}</span>
+</span><span class='line'><span class="n">set</span> <span class="ss">:raise_errors</span><span class="p">,</span> <span class="kp">true</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Start your server, cause an exception, and see it pop up in the Graylog2 interface.</p>
+
+<h4>Non-Web Logging</h4>
+
+<p>Want to log messages from a background job running through Resque or similar? No problem. Somewhere in the setup of your worker object, setup a <code>Logger</code> object and define a convenience method for posting message:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vi">@audit_log</span> <span class="o">=</span> <span class="no">GELF</span><span class="o">::</span><span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;graylog2.ip.address&quot;</span><span class="p">,</span> <span class="mi">12201</span><span class="p">,</span> <span class="p">{</span> <span class="ss">:facility</span> <span class="o">=&gt;</span> <span class="s2">&quot;background_job_name&quot;</span> <span class="p">})</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">audit</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">preamble</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">[</span><span class="si">#{</span><span class="nb">caller</span><span class="o">.</span><span class="n">first</span><span class="si">}</span><span class="s2">] at </span><span class="si">#{</span><span class="no">Time</span><span class="o">.</span><span class="n">now</span><span class="si">}</span><span class="se">\n</span><span class="s2">Message: &quot;</span>
+</span><span class='line'>  <span class="vc">@@audit_log</span><span class="o">.</span><span class="n">add</span> <span class="mi">0</span><span class="p">,</span> <span class="n">preamble</span> <span class="o">+</span> <span class="n">message</span><span class="o">.</span><span class="n">inspect</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then call <code>audit</code> whenever you want to record data. There are other options you can use to structure the data for GELF here: <a href="http://rdoc.info/github/Graylog2/gelf-rb/master/GELF/Notifier">http://rdoc.info/github/Graylog2/gelf-rb/master/GELF/Notifier</a></p>
+
+<h2>Exercises</h2>
+
+<p>Grab the Blogger sample project, create a branch, and try out each of the following techniques:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git clone https://github.com/JumpstartLab/blogger</span><span class='line command'>cd blogger</span><span class='line command'>git checkout -b my_debugging</span><span class='line command'>bundle</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<ol>
+<li>Add <code>attr_accessible :title</code> to the <code>Article</code> model. Then create an article through the web interface. Check out the log file from your server and find the warnings, notice the <code>nil</code> data in the <code>INSERT</code> statement.</li>
+<li>With that <code>attr_accessible</code> still in place, use <code>warn</code> statements in the <code>create</code> action to output the state of the <code>Article</code> object after creation. Find the output in the server log.</li>
+<li>Now, instead of using <code>warn</code>, try using <code>raise</code>. Observe what happens when you call <code>raise</code> on the object itself. Then add <code>.inspect</code> and trigger the <code>raise</code> again.</li>
+<li>Add a call to <code>debug</code> in the <code>show.html.erb</code> to display the current article.
+
+<ul>
+<li>Extra challenge: Write a <code>d</code> helper as described above. Add it to your application&#8217;s layout so every page displays <code>@article</code> or <code>@articles</code> if they exist.</li>
+</ul></li>
+<li>Implement a custom logger and add log entries for each step of the article life-cycle: <code>create</code>, <code>update</code>, <code>show</code>, and <code>destroy</code>. Trigger a few of those actions and see that they&#8217;re output in the audit log.</li>
+</ol>
+
+<p>Once complete, either commit (<code>git commit</code>) or get rid of (<code>git reset --hard</code>) your changes. You can stay on the debugging branch for the next section.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

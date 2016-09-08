@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Heroku Configuation & Setup - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Environment & Source Control                                      Heroku Configuation & Setup                              Heroku &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/environment/heroku.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Environment & Source Control</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Heroku Configuation & Setup
+        </h1>
+        
+      </header>
+    
+    <p><a href="http://www.heroku.com/">Heroku</a> is an application platform in the cloud which takes care of managing servers, deployment, and scaling, allowing you to focus your attention solely on your application code.  We love deploying code to Heroku because the whole system was built to be easy. There are just a few steps to get going.</p>
+
+<h3>SSH Keys</h3>
+
+<p>Heroku authenticates using SSH keys.</p>
+
+<h4>On Windows</h4>
+
+<p>If you&#8217;ve used RailsInstaller then it generated and saved SSH keys for you; there&#8217;s nothing to do!</p>
+
+<h4>MacOS and Linux</h4>
+
+<p>If you&#8217;re on MacOS or Linux there&#8217;s a decent chance you&#8217;ve already created a set of SSH keys. Look in <code>~/.ssh/</code> and if you see files like <code>id_rsa</code> and <code>id_rsa.pub</code> then you&#8217;re good to go!</p>
+
+<p>If those files <em>aren&#8217;t</em> present, generate new keys like this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>ssh-keygen -t rsa</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If you choose to use a passphrase, you&#8217;d better remember it. If you forget it then you can&#8217;t use your keys and you might not be able to access important resources like your code and server!</p>
+
+<p>Once that setup completes you&#8217;re ready to continue.</p>
+
+<h3>Heroku Gem</h3>
+
+<p>Heroku has created a gem (<a href="https://github.com/heroku/heroku">https://github.com/heroku/heroku</a>) that makes it ridiculously easy to interact with their service. If you use Heroku for all your projects, consider adding it to your global gemset (in <code>~/.rvm/gemsets/global.gems</code>).  Here&#8217;s how you use it:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>$</span>
+<span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rvm gemset use global</span><span class='line command'>gem install heroku</span><span class='line command'>bundle install</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h3>Authenticate</h3>
+
+<p>Now you&#8217;re ready to submit your credentials to Heroku. Start by attempting to list your applications:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku list</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You&#8217;ll be prompted for your Heroku.com username and password. If you don&#8217;t have one, create one: <a href="http://www.heroku.com/signup">http://www.heroku.com/signup</a></p>
+
+<p>Once those credentials are entered, you should upload your SSH keys to allow password-less access in the future:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku keys:add</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Once that upload completes, you can try <code>heroku list</code> again and it should complete <em>without</em> asking for a username/password.</p>
+
+<h2>Heroku Basics</h2>
+
+<p>Here are some of the most common commands you&#8217;ll use on Heroku:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<br><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku create [<name>] # create a new app; if you omit the 'name' one will be provided for you</span><span class='line command'>heroku list            # list your apps</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Within the root directory of a project you can use the following <code>heroku</code> commands:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>info                         # show app info, like web url and git repo</span><span class='line output'>open                         # open the app in a web browser</span><span class='line output'>rename <newname>             # rename the app</span><span class='line output'>rake <command>               # remotely execute a rake command</span><span class='line output'>console                      # start an interactive console to the remote app</span><span class='line output'>config                       # display the app's config vars (environment)</span><span class='line output'>config:add key=val [...]     # add one or more config vars</span><span class='line output'>db:pull [<database_url>]     # pull the app's database into a local database</span><span class='line output'>db:push [<database_url>]     # push a local database into the app's remote</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>For more information use <code>heroku help</code> or <code>heroku help TOPIC</code> (e.g. <code>heroku help config</code>).  You can also check out the full list on Cheat (<a href="http://cheat.errtheblog.com/s/heroku/">http://cheat.errtheblog.com/s/heroku/</a>) or install the Cheat gem (<code>gem install cheat</code>) then display it with <code>cheat heroku</code>.</p>
+
+<h2>Heroku Deployment</h2>
+
+<p>Applications are deployed to Heroku through git.  In order to push to Heroku, you&#8217;ll need to add it as a remote (repository):</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git remote add heroku git@heroku.com:appname.git</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>If you don&#8217;t know what your &quot;appname&quot; is, you can find it easily:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>heroku info --app appname</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Now when you&#8217;re ready to deploy, simply push to your <code>heroku</code> remote&#8217;s <code>master</code> branch:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git push heroku master</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>You can push any number of branches to Heroku:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git push heroku my_topic_branch:my_topic_branch</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>This will create a new &quot;remote&quot; branch in your <code>heroku</code> repository.  The <code>my_topic_branch:my_topic_branch</code> bit means &quot;push my local branch named &#8216;the-branch-name -<em>before</em>-the-colon&#8217; and name it &#8216;the-branch-name-<em>after</em>-the-colon&#8217;&quot;.  Most often when you push remote branches those two names will be identical.</p>
+
+<p>Importantly, only the <code>master</code> branch on your <code>heroku</code> remote triggers deployment.  All other branches are essentially ignored by Heroku.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

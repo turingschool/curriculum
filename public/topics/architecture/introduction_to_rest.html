@@ -1,0 +1,393 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Introduction to REST - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Introduction to REST                              Big PictureHistoryIn 2000, Roy Fielding&#8217;s doctoral thesis: &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/architecture/introduction_to_rest.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Introduction to REST
+        </h1>
+        
+      </header>
+    
+    <h2>Big Picture</h2>
+
+<h3>History</h3>
+
+<ul>
+<li>In 2000, Roy Fielding&#8217;s doctoral thesis: <a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm">http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm</a></li>
+<li>In 2007, Rails releases 2.0 with REST support: <a href="http://weblog.rubyonrails.org/2007/12/7/rails-2-0-it-s-done/">http://weblog.rubyonrails.org/2007/12/7/rails-2-0-it-s-done/</a></li>
+<li>Since 2007, most Rails apps strive for REST</li>
+</ul>
+
+<h3>REST Uses More of HTTP</h3>
+
+<ul>
+<li>GET - retrieve a resource</li>
+<li>POST - create a new resource</li>
+<li>DELETE - remove a resource</li>
+<li>PUT - update an existing resource in whole</li>
+<li>(PATCH) - update an existing resource in part</li>
+</ul>
+
+<h3>Concepts of Resources</h3>
+
+<ul>
+<li>A &quot;resource&quot; is typically a domain object</li>
+<li>A &quot;resource&quot; does not <em>necessarily</em> relate to a database table (ex: dashboard, session)</li>
+<li>Resources may be nested</li>
+</ul>
+
+<h2>Applied in Rails</h2>
+
+<h3>Displaying a Single Resource</h3>
+
+<p>A <code>GET</code> with a resource identifier is used to display that resource. For instance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/articles/1
+</span><span class='line'>GET http://example.com/articles/1.json</span></code></pre></td></tr></table></div></figure>
+
+<p>In Rails this verb/path combo is mapped to the <code>show</code> action. The <code>show</code> action typically only accesses the parameter for the identifier (like <code>params[:id]</code>).</p>
+
+<h3>Displaying Multiple Records</h3>
+
+<p>A <code>GET</code> request to the root of a resource should return a list of the resources, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/articles/
+</span><span class='line'>GET http://example.com/articles/2/comments/</span></code></pre></td></tr></table></div></figure>
+
+<p>These requests would be expected to return multiple records. In Rails, this verb/path combo triggers the <code>index</code> action.</p>
+
+<p>The <code>index</code> action often does not need a parameter. But parameters can be used to display only a certain &quot;page&quot; of the results like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/articles?page=2</span></code></pre></td></tr></table></div></figure>
+
+<p>Or parameters to <code>index</code> can search or filter the records:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/articles?page=2&show_drafts=true</span></code></pre></td></tr></table></div></figure>
+
+<p>You should feel free to makeup whatever parameters you&#8217;d like for your <code>index</code> action, but keep in mind that:</p>
+
+<ul>
+<li>A) By the nature of <code>GET</code> requests, the parameters are embedded in the URL. The more parameters you have, the uglier your URLS.</li>
+<li>B) URL parameters are incredibly easy to modify, so (as always) expect that the user <strong>will</strong> modify them. Be cautious about SQL injection attacks here.</li>
+</ul>
+
+<h3>Creating a Resource</h3>
+
+<p>The process of creating a record in a typical web application is three steps:</p>
+
+<ul>
+<li>1) Display the form where the user enters the data</li>
+<li>2) Process the data from that form to create the resource</li>
+<li>3) Redirect the user</li>
+</ul>
+
+<h4>Displaying the Form</h4>
+
+<p>The fact that we typically dedicate a page/path to the form is not essential to the design of HTTP and REST, it&#8217;s just convenient. Instead, we could choose to:</p>
+
+<ul>
+<li>A) Display the form on the listing (<code>index</code>) page</li>
+<li>B) Expect the user to formulate and submit their own <code>POST</code> request outside the browser (like we&#8217;re building an API)</li>
+</ul>
+
+<p>In a typical Rails app, we choose to display the form on it&#8217;s own page using a URL pattern like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/articles/new
+</span><span class='line'>GET http://example.com/articles/2/comments/new</span></code></pre></td></tr></table></div></figure>
+
+<p>Then the user fills in the form and clicks the submit button.</p>
+
+<h4>Processing the Form</h4>
+
+<p>For a new record, the form is setup to submit a request like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST http://example.com/articles
+</span><span class='line'>POST http://example.com/articles/2/comments</span></code></pre></td></tr></table></div></figure>
+
+<p>That <code>POST</code> will include the data from the form in the body of the request. Unlike a <code>GET</code> action, they&#8217;re not visible in the URL itself.</p>
+
+<p><strong>However</strong>, you must always keep in mind that the user could formulate and submit their own <code>POST</code> request <em>without</em> your form. So data coming is <strong>untrusted</strong>. <em>Assume</em> that the user can and will maliciously modify the data in that request.</p>
+
+<p>Within Rails that <code>POST</code> request will get mapped to the <code>create</code> action. The <code>create</code> action typically makes significant use of the <code>params</code> which have been passed in from the request. Each form element will have it&#8217;s own custom-named key in the hash returned by <code>params</code>. The key name is controlled by the markup you used in the HTML form.</p>
+
+<p>For example, if your form ERB looked like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">form_for</span> <span class="vi">@article</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">f</span><span class="o">.</span><span class="n">text_field</span> <span class="ss">:title</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="x">  </span><span class="cp">&lt;%</span> <span class="n">f</span><span class="o">.</span><span class="n">text_area</span> <span class="ss">:body</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span><span class='line'><span class="cp">&lt;%</span> <span class="k">end</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then when those parameters are received by the <code>create</code> action they&#8217;d be accessible by the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">][</span><span class="ss">:title</span><span class="o">]</span>
+</span><span class='line'><span class="n">params</span><span class="o">[</span><span class="ss">:article</span><span class="o">][</span><span class="ss">:body</span><span class="o">]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>When the <code>create</code> action completes, the convention is to redirect the user elsewhere. You might choose to send them to the listing/<code>index</code> page or the <code>show</code> for the resource they just created.</p>
+
+<h3>Editing a Resource</h3>
+
+<p>Editing an existing resource follows a similar pattern to creating new resources.</p>
+
+<ul>
+<li>1) Display the edit form</li>
+<li>2) Process the data from that form to modify the resource</li>
+<li>3) Redirect the user</li>
+</ul>
+
+<h4>Displaying the Form</h4>
+
+<p>In a typical Rails app, we display an edit form on its own page like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/articles/1/edit
+</span><span class='line'>GET http://example.com/articles/2/comments/6/edit</span></code></pre></td></tr></table></div></figure>
+
+<p>Then the user fills in the form and clicks the submit button.</p>
+
+<h4>Processing the Form</h4>
+
+<p>When the user submits the form it&#8217;ll generate a <code>PUT</code> request:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>PUT http://example.com/articles/1
+</span><span class='line'>PUT http://example.com/articles/2/comments/6</span></code></pre></td></tr></table></div></figure>
+
+<p>The exact same processes and considerations from processing a <code>create</code> apply to processing this form data. You&#8217;ll typically&#8230;</p>
+
+<ul>
+<li>Find the identifier from the URL (like <code>params[:id]</code>)</li>
+<li>Use that to find the existing record in your database</li>
+<li>Use the other parameters passed in (like <code>params[:article][:title]</code> and <code>params[:article][:body]</code>) to update the record</li>
+<li>Redirect the user someplace else</li>
+</ul>
+
+<p>Typically applications will redirect the user to the <code>show</code> action for the resource that they just updated.</p>
+
+<h3>Deleting a Resource</h3>
+
+<p>Delete requests look like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>DELETE http://example.com/articles/1
+</span><span class='line'>DELETE http://example.com/articles/2/comments/6</span></code></pre></td></tr></table></div></figure>
+
+<p>The router will map this verb/path combo to the <code>destroy</code> action in a Rails controller. The <code>destroy</code> action typically only pulls the <code>id</code> from the URL and removes that record from the system.</p>
+
+<p>You might wonder, &quot;why call the action <code>destroy</code> instead of just <code>delete</code>?&quot; It&#8217;s mainly for backwards compatibility &#8211; Rails was using <code>destroy</code> to remove records before REST became a big thing.</p>
+
+<h2>Quick Hits</h2>
+
+<h3>Search</h3>
+
+<p>One of the things that confuses developers new to REST is &quot;how do I handle search?&quot; You have three primary options:</p>
+
+<h4>Searching is a Filter</h4>
+
+<p>You can implement search as a &quot;filter&quot; on your index action, so you&#8217;d use URLs like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/articles?author_id=6</span></code></pre></td></tr></table></div></figure>
+
+<p>To find all the articles by the author with identifier <code>6</code>.</p>
+
+<h4>Saved Searches</h4>
+
+<p>Option two is to promote the concept of search to a domain object. You display a search form and it submits a request like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>POST http://example.com/searches</span></code></pre></td></tr></table></div></figure>
+
+<p>Where the request body contains the various search parameters. </p>
+
+<p><em>However</em>, don&#8217;t just find the records and display them as a response to the <code>POST</code>. Since the <code>POST</code> parameters are invisible, the URL is not sharable or bookmark-able. Instead, you want to validate the parameters and redirect the user to a <code>show</code> page for that search like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/searches/12</span></code></pre></td></tr></table></div></figure>
+
+<p>Which would necessitate you storing the search parameters in your datastore/database so you could later find the search with <code>id</code> of <code>12</code>.</p>
+
+<h4>Cheating REST</h4>
+
+<p>If you don&#8217;t want to store the search and don&#8217;t like the filter appraoch, then you&#8217;re left with cheating on the RESTful model with something like</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET http://example.com/search?looking_for=articles&author_id=6</span></code></pre></td></tr></table></div></figure>
+
+<p>While this can work just fine, it doesn&#8217;t follow the concept of resources. Instead, you&#8217;re using more of an Remote Procedure Call (RPC) style to call a <code>search</code> procedure.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

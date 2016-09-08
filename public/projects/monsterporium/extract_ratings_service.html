@@ -1,0 +1,2482 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Extract Ratings Service - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Extract Ratings Service                              IntroductionWe&#8217;ll take an existing project, the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/projects/monsterporium/extract_ratings_service.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+    
+      <header>
+        <h1 class="entry-title">
+          Extract Ratings Service
+        </h1>
+        
+      </header>
+    
+    <h2>Introduction</h2>
+
+<p>We&#8217;ll take an existing project, the Monsterporium store, and extract the ratings system to an external API.</p>
+
+<p>This tutorial assumes that you have completed the <a href="/projects/monsterporium/extract_notification_service.html">Extract Notification Service</a> tutorial, but can be completed independently of it.</p>
+
+<p>Extracting the email into a service was relatively easy. Really, it wasn&#8217;t much different than the way many apps implement background workers. Now, let&#8217;s look at a more complex architecture that, rather than just &quot;doing&quot; an action, is used to read and write domain data.</p>
+
+<h3>Goals</h3>
+
+<p>Through this extraction process you&#8217;ll learn:</p>
+
+<ul>
+<li>How to write a JSON API using Sinatra and Active Record</li>
+<li>How to use Rails form helpers with non-ActiveRecord objects</li>
+<li>How to access data that&#8217;s been computed by an external service</li>
+</ul>
+
+<div class="note">
+<p>This tutorial is open source. If you notice errors, typos, or have questions/suggestions,
+  please <a href="https://github.com/JumpstartLab/curriculum/blob/master/source/topics/extract_ratings_service.markdown">submit them to the project on GitHub</a>.</p>
+</div>
+
+<h3>Background</h3>
+
+<p>Each product in the store has multiple ratings. This functionality is perfect
+for extraction to a service because:</p>
+
+<ul>
+<li>it has relatively self-contained data. The only external data dependencies
+are a product ID and a user ID.</li>
+<li>it doesn&#8217;t have side effects / shared functionality with other parts of the
+application.</li>
+<li>it&#8217;s easy to reason about as a unit of functionality</li>
+</ul>
+
+<h3>Setup</h3>
+
+<p>If you don&#8217;t already have the Monsterporium and Redis installed, hop over to <a href="/projects/monsterporium/setup.html">the installation instructions</a>.</p>
+
+<h2>Validating Functionality</h2>
+
+<p>The ratings feature is used in two places.</p>
+
+<p>On the <code>ProductsController#show</code> page, all the ratings for that product are listed. These are currently not tested at all.</p>
+
+<p>In the user&#8217;s account, there is a page where the user can manage all of their
+ratings. These have no unit tests or controller tests. There are some feature
+specs, but they are incomplete.</p>
+
+<h3>Getting Features Under Test</h3>
+
+<h4>Users and Possible Ratings</h4>
+
+<p>Log in with username <code>judy@example.com</code> and password <code>password</code>. There are
+other test accounts, see the <code>db/seed.rb</code> file for details.</p>
+
+<p>Go to the <a href="http://localhost:3000/account/ratings">/account/ratings</a> page.</p>
+
+<p>This feature shows a list of the (unique) products that a user has ordered. If
+the user has rated it, this rating is displayed, otherwise, a link to add a
+rating for that item is shown.</p>
+
+<p>If the user rated it in the last 15 minutes, there is an edit link.</p>
+
+<h4>The Feature Specs</h4>
+
+<p>The tests for managing a user&#8217;s ratings are in <code>spec/features/user_rates_products_spec.rb</code>.</p>
+
+<p>The feature specs cover:</p>
+
+<ul>
+<li>creating a rating</li>
+<li>failure to create a rating (incorrect parameters)</li>
+<li>editing a rating</li>
+<li>failure to edit a rating (incorrect parameters)</li>
+</ul>
+
+<p>The feature specs do not cover:</p>
+
+<ul>
+<li>the (correct) rating is displayed if a user has rated it</li>
+<li>the user may not edit after the 15 minute window closes</li>
+<li>there is a link to provide feedback if the product is not rated</li>
+</ul>
+
+<p>At this point, you need to <strong>improve the test suite to cover these cases</strong>. Some tips to keep in mind:</p>
+
+<ul>
+<li>The <a href="https://github.com/travisjeffery/timecop">Timecop library</a> can help manipulate time in your app</li>
+<li>The <a href="https://github.com/jnicklas/capybara#using-capybara-with-rspec">Capybara README</a> has details about how it use it with RSpec</li>
+</ul>
+
+<h4>Testing the Product&#8217;s Ratings</h4>
+
+<p>On the individual product page, the ratings by all users for that product are displayed. If the user has rated the item within the last 15 minutes, there is a link to edit the rating.</p>
+
+<p>This is not tested in any way.</p>
+
+<p>Use the same techniques as before to get the features under test.</p>
+
+<h4>Ignoring Bugs</h4>
+
+<p>The current implementation has a number of issues, all of which we will
+cheerfully ignore unless they become relevent.</p>
+
+<h2>Prepare for Extraction</h2>
+
+<p>Currently, in a normal MVC flow,</p>
+
+<ul>
+<li>the controller queries the <code>Rating</code> model</li>
+<li>the model queries the database</li>
+<li>the data flows back to the model</li>
+<li>the model passes it back to the controller</li>
+<li>the controller renders the view template</li>
+</ul>
+
+<p>One controller action queries a model named <code>OrderedProducts</code> which delegates
+to both the <code>Order</code> model and the <code>Rating</code> model. It returns a ruby
+object, maybe you&#8217;d call it a presenter, which delegates messages to both the product and the rating.</p>
+
+<h3>Loosening the Coupling</h3>
+
+<p>We&#8217;ll add two new objects to the system:</p>
+
+<ul>
+<li>An object that will sit in front of the <code>Rating</code> model and mediate all
+communications in and out. This will allow us to slowly swap out talking to the
+model with talking to a remote API.</li>
+<li>A plain ruby object that represents a rating, but it will not
+have access to the persistence layer. Once we&#8217;re talking to the remote
+service, this object will be a wrapper around the JSON object that
+the API returns.</li>
+</ul>
+
+<p>Before we can do this, we need to make some small changes to the rest of the application.</p>
+
+<h3>Hiding the <code>rating.id</code></h3>
+
+<p>When the ratings move into the remote service, it will not make sense to
+expose the primary key of the database. Users should only ever have a single
+rating for a given product, so we can use the combination of <code>user_id</code> and
+<code>product_id</code> to access the ratings rather than a unique <code>id</code>.</p>
+
+<p>In order to make this possible, we&#8217;ll refactor the primary app so it doesn&#8217;t
+rely on the rating id.</p>
+
+<h4>Finding Usages</h4>
+
+<p>First, let&#8217;s find out where it is being used. We&#8217;ll assume that most rating
+objects are assigned to a local variable or instance variable named <code>rating</code>.
+We can grep for this:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>git grep rating.id</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Note that the period is a wildcard, and the search returns both instance of <code>rating.id</code>
+and <code>rating_id</code>.</p>
+
+<p>This uncovers a few different use cases:</p>
+
+<ul>
+<li>creating a unique DOM id that the raty gem can use to display 1-5 stars</li>
+<li>passing into to the url helpers related to ratings</li>
+</ul>
+
+<p>To find routes that use the ratings ID, let&#8217;s look at <code>rake routes</code>:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake routes | grep rating</span><span class='line output'>account_ratings GET    /account/ratings(.:format)                       ratings#index</span><span class='line output'>product_ratings POST   /products/:product_id/ratings(.:format)          ratings#create</span><span class='line output'>new_product_rating GET    /products/:product_id/ratings/new(.:format)      ratings#new</span><span class='line output'>edit_product_rating GET    /products/:product_id/ratings/:id/edit(.:format) ratings#edit</span><span class='line output'>product_rating PUT    /products/:product_id/ratings/:id(.:format)      ratings#update</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Only two routes use the <code>rating.id</code>: the <code>ratings#edit</code> and the
+<code>ratings#update</code>.</p>
+
+<h4>Creating Alternate DOM IDs</h4>
+
+<p>The front-end code does not rely on the CSS ID being a particular value, we just need it to be unique.</p>
+
+<p>On the <a href="http://localhost:3000/account/ratings">user&#8217;s rating page</a>, the
+products are unique, so we can use the <code>rating.product_id</code> rather than the
+<code>rating.id</code>.</p>
+
+<p>On the <a href="http://localhost:3000/products/4">product page</a> we&#8217;re displaying a
+product with all of its reviews. Since each user may only review a given product
+once, we can use the <code>rating.user_id</code> to create a unique DOM ID.</p>
+
+<p>Within the <code>OrderedProduct</code> we need to:</p>
+
+<ul>
+<li>delegate <code>user_id</code> to rating</li>
+<li>delete the <code>rating_id</code> delegation</li>
+</ul>
+
+<p>Run your test suite and confirm that things are working as expected.</p>
+
+<h4>Changing the Routes</h4>
+
+<p>We&#8217;ll replace the rating <code>:id</code> in the URL pattern with <code>:rating_id</code>. We&#8217;d like
+all of the other pieces to stay the same, so we&#8217;ll need to hand-roll custom
+routes.</p>
+
+<p>The current route definition looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:products</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="o">[</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">:show</span> <span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">resources</span> <span class="ss">:ratings</span><span class="p">,</span> <span class="n">except</span><span class="p">:</span> <span class="o">[</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">:show</span><span class="p">,</span> <span class="ss">:destroy</span> <span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Define custom routes for the ratings&#8217; <code>edit</code> and <code>update</code> routes with these:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s2">&quot;/products/:product_id/ratings/:user_id&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;ratings#edit&quot;</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:edit_product_rating</span>
+</span><span class='line'><span class="n">put</span> <span class="s2">&quot;/products/:product_id/ratings/:user_id&quot;</span> <span class="o">=&gt;</span> <span class="s2">&quot;ratings#update&quot;</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:product_rating</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now our <code>resources :ratings</code> only needs to define two actions. Switch over to using the <code>:only</code> key with the list of actions we want:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">resources</span> <span class="ss">:products</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="o">[</span> <span class="ss">:index</span><span class="p">,</span> <span class="ss">:show</span> <span class="o">]</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">resources</span> <span class="ss">:ratings</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="o">[</span> <span class="ss">:new</span><span class="p">,</span> <span class="ss">:create</span> <span class="o">]</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>rake routes</code> and see that no routes are using the rating ID, but our two custom routes are included:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<br><span class='line-number'>&nbsp;</span>
+<br></pre></td><td class='code'><pre><code><span class='line output'>product_rating GET    /products/:product_id/ratings/:user_id(.:format)         ratings#edit</span><span class='line output'>edit_product_rating PUT    /products/:product_id/ratings/:user_id(.:format)         ratings#update</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Calling the Routes</h4>
+
+<p>Finding uses of the edit path is straightforward. Since they are explicit calls to <code>edit_product_rating</code>, we can grep for the usages and update them.</p>
+
+<p>But usages of the update path are more difficult to find. It&#8217;s not listed explicitly, it&#8217;s used in the <code>form_for</code> helper. We need to update the form action, but the form is used both for the <code>create</code> and for the <code>update</code>.</p>
+
+<p>Rather than trying to get fancy with the <code>form_for</code> parameters, let&#8217;s move the first and last lines of the form out from the partial into the <code>edit</code> and <code>new</code>
+template files, leaving just the form inputs in the <code>_form</code> partial. Remember
+to pass the local form variable <code>f</code> to the partial.</p>
+
+<h5>Modifing the Edit Form</h5>
+
+<p>In the <code>edit</code> template change the first line to use the new route like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">simple_form_for</span> <span class="vi">@rating</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">product_rating_path</span><span class="p">(</span><span class="vi">@rating</span><span class="o">.</span><span class="n">product_id</span><span class="p">,</span> <span class="vi">@rating</span><span class="o">.</span><span class="n">user_id</span><span class="p">),</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:put</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Updating the Rating</h4>
+
+<p>Now if we try to submit the form, the controller gets confused, because it&#8217;s
+trying to find the rating by the <code>id</code>, which is no longer being passed in:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="vi">@rating</span> <span class="o">=</span> <span class="no">Rating</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We could change this to use <code>find_by_product_id_and_user_id</code>, but that will behave
+differently in a subtle way: it won&#8217;t raise an exception if the object isn&#8217;t
+found.</p>
+
+<p>Let&#8217;s introduce a class method on <code>Rating</code> named <code>find_unique(params)</code> which
+plucks out the <code>user_id</code> and the <code>product_id</code>, uses those to find the record,
+and raises an <code>ActiveRecord::RecordNotFound</code> if the record doesn&#8217;t exist.</p>
+
+<p>The method looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_unique</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rating</span> <span class="o">=</span> <span class="n">find_by_user_id_and_product_id</span><span class="p">(</span><span class="n">attributes</span><span class="o">[</span><span class="ss">:user_id</span><span class="o">]</span><span class="p">,</span> <span class="n">attributes</span><span class="o">[</span><span class="ss">:product_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">unless</span> <span class="n">rating</span>
+</span><span class='line'>    <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordNotFound</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="n">rating</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the <code>RatingsController</code> change <code>Rating.find</code> to <code>Rating.find_unique</code>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">edit</span>
+</span><span class='line'>  <span class="vi">@rating</span> <span class="o">=</span> <span class="no">Rating</span><span class="o">.</span><span class="n">find_unique</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">update</span>
+</span><span class='line'>  <span class="vi">@rating</span> <span class="o">=</span> <span class="no">Rating</span><span class="o">.</span><span class="n">find_unique</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Verify that everything still works and your specs are green.</p>
+
+<h3>Introducing an Adapter</h3>
+
+<p>The adapter will eventually talk to the remote service, but the first step is
+to use this adapter to talk to the <code>Rating</code> model.</p>
+
+<p>Create a new file <code>app/models/ratings_repository.rb</code> and stub a <code>RatingsRepository</code> class.We&#8217;ll migrate all usages of the <code>Rating</code> class from the
+controllers and other models to point to this class.</p>
+
+<p>There are three files that talk directly to the <code>Rating</code> model.</p>
+
+<h4>Decoupling from the <code>ProductsController</code></h4>
+
+<p>The <code>ProductsController</code> needs to get a list of all the ratings for a
+particular product.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:id</span><span class="o">]</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Without the idea of building a SQL query, we&#8217;re free to create a more Ruby-esque lookup method. Change this to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RatingsRepository</span><span class="o">.</span><span class="n">ratings_for</span><span class="p">(</span><span class="vi">@product</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then in the <code>RatingsRepository</code> add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RatingsRepository</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ratings_for</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;re passing the call through the <code>RatingsRepository</code> and letting the <code>Rating</code> class do the hard work. The product listing should still work and all tests pass.</p>
+
+<h4>Decoupling from the <code>OrderedProduct</code></h4>
+
+<p>The <code>OrderedProduct</code> is asking for all of the ratings by a particular user:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Change this to:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="no">RatingsRepository</span><span class="o">.</span><span class="n">ratings_by</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then, in the rating repository add this code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ratings_by</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Verify that the account rating page still works and the specs pass.</p>
+
+<h4>Decoupling the <code>RatingsController</code></h4>
+
+<p>As one would expect, the <code>RatingsController</code> has several references to the
+Rating model.</p>
+
+<p>In the new action, it instantiates a <code>Rating</code> object:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>  <span class="vi">@rating</span> <span class="o">=</span> <span class="no">Rating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:product_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Change this to ask the <code>RatingsRepository</code> to create a new rating for the given <code>product_id</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">new</span>
+</span><span class='line'>  <span class="vi">@rating</span> <span class="o">=</span> <span class="no">RatingsRepository</span><span class="o">.</span><span class="n">new_rating</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:product_id</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>And add the wrapper-method to the <code>RatingsRepository</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">new_rating</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Rating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>create</code> method also needs a new Rating. Make the same change there.</p>
+
+<p>The <code>edit</code> and <code>update</code> actions both make calls to <code>Rating.find_unique</code>.
+Create a method on <code>RatingsRepository</code> that delegates the message to Rating.</p>
+
+<p>At that point, there should be no references to the <code>Rating</code> model outside of <code>RatingsRepository</code>.</p>
+
+<h3>Introducing a Proxy Rating</h3>
+
+<p>Create a class named <code>ProxyRating</code>, which will be a plain ruby object that
+eventually will be the simple, read-only representation of the rating within the primary app.</p>
+
+<p>Write an <code>initialize</code> method that takes a hash of attributes mirroring the columns in the current ratings table and makes them available as readable attributes.</p>
+
+<h4>Using <code>ProxyRaiting</code> in <code>RatingsRepository</code></h4>
+
+<p>Within <code>RatingsRepository</code>, return <code>ProxyRating</code> instances rather than <code>Rating</code> instances. Take the <code>Rating</code> instances that you get back from ActiveRecord and iterate over them to create <code>ProxyRating</code> objects as needed.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ratings_for</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">rating</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">ProxyRating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">rating</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Lean on the error messages you get and expose the attributes you need in the
+<code>ProxyRating</code> one by one until the product page renders correctly.</p>
+
+<p>It&#8217;s OK if the code is gross, it&#8217;s going away soon.</p>
+
+<h4>Using ProxyRating in the User&#8217;s Rating Page</h4>
+
+<p>Back in the <code>RatingsRepository</code>, make the same change to the <code>ratings_by(user)</code>
+method.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ratings_by</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">rating</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">ProxyRating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">rating</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>New Rating Form</h4>
+
+<p>Next, we&#8217;ll update the new rating submission page.</p>
+
+<p>In <code>RatingsRepository</code> class change <code>Rating</code> to <code>ProxyRating</code> in the <code>new_rating</code> method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">new_rating</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">ProxyRating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Naming</h5>
+
+<p>The page, through the use of the <code>form_for</code> helper, will complain that the proxy rating object doesn&#8217;t have a <code>model_name</code> method.</p>
+
+<p>We can extend Active Model&#8217;s <code>Naming</code> module to get this behavior:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ProxyRating</span>
+</span><span class='line'>  <span class="kp">extend</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Naming</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Conversion</h5>
+
+<p>The next error says that the proxy rating doesn&#8217;t know about <code>to_key</code>.</p>
+
+<p>Include the Active Model&#8217;s <code>Conversion</code> module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">ProxyRating</span>
+</span><span class='line'>  <span class="kp">extend</span>  <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Naming</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Conversion</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Persisted</h5>
+
+<p>Then it will complain about <code>persisted?</code>.</p>
+
+<p>We&#8217;ll use the <code>created_at</code> attribute of the <code>ProxyRating</code> to determine whether
+or not a record has been persisted. If it has a timestamp, it has been persisted.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">persisted?</span>
+</span><span class='line'>  <span class="o">!!</span><span class="n">created_at</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>URL Helper</h5>
+
+<p>The next error is for a url helper that doesn&#8217;t exist.</p>
+
+<p>The form helper uses the name of the class to figure out what url helper to
+call. It was calling <code>product_ratings_path</code>, but now it&#8217;s trying to call
+<code>product_proxy_ratings_path</code>, which doesn&#8217;t exist.</p>
+
+<p>We can fix this by explicitly defining the url and HTTP verb in the form
+declaration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">simple_form_for</span> <span class="vi">@rating</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">product_ratings_path</span><span class="p">(</span><span class="vi">@rating</span><span class="o">.</span><span class="n">product_id</span><span class="p">),</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:post</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Form Elements: Body</h5>
+
+<p>The original project uses the <code>simple_form</code> gem which can make form building quite a bit easier. Many of its features depend on inspecting the ActiveRecord object that the form is about, but our proxy object won&#8217;t have all that data and structure.</p>
+
+<p>This has some side effects in the form. For one, the <code>body</code> attribute has
+become a text field rather than a textarea. We can force a textarea by specifying the option
+<code>as: :text</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:body</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:text</span><span class="p">,</span> <span class="n">input_html</span><span class="p">:</span> <span class="p">{</span> <span class="n">placeholder</span><span class="p">:</span> <span class="n">t</span><span class="p">(</span><span class="s1">&#39;placeholder.ratings.body&#39;</span><span class="p">)</span> <span class="p">}</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Form Elements: Stars</h5>
+
+<p>Second, the stars used to default to <code>0</code>, but now it defaults to a blank option. We can explicitly tell the form not to include the blank line:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='erb'><span class='line'><span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">input</span> <span class="ss">:stars</span><span class="p">,</span> <span class="n">as</span><span class="p">:</span> <span class="ss">:select</span><span class="p">,</span> <span class="n">collection</span><span class="p">:</span> <span class="o">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="o">]</span><span class="p">,</span> <span class="n">include_blank</span><span class="p">:</span> <span class="kp">false</span> <span class="cp">%&gt;</span><span class="x"></span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Trying to Save</h4>
+
+<p>Once the page renders, go ahead and fill out the form and create a new rating. That blows up because the <code>ProxyRating</code> doesn&#8217;t have a save method.</p>
+
+<p>Give the <code>ProxyRating</code> a save method which delegates to <code>RatingsRepository</code> to create a new record:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">save</span>
+</span><span class='line'>  <span class="no">RatingsRepository</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Implement <code>save</code> on the <code>RatingsRepository</code> to actually store it in the database:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Rating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>NOTE: In real life giving a dumb proxy object a save method is probably <em>not</em>
+what you want. After everything is working, it would be good to change the
+controller so that it calls the RatingsRepository.save, passing it the object.
+Because we&#8217;re going to need to work against both a proxy and a real object,
+that&#8217;s going to get messy, so we&#8217;re introducing this ugly thing first.</p>
+
+<h3>Editing Ratings</h3>
+
+<p>Next, let&#8217;s try to edit a rating. </p>
+
+<p>Most likely all the existing ratings in the system are older than 15 minutes, so they&#8217;re uneditable. If you want to re-seed the DB:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>bundle exec rake db:drop db:migrate db:seed</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Finding a Rating</h4>
+
+<p>In the <code>RatingsRepository</code> return a <code>ProxyRating</code> object from the <code>find_unique</code>
+method:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">find_unique</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">ProxyRating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="no">Rating</span><span class="o">.</span><span class="n">find_unique</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Changing the Edit Form</h4>
+
+<p>Instead of passing <code>@rating</code> to the form, give it the symbol <code>:rating</code> which avoids another issue about trying to access <code>.id</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">&lt;%=</span> <span class="n">simple_form_for</span> <span class="ss">:rating</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="n">product_rating_path</span><span class="p">(</span><span class="vi">@rating</span><span class="o">.</span><span class="n">product_id</span><span class="p">,</span> <span class="vi">@rating</span><span class="o">.</span><span class="n">user_id</span><span class="p">),</span> <span class="nb">method</span><span class="p">:</span> <span class="ss">:put</span> <span class="k">do</span> <span class="o">|</span><span class="n">f</span><span class="o">|</span> <span class="o">%&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The page should render properly at this point.</p>
+
+<h4>Submit the Updated Data</h4>
+
+<p>Submit the form. It blows up because <code>ProxyRating</code> has no <code>update_attributes</code> method which is called from the <code>update</code> action in the controller.</p>
+
+<p>Implement one in ProxyRating that delegates to rating:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">update_attributes</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">RatingsRepository</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">attributes</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span> <span class="n">product_id</span><span class="p">:</span> <span class="n">product_id</span><span class="p">))</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>update</code> method doesn&#8217;t exist yet in <code>RatingsRepository</code>. Add it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">update</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Rating</span><span class="o">.</span><span class="n">find_unique</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span><span class="o">.</span><span class="n">update_attributes</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now your edits should persist correctly.</p>
+
+<h3>Back to Fully Functional</h3>
+
+<p>At this point the shim is in place and everything should be working both through the web UI and all tests should be green.</p>
+
+<h2>Creating a Ratings Application</h2>
+
+<p>Now let&#8217;s build the external ratings application to interact with the primary
+app. We&#8217;ll start with plain Ruby, add in ActiveRecord to manipulate the
+database, then mix in Sinatra for HTTP interaction.</p>
+
+<h3>Starting the Project</h3>
+
+<p>Let&#8217;s create a minimal ruby project:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>.</span><span class='line output'>├── Gemfile</span><span class='line output'>├── README.md</span><span class='line output'>├── Rakefile</span><span class='line output'>├── lib</span><span class='line output'>│   └── opinions.rb</span><span class='line output'>└── test</span><span class='line output'>├── opinions_test.rb</span><span class='line output'>└── test_helper.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Dependencies</h4>
+
+<p>We only need one gem: <code>minitest</code>. We could use <code>minitest</code> from the ruby standard library, but the gem version has so many improvements, that it&#8217;s worth jumping through a couple of small hoops to get it.</p>
+
+<p>Add this to the Gemfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="ss">:require</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Beginning to Test</h4>
+
+<p>We can start with a <code>test/opinions_test.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">OpinionsTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_exists</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="no">Opinions</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run it and it&#8217;ll fail because it doesn&#8217;t know about the <code>Opinions</code> class. Require &#8216;opinions&#8217; at the top of the file, and run the test again.</p>
+
+<h4>Changing the Load Path</h4>
+
+<p>It still fails, because it can&#8217;t find <code>Opinions</code>.</p>
+
+<p>Let&#8217;s add <code>lib/</code> to the path. At the top of the test file, add this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now it finds the file, but that file doesn&#8217;t contain anything. Define an <code>Opinions</code> module, run the tests, then it complains about the method <code>env</code> not existing.</p>
+
+<h4>Defining <code>.env</code></h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_environment</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">.</span><span class="n">env</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Well that&#8217;s easy:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">teardown</span>
+</span><span class='line'>  <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OPINIONS_ENV&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Easy, but not very good.</p>
+
+<p>We should be able to configure the environment.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_environment_is_configurable</span>
+</span><span class='line'>  <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OPINIONS_ENV&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;production&#39;</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s1">&#39;production&#39;</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">.</span><span class="n">env</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>TODO: rework this section to TDD the env stuff correctly.</p>
+
+<p>Let&#8217;s read from an environment variable:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Opinions</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">env</span>
+</span><span class='line'>    <span class="vi">@env</span> <span class="o">||=</span> <span class="no">ENV</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;OPINIONS_ENV&quot;</span><span class="p">)</span> <span class="p">{</span> <span class="s2">&quot;development&quot;</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you&#8217;re not familiar with <code>fetch</code>, it will look for the <code>OPINIONS_ENV</code> key in the <code>ENV</code> hash of environment variables. If the key is found, the value will be returned. If it is not found, <code>&quot;development&quot;</code> will be used like a default value.</p>
+
+<p>At this point the test should pass. </p>
+
+<h4>Extracting a <code>test_helper.rb</code></h4>
+
+<p>We&#8217;re going to want all that setup in a separate test helper. Extract it to <code>test/test_helper.rb</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/autorun&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;minitest/pride&#39;</span> <span class="c1"># not strictly necessary, but worth it</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OPINIONS_ENV&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;test&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;opinions&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Building a <code>Rakefile</code></h4>
+
+<p>We&#8217;re also going to want a way to run all the tests at once. Open up the Rakefile and add the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rake/testtask&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">Rake</span><span class="o">::</span><span class="no">TestTask</span><span class="o">.</span><span class="n">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>  <span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'>  <span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>  <span class="n">t</span><span class="o">.</span><span class="n">pattern</span> <span class="o">=</span> <span class="s2">&quot;test/**/*_test.rb&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">task</span> <span class="n">default</span><span class="p">:</span> <span class="ss">:test</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>rake</code> and the test should pass.</p>
+
+<h3>Wiring up Active Record</h3>
+
+<p>We have a stand-alone ruby project with tests wired in. In the primary
+application the ratings are stored in the database, and we have an
+ActiveRecord model that accesses that data.</p>
+
+<p>In order to make the fewest changes possible to the <code>Rating</code> object, and make
+any data migrations as simple as possible, we&#8217;re going to use the same ActiveRecord <code>Rating</code>object in the stand-alone application.</p>
+
+<p>There&#8217;s more to it than just requiring &#8216;active_record&#8217; and copying the file over, however.</p>
+
+<p>We&#8217;re going to need to deal with</p>
+
+<ul>
+<li>configuration</li>
+<li>opening and closing the connection to the database</li>
+<li>database migrations</li>
+<li>running tests in transactions so that tests don&#8217;t interfere with each other</li>
+</ul>
+
+<h4>Adding Files to the New Application</h4>
+
+<p>The new files we&#8217;ll be adding are:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>├── config</span><span class='line output'>│   ├── database.yml</span><span class='line output'>│   └── environment.rb</span><span class='line output'>├── db</span><span class='line output'>│   ├── migrate</span><span class='line output'>│   │   └── 0_initial_migration.rb</span><span class='line output'>├── lib</span><span class='line output'>│   ├── opinions</span><span class='line output'>│   │   └── rating.rb</span><span class='line output'>└── test</span><span class='line output'>└── opinions</span><span class='line output'>   └── rating_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Dependencies in the <code>Gemfile</code></h4>
+
+<p>We need to add both ActiveRecord and an appropriate adapter to the Gemfile. The primary application uses SQLite3, so we&#8217;ll use that here as well.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;activerecord&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="s1">&#39;active_record&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>bundle install</code> to install the dependencies.</p>
+
+<h4>Unit Testing <code>Rating</code></h4>
+
+<p>We&#8217;ll add a separate test file for the <code>Rating</code> class. Since the code will live in
+<code>lib/opinions/rating.rb</code> we&#8217;ll put the test in <code>test/opinions/rating_test.rb</code>.</p>
+
+<p>We won&#8217;t test anything fancy yet. If our test manages to load a new <code>Rating</code>
+class, even if it doesn&#8217;t save it, it means that:</p>
+
+<ul>
+<li>the active record gem is being required</li>
+<li>the database configuration is being loaded</li>
+<li>we&#8217;re connecting to the database correcly</li>
+<li>the test has access to all of it</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">RatingTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_existence</span>
+</span><span class='line'>    <span class="n">rating</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">stars</span><span class="p">:</span> <span class="mi">3</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">3</span><span class="p">,</span> <span class="n">rating</span><span class="o">.</span><span class="n">stars</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>rake</code>.</p>
+
+<p>It blows up with <code>NameError: uninitialized constant Opinions::Rating</code>.</p>
+
+<h4>Copying <code>Rating</code></h4>
+
+<p>Copy the <code>Rating</code> class from the primary application to
+<code>lib/opinions/rating.rb</code>. Make sure to <em>delete</em> any methods that refer to parts
+of the primary application that we no longer have access to.</p>
+
+<p>Also, put <code>Rating</code> inside the <code>Opinions</code> namespace:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">Opinions</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Rating</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>rake</code> again.</p>
+
+<p>It blows up with the same error, because we&#8217;re not loading
+the class anywhere.</p>
+
+<h4>Requiring the Model</h4>
+
+<p>Open <code>lib/opinions.rb</code> and require &#8216;opinions/rating&#8217;.</p>
+
+<p>Run <code>rake</code> again.</p>
+
+<p>Now it complains about an <code>uninitialized constant
+Opinions::ActiveRecord (NameError)</code>. It&#8217;s not loading ActiveRecord.</p>
+
+<h4>Loading ActiveRecord</h4>
+
+<p>Rather than manually load all the dependencies, let&#8217;s create an <code>environment.rb</code>
+file that loads bundler and anything required explicitly in the Gemfile.</p>
+
+<p>Create a file <code>config/environment.rb</code>, and add the following to it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;yaml&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Opinions</span>
+</span><span class='line'>  <span class="k">class</span> <span class="nc">Config</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">db</span>
+</span><span class='line'>      <span class="vi">@config</span> <span class="o">||=</span> <span class="no">YAML</span><span class="o">::</span><span class="nb">load</span><span class="p">(</span><span class="no">File</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;config/database.yml&quot;</span><span class="p">))</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">env</span>
+</span><span class='line'>      <span class="k">return</span> <span class="vi">@env</span> <span class="k">if</span> <span class="vi">@env</span>
+</span><span class='line'>      <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OPINIONS_ENV&#39;</span><span class="o">]</span> <span class="o">||=</span> <span class="s2">&quot;development&quot;</span>
+</span><span class='line'>      <span class="vi">@env</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">&#39;OPINIONS_ENV&#39;</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">active_record</span>
+</span><span class='line'>      <span class="n">db</span><span class="o">[</span><span class="n">env</span><span class="o">]</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">establish_connection</span><span class="p">(</span><span class="no">Opinions</span><span class="o">::</span><span class="no">Config</span><span class="o">.</span><span class="n">active_record</span><span class="p">)</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;opinions&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The tests still fail with the same error, because the test helper isn&#8217;t
+requiring the environment file.</p>
+
+<p>Open up the test helper and replace `require &#8216;opinions&#8217; with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./config/environment&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run <code>rake</code> and we&#8217;re making progress.</p>
+
+<p>The next error is a complaint that <code>No such file or directory -
+config/database.yml (Errno::ENOENT)</code>.</p>
+
+<h4>Writing a <code>database.yml</code></h4>
+
+<p>Create the file and add a basic sqlite3 config in it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="o">---</span>
+</span><span class='line'><span class="n">development</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">adapter</span><span class="p">:</span> <span class="n">sqlite3</span>
+</span><span class='line'>  <span class="n">database</span><span class="p">:</span> <span class="n">db</span><span class="o">/</span><span class="n">opinions_development</span>
+</span><span class='line'>  <span class="n">pool</span><span class="p">:</span> <span class="mi">5</span>
+</span><span class='line'>  <span class="n">timeout</span><span class="p">:</span> <span class="mi">5000</span>
+</span><span class='line'>  <span class="n">username</span><span class="p">:</span> <span class="n">opinions</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">test</span><span class="p">:</span>
+</span><span class='line'>  <span class="n">adapter</span><span class="p">:</span> <span class="n">sqlite3</span>
+</span><span class='line'>  <span class="n">database</span><span class="p">:</span> <span class="n">db</span><span class="o">/</span><span class="n">opinions_test</span>
+</span><span class='line'>  <span class="n">pool</span><span class="p">:</span> <span class="mi">5</span>
+</span><span class='line'>  <span class="n">timeout</span><span class="p">:</span> <span class="mi">5000</span>
+</span><span class='line'>  <span class="n">username</span><span class="p">:</span> <span class="n">opinions</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests again, and you&#8217;ll get a complaint that
+<code>ActiveRecord::StatementInvalid: Could not find table 'ratings'</code>.</p>
+
+<h4>Writing a Migration</h4>
+
+<p>We need a migration. In <code>db/migrate/0_initial_migration.rb</code> copy over the part
+of the migration in the primary application that is relevant to the ratings
+feature, which is the ratings table:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">InitialMigration</span> <span class="o">&lt;</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migration</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">change</span>
+</span><span class='line'>    <span class="n">create_table</span> <span class="ss">:ratings</span> <span class="k">do</span> <span class="o">|</span><span class="n">t</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">integer</span> <span class="ss">:product_id</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">integer</span> <span class="ss">:user_id</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">string</span> <span class="ss">:title</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">text</span> <span class="ss">:body</span>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">integer</span> <span class="ss">:stars</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="mi">0</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="n">t</span><span class="o">.</span><span class="n">timestamps</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">add_index</span> <span class="ss">:ratings</span><span class="p">,</span> <span class="o">[</span><span class="ss">:product_id</span><span class="p">,</span> <span class="ss">:user_id</span><span class="o">]</span><span class="p">,</span> <span class="n">unique</span><span class="p">:</span> <span class="kp">true</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Rake Task to Run Migrations</h4>
+
+<p>To run the migration we&#8217;ll need a rake task. Open up the Rakefile and add the
+following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">namespace</span> <span class="ss">:db</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">desc</span> <span class="s2">&quot;migrate your database&quot;</span>
+</span><span class='line'>  <span class="n">task</span> <span class="ss">:migrate</span> <span class="k">do</span>
+</span><span class='line'>    <span class="nb">require</span> <span class="s1">&#39;./config/environment&#39;</span>
+</span><span class='line'>    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Migrator</span><span class="o">.</span><span class="n">migrate</span><span class="p">(</span><span class="s1">&#39;db/migrate&#39;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then you can run <code>rake db:migrate</code>. Try the tests again.</p>
+
+<h4>Migrating for the Test Environment</h4>
+
+<p>When you run <code>rake</code>, it will <em>still</em> not find the ratings table. That&#8217;s because
+the <code>rake db:migrate</code> task defaulted the environment to development, and the
+tests are running against the test environment.</p>
+
+<p>Run the migration with the test configuration:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>OPINIONS_ENV=test rake db:migrate</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Run <code>rake</code> again, and <strong>finally the tests should pass</strong>.</p>
+
+<h4>Cleaning Up</h4>
+
+<p>We no longer need the wiring test. Delete the <code>test/opinions_test.rb</code> file.
+Open up <code>lib/opinions.rb</code> and delete everything inside the module, so it looks
+like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;opinions/rating&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">module</span> <span class="nn">Opinions</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Writing to the Database</h4>
+
+<p>Now let&#8217;s have a test that writes to the database:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_persist</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">count</span> <span class="c1"># guard against weird behavior</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">user_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">product_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">stars</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;Adorable&quot;</span><span class="p">,</span>
+</span><span class='line'>    <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Very cute monster.&quot;</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>  <span class="n">rating</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">assert</span> <span class="n">rating</span><span class="o">.</span><span class="n">persisted?</span><span class="p">,</span> <span class="s2">&quot;Expected rating to persist&quot;</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run the tests. They should pass. Run them again. They fail. <strong>WAT</strong>.</p>
+
+<h4>Rolling Back Test Saves</h4>
+
+<p>The test is writing to the database, but there&#8217;s nothing that deletes it when
+the test is done. We could require the <code>database_cleaner</code> gem, but let&#8217;s go old-school and
+hand-roll some rollback functionality.</p>
+
+<p>In the test helper, add this module:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">WithRollback</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">temporarily</span><span class="p">(</span><span class="o">&amp;</span><span class="n">block</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Base</span><span class="o">.</span><span class="n">connection</span><span class="o">.</span><span class="n">transaction</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">block</span><span class="o">.</span><span class="n">call</span>
+</span><span class='line'>      <span class="k">raise</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">Rollback</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Include the module in the test class:</p>
+
+<p>Change the <code>test_persist</code> to <code>test_rollback</code>, wrapping the write action in a
+<code>temporarily</code> block. We&#8217;ll also make an assertion at the very end, outside the
+<code>temporarily</code> block, that the rating count is zero.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">RatingTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">WithRollback</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_rollback</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">count</span> <span class="c1"># guard against weird behavior</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">temporarily</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">user_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">product_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">stars</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;Adorable&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;Very cute monster.&quot;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="n">rating</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">assert</span> <span class="n">rating</span><span class="o">.</span><span class="n">persisted?</span><span class="p">,</span> <span class="s2">&quot;Expected rating to persist&quot;</span>
+</span><span class='line'>      <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Let&#8217;s clear and re-migrate the database.</p>
+
+<ul>
+<li>delete the <code>db/opinions_test</code> file</li>
+<li>rerun <code>OPINIONS_ENV=test rake db:migrate</code></li>
+</ul>
+
+<p>Then run the tests a couple times and they should pass <em>consistently</em>.</p>
+
+<h3>Wiring up Sinatra</h3>
+
+<p>To add Sinatra into the mix we need to add a few more files and a few more gems.</p>
+
+<h4>Additional Files</h4>
+
+<p>Create the following files in your existing app:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>.</span><span class='line output'>├── config.ru</span><span class='line output'>├── lib</span><span class='line output'>│   ├── api.rb</span><span class='line output'>└── test</span><span class='line output'>└── api_test.rb</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Additional Dependencies</h4>
+
+<p>The gems are <code>sinatra</code> itself, a web server to run it (we&#8217;ll use Puma), and a gem to help us test the Sinatra controller actions.</p>
+
+<p>Change the <code>Gemfile</code> to the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">source</span> <span class="s1">&#39;https://rubygems.org&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;activerecord&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="s1">&#39;active_record&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;puma&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sinatra&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="n">gem</span> <span class="s1">&#39;sqlite3&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">group</span> <span class="ss">:test</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;minitest&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'>  <span class="n">gem</span> <span class="s1">&#39;rack-test&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Validating the Setup</h4>
+
+<p>As before, we&#8217;re going to write a very simple test to make sure
+that everything is wired together correctly.</p>
+
+<p>Create a file <code>test/api_test.rb</code>, and add this code to it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;rack/test&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/base&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;api&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">APITest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="kp">include</span> <span class="no">Rack</span><span class="o">::</span><span class="no">Test</span><span class="o">::</span><span class="no">Methods</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">app</span>
+</span><span class='line'>    <span class="no">OpinionsAPI</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_hello_world</span>
+</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/&#39;</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Hello, World!</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Once everything is wired up correctly, that test will pass. But first you&#8217;ll have to follow and fix a series of errors:</p>
+
+<ul>
+<li><code>cannot load such file -- api</code> &#8211; Create an empty file <code>lib/api.rb</code></li>
+<li><code>NameError: uninitialized constant APITest::OpinionsAPI</code> &#8211; add this  Sinatra application in <code>lib/api.rb</code>:</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">OpinionsAPI</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/&#39;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="s2">&quot;Hello, World!</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>This should get the test passing.</p>
+
+<h4>Creating a <code>rackup</code> File</h4>
+
+<p>We also want to be able to run the server so that we can hit the API over
+HTTP using Rack.</p>
+
+<p>Create a file at the root of the directory named <code>config.ru</code> (ru stands for <strong>r</strong>ack<strong>u</strong>p), with the following:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="vg">$:</span><span class="o">.</span><span class="n">unshift</span> <span class="no">File</span><span class="o">.</span><span class="n">expand_path</span><span class="p">(</span><span class="s2">&quot;./../lib&quot;</span><span class="p">,</span> <span class="bp">__FILE__</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;bundler&#39;</span>
+</span><span class='line'><span class="no">Bundler</span><span class="o">.</span><span class="n">require</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;./config/environment&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;opinions&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;api&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">use</span> <span class="no">ActiveRecord</span><span class="o">::</span><span class="no">ConnectionAdapters</span><span class="o">::</span><span class="no">ConnectionManagement</span>
+</span><span class='line'><span class="n">run</span> <span class="no">OpinionsAPI</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Start the Server</h4>
+
+<p>Start the server with:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>rackup -p 4567 -s puma</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Test It Out</h4>
+
+<p>And now you can hit the site at <a href="http://localhost:4567">localhost:4567</a> either
+in your browser or from the command line:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+</pre></td><td class='code'><pre><code><span class='line command'>curl http://localhost:4567</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>That&#8217;s it! We have a working, tested Sinatra application.</p>
+
+<h4>Next Steps</h4>
+
+<p>Admittedly, our Sinatra application doesn&#8217;t do anything. Let&#8217;s start with a
+single, read-only endpoint.</p>
+
+<h2>Ratings for a Single Product</h2>
+
+<p>Think about the product display page in the primary application. You&#8217;ve got an <code>id</code> which is used to find the product in the database, then the same <code>id</code> is needed to find the ratings in this remote service.</p>
+
+<h3>Verb &amp; Path</h3>
+
+<p>In REST, that&#8217;s read operation is GET endpoint with a path like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /products/:id/ratings</span></code></pre></td></tr></table></div></figure>
+
+<p>We&#8217;ll version the api in the URL, making it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>GET /api/v1/products/:id/ratings</span></code></pre></td></tr></table></div></figure>
+
+<h3>Implementing the First Endpoint</h3>
+
+<p>Let&#8217;s follow a TDD process to gradually build up the implementation.</p>
+
+<h4>When There Are No Ratings</h4>
+
+<p>In the stand-alone application, open up the <code>test/api_test.rb</code>. We&#8217;re going to
+implement the <code>/api/v1/products/:id/ratings</code> endpoint.</p>
+
+<p>The simplest case to test for is the response when a product doesn&#8217;t have any
+ratings:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_get_ratings_when_there_are_none</span>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/api/v1/products/1/ratings&#39;</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">200</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">status</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="s2">&quot;[]&quot;</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Modify your Sinatra app to make this pass.</p>
+
+<h4>Finding Multiple Matched Ratings</h4>
+
+<p>Next, we need the case where a product has multiple ratings.</p>
+
+<p>In order to test that this actually returns the correct ratings, we need three ratings in the database: two that match and should be returned, and one that does not match and should be omitted.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_get_all_ratings_for_product</span>
+</span><span class='line'>  <span class="n">temporarily</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="n">title</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">}</span>
+</span><span class='line'>    <span class="n">r1</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stars</span><span class="p">:</span> <span class="mi">1</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">r2</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">stars</span><span class="p">:</span> <span class="mi">5</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">r3</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">stars</span><span class="p">:</span> <span class="mi">3</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">get</span> <span class="s1">&#39;/api/v1/products/1/ratings&#39;</span>
+</span><span class='line'>    <span class="n">ratings</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">last_response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">[</span><span class="s2">&quot;ratings&quot;</span><span class="o">]</span>
+</span><span class='line'>    <span class="n">ids</span> <span class="o">=</span> <span class="n">ratings</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">r</span><span class="o">|</span> <span class="n">r</span><span class="o">[</span><span class="s2">&quot;rating&quot;</span><span class="o">].</span><span class="n">id</span><span class="p">}</span><span class="o">.</span><span class="n">sort</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="n">ids</span><span class="p">,</span> <span class="o">[</span><span class="n">r1</span><span class="p">,</span> <span class="n">r2</span><span class="o">].</span><span class="n">sort</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h5>Sinatra Implementation</h5>
+
+<p>To get the tests to pass we&#8217;ll ask the <code>Rating</code> model for the relevant ratings
+and map over the attributes.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">get</span> <span class="s1">&#39;/api/v1/products/:id/ratings&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="o">|</span>
+</span><span class='line'>  <span class="p">{</span><span class="n">ratings</span><span class="p">:</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="ss">:product_id</span> <span class="o">=&gt;</span> <span class="nb">id</span><span class="p">)}</span><span class="o">.</span><span class="n">to_json</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We will want a better solution eventually, but for
+now this will let us connect the two applications.</p>
+
+<h3>Consuming Data from the Primary App</h3>
+
+<p>In the primary app we&#8217;re going to need a bit of code that</p>
+
+<ul>
+<li>connects to the sinatra app</li>
+<li>parses the JSON response</li>
+<li>creates a <code>ProxyRating</code> for each entry</li>
+</ul>
+
+<h4>Setup Faraday</h4>
+
+<p>We&#8217;ll use the <code>faraday</code> gem to connect to the Sinatra application. In your
+Gemfile add:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;faraday&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>If you&#8217;d like to learn about Faraday and how it&#8217;s used for HTTP requests in Ruby, <a href="https://github.com/lostisland/faraday">check out the README</a>.</p>
+
+<h4>Modifying <code>.ratings_for</code></h4>
+
+<p>In the primary app, the <code>ProductsController</code> sends
+<code>RatingsRepository.ratings_for(product)</code>. The method is implemented like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ratings_for</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">rating</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">ProxyRating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">rating</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Before we replace that code, let&#8217;s use Ruby as a compiler and work on our Faraday/API call.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">ratings_for</span><span class="p">(</span><span class="n">product</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">remote</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/api/v1/products/</span><span class="si">#{</span><span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">/ratings&quot;</span><span class="p">)</span><span class="o">[</span><span class="s2">&quot;ratings&quot;</span><span class="o">].</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">r</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">ProxyRating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">r</span><span class="o">[</span><span class="s2">&quot;rating&quot;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="no">Rating</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="n">product</span><span class="o">.</span><span class="n">id</span><span class="p">)</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span><span class="o">|</span><span class="n">rating</span><span class="o">|</span>
+</span><span class='line'>    <span class="no">ProxyRating</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">rating</span><span class="o">.</span><span class="n">attributes</span><span class="p">)</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>That&#8217;s going to blow up since we don&#8217;t have a <code>remote</code> method.</p>
+
+<h4>Connecting to <code>remote</code></h4>
+
+<p>What does <code>remote</code> represent? It&#8217;s our connection to the external service &#8211; which itself is really a repository of ratings. Get it?</p>
+
+<p>Let&#8217;s implement <code>remote</code> to create a new instance of <code>RatingsRepository</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">remote</span>
+</span><span class='line'>  <span class="kp">new</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Then we need to think about how a <code>RatingsRepository</code> instance actually connects to the external service.</p>
+
+<h4>Building the Connection</h4>
+
+<p>Within the instance we need a couple things:</p>
+
+<ul>
+<li>a connection that sets up everything to make the request</li>
+<li>a <code>get</code> method that actually makes the request and parses the JSON response</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">connection</span>
+</span><span class='line'>  <span class="vi">@connection</span> <span class="o">||=</span> <span class="no">Faraday</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:url</span> <span class="o">=&gt;</span> <span class="s2">&quot;http://localhost:8080&quot;</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">c</span><span class="o">.</span><span class="n">use</span> <span class="no">Faraday</span><span class="o">::</span><span class="no">Adapter</span><span class="o">::</span><span class="no">NetHttp</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">endpoint</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">response</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">get</span> <span class="k">do</span> <span class="o">|</span><span class="n">req</span><span class="o">|</span>
+</span><span class='line'>    <span class="n">req</span><span class="o">.</span><span class="n">url</span> <span class="n">endpoint</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>  <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>With that in place, run your tests. If they don&#8217;t pass, try to debug and get it working.</p>
+
+<p>Once they <em>do</em> pass, comment out the bit that talks to the local database,
+leaving only the remote call.</p>
+
+<h4>Next Steps</h4>
+
+<p>Try loading up a product page in the browser. Are any ratings there?</p>
+
+<p>Doh! We haven&#8217;t seeded the database in the Sinatra application. We&#8217;re able to call the API endpoint, but the result is always an empty array.</p>
+
+<h3>Migrating Data</h3>
+
+<p>We want to see reading from the API work before we get into implementing the write story. But we can&#8217;t just generate ratings within the service, they have to match up with the product and user IDs from the primary app. So let&#8217;s migrate the ratings data over from the primary app to the service using <code>sqlite</code>.</p>
+
+<h4>Exporting the Data</h4>
+
+<p>Go to the project directory for the primary application in your terminal, and
+run:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sqlite3 db/monster_development</span><span class='line output'>sqlite> .mode insert</span><span class='line output'>sqlite> .out ratings.sql</span><span class='line output'>sqlite> select * from ratings;</span><span class='line output'>sqlite> .quit</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>This will dump the contents of the ratings table into a file named
+<code>ratings.sql</code>, which you can then load into the stand-alone application.</p>
+
+<h4>Loading the Data</h4>
+
+<p>Move the file to the <code>opinions</code> project directory, and run:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>$</span>
+<span class='line-number'>&nbsp;</span>
+<span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line command'>sqlite3 db/opinions_development</span><span class='line output'>sqlite> .read ratings.sql</span><span class='line output'>sqlite> .quit</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<h4>Test It Out</h4>
+
+<p>Return to the browser and load a product listing. You should now see the ratings show up from the remote service!</p>
+
+<h3>Writing to the API</h3>
+
+<p>Let&#8217;s move on writing data to the remote application.</p>
+
+<h4>Writing Tests</h4>
+
+<p>There are two cases that we should test for:</p>
+
+<ul>
+<li>the happy path, where a rating is created
+
+<ul>
+<li>has a response status of <code>201</code></li>
+<li>creates a rating in the database</li>
+<li>the rating has the expected values</li>
+</ul></li>
+<li>the sad path, when parameters are missing
+
+<ul>
+<li>has a response status of <code>400</code></li>
+<li>has a helpful error message</li>
+</ul></li>
+</ul>
+
+<p>The basic test structure is:</p>
+
+<ul>
+<li>do some setup</li>
+<li>call the endpoint</li>
+<li>verify the results</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_create_rating_by_user_for_product</span>
+</span><span class='line'>  <span class="n">temporarily</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">user_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">stars</span><span class="p">:</span> <span class="mi">3</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">post</span> <span class="s1">&#39;/api/v1/products/1/ratings&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">rating</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span><span class="o">.</span><span class="n">to_json</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="n">rating</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">first</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">rating</span><span class="o">.</span><span class="n">title</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span> <span class="n">rating</span><span class="o">.</span><span class="n">body</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">3</span><span class="p">,</span> <span class="n">rating</span><span class="o">.</span><span class="n">stars</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">2</span><span class="p">,</span> <span class="n">rating</span><span class="o">.</span><span class="n">user_id</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rating</span><span class="o">.</span><span class="n">product_id</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_create_fails</span>
+</span><span class='line'>  <span class="n">temporarily</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">post</span> <span class="s1">&#39;/api/v1/products/1/ratings&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">rating</span><span class="p">:</span> <span class="p">{</span><span class="n">user_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">}}</span><span class="o">.</span><span class="n">to_json</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">400</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">status</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="s2">&quot;Missing required data.&quot;</span><span class="p">,</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">last_response</span><span class="o">.</span><span class="n">body</span><span class="p">)</span><span class="o">[</span><span class="s2">&quot;error&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run those tests and verify that they fail.</p>
+
+<h4>Implementing the Write API</h4>
+
+<p>There&#8217;s a tricky piece to making this test pass:</p>
+
+<p>When we send JSON in the body of the <code>POST</code> Sinatra
+doesn&#8217;t know it&#8217;s JSON, and sticks the whole JSON string into a key in the
+params hash.</p>
+
+<p>There&#8217;s middleware in <code>sinatra-contrib</code> that we could include in order to
+handle JSON in the POST-body, but we&#8217;re going to deal with the incoming string ourself:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">post</span> <span class="s1">&#39;/api/v1/products/:id/ratings&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">rewind</span>
+</span><span class='line'>  <span class="n">data</span> <span class="o">=</span> <span class="no">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">read</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">rating</span> <span class="o">=</span> <span class="n">data</span><span class="o">[</span><span class="s2">&quot;rating&quot;</span><span class="o">]</span>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Posting Data from the Primary App</h4>
+
+<p>We have most of what we need in the <code>RatingsRepository</code> already.</p>
+
+<p>The piece that is missing is a method on the <code>RatingsRepository</code> instance that
+performs the actual <code>post</code> to the remote API:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">endpoint</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+</span><span class='line'>   <span class="n">response</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">post</span> <span class="k">do</span> <span class="o">|</span><span class="n">req</span><span class="o">|</span>
+</span><span class='line'>     <span class="n">req</span><span class="o">.</span><span class="n">url</span> <span class="n">endpoint</span>
+</span><span class='line'>     <span class="n">req</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Accept&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
+</span><span class='line'>     <span class="n">req</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">]</span> <span class="o">=</span> <span class="s1">&#39;application/json&#39;</span>
+</span><span class='line'>     <span class="n">req</span><span class="o">.</span><span class="n">body</span> <span class="o">=</span> <span class="p">{</span><span class="n">rating</span><span class="p">:</span> <span class="n">params</span><span class="p">}</span><span class="o">.</span><span class="n">to_json</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Try (A) running your tests in the primary app and (B) posting/viewing a rating through the browser &#8211; both should now work.</p>
+
+<h3>Implementing the Remaining API Endpoints</h3>
+
+<p>Add tests in in the Sinatra application for the following API endpoints:</p>
+
+<ul>
+<li>Reading all the user&#8217;s ratings - <code>GET /api/v1/users/:id/ratings</code></li>
+<li>Reading a particular rating - <code>GET /api/v1/products/:id/ratings/:user_id</code></li>
+<li>Updating a particular rating - <code>PUT /api/v1/products/:id/ratings/:user_id</code></li>
+</ul>
+
+<p>Now that you&#8217;re a pro with services, Sinatra, and APIs, make those tests pass.</p>
+
+<h3>Finishing the <code>RatingsRepository</code></h3>
+
+<p>Convert each method in the <code>RatingsRepository</code> to use the remote API rather
+than the <code>Rating</code> model.</p>
+
+<p>Verify in the browser that everything still works.</p>
+
+<h2>Cleaning Up</h2>
+
+<h3>Deleting Temporary Code</h3>
+
+<p>Now that we have a fully developed API, go ahead and delete the &quot;Hello World&quot;
+endpoint and the test that calls it.</p>
+
+<h3>Specifying Content-Type</h3>
+
+<p>Take a look at the headers when you make a verbose call to the API:</p>
+
+<div class="window">
+          <nav class="control-window">
+            <a href="#finder" class="close" data-rel="close">close</a>
+            <a href="#" class="minimize">minimize</a>
+            <a href="#" class="deactivate">deactivate</a>
+          </nav>
+          <h1 class="titleInside">Terminal</h1>
+          <div class="container"><div class="terminal"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>&nbsp;</span>
+</pre></td><td class='code'><pre><code><span class='line output'>curl -v http://localhost:8080/api/v1/products/1/ratings</span></code></pre></td></tr></table></div></div>
+        </div>
+
+<p>Does anything catch your eye?</p>
+
+<p>The content type is <code>application/html</code> even though the endpoint is returning JSON.</p>
+
+<p>We can fix that with a before filter in the <code>lib/api.rb</code> file:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">content_type</span> <span class="s1">&#39;application/json&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Protecting User Data</h3>
+
+<p>One of the bugs in the original implementation, which we&#8217;ve perpetuated here,
+is that anyone can create or update ratings for any user by manipulating the submitted parameters.</p>
+
+<p>A robust, authentication model is a complicated beast, but we can use a fairly
+simple &quot;shared secret&quot; approach to protecting the write endpoints.</p>
+
+<h4>Test Service Secret Generation</h4>
+
+<p>In the Sinatra app write tests around the generation of a &quot;secret&quot; based on an ID number:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;./test/test_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">OpinionsTest</span> <span class="o">&lt;</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Test</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_valid_user</span>
+</span><span class='line'>    <span class="n">key</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">.</span><span class="n">secret_for</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">assert</span> <span class="no">Opinions</span><span class="o">.</span><span class="n">user_is?</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">refute</span> <span class="no">Opinions</span><span class="o">.</span><span class="n">user_is?</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nf">test_key_is_not_just_the_id</span>
+</span><span class='line'>    <span class="n">refute_equal</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">.</span><span class="n">secret_for</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to_s</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h4>Generate a Secret</h4>
+
+<p>Then implement a secret in the Sinatra app. The &quot;shared secret&quot; here is wrapped in a method named <code>quote</code>. We&#8217;ll combine that with the user ID and pass it through a SHA1 hash to generate the unique secret per user:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;digest&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># ...</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">secret_for</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>  <span class="no">Digest</span><span class="o">::</span><span class="no">SHA1</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">#{</span><span class="n">quote</span><span class="si">}</span><span class="s2">, to user: </span><span class="si">#{</span><span class="nb">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">user_is?</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">key</span> <span class="o">==</span> <span class="n">secret_for</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">quote</span>
+</span><span class='line'>  <span class="s2">&quot;Don&#39;t cry because it&#39;s over, smile because it happened. -- Doctor Seuss&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Now, when we call the API, the primary app can send the rating data, the user ID, and the similarly-generated key. The service will compute a key using the user ID and the secret, then verify that it matches the incoming parameter.</p>
+
+<p>If a user tries to change the user ID then it&#8217;ll generate a totally different hash and the submission will be rejected.</p>
+
+<h4>Verify the Secret is Used</h4>
+
+<p>Test that each method of the API is guarded by this strategy. If we submit parameters without a secret, we should get back an HTTP <code>401 Unauthorized</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">test_post_is_protected_by_shared_secret</span>
+</span><span class='line'>  <span class="n">temporarily</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">user_id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">stars</span><span class="p">:</span> <span class="mi">3</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">post</span> <span class="s1">&#39;/api/v1/products/1/ratings&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">rating</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span><span class="o">.</span><span class="n">to_json</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">401</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">status</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_put_is_protected_by_shared_secret</span>
+</span><span class='line'>  <span class="n">temporarily</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class='line'>      <span class="n">title</span><span class="p">:</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">body</span><span class="p">:</span> <span class="s2">&quot;body&quot;</span><span class="p">,</span>
+</span><span class='line'>      <span class="n">stars</span><span class="p">:</span> <span class="mi">3</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">stars</span><span class="p">:</span> <span class="mi">5</span><span class="p">))</span>
+</span><span class='line'>    <span class="n">put</span> <span class="s1">&#39;/api/v1/products/1/ratings/2&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">rating</span><span class="p">:</span> <span class="n">data</span><span class="p">}</span><span class="o">.</span><span class="n">to_json</span>
+</span><span class='line'>    <span class="n">assert_equal</span> <span class="mi">401</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">status</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">test_delete_is_protected_by_shared_secret</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Rating</span><span class="o">.</span><span class="n">count</span>
+</span><span class='line'>  <span class="n">delete</span> <span class="s1">&#39;/api/v1/products/1/ratings/2&#39;</span>
+</span><span class='line'>  <span class="n">assert_equal</span> <span class="mi">401</span><span class="p">,</span> <span class="n">last_response</span><span class="o">.</span><span class="n">status</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Run those tests and see them fail, then change the Sinatra app to make them pass.</p>
+
+<h4>Repeat in the Primary Application</h4>
+
+<p>Go over to your primary application and&#8230;</p>
+
+<ul>
+<li>Add tests to drive the creating of a secret</li>
+<li>Send the secret along with the data when writing to the API</li>
+<li>Verify that all your tests pass</li>
+</ul>
+
+<h3>Testing with VCR</h3>
+
+<ul>
+<li>create a small set of seed data that corresponds to the fixture data</li>
+<li>write a script to create it in the Sinatra app</li>
+<li>run the sinatra app in test mode</li>
+<li>run the seed script</li>
+<li>use VCR to capture the HTML response</li>
+</ul>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;vcr&#39;</span> <span class="c1"># in the test group</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the spec helper:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;vcr&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="no">VCR</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">cassette_library_dir</span> <span class="o">=</span> <span class="s1">&#39;./spec/fixtures/vcr_cassettes&#39;</span>
+</span><span class='line'>  <span class="n">c</span><span class="o">.</span><span class="n">hook_into</span> <span class="ss">:webmock</span> <span class="c1"># or :fakeweb</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;works&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="no">VCR</span><span class="o">.</span><span class="n">use_cassette</span><span class="p">(</span><span class="s1">&#39;user-creates-rating&#39;</span><span class="p">)</span> <span class="k">do</span>
+</span><span class='line'>    <span class="c1"># the body of the test</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h3>Easier JSON Output with Petroglyph Templates</h3>
+
+<p>In the Gemfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;petroglyph&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span> <span class="c1"># only needed in the Sinatra app</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In the Sinatra API:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;petroglyph&#39;</span>
+</span><span class='line'><span class="nb">require</span> <span class="s1">&#39;sinatra/petroglyph&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">API</span> <span class="o">&lt;</span> <span class="no">Sinatra</span><span class="o">::</span><span class="no">Base</span>
+</span><span class='line'>  <span class="n">set</span> <span class="ss">:root</span><span class="p">,</span> <span class="s1">&#39;lib/app&#39;</span> <span class="c1"># let Sinatra know where to look for views</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="n">get</span> <span class="s1">&#39;/products/:id/ratings&#39;</span> <span class="k">do</span> <span class="o">|</span><span class="nb">id</span><span class="o">|</span>
+</span><span class='line'>    <span class="c1"># ...</span>
+</span><span class='line'>    <span class="n">ratings</span> <span class="o">=</span> <span class="no">Opinions</span><span class="o">::</span><span class="no">Ratings</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">product_id</span><span class="p">:</span> <span class="nb">id</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">pg</span> <span class="ss">:ratings</span><span class="p">,</span> <span class="n">locals</span><span class="p">:</span> <span class="p">{</span><span class="n">ratings</span><span class="p">:</span> <span class="n">ratings</span><span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1"># ...</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p><code>mkdir lib/app/views</code></p>
+
+<p>In <code>lib/app/views/ratings.pg</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">collection</span> <span class="n">ratings</span><span class="p">:</span> <span class="n">ratings</span><span class="p">,</span> <span class="n">partial</span><span class="p">:</span> <span class="n">rating</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In <code>lib/app/views/rating.pg</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">node</span> <span class="n">rating</span><span class="p">:</span> <span class="n">rating</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">attributes</span> <span class="ss">:product_id</span><span class="p">,</span> <span class="ss">:user_id</span><span class="p">,</span> <span class="ss">:stars</span><span class="p">,</span> <span class="ss">:title</span><span class="p">,</span> <span class="ss">:body</span>
+</span><span class='line'>  <span class="n">node</span> <span class="n">rated_at</span><span class="p">:</span> <span class="n">rating</span><span class="o">.</span><span class="n">created_at</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<h2>Asyncronous Writes</h2>
+
+<p>The system we&#8217;ve built so far is distributed but it&#8217;s still synchronous. Given that there&#8217;s some latency when the primary app calls out to the ratings app, we&#8217;ve actually slowed down our application.</p>
+
+<h3>Deleting obsolete code</h3>
+
+<h3>Dealing with Validation</h3>
+
+<ul>
+<li>Run some validation within the proxy object to check the Rating params.</li>
+</ul>
+
+<h2>Asyncronous Reading Through JavaScript</h2>
+
+<h3>Implementing JavaScript-Executing Specs with Poltergeist</h3>
+
+<ul>
+<li>How to install and setup Poltergeist with Capybara</li>
+</ul>
+
+<h3>Duplicating Ratings</h3>
+
+<ul>
+<li>Fetch the ratings from the server via JavaScript</li>
+<li>Insert them into the DOM so there are two whole sets of the ratings</li>
+</ul>
+
+<h3>Remove Non-JavaScript Fetched Ratings</h3>
+
+<h3>Dealing with Latency</h3>
+
+<ul>
+<li>Will the test fail because the JavaScript hasn&#8217;t finished executing yet?</li>
+<li>Capybara will keep looking for 2 seconds, long enough for the JavaScript to complete: <a href="https://github.com/jnicklas/capybara#asynchronous-javascript-ajax-and-friends">https://github.com/jnicklas/capybara#asynchronous-javascript-ajax-and-friends</a></li>
+</ul>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+  <span class="toggle-sidebar"></span>
+
+<aside class="sidebar">
+  <div> </div>
+</aside>
+
+<script src="/javascripts/sidebar.js" type="text/javascript"> </script>
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

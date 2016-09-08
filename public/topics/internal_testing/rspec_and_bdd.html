@@ -1,0 +1,430 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>RSpec and BDD - Jumpstart Lab Curriculum</title>
+  <meta name="author" content="Jumpstart Lab">
+
+  
+  <meta name="description" content="Internal Testing                                      RSpec and BDD                              The Ruby community loves testing &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://tutorials.jumpstartlab.com/topics/internal_testing/rspec_and_bdd.html">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection, print" rel="stylesheet" type="text/css">
+
+  <link href="/atom.xml" rel="alternate" title="Jumpstart Lab Curriculum" type="application/atom+xml">
+
+  <!-- TAB SLIDE OUT -->
+  <script src="/javascripts/jquery-1.3.2.min.js" type="text/javascript"></script>
+  <script src="/javascripts/jquery.tabSlideOut.v1.3.js"></script>
+
+  <!-- SEARCH -->
+  <script src="/search.js"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $('.slide-out-div').tabSlideOut({
+        tabHandle: '.handle',                     //class of the element that will become your tab
+        pathToTabImage: '/images/feedback_tabv2.png', //path to the image for the tab //Optionally can be set using css
+        imageHeight: '130px',                     //height of tab image           //Optionally can be set using css
+        imageWidth: '36px',                       //width of tab image            //Optionally can be set using css
+        tabLocation: 'left',                      //side of screen where tab lives, top, right, bottom, or left
+        speed: 300,                               //speed of animation
+        action: 'click',                          //options: 'click' or 'hover', action to trigger animation
+        topPos: '200px',                          //position from the top/ use if tabLocation is left or right
+        leftPos: '20px',                          //position from left/ use if tabLocation is bottom or top
+        fixedPosition: true                      //options: true makes it stick(fixed position) on scroll
+        });
+      });
+  </script>
+
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body  >
+  <header role="banner">
+    <hgroup>
+  <h1>Jumpstart Lab Curriculum</h1>
+  
+</hgroup>
+
+  </header>
+
+  <nav role="navigation">
+    <ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:tutorials.jumpstartlab.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+
+<ul class="main-navigation">
+  <li><a href="/">Curriculum Index</a></li>
+  <li><div id="search">
+  <form>
+    <input type="text" id="st-search-input" class="st-search-input" />
+  </form>
+</div>
+</li>
+</ul>
+  </nav>
+
+  <div id="main">
+    <div id="content">
+      <div>
+  <article role="article">
+    
+      
+        <p class="section-title">Internal Testing</p>
+      
+    
+    
+      <header>
+        <h1 class="entry-title">
+          RSpec and BDD
+        </h1>
+        
+      </header>
+    
+    <p>The Ruby community loves testing. It&#8217;s an area that&#8217;s under constant evolution and &quot;best practices&quot; are always shifting. But there&#8217;s a majority forming around RSpec. It&#8217;s a great tool for implementing Test Driven Development (TDD) and Behavior Driven Development (BDD). </p>
+
+<h2>Behavior Driven Development</h2>
+
+<p>There are generally four tiers to testing practice: test last, test first, test-driven (TDD), and behavior-driven (BDD).</p>
+
+<p>In <em>test last</em> development you write an automated test suite to exercise code that has already been written. This is the most common form of testing (across languages), but in the Ruby world it&#8217;s considered &quot;too little, too late.&quot; It is an incredibly difficult challenge to write a comprehensive test suite at this stage of development. More importantly, the design wins from using a test-first approach have already been missed.</p>
+
+<p><em>Test first</em> development is when we think about the details of an implementation first, write a test that exercises that implementation, then actually implement it. It follows the &quot;red-green-refactor&quot; cycle, but is kind of cheating since the test was only written to permit the implementation.</p>
+
+<p>In true <em>test-driven development</em>, the test is the important thing. We don&#8217;t think of the implementation then write a test, we write a test then figure out a possible implementation. We shift to a goal-oriented focus. When the test is written, the only thing that matters is making it pass. The implementation lives to serve the test.</p>
+
+<p>Then at the highest level we push towards <em>BDD</em>. In testing behavior we focus on business value. TDD focuses on how something will work, BDD focuses on why we build it at all. BDD is a difficult science that we&#8217;re still working out how to realize. RSpec, and tools like Capybara and Cucumber are pushing the envelope.</p>
+
+<h3>Testing/Development Cycle</h3>
+
+<p>A good cycle to follow for BDD is this <em>outside-in</em> approach:</p>
+
+<ol>
+<li>Write a high-level (<em>outside</em>) business value example (using Cucumber or RSpec/Capybara) that goes red</li>
+<li>Write a lower-level (<em>inside</em>) RSpec example for the first step of implementation that goes red</li>
+<li>Implement the minimum code to pass that lower-level example, see it go green</li>
+<li>Write the next lower-level RSpec example pushing towards passing #1</li>
+<li>Repeat steps #3 and #4 until the high-level test (#1) goes green</li>
+</ol>
+
+<p>During the process think of your red/green state as a permission status:</p>
+
+<p>When your low-level tests are <em>green</em>, you have permission to write new examples or refactor existing implementation. You must not, in the context of that refactoring, add new functionality/flexibility.</p>
+
+<p>When your low-level tests are <em>red</em>, you have permission to write or change implmentation code only for the purpose of making the existing tests go green. You must resist the urge to write the code to pass your <em>next</em> test, which doesn&#8217;t exist, or implement features you&#8217;ll need &quot;some day.&quot;</p>
+
+<h3>High-Level Integration Testing</h3>
+
+<p>There are two popular approaches to high-level testing:</p>
+
+<ul>
+<li>User stories with Cucumber</li>
+<li>Integration tests with RSpec/Capybara</li>
+</ul>
+
+<div class='opinion'>
+<p>In my opinion, Cucumber is a great tool to use when you have a highly-technical client. If it&#8217;s feasible that the client could write or co-author these user stories, then go for it!</p>
+
+<p>Very rarely, however, have I worked on projects where that was true. Instead, with Cucumber, the developer often writes the user stories for their own consumption. They then write a set of natural language parsers (not fun) to turn these stories into runnable specs, then can actually run the code.</p>
+
+<p>In the case where the developer is the only one who deals with the test suite, a better choice is to pair RSpec directly with Capybara. You can develop awesome user-stories-in-executable-code that are still readable and realize the goals of BDD.</p>
+</div>
+
+<div class="note">
+  <p>For this section, it&#8217;s easiest to understand the concepts by following along and modifying the sample application as you go.</p>
+  <p>Follow these <a href="/topics/sample_project.html">Setup Instructions</a> to get going with Blogger</p>
+</div>
+
+<h2>Setup RSpec</h2>
+
+<p>To use the library, add <code>gem 'rspec-rails'</code> to the <code>:test</code> and <code>:development</code> groups in your Gemfile, then run <code>bundle</code> from the command line.</p>
+
+<p>Now you can run: <code>rails generate rspec:install</code>
+This adds the spec directory and some skeleton files, including the <code>rake spec</code> task.</p>
+
+<h2>Unit Testing</h2>
+
+<p>Once we have a failing integration test we have <em>permission</em> to write lower-level examples. </p>
+
+<h3>Theory</h3>
+
+<p>This is where RSpec really shines. We should write examples that exercise the &quot;happy path&quot;, examples that try the edge cases, and examples that test the exceptions. </p>
+
+<p>We should not write a line of executable implementation code unless it is for the purpose of making a unit test go green. This means that each public method in a class should have at least one unit test.</p>
+
+<p>As we look at code coverage later, our coverage is driven primarily by unit tests. In Ruby, it is reasonable to expect greater than 90% code coverage when following a BDD model.  In fact, you <em>should</em> strive for 100% code coverage; it&#8217;s difficult to attain and maintain, but it will lead your team in the right direction and reinforce a culture of continually testing your code.</p>
+
+<h3>Structure</h3>
+
+<p>Unit tests should be collected by the Ruby class that they exercise. Those specs should be stored in a file <code>spec/models/modelname_spec.rb</code> such as <code>spec/models/article_spec.rb</code> for an <code>Article</code> class.</p>
+
+<p>Typically the file will look like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">Article</span> <span class="k">do</span>
+</span><span class='line'>  <span class="c1"># Your Examples Here</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The <code>require 'spec_helper'</code> pulls in <code>spec/spec_helper.rb</code> where we can setup RSpec configuration information and any initialization code common to all our examples.</p>
+
+<h3>Describe</h3>
+
+<p>The <em>spec file</em> begins with the <code>describe</code> method. <code>describe</code> takes two parameters: the name of the class being exercised and a block containing the examples. We&#8217;ll talk more about using multiple <code>describe</code> blocks in the RSpec Practices section.</p>
+
+<h3>An Example</h3>
+
+<p>A typical example looks like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">it</span> <span class="s2">&quot;is not valid without a title&quot;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">title</span><span class="p">:</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>  <span class="n">article</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_valid</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>The example starts with the <code>it</code> method that takes two parameters: a string naming the example and a block containing the code and matchers to execute.</p>
+
+<p>Naming examples is a matter of style, but a good technique is to start with a present tense verb, completing the sentence after the word &quot;it.&quot; </p>
+
+<div class='opinion'>
+<p>Many Rubyists start all tests with &#8220;should&#8221;, but this is redundant. &#8220;it should not be valid&#8221; can just be shortened to &#8220;it is not valid.&#8221; Our names can get out of control if we don&#8217;t emphasize simplicity.</p>
+</div>
+
+<h3>Expectation Expressions</h3>
+
+<p>An example often has a few steps of business logic: the previous example creates an object and sets the title to <code>nil</code>. Then once the data is setup for examination, we start using expectations with <em>matchers</em>.</p>
+
+<p>An RSpec expectation expression is made up of three parts: subject, expectation, and matcher. For instance:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">article</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_valid</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We have the subject <code>article</code>, the expectation <code>should_not</code>, and the matcher <code>be_valid</code>. </p>
+
+<h4>Subject</h4>
+
+<p>We can setup whatever subject we want to examine in the lines before the expectation expression, in this example we built the <em>Article</em> object with a blank <em>title</em>.</p>
+
+<h4>Expectation</h4>
+
+<p>There are only two expectations that you need to know: <code>should</code> and <code>should_not</code>. They cooperate with a matcher. Matchers return true or false, so the expectations react to those return values. If <code>should</code> gets <code>true</code> from the matcher, the expectation passes. If it gets <code>false</code>, it fails. The reverse is true for <code>should_not</code>.</p>
+
+<h4>Matchers</h4>
+
+<p>The matchers are where it gets interesting. There are dozens of matchers available to you out of the box, more available as RSpec addons, and you can write your own. A few of the most common include:</p>
+
+<ul>
+<li><code>be</code> with no parameter returns true when the subject is not nil </li>
+<li><code>be</code> with a parameter returns true when the subject matches the param</li>
+<li><code>be_true</code> and <code>be_false</code> look at the subject&#8217;s boolean value (everything in Ruby has a boolean value of <em>true</em> except <code>false</code> and <code>nil</code>)</li>
+<li><code>be_instance_of</code> with a class as parameter checks the subject&#8217;s type</li>
+<li><code>be_(xyz)</code> calls <code>xyz?</code> on the subject, like <code>be_admin</code> would call <code>admin?</code></li>
+<li><code>include(value)</code> checks that <code>value</code> is in the subject collection</li>
+</ul>
+
+<h4>Exceptions</h4>
+
+<p>When you want to test that exceptions are raised you need to jump through some extra hoops. RSpec needs to wrap the execution in a <code>begin</code>/<code>rescue</code> block so it can evaluate the exception as opposed to letting the exception bubble up and stop your example&#8217;s execution.</p>
+
+<p>This is accomplished with the <code>expect</code> method, which accepts a <em>block</em>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'>  <span class="n">it</span> <span class="s2">&quot;raises an error when saving with no author&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">article</span> <span class="o">=</span> <span class="no">Article</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">author</span><span class="p">:</span> <span class="kp">nil</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">expect</span><span class="p">{</span> <span class="n">article</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">raise_error</span>
+</span><span class='line'>  <span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>You can also give <code>raise_error</code> parameters of a string to compare against the error&#8217;s message and the error class to match like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">expect</span><span class="p">{</span> <span class="n">article</span><span class="o">.</span><span class="n">save!</span> <span class="p">}</span><span class="o">.</span><span class="n">to</span> <span class="n">raise_error</span><span class="p">(</span><span class="no">ActiveRecord</span><span class="o">::</span><span class="no">RecordInvalid</span><span class="p">,</span> <span class="s2">&quot;article is not valid&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>In general, matching the exception class is good enough, looking at the specific message is a bit too detailed unless the purpose of your example is to demonstrate customized error messages.</p>
+
+<h2>Testing Controllers &amp; Helpers</h2>
+
+<p>Writing unit tests with RSpec is awesome, but we shouldn&#8217;t stop there. What about testing further up the stack? </p>
+
+<h3>Controller Tests</h3>
+
+<p>A common feature of Rails projects that have gone wrong are heavyweight controllers. They have actions that are dozens or even hundreds of lines of business logic that should have been pushed down to the model layer. </p>
+
+<p>That&#8217;s bad! Code stuck in a controller action can&#8217;t be reused. It&#8217;s also more difficult to test. </p>
+
+<p>You can write controller tests, though, like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">describe</span> <span class="no">ArticlesController</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">it</span> <span class="s2">&quot;renders the index template&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">get</span> <span class="ss">:index</span>
+</span><span class='line'>    <span class="n">response</span><span class="o">.</span><span class="n">should</span> <span class="n">render_template</span><span class="p">(</span><span class="s2">&quot;index&quot;</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<div class="opinion">
+  
+<p>Controller tests give too much respect to an object that is, by design, just meant to connect our models to our views.</p>
+
+<p>For this reason, I don&#8217;t believe in testing controllers directly. Instead, as Nick Gauthier describes, use an &#8220;hourglass&#8221; approach to testing your stack. Test heavily at the bottom model level (<em>unit tests</em> or <em>specs</em>), write a few tests for the controllers in the middle if they feel necessary (which they rarely are), then test heavily the user interface with integration tests.</p>
+</div>
+
+<h3>Helper Tests</h3>
+
+<p>One area of the upper stack that&#8217;s great to test are helpers. Typically a helper method takes in some domain data and performs a computation or formatting operation on it, returning a string.</p>
+
+<p>These are just Ruby methods, we can test them just like our other unit tests. To test helpers in <code>ArticlesHelper</code>, we&#8217;d create <code>spec/helpers/articles_helpers_spec.rb</code> and frame it with this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">ArticlesHelper</span> <span class="k">do</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>We just use the helper module name as the parameter to <code>describe</code>. Now within the block we could test a helper named &quot;article_tags&quot; like this:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="nb">require</span> <span class="s1">&#39;spec_helper&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">describe</span> <span class="no">ArticlesHelper</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">context</span> <span class="s2">&quot;.article_tags&quot;</span> <span class="k">do</span>
+</span><span class='line'>    <span class="n">it</span> <span class="s2">&quot;should return a comma separated list of tag names&quot;</span> <span class="k">do</span>
+</span><span class='line'>      <span class="n">article</span> <span class="o">=</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:article</span><span class="p">)</span>
+</span><span class='line'>      <span class="n">tags</span> <span class="o">=</span> <span class="o">[</span><span class="no">Fabricate</span><span class="p">(</span><span class="ss">:tag</span><span class="p">),</span> <span class="no">Fabricate</span><span class="p">(</span><span class="ss">:tag</span><span class="p">)</span><span class="o">]</span>
+</span><span class='line'>      <span class="n">article</span><span class="o">.</span><span class="n">tags</span> <span class="o">&lt;&lt;</span> <span class="n">tags</span>
+</span><span class='line'>      <span class="n">article_tags</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;</span><span class="si">#{</span><span class="n">tags</span><span class="o">[</span><span class="mi">0</span><span class="o">].</span><span class="n">name</span><span class="si">}</span><span class="s2">, </span><span class="si">#{</span><span class="n">tags</span><span class="o">[</span><span class="mi">1</span><span class="o">].</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+<p>Note in the last line how we can use <code>article_tags</code>, the helper method, just like we&#8217;re operating inside a view. There&#8217;s no magic! </p>
+
+<h4>Try It!</h4>
+
+<p>There are helpers used in the sample project, but they have no tests. Try commenting out the implementation, writing a test, and slowly rewriting the implementation to match the original functionality.</p>
+
+    
+    
+      <footer>
+        
+        
+          <div class="sharing">
+  
+  
+</div>
+
+        
+      </footer>
+    
+  </article>
+
+
+</div>
+
+
+
+    </div>
+
+    <div class="footer">
+  <p>
+    All materials licensed <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-NonCommercial-ShareAlike 3.0</a>&nbsp;
+    <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+  </p>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-42709122-1', 'jumpstartlab.com');
+ga('send', 'pageview');
+</script>
+  </div>
+
+  
+
+
+  <div class="slide-out-div">
+  <a class="handle" href="#">Feedback</a>
+  <h3>Have Feedback?</h3>
+  <p>Did you find an error? Something confusing? We'd love your help:</p>
+  <ul>
+    <li><a href="#" id="edit_source">Edit the source code of this page directly on GitHub</a></li>
+    <li><a href="https://github.com/JumpstartLab/curriculum/issues">Create a new issue on the project's GitHub page</a></li>
+  </ul>
+  <p>Thanks!</p>
+</div>
+
+<script>
+  $(function(){
+    var pathname = window.location.pathname.replace( ".html", ".markdown" );
+    var github_url = "https://github.com/JumpstartLab/curriculum/blob/master/source" + pathname;
+    $("a#edit_source").attr('href', github_url);
+  });
+</script>
+
+</body>
+</html>

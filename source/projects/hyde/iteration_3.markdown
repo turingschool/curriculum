@@ -8,7 +8,7 @@ After completing iterations 0-2, we should have a basic Hyde blog system that ca
 
 However if we look at the content we're generating so far, we'll see something is missing. The default post content we generated should look like:
 
-```markdown
+```plain
 # Pizza Rules
 
 Your content here

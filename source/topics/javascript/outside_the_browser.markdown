@@ -248,7 +248,7 @@ npm will ask you a series of questions about your application.
 
 Here is an example of a `package.json` manifest.
 
-```json
+```plain
 {
   "name": "example-application",
   "version": "0.0.0",
@@ -290,7 +290,7 @@ npm install request --save
 
 The example `package.json` from above should now look as follows:
 
-```json
+```plain
 {
   "name": "example",
   "version": "0.0.0",
@@ -323,7 +323,7 @@ npm install jasmine-node --save-dev
 
 This will install the module and add it to your `package.json` as a `devDependency`. The example `package.json` file now looks like this:
 
-```json
+```plain
 {
   "name": "example",
   "version": "0.0.0",

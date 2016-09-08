@@ -28,7 +28,7 @@ In this assessment we're looking to see how you:
 
 Before your session begins, clone the repo from GitHub and install dependencies:
 
-``` shell
+```bash
 $ git clone https://github.com/turingschool/sinatra_cms
 $ cd sinatra_cms
 $ bundle

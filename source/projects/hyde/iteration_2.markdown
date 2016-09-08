@@ -20,7 +20,7 @@ Created a new post file at ~/my-sweet-blog/source/posts/2016-02-20-juicy-post.ma
 
 And inside of `~/my-sweet-blog/source/posts/2016-02-20-juicy-post.markdown`, Hyde should pre-populate some basic content:
 
-```markdown
+```plain
 # Juicy Post
 
 Your content here

@@ -23,7 +23,7 @@ Several years ago, John Gruber proposed [the idea of Markdown](http://daringfire
 text formatting that's less obtrusive than writing HTML, is easy to remember,
 and is highly readable even when not converted to HTML. Here's an example:
 
-```markdown
+```plain
 # My Life in Desserts
 
 ## Chapter 1: The Beginning
@@ -98,7 +98,7 @@ Converted my_input.markdown (6 lines) to my_output.html (8 lines)
 
 Where `my_input.markdown` is a file like this:
 
-```markdown
+```plain
 # My Life in Desserts
 
 ## Chapter 1: The Beginning
@@ -143,7 +143,7 @@ contain any blank lines. For example, this is one chunk of text:
 By default, a free-standing line of text in a markdown document will go into a `<p>` tag.
 For example, this text:
 
-```markdown
+```plain
 This is the first line of the paragraph.
 ```
 
@@ -156,7 +156,7 @@ Would be rendered as:
 Additionally, lines separated by a **single line break** remain part of the same paragraph.
 For example this markdown:
 
-```markdown
+```plain
 This is the first line of the paragraph.
 This is the second line of the same paragraph.
 ```
@@ -169,7 +169,7 @@ Becomes:
 
 If we want to create multiple paragraphs, we need to insert 2 line breaks to separate the lines:
 
-```markdown
+```plain
 This is the first line of the first paragraph.
 
 This is the first line of the second paragraph.
@@ -192,7 +192,7 @@ by the text for the header.
 
 For example:
 
-```markdown
+```plain
 ## Here's an H2
 ```
 
@@ -255,7 +255,7 @@ Make sure to consider scenarios like this: `My *emphasized and **stronged** text
 Often in writing we want to create unordered (bullet) or ordered (numbered) lists.
 Build support for **unordered lists** like this:
 
-```markdown
+```plain
 My favorite cuisines are:
 
 * Sushi
@@ -281,7 +281,7 @@ Then build support for **ordered lists** which use numbers for the markers.
 Though, confusingly, the numbers themselves don't matter. Some authors use `1.`
 to mark every list element and let the HTML renderer (aka browser) figure things out:
 
-```markdown
+```plain
 My favorite cuisines are:
 
 1. Sushi

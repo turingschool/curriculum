@@ -141,7 +141,7 @@ https://petitions.whitehouse.gov/api/v1/petitions/50a3fd762f2c88cd65000015.json?
 
 You should see a JSON response like this:
 
-```json
+```plain
 {"metadata":{"execution time":0},"results":[{"id":"50a3fd762f2c88cd65000015","type":"petition","title":"Secure resources and funding, and begin construction of a Death Star by 2016.","body":"Those who sign here petition the United States government to secure funding and resources, and begin construction on a Death Star by 2016.\r\n\r\nBy focusing our defense resources into a space-superiority platform and weapon system such as a Death Star, the government can spur job creation in the fields of construction, engineering, space exploration, and more, and strengthen our national defense.\r\n\r\n","issues":[{"id":"12","name":"Defense"},{"id":"97","name":"Job Creation"},{"id":"139","name":"Science and Space Policy"}],"signature threshold":25000,"signature count":34435,"signatures needed":0,"url":"https://petitions.whitehouse.gov/petition/secure-resources-and-funding-and-begin-construction-death-star-2016/wlfKzFkN","deadline":1355516534,"status":"responded","response":{"id":"716","url":"https://petitions.whitehouse.gov/response/isnt-petition-response-youre-looking","association time":"1357944472"},"created":1352924534}]}
 ```
 

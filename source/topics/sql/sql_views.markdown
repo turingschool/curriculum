@@ -24,7 +24,7 @@ is for encapsulating complicated Business Intelligence or reporting logic. Let's
 
 We'll use the Storedom sample project (https://github.com/turingschool-examples/storedom) as a basis for this exercise. Clone it and set it up like so:
 
-```shell
+```bash
 git clone https://github.com/turingschool-examples/storedom.git sql-views-workshop
 cd sql-views-workshop
 ```
@@ -35,7 +35,7 @@ some of the DB features we'll be looking at. Fortunately it used to be
 on postgres so this change is available in git history. We can get there easily
 by reverting an old commit:
 
-```shell
+```bash
 git revert b5888fbe684a9e48fbde40310cae711405f27efa
 bundle
 rake db:setup
@@ -104,7 +104,7 @@ To get some practice creating SQL views, let's start by creating this
 view manually from psql console. First fire up the postgres console by
 running `psql` from your terminal:
 
-```shell
+```bash
 psql
 psql (9.3.5)
 Type "help" for help.
@@ -195,7 +195,7 @@ you list all views with `\dv` you'll get a `no relations found` message.
 Now on to the migration! We know how to create a migration with the
 generator:
 
-```shell
+```bash
 rails g migration CreateTopSellingItemsView
 ```
 
@@ -238,7 +238,7 @@ end
 As you can see this migration is pretty crude. We are just dumping the
 SQL for creating our view in. But it will be good enough for our current
 purposes. If you're interested in a more abstract approach to creating
-views via migrations, check out the rails_sql_views gem: https://github.com/activewarehouse/rails_sql_views. 
+views via migrations, check out the rails_sql_views gem: https://github.com/activewarehouse/rails_sql_views.
 
 Additionally, by default SQL views won't show in your `schema.rb` file. This can create issues when dropping or reloading DBs from the schema (as we sometimes do in test environments). An easy fix for this is to tell rails to use sql as the format for your schema records, by adding this line to `config/application.rb`:
 

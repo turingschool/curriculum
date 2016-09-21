@@ -157,6 +157,7 @@ end
 * Most frequent request type
 * List of all HTTP verbs used
 * List of URLs listed form most requested to least requested
+* Do 'gem install useragent' for parsing userAgent string [useragent gem info](https://github.com/gshutler/useragent)
 * Web browser breakdown across all requests(userAgent)
 * OS breakdown across all requests(userAgent)
 * Screen Resolutions across all requests (resolutionWidth x resolutionHeight)

@@ -154,7 +154,7 @@ The project will be assessed with the following rubric:
 ### 3. Breaking Logic into Components
 
 * 4: Application always breaks concepts into classes and methods which encapsulate functionality.
-* 3: Application consistently breaks concepts into classes which encapsulate functionality.
+* 3: Application consistently breaks concepts into classes which encapsulate functionality. (SRP)
 * 2: Application makes use of some classes, but the divisions or encapsulation are unclear.
 * 1: Application makes use of just a few huge methods to control the bulk of the functionality.
  
@@ -162,7 +162,7 @@ The project will be assessed with the following rubric:
 
 * 4:  Application demonstrates excellent knowledge of Ruby syntax, style, refactoring, and extensively uses idiomatic code.
 * 3:  Application shows some effort toward organization but still has 6 or fewer long methods (> 8 lines)  needs some refactoring, and is mostly idiomatic.
-* 2:  Application runs but the code has many long methods (>8 lines) needs significant refactoring, and is somewhat idiomatic.
+* 2:  Application runs but the code has many long methods (>8 lines) has poorly named variables, needs significant refactoring, and is somewhat idiomatic.
 * 1:  Application generates syntax error or crashes during execution
 
 ### 5. Enumerable & Collections

@@ -190,7 +190,7 @@ We already have a `PayloadRequest` model and database table, and we know that a 
 
 A Client has two attributes, an `identifier`, and a `rootUrl`.
 
-* **identifier** is skin to a username (e.g. `jumpstartlab`). This will be unique in the universe of our app (no two clients should have the same identifier).
+* **identifier** is akin to a username (e.g. `jumpstartlab`). This will be unique in the universe of our app (no two clients should have the same identifier).
 * **rootUrl** is the site that our client wants us to track (e.g. `http://jumpstartlab.com`). There will likely be many sub-pages that a client wishes to track (e.g. `http://jumpmstartlab.com/blog`), but for a single client they will all share the same **rootUrl**.
 
 Create migrations to do the following:

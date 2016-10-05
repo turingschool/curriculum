@@ -9,6 +9,14 @@ In this project you'll use Ruby, Sinatra, and ActiveRecord to build a web traffi
 
 RushHour will be an application that aggregates and analyzes visitor data from another website. A RushHour customer/client will embed JavaScript in their website that will gather and send their visitor data to our site. It is important to note that we will not be creating this JavaScript. Instead we will simulate the process of gathering and receiving data, which we will call a payload. Our job is to build the application that can accept the submission of these payloads, analyze the data submitted, and display it through a HTML interface.
 
+This is similar to how a tool like [Google Analytics](https://www.google.com/analytics/) might work. When you visit a page that has Google Analytics installed, you don't necessarily see any indication of that on the page, there's just a script that runs in the background and sends your information to Google. We're building the part of the app that receives that information (in the Google Analytics example, this would be on a Google server somewhere), and then displays the information to 'users', which in this case means businesses that pay for the analysis we provide. **In the past we have heard that students aren't clear on what they're building until part way through this project, so please ask questions if this is at all unclear.**
+
+At a high level, our project will develop along the following path:
+
+* Iterations 0 - 3: Setting up the database, creating methods that can analyze information saved directly to the database from the test environment.
+* Iterations 4 - 5: Setting up a way for the application to receive requests over the internet to create new clients and receive data ('payloads') from client sites.
+* Iterations 6 - 8: Setting up a place for clients to see a summary and analysis of the information we've collected
+
 We will use pre built payloads to simulate the gathered data from a customer/client's website. They will look like this:
 
 ```
@@ -18,6 +26,7 @@ payload = '{
   "respondedIn":37,
   "referredBy":"http://jumpstartlab.com",
   "requestType":"GET",
+  "eventName": "socialLogin",
   "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
   "resolutionWidth":"1920",
   "resolutionHeight":"1280",
@@ -107,6 +116,8 @@ payload = '{
 
 * Create a migration that creates a ```PayloadRequest``` table that has a column for each of the attributes.
 
+In order to prepare the test database, you may need to run `rake db:test:prepare`
+
 Now that we have a database table for the ```PayloadRequest``` we start with our model.
 
 Let's create a new file within our model directory - `payload_request.rb`. Don't forget to inherit from `ActiveRecord::Base`. The start of the file should look something like this:
@@ -178,6 +189,9 @@ Now that we've set up a basic app that can store data from a client, let's expan
 We already have a `PayloadRequest` model and database table, and we know that a `PayloadRequest` will belong to a `Client`, and a `Client` will have many `PayloadRequests`. That means we need to figure out a way to store `Client` data and somehow relate that to our `PayloadRequest` data.
 
 A Client has two attributes, an `identifier`, and a `rootUrl`.
+
+* **identifier** is akin to a username (e.g. `jumpstartlab`). This will be unique in the universe of our app (no two clients should have the same identifier).
+* **rootUrl** is the site that our client wants us to track (e.g. `http://jumpstartlab.com`). There will likely be many sub-pages that a client wishes to track (e.g. `http://jumpmstartlab.com/blog`), but for a single client they will all share the same **rootUrl**.
 
 Create migrations to do the following:
 * Create the `Client` table with the necessary attributes

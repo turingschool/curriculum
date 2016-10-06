@@ -138,7 +138,7 @@ Now that we have a Payload model started, finish it off by creating validations 
 
 You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html) to make sure no record is saved without having all attributes present.
 
-Be sure to have a test for each individual validation.
+**Be sure to have a test for each individual validation.**
 
 
 ### Iteration 1
@@ -181,13 +181,13 @@ end
 * OS breakdown across all payloads(userAgent)
 * Screen Resolutions across all payloads (resolutionWidth x resolutionHeight)
 
-Our client also finds it valuable to have stats on specific URLs. For a specific URL, let's find the following stats:
+Our client also finds it valuable to have stats on specific URLs. For a **specific** URL, let's find the following stats:
 
 * Max Response time
 * Min Response time
 * A list of response times across all payloads listed from longest response time to shortest response time.
-* Average Response time for a specific URL
-* HTTP Verb(s) associated with a specific URL
+* Average Response time
+* List of HTTP Verb(s)
 * Three most popular referrers
 * Three most popular user agents. We can think of a 'user agent' as the combination of OS and Browser.
 

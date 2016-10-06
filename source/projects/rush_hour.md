@@ -218,7 +218,7 @@ class Client < ActiveRecord::Base
 end
 ```
 
-If your schema utilizes a join table to connect resources, make sure you remember to link the resources with `:through`. For example, a `Client` may have many `request_types` through `payload_requests`. Take a look at [this documentation on active record associations](http://guides.rubyonrails.org/association_basics.html#the-has-many-through-association) to get it to work.
+If your schema utilizes a join table to connect resources, make sure you remember to link the resources with `:through`. For example, a `Client` may have many `request_types` through `payloads`. Take a look at [this documentation on active record associations](http://guides.rubyonrails.org/association_basics.html#the-has-many-through-association) to get it to work.
 
 ### Iteration 4
 

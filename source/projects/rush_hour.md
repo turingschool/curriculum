@@ -62,7 +62,7 @@ RushHour will simulate sending these requests using a cURL command. This is a co
 The project must use:
 
 * [Sinatra](http://www.sinatrarb.com/)
-* [PostgreSQL](http://www.postgresql.org/)
+* [PostgreSQL](http://www.postgresql.org/) (this is configured for you)
 * [ActiveRecord](http://guides.rubyonrails.org/active_record_basics.html)
 
 You'll want to set up the [DatabaseCleaner](https://github.com/DatabaseCleaner/database_cleaner) gem in order to have a clean database each time you run tests. Follow the instructions for setting up the gem. Due to a bug in the most recent version of the gem, you'll need to use this line when you set the strategy in your test helper file:
@@ -96,7 +96,7 @@ Iterations 0-8 must be completed to consider the project complete. Please use TD
 
 The core idea behind RushHour is that your application will store and analyze data from a clients website about visitors to their site. For iteration 0 let's begin by storing some of that data.
 
-To store data with ActiveRecord/Postgresql we need to create migrations and a model for a particular resource. In this example we have a PayloadRequest resource, so we need a ```PayloadRequest``` model, and a migration that will create a ```PayloadRequest``` table with the necessary attributes.
+To store data with ActiveRecord/Postgresql we need to create migrations and a model for a particular resource. In this example we have a Payload resource, so we need a ```Payload``` model, and a migration that will create a ```Payload``` table with the necessary attributes.
 
 Our payload looks like this:
 
@@ -107,6 +107,7 @@ payload = '{
   "respondedIn":37,
   "referredBy":"http://jumpstartlab.com",
   "requestType":"GET",
+  "eventName": "socialLogin",
   "userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17",
   "resolutionWidth":"1920",
   "resolutionHeight":"1280",
@@ -114,16 +115,16 @@ payload = '{
 }'
 ```
 
-* Create a migration that creates a ```PayloadRequest``` table that has a column for each of the attributes.
+* Create a migration that creates a ```Payload``` table that has a column for each of the attributes.
 
-In order to prepare the test database, you may need to run `rake db:test:prepare`
+**Important Note:** In order to prepare the test database, you may need to run `rake db:test:prepare`
 
-Now that we have a database table for the ```PayloadRequest``` we start with our model.
+Now that we have a database table for the ```Payload``` we start with our model.
 
-Let's create a new file within our model directory - `payload_request.rb`. Don't forget to inherit from `ActiveRecord::Base`. The start of the file should look something like this:
+Let's create a new file within our model directory - `payload.rb`. Don't forget to inherit from `ActiveRecord::Base`. The start of the file should look something like this:
 
 ```ruby
-class PayloadRequest < ActiveRecord::Base
+class Payload < ActiveRecord::Base
 
 end
 
@@ -131,30 +132,38 @@ end
 
 If we didn't inherit from ActiveRecord::Base we wouldn't get the ActiveRecord database query methods that are nice and easy to work with.
 
-Now that we have a PayloadRequest model started, finish it off by creating validations for the PayloadRequest attributes.
+Now that we have a Payload model started, finish it off by creating validations for the Payload attributes.
 
 * All the attributes must be present in the request.
 
 You can use ActiveRecord's [validations feature](http://guides.rubyonrails.org/active_record_validations.html) to make sure no record is saved without having all attributes present.
 
+Be sure to have a test for each individual validation.
+
 
 ### Iteration 1
 
 
-Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```PayloadRequest``` violates _normal form_ and is structured in a way that will generate a lot of repetitive data. What's __normal form__ you ask? You can learn more [here.](https://gist.github.com/Carmer/f9e060bf1ac30e3ab7b3) Extract the data necessary to normalize the database so far. Do this by creating migrations, models and establishing appropriate relationships between models.
+Now that we have our basic database design in place, we can see that it isn't quite normalized. Our ```Payload``` violates _normal form_ and is structured in a way that will generate a lot of repetitive data. What's __normal form__ you ask? You can learn more [here.](https://gist.github.com/Carmer/f9e060bf1ac30e3ab7b3) Extract the data necessary to normalize the database so far. Do this by creating migrations, models and establishing appropriate relationships between models.
 
 [This tool](http://ondras.zarovi.cz/sql/demo/) is a database modeling tool that can help you quickly design and iterate on your database design.
+
+**Hint**: Any data that will be repeated in a significant amount of rows in your `payloads` table should probably be extracted to its own table. 
+
+For example, how many different `requestType`'s will we have? We could have "GET", "POST", "PUT", and "DELETE" stored in this field. Because we're most likely going to repeat this over and over, we can extract it to a `request_types` table and then create a connection between the two tables via a foreign key in the `payloads` table. 
+
+Don't forget to validate each field's presence that you feel is absolutely necessary.
 
 
 ### Iteration 2
 
 Hopefully our database design is looking better. Now, let's start to manipulate some of that data we're storing.
 
-We want to analyze all the payload requests for the following stats. Some methods will be built directly on the PayloadRequest model, while other methods will be built __in the most appropriate class__. For example:
+We want to analyze all the payloads for the following stats. Some methods will be built directly on the Payload model, while other methods will be built __in the most appropriate class__. For example:
 
 ```ruby
 class Url  < ActiveRecord::Base
-  has_many :payload_requests
+  has_many :payloads
 
   def self.most_to_least_requested
     #implement this method :)
@@ -162,23 +171,23 @@ class Url  < ActiveRecord::Base
 end
 ```
 
-* Average Response time for our clients app across all requests
-* Max Response time across all requests
-* Min Response time across all requests
+* Average Response time for our clients app across all payloads
+* Max Response time across all payloads
+* Min Response time across all payloads
 * Most frequent request type
 * List of all HTTP verbs used
 * List of URLs listed form most requested to least requested
-* Web browser breakdown across all requests(userAgent)
-* OS breakdown across all requests(userAgent)
-* Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
+* Web browser breakdown across all payloads (userAgent)
+* OS breakdown across all payloads(userAgent)
+* Screen Resolutions across all payloads (resolutionWidth x resolutionHeight)
 
-Our client also finds it valuable to have stats on specific URLs. For a specific URL, let's find the following Stats:
+Our client also finds it valuable to have stats on specific URLs. For a specific URL, let's find the following stats:
 
 * Max Response time
 * Min Response time
-* A list of response times across all requests listed from longest response time to shortest response time.
-* Average Response time for this URL
-* HTTP Verb(s) associated with this URL
+* A list of response times across all payloads listed from longest response time to shortest response time.
+* Average Response time for a specific URL
+* HTTP Verb(s) associated with a specific URL
 * Three most popular referrers
 * Three most popular user agents. We can think of a 'user agent' as the combination of OS and Browser.
 
@@ -186,7 +195,7 @@ Our client also finds it valuable to have stats on specific URLs. For a specific
 
 Now that we've set up a basic app that can store data from a client, let's expand the functionality so we can support multiple clients.
 
-We already have a `PayloadRequest` model and database table, and we know that a `PayloadRequest` will belong to a `Client`, and a `Client` will have many `PayloadRequests`. That means we need to figure out a way to store `Client` data and somehow relate that to our `PayloadRequest` data.
+We already have a `Payload` model and database table, and we know that a `Payload` will belong to a `Client`, and a `Client` will have many `Payloads`. That means we need to figure out a way to store `Client` data and somehow relate that to our `Payload` data.
 
 A Client has two attributes, an `identifier`, and a `rootUrl`.
 
@@ -195,21 +204,21 @@ A Client has two attributes, an `identifier`, and a `rootUrl`.
 
 Create migrations to do the following:
 * Create the `Client` table with the necessary attributes
-* Create a migration to add a reference to the `Client` on the `PayloadRequest` table. This migration will establish the one-to-many relationship that `PayloadRequest`s and `Client`s have.
+* Create a migration to add a reference to the `Client` on the `Payload` table. This migration will establish the one-to-many relationship that `Payload`s and `Client`s have.
 
-Now that we have a place to store out client data, make sure you go into the models and establish the relationships between `PayloadRequest`, and `Client`, and you set up appropriate validations for the `Client`.
+Now that we have a place to store out client data, make sure you go into the models and establish the relationships between `Payload`, and `Client`, and you set up appropriate validations for the `Client`.
 
 Join the client table with its resources. For example:
 
 ```ruby
 class Client < ActiveRecord::Base
   #More Code Here
-  has_many :payload_requests
+  has_many :payloads
   #More Code Here
 end
 ```
 
-If your schema utilizes a join table to connect resources, make sure you remember to link the resources with `:through`. Take a look at [this documentation on active record associations](http://guides.rubyonrails.org/association_basics.html#the-has-many-through-association) to get it to work.
+If your schema utilizes a join table to connect resources, make sure you remember to link the resources with `:through`. For example, a `Client` may have many `request_types` through `payload_requests`. Take a look at [this documentation on active record associations](http://guides.rubyonrails.org/association_basics.html#the-has-many-through-association) to get it to work.
 
 ### Iteration 4
 
@@ -242,8 +251,7 @@ $ curl -i -d 'identifier=jumpstartlab&rootUrl=http://jumpstartlab.com'  http://l
 
 Wondering what `-i` and `-d` mean? Check the manual.
 
-
-A post to `http://yourapplication:port/sources``` will require one of three possible responses from our application.
+A "POST" to `http://yourapplication:port/sources``` will require one of three possible responses from our application.
 
 * 1. Missing Parameters - 400 Bad Request
 
@@ -268,7 +276,7 @@ When the request contains all the required parameters return status `200 OK` wit
 
 ### Iteration 5
 
-After completing iteration 4, we can now register Clients and their applications. However, there is still no way to get their data into our application. Let's change this by adding an endpoint for Clients to post their payload data.
+After completing iteration 4, we can now register Clients and their applications. However, there is still no way to get their data into our application. Let's change this by adding an endpoint (route) for Clients to post their payload data.
 
 A registered application will send `POST` requests to the following URL:
 
@@ -285,7 +293,7 @@ Everything sent over HTTP by nature is a string. That makes JSON structure perfe
 Here is an example of sending a payload to our application:
 
 ```
-curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
+curl -i -d 'payload={"url":"http://jumpstartlab.com/blog","requestedAt":"2013-02-16 21:38:28 -0700","respondedIn":37,"referredBy":"http://jumpstartlab.com","requestType":"GET","eventName": "socialLogin","userAgent":"Mozilla/5.0 (Macintosh%3B Intel Mac OS X 10_8_2) AppleWebKit/537.17 (KHTML, like Gecko) Chrome/24.0.1309.0 Safari/537.17","resolutionWidth":"1920","resolutionHeight":"1280","ip":"63.29.38.211"}' http://localhost:9393/sources/jumpstartlab/data
 ```
 
 Find the Ruby JSON docs [here](http://www.ruby-doc.org/stdlib-2.0/libdoc/json/rdoc/JSON.html).
@@ -313,15 +321,15 @@ http://yourapplication:port/sources/:IDENTIFIER
 
 When the IDENTIFIER exists and a Client goes to their endpoint they should be able to view statistics for:
 
-* Average Response time across all requests
-* Max Response time across all requests
-* Min Response time across all requests
+* Average Response time across all payloads
+* Max Response time across all payloads
+* Min Response time across all payloads
 * Most frequent request type
 * List of all HTTP verbs used
 * List of URLs listed from most requested to least requested
-* Web browser breakdown across all requests
-* OS breakdown across all requests
-* Screen Resolutions across all requests (resolutionWidth x resolutionHeight)
+* Web browser breakdown across all payloads
+* OS breakdown across all payloads
+* Screen Resolutions across all payloads (resolutionWidth x resolutionHeight)
 
 When an identifier does not exist return a page that displays the following:
 
@@ -368,7 +376,7 @@ If the url for the identifier __DOES__ exist let's display the url specific stat
 
 * Max Response time
 * Min Response time
-* A list of response times across all requests listed from longest response time to shortest response time.
+* A list of response times across all payloads listed from longest response time to shortest response time.
 * Average Response time for this URL
 * HTTP Verb(s) associated used to it this URL
 * Three most popular referrers
@@ -400,7 +408,7 @@ Display a message that no event with the given name has been defined and then a 
 
 ## Extensions
 
-### Javascript to Send PayloadRequest
+### Javascript to Send Payload
 
 Currently the only way to get data to our app is to:
 
@@ -408,7 +416,7 @@ Currently the only way to get data to our app is to:
 
 2.) send a cUrl request from our terminal to the correct endpoint.
 
-For this extension, write some JavaScript/AJAX that you can give a client to embed in their site that will automate sending the PayloadRequest for a specific page from the client's site to your app.
+For this extension, write some JavaScript/AJAX that you can give a client to embed in their site that will automate sending the Payload for a specific page from the client's site to your app.
 
 ### Deleting Account
 

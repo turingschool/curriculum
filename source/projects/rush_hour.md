@@ -51,6 +51,10 @@ RushHour will simulate sending these requests using a cURL command. This is a co
 
 ## Getting Started
 
+### Define the Relationship with your group
+
+DTR with your group [here](https://gist.github.com/case-eee/38e212c799c563f58766128b5057858a). One group member should send link to forked gist to your anchor as soon as it's complete.
+
 ### Clone the Project
 
 1. One team member forks the skeleton repository at [https://github.com/turingschool-examples/rush-hour-skeleton](https://github.com/turingschool-examples/rush-hour-skeleton)

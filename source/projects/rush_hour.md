@@ -75,8 +75,6 @@ You'll want to set up the [DatabaseCleaner](https://github.com/DatabaseCleaner/d
   DatabaseCleaner.strategy = :truncation
 ```
 
-__You will also probably want to set up a [rake task to run your tests](http://ruby-doc.org/stdlib-2.0/libdoc/rake/rdoc/Rake/TestTask.html).__
-
 See the "Resources" section at the bottom of this page for additional helpful documentation.
 
 Before starting, make sure you have the [Postgres App](http://postgresapp.com/) installed.

@@ -14,7 +14,6 @@ In this project you'll use Ruby to build an implementation of the classic game M
 * Learn to implement a REPL interface
 * Apply Enumerable techniques in a real context
 
-*NOTE* that you are not expected to write automated software tests for this project.
 
 ## Base Expectations
 

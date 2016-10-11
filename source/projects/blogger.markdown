@@ -32,10 +32,12 @@ This tutorial targets Rails 4.0.0, and may need slight adaptations for other ver
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the following command:
 
 {% terminal %}
-$ rails new blogger
+$ rails new _4.0.0_ blogger
 {% endterminal %}
 
 Use `cd blogger` to change into the directory, then open it in your text editor. If you're using Sublime Text you can do that with `subl .`.
+
+_Note_: You may have to install this specific version of rails by running `gem install rails -v 4.0.0` before generating your new rails project.
 
 ### Project Tour
 

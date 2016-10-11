@@ -203,10 +203,10 @@ You'll recognize most of them from your migration file, but what about `id`?  Ev
 In your console, try entering `Article.all` again. Do you see the blank article that we created with the `Article.new` command?  No?  The console doesn't change values in the database until we explicitly call the `.save` method on an object. Let's create a sample article and you'll see how it works. Enter each of the following lines one at a time:
 
 {% irb %}
-$ a = Article.new
-$ a.title = "Sample Article Title"
-$ a.body = "This is the text for my article, woo hoo!"
-$ a.save
+$ article = Article.new
+$ article.title = "Sample Article Title"
+$ article.body = "This is the text for my article, woo hoo!"
+$ article.save
 $ Article.all
 {% endirb %}
 

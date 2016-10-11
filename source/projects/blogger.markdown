@@ -717,18 +717,17 @@ sent into us via the params hash. Luckily, Rails gives us a feature
 to deal with this situation: Strong Parameters.
 
 It works like this: You use two new methods, `require` and `permit`.
-They help you declare which attributes you'd like to accept. Most of
-the time, they're used in a helper method. Add the below code to `app/helpers/articles_helper.rb`.
+They help you declare which attributes you'd like to accept. Add the below code to the bottom of your `articles_controller.rb`.
 
 ```ruby
+private
+
 def article_params
   params.require(:article).permit(:title, :body)
 end
 ```
 
-Now on your articles_controller.rb add: 'include ArticlesHelper' directly below your class name.
-
-You then use this method instead of the `params` hash directly:
+Now, you'll then use this method instead of the `params` hash directly:
 
 ```ruby
 @article = Article.new(article_params)
@@ -738,7 +737,6 @@ Go ahead and add this helper method to your code, and change the arguments to `n
 
 ```ruby
 class ArticlesController < ApplicationController
-  include ArticlesHelper
 
   #...
 
@@ -748,12 +746,8 @@ class ArticlesController < ApplicationController
 
     redirect_to article_path(@article)
   end
-```
 
-Now in your articles_helper.rb file it should look like this:
-
-```ruby
-module ArticlesHelper
+  private
 
   def article_params
     params.require(:article).permit(:title, :body)

@@ -53,7 +53,7 @@ RushHour will simulate sending these requests using a cURL command. This is a co
 
 ### Define the Relationship with your group
 
-DTR with your group [here](https://gist.github.com/case-eee/38e212c799c563f58766128b5057858a). One group member should send link to forked gist to your anchor as soon as it's complete.
+DTR with your group [here](https://gist.github.com/case-eee/38e212c799c563f58766128b5057858a). One group member should send a link of the forked gist to your anchor as soon as it's complete.
 
 ### Clone the Project
 
@@ -349,7 +349,7 @@ Now that you have everything set up and ready to go for accepting data submitted
 
 ### Iteration 7
 
-We also have stats we generated that are specific to a Clients URLs. Let's create a view that will show our URL specific stats.
+We also have stats we generated that are specific to a Client's URLs. Let's create a view that will show our URL specific stats.
 
 The URL we will create for this will be:
 
@@ -380,7 +380,7 @@ If the url for the identifier __DOES__ exist let's display the url specific stat
 * Min Response time
 * A list of response times across all payloads listed from longest response time to shortest response time.
 * Average Response time for this URL
-* HTTP Verb(s) associated used to it this URL
+* HTTP Verb(s) associated with this URL
 * Three most popular referrers
 * Three most popular user agents
 

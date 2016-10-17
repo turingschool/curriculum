@@ -32,10 +32,12 @@ This tutorial targets Rails 4.0.0, and may need slight adaptations for other ver
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the following command:
 
 {% terminal %}
-$ rails new blogger
+$ rails new _4.0.0_ blogger
 {% endterminal %}
 
 Use `cd blogger` to change into the directory, then open it in your text editor. If you're using Sublime Text you can do that with `subl .`.
+
+_Note_: You may have to install this specific version of rails by running `gem install rails -v 4.0.0` before generating your new rails project.
 
 ### Project Tour
 
@@ -201,10 +203,10 @@ You'll recognize most of them from your migration file, but what about `id`?  Ev
 In your console, try entering `Article.all` again. Do you see the blank article that we created with the `Article.new` command?  No?  The console doesn't change values in the database until we explicitly call the `.save` method on an object. Let's create a sample article and you'll see how it works. Enter each of the following lines one at a time:
 
 {% irb %}
-$ a = Article.new
-$ a.title = "Sample Article Title"
-$ a.body = "This is the text for my article, woo hoo!"
-$ a.save
+$ article = Article.new
+$ article.title = "Sample Article Title"
+$ article.body = "This is the text for my article, woo hoo!"
+$ article.save
 $ Article.all
 {% endirb %}
 
@@ -715,18 +717,17 @@ sent into us via the params hash. Luckily, Rails gives us a feature
 to deal with this situation: Strong Parameters.
 
 It works like this: You use two new methods, `require` and `permit`.
-They help you declare which attributes you'd like to accept. Most of
-the time, they're used in a helper method. Add the below code to `app/helpers/articles_helper.rb`.
+They help you declare which attributes you'd like to accept. Add the below code to the bottom of your `articles_controller.rb`.
 
 ```ruby
+private
+
 def article_params
   params.require(:article).permit(:title, :body)
 end
 ```
 
-Now on your articles_controller.rb add: 'include ArticlesHelper' directly below your class name.
-
-You then use this method instead of the `params` hash directly:
+Now, you'll then use this method instead of the `params` hash directly:
 
 ```ruby
 @article = Article.new(article_params)
@@ -736,7 +737,6 @@ Go ahead and add this helper method to your code, and change the arguments to `n
 
 ```ruby
 class ArticlesController < ApplicationController
-  include ArticlesHelper
 
   #...
 
@@ -746,12 +746,8 @@ class ArticlesController < ApplicationController
 
     redirect_to article_path(@article)
   end
-```
 
-Now in your articles_helper.rb file it should look like this:
-
-```ruby
-module ArticlesHelper
+  private
 
   def article_params
     params.require(:article).permit(:title, :body)
@@ -1145,34 +1141,34 @@ Let's use the console to test how this relationship works in code. If you don't 
 Run the following commands one at a time and observe the output:
 
 {% irb %}
-$ a = Article.first
-$ a.comments
+$ article = Article.first
+$ article.comments
 $ Comment.new
-$ a.comments.new
-$ a.comments
+$ article.comments.new
+$ article.comments
 {% endirb %}
 
-When you called the `comments` method on object `a`, it gave you back a blank array because that article doesn't have any comments. When you executed `Comment.new` it gave you back a blank Comment object with those fields we defined in the migration.
+When you called the `comments` method on object `article`, it gave you back a blank array because that article doesn't have any comments. When you executed `Comment.new` it gave you back a blank Comment object with those fields we defined in the migration.
 
-But, if you look closely, when you did `a.comments.new` the comment object you got back wasn't quite blank -- it has the `article_id` field already filled in with the ID number of article `a`. Additionally, the following (last) call to `a.comments` shows that the new comment object has already been added to the in-memory collection for the `a` article object.
+But, if you look closely, when you did `article.comments.new` the comment object you got back wasn't quite blank -- it has the `article_id` field already filled in with the ID number of article `article`. Additionally, the following (last) call to `article.comments` shows that the new comment object has already been added to the in-memory collection for the `article` article object.
 
 Try creating a few comments for that article like this:
 
 {% irb %}
-$ c = a.comments.new
-$ c.author_name = "Daffy Duck"
-$ c.body = "I think this article is thhh-thhh-thupid!"
-$ c.save
-$ d = a.comments.create(author_name: "Chewbacca", body: "RAWR!")
+$ comment = article.comments.new
+$ comment.author_name = "Daffy Duck"
+$ comment.body = "I think this article is thhh-thhh-thupid!"
+$ comment.save
+$ new_comment = article.comments.create(author_name: "Chewbacca", body: "RAWR!")
 {% endirb %}
 
-For the first comment, `c`, I used a series of commands like we've done before. For the second comment, `d`, I used the `create` method. `new` doesn't send the data to the database until you call `save`. With `create` you build and save to the database all in one step.
+For the first comment, `comment`, I used a series of commands like we've done before. For the second comment, `new_comment`, I used the `create` method. `new` doesn't send the data to the database until you call `save`. With `create` you build and save to the database all in one step.
 
-Now that you've created a few comments, try executing `a.comments` again. Did your comments all show up?  When I did it, only one comment came back. The console tries to minimize the number of times it talks to the database, so sometimes if you ask it to do something it's already done, it'll get the information from the cache instead of really asking the database -- giving you the same answer it gave the first time. That can be annoying. To force it to clear the cache and lookup the accurate information, try this:
+Now that you've created a few comments, try executing `article.comments` again. Did your comments all show up?  When I did it, only one comment came back. The console tries to minimize the number of times it talks to the database, so sometimes if you ask it to do something it's already done, it'll get the information from the cache instead of really asking the database -- giving you the same answer it gave the first time. That can be annoying. To force it to clear the cache and lookup the accurate information, try this:
 
 {% irb %}
-$ a.reload
-$ a.comments
+$ article.reload
+$ article.comments
 {% endirb %}
 
 You'll see that the article has associated comments. Now we need to integrate them into the article display.
@@ -1472,10 +1468,10 @@ Now if we have an object like `article` we can just ask for `article.tags` or, c
 To see this in action, start the `bin/rails console` and try the following:
 
 {% irb %}
-$ a = Article.first
-$ a.tags.create name: "tag1"
-$ a.tags.create name: "tag2"
-$ a.tags
+$ article = Article.first
+$ article.tags.create name: "tag1"
+$ article.tags.create name: "tag2"
+$ article.tags
 => [#<Tag id: 1, name: "tag1", created_at: "2012-11-28 20:17:55", updated_at: "2012-11-28 20:17:55">, #<Tag id: 2, name: "tag2", created_at: "2012-11-28 20:31:49", updated_at: "2012-11-28 20:31:49">]
 {% endirb %}
 
@@ -1512,8 +1508,8 @@ Back in your console, find that article again, and take a look at the results of
 
 {% irb %}
 $ reload!
-$ a = Article.first
-$ a.tag_list
+$ article = Article.first
+$ article.tag_list
 => "#<Tag:0x007fe4d60c2430>, #<Tag:0x007fe4d617da50>"
 {% endirb %}
 
@@ -1609,11 +1605,11 @@ Just leave it blank for now and try to resubmit your sample article with tags. I
 Did it really work?  It's hard to tell. Let's jump into the console and have a look.
 
 {% irb %}
-$ a = Article.last
-$ a.tags
+$ article = Article.last
+$ article.tags
 {% endirb %}
 
-I bet the console reported that `a` had `[]` tags -- an empty list. (It also probably said something about an `ActiveRecord::Associations::CollectionProxy` 😉 ) So we didn't generate an error, but we didn't create any tags either.
+I bet the console reported that `article` had `[]` tags -- an empty list. (It also probably said something about an `ActiveRecord::Associations::CollectionProxy` 😉 ) So we didn't generate an error, but we didn't create any tags either.
 
 We need to return to the `Article#tag_list=` method in `article.rb` and do some more work.
 
@@ -1909,9 +1905,9 @@ When I first did this, I wasn't sure it worked. Here's how I checked:
 
 1. Open a console session (`rails console` from terminal)
 2. Find the ID number of the article by looking at the URL. In my case, the url was `http://localhost:3000/articles/1` so the ID number is just `1`
-3. In console, enter `a = Article.find(1)`
+3. In console, enter `article = Article.find(1)`
 3. Right away I see that the article has data in the `image_file_name` and other fields, so I think it worked.
-4. Enter `a.image` to see even more data about the file
+4. Enter `article.image` to see even more data about the file
 
 Ok, it's in there, but we need it to actually show up in the article. Open the `app/views/articles/show.html.erb` view template. Before the line that displays the body, let's add this line:
 

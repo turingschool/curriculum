@@ -100,7 +100,8 @@ completion.count
 => 235886
 
 completion.suggest("piz")
-=> ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"]
+=> ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]
+#this is in alphabetical order, the order in which the words would be pulled. The old order was in neither alphabetical nor reverse alpha.
 ```
 
 ### Usage Weighting
@@ -131,12 +132,13 @@ dictionary = File.read("/usr/share/dict/words")
 completion.populate(dictionary)
 
 completion.suggest("piz")
-=> ["pizza", "pizzeria", "pizzicato"]
+=> ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]
 
 completion.select("piz", "pizzeria")
 
 completion.suggest("piz")
-=> ["pizzeria", "pizza", "pizzicato"]
+=> ["pizzeria", "pize", "pizza", "pizzicato", "pizzle"]
+#appends dictionary suggestions after weighted suggestion.
 ```
 
 ## Spec Harness
@@ -191,10 +193,11 @@ completion.select("pi", "pizza")
 completion.select("pi", "pizzicato")
 
 completion.suggest("piz")
-=> ["pizzeria", "pizza", "pizzicato"]
+=> ["pizzeria", "pize", "pizza", "pizzicato", "pizzle"]
 
-completion.suggest("pi")
-=> ["pizza", "pizzicato","pizzeria"]
+completion.suggest("pi").first(5)
+=> ["pizza", "pizzicato", "pi", "pia", "piaba"]
+ #There are 1189 suggestions for "pi". We (David and I) spoke with Beth, and she said she just wants the dictionary suggestions appended to the weighted suggestions for the given substring. We think only displaying the first five makes it more user friendly.
 ```
 
 In this example, against the substring "piz" we choose
@@ -239,7 +242,7 @@ will need to provide your own tests that demonstrate this functionality.
 ## Extensions
 
 ### 1. Denver Addresses
-
+(This file is relocated, we couldn't find it elsewhere).
 Working with words was interesting, but what about a bigger dataset? Check out [this data file](http://data.denvergov.org/dataset/city-and-county-of-denver-addresses) (you'll want the CSV version) that contains all the known addresses in the city of Denver. Use the `full_address` field that's last in the row. Can you make your autocomplete work with that dataset?
 
 ### 2. Substrings
@@ -251,6 +254,8 @@ Could your word lookup possibly handle middle-of-the-word matches? So that `com`
 Can you create a graphical user interface for your code? Something that a "normal person" might plausibly use? Consider a toolkit like [Shoes](http://shoesrb.com/) or [Ruby Processing](https://github.com/jashkenas/ruby-processing).
 
 ### 4. Automated Reporting
+
+Is this the same as the simplecov request on line 157?
 
 * Setup [SimpleCov](https://github.com/colszowka/simplecov) to monitor test coverage along the way
 

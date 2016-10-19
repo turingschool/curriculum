@@ -136,7 +136,7 @@ completion.suggest("piz")
 completion.select("piz", "pizzeria")
 
 completion.suggest("piz")
-=> ["pizzeria", "pizza", "pizzicato"]
+=> ["pizzeria", "pizza", "pizzicato", "pizzle", "pize"]
 ```
 
 ## Spec Harness
@@ -151,6 +151,8 @@ closely.
 You can structure the internals of your program however you like,
 but if the top level interface does not match, the
 spec harness will be unable to evaluate your work.
+
+Spec harness available [here](https://github.com/turingschool-examples/complete_me_spec_harness/blob/master/test/complete_me_test.rb). 
 
 ## Support Tooling
 
@@ -191,10 +193,10 @@ completion.select("pi", "pizza")
 completion.select("pi", "pizzicato")
 
 completion.suggest("piz")
-=> ["pizzeria", "pizza", "pizzicato"]
+=> ["pizzeria", "pizza", "pizzicato", "pizzle", "pize"]
 
 completion.suggest("pi")
-=> ["pizza", "pizzicato","pizzeria"]
+=> ["pizza", "pizzicato","pizzeria", "pizzle", "pize"]
 ```
 
 In this example, against the substring "piz" we choose

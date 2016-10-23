@@ -1949,7 +1949,7 @@ Now our articles can have an image and all the hard work was handled by papercli
 
 Yes, a model (in our case an article) could have many attachments instead of just one. To accomplish this you'd create a new model, let's call it "Attachment", where each instance of the model can have one file using the same fields we put into Article above as well as an `article_id` field. The Attachment would then `belong_to` an article, and an article would `have_many` attachments.
 
-Paperclip supports automatic image resizing and it's easy. In your model, you'd add an option like this:
+Paperclip supports automatic image resizing and it's easy. In your model, you'd add an option in `app/models/article.rb` like this:
 
 ```ruby
 has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" }

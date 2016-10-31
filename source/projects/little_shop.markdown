@@ -32,6 +32,13 @@ Project implementation may **not** use:
 3. Add your project to Waffle.io
 4. Configure [Hound](https://houndci.com/) for style guide violations
 5. Use [waffle.io](http://waffle.io) to write and track user stories
+6. By the end of the first evening of the project, your group needs to send the following to your anchor:
+  * Github repository
+  * Link to Waffle
+  * App Name
+  * App Description
+  * Link to completed [DTR](https://gist.github.com/case-eee/91be629f380606c1498a9c3c0e5fc7ed)
+  * List of possible extentions
 
 ## Base Expectations
 

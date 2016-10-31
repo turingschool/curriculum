@@ -34,6 +34,7 @@ Project implementation may **not** use:
 5. Use [waffle.io](http://waffle.io) to write and track user stories
 6. By the end of the first evening of the project, your group needs to send the following to your anchor:
   * Github repository
+  * Link to app on heroku
   * Link to Waffle
   * App Name
   * App Description

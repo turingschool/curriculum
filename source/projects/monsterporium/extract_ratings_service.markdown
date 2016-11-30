@@ -144,9 +144,9 @@ First, let's find out where it is being used. We'll assume that most rating
 objects are assigned to a local variable or instance variable named `rating`.
 We can grep for this:
 
-{% terminal %}
+```sh
 $ git grep rating.id
-{% endterminal %}
+```
 
 Note that the period is a wildcard, and the search returns both instance of `rating.id`
 and `rating_id`.
@@ -158,14 +158,14 @@ This uncovers a few different use cases:
 
 To find routes that use the ratings ID, let's look at `rake routes`:
 
-{% terminal %}
+```sh
 $ bundle exec rake routes | grep rating
     account_ratings GET    /account/ratings(.:format)                       ratings#index
     product_ratings POST   /products/:product_id/ratings(.:format)          ratings#create
  new_product_rating GET    /products/:product_id/ratings/new(.:format)      ratings#new
 edit_product_rating GET    /products/:product_id/ratings/:id/edit(.:format) ratings#edit
      product_rating PUT    /products/:product_id/ratings/:id(.:format)      ratings#update
-{% endterminal %}
+```
 
 Only two routes use the `rating.id`: the `ratings#edit` and the
 `ratings#update`.
@@ -220,10 +220,10 @@ end
 
 Run `rake routes` and see that no routes are using the rating ID, but our two custom routes are included:
 
-{% terminal %}
+```sh
      product_rating GET    /products/:product_id/ratings/:user_id(.:format)         ratings#edit
 edit_product_rating PUT    /products/:product_id/ratings/:user_id(.:format)         ratings#update
-{% endterminal %}
+```
 
 #### Calling the Routes
 
@@ -540,13 +540,13 @@ that's going to get messy, so we're introducing this ugly thing first.
 
 ### Editing Ratings
 
-Next, let's try to edit a rating. 
+Next, let's try to edit a rating.
 
 Most likely all the existing ratings in the system are older than 15 minutes, so they're uneditable. If you want to re-seed the DB:
 
-{% terminal %}
+```sh
 $ bundle exec rake db:drop db:migrate db:seed
-{% endterminal %}
+```
 
 #### Finding a Rating
 
@@ -605,7 +605,7 @@ database, then mix in Sinatra for HTTP interaction.
 
 Let's create a minimal ruby project:
 
-{% terminal %}
+```sh
 .
 ├── Gemfile
 ├── README.md
@@ -615,7 +615,7 @@ Let's create a minimal ruby project:
 └── test
     ├── opinions_test.rb
     └── test_helper.rb
-{% endterminal %}
+```
 
 #### Dependencies
 
@@ -702,7 +702,7 @@ end
 
 If you're not familiar with `fetch`, it will look for the `OPINIONS_ENV` key in the `ENV` hash of environment variables. If the key is found, the value will be returned. If it is not found, `"development"` will be used like a default value.
 
-At this point the test should pass. 
+At this point the test should pass.
 
 #### Extracting a `test_helper.rb`
 
@@ -760,7 +760,7 @@ We're going to need to deal with
 
 The new files we'll be adding are:
 
-{% terminal %}
+```sh
 ├── config
 │   ├── database.yml
 │   └── environment.rb
@@ -773,7 +773,7 @@ The new files we'll be adding are:
 └── test
     └── opinions
         └── rating_test.rb
-{% endterminal %}
+```
 
 #### Dependencies in the `Gemfile`
 
@@ -970,9 +970,9 @@ tests are running against the test environment.
 
 Run the migration with the test configuration:
 
-{% terminal %}
+```sh
 OPINIONS_ENV=test rake db:migrate
-{% endterminal %}
+```
 
 Run `rake` again, and **finally the tests should pass**.
 
@@ -1078,14 +1078,14 @@ To add Sinatra into the mix we need to add a few more files and a few more gems.
 
 Create the following files in your existing app:
 
-{% terminal %}
+```sh
 .
 ├── config.ru
 ├── lib
 │   ├── api.rb
 └── test
     └── api_test.rb
-{% endterminal %}
+```
 
 #### Additional Dependencies
 
@@ -1175,18 +1175,18 @@ run OpinionsAPI
 
 Start the server with:
 
-{% terminal %}
+```sh
 $ rackup -p 4567 -s puma
-{% endterminal %}
+```
 
 #### Test It Out
 
 And now you can hit the site at [localhost:4567](http://localhost:4567) either
 in your browser or from the command line:
 
-{% terminal %}
+```sh
 $ curl http://localhost:4567
-{% endterminal %}
+```
 
 That's it! We have a working, tested Sinatra application.
 
@@ -1374,13 +1374,13 @@ We want to see reading from the API work before we get into implementing the wri
 Go to the project directory for the primary application in your terminal, and
 run:
 
-{% terminal %}
+```sh
 $ sqlite3 db/monster_development
 sqlite> .mode insert
 sqlite> .out ratings.sql
 sqlite> select * from ratings;
 sqlite> .quit
-{% endterminal %}
+```
 
 This will dump the contents of the ratings table into a file named
 `ratings.sql`, which you can then load into the stand-alone application.
@@ -1389,11 +1389,11 @@ This will dump the contents of the ratings table into a file named
 
 Move the file to the `opinions` project directory, and run:
 
-{% terminal %}
+```sh
 $ sqlite3 db/opinions_development
 sqlite> .read ratings.sql
 sqlite> .quit
-{% endterminal %}
+```
 
 #### Test It Out
 
@@ -1524,9 +1524,9 @@ endpoint and the test that calls it.
 
 Take a look at the headers when you make a verbose call to the API:
 
-{% terminal %}
+```sh
 curl -v http://localhost:8080/api/v1/products/1/ratings
-{% endterminal %}
+```
 
 Does anything catch your eye?
 
@@ -1744,4 +1744,3 @@ The system we've built so far is distributed but it's still synchronous. Given t
 
 * Will the test fail because the JavaScript hasn't finished executing yet?
 * Capybara will keep looking for 2 seconds, long enough for the JavaScript to complete: https://github.com/jnicklas/capybara#asynchronous-javascript-ajax-and-friends
-

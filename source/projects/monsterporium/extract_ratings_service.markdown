@@ -782,7 +782,7 @@ We need to add both ActiveRecord and an appropriate adapter to the Gemfile. The 
 ```ruby
 source 'https://rubygems.org'
 
-gem 'activerecord', require: 'active_record'
+gem 'activerecord', '< 5.0.0', require: 'active_record'
 gem 'sqlite3'
 
 group :test do
@@ -1096,7 +1096,7 @@ Change the `Gemfile` to the following:
 ```ruby
 source 'https://rubygems.org'
 
-gem 'activerecord', require: 'active_record'
+gem 'activerecord', '< 5.0.0', require: 'active_record'
 gem 'puma'
 gem 'sinatra', require: 'sinatra/base'
 gem 'sqlite3'

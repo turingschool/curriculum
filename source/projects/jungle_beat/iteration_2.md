@@ -4,7 +4,7 @@ Now that we can insert the first element of our list (i.e. the Head), let's focu
 
 This iteration is really where we'll build out the core structure that makes up our linked list -- it will probably take you more time than the previous iterations.
 
-Update your `append`, `prepend`, and `insert` methods to support the following interaction pattern:
+Update your `append`, `count`, and `to_s` methods to support the following interaction pattern:
 
 ```ruby
 > require "./lib/linked_list"

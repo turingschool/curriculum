@@ -637,7 +637,7 @@ class Student
 end
 ```
 
-You haven't yet seen the `attr_accesor` method which is used to define attributes for instances of a class.
+You haven't yet seen the `attr_accessor` method which is used to define attributes for instances of a class.
 
 #### Creating Instances
 

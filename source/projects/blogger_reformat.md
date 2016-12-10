@@ -23,7 +23,7 @@ This tutorial targets Rails 4.0.0, and may need slight adaptations for other ver
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the following command:
 
 ```
-$ rails new _4.0.0_ blogger
+$ rails _4.0.0_ new blogger
 ```
 
 Use `cd blogger` to change into the directory, then open it in your text editor. If you're using Sublime Text you can do that with `subl .`.

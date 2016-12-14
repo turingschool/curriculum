@@ -73,6 +73,26 @@ IRB is best used as a scratch pad for experimenting. Many developers keep an IRB
 
 Let's begin our experiments with IRB. **Start IRB by opening Terminal (Mac) or Command Prompt (Win) and typing `irb`**.
 
+### Some Example Questions
+
+1. Try running the Ruby code listed above. See if you can get your Command Prompt or Terminal to print out the "Hello, World!" from above.
+2. Now let's opening IRB and running a similar command. In your command prompt type the following: 
+
+```
+ IRB
+ puts "Hello, World!"
+ exit
+```
+
+You should see a very similar response from question 1
+3. Ruby can do a lot of intersting things, particularly around string manipulation. Let's take a look at an example:
+```
+ IRB
+ "Hello, World!".upcase
+ exit
+```
+But now let's see if you can "reverse" the string, and have it print back to you "!dlroW ,olleH"
+
 ## 2. Variables
 
 Programming is all about creating abstractions, and in order to create an abstraction we must be able to assign names to things. Variables are a way of creating a name for a piece of data.

@@ -136,16 +136,16 @@ Question: What is 5 + 5?
 10
 Correct!
 This is card number 2 out of 4.
-Question: What is Rachel's favorite animal?
-panda
+Question: What is the capital of Alaska?
+Anchorage
 Incorrect.
 This is card number 3 out of 4.
-Question: What is Mike's middle name?
-nobody knows
+Question: What color is the ocean?
+blue 
 Correct!
 This is card number 4 out of 4.
-Question: What cardboard cutout lives at Turing?
-Justin Bieber
+Question: What is street is Turing on?
+Blake
 Correct!
 ****** Game over! ******
 You had 3 correct guesses out of 4 for a score of 75%.
@@ -161,9 +161,9 @@ Assuming we have a text file `cards.txt` that looks like this:
 
 ```
 What is 5 + 5?,10
-What is Rachel's favorite animal?,red panda
-What is Mike's middle name?,nobody knows
-What cardboard cutout lives at Turing?,Justin bieber
+What is the capital of Alaska?,Juneau
+What color is the ocean?,blue
+What is street is Turing on?,Blake
 ```
 
 Then we should be able to do this:
@@ -172,9 +172,9 @@ Then we should be able to do this:
 filename = "cards.txt"
 cards = CardGenerator.new(filename).cards
 => [#<Card:0x007f9f1413cbe8 @answer="10", @question="What is 5 + 5?">,
- #<Card:0x007f9f1413c788 @answer="red panda", @question="What is Rachel's favorite animal?">,
- #<Card:0x007f9f1413c2b0 @answer="nobody knows", @question="What is Mike's middle name?">,
- #<Card:0x007f9f14137da0 @answer="Justin bieber", @question="What cardboard cutout lives at Turing?">]
+ #<Card:0x007f9f1413c788 @answer="Juneau", @question="What is the capital of Alaska?">,
+ #<Card:0x007f9f1413c2b0 @answer="blue", @question="What color is the ocean?">,
+ #<Card:0x007f9f14137da0 @answer="Blake", @question="What is street is Turing on?">]
 ```
 
 Modify your program so that when you run `ruby flashcard_runner.rb`, it uses cards from `cards.txt` instead of hardcoded cards.

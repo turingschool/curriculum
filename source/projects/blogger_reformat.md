@@ -18,17 +18,17 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 First we need to make sure everything is set up and installed. See the [Environment Setup](http://tutorials.jumpstartlab.com/topics/environment/environment.html) page for instructions on setting up and verifying your Ruby and Rails environment.
 
-This tutorial targets Rails 4.0.0, and may need slight adaptations for other versions. Let us know if you run into something strange!
+This tutorial targets Rails 4.1.2, and may need slight adaptations for other versions. Let us know if you run into something strange!
 
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the following command:
 
 ```
-$ rails _4.0.0_ new blogger
+$ rails _4.1.2_ new blogger
 ```
 
 Use `cd blogger` to change into the directory, then open it in your text editor. If you're using Sublime Text you can do that with `subl .`.
 
-_Note_: You may have to install this specific version of rails by running `gem install rails -v 4.0.0` before generating your new rails project.
+_Note_: You may have to install this specific version of rails by running `gem install rails -v 4.1.2` before generating your new rails project.
 
 ### Project Tour
 
@@ -58,7 +58,7 @@ Let's start up the server. From your project directory:
 ```
 $ bin/rails server
 => Booting WEBrick
-=> Rails 4.0.0 application starting in development on http://0.0.0.0:3000
+=> Rails 4.1.2 application starting in development on http://0.0.0.0:3000
 => Call with -d to detach
 => Ctrl-C to shutdown server
 [2012-01-07 11:16:52] INFO  WEBrick 1.3.1
@@ -1325,7 +1325,7 @@ We've got some decent comment functionality, but there are a few things we shoul
 Let's make it so where the view template has the "Comments" header it displays how many comments there are, like "Comments (3)". Open up your article's `show.html.erb` and change the comments header so it looks like this:
 
 ```erb
-<h3>Comments (<%= @article.comments.size %>)</h3>
+<h3>Comments (<%= @article.comments.count %>)</h3>
 ```
 
 #### Form Labels

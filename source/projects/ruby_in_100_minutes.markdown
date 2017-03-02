@@ -6,7 +6,7 @@ pdf: false
 alias: [ /ruby_in_100_minutes, /ruby ]
 ---
 
-In this tutorial we'll explore the fundamental syntax you need to get started programming with Ruby.
+In this tutorial, we'll explore the fundamental syntax you need to get started programming with Ruby.
 
 <div class="note">
 <p>If you haven't already set up Ruby, visit <a href="/topics/environment/environment.html">the environment setup page for instructions</a>.</p>
@@ -32,13 +32,13 @@ And if you want to learn Rails, you need to learn Ruby first!  Here goes...
 
 ## 1. Instructions & Interpreters
 
-Ruby is an "interpreted" programming language which means it can't run on your processor directly, it has to be fed into a middleman called the "virtual machine" or VM. The VM takes in Ruby code on one side and speaks natively to the operating system and processor on the other. The benefit to this approach is that you can write Ruby code once and, typically, execute it on many different operating systems and hardware platforms.
+Ruby is an "interpreted" programming language, which means it can't run on your processor directly; it has to be fed into a middleman called the "virtual machine" or VM. The VM takes in Ruby code on one side and speaks natively to the operating system and processor on the other. The benefit to this approach is that you can write Ruby code once and, typically, execute it on many different operating systems and hardware platforms.
 
-A Ruby program can't run on it's own, you need to load the VM. There are two ways to execute Ruby with the VM: through IRB and through the command line.
+A Ruby program can't run on its own, you need to load the VM. There are two ways to execute Ruby with the VM: through IRB and through the command line.
 
 ### Running Ruby from the Command Line
 
-This is the durable way to write Ruby code because you save your instructions into a file. That file can then be backed up, transferred, added to source control, etc.
+Because you save your instructions into a file, running Ruby from the Command Line is the durable way to write Ruby code. That file can then be backed up, transferred, added to source control, etc.
 
 
 #### An Example Ruby File
@@ -153,7 +153,7 @@ Use IRB to store values with each of the following variable names. Which names a
 
 ## 3. Strings
 
-In the real world strings tie things up. Programming strings have *nothing* to do with real-world strings.
+In the real world, strings tie things up. Programming strings have *nothing* to do with real-world strings.
 
 Programming strings are used to store collections of letters and numbers. That could be a single letter like `"a"`, a word like `"hi"`, or a sentence like `"Hello my friends."`.
 
@@ -177,11 +177,11 @@ $ greeting[6..-2]
 
 The characters in a string each have a position number, starting with zero. So for a string `"Hi"`, the `"H"` is in position zero and the `"i"` is in position 1.
 
-To pull out a substring we use the starting and ending positions. Thus `greeting[0..4]` above pull out the letters in position zero, one, two, three, and four.
+To pull out a substring, we use the starting and ending positions. Thus, `greeting[0..4]` above pulls out the letters in position zero, one, two, three, and four.
 
 Ruby interprets negative positions to count back from the end of the string. So in `"Hi"`, the `"i"` is in position -1 and the `"H"` is in position -2.
 
-So if a letter has both a positive and negative position number, which should you use? If you can use the positive numbers do it, they're easier to reason about. But, if you're looking for something based on it being at the end of the string (like "What's the last character of this string?"), then use the negative positions.
+So if a letter has both a positive and negative position number, which should you use? If you can use the positive numbers, do it; they're easier to reason about. But, if you're looking for something based on it being at the end of the string (like "What's the last character of this string?"), then use the negative positions.
 
 ### Common String Methods
 
@@ -189,7 +189,7 @@ Let's experiment with strings and some common methods in IRB.
 
 #### `.length`
 
-The length method tells you how many characters (including spaces) are in the string:
+The length method tells you how many characters are in the string (including spaces):
 
 {% irb %}
 $ greeting = "Hello Everyone!"
@@ -211,11 +211,11 @@ $ sentence.split
  => ["This", "is", "my", "sample", "sentence."]
 {% endirb %}
 
-The `.split` method gives you back an Array which we'll learn about in a later section. It cuts the string wherever it encounters a space (`" "`) character.
+The `.split` method gives you back an Array, which we'll learn about in a later section. It cuts the string wherever it encounters a space (`" "`) character.
 
 ##### `.split` with an Argument
 
-But sometimes you'll want to split on a character other than space. The `.split` method takes an argument, a piece of data that tells it how to do what it does.
+Sometimes, however, you'll want to split on a character other than a space. The `.split` method takes an argument, a piece of data that tells it how to do what it does.
 
 {% irb %}
 $ numbers = "one,two,three,four,five"
@@ -226,13 +226,13 @@ $ numbers.split(",")
  => ["one", "two", "three", "four", "five"]
 {% endirb %}
 
-In the first call to `split` it tries to cut on spaces but there are none, so you get back an Array of the entire string. In the second try, though, we specify that the splitting should happen wherever there is a comma, so we get back an Array of the five individual words.
+In the first call to `split`, it tries to cut on spaces but there are none, so you get back an Array of the entire string. In the second try, though, we specify that the splitting should happen wherever there is a comma, so we get back an Array of the five individual words.
 
 #### `.sub` and `.gsub`
 
-These two methods can be used to replace parts of a string. They're like using "Find & Replace" in a word processor. `.sub`, short for substitute, replaces just a single occurence. `.gsub`, short for global substitute, replaces all occurences (like "Replace All").
+These two methods can be used to replace parts of a string. They're like using "Find & Replace" in a word processor. `.sub`, short for *substitute*, replaces just a single occurence. `.gsub`, short for *global substitute*, replaces all occurences (like "Replace All").
 
-For both `.sub` and `.gsub` you'll need to specify two arguments: first the substring you're wanting to replace and second the string you want to replace it with.
+For both `.sub` and `.gsub`, you'll need to specify two arguments: first, the substring you're wanting to replace, and second, the string you want to replace it with.
 
 {% irb %}
 $ greeting = "Hello Everyone!"
@@ -247,33 +247,35 @@ It is extremely common that we want to combine the value of a variable with a st
 "Good morning, Frank!"
 ```
 
-When we put that into IRB it just spits back the same string. If we were writing a proper program, we'd want it to greet the user with their name rather than `"Frank"`.
+When we put that into IRB, it just spits back the same string. If we were writing a proper program, we'd want it to greet the user with their name, rather than `"Frank"`.
 
 What we need to do is combine a variable with the string. There are two ways to do that.
 
 #### String Concatenation
 
-The simplistic approach is called **string concatenation** which is joins strings together with the plus sign:
+The simplistic approach is called *string concatenation*, which is joins strings together with the plus sign:
 
 {% irb %}
 $ name = "Frank"
 $ puts "Good morning, " + name + "!"
 {% endirb %}
 
-In the first line we set up a variable to hold the name. In the second line we print the string `"Good morning, ` combined with the value of the variable `name` and the string `"!"`.
+In the first line, we set up a variable to hold the name. In the second line, we print the string `"Good morning, ` , combined with the value of the variable `name` and the string `"!"`.
 
 #### String Interpolation
 
-The second approach is to use *string interpolation* where we stick data into the middle of a string.
+The second approach is to use *string interpolation*, where we stick data into the middle of a string.
 
-String interpolation only works on a double-quoted string. Within the string we use the interpolation marker `#{}`. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot of the outer string. Our previous example could be rewritten like this:
+Within the string we use the interpolation marker `#{}`. Inside those brackets we can put any variables or Ruby code which will be evaluated, converted to a string, and output in that spot of the outer string. String interpolation only works on a double-quoted string. 
+
+Our previous example could be rewritten like this:
 
 {% irb %}
 $ name = "Frank"
 $ puts "Good morning, #{name}!"
 {% endirb %}
 
-If you compare the output you'll see that they give the exact same results. The interpolation style tends to be fewer characters to type and fewer open/close quotes and plus signs to forget.
+If you compare the output, you'll see that they give the exact same results. The interpolation style tends to be fewer characters to type and fewer open/close quotes and plus signs to forget.
 
 ##### Executing Code Inside Interpolation
 

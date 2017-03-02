@@ -545,7 +545,7 @@ Notice that the keys end with a colon rather than beginning with one, even thoug
 
 Conditional statements evaluate to `true` or `false`. The most common conditional operators are `==` (equal), `>` (greater than), `>=` (greater than or equal to), `<` (less than), and `<=` (less than or equal to).
 
-Some objects also have methods which return a `true` or `false`, so they're used in conditional statements. For example every object has the method `.nil?` which is `true` only when the object is `nil`. Arrays have a method named `.include?` which returns true if the array includes the specified element. The convention in Ruby is that a method which returns `true` or `false` should have a name ending in a `?`.
+Some objects also have methods that return a `true` or `false`, so they're used in conditional statements. For example, every object has the method `.nil?` which is `true` only when the object is `nil`. Arrays have a method named `.include?`, which returns true if the array includes the specified element. The convention in Ruby is that a method that returns `true` or `false` should have a name ending in a `?`.
 
 ### Conditional Branching / Instructions
 
@@ -595,7 +595,7 @@ The #1 mistake people encounter when writing conditional statements is the diffe
 
 * `==` is a _question_. It means "is the thing on the right equal to the thing on the left?" -- it's _asking_, not _telling_
 
-You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby you can write a "logical and" with double ampersands like this: `&&`. You can write a "logical or" with double pipes like this: `||`.
+You can also combine conditional statements using logical operators. The most common are known as "logical and" and "logical or". In Ruby, you can write a "logical and" with double ampersands, like this: `&&`. You can write a "logical or" with double pipes, like this: `||`.
 
 ## 10. Nil & Nothingness
 
@@ -605,17 +605,17 @@ What is nothingness?  Is there nothingness only in outer space?  Really, when we
 
 If you have three eggs, eat three eggs, then you might think you have "nothing", but in terms of eggs you have "0". Zero is something, it's a number, and it's not nothing.
 
-If you're working with words and have a string like "hello" then delete the "h", "e", "l"s, and "o" you might think you'd end up with nothing, but you really have "" which is an empty string. It's still something.
+If you're working with words and have a string like "hello", then delete the "h", "e", "l"s, and "o". You might think you'd end up with nothing, but you really have "", which is an empty string. It's still *something*.
 
-`nil` is Ruby's idea of nothingness. It's usually encountered when you ask for something that doesn't exist. When looking at arrays, for instance, we created a list with five elements then asked Ruby to give us the sixth element of that list. There is no sixth element, so Ruby gave us `nil`. It isn't that there's a blank in that sixth spot (`""`), it's not a number `0`, it's nothingness -- `nil`.
+`nil` is Ruby's idea of nothingness. It's usually encountered when you ask for something that doesn't exist. When looking at arrays, for instance, we created a list with five elements, then asked Ruby to give us the sixth element of that list. There is no sixth element, so Ruby gave us `nil`. It isn't that there's a blank in that sixth spot (`""`), it's not a number `0`, it's nothingness -- `nil`.
 
-A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing so Ruby raises an error.
+A large percentage of the errors you encounter while writing Ruby code will involve `nil`. You thought something was there, you tried to do something to it, and you can't do something to nothing, so Ruby raises an error.
 
 ## 11. Objects, Attributes, and Methods
 
 ### Ruby is Object-Oriented
 
-Ruby is an Object-Oriented programming language which means that all the things we interact with inside the VM are objects. Each piece of data is an object. Objects hold information, called _attributes_, and they can perform actions, called _methods_.
+Ruby is an Object-Oriented programming language, which means that all the things we interact with inside the VM are objects. Each piece of data is an object. Objects hold information, called _attributes_, and they can perform actions, called _methods_.
 
 For an example of an object, think about you as a human being. You have attributes like height, weight, and eye color. You have methods like "walk", "run", "wash dishes", and "daydream."  Different types of objects have different attributes and methods. In the next sections we'll look at a few specific kinds of objects common in Ruby.
 
@@ -639,11 +639,11 @@ class Student
 end
 ```
 
-You haven't yet seen the `attr_accessor` method which is used to define attributes for instances of a class.
+You haven't yet seen the `attr_accessor` method, which is used to define attributes for instances of a class.
 
 #### Creating Instances
 
-The class itself doesn't represent a student, it's the *idea* of what a student is like. To represent an actual student we create an *instance* of that class.
+The class itself doesn't represent a student; it's the *idea* of what a student is like. To represent an actual student we create an *instance* of that class.
 
 Imagine you're a student. You're not an abstract concept, you're an actual person. This actual person is an *instance* of `Student` - it is a realization of the abstract idea. It has actual data for the attributes `first_name`, `last_name`, and `primary_phone_number`.
 
@@ -675,7 +675,7 @@ class Student
 end
 ```
 
-Inside the class we usually define one or more methods using the `def` keyword:
+Inside the class, we usually define one or more methods using the `def` keyword:
 
 ```ruby
 class Student
@@ -749,7 +749,7 @@ Now run your file again and you should see `Hi Katrina, I'm Frank`.
 
 ### Return Value
 
-In Ruby, every time you call a method you get a value back. By default, a Ruby method returns the value of the last expression it evaluated.
+In Ruby, every time you call a method, you get a value back. By default, a Ruby method returns the value of the last expression it evaluated.
 
 #### Adding `favorite_number`
 

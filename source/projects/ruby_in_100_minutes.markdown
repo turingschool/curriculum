@@ -291,7 +291,7 @@ The snippet `modifier * 3 + mood` is evaluated first, then the result is injecte
 
 ## 4. Symbols
 
-Symbols are difficult to explain, they're halfway between a string and a number. You can recognize a symbol because it starts with a colon then one or more letters, like `:flag` or `:best_friend`.
+Symbols are difficult to explain; they're halfway between a string and a number. You can recognize a symbol by a colon, followed by one or more letters, like `:flag` or `:best_friend`.
 
 ### Symbols for New Programmers
 
@@ -312,7 +312,7 @@ If you're an experienced programmer, think of a symbol as a "named integer". It 
 
 There are two basic kinds of numbers: integers (whole numbers) and floats (have a decimal point).
 
-Integers are much easier for both you and the computer to work with. You can use normal math operations with integers including `+`, `-`, `/`, and `*`. Integers have a bunch of methods to help you do math-related things, which you can see by calling `5.methods`.
+Integers are much easier for both you and the computer to work with. You can use normal math operations with integers, including `+`, `-`, `/`, and `*`. Integers have a bunch of methods to help you do math-related things, which you can see by calling `5.methods`.
 
 ### Repeating Instructions
 
@@ -324,7 +324,7 @@ for(var i = 0; i < 5; i++){
 }
 ```
 
-For loops are common, but they're not very readable. Because Ruby's integers are objects they have methods. One of those is the `times` method to repeat an instruction a set number of times.
+For loops are common, but they're not very readable. Because Ruby's integers, are objects they have methods. One of those is the `times` method to repeat an instruction a set number of times.
 
 To rewrite the above loop in a Ruby style:
 
@@ -334,7 +334,7 @@ To rewrite the above loop in a Ruby style:
 end
 ```
 
-In this example we're using both the `times` method and what's called a *block*. We'll discuss blocks in the next section. But go ahead and run this example in IRB to see what happens.
+In this example, we're using both the `times` method and what's called a *block*. We'll discuss blocks in the next section, but go ahead and run this example in IRB to see what happens.
 
 ## 6. Blocks
 
@@ -366,7 +366,7 @@ So what is a block actually used for? They're a parameter passed into a method c
 
 If, for instance, we just called `5.times`, Ruby wouldn't know what we want to be done five times. When we pass in the block we're saying "here are the instructions I want you to run each time".
 
-There are *many* methods that accept blocks. Like the `.gsub` method you saw on String earlier will run a block once for each match:
+There are *many* methods that accept blocks. For example, the `.gsub` method, which you saw on String earlier, will run a block once for each match:
 
 {% irb %}
 $ "this is a sentence".gsub("e"){ puts "Found an E!"}
@@ -382,7 +382,7 @@ Why does the result say `"sntnc"`? That's a puzzle for you.
 
 ### Block Parameters
 
-Often our instructions within a block need to reference the value that they're currently working with. When we write the block we can specify a block parameter inside pipe characters:
+Often our instructions within a block need to reference the value that they're currently working with. When we write the block, we can specify a block parameter inside pipe characters:
 
 ```ruby
 5.times do |i|
@@ -408,7 +408,7 @@ You'll see that `gsub` is using the result of the block as the replacement for t
 
 ## 7. Arrays
 
-Usually when we're writing a program it's because we need to deal with a *collection* of data. Let's first look at the most common collection of data, the Array.
+Usually when we're writing a program, it's because we need to deal with a *collection* of data. Let's first look at the most common collection of data, the Array.
 
 ### A Visual Model
 
@@ -438,7 +438,7 @@ Then put strings in each box:
        0            1           2
 ```
 
-We have a three element Array. Ruby arrays can grow and shrink, so if we added an element it'd usually go on the end:
+We have a three-element Array. Ruby arrays can grow and shrink, so if we added an element, it'd usually go on the end:
 
 ```plain
  -------------  ---------  ----------  -----------
@@ -449,7 +449,7 @@ We have a three element Array. Ruby arrays can grow and shrink, so if we added a
 
 Note how the position of the last element is always one less than the number of elements.
 
-If you asked the array for the element in position two you'd get back `"Dinner"`. Ask for the last element and you'd get back `"Dessert"`.
+If you asked the array for the element in position two, you'd get back `"Dinner"`. Ask for the last element and you'd get back `"Dessert"`.
 
 ### Arrays in Code
 
@@ -479,7 +479,7 @@ There are lots of cool things to do with an array. Here are a few examples:
 
 #### Explanation of `.sort`
 
-The sort method will return a new array where the elements are sorted. If the elements are strings they'll come back in alphabetical order. If they're numbers they'll come back in ascending value order. Try these:
+The sort method will return a new array where the elements are sorted. If the elements are strings, they'll come back in alphabetical order. If they're numbers, they'll come back in ascending value order. Try these:
 
 {% irb %}
 $ one = ["this", "is", "an", "array"]
@@ -504,7 +504,7 @@ You can reference the documentation for more details here: http://www.ruby-doc.o
 
 ## 8. Hashes
 
-A hash is a collection of data where each element of data is addressed by a *name*. As an analogy, think about a refrigerator. If we're keeping track of the produce inside the fridge, we don't really care about what shelf it's on -- the order doesn't matter. Instead we organize things by *name*. Like the name "apples" might have the value 3, then the name "oranges" might have the value 1, and "carrots" the value 12. In this situation we'd use a hash.
+A hash is a collection of data where each element of data is addressed by a *name*. As an analogy, think about a refrigerator. If we're keeping track of the produce inside the fridge, we don't really care about what shelf it's on -- the order doesn't matter. Instead we organize things by *name*. Like the name "apples" might have the value 3, then the name "oranges" might have the value 1, and "carrots" the value 12. In this situation, we'd use a hash.
 
 ### Key/Value Pairs
 
@@ -515,7 +515,7 @@ $ produce = {"apples" => 3, "oranges" => 1, "carrots" => 12}
 $ puts "There are #{produce['oranges']} oranges in the fridge."
 {% endirb %}
 
-The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys including `"apples"` and `"oranges"` and values including `12` and `3`. When creating a hash the key and value are linked by the `=>` symbol which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`.
+The *key* is used as the address and the *value* is the data at that address. In the `produce` hash we have keys, including `"apples"` and `"oranges"`, and values, including `12` and `3`. When creating a hash, the key and value are linked by the `=>` symbol, which is called a _rocket_. So hashes start with a curly bracket `{`, have zero or more entries made up of a _key_, a rocket, and a _value_ separated by commas, then end with a closing curly bracket `}`.
 
 Try a few more steps:
 
@@ -528,7 +528,7 @@ $ produce.keys
 $ produce.values
 {% endirb %}
 
-In the first line of those instructions, we add a new value to the hash. Since the `"grapes"` key wasn't in the original hash, it's added with the value of `221`. Keys in the hash *must be unique*, so when we use the same syntax with `produce["oranges"]` it sees that the key `oranges` is already in the list and it replaces the value with `6`. The `keys` and `values` methods will also give you just half of the pairs.
+In the first line of those instructions, we add a new value to the hash. Since the `"grapes"` key wasn't in the original hash, it's added with the value of `221`. Keys in the hash *must be unique*, so when we use the same syntax with `produce["oranges"]`, it sees that the key `oranges` is already in the list and it replaces the value with `6`. The `keys` and `values` methods will also give you just half of the pairs.
 
 ### Simplified Hash Syntax
 

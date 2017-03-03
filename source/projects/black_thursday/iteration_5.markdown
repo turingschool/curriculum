@@ -46,7 +46,7 @@ sa = SalesAnalyst.new
 sa.one_time_buyers #=> [customer, customer, customer]
 ```
 
-Find which item `one_time_buyers_top_items` bought most frequently. 
+Find which item `one_time_buyers` bought most frequently. 
 
 ```rb
 sa = SalesAnalyst.new
@@ -81,7 +81,7 @@ sa.customers_with_unpaid_invoices #=> [customer, customer, customer]
 
 **Note:** invoices are unpaid if one or more of the invoices are not paid in full (see method `invoice#is_paid_in_full?`).
 
-Find the best invoice, the invoice with the highest dollar amount:
+Find the "best" invoice by number of items or dollar amount:
 
 ```rb
 sa.best_invoice_by_revenue #=> invoice

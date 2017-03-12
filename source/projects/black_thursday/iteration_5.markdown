@@ -46,13 +46,14 @@ sa = SalesAnalyst.new
 sa.one_time_buyers #=> [customer, customer, customer]
 ```
 
-Find which item most `one_time_buyers` bought:
+Find which item `one_time_buyers` bought most frequently. 
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.one_time_buyers_item #=> [item]
+sa.one_time_buyers_top_items #=> [item]
 ```
+**Expanded definition:** Returns an array of the top item purchased most often among one-time buyers as a whole. When there is a tie among most-purchased items, more than one item will be returned in the array.
 
 Find which items a given customer bought in given year (by the `created_at` on the related invoice):
 
@@ -62,12 +63,12 @@ sa = SalesAnalyst.new
 sa.items_bought_in_year(customer_id, year) #=> [item]
 ```
 
-Return all items that were purchased most if there are several with the same quantity:
+Find which items were purchased the most times by a customer:
 
 ```rb
 sa = SalesAnalyst.new
 
-sa.most_recently_bought_items(customer_id) #=> [item, item, item]
+sa.highest_volume_items(customer_id) #=> [item, item, item]
 ```
 
 Find customers with unpaid invoices:
@@ -80,7 +81,7 @@ sa.customers_with_unpaid_invoices #=> [customer, customer, customer]
 
 **Note:** invoices are unpaid if one or more of the invoices are not paid in full (see method `invoice#is_paid_in_full?`).
 
-Find the best invoice, the invoice with the highest dollar amount:
+Find the "best" invoice by number of items or dollar amount:
 
 ```rb
 sa.best_invoice_by_revenue #=> invoice

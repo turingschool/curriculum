@@ -263,6 +263,11 @@ The project will be assessed with the following rubric:
 * 2: Application makes some use of tests, but the coverage is insufficient
 * 1: Application does not demonstrate strong use of TDD
 
+### 4. Git Workflow
+
+* PASS:  Developer demonstrates mastery of git and GitHub; commits with appropriate frequency, with clear, atomic commits that demonstrates a clear history.
+* FAIL: Developer does not commit often, commits are overly large, poor commit messages. Drastic changes in code in a single commit. 
+
 ### 4. REPL Interface
 
 * 4: Application's REPL goes above and beyond expectations to improve the gameplay

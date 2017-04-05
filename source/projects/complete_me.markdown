@@ -100,7 +100,7 @@ completion.count
 => 235886
 
 completion.suggest("piz")
-=> ["pizza", "pizzeria", "pizzicato", "pizzle", "pize"]
+=> ["pize", "pizza", "pizzeria", "pizzicato", "pizzle"]
 ```
 
 ### Usage Weighting

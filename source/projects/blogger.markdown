@@ -394,7 +394,7 @@ But wait, there's one more thing. Our stylesheet for this project is going to lo
 <%= link_to article.title, article_path(article), class: 'article_title' %>
 ```
 
-Or, if you wanted to also have a CSS ID attribute:
+Or, if you wanted to also have a CSS ID and class attribute:
 
 ```erb
 <%= link_to article.title, article_path(article),

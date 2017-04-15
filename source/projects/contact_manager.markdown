@@ -994,6 +994,7 @@ new phone number we end up back on the show page for the person, and that number
 it 'adds a new phone number' do
   page.click_link('Add phone number')
   page.fill_in('Number', with: '555-8888')
+  page.fill_in('Person', with: person.id)
   page.click_button('Create Phone number')
   expect(current_path).to eq(person_path(person))
   expect(page).to have_content('555-8888')

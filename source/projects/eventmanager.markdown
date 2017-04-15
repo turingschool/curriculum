@@ -474,17 +474,17 @@ contents.each do |row|
   name = row[:first_name]
   zipcode = row[:zipcode]
 
-  # if the zip code is exactly five digits, assume that it is ok
+  # if the zip code is exactly 5 digits, assume that it is ok
   # if the zip code is more than 5 digits, truncate it to the first 5 digits
-  # if the zip code is less than 5 digits, add zeros to the front until it becomes five digits
+  # if the zip code is less than 5 digits, add zeros to the front until it becomes 5 digits
 
   puts "#{name} #{zipcode}"
  end
 ```
 
-* if the zip code is exactly five digits, assume that it is ok
+* if the zip code is exactly 5 digits, assume that it is ok
 
-In the case when the zip code is five digits in length we have it easy. We
+In the case when the zip code is 5 digits in length we have it easy. We
 simply want to do nothing.
 
 * if the zip code is more than 5 digits, truncate it to the first 5 digits

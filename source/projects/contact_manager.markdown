@@ -1463,6 +1463,7 @@ class ChangePhoneNumbersToContacts < ActiveRecord::Migration
   end
 end
 ```
+We also need to remove the belongs_to :person in the PhoneNumber model otherwise you get a strange no_method :arity error.
 
 Then run the migration. Bye-bye, sample phone number data!
 

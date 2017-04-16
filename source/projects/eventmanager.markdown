@@ -151,7 +151,7 @@ of characters in this case as the initial greeting or the name of the file.
 
 We are assuming the file is present here. File has the ability to check if a
 file exists at the specified filepath on the filesystem through `File.exist?
-"event_attendees.csv"`.
+"../event_attendees.csv"`.
 
 
 ### Read the File Line By Line

@@ -466,8 +466,8 @@ Within that hash we can find the `:id` from the URL by accessing the key `params
 Refresh your browser and we still have the "Template is Missing" error. Create the file `app/views/articles/show.html.erb` and add this code:
 
 ```erb
-<h1><%= @article.title %></h1>
-<p><%= @article.body %></p>
+<h1><%= @articles.title %></h1>
+<p><%= @articles.body %></p>
 <%= link_to "<< Back to Articles List", articles_path %>
 ```
 

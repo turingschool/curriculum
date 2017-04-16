@@ -513,7 +513,7 @@ First let's create that action. Open `app/controllers/articles_controller.rb` an
 
 ```ruby
 def new
-
+  @article = Article.new
 end
 ```
 

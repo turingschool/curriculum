@@ -1,0 +1,7 @@
+#!/bin/bash
+
+parts install ruby1.9
+source ~/.bash_profile
+chruby ruby-1.9.3-p545
+gem install bundler
+bundle install

@@ -14,7 +14,7 @@ The code highlighting used throughout the tutorials is colorized by an external 
 bundle exec rake preview
 ```
 
-Generates the content and then lauches a Sinatra web application. 
+Generates the content and then lauches a Sinatra web application.
 
 
 In your browser visit [localhost:4000](http://localhost:4000) or execute `open http://localhost:4000` to lauch the browser.
@@ -23,7 +23,7 @@ In your browser visit [localhost:4000](http://localhost:4000) or execute `open h
 
 ### Custom Page Attributes
 
-#### Sidebar - Table of Contents 
+#### Sidebar - Table of Contents
 
 You can automatically enable a Table of Contents for long pieces of content. This sidebar will place all `h2` elements (generated from `##` markdown) as linkable references.
 
@@ -84,6 +84,14 @@ This tag will generate a special section layout which will embed the specified m
 ## Online
 
 Visit [http://tutorials.jumpstartlab.com](http://tutorials.jumpstartlab.com)
+
+### Developing on Nitrous.IO
+
+Start hacking on this app on [Nitrous.IO](https://www.nitrous.io/?utm_source=github.com&utm_campaign=JumpstartLab-curriculum&utm_medium=hackonnitrous)
+in a matter of seconds:
+
+[![Hack JumpstartLab/curriculum on
+Nitrous.IO](https://d3o0mnbgv6k92a.cloudfront.net/assets/hack-l-v1-3cc067e71372f6045e1949af9d96095b.png)](https://www.nitrous.io/hack_button?source=embed&runtime=rails&repo=JumpstartLab%2Fcurriculum&file_to_open=README.nitrous.md)
 
 ### License
 

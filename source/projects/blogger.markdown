@@ -666,13 +666,13 @@ def create
 end
 ```
 
-If you refresh the page in your browser you'll still get the template error. Add one more line to the action, the redirect:
+If you refresh the page in your browser you'll still get the template error. Add one more line to the action, the redire
 
 ```ruby
 redirect_to article_path(@article)
 ```
 
-Refresh the page and you should go to the show for your new article. (_NOTE_: You've now created the same sample article twice)
+Refresh the page and you should go to the show for your new article. (_NOTE_: You've now created the same sample article twice). If redirect_to_article_path(@article) does not not work, try redirect_to(@article).
 
 #### More Body
 

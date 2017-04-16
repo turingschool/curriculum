@@ -836,7 +836,7 @@ it "updates the requested phone_number" do
   put :update, {id: phone_number.to_param, phone_number: new_attributes}, valid_session
   phone_number.reload
   expect(phone_number.number).to eq('MyNewString')
-  expect(phone_number.person_id).to eq(2)
+  expect(phone_number.person_id).to eq(1)
 end
 ```
 
@@ -1340,7 +1340,7 @@ If everything passes, check in your changes.
 * Run the tests and see that it is still failing. When trying to create an email address, the form is failing to submit, because we haven't connected it to a person.
 * Make the failing spec pending
 * Update the test in `person_view_spec` that has the link to add new email addresses, and make sure that it expects the `current_url` to be the url containing the `person_id`.
-* Remove the pending declaration on the test that was failing, and see that it is *still* failing.
+* Try running the test again and see that it is *still* failing.
 * Go to the controller and pass the `person_id` to the new `EmailAddress`
 * Finally, the test passes.
 * Go ahead and hide the `person_id` in the form.

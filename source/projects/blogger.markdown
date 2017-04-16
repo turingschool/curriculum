@@ -1305,7 +1305,9 @@ There is one tricky bit, though! We need to assign the article id to our comment
 def create
   @comment = Comment.new(comment_params)
   @comment.article_id = params[:article_id]
-
+  @comment.author_name = params[:comment][:author_name]
+  @comment.body = params[:comment][:body]
+  
   @comment.save
 
   redirect_to article_path(@comment.article)

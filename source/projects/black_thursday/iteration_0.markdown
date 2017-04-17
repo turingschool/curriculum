@@ -106,6 +106,7 @@ We create an instance like this:
 
 ```ruby
 i = Item.new({
+  :id          => 263395237,
   :name        => "Pencil",
   :description => "You can use it to write things",
   :unit_price  => BigDecimal.new(10.99,4),

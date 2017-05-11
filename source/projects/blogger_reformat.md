@@ -86,7 +86,7 @@ Our blog will be centered around "articles," so we'll need a table in the databa
 $ rails generate model Article
 ```
 
-Note that we use `rails` here but we used `bin/rails` previously. With `rails`, RubyGems will activate the latest version of the rails executable it can find in PATH. This is fine as long as you use this version of Rails in your project. If you have a project which uses an older version of Rails and you run `rails`, you can run into problems when trying to run code that's changed in the latest Rails version. `bin/rails` fixes this problem by making sure your environment uses the versions specified in your project's Gemfile.
+Note that we use `rails` here but you might see used `bin/rails` elsewhere. With `rails`, RubyGems will activate the latest version of the rails executable it can find in PATH. This is fine as long as you use this version of Rails in your project. If you have a project which uses an older version of Rails and you run `rails`, you can run into problems when trying to run code that's changed in the latest Rails version. `bin/rails` fixes this problem by making sure your environment uses the versions specified in your project's Gemfile.
 
 We're running the `generate` script, telling it to create a `model`, and naming that model `Article`. From that information, Rails creates the following files:
 

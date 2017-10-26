@@ -849,7 +849,7 @@ legislator_names = legislators.map do |legislator|
 
 We can further simplify this into it's final form:
 ```
-legislator_names = legislators.map{ |legislator| legislator.name }
+legislator_names = legislators.map{&:name}
 ```
 
 ### Cleanly Displaying Legislators
@@ -884,7 +884,7 @@ contents.each do |row|
                                 roles: ['legislatorUpperBody', 'legislatorLowerBody'])
     legislators = legislators.officials
 
-    legislator_names = legislators.map{ |legislator| legislator.name }
+    legislator_names = legislators.map{&:name}
 
     legislators_string = legislator_names.join(", ")
   end
@@ -941,7 +941,7 @@ def legislators_by_zip_code(zip)
                               levels: 'country', 
                               roles: ['legislatorUpperBody', 'legislatorLowerBody'])
   legislators = legislators.officials
-  legislator_names = legislators.map{ |legislator| legislator.name }
+  legislator_names = legislators.map{&:name}
   legislator_names.join(", ")
 end
 
@@ -1487,4 +1487,3 @@ register?"
 * Use [Date#wday](http://rubydoc.info/stdlib/date/Date#wday-instance_method) to find out the day of the week.
 
 {% endexercise %}
-[repo_sunlight_congress]: https://github.com/steveklabnik/sunlight-congress

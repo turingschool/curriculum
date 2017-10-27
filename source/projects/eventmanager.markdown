@@ -1242,32 +1242,29 @@ return to the application.
   </p>
 
   <table>
-  <tr><th>Name</th><th>Website</th></tr>
-    <% legislators.to_a.each do |legislator| %>
-      <tr>
-        <td><%= "#{legislator.name}" %></td>
-        <td><%= "#{legislator.urls}" %></td>
-      </tr>
+    <% if legislators.kind_of?(Array) %>
+      <th>Name</th><th>Website</th>
+        <% legislators.each do |legislator| %>
+        <tr>
+          <td><%= "#{legislator.name}" %></td>
+          <td><%= "#{legislator.urls.join}" %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <th></th>
+      <td><%= "#{legislators}" %></td>
     <% end %>
   </table>
 </body>
 </html>
 ```
 
-The first use of the ERB tags is familiar to our previous example. The second
-use, when we display the legislators, is different. We are using the ERB tag
-that does not output the results `<% %>` to define the beginning of the block
-`<% legislators.to_a.each do |legislator| %>` and later the end of the block `<% end
-%>`. Inside those tags are the original tags which output the results. In
-this case, we are ouputting the first name, last name and website of each
-legislator.
+The use of the ERB tags to display the attendee's name is familiar to our previous example. The second use, when we display the legislators, is different. We are using the ERB tag that does not output the results `<% %>` to check if the legislators variable is an Array. 
 
-We add the `.to_a` method in the ERB tag to handle when a zip code does not have any representatives. Without this, our program would raise an error saying it can't perform `.each` on `nil`.  The conversion of nil to an array produces an empty array which works better for us.
+If it is an array we output the name and website url of each legislator. This is a departure from what we originally implemented. Before we had to build the names of all the representatives. We intend now to give the template direct access to the array of legislators. We will let the template ask and display what it wants from each legislator.
 
-This is a departure from what we originally implemented. Before we had to build
-the names of all the representatives. We intend now to give the template direct
-access to the array of legislators. We will let the template ask and display
-what it wants from each legislator.
+If `legislators` is not an Array it means that the `legislators_by_zipcode` method entered the rescue clause, which outputs a string. We simply want to display that string.
+
 
 ### Using ERB
 
@@ -1291,13 +1288,11 @@ def legislators_by_zipcode(zip)
   civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
 
   begin
-    legislators = civic_info.representative_info_by_address(
-                                  address: zip, 
-                                  levels: 'country', 
-                                  roles: ['legislatorUpperBody', 'legislatorLowerBody'])
-    legislators = legislators.officials
-    legislator_names = legislators.map(&:name)
-    legislators_string = legislator_names.join(", ")
+    civic_info.representative_info_by_address(
+      address: zip, 
+      levels: 'country', 
+      roles: ['legislatorUpperBody', 'legislatorLowerBody']
+    ).officials
   rescue
     "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
   end
@@ -1344,13 +1339,16 @@ erb_template = ERB.new template_letter
 def legislators_by_zipcode(zip)
   civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
   civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
-  
-  return if zip == "00000"
-  legislators = civic_info.representative_info_by_address(
-                              address: zip, 
-                              levels: 'country', 
-                              roles: ['legislatorUpperBody', 'legislatorLowerBody'])
-  legislators.officials
+
+  begin
+    civic_info.representative_info_by_address(
+      address: zip, 
+      levels: 'country', 
+      roles: ['legislatorUpperBody', 'legislatorLowerBody']
+    ).officials
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
 end
 ```
 
@@ -1434,12 +1432,16 @@ end
 def legislators_by_zipcode(zip)
   civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
   civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
-  return if zip == "00000"
-  legislators = civic_info.representative_info_by_address(
-                              address: zip, 
-                              levels: 'country', 
-                              roles: ['legislatorUpperBody', 'legislatorLowerBody'])
-  legislators.officials
+
+  begin
+    civic_info.representative_info_by_address(
+      address: zip, 
+      levels: 'country', 
+      roles: ['legislatorUpperBody', 'legislatorLowerBody']
+    ).officials
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
 end
 
 def save_thank_you_letters(id,form_letter)

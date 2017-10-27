@@ -800,29 +800,58 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  unless zipcode = "00000"
-    legislators = civic_info.representative_info_by_address(
-                              address: zipcode, 
-                              levels: 'country', 
-                              roles: ['legislatorUpperBody', 'legislatorLowerBody'])
-    legislators = legislators.officials
-  end
+  legislators = civic_info.representative_info_by_address(
+                            address: zipcode, 
+                            levels: 'country', 
+                            roles: ['legislatorUpperBody', 'legislatorLowerBody'])
+  legislators = legislators.officials
 
   puts "#{name} #{zipcode} #{legislators}"
 end
 ```
 
-We add the `unless` statement before we check for legislators because the Google API will return an error if we don't pass it a valid zipcode.
-
-Running our application we find our output cluttered with information.
+Running our application we find an error.
 
 {% terminal %}
 $ ruby lib/event_manager.rb
-EventManager initialized.
-Allison 20010 #<Google::Apis::CivicinfoV2::RepresentativeInfo ...
-SArah 20009 #<Google::Apis::CivicinfoV2::RepresentativeInfo ...
-...
+/ruby-2.4.0/gems/google-api-client-0.15.0/lib/google/apis/core/http_command.rb:218:in `check_status': parseError: Failed to parse address (Google::Apis::ClientError)
 {% endterminal %}
+
+What does this mean?  It means that the Google API was unable to use an address we gave it.  When we dig further we see that right before this error the information from Davaid with a zip code of 07306 is printed. Looking at the data we can now see that the attendee after David did not enter a zip code.  Data missing like this is common so we have to have a way of dealing with it. Luckly, Ruby makes that easy with their [Exception Class](https://ruby-doc.org/core-2.2.0/Exception.html).  We can add a `begin` and `rescue` clause to the API search to handle any errors.
+
+```ruby
+require 'csv'
+require 'google/apis/civicinfo_v2'
+
+civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
+civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
+
+def clean_zipcode(zipcode)
+  zipcode.to_s.rjust(5,"0")[0..4]
+end
+
+puts "EventManager initialized."
+
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+
+contents.each do |row|
+  name = row[:first_name]
+
+  zipcode = clean_zipcode(row[:zipcode])
+
+  begin
+    legislators = civic_info.representative_info_by_address(
+                              address: zipcode, 
+                              levels: 'country', 
+                              roles: ['legislatorUpperBody', 'legislatorLowerBody'])
+    legislators = legislators.officials
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
+
+  puts "#{name} #{zipcode} #{legislators}"
+end
+```
 
 The **legislators** that we are displaying is an array. In turn, the array is
 sending the `to_s` message to each of the objects within the array, each
@@ -849,7 +878,7 @@ legislator_names = legislators.map do |legislator|
 
 We can further simplify this into it's final form:
 ```
-legislator_names = legislators.map{&:name}
+legislator_names = legislators.map(&:name)
 ```
 
 ### Cleanly Displaying Legislators
@@ -877,16 +906,18 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  unless zipcode == "00000"
+  begin
     legislators = civic_info.representative_info_by_address(
                                 address: zipcode, 
                                 levels: 'country', 
                                 roles: ['legislatorUpperBody', 'legislatorLowerBody'])
     legislators = legislators.officials
 
-    legislator_names = legislators.map{&:name}
+    legislator_names = legislators.map(&:name)
 
     legislators_string = legislator_names.join(", ")
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
   end
 
   puts "#{name} #{zipcode} #{legislators_string}"
@@ -930,19 +961,21 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_by_zip_code(zip)
+def legislators_by_zipcode(zip)
   civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
   civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
 
-  return if zip == "00000"
-
-  legislators = civic_info.representative_info_by_address(
-                              address: zip, 
-                              levels: 'country', 
-                              roles: ['legislatorUpperBody', 'legislatorLowerBody'])
-  legislators = legislators.officials
-  legislator_names = legislators.map{&:name}
-  legislator_names.join(", ")
+  begin
+    legislators = civic_info.representative_info_by_address(
+                                  address: zip, 
+                                  levels: 'country', 
+                                  roles: ['legislatorUpperBody', 'legislatorLowerBody'])
+    legislators = legislators.officials
+    legislator_names = legislators.map(&:name)
+    legislators_string = legislator_names.join(", ")
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
 end
 
 puts "EventManager initialized."
@@ -954,20 +987,16 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zip_code(zipcode)
+  legislators = legislators_by_zipcode(zipcode)
 
   puts "#{name} #{zipcode} #{legislators}"
 end
 ```
 
-You'll notice that we changed `unless zipcode == "00000"` into `return if zip == "00000"`. This is a benefit of factoring out the method. No more nesting!
-
-An additional benefit of this implementation is that it also encapsulates how we
-actually retrieve the names of the legislators. This is a benefit later if we
+An additional benefit of this implementation is that it encapsulates how we
+actually retrieve the names of the legislators. This will be of benefit later if we
 decide on an alternative to the google-api gem or want to introduce a level of
 caching to prevent look ups for similar zip codes.
-
-### 
 
 ## Iteration 4: Form Letters
 
@@ -1085,7 +1114,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode).join(", ")
+  legislators = legislators_by_zipcode(zipcode)
 
   personal_letter = template_letter.gsub('FIRST_NAME',name)
   personal_letter.gsub!('LEGISLATORS',legislators)
@@ -1115,8 +1144,7 @@ personal_letter = personal_letter.gsub('LEGISLATORS',legislators)
 It is a treacherous road we start to walk defining our own templating language.
 Our current system has some flaws:
 
-* Using FIRST_NAME and LEGISLATORS to find and replace might cause us problems if later somehow this text appears in
-  any of our template.
+* Using FIRST_NAME and LEGISLATORS to find and replace might cause us problems if later somehow this text appears in any of our template.
 
 Though not likely, imagine if a person's name contained the word 'LEGISLATORS'.
 When we perform the second replacement operation that part of the person's name
@@ -1258,16 +1286,21 @@ def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_by_zip_code(zip)
+def legislators_by_zipcode(zip)
   civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
   civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
-  
-  return if zip == "00000"
-  legislators = civic_info.representative_info_by_address(
-                              address: zip, 
-                              levels: 'country', 
-                              roles: ['legislatorUpperBody', 'legislatorLowerBody'])
-  legislators.officials
+
+  begin
+    legislators = civic_info.representative_info_by_address(
+                                  address: zip, 
+                                  levels: 'country', 
+                                  roles: ['legislatorUpperBody', 'legislatorLowerBody'])
+    legislators = legislators.officials
+    legislator_names = legislators.map(&:name)
+    legislators_string = legislator_names.join(", ")
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
 end
 
 puts "EventManager initialized."
@@ -1308,7 +1341,7 @@ erb_template = ERB.new template_letter
 
 * Simplify our `legislators_by_zipcode` to return the the original array of legislators
 ```ruby
-def legislators_by_zip_code(zip)
+def legislators_by_zipcode(zip)
   civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
   civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
   

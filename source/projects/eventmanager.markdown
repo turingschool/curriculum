@@ -702,50 +702,48 @@ def clean_zipcode(zipcode)
 end
 ```
 
-## Iteration 3: Using Sunlight
+## Iteration 3: Using ProPublica
 
 We now have our list of attendees with their valid zip codes (at least for most
-of them). Using their zip code and the
-[Sunlight Foundation](http://sunlightfoundation.com/)
+of them). Using their state code and the
+[ProPublica API](https://projects.propublica.org/api-docs/congress-api/#overview)
 webservice we are able query for the representatives for a given area.
 
-The Sunlight Foundation exposes an API that allows registered individuals
+ProPublica exposes an API that allows registered individuals
 (registration is free) to use their service. Their goal is to provide tools to
 make government more transparent and accessible.
 
-> The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used
+> The ProPublica API provides methods for obtaining basic information on Members of Congress, legislator IDs used
 > by various websites, and lookups between places and the politicians that represent them. The primary purpose of the
 > API is to facilitate mashups involving politicians and the various other APIs that are out there.
 
 ### Accessing the API
 
-[http://congress.api.sunlightfoundation.com/legislators/locate?zip=90201&apikey=e179a6973728c4dd3fb1204283aaccb5](http://congress.api.sunlightfoundation.com/legislators/locate?zip=22182&apikey=e179a6973728c4dd3fb1204283aaccb5)
+
+
+https://api.propublica.org/congress/v1/members/senate/CO/current.json
+-H X-API-Key = ENV['CONGRESS_API_KEY']
 
 Take a close look at that address. Here's how it breaks down:
 
 * `http://` : Use the HTTP protocol
 * `congress.api.sunlightfoundation.com` : The server address on the internet
-* `legislators.` : The object name
-* `locate.` : The method called on that object
-* `?` : Parameters to the method
-  * `&` : The parameter separator
-  * `zip=90201` : The zipcode we want to lookup
-  * `apikey=e179a6973728c4dd3fb1204283aaccb5` : A registered API Key to authenticate our requests
+* CO the state we are quering for
 
-We're accessing the `legislators.locate` method of their API, we send in an
-`apikey` which is the string that identifies JumpstartLab as the accessor of
-the API, then at the very end we have a `zip`. Try modifying the address with
-your own zipcode and load the page.
 
-This document is [JSON](http://json.org/) formatted. If you copy and paste the data into a [pretty printer](http://jsonprettyprint.com/), you can see there is a `response` object that has a list of `legislators`. That list contains four `legislator` objects which each contain
+We're accessing the `get specific member` method of their API, we send in an
+`X-API-Key` which is the string that identifies JumpstartLab as the accessor of
+the API, Try modifying the address with
+your own state and load the page.
+
+This document is [JSON](http://json.org/) formatted. If you copy and paste the data into a [pretty printer](http://jsonprettyprint.com/), you can see there is a `response` object that has a list of `legislators`. That list contains two `legislator` objects which each contain
 a ton of data about a legislator. Cool!
 
 Let's look for a solution before we attempt to build a solution.
 
-### Installing the Sunlight Gem
+### Installing the Congress API Gem
 
-Steve Klabnik, an instructor for Jumpstart, created the **sunlight-congress**
-[gem](https://rubygems.org/gems/sunlight-congress). We call this a wrapper
+We call this a wrapper
 library because its job is to hide complexity from us. We can interact with it
 as a regular Ruby object, then the library takes care of fetching and parsing
 data from the server.

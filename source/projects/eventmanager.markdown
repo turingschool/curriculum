@@ -4,7 +4,7 @@ title: EventManager
 sidebar: true
 alias: [ /eventmanager, /event_manager.html ]
 language: ruby
-topics: files, CSV, String, Sunlight API, ERB
+topics: files, CSV, String, ProPublica API, ERB
 ---
 
 ## Get Ready

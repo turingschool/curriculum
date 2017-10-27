@@ -33,8 +33,8 @@ After completing this tutorial, you will be able to:
 * utilize the data to contact a remote service
 * populate a template with user data
 * manipulate [strings](http://rubydoc.info/stdlib/core/String)
-* access [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through
-  the [Sunlight Congress gem][repo_sunlight_congress]
+* access [ProPublica](https://projects.propublica.org/api-docs/congress-api/#overview)'s Congressional API through
+  the [Congress API Gem](https://github.com/rlister/congress_api)
 * use [ERB](http://rubydoc.info/stdlib/erb/ERB) (Embedded Ruby) for templating
 
 <div class="note">
@@ -757,29 +757,39 @@ Ruby comes packaged with the `gem` command. This tool allows you to download
 libraries simply knowing the name of the library you want to install.
 
 {% terminal %}
-$ gem install sunlight-congress
-Fetching: sunlight-congress-1.0.0.gem (100%)
-Successfully installed sunlight-congress-1.0.0
-Done installing documentation for sunlight-congress (0 sec).
-1 gem installed
-{% endterminal %}
+$ gem install congress_api
+Fetching: multi_xml-0.6.0.gem (100%)
+Successfully installed multi_xml-0.6.0
+Fetching: httparty-0.15.6.gem (100%)
+When you HTTParty, you must party hard!
+Successfully installed httparty-0.15.6
+Fetching: hashie-3.5.6.gem (100%)
+Successfully installed hashie-3.5.6
+Fetching: congress_api-0.0.1.gem (100%)
+Successfully installed congress_api-0.0.1
+Parsing documentation for multi_xml-0.6.0
+Installing ri documentation for multi_xml-0.6.0
+Parsing documentation for httparty-0.15.6
+Installing ri documentation for httparty-0.15.6
+Parsing documentation for hashie-3.5.6
+Installing ri documentation for hashie-3.5.6
+Parsing documentation for congress_api-0.0.1
+Installing ri documentation for congress_api-0.0.1
+Done installing documentation for multi_xml, httparty, hashie, congress_api after 1 seconds
+4 gems installed{% endterminal %}
 
 ### Showing All Legislators in a Zip Code
 
-The gem comes equipped with example documentation. The documentation is also
-available online with their [source code][repo_sunlight_congress].
-
-Reading through the documentation on how to set up and use the
-sunlight-congress gem we find that we need to perform the following steps:
+We need to perform the following steps:
 
 * Set the API Key
-* Perform the [query](https://github.com/steveklabnik/sunlight-congress#usage) with the given zip code
+* Perform the query with the state 
 
 ```ruby
 require 'csv'
-require 'sunlight/congress'
+require 'congress_api'
 
-Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+ENV["CONGRESS_API_KEY"] = "S9JON3ruNOI6XiyymcnZ7gtsjnToPxuXyT0bgeaX"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
@@ -793,10 +803,12 @@ contents.each do |row|
   name = row[:first_name]
 
   zipcode = clean_zipcode(row[:zipcode])
+  
+  members = CongressApi::Members.new
+  
+  legislators = members.senate_by_state(row[:state])
 
-  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
-
-  puts "#{name} #{zipcode} #{legislators}"
+  puts "#{name} #{zipcode} #{senators}"
 end
 ```
 
@@ -805,14 +817,12 @@ Running our application we find our output cluttered with information.
 {% terminal %}
 $ ruby lib/event_manager.rb
 EventManager initialized.
-Allison 20010 [#<Sunlight::Congress::Legislator:0x007fde87d974f8 ...
-SArah 20009 [#<Sunlight::Congress::Legislator:0x007fde87d9db50 ...
+Allison 20010 [{"id"=>"G000585", "api_uri"=>"https://api.propublica.org/congress/v1/members/G000585.json", "first_name"=>"Jimmy", ...}],
+Sarah 33703 [{"id"=>"N000190","api_uri"=>"https://api.propublica.org/congress/v1/members/N000190.json", "first_name"=>"Ralph", ...}],
 ...
 {% endterminal %}
 
-The **legislators** that we are displaying is an array. In turn, the array is
-sending the `to_s` message to each of the objects within the array, each
-legislator. The output that we are seeing is the *raw* legislator object.
+The **legislators** that we are displaying is an array, populated with hashes of information about each legislator. 
 
 We really want to capture the first name and last name of each legislator.
 
@@ -821,28 +831,28 @@ We really want to capture the first name and last name of each legislator.
 Instead of outputting each raw legislator we want to print only their first
 name and last name. We will need to complete the following steps:
 
-* Iterate over the entire collection of legislators for the particular zip code.
+* Iterate over the entire collection of legislators for the particular state.
 * For each legislator we want to create a new string which is composed of their first name and last name.
 * Add the name to a new collection of names.
 
 ```
 legislator_names = []
 legislators.each do |legislator|
-  legislator_name = "#{legislator.first_name} #{legislator.last_name}"
+  legislator_name = "#{legislator['first_name']} #{legislator['last_name']}"
   legislator_names.push legislator_name
 end
 ```
 
 The above operation of collecting values is a common operation. Common enough
 that Array provides a method
-[Array#collect](http://rubydoc.info/stdlib/core/Array#collect-instance_method).
-Collect takes the array of objects of inputs and generates a new array as the
+[Array#map](https://ruby-doc.org/core-2.4.1/Array.html#method-i-map).
+Map takes the array of objects of inputs and generates a new array as the
 output. The last operation we perform in the block is added to our new
 collection. This is exactly what we performed above only stated more simply as:
 
 ```
-legislator_names = legislators.collect do |legislator|
-  "#{legislator.first_name} #{legislator.last_name}"
+legislator_names = legislators.map do |legislator|
+  "#{legislator['first_name']} #{legislator['last_name']}"
 end
 ```
 
@@ -854,9 +864,8 @@ would be presented with a *slightly* better output.
 {% terminal %}
 $ ruby lib/event_manager.rb
 EventManager initialized.
-Allison 20010 ["Eleanor Norton"]
-SArah 20009 ["Eleanor Norton"]
-Sarah 33703 ["Marco Rubio", "Bill Nelson", "C. Young"]
+Allison 20010 ["Jimmy Gomez","Ralph Norman"]
+Sarah 33703 ["Marco Rubio", "Bill Nelson"]
 ...
 {% endterminal %}
 
@@ -873,16 +882,29 @@ Array again comes to the rescue with the
 the specification of a separator string. We want to create a comma-separated
 list of legislator names with `legislator_names.join(", ")`
 
+
 ```ruby
+ENV["CONGRESS_API_KEY"] = "S9JON3ruNOI6XiyymcnZ7gtsjnToPxuXyT0bgeaX"
+
+def clean_zipcode(zipcode)
+  zipcode.to_s.rjust(5,"0")[0..4]
+end
+
+puts "EventManager initialized."
+
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+
 contents.each do |row|
   name = row[:first_name]
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
+  members = CongressApi::Members.new
+  
+  legislators = members.senate_by_state(row[:state)
 
-  legislator_names = legislators.collect do |legislator|
-    "#{legislator.first_name} #{legislator.last_name}"
+  legislator_names = legislators.map do |legislator|
+    "#{legislator['first_name']} #{legislator['last_name']}"
   end
 
   legislators_string = legislator_names.join(", ")
@@ -897,8 +919,7 @@ output:
 {% terminal %}
 $ ruby lib/event_manager.rb
 EventManager initialized.
-Allison 20010 Eleanor Norton
-SArah 20009 Eleanor Norton
+Allison 20010 Jimmy Gomez, Ralph Norman
 Sarah 33703 Marco Rubio, Bill Nelson, C. Young
 ...
 {% endterminal %}
@@ -916,24 +937,54 @@ how zip codes are handled. The dissimilarity breeds confusion when returning to
 the code.
 
 We want to extract our legislator names into a new method named
-`legislators_by_zipcode` which accepts a single zip code as a parameter
+`legislators_by_state` which accepts a single state code as a parameter
 and returns a comma-separated string of legislator names.
-
 ```ruby
-require 'csv'
-require 'sunlight/congress'
-
-Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+ENV["CONGRESS_API_KEY"] = "S9JON3ruNOI6XiyymcnZ7gtsjnToPxuXyT0bgeaX"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_by_zipcode(zipcode)
-  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
+puts "EventManager initialized."
 
-  legislator_names = legislators.collect do |legislator|
-    "#{legislator.first_name} #{legislator.last_name}"
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+
+contents.each do |row|
+  name = row[:first_name]
+
+  zipcode = clean_zipcode(row[:zipcode])
+
+  members = CongressApi::Members.new
+  
+  legislators = members.senate_by_state(row[:state)
+
+  legislator_names = legislators.map do |legislator|
+    "#{legislator['first_name']} #{legislator['last_name']}"
+  end
+
+  legislators_string = legislator_names.join(", ")
+
+  puts "#{name} #{zipcode} #{legislators_string}"
+end
+```
+
+
+```ruby
+require 'csv'
+require 'congress_api'
+
+ENV["CONGRESS_API_KEY"] = "S9JON3ruNOI6XiyymcnZ7gtsjnToPxuXyT0bgeaX"
+
+def clean_zipcode(zipcode)
+  zipcode.to_s.rjust(5,"0")[0..4]
+end
+
+def legislators_by_state(state_code)
+  members = CongressApi::Members.new
+  legislators = members.senate_by_state(state_code)
+  legislator_names = legislators.map do |legislator|
+    "#{legislator['first_name']} #{legislator['last_name']}"
   end
 
   legislator_names.join(", ")
@@ -948,7 +999,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode)
+  legislators = legislators_by_state(row[:state])
 
   puts "#{name} #{zipcode} #{legislators}"
 end
@@ -956,8 +1007,8 @@ end
 
 An additional benefit of this implementation is that it also encapsulates how we
 actually retrieve the names of the legislators. This is a benefit later if we
-decide on an alternative to the sunlight gem or want to introduce a level of
-caching to prevent look ups for similar zip codes.
+decide on an alternative to the congress_api gem or want to introduce a level of
+caching to prevent look ups for similar state codes.
 
 ## Iteration 4: Form Letters
 
@@ -1075,7 +1126,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode).join(", ")
+  legislators = legislators_by_state(row[:state])
 
   personal_letter = template_letter.gsub('FIRST_NAME',name)
   personal_letter.gsub!('LEGISLATORS',legislators)
@@ -1204,11 +1255,11 @@ return to the application.
   </p>
 
   <table>
-  <tr><th>Name</th><th>Website</th></tr>
+  <tr><th>Name</th><th>For Zipcode</th></tr>
     <% legislators.each do |legislator| %>
       <tr>
-        <td><%= "#{legislator.first_name} #{legislator.last_name}" %></td>
-        <td><%= "#{legislator.website}" %></td>
+        <td><%= "#{legislator}" %></td>
+        <td><%= "#{zipcode}" %></td>
       </tr>
     <% end %>
   </table>
@@ -1221,13 +1272,8 @@ use, when we display the legislators, is different. We are using the ERB tag
 that does not output the results `<% %>` to define the beginning of the block
 `<% legislators.each do |legislator| %>` and later the end of the block `<% end
 %>`. Inside those tags are the original tags which output the results. In
-this case, we are ouputting the first name, last name and website of each
+this case, we are ouputting the first name and last name of each
 legislator.
-
-This is a departure from what we originally implemented. Before we had to build
-the names of all the representatives. We intend now to give the template direct
-access to the array of legislators. We will let the template ask and display
-what it wants from each legislator.
 
 ### Using ERB
 
@@ -1235,21 +1281,25 @@ We now need to update our application to:
 
 * Require the ERB library
 * Create the ERB template from the contents of the template file
-* Simplify our `legislators_by_zipcode` to return the the original array of legislators
+* Simplify our `legislators_by_state` to return an array of legislators' names
 
 ```ruby
 require 'csv'
-require 'sunlight/congress'
+require 'congress_api'
 require 'erb'
 
-Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+ENV['CONGRESS_API_KEY'] = "S9JON3ruNOI6XiyymcnZ7gtsjnToPxuXyT0bgeaX"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_by_zipcode(zipcode)
-  Sunlight::Congress::Legislator.by_zipcode(zipcode)
+def legislators_by_state(state_code)
+  members = CongressApi::Members.new
+  legislators = members.senate_by_state(state_code)
+  legislator_names = legislators.map do |legislator|
+  	 "#{legislator['first_name']} #{legislator['last_name']}"
+  end
 end
 
 puts "EventManager initialized."
@@ -1264,7 +1314,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode)
+  legislators = legislators_by_state(row[:state)
 
   form_letter = erb_template.result(binding)
   puts form_letter
@@ -1288,20 +1338,6 @@ template_letter = File.read "form_letter.erb"
 erb_template = ERB.new template_letter
 ```
 
-* Simplify our `legislators_by_zipcode` to return the the original array of legislators
-
-The most surprising change of using ERB is that we have actually reduced the
-size and complexity of the `legislators_by_zipcode` method to simply:
-
-```ruby
-def legislators_by_zipcode(zipcode)
-  Sunlight::Congress::Legislator.by_zipcode(zipcode)
-end
-```
-
-Looking at the final state of `legislators_by_zipcode`, it may be tempting to
-simply remove it. If it's only calling one other method, why bother leaving it
-in our code? Sometimes, it's nice to wrap unfamiliar APIs with those that are better suited to our given situation. Let's leave it in for now.
 
 ### Outputting form letters to a file
 
@@ -1323,7 +1359,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode)
+  legislators = legislators_by_state(row[:state])
 
   form_letter = erb_template.result(binding)
 
@@ -1373,17 +1409,22 @@ operation of saving the form letter to its own method:
 
 ```ruby
 require 'csv'
-require 'sunlight/congress'
+require 'congress_api'
 require 'erb'
 
-Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+ENV['CONGRESS_API_KEY'] = "S9JON3ruNOI6XiyymcnZ7gtsjnToPxuXyT0bgeaX"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_by_zipcode(zipcode)
-  Sunlight::Congress::Legislator.by_zipcode(zipcode)
+def legislators_by_state(state_code)
+  members = CongressApi::Members.new
+  legislators = members.senate_by_state(state_code)
+  legislator_names = legislators.map do |legislator|
+  	 "#{legislator['first_name']} #{legislator['last_name']}"
+  end
+
 end
 
 def save_thank_you_letters(id,form_letter)
@@ -1407,7 +1448,7 @@ contents.each do |row|
   id = row[0]
   name = row[:first_name]
   zipcode = clean_zipcode(row[:zipcode])
-  legislators = legislators_by_zipcode(zipcode)
+  legislators = legislators_by_state(row[:state])
 
   form_letter = erb_template.result(binding)
 

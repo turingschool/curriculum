@@ -4,7 +4,7 @@ title: EventManager
 sidebar: true
 alias: [ /eventmanager, /event_manager.html ]
 language: ruby
-topics: files, CSV, String, Sunlight API, ERB
+topics: files, CSV, String, Google CivicInfo API, ERB
 ---
 
 ## Get Ready
@@ -33,8 +33,8 @@ After completing this tutorial, you will be able to:
 * utilize the data to contact a remote service
 * populate a template with user data
 * manipulate [strings](http://rubydoc.info/stdlib/core/String)
-* access [Sunlight](http://sunlightlabs.github.io/congress/index.html#parameters/api-key)'s Congressional API through
-  the [Sunlight Congress gem][repo_sunlight_congress]
+* access [Google's Civic Information API](https://developers.google.com/civic-information/) through
+  the [Google API Client Gem](https://github.com/google/google-api-ruby-client)
 * use [ERB](http://rubydoc.info/stdlib/erb/ERB) (Embedded Ruby) for templating
 
 <div class="note">
@@ -702,84 +702,90 @@ def clean_zipcode(zipcode)
 end
 ```
 
-## Iteration 3: Using Sunlight
+## Iteration 3: Using Google's Civic Information
 
 We now have our list of attendees with their valid zip codes (at least for most
 of them). Using their zip code and the
-[Sunlight Foundation](http://sunlightfoundation.com/)
+[Google Civic Information](https://developers.google.com/civic-information/)
 webservice we are able query for the representatives for a given area.
 
-The Sunlight Foundation exposes an API that allows registered individuals
-(registration is free) to use their service. Their goal is to provide tools to
-make government more transparent and accessible.
+The Civic Information API allows registered individuals (registration is free) to obtain some information about the representatives for each level of government for an address.
 
-> The Sunlight Labs API provides methods for obtaining basic information on Members of Congress, legislator IDs used
-> by various websites, and lookups between places and the politicians that represent them. The primary purpose of the
-> API is to facilitate mashups involving politicians and the various other APIs that are out there.
+> For any U.S. residential address, you can look up who represents that address at each elected level of 
+> government. During supported elections, you can also look up polling places, early vote location, candidate data, 
+> and other election official information.
 
 ### Accessing the API
 
-[http://congress.api.sunlightfoundation.com/legislators/locate?zip=90201&apikey=e179a6973728c4dd3fb1204283aaccb5](http://congress.api.sunlightfoundation.com/legislators/locate?zip=22182&apikey=e179a6973728c4dd3fb1204283aaccb5)
+[https://www.googleapis.com/civicinfo/v2/representatives?address=80203&levels=country&roles=legislatorUpperBody&roles=legislatorLowerBody&key=AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw](https://www.googleapis.com/civicinfo/v2/representatives?address=80203&levels=country&roles=legislatorUpperBody&roles=legislatorLowerBody&key=AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw)
 
 Take a close look at that address. Here's how it breaks down:
 
 * `http://` : Use the HTTP protocol
-* `congress.api.sunlightfoundation.com` : The server address on the internet
-* `legislators.` : The object name
-* `locate.` : The method called on that object
+* `www.googleapis.com/civicinfo/v2/` : The API server address on the internet
+* `representatives` : The method called on that server
 * `?` : Parameters to the method
   * `&` : The parameter separator
-  * `zip=90201` : The zipcode we want to lookup
-  * `apikey=e179a6973728c4dd3fb1204283aaccb5` : A registered API Key to authenticate our requests
+  * `address=80203` : The zipcode we want to lookup
+  * `levels=country` : The level of government we want to select
+  * `roles=legislatorUpperBody` : Return the representatives from the Senate
+  * `roles=legislatorLowerBody` : Returns the representatives from the House
+  * `apikey=AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw` : A registered API Key to authenticate our requests
 
-We're accessing the `legislators.locate` method of their API, we send in an
-`apikey` which is the string that identifies JumpstartLab as the accessor of
-the API, then at the very end we have a `zip`. Try modifying the address with
-your own zipcode and load the page.
+We're accessing the `representatives` method of their API, we send in an `apikey` which is the string that identifies JumpstartLab as the accessor of
+the API, then we select the data we want returned to us using the `address`, `levels`, and `roles` criteria. Try modifying the address with your own zipcode and load the page.
 
-This document is [JSON](http://json.org/) formatted. If you copy and paste the data into a [pretty printer](http://jsonprettyprint.com/), you can see there is a `response` object that has a list of `legislators`. That list contains four `legislator` objects which each contain
-a ton of data about a legislator. Cool!
+This document is [JSON](http://json.org/) formatted. If you copy and paste the data into a [pretty printer](http://jsonprettyprint.com/), you can see there is a `officials` key that has many legislator `names`. The response also includes a lot of other information. Cool!
 
 Let's look for a solution before we attempt to build a solution.
 
-### Installing the Sunlight Gem
-
-Steve Klabnik, an instructor for Jumpstart, created the **sunlight-congress**
-[gem](https://rubygems.org/gems/sunlight-congress). We call this a wrapper
-library because its job is to hide complexity from us. We can interact with it
-as a regular Ruby object, then the library takes care of fetching and parsing
-data from the server.
-
-The [source code][repo_sunlight_congress] is
-available on GitHub.
+### Installing the Google API Client
 
 Ruby comes packaged with the `gem` command. This tool allows you to download
 libraries simply knowing the name of the library you want to install.
 
 {% terminal %}
-$ gem install sunlight-congress
-Fetching: sunlight-congress-1.0.0.gem (100%)
-Successfully installed sunlight-congress-1.0.0
-Done installing documentation for sunlight-congress (0 sec).
+$ gem install google-api-client
+Successfully installed google-api-client-0.15.0
 1 gem installed
 {% endterminal %}
 
 ### Showing All Legislators in a Zip Code
 
-The gem comes equipped with example documentation. The documentation is also
-available online with their [source code][repo_sunlight_congress].
+The gem comes equipped with some vague example documentation. The documentation is also
+available online with their [source code](https://github.com/google/google-api-ruby-client).
 
 Reading through the documentation on how to set up and use the
-sunlight-congress gem we find that we need to perform the following steps:
+google-api-client gem we find that we need to perform the following steps:
 
 * Set the API Key
-* Perform the [query](https://github.com/steveklabnik/sunlight-congress#usage) with the given zip code
+* Send the query with the given criteria
+* Parse the response for the names of your legislators.
+
+Exploration of data is easy using irb:
+
+{% irb %}
+$ require 'google/apis/civicinfo_v2'
+=> true
+
+$ civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
+=> #<Google::Apis::CivicinfoV2::CivicInfoService:0x007faf2dd47108 ... >
+
+$ civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
+=> "AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw"
+
+$ response = civic_info.representative_info_by_address(address: 80202, levels: 'country', roles: ['legislatorUpperBody', legislatorLowerBody'])
+=> #<Google::Apis::CivicinfoV2::RepresentativeInfoResponse:0x007faf2d9088d0 @divisions={"ocd-division/country:us/state:co"=>#<Google::Apis::CivicinfoV2::GeographicDivision:0x007faf2e55ea80 @name="Colorado", @office_indices=[0]> } > ...continues...
+{% endirb %}
+
+Whoa. That's a lot of information.  Buried in there are the names our legislators.  We can access them by calling the `.officials` method on the `response`.  Now that we know how to access the information we want, we can focus our attention back on our program.
 
 ```ruby
 require 'csv'
-require 'sunlight/congress'
+require 'google/apis/civicinfo_v2'
 
-Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
+civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
+civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
@@ -794,21 +800,58 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
+  legislators = civic_info.representative_info_by_address(
+                            address: zipcode, 
+                            levels: 'country', 
+                            roles: ['legislatorUpperBody', 'legislatorLowerBody'])
+  legislators = legislators.officials
 
   puts "#{name} #{zipcode} #{legislators}"
 end
 ```
 
-Running our application we find our output cluttered with information.
+Running our application we find an error.
 
 {% terminal %}
 $ ruby lib/event_manager.rb
-EventManager initialized.
-Allison 20010 [#<Sunlight::Congress::Legislator:0x007fde87d974f8 ...
-SArah 20009 [#<Sunlight::Congress::Legislator:0x007fde87d9db50 ...
-...
+/ruby-2.4.0/gems/google-api-client-0.15.0/lib/google/apis/core/http_command.rb:218:in `check_status': parseError: Failed to parse address (Google::Apis::ClientError)
 {% endterminal %}
+
+What does this mean?  It means that the Google API was unable to use an address we gave it.  When we dig further we see that right before this error the information from Davaid with a zip code of 07306 is printed. Looking at the data we can now see that the attendee after David did not enter a zip code.  Data missing like this is common so we have to have a way of dealing with it. Luckly, Ruby makes that easy with their [Exception Class](https://ruby-doc.org/core-2.2.0/Exception.html).  We can add a `begin` and `rescue` clause to the API search to handle any errors.
+
+```ruby
+require 'csv'
+require 'google/apis/civicinfo_v2'
+
+civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
+civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
+
+def clean_zipcode(zipcode)
+  zipcode.to_s.rjust(5,"0")[0..4]
+end
+
+puts "EventManager initialized."
+
+contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :symbol
+
+contents.each do |row|
+  name = row[:first_name]
+
+  zipcode = clean_zipcode(row[:zipcode])
+
+  begin
+    legislators = civic_info.representative_info_by_address(
+                              address: zipcode, 
+                              levels: 'country', 
+                              roles: ['legislatorUpperBody', 'legislatorLowerBody'])
+    legislators = legislators.officials
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
+
+  puts "#{name} #{zipcode} #{legislators}"
+end
+```
 
 The **legislators** that we are displaying is an array. In turn, the array is
 sending the `to_s` message to each of the objects within the array, each
@@ -822,34 +865,25 @@ Instead of outputting each raw legislator we want to print only their first
 name and last name. We will need to complete the following steps:
 
 * Iterate over the entire collection of legislators for the particular zip code.
-* For each legislator we want to create a new string which is composed of their first name and last name.
+* For each legislator we want to find the representative's name.
 * Add the name to a new collection of names.
 
-```
-legislator_names = []
-legislators.each do |legislator|
-  legislator_name = "#{legislator.first_name} #{legislator.last_name}"
-  legislator_names.push legislator_name
-end
-```
-
-The above operation of collecting values is a common operation. Common enough
-that Array provides a method
-[Array#collect](http://rubydoc.info/stdlib/core/Array#collect-instance_method).
-Collect takes the array of objects of inputs and generates a new array as the
-output. The last operation we perform in the block is added to our new
-collection. This is exactly what we performed above only stated more simply as:
+To do this, we can use the [map](https://ruby-doc.org/core-2.2.0/Array.html#method-i-map) function built into ruby.  It works just like `.each` but returns a new array of the data we want to include.
 
 ```
-legislator_names = legislators.collect do |legislator|
-  "#{legislator.first_name} #{legislator.last_name}"
-end
+legislator_names = legislators.map do |legislator|
+    legislator.name
+  end
+```
+
+We can further simplify this into it's final form:
+```
+legislator_names = legislators.map(&:name)
 ```
 
 ### Cleanly Displaying Legislators
 
-If we were to replace `legislators` with `legislator_names` in our output we
-would be presented with a *slightly* better output.
+If we were to replace `legislators` with `legislator_names` in our output we would be presented with a *slightly* better output.
 
 {% terminal %}
 $ ruby lib/event_manager.rb
@@ -860,18 +894,11 @@ Sarah 33703 ["Marco Rubio", "Bill Nelson", "C. Young"]
 ...
 {% endterminal %}
 
-The problem now is that we are still sending the `to_s` message to our new
-array of legislator names and by default an array does not know how you want to
-display the contents.
+The problem now is that we are still sending the `to_s` message to our new array of legislator names and by default an array does not know how you want to display the contents.
 
-We need to explicitly convert our array of legislator names to a string. This
-way we are sure it will output correctly. This could be tedious work except
-Array again comes to the rescue with the
-[Array#join](http://rubydoc.info/stdlib/core/Array#join-instance_method) method.
+We need to explicitly convert our array of legislator names to a string. This way we are sure it will output correctly. This could be tedious work except Array again comes to the rescue with the [Array#join](http://rubydoc.info/stdlib/core/Array#join-instance_method) method.
 
-[Array#join](http://rubydoc.info/stdlib/core/Array#join-instance_method) allows
-the specification of a separator string. We want to create a comma-separated
-list of legislator names with `legislator_names.join(", ")`
+[Array#join](http://rubydoc.info/stdlib/core/Array#join-instance_method) allows the specification of a separator string. We want to create a comma-separated list of legislator names with `legislator_names.join(", ")`
 
 ```ruby
 contents.each do |row|
@@ -879,13 +906,19 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
+  begin
+    legislators = civic_info.representative_info_by_address(
+                                address: zipcode, 
+                                levels: 'country', 
+                                roles: ['legislatorUpperBody', 'legislatorLowerBody'])
+    legislators = legislators.officials
 
-  legislator_names = legislators.collect do |legislator|
-    "#{legislator.first_name} #{legislator.last_name}"
+    legislator_names = legislators.map(&:name)
+
+    legislators_string = legislator_names.join(", ")
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
   end
-
-  legislators_string = legislator_names.join(", ")
 
   puts "#{name} #{zipcode} #{legislators_string}"
 end
@@ -921,22 +954,28 @@ and returns a comma-separated string of legislator names.
 
 ```ruby
 require 'csv'
-require 'sunlight/congress'
+require 'google/apis/civicinfo_v2'
 
-Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_by_zipcode(zipcode)
-  legislators = Sunlight::Congress::Legislator.by_zipcode(zipcode)
+def legislators_by_zipcode(zip)
+  civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
+  civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
 
-  legislator_names = legislators.collect do |legislator|
-    "#{legislator.first_name} #{legislator.last_name}"
+  begin
+    legislators = civic_info.representative_info_by_address(
+                                  address: zip, 
+                                  levels: 'country', 
+                                  roles: ['legislatorUpperBody', 'legislatorLowerBody'])
+    legislators = legislators.officials
+    legislator_names = legislators.map(&:name)
+    legislators_string = legislator_names.join(", ")
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
   end
-
-  legislator_names.join(", ")
 end
 
 puts "EventManager initialized."
@@ -954,9 +993,9 @@ contents.each do |row|
 end
 ```
 
-An additional benefit of this implementation is that it also encapsulates how we
-actually retrieve the names of the legislators. This is a benefit later if we
-decide on an alternative to the sunlight gem or want to introduce a level of
+An additional benefit of this implementation is that it encapsulates how we
+actually retrieve the names of the legislators. This will be of benefit later if we
+decide on an alternative to the google-api gem or want to introduce a level of
 caching to prevent look ups for similar zip codes.
 
 ## Iteration 4: Form Letters
@@ -1075,7 +1114,7 @@ contents.each do |row|
 
   zipcode = clean_zipcode(row[:zipcode])
 
-  legislators = legislators_by_zipcode(zipcode).join(", ")
+  legislators = legislators_by_zipcode(zipcode)
 
   personal_letter = template_letter.gsub('FIRST_NAME',name)
   personal_letter.gsub!('LEGISLATORS',legislators)
@@ -1105,8 +1144,7 @@ personal_letter = personal_letter.gsub('LEGISLATORS',legislators)
 It is a treacherous road we start to walk defining our own templating language.
 Our current system has some flaws:
 
-* Using FIRST_NAME and LEGISLATORS to find and replace might cause us problems if later somehow this text appears in
-  any of our template.
+* Using FIRST_NAME and LEGISLATORS to find and replace might cause us problems if later somehow this text appears in any of our template.
 
 Though not likely, imagine if a person's name contained the word 'LEGISLATORS'.
 When we perform the second replacement operation that part of the person's name
@@ -1204,30 +1242,29 @@ return to the application.
   </p>
 
   <table>
-  <tr><th>Name</th><th>Website</th></tr>
-    <% legislators.each do |legislator| %>
-      <tr>
-        <td><%= "#{legislator.first_name} #{legislator.last_name}" %></td>
-        <td><%= "#{legislator.website}" %></td>
-      </tr>
+    <% if legislators.kind_of?(Array) %>
+      <th>Name</th><th>Website</th>
+        <% legislators.each do |legislator| %>
+        <tr>
+          <td><%= "#{legislator.name}" %></td>
+          <td><%= "#{legislator.urls.join}" %></td>
+        </tr>
+      <% end %>
+    <% else %>
+      <th></th>
+      <td><%= "#{legislators}" %></td>
     <% end %>
   </table>
 </body>
 </html>
 ```
 
-The first use of the ERB tags is familar to our previous example. The second
-use, when we display the legislators, is different. We are using the ERB tag
-that does not output the results `<% %>` to define the beginning of the block
-`<% legislators.each do |legislator| %>` and later the end of the block `<% end
-%>`. Inside those tags are the original tags which output the results. In
-this case, we are ouputting the first name, last name and website of each
-legislator.
+The use of the ERB tags to display the attendee's name is familiar to our previous example. The second use, when we display the legislators, is different. We are using the ERB tag that does not output the results `<% %>` to check if the legislators variable is an Array. 
 
-This is a departure from what we originally implemented. Before we had to build
-the names of all the representatives. We intend now to give the template direct
-access to the array of legislators. We will let the template ask and display
-what it wants from each legislator.
+If it is an array we output the name and website url of each legislator. This is a departure from what we originally implemented. Before we had to build the names of all the representatives. We intend now to give the template direct access to the array of legislators. We will let the template ask and display what it wants from each legislator.
+
+If `legislators` is not an Array it means that the `legislators_by_zipcode` method entered the rescue clause, which outputs a string. We simply want to display that string.
+
 
 ### Using ERB
 
@@ -1239,17 +1276,26 @@ We now need to update our application to:
 
 ```ruby
 require 'csv'
-require 'sunlight/congress'
+require 'google/apis/civicinfo_v2'
 require 'erb'
-
-Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_by_zipcode(zipcode)
-  Sunlight::Congress::Legislator.by_zipcode(zipcode)
+def legislators_by_zipcode(zip)
+  civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
+  civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
+
+  begin
+    civic_info.representative_info_by_address(
+      address: zip, 
+      levels: 'country', 
+      roles: ['legislatorUpperBody', 'legislatorLowerBody']
+    ).officials
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
 end
 
 puts "EventManager initialized."
@@ -1289,19 +1335,22 @@ erb_template = ERB.new template_letter
 ```
 
 * Simplify our `legislators_by_zipcode` to return the the original array of legislators
-
-The most surprising change of using ERB is that we have actually reduced the
-size and complexity of the `legislators_by_zipcode` method to simply:
-
 ```ruby
-def legislators_by_zipcode(zipcode)
-  Sunlight::Congress::Legislator.by_zipcode(zipcode)
+def legislators_by_zipcode(zip)
+  civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
+  civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
+
+  begin
+    civic_info.representative_info_by_address(
+      address: zip, 
+      levels: 'country', 
+      roles: ['legislatorUpperBody', 'legislatorLowerBody']
+    ).officials
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
 end
 ```
-
-Looking at the final state of `legislators_by_zipcode`, it may be tempting to
-simply remove it. If it's only calling one other method, why bother leaving it
-in our code? Sometimes, it's nice to wrap unfamiliar APIs with those that are better suited to our given situation. Let's leave it in for now.
 
 ### Outputting form letters to a file
 
@@ -1373,17 +1422,26 @@ operation of saving the form letter to its own method:
 
 ```ruby
 require 'csv'
-require 'sunlight/congress'
+require 'google/apis/civicinfo_v2'
 require 'erb'
-
-Sunlight::Congress.api_key = "e179a6973728c4dd3fb1204283aaccb5"
 
 def clean_zipcode(zipcode)
   zipcode.to_s.rjust(5,"0")[0..4]
 end
 
-def legislators_by_zipcode(zipcode)
-  Sunlight::Congress::Legislator.by_zipcode(zipcode)
+def legislators_by_zipcode(zip)
+  civic_info = Google::Apis::CivicinfoV2::CivicInfoService.new
+  civic_info.key = 'AIzaSyClRzDqDh5MsXwnCWi0kOiiBivP6JsSyBw'
+
+  begin
+    civic_info.representative_info_by_address(
+      address: zip, 
+      levels: 'country', 
+      roles: ['legislatorUpperBody', 'legislatorLowerBody']
+    ).officials
+  rescue
+    "You can find your representatives by visiting www.commoncause.org/take-action/find-elected-officials"
+  end
 end
 
 def save_thank_you_letters(id,form_letter)
@@ -1464,4 +1522,3 @@ register?"
 * Use [Date#wday](http://rubydoc.info/stdlib/date/Date#wday-instance_method) to find out the day of the week.
 
 {% endexercise %}
-[repo_sunlight_congress]: https://github.com/steveklabnik/sunlight-congress

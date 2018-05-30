@@ -521,7 +521,7 @@ contents = CSV.open 'event_attendees.csv', headers: true, header_converters: :sy
 
 contents.each do |row|
   name = row[:first_name]
-  zipcode = row[:zipcode]
+  zipcode = row[:zipcode].to_s
 
   if zipcode.length < 5
     zipcode = zipcode.rjust 5, "0"

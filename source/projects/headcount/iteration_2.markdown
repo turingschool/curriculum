@@ -65,7 +65,7 @@ There's thinking that kindergarten participation has long-term effects. Given ou
 For a single district:
 
 ```ruby
-ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20') # => 1.234
+ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20') # => 0.641
 ```
 
 Call *kindergarten variation* the result of dividing the district's kindergarten participation by the statewide average. Call *graduation variation* the result of dividing the district's graduation rate by the statewide average. Divide the *kindergarten variation* by the *graduation variation* to find the *kindergarten-graduation variance*.
@@ -84,7 +84,7 @@ ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADE
 Then let's look statewide. If more than 70% of districts across the state show a correlation, then we'll answer `true`. If it's less than `70%` we'll answer `false`.
 
 ```ruby
-ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE') # => true
+ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE') # => false
 ```
 
 Then let's do the same calculation across a subset of districts:

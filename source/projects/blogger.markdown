@@ -2155,6 +2155,9 @@ generate  model Author --skip-migration
   create  db/migrate/20120210184116_sorcery_core.rb
 {% endterminal %}
 
+NOTE: create  db/migrate/20120210184116_sorcery_core.rb does not created automatically if your ruby version is 2.5.1, but it works with ruby version 2.5.0. I haven't tried adding it manually instead I have changed my ruby version and did bundle install again it was working but my db is gone. I tought you might want to know this :)
+ 
+
 Let's look at the SorceryCore migration that the generator created before we migrate the database. If you wanted your User models to have any additional information (like "department\_name" or "favorite\_color") you could add columns for that, or you could create an additional migration at this point to add those fields.
 
 For this tutorial, you will need to add the username column to the Author model. To do that, open the migration file `*_sorcery_core.rb` file under `db/migrate` and make sure your file looks like this:

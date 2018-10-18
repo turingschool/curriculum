@@ -111,5 +111,7 @@ i = Item.new({
   :unit_price  => BigDecimal.new(10.99,4),
   :created_at  => Time.now,
   :updated_at  => Time.now,
+  :merchant_id => "1234",
+  :id => "4567"
 })
 ```

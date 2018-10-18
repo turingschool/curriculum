@@ -85,6 +85,8 @@ The project may not use:
 
 * `Rails`
 
+Do not name a table/model UserAgent, you will be using a gem later in the project with that same name and will have class conflicts.
+
 ## Instructions
 
 Iterations 0-8 must be completed to consider the project complete. Please use TDD every step of the way. Tests are expected for all features and all the models - including iterations 0-1.

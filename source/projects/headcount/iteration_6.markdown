@@ -133,7 +133,7 @@ divide it by the district's `median_income_variation`, where:
 * *kindergarten variation* is defined as the district's average kindergarten participation
 compared against the state's average as described in iteration 1.
 * *median income variation* defined as the district's average median income divided by the state's average median income
-as defined in iteration 3
+as defined in iteration 4
 
 Then dividing the *kindergarten variation* by the *median income variation* results in `1.234` in the sample.
 

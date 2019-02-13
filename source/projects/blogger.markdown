@@ -87,6 +87,15 @@ You'll see the Rails' "Welcome Aboard" page. Click the "About your applicationâ€
 
 If you see an error here, it's most likely related to the database. You are probably running Windows and don't have either the SQLite3 application installed or the gem isn't installed properly. Go back to [Environment Setup]({% page_url topics/environment/environment %}) and use the Rails Installer package. Make sure you check the box during setup to configure the environment variables. Restart your machine after the installation and give it another try.
 
+Update - February 13th, 2019. The sqlite3 gem was updated to version 1.4.0 on February 4th. If you experience a LoadError stating that there was an error loading 'sqlite3' Active Record Adatper due to a missing gem, you may need to edit the project Gemfile (line 9) from "gem 'sqlite3'" to "gem 'sqlite3', '~> 1.3.6'". After this change is made, run the following:
+
+{% terminal %}
+$ bundler update
+$ bundler install
+{% terminal %}
+
+Be sure to restart your rails server.
+
 ### Creating the Article Model
 
 Our blog will be centered around "articles," so we'll need a table in the database to store all the articles and a model to allow our Rails app to work with that data. We'll use one of Rails' generators to create the required files. Switch to your terminal and enter the following:

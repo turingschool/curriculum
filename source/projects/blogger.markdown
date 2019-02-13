@@ -92,7 +92,7 @@ Update - February 13th, 2019. The sqlite3 gem was updated to version 1.4.0 on Fe
 {% terminal %}
 $ bundler update
 $ bundler install
-{% terminal %}
+{% endterminal %}
 
 Be sure to restart your rails server.
 

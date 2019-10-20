@@ -3007,12 +3007,12 @@ to use a password text entry. So we need to update the <code>authors/_form.html.
 <span class='line-number'>7</span>
 <span class='line-number'>8</span>
 </pre></td><td class='code'><pre><code class='html+erb'><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;field&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password</span> <span class="cp">%&gt;</span><span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password</span> <span class="cp">%&gt;</span>
 </span><span class='line'><span class="nt">&lt;/div&gt;</span>
 </span><span class='line'><span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;field&quot;</span><span class="nt">&gt;</span>
-</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
-</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">f</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="o">.</span><span class="n">label</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span><span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+</span><span class='line'>  <span class="cp">&lt;%=</span> <span class="n">form</span><span class="o">.</span><span class="n">password_field</span> <span class="ss">:password_confirmation</span> <span class="cp">%&gt;</span>
 </span><span class='line'><span class="nt">&lt;/div&gt;</span>
 </span></code></pre></td></tr></table></div></figure>
 
@@ -3054,6 +3054,8 @@ our Authors. We need to update our <code>routes.rb</code> file:</p>
 </span><span class='line'>  <span class="n">resources</span> <span class="ss">:authors</span>
 </span><span class='line'><span class="k">end</span>
 </span></code></pre></td></tr></table></div></figure>
+    
+<p>We also need to remember to go to our <code>authors_controller.rb<code> and include the <code>:password<code> and <code>:password_confirmation<code> in the <code>author_params<code> function.</p> 
 
 <p>With this in place, we can now go to
 <a href="http://localhost:3000/authors/new">http://localhost:3000/authors/new</a> and we

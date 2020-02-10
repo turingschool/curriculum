@@ -2088,7 +2088,7 @@ Authentication is an important part of almost any web application and there are 
 
 There are two popular gems for authentication: One is named [AuthLogic](https://github.com/binarylogic/authlogic/) and I wrote up an iteration using it for the [Merchant](http://tutorials.jumpstartlab.com/projects/merchant.html) tutorial, but I think it is a little complicated for a Rails novice. You have to create several different models, controllers, and views manually. The documentation is kind of confusing, and I don't think my tutorial is that much better. The second is called [Devise](https://github.com/plataformatec/devise), and while it's the gold standard for Rails 3 applications, it is also really complicated.
 
-[Sorcery](https://github.com/NoamB/sorcery) is a lightweight and straightforward authentication service gem. It strikes a good balance of functionality and complexity.
+[Sorcery](https://github.com/Sorcery/sorcery) is a lightweight and straightforward authentication service gem. It strikes a good balance of functionality and complexity.
 
 ### Installing Sorcery
 

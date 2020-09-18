@@ -253,7 +253,7 @@ What we need to do is combine a variable with the string. There are two ways to 
 
 #### String Concatenation
 
-The simplistic approach is called **string concatenation** which is joins strings together with the plus sign:
+The simplistic approach is called **string concatenation** which joins strings together with the plus sign:
 
 {% irb %}
 $ name = "Frank"

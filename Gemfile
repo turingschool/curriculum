@@ -8,7 +8,7 @@ gem 'rack-jekyll'
 
 gem 'certified'
 gem 'rake'
-gem 'rack', '~> 1.4.1'
+gem 'rack', '~> 1.6.13'
 gem 'jekyll', '~> 0.11.2'
 gem 'rdiscount', '~> 1.6.8'
 gem 'RedCloth', '~> 4.2.9'

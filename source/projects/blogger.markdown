@@ -245,6 +245,8 @@ edit_article GET    /articles/:id/edit(.:format) articles#edit
              DELETE /articles/:id(.:format)      articles#destroy
 {% endterminal %}
 
+Note :- `rake routes` is deprectaed in rails 6.1,Use `rails routes` instead.
+
 Experiment with commenting out the `resources :articles` in `routes.rb` and running the command again. Un-comment the line after you see the results.
 
 These are the seven core actions of Rails' REST implementation. To understand the table, let's look at the first row as an example:

@@ -385,4 +385,5 @@ Hop over the our [Getting Started with Sequel]({% page_url topics/sequel %}) tut
 
 * [SQLite Tutorial by Zetcode.com](http://zetcode.com/db/sqlite/)
 * [SQL Interactive Tutorial](http://sqlzoo.net/wiki/Main_Page)
+* [SQL Tutorial by Tutlane.com](https://www.tutlane.com/tutorial/sqlite)
 

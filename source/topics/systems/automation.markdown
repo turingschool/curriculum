@@ -220,7 +220,7 @@ Running resource intensive jobs very close together or at high peak times can ca
 
 You've jumped through the hoops to make your command cron compliant and figured out the timing, now you can automate your rake tasks.
 
-`crontabe -e`
+`crontab -e`
 
 ```
 00 00 * * * cd /Users/you/projects/myrailsapp && /usr/local/bin/rake RAILS_ENV=production myrailsapp:purge_audits

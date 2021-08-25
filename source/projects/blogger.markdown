@@ -181,7 +181,7 @@ $ bin/rails console
 {% endterminal %}
 
 You'll then just get back a prompt of `>>`. You're now inside an `irb` interpreter with full access to your application. Let's try some experiments. Enter each of these commands one at a time and observe the results:
-
+***Here! I have edited the migrate file and run the rake db:migrate (obtaining the correct output). I ran rake db:migrate again and got a blank line. Then, when I try Article.new, it only has ID, created_at and updated_at (all : nil). No sign of title or body :( I re-saved the migrate file and ran rake db:migrate again, again with a blank line. What's up?
 {% irb %}
 $ Time.now
 $ Article.all

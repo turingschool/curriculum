@@ -1804,12 +1804,6 @@ These lines are commented out because they start with the `#` character. By spec
 ```ruby
 gem "paperclip"
 ```
-Paperclip is dependent on ImageMagick so you will also need to add that program.
-
-{% terminal %}
-$ brew install imagemagick
-{% endterminal %}
-
 When you're writing a production application, you might specify additional parameters that require a specific version or a custom source for the library. With that config line declared, go back to your terminal and run `rails server` to start the application again. You should get an error like this:
 
 {% terminal %}

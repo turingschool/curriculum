@@ -27,17 +27,17 @@ Part of the reason Ruby on Rails became popular quickly is that it takes a lot o
 
 First we need to make sure everything is set up and installed. See the [Environment Setup]({% page_url topics/environment/environment %}) page for instructions on setting up and verifying your Ruby and Rails environment.
 
-This tutorial targets Rails 4.0.0, and may need slight adaptations for other versions. Let us know if you run into something strange!
+This tutorial targets Rails 5.0.2, and may need slight adaptations for other versions. Let us know if you run into something strange!
 
 From the command line, switch to the folder that will store your projects. For instance, I use `/Users/jcasimir/projects/`. Within that folder, run the following command:
 
 {% terminal %}
-$ rails new _4.0.0_ blogger
+$ rails _5.0.2_ new blogger
 {% endterminal %}
 
 Use `cd blogger` to change into the directory, then open it in your text editor. If you're using Sublime Text you can do that with `subl .`.
 
-_Note_: You may have to install this specific version of rails by running `gem install rails -v 4.0.0` before generating your new rails project.
+_Note_: You may have to install this specific version of rails by running `gem install rails -v 5.0.2` before generating your new rails project.
 
 ### Project Tour
 
@@ -66,13 +66,15 @@ Let's start up the server. From your project directory:
 
 {% terminal %}
 $ bin/rails server
-=> Booting WEBrick
-=> Rails 4.0.0 application starting in development on http://0.0.0.0:3000
-=> Call with -d to detach
-=> Ctrl-C to shutdown server
-[2012-01-07 11:16:52] INFO  WEBrick 1.3.1
-[2012-01-07 11:16:52] INFO  ruby 1.9.3 (2011-10-30) [x86_64-darwin11.2.0]
-[2012-01-07 11:16:52] INFO  WEBrick::HTTPServer#start: pid=36790 port=3000
+=> Booting Puma
+=> Rails 5.0.2 application starting in development on http://localhost:3000
+=> Run `rails server -h` for more startup options
+Puma starting in single mode...
+* Version 3.8.2 (ruby 2.4.1-p111), codename: Sassy Salamander
+* Min threads: 5, max threads: 5
+* Environment: development
+* Listening on tcp://localhost:3000
+Use Ctrl-C to stop
 {% endterminal %}
 
 You're ready to go!
@@ -81,7 +83,7 @@ You're ready to go!
 
 Open any web browser and enter the address `http://0.0.0.0:3000`. You can also use `http://localhost:3000` or `http://127.0.0.1:3000` -- they are all "loopback" addresses that point to your machine.
 
-You'll see the Rails' "Welcome Aboard" page. Click the "About your application’s environment" link and you should see the versions of various gems. As long as there's no big ugly error message, you're good to go.
+You'll see the Rails' "Yay! You're on Rails!" page. As long as there's no big ugly error message, you're good to go.
 
 #### Getting an Error?
 
@@ -114,7 +116,7 @@ Rails uses migration files to perform modifications to the database. Almost any 
 
 What is a migration?  Let's open `db/migrate/(some_time_stamp)_create_articles.rb` and take a look. First you'll notice that the filename begins with a mish-mash of numbers which is a timestamp of when the migration was created. Migrations need to be ordered, so the timestamp serves to keep them in chronological order. Inside the file, you'll see just the method `change`.
 
-Migrations used to have two methods, `up` and `down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so with Rails 3.1 those two were replaced with `change`.
+Migrations used to have two methods, `up` and `down`. The `up` was used to make your change, and the `down` was there as a safety valve to undo the change. But this usually meant a bunch of extra typing, so starting with Rails 3.1 those two were replaced with `change`.
 
 We write `change` migrations just like we used to write `up`, but Rails will figure out the undo operations for us automatically.
 
@@ -151,7 +153,7 @@ What is that `t.timestamps` doing there? It will create two columns inside our t
 Save that migration file, switch over to your terminal, and run this command:
 
 {% terminal %}
-$ bin/rake db:migrate
+$ bin/rails db:migrate
 {% endterminal %}
 
 This command starts the `rake` program which is a ruby utility for running maintenance-like functions on your application (working with the DB, executing unit tests, deploying to a server, etc).
@@ -162,10 +164,11 @@ In this case we had just one migration to run and it should print some output li
 
 {% terminal %}
 $ bin/rake db:migrate
-==  CreateArticles: migrating =================================================
+Running via Spring preloader in process 39630
+== 20170323222838 CreateArticles: migrating ===================================
 -- create_table(:articles)
-   -> 0.0012s
-==  CreateArticles: migrated (0.0013s) ========================================
+   -> 0.0037s
+== 20170323222838 CreateArticles: migrated (0.0037s) ==========================
 {% endterminal %}
 
 It tells you that it is running the migration named `CreateArticles`. And the "migrated" line means that it completed without errors. When the migrations are run, data is added to the database to keep track of which migrations have *already* been run. Try running `rake db:migrate` again now, and see what happens.
@@ -210,7 +213,7 @@ $ article.save
 $ Article.all
 {% endirb %}
 
-Now you'll see that the `Article.all` command gave you back an array holding the one article we created and saved. Go ahead and **create 3 more sample articles**.
+Now you'll see that the `Article.all` command gave you back an `ActiveRecord::Relation`. You can think of `ActiveRecord::Relation` as an array. The `ActiveRecord::Relation` is holding the one article we created and saved. Go ahead and **create 3 more sample articles**.
 
 ### Setting up the Router
 
@@ -218,22 +221,24 @@ We've created a few articles through the console, but we really don't have a web
 
 When a Rails server gets a request from a web browser it first goes to the _router_. The router decides what the request is trying to do, what resources it is trying to interact with. The router dissects a request based on the address it is requesting and other HTTP parameters (like the request type of GET or PUT). Let's open the router's configuration file, `config/routes.rb`.
 
-Inside this file you'll see a LOT of comments that show you different options for routing requests. Let's remove everything _except_ the first line (`Rails::Application.routes.draw do`) and the final `end`. Then, in between those two lines, add `resources :articles` so your file looks like this:
+On line 3 of this file, add `resources :articles` so your file looks like this:
 
 ```ruby
-Rails::Application.routes.draw do
+Rails.application.routes.draw do
+  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :articles
 end
+
 ```
 
 This line tells Rails that we have a resource named `articles` and the router should expect requests to follow the *RESTful* model of web interaction (REpresentational State Transfer). The details don't matter right now, but when you make a request like `http://localhost:3000/articles/`, the router will understand you're looking for a listing of the articles, and `http://localhost:3000/articles/new` means you're trying to create a new article.
 
 #### Looking at the Routing Table
 
-Dealing with routes is commonly very challenging for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `rake routes`. You'll get a listing like this:
+Dealing with routes is commonly very challenging for new Rails programmers. There's a great tool that can make it easier on you. To get a list of the routes in your application, go to a command prompt and run `bin/rails routes`. You'll get a listing like this:
 
 {% terminal %}
-$ bin/rake routes
+$ bin/rails routes
       Prefix Verb   URI Pattern                  Controller#Action
     articles GET    /articles(.:format)          articles#index
              POST   /articles(.:format)          articles#create
@@ -254,13 +259,13 @@ These are the seven core actions of Rails' REST implementation. To understand th
     articles GET    /articles(.:format)          articles#index
 {% endterminal %}
 
-The left most column says `articles`. This is the *prefix* of the path. The router will provide two methods to us using that name, `articles_path` and `articles_url`. The `_path` version uses a relative path while the `_url` version uses the full URL with protocol, server, and path. The `_path` version is always preferred.
+The left most column says `articles`. This is the *prefix* of the path. The router will provide two methods to us using that name, `articles_path` and `articles_url`. The `_path` version uses a relative path while the `_url` version uses the full URL with protocol, server, and path. The `_path` version is usually preferred.
 
 The second column, here `GET`, is the HTTP verb for the route. Web browsers typically submit requests with the verbs `GET` or `POST`. In this column, you'll see other HTTP verbs including `PUT` and `DELETE` which browsers don't actually use. We'll talk more about those later.
 
 The third column is similar to a regular expression which is matched against the requested URL. Elements in parentheses are optional. Markers starting with a `:` will be made available to the controller with that name. In our example line, `/articles(.:format)` will match the URLs `/articles/`, `/articles.json`, `/articles` and other similar forms.
 
-The fourth column is where the route maps to in the applications. Our example has `articles#index`, so requests will be sent to the `index` method of the `ArticlesController` class.
+The fourth column is where the route maps to in the application. Our example has `articles#index`, so requests will be sent to the `index` method of the `ArticlesController` class.
 
 Now that the router knows how to handle requests about articles, it needs a place to actually send those requests, the *Controller*.
 
@@ -278,9 +283,8 @@ The output shows that the generator created several files/folders for you:
 * `app/views/articles` : The directory to contain the controller's view templates
 * `test/controllers/articles_controller_test.rb` : The controller's unit tests file
 * `app/helpers/articles_helper.rb` : A helper file to assist with the views (discussed later)
-* `test/helpers/articles_helper_test.rb` : The helper's unit test file
-* `app/assets/javascripts/articles.js.coffee` : A CoffeeScript file for this controller
-* `app/assets/stylesheets/articles.css.scss` : An SCSS stylesheet for this controller
+* `app/assets/javascripts/articles.coffee` : A CoffeeScript file for this controller
+* `app/assets/stylesheets/articles.scss` : An SCSS stylesheet for this controller
 
 Let's open up the controller file, `app/controllers/articles_controller.rb`. You'll see that this is basically a blank class, beginning with the `class` keyword and ending with the `end` keyword. Any code we add to the controller must go _between_ these two lines.
 
@@ -296,7 +300,7 @@ Unknown action
 The action 'index' could not be found for ArticlesController
 ```
 
-The router tried to call the `index` action, but the articles controller doesn't have a method with that name. It then lists available actions, but there aren't any. This is because our controller is still blank. Let's add the following method inside the controller:
+The router tried to call the `index` action, but the articles controller doesn't have a method with that name. This is because our controller is still blank. Let's add the following method inside the controller:
 
 ```ruby
 def index
@@ -319,18 +323,18 @@ There are ways to accomplish the same goals without instance variables, but they
 Now refresh your browser. The error message changed, but you've still got an error, right?
 
 ```plain
-Template is missing
+ActionController::UnknownFormat in ArticlesController#index
 
-Missing template articles/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in: * "/Users/you/projects/blogger/app/views"
+ArticlesController#index is missing a template for this request format and variant. request.formats: ["text/html"] request.variant: [] NOTE! For XHR/Ajax or API requests, this action would normally respond with 204 No Content: an empty white screen. Since you're loading it in a web browser, we assume that you expected to actually render a template, not nothing, so we're showing an error to be extra-clear. If you expect 204 No Content, carry on. That's what you'll get from an XHR or API request. Give it a shot.
 ```
 
-The error message is pretty helpful here. It tells us that the app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
+The error message is somewhat helpful here. Our app is looking for a (view) template in `app/views/articles/` but it can't find one named `index.erb`. Rails has *assumed* that our `index` action in the controller should have a corresponding `index.erb` view template in the views folder. We didn't have to put any code in the controller to tell it what view we wanted, Rails just figures it out.
 
 In your editor, find the folder `app/views/articles` and, in that folder, create a file named `index.html.erb`.
 
 #### Naming Templates
 
-Why did we choose `index.html.erb` instead of the `index.erb` that the error message said it was looking for?  Putting the HTML in the name makes it clear that this view is for generating HTML. In later versions of our blog we might create an RSS feed which would just mean creating an XML view template like `index.xml.erb`. Rails is smart enough to pick the right one based on the browser's request, so when we just ask for `http://localhost:3000/articles/` it will find the `index.html.erb` and render that file.
+Why did we choose `index.html.erb` instead of the `index.erb`?  Putting the HTML in the name makes it clear that this view is for generating HTML. In later versions of our blog we might create an RSS feed which would just mean creating an XML view template like `index.xml.erb`. Rails is smart enough to pick the right one based on the browser's request, so when we just ask for `http://localhost:3000/articles/` it will find the `index.html.erb` and render that file.
 
 #### Index Template Content
 
@@ -351,8 +355,8 @@ Now you're looking at a blank file. Enter in this view template code which is a 
 ERB is a templating language that allows us to mix Ruby into our HTML. There are only a few things to know about ERB:
 
 * An ERB clause starts with `<%` or `<%=` and ends with `%>`
-* If the clause started with `<%`, the result of the ruby code will be hidden
-* If the clause started with `<%=`, the result of the ruby code will be output in place of the clause
+* If the clause started with `<%`, the result of the ruby code will not displayed in the resulting HTML
+* If the clause started with `<%=`, the result of the ruby code will be displayed in the resulting HTML
 
 Save the file and refresh your web browser. You should see a listing of the articles you created in the console. We've got the start of a web application!
 
@@ -362,7 +366,7 @@ Right now our article list is very plain, let's add some links.
 
 #### Looking at the Routing Table
 
-Remember when we looked at the Routing Table using `bin/rake routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
+Remember when we looked at the Routing Table using `bin/rails routes` from the command line? Look at the left-most column and you'll see the route names. These are useful when creating links.
 
 When we create a link, we'll typically use a "route helper" to specify where the link should point. We want our link to display the single article which happens in the `show` action. Looking at the table, the name for that route is `article` and it requires a parameter `id` in the URL. The route helper we'll use looks like this:
 
@@ -398,13 +402,13 @@ Or, if you wanted to also have a CSS ID attribute:
 
 ```erb
 <%= link_to article.title, article_path(article),
-    class: 'article_title', id: "article_#{article.id}" %>
+    class: 'article_title', id: dom_id(article) %>
 ```
 
 When the template is rendered, it will output HTML like this:
 
 ```html
-<a class="article_title" id="article_1" href="/articles/1">First Sample Article</a>
+<a class="article_title" id="article_1" href="/articles/1">Sample Article Title</a>
 ```
 
 #### New Article Link
@@ -421,7 +425,7 @@ Use the technique mentioned above to add the CSS class `new_article` to your "Cr
 <ul id="articles">
   <% @articles.each do |article| %>
     <li>
-      <%= link_to article.title, article_path(article) %>
+      <%= link_to article.title, article_path(article), class: 'article_title', id: dom_id(article) %>
     </li>
   <% end %>
 </ul>
@@ -445,7 +449,7 @@ def show
 end
 ```
 
-Refresh the browser and you'll get the "Template is Missing" error. Let's pause here before creating the view template.
+Refresh the browser and you'll get the "ArticlesController#show is missing a template" error. Let's pause here before creating the view template.
 
 #### A Bit on Parameters
 
@@ -458,7 +462,9 @@ Within the controller, we have access to a method named `params` which returns u
 Within that hash we can find the `:id` from the URL by accessing the key `params[:id]`. Use this inside the `show` method of `ArticlesController` along with the class method `find` on the `Article` class:
 
 ```ruby
-@article = Article.find(params[:id])
+def show
+  @article = Article.find(params[:id])
+end
 ```
 
 #### Back to the Template
@@ -478,6 +484,13 @@ Refresh your browser and your article should show up along with a link back to t
 This is not a CSS project, so to make it a bit more fun we've prepared a CSS file you can drop in. It should match up with all the example HTML in the tutorial.
 
 Download the file from http://tutorials.jumpstartlab.com/assets/blogger/screen.css and place it in your `app/assets/stylesheets/` folder. It will be automatically picked up by your project.
+
+Run the following command to download the file:
+{% terminal %}
+$ curl -o app/assets/stylesheets/screen.css 'http://tutorials.jumpstartlab.com/assets/blogger/screen.css'
+{% endterminal %}
+
+Reload the http://localhost:3000/articles and you should see a nicely formatted list of Articles.
 
 #### Saving Your Work On GitHub
 
@@ -771,7 +784,7 @@ We'll start with the `link_to` helper, and we want it to say the word "delete" o
 <%= link_to "delete", some_path %>
 ```
 
-But what should `some_path` be? Look at the routes table with `rake routes`. The `destroy` action will be the last row, but it has no name in the left column. In this table the names "trickle down," so look up two lines and you'll see the name `article`.
+But what should `some_path` be? Look at the routes table with `rails routes`. The `destroy` action will be the last row, but it has no name in the left column. In this table the names "trickle down," so look up two lines and you'll see the name `article`.
 
 The helper method for the destroy-triggering route is `article_path`. It needs to know which article to delete since there's an `:id` in the path, so our link will look like this:
 
@@ -2369,7 +2382,7 @@ get 'logout' => 'author_sessions#destroy'
 ```
 
 {% terminal %}
-$ bin/rake routes
+$ bin/rails routes
    # ... other routes for Articles and Comments ...
    author_sessions POST   /author_sessions(.:format)     author_sessions#create
 new_author_session GET    /author_sessions/new(.:format) author_sessions#new
